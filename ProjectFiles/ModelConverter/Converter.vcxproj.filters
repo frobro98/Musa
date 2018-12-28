@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Tools\Converter\Common\Common.cxx">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\Converter\converterEntry.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.cpp">
+      <Filter>Source\Processing</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Tools\Converter\Common\Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.h">
+      <Filter>Source\Processing</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{b4d3f0f6-dbb4-4982-a494-aa2338633732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4a8524fc-17dc-4c39-85b6-f1ea33c28cb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Processing">
+      <UniqueIdentifier>{f1246791-cd9b-4099-846f-2940fac4a1bd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,52 @@
+#version 450
+
+layout(location = 0) out vec4 color;
+
+layout(location = 0) in vec3 FragPosition;
+layout(location = 1) in vec3 Normal;
+layout(location = 2) in vec2 TexCoords;
+
+
+layout(binding = 1) uniform sampler2D diffuseSampler;
+layout(binding = 2) uniform sampler2D specularSampler;
+
+layout(binding = 3) uniform MaterialProperties
+{
+	vec4	  diffuse;
+} materialProps;
+
+layout(binding = 4) uniform ViewInformation
+{
+	vec4 viewPos;
+} viewInfo;
+
+void main(void)
+{
+
+	// TODO - These properties need to be tied into a uniform buffer
+	// Material properties
+	vec3 diffuse_albedo = vec3(.5);
+	vec3 specular_albedo = vec3(.5);
+	float specular_power = 128.0;
+	vec3 ambient = vec3(0.1, 0.1, 0.1);
+	vec3 lightPos = vec3(-10.0, 15.0, 0.0);
+
+    // Normalize the incoming N, L and V vectors
+    vec3 N = normalize(Normal);
+    vec3 L = normalize(lightPos - FragPosition);
+    vec3 V = normalize(viewInfo.viewPos.xyz - FragPosition);
+
+	// Calculate R locally
+    vec3 R = reflect(-L, N);
+	
+    // Compute the diffuse and specular components for each fragment
+	
+	float difference = max(dot(N, L), 0.0);
+    vec3 diffuse = diffuse_albedo * difference * vec3(texture(diffuseSampler, TexCoords));
+    
+	float specularValue = pow(max(dot(R, V), 0.0), specular_power);
+	vec3 specular = specular_albedo * specularValue * vec3(texture(specularSampler, TexCoords));
+
+    // Write final color to the framebuffer
+    color = vec4(diffuse + specular, 1.0);
+}

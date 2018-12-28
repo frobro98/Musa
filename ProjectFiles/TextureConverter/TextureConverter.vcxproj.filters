@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{82746fd1-cf71-4f80-a7a9-6ea7617242ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Converter">
+      <UniqueIdentifier>{959937e1-b596-4692-98d7-d8ed352f25ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\TextureConverterEntry.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\TextureProcessing.cpp">
+      <Filter>Source\Converter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\MipmapGeneration.cpp">
+      <Filter>Source\Converter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\FastFourierTransform.cpp">
+      <Filter>Source\Converter</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\TextureProcessing.hpp">
+      <Filter>Source\Converter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\MipmapGeneration.hpp">
+      <Filter>Source\Converter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\FastFourierTransform.hpp">
+      <Filter>Source\Converter</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{8c9820b6-d06f-44a4-a9d6-8801a1a0ab14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Windows">
+      <UniqueIdentifier>{0186a489-0ff7-4aa2-8261-f2f5c0de5c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\String">
+      <UniqueIdentifier>{3e6d383d-5c80-4765-b93b-f0932e71557f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Containers">
+      <UniqueIdentifier>{505abdb2-a17d-4810-b621-1c9a0f945816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Time">
+      <UniqueIdentifier>{46771571-ffdd-4d00-ba50-c088ba428a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Serialization">
+      <UniqueIdentifier>{22eee523-d74e-4021-9802-fd0b30dbe545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GUID">
+      <UniqueIdentifier>{185bfad3-763b-4270-870d-669d2779ff7e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\EngineCore\Types.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Assertion.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\DebugOutput.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\DirectoryLocations.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\FNV-1a.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Graphics.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\HashBasicTypes.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Malloc16Align.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Platform.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\PlatformDefinitions.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Windows\Win32InputDefinitions.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsDefinitions.h">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\String\CStringUtilities.hpp">
+      <Filter>Source\String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\String\String.h">
+      <Filter>Source\String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\Array.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\List.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\Map.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\Pair.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\Queue.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Time\EngineTick.h">
+      <Filter>Source\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Time\Time.h">
+      <Filter>Source\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Time\Timer.h">
+      <Filter>Source\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Version.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Serialization\DeserializeBase.hpp">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Serialization\SerializeBase.hpp">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Serialization\MemorySerializer.hpp">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Serialization\MemoryDeserializer.hpp">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\GUID\Guid.hpp">
+      <Filter>Source\GUID</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Algorithms.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\String\CStringUtilities.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\String\String.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Time\EngineTick.cpp">
+      <Filter>Source\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Time\Time.cpp">
+      <Filter>Source\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Time\Timer.cpp">
+      <Filter>Source\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Time\Timer_win32.cpp">
+      <Filter>Source\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\DirectoryLocations.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Serialization\SerializeBase.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Serialization\DeserializeBase.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Serialization\MemorySerializer.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Serialization\MemoryDeserializer.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp">
+      <Filter>Source\GUID</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

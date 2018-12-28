@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="UnitTest|Win32">
+      <Configuration>UnitTest</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="UnitTest|x64">
+      <Configuration>UnitTest</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{B2313216-9C89-444C-8E63-2EB6AF20C029}</ProjectGuid>
+    <RootNamespace>UnitTests</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;$(SolutionDir)\Source\UnitTests</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Memory_d.lib;Math_d.lib;File_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\UnitTests</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;4626;5039;5045</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Memory_d.lib;Math_d.lib;File_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source;$(SolutionDir)\Source\UnitTests</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Memory.lib;Math.lib;File.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\UnitTests\Framework\FileIO.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Framework\Timer.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Combo.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Accessor.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_AddSub.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Bracket.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Constructor.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Functions.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Inverse.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Multiply.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Scale.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_set.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Special.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_unary.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\QuatApp_Slerp.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Accessors.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_AddSubMultDiv.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Boolean.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Constructor.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Functions.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Proxy.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_SetGet.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\VectApp_Lerp.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Accessors.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_AddSub.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Boolean.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Bracket.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Constructors.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Functions.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Matrix.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Scale.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Set.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Start_Here.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_unary.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\Alignment_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\Dog.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\Heap_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\Memory_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\StressAlignment_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\StressHeap_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\StressTracking_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\TrackingGlobal_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Memory\TrackingHeap_Tests.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\UnitTestMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\UnitTests\Framework\FileIO.h" />
+    <ClInclude Include="..\..\Source\UnitTests\Framework\MemTracker.h" />
+    <ClInclude Include="..\..\Source\UnitTests\Framework\MemTrackerMain.h" />
+    <ClInclude Include="..\..\Source\UnitTests\Framework\Timer.h" />
+    <ClInclude Include="..\..\Source\UnitTests\Framework\Trace.h" />
+    <ClInclude Include="..\..\Source\UnitTests\Framework\UnitTest.h" />
+    <ClInclude Include="..\..\Source\UnitTests\Memory\Dog.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

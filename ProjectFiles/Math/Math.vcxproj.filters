@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4006a1ec-e6e0-4875-b672-651a6d0a9811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Internal">
+      <UniqueIdentifier>{84ad42fb-1201-4965-b1b8-953829cde5c9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Math\MathEngine.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Matrix.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Vector.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\MathDefinitions.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\MathConstants.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\MathUtilities.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\3DMathUtilites.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\QuatFunctions.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\VectorFunctions.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Quat.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Internal\VectorImplementation.h">
+      <Filter>Source\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Internal\QuaternionImplementation.hpp">
+      <Filter>Source\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Rect.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Bounds.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\private\Math\Matrix.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\private\Math\Vector.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\private\Math\Quat.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\Internal\VectorImplementation.cpp">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\Internal\QuaternionImplementation.cpp">
+      <Filter>Source\Internal</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

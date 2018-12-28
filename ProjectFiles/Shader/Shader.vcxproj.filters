@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{030fc9c8-3b8f-4350-bba2-dab9f981c736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders">
+      <UniqueIdentifier>{95bb7572-99fb-4b1b-999e-6be996113d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ThirdParty">
+      <UniqueIdentifier>{6f1fbada-3fe7-4cda-9871-32eeb2dab2e0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\private\Shader\Material.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\ShaderCompiler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\ThirdParty\spirv_reflect.c">
+      <Filter>Source\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\McppWrapper.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\Shader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Shader\Material.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderExternal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ThirdParty\spirv_reflect.h">
+      <Filter>Source\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderStructure.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderStages.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\Shader.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\McppWrapper.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Shader\ShaderSrc\animationBlendClips.comp">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\animFrameInterpolation.comp">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\animHierarchyCalculation.comp">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\blinnPhong.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\blinnPhong.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\colorPerVertex.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\colorPerVertex.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\colorSkinning.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\colorSkinning.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\constantColor.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\constantColor.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\default.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\default.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\gpuColorSkinning.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\gpuColorSkinning.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\normalColor.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\normalColor.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\phong.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\phong.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\phongMultiTex.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\phongMultiTex.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\processLocalTransforms.comp">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\texture.frag">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ShaderSrc\texture.vert">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="..\..\Source\Shader\ThirdParty\LICENSE">
+      <Filter>Source\ThirdParty</Filter>
+    </None>
+  </ItemGroup>
+</Project>
