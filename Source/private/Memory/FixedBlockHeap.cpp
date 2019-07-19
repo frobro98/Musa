@@ -32,7 +32,7 @@ FixedBlockHeap::~FixedBlockHeap()
 {
 }
 
-void * FixedBlockHeap::MallocInternal(size_t inSize, uint32 /*align*/, char * /*inName*/, int32 /*lineNum*/, int32 /*allocationIndex*/)
+void * FixedBlockHeap::MallocInternal(uint64 inSize, uint32 /*align*/, const char * /*inName*/, uint32 /*lineNum*/, uint32 /*allocationIndex*/)
 {
 #ifdef _UNIT_TEST
 	if (inSize != sizeOfBlock)

@@ -5,8 +5,7 @@
 
 #include "Platform.h"
 #include "File.h"
-
-#define STUB_PLEASE_REPLACE(x) (x)
+#include "EngineCore/Assertion.h"
 
 unsigned int FileModeToWin32Access(File::Mode mode)
 {
@@ -54,8 +53,7 @@ File::Result File::Open( File::Handle &fh, const tchar * const fileName, File::M
 
 	if (fh == INVALID_HANDLE_VALUE)
 	{
-		DWORD err = GetLastError();
-		STUB_PLEASE_REPLACE(err);
+		//DWORD err = GetLastError();
 		return Result::OPEN_FAIL;
 	}
 
@@ -72,7 +70,8 @@ File::Result File::Close( const File::Handle fh )
 	return 	Result::SUCCESS;
 }
 
-File::Result File::Write( File::Handle fh, const void * const buffer, const size_t inSize )
+// TODO - x64: Figure out how to handle size_t
+File::Result File::Write( File::Handle fh, const void* const buffer, const size_t inSize )
 {
 	if (buffer == nullptr || inSize == (size_t)-1)
 	{
@@ -80,7 +79,7 @@ File::Result File::Write( File::Handle fh, const void * const buffer, const size
 	}
 
 	DWORD bytesWritten;
-	bool result = WriteFile(fh, buffer, inSize, &bytesWritten, nullptr);
+	bool result = WriteFile(fh, buffer, (uint32)inSize, &bytesWritten, nullptr);
 	if (result == false)
 	{
 		return Result::WRITE_FAIL;
@@ -89,6 +88,7 @@ File::Result File::Write( File::Handle fh, const void * const buffer, const size
 	return 	Result::SUCCESS;
 }
 
+// TODO - x64: Figure out how to handle size_t
 File::Result File::Read( File::Handle fh,  void * const buffer, const size_t inSize )
 {
 	if (buffer == nullptr)
@@ -97,7 +97,7 @@ File::Result File::Read( File::Handle fh,  void * const buffer, const size_t inS
 	}
 
 	DWORD bytesRead;
-	bool result = ReadFile(fh, buffer, inSize, &bytesRead, nullptr);
+	bool result = ReadFile(fh, buffer, (uint32)inSize, &bytesRead, nullptr);
 
 	if (result == false)
 	{
@@ -111,10 +111,10 @@ File::Result File::Size(File::Handle fh, uint32& fileSize)
 {
 	// Assumes file is at the beginning!
 	File::Result result = File::Seek(fh, Location::END, 0);
-	assert(result == File::Result::SUCCESS);
+	Assert(result == File::Result::SUCCESS);
 
 	result = File::Tell(fh, fileSize);
-	assert(result == File::Result::SUCCESS);
+	Assert(result == File::Result::SUCCESS);
 
 	result = File::Seek(fh, Location::BEGIN, 0);
 	return result;

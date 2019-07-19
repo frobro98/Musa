@@ -2,6 +2,7 @@
 
 #include "EngineCore/PlatformDefinitions.h"
 
+// TODO - Fix PCSTree implementation because animations don't really compile now...
 template<class NodeType>
 class PCSNode;
 
@@ -97,7 +98,7 @@ public:
 		{
 		}
 
-		virtual IteratorType *Next() override
+		virtual Iter<isConst>::IteratorType *Next() override
 		{
 			if (current != nullptr)
 			{
@@ -120,7 +121,7 @@ public:
 		{
 		}
 
-		virtual IteratorType *Next() override
+		virtual Iter<isConst>::IteratorType *Next() override
 		{
 			if (current != nullptr)
 			{

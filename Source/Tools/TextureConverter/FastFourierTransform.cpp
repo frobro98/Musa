@@ -31,7 +31,7 @@ uint32 ReverseBits(uint32 index, uint32 numBits)
 }
 }
 
-void FastFourier(uint32 numSamples, const Array<float>& realIn, const Array<float>& imaginaryIn, Array<float>& realOut, Array<float>& imaginaryOut)
+void FastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const DynamicArray<float>& imaginaryIn, DynamicArray<float>& realOut, DynamicArray<float>& imaginaryOut)
 {
 	Assert(IsPowerOf2(numSamples));
 	uint32 numBitsNeeded = NumberOfBitsNeeded(numSamples);
@@ -88,7 +88,7 @@ void FastFourier(uint32 numSamples, const Array<float>& realIn, const Array<floa
 	}
 }
 
-void InverseFastFourier(uint32 numSamples, const Array<float>& realIn, const Array<float>& imageIn, Array<float>& realOut, Array<float>& imageOut)
+void InverseFastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const DynamicArray<float>& imageIn, DynamicArray<float>& realOut, DynamicArray<float>& imageOut)
 {
 	FastFourier(numSamples, realIn, imageIn, realOut, imageOut);
 

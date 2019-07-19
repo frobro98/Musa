@@ -1,18 +1,18 @@
 #include "MemoryDeserializer.hpp"
 
-MemoryDeserializer::MemoryDeserializer(Array<uint8>& memory)
+MemoryDeserializer::MemoryDeserializer(DynamicArray<uint8>& memory)
 	: memoryData(memory)
 {
 }
 
-void MemoryDeserializer::DeserializeData(void* data, uint32 dataSize)
+void MemoryDeserializer::DeserializeData(void* data, uint64 dataSize)
 {
 	Assert(dataSize <= memoryData.Size() - bufferReadLoc);
-	Memcpy(data, dataSize, &memoryData[bufferReadLoc], dataSize);
+	Memcpy(data, dataSize, &memoryData[(uint32)bufferReadLoc], dataSize);
 	bufferReadLoc += dataSize;
 }
 
-Array<uint8> MemoryDeserializer::GetSerializedData() const
+DynamicArray<uint8> MemoryDeserializer::GetSerializedData() const
 {
 	return memoryData;
 }

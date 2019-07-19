@@ -10,15 +10,16 @@ namespace
 {
 struct ImageDividedChannels
 {
-	Array<uint8> redChannel;
-	Array<uint8> greenChannel;
-	Array<uint8> blueChannel;
+	DynamicArray<uint8> redChannel;
+	DynamicArray<uint8> greenChannel;
+	DynamicArray<uint8> blueChannel;
 };
 
-void SplitTextureIntoChannels(const MipMapLevel& texture, ImageDividedChannels& image)
+void SplitTextureIntoChannels(const MipmapLevel& texture, ImageDividedChannels& image)
 {
 	constexpr uint32 numChannels = 4;
 	const uint32 rowSize = texture.width * numChannels;
+	const uint8* mipData = texture.mipData.GetData();
 
 	image.redChannel.Reserve(texture.width * texture.height);
 	image.greenChannel.Reserve(texture.width * texture.height);
@@ -27,29 +28,34 @@ void SplitTextureIntoChannels(const MipMapLevel& texture, ImageDividedChannels& 
 	{
 		for (uint32 j = 0; j < texture.width * numChannels; j += 4)
 		{
-			image.redChannel.Add(texture.imageData[(j + rowSize * i) + 0]);
-			image.greenChannel.Add(texture.imageData[(j + rowSize * i) + 1]);
-			image.blueChannel.Add(texture.imageData[(j + rowSize * i) + 2]);
+			image.redChannel.Add(mipData[(j + rowSize * i) + 0]);
+			image.greenChannel.Add(mipData[(j + rowSize * i) + 1]);
+			image.blueChannel.Add(mipData[(j + rowSize * i) + 2]);
 		}
 	}
 }
 
-void CombineImageChannels(const ImageDividedChannels& image, MipMapLevel& level)
+void CombineImageChannels(const ImageDividedChannels& image, MipmapLevel& level)
 {
 	constexpr uint32 numChannels = 4;
 	const uint32 rowSize = level.width * numChannels;
+	const uint32 mipLevelSize = rowSize * level.height;
+	uint8* mipData = new uint8[mipLevelSize];
+	ZeroMem(mipData, mipLevelSize);
 
-	level.imageData.Reserve(rowSize * level.height);
+	uint8* iter = mipData;
 	for (uint32 i = 0; i < level.height; ++i)
 	{
 		for (uint32 j = 0; j < level.width; ++j)
 		{
-			level.imageData.Add(image.redChannel[j + level.width * i]);
-			level.imageData.Add(image.greenChannel[j + level.width * i]);
-			level.imageData.Add(image.blueChannel[j + level.width * i]);
-			level.imageData.Add((uint8)255);
+			*iter++ = (image.redChannel[j + level.width * i]);
+			*iter++ = (image.greenChannel[j + level.width * i]);
+			*iter++ = (image.blueChannel[j + level.width * i]);
+			*iter++ = ((uint8)255);
 		}
 	}
+
+	level.mipData = ResourceBlob(mipData, mipLevelSize);
 }
 
 constexpr uint32 GoodKaiserWidth = 32;
@@ -171,17 +177,17 @@ uint32 AdjustIndexforFiltering(int32 i, int32 j, uint32 width, uint32 height)
 // void ApplyFilterToLevel(const ImageFilter<N>& filter, const MipMapLevel& parent, MipMapLevel& level)
 
 template<uint32 N>
-void ApplyFilterToLevel(const ImageFilter<N>& filter,uint32 parentWidth, uint32 parentHeight, const Array<uint8>& channelData, Array<uint8>& processedChannelData)
+void ApplyFilterToLevel(const ImageFilter<N>& filter,uint32 parentWidth, uint32 parentHeight, const DynamicArray<uint8>& channelData, DynamicArray<uint8>& processedChannelData)
 {
 	static_assert(N != 1, "Width of a filter must be usable");
 
-	Array<float> normalizedPixelData = NormalizePixelData(channelData);
-	Array<float> tmpData(normalizedPixelData.Size());
+	DynamicArray<float> normalizedPixelData = NormalizePixelData(channelData);
+	DynamicArray<float> tmpData(normalizedPixelData.Size());
 	int32 filterOffset = -static_cast<int32>((N / 2) - 1);
 
 	uint32 levelWidth = parentWidth >> 1;
 	uint32 levelHeight = parentHeight >> 1;
-	Array<float> normalizedResult(levelWidth * levelHeight);
+	DynamicArray<float> normalizedResult(levelWidth * levelHeight);
 
 	for (int32 y = 0; y < (int32)parentHeight; ++y)
 	{
@@ -227,9 +233,9 @@ void ApplyFilterToLevel(const ImageFilter<N>& filter,uint32 parentWidth, uint32 
 }
 
 template<uint32 N>
-MipMapLevel ProcessIndividualLevel(const ImageFilter<N>& filter, const MipMapLevel& parentLevel)
+MipmapLevel ProcessIndividualLevel(const ImageFilter<N>& filter, const MipmapLevel& parentLevel)
 {
-	MipMapLevel currentLevel;
+	MipmapLevel currentLevel;
 	ImageDividedChannels parentImage;
 	SplitTextureIntoChannels(parentLevel, parentImage);
 
@@ -246,15 +252,15 @@ MipMapLevel ProcessIndividualLevel(const ImageFilter<N>& filter, const MipMapLev
 	return currentLevel;
 }
 
-void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const Array<uint8>& channelData, Array<uint8>& processedChannel)
+void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const DynamicArray<uint8>& channelData, DynamicArray<uint8>& processedChannel)
 {
-	Array<float> normalizedPixelData = NormalizePixelData(channelData);
+	DynamicArray<float> normalizedPixelData = NormalizePixelData(channelData);
 	
 	uint32 pixelDataSize = normalizedPixelData.Size();
-	Array<float> tmpReal(pixelDataSize);
-	Array<float> tmpImaginary(pixelDataSize);
-	Array<float> freqReal(pixelDataSize);
-	Array<float> freqImaginary(pixelDataSize);
+	DynamicArray<float> tmpReal(pixelDataSize);
+	DynamicArray<float> tmpImaginary(pixelDataSize);
+	DynamicArray<float> freqReal(pixelDataSize);
+	DynamicArray<float> freqImaginary(pixelDataSize);
 
 	uint32 maxDimension = parentWidth;
 	if (parentHeight > maxDimension)
@@ -262,10 +268,10 @@ void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const Array<uint8>
 		maxDimension = parentHeight;
 	}
 
-	Array<float> inputReal(maxDimension);
-	Array<float> outputReal(maxDimension);
-	Array<float> inputImaginary(maxDimension);
-	Array<float> outputImaginary(maxDimension);
+	DynamicArray<float> inputReal(maxDimension);
+	DynamicArray<float> outputReal(maxDimension);
+	DynamicArray<float> inputImaginary(maxDimension);
+	DynamicArray<float> outputImaginary(maxDimension);
 
 	// Do the two-dimensional forward FFT.  To accomplish
 	// this we first do a horizontal pass, then a vertical
@@ -391,7 +397,7 @@ void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const Array<uint8>
 
 	uint32 levelWidth = parentWidth >> 1;
 	uint32 levelHeight = parentHeight >> 1;
-	Array<float> normalizedResult(levelWidth * levelHeight);
+	DynamicArray<float> normalizedResult(levelWidth * levelHeight);
 
 	for (int32 y = 0; y < parentHeightAsInt; y += 2)
 	{
@@ -407,9 +413,9 @@ void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const Array<uint8>
 
 }
 
-MipMapLevel ProcessIndividualLevelWithFFT(const MipMapLevel& parentLevel)
+MipmapLevel ProcessIndividualLevelWithFFT(const MipmapLevel& parentLevel)
 {
-	MipMapLevel currentLevel;
+	MipmapLevel currentLevel;
 	currentLevel.width = parentLevel.width >> 1;
 	currentLevel.height = parentLevel.height >> 1;
 
@@ -427,9 +433,9 @@ MipMapLevel ProcessIndividualLevelWithFFT(const MipMapLevel& parentLevel)
 }
 
 template<uint32 N>
-void ProcessMipLevels(const ImageFilter<N>& filter, Array<MipMapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevels(const ImageFilter<N>& filter, DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
 {
-	const MipMapLevel* parentLevel = &mipMapLevels[0];
+	const MipmapLevel* parentLevel = &mipMapLevels[0];
 	for (uint32 i = 1; i < levelsToGen; ++i)
 	{
 		mipMapLevels.Add(ProcessIndividualLevel(filter, *parentLevel));
@@ -440,24 +446,23 @@ void ProcessMipLevels(const ImageFilter<N>& filter, Array<MipMapLevel>& mipMapLe
 static auto boxFilter = InitializeBoxFilter();
 static auto kaiserFilter = InitializeKaiserFilter();
 
-void ProcessMipLevelsWithBoxFilter(Array<MipMapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevelsWithBoxFilter(DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
 {
 	const auto& filter = boxFilter;
 	ProcessMipLevels(filter, mipMapLevels, levelsToGen);
 }
 
-void ProcessMipLevelsWithKaiserFilter(Array<MipMapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevelsWithKaiserFilter(DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
 {
 	const auto& filter = kaiserFilter;
 	ProcessMipLevels(filter, mipMapLevels, levelsToGen);
 }
 
-void ProcessMipLevelsWithFFT(Array<MipMapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevelsWithFFT(DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
 {
-	const MipMapLevel* parentLevel = &mipMapLevels[0];
+	const MipmapLevel* parentLevel = &mipMapLevels[0];
 	for (uint32 i = 1; i < levelsToGen; ++i)
 	{
-
 		mipMapLevels.Add(ProcessIndividualLevelWithFFT(*parentLevel));
 		parentLevel = &mipMapLevels[i];
 	}
@@ -467,7 +472,7 @@ void ProcessMipLevelsWithFFT(Array<MipMapLevel>& mipMapLevels, uint32 levelsToGe
 
 uint32 GetMaxMipMapLevels(uint32 width, uint32 height)
 {
-	float maxDimention = static_cast<float>(Math::Max(width, height));
+	float maxDimention = static_cast<float>(Max(width, height));
 	uint32 numPossibleLevels = 1 + static_cast<uint32>(Math::Floor(Math::Log2(maxDimention)));
 	return numPossibleLevels;
 }

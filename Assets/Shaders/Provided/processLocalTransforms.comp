@@ -1,0 +1,85 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_shading_language_420pack : enable
+
+layout(local_size_x = 16) in;
+
+struct Bone
+{
+	vec4 translation;
+	vec4 rotation;
+	vec4 scale;
+};
+
+layout(std140, binding = 0) readonly buffer InterpolatedResult
+{
+	uint sizeFrame;
+	Bone resultFrame[ ];
+};
+
+layout(std430, binding = 1) buffer LocalMatrixResult
+{
+	mat4 boneResults[ ];
+};
+
+mat4 makeTranslation(vec4 trans);
+mat4 makeRotation(vec4 quat);
+mat4 makeScale(vec4 scale);
+
+void main()
+{
+	uint index = gl_GlobalInvocationID.x;
+	uint boneCount = sizeFrame;
+	if(index < boneCount)
+	{
+		Bone currentBone = resultFrame[index];
+		boneResults[index] = makeTranslation(currentBone.translation) *
+							 makeRotation(currentBone.rotation) * 
+							 makeScale(currentBone.scale);
+	}
+}
+
+const vec4 Row0 = vec4(1, 0, 0, 0);
+const vec4 Row1 = vec4(0, 1, 0, 0);
+const vec4 Row2 = vec4(0, 0, 1, 0);
+const vec4 Row3 = vec4(0, 0, 0, 1);
+
+mat4 makeTranslation(vec4 trans)
+{
+	return mat4(Row0, Row1, Row2, trans);
+}
+
+mat4 makeScale(vec4 scale)
+{
+	return mat4(Row0 * scale.x, Row1 * scale.y, Row2 * scale.z, Row3);
+}
+
+mat4 makeRotation(vec4 q)
+{
+	mat4 m;
+	m[0] = vec4(
+			1.0 - 2.0 * (q.y*q.y + q.z*q.z), 
+				  2.0 * (q.x*q.y + q.w*q.z), 
+				  2.0 * (q.x*q.z - q.w*q.y), 
+				  0.0
+	);
+
+	m[1] = vec4(
+				  2.0 * (q.x*q.y - q.w*q.z),
+			1.0 - 2.0 * (q.x*q.x + q.z*q.z),  
+				  2.0 * (q.y*q.z + q.w*q.x), 
+				  0.0
+	);
+
+	m[2] = vec4( 
+				  2.0 * (q.x*q.z + q.w*q.y), 
+				  2.0 * (q.y*q.z - q.w*q.x), 
+			1.0 - 2.0 * (q.x*q.x + q.y*q.y),
+				  0.0
+	);
+
+	m[3] = vec4(0.0, 0.0, 0.0, 1.0);
+
+	return m;
+}

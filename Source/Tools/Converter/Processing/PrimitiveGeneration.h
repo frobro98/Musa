@@ -1,6 +1,6 @@
 #pragma once
 
 #include "Math/Vector.h"
-#include "Collision/Primitives/Sphere.h"
+#include "Math/BoundsVolumes.hpp"
 
-void RitterSphere(Sphere &s, Vector *pt, uint32 numPts);
+void RitterSphere(SphereBounds &s, Vector *pt, uint32 numPts);

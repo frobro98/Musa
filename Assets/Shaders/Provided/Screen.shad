@@ -1,0 +1,60 @@
+#pragma once
+
+#include "Common/VertexCommon.hshad"
+#include "Common/FragmentCommon.hshad"
+
+#if VERT_SHADER
+
+void main()
+{
+	TexCoord = vec2((gl_VertexIndex << 1) & 2, gl_VertexIndex & 2);
+	gl_Position = vec4(TexCoords * 2.0f - 1.0f, 0.0f, 1.0f);
+}
+
+#elif FRAG_SHADER
+
+struct Light
+{
+	vec4 position;
+	vec4 direction;
+	vec4 color;
+	mat4 lightView;
+	mat4 lightProjection;
+};
+
+layout(binding = 5) uniform LightDescription
+{
+	Light lights;
+};
+
+const mat4 biasMat = mat4( 
+	0.5, 0.0, 0.0, 0.0,
+	0.0, 0.5, 0.0, 0.0,
+	0.0, 0.0, 1.0, 0.0,
+	0.5, 0.5, 0.0, 1.0 
+);
+
+void main()
+{
+	vec4 fragPosSample = texture(positionGBuffer, texCoords);
+	vec3 position = fragPosSample.xyz;
+	uint shadingModel = uint(fragPosSample.w);
+
+	vec3 normal = texture(normalGBuffer, texCoords).rgb;
+	vec4 albedo = texture(albedoGBuffer, texCoords);
+
+	vec3 col = albedo.rgb;
+	if(shadingModel == LIT_MODEL)
+	{
+		col = LightingModel(position, normal, albedo);
+	}
+	else if(shadingModel == TOON_MODEL)
+	{
+		col = ToonShadingModel(position, normal, albedo);
+	}
+
+	//outColor = vec4(col * shadow, 1.0);
+	outColor = vec4(col, 1.0);
+}
+
+#endif

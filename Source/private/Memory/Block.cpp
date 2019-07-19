@@ -8,15 +8,15 @@
 
 #include "Block.h"
 
-Block::Block(char * fileName, int lineNumber, size_t allocationSize, int allocationIndex)
-	:mLineNum(lineNumber),
-	mAllocIndex(allocationIndex),
-	mAllocSize(allocationSize)
+Block::Block(const char* fileName, uint32 lineNumber, size_t allocationSize, uint32 allocationIndex)
+	: mAllocSize(allocationSize),
+	mLineNum(lineNumber),
+	mAllocIndex(allocationIndex)
 {
 	pSecret = this;
 
 	// Name initialization
-	char* pathStrippedFileName = strrchr(fileName, '\\') + 1;
+	const char* pathStrippedFileName = strrchr(fileName, '\\') + 1;
 	size_t nameLen = strlen(pathStrippedFileName);
 	if (nameLen > Block::NameLength)
 	{
@@ -50,22 +50,22 @@ Block *Block::GetGlobalPrev()
 	return globalPrev;
 }
 
-char *Block::GetFileName()
+const char *Block::GetFileName()
 {
 	return mFileName;
 }
 
-int Block::GetLineNum()
+uint32 Block::GetLineNum()
 {
 	return mLineNum;
 }
 
-int Block::GetAllocIndex()
+uint32 Block::GetAllocIndex()
 {
 	return mAllocIndex;
 }
 
-unsigned int Block::GetAllocSize()
+uint64 Block::GetAllocSize()
 {
 	return mAllocSize;
 }

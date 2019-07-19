@@ -136,13 +136,13 @@ Memory::Code Memory::HeapCreate(Heap *&newHeap, uint32 numBlocks, uint32 sizePer
 	return OK;
 }
 
-void * Memory::Malloc(size_t inSize, Heap *heap, Memory::Align align, char *inName, int lineNum)
+void* Memory::Malloc(uint64 inSize, Heap *heap, Memory::Align align, const char *inName, uint32 lineNum)
 {
 	Memory* mem = Instance();
 	assert(mem->mInitialized);
 	assert(heap != nullptr);
 
-	unsigned int alignment = GetAlignment(align);
+	uint32 alignment = GetAlignment(align);
 	
 	mem->mInfo.CurrBytesUsed += inSize;
 	++mem->mInfo.CurrNumAlloc;

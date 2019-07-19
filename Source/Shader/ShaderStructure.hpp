@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Types.h"
+#include "Types/Intrinsics.hpp"
 #include "ShaderStages.hpp"
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 #include "Containers/Map.h"
 #include "String/String.h"
 
@@ -22,7 +22,8 @@ enum class ShaderIntrinsics
 	Double,
 	Boolean,
 	Vector,
-	Matrix
+	Matrix,
+	Struct
 };
 
 struct ShaderVariable
@@ -39,42 +40,49 @@ struct ShaderConstant
 	ShaderConstantType bindingType;
 };
 
-struct ShaderSettings
+struct ShaderCompilerDefinitions
 {
-	// Platform
-	
-	// Stage
-	ShaderStage shaderStage;
 	// File Name
 
 	// Preprocessing Definitions
 	Map<String, String> definitions;
-	// Code
-	String shaderCode;
-	// Name
-	String shaderName;
+	// Stage
+	ShaderStage shaderStage;
+
+	uint32 pad[1] = { 0 };
 };
 
-struct ShaderIntermediate
+struct PreprocessedShaderOutput
 {
-	ShaderIntermediate(const ShaderSettings& settings)
-		: stage(settings.shaderStage),
-		definitions(settings.definitions)
-	{
-	}
+	String errors;
+	String outputGlsl;
+};
 
-	ShaderIntermediate& operator=(const ShaderIntermediate&) = delete;
+struct ShaderDebugInfo
+{
+	String glslProcessedCode;
+	String spirvByteCode;
+};
 
+using ShaderInputByLocation = Map<uint32, ShaderVariable>;
+using ShaderOutputByLocation = Map<uint32, ShaderVariable>;
+using ShaderConstantByBinding = Map<uint32, ShaderConstant>;
+using VulkanByteCode = DynamicArray<uint32>;
+
+struct ShaderCompiledOutput
+{
+	ShaderInputByLocation locationToInputs;
+	ShaderOutputByLocation locationToOutputs;
+
+	ShaderConstantByBinding bindingToConstants;
+	VulkanByteCode compiledCode;
+	const tchar* shaderEntryPoint;
 	ShaderStage stage;
-	const Map<String, String>& definitions;
-	String preprocessedCode;
+	uint32 pad[1] = { 0 };
 };
 
 struct ShaderStructure
 {
-	Map<uint32, ShaderVariable> locationToInputs;
-	Map<uint32, ShaderVariable> locationToOutputs;
-
-	Map<uint32, ShaderConstant> bindingToConstants;
-	Array<uint8> compiledCode;
+	ShaderCompiledOutput compiledOutput;
+	ShaderDebugInfo readableShaderInfo;
 };

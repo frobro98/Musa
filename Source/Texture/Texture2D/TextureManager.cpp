@@ -8,6 +8,7 @@
 #include "Graphics.h"
 #include "Serialization/MemoryDeserializer.hpp"
 #include "Archiver/FileDeserializer.hpp"
+#include "Graphics/GraphicsInterface.hpp"
 
 namespace
 {
@@ -21,11 +22,18 @@ CompressionFormat ImageToCompressionFormat(ImageFormat format)
 			return CompressionFormat::BC3;
 		case ImageFormat::BC7:
 			return CompressionFormat::BC7;
-		case ImageFormat::RGB_8:
-		case ImageFormat::BGR_8:
-		case ImageFormat::RGBA_8:
-		case ImageFormat::BGRA_8:
-		case ImageFormat::Gray_8:
+		case ImageFormat::RGB_8u:
+		case ImageFormat::RGB_8norm:
+		case ImageFormat::RGB_16f:
+		case ImageFormat::BGR_8u:
+		case ImageFormat::RGBA_8u:
+		case ImageFormat::RGBA_8norm:
+		case ImageFormat::RGBA_16f:
+		case ImageFormat::BGRA_8u:
+		case ImageFormat::Gray_8u:
+		case ImageFormat::D_32f:
+		case ImageFormat::DS_32f_8u:
+		case ImageFormat::DS_24f_8u:
 		case ImageFormat::Invalid:
 			Assert(false);
 	}
@@ -34,7 +42,7 @@ CompressionFormat ImageToCompressionFormat(ImageFormat format)
 }
 }
 
-Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const String& textureName)
+Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const String& /*textureName*/)
 {
 	Texture* texture = new Texture;
 	FileDeserializer deserializer(textureFilePath);
@@ -44,16 +52,14 @@ Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const 
 	texture->minFilter = VK_FILTER_LINEAR;
 	texture->magFilter = VK_FILTER_LINEAR;
 
-	TextureNode* node = new TextureNode;
-	node->texture = texture;
-	node->textureName = textureName;
-	node->next = Instance().texHead;
-	Instance().texHead = node;
+	ConfigureNativeTexture(*texture);
+
+	texturesLoaded.Add(texture);
 
 	return texture;
 }
 
-Texture* TextureManager::LoadTexture(Array<uint8>& textureData, const char* textureName)
+Texture* TextureManager::LoadTexture(DynamicArray<uint8>& textureData, const char* /*textureName*/)
 {
 	Texture* texture = new Texture;
 	MemoryDeserializer deserializer(textureData);
@@ -63,29 +69,23 @@ Texture* TextureManager::LoadTexture(Array<uint8>& textureData, const char* text
 	texture->minFilter = VK_FILTER_LINEAR;
 	texture->magFilter = VK_FILTER_LINEAR;
 
-	TextureNode* node = new TextureNode;
-	node->texture = texture;
-	node->textureName = textureName;
-	node->next = Instance().texHead;
-	Instance().texHead = node;
+	ConfigureNativeTexture(*texture);
+
+	texturesLoaded.Add(texture);
 
 	return texture;
 }
 
-Texture* TextureManager::CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* textureName, ImageFormat format)
+Texture* TextureManager::CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* /*textureName*/, ImageFormat format)
 {
-	Texture* texture = Instance().Compress(chunkData, textureData, format);
+	Texture* texture = Compress(chunkData, textureData, format);
 
-	TextureNode* node = new TextureNode;
-	node->texture = texture;
-	node->textureName = textureName;
-	node->next = Instance().texHead;
-	Instance().texHead = node;
+	texturesLoaded.Add(texture);
 
 	return texture;
 }
 
-Texture * TextureManager::CompressTextureData(Array<uint8>& textureData, const char * textureName)
+Texture* TextureManager::CompressTextureData(DynamicArray<uint8>& textureData, const char* /*textureName*/)
 {
 	Texture uncompressed;
 	Texture compressed;
@@ -101,11 +101,7 @@ Texture * TextureManager::CompressTextureData(Array<uint8>& textureData, const c
 	texture->minFilter = VK_FILTER_LINEAR;
 	texture->magFilter = VK_FILTER_LINEAR;
 
-	TextureNode* node = new TextureNode;
-	node->texture = texture;
-	node->textureName = textureName;
-	node->next = Instance().texHead;
-	Instance().texHead = node;
+	texturesLoaded.Add(texture);
 
 	return texture;
 }
@@ -131,40 +127,42 @@ Texture* TextureManager::Compress(const TextureChunk& chunk, uint8* textureData,
 	return texture;
 }
 
-void TextureManager::UnloadTexture(const char * textureName)
+void TextureManager::ConfigureNativeTexture(Texture& texture)
 {
-	TextureNode* current = Instance().texHead;
-	// TODO - need to look at this again.... didn't get it right the first time
-	while (current != nullptr)
-	{
-		if (textureName == current->textureName)
-		{
-			delete current;
+	ResourceBlob textureBlob = ConstructBlobOfMipLevels(texture.mipLevels);
 
+	uint32 width = texture.mipLevels[0].width;
+	uint32 height = texture.mipLevels[0].height;
+	texture.gpuResource = GetGraphicsInterface().CreateInitializedTexture2D(textureBlob, width, height, texture.format, texture.mipLevels.Size(), TextureUsage::SampledResource);
+}
+
+void TextureManager::UnloadTexture(const char* textureName)
+{
+	for (uint32 i = 0; i < texturesLoaded.Size(); ++i)
+	{
+		if (textureName == texturesLoaded[i]->name)
+		{
+			delete texturesLoaded[i];
+			texturesLoaded.Remove(i);
 			break;
 		}
-
-		current = current->next;
 	}
 }
 
-Texture * TextureManager::FindTexture(const char * textureName)
+Texture* TextureManager::FindTexture(const char* textureName)
 {
-	TextureNode* current = Instance().texHead;
-	while (current != nullptr)
+	for (uint32 i = 0; i < texturesLoaded.Size(); ++i)
 	{
-		if (textureName == current->textureName)
+		if (textureName == texturesLoaded[i]->name)
 		{
-			return current->texture;
+			return texturesLoaded[i];
 		}
-
-		current = current->next;
 	}
 
 	return nullptr;
 }
 
-TextureManager & TextureManager::Instance()
+TextureManager& GetTextureManager()
 {
 	static TextureManager tmInstance;
 	return tmInstance;

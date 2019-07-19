@@ -57,6 +57,16 @@ inline uint32 GetHash(double d)
 	return fnv(&d, sizeof(double));
 }
 
+inline uint32 GetHash(const void* p)
+{
+	return fnv(p, sizeof(p));
+}
+
+inline uint32 GetHash(void* p)
+{
+	return fnv(p, sizeof(p));
+}
+
 inline uint32 GetHash(const tchar* cStr)
 {
 	return fnv(cStr, Strlen(cStr));

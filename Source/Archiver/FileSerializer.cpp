@@ -4,14 +4,14 @@ FileSerializer::FileSerializer(const Path& filePath)
 	: file(filePath)
 {
 	auto result = File::Open(handle, filePath.GetString(), File::Mode::WRITE);
-	assert(result == File::Result::SUCCESS);
+	Assert(result == File::Result::SUCCESS);
 }
 
 FileSerializer::~FileSerializer()
 {
 	Flush();
 	auto result = File::Close(handle);
-	assert(result == File::Result::SUCCESS);
+	Assert(result == File::Result::SUCCESS);
 }
 
 void FileSerializer::SerializeData(const void* data, uint32 dataSize)
@@ -26,6 +26,6 @@ void FileSerializer::SerializeData(const void* data, uint32 dataSize)
 void FileSerializer::Flush()
 {
 	auto result = File::Write(handle, &serializedData[bufferWriteIndex], serializedData.Size() - bufferWriteIndex);
-	assert(result == File::Result::SUCCESS);
+	Assert(result == File::Result::SUCCESS);
 	bufferWriteIndex = serializedData.Size();
 }

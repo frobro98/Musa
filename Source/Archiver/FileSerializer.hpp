@@ -2,7 +2,7 @@
 
 #include "File/Path.hpp"
 #include "File/FileCore/File.h"
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 #include "Serialization/SerializeBase.hpp"
 
 class FileSerializer final : public SerializeBase
@@ -20,7 +20,8 @@ private:
 
 private:
 	Path file;
-	Array<uint8> serializedData;
-	uint32 bufferWriteIndex = 0;
+	DynamicArray<uint8> serializedData;
 	File::Handle handle;
+	uint32 bufferWriteIndex = 0;
+	uint32 pad[1] = { 0 };
 };

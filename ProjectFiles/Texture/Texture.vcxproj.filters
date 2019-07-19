@@ -77,5 +77,8 @@
     <ClInclude Include="..\..\Source\Texture\Color.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Texture\Texture2D\MipmapLevel.hpp">
+      <Filter>Source\Texture2D</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

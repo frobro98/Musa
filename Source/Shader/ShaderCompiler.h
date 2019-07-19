@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Types.h"
+#include "Types/Intrinsics.hpp"
 
-struct ShaderSettings;
+struct ShaderCompilerDefinitions;
 struct ShaderStructure;
+struct PreprocessedShaderOutput;
 
-
-bool Compile(const ShaderSettings& inputs, ShaderStructure& outputs);
+bool Preprocess(const tchar* pathToShader, const ShaderCompilerDefinitions& inputs, PreprocessedShaderOutput& output);
+bool Compile(const tchar* pathToShader, const char* entryPoint, const ShaderCompilerDefinitions& inputs, ShaderStructure& outputs);

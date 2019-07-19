@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{5092D95D-99F5-43C8-8B0E-BFBEF6A63763}</ProjectGuid>
+    <RootNamespace>Graphics</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <TargetExt>.lib</TargetExt>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin32;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;EngineCore.lib</AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/Graphics;$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin32;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;EngineCore_d.lib</AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source;$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/Graphics;$(SolutionDir)Source/Musa;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;EngineCore_d.lib</AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/Graphics;$(SolutionDir)Source/;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EngineCore.lib</AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\PipelineInitDescription.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\RenderApiDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\RenderTargetDescription.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\ResourceBlob.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\ResourceLockPtr.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\UniformBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\UniformBufferType.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\VertexInputDescription.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanAbstractions.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanAllocation.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanBufferAllocation.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanCommandBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanComputePipeline.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanCreateInfos.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDefinitions.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorLayoutManager.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorPool.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorSet.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDevice.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFence.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFramebuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanGraphicsInterface.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanImageAllocation.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanIndexBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanMemory.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanMemoryManager.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanPipeline.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanQueue.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderingCloset.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPassState.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShader.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShaderManager.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanStagingBufferManager.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanStorageBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanSurface.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanSwapchain.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanTexture.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanUniformBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanUtilities.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanVertexBuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\ResourceBlob.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanAbstractions.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanBufferAllocation.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanCommandBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanComputePipeline.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanCreateInfos.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorLayoutManager.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorPool.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorSet.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDevice.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFence.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFramebuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanGraphicsInterface.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanImageAllocation.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanIndexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanMemory.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanMemoryManager.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanPipeline.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanQueue.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderingCloset.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPassState.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShader.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShaderManager.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanStagingBufferManager.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanStorageBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanSurface.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanSwapchain.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanUniformBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanUtilities.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanVertexBuffer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

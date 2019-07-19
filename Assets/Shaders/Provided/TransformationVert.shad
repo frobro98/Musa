@@ -1,0 +1,13 @@
+#pragma once
+
+#include "Common/VertexCommon.hshad"
+
+void main()
+{
+	FragPosition = GetWorldPosition();
+    Normal = GetWorldNormal();
+	Tangent = GetWorldTangent();
+	TexCoords = uvCoords;
+
+	gl_Position = GetClipSpacePosition();
+}

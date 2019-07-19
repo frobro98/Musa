@@ -80,37 +80,37 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Vector *pt, uint32 numPts)
 }
 
 
-void SphereOfSphereAndPt(Sphere &s, Vector &p)
+void SphereOfSphereAndPt(SphereBounds &s, Vector &p)
 {
 	// Compute squared distance between point and sphere center
-	Vector d = p - s.cntr;
+	Vector d = p - s.position;
 
 	float dist2 = d.Dot(d);
 	// Only update s if point p is outside it
-	if (dist2 > s.rad * s.rad)
+	if (dist2 > s.radius * s.radius)
 	{
 		float dist = Math::Sqrt(dist2);
-		float newRadius = (s.rad + dist) * 0.5f;
-		float k = (newRadius - s.rad) / dist;
-		s.rad = newRadius;
-		s.cntr += d * k;
+		float newRadius = (s.radius + dist) * 0.5f;
+		float k = (newRadius - s.radius) / dist;
+		s.radius = newRadius;
+		s.position += d * k;
 	}
 }
 
-void SphereFromDistantPoints(Sphere &s, Vector *pt, uint32 numPts)
+void SphereFromDistantPoints(SphereBounds &s, Vector *pt, uint32 numPts)
 {
 	// Find the most separated point pair defining the encompassing AABB
 	int min, max;
 	MostSeparatedPointsOnAABB(min, max, pt, numPts);
 
 	// Set up sphere to just encompass these two points
-	s.cntr = (pt[min] + pt[max]) * 0.5f;
-	s.rad = (pt[max] - s.cntr).Dot(pt[max] - s.cntr);
-	s.rad = Math::Sqrt(s.rad);
+	s.position = (pt[min] + pt[max]) * 0.5f;
+	s.radius = (pt[max] - s.position).Dot(pt[max] - s.position);
+	s.radius = Math::Sqrt(s.radius);
 }
 
 
-void RitterSphere(Sphere &s, Vector *pt, uint32 numPts)
+void RitterSphere(SphereBounds &s, Vector *pt, uint32 numPts)
 {
 	// Get sphere encompassing two approximately most distant points
 	SphereFromDistantPoints(s, pt, numPts);

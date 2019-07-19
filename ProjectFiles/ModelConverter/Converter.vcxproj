@@ -48,11 +48,14 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release (DLL)|Win32'">Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release (DLL)|Win32'">false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (DLL)|Win32'">
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug (DLL)|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include;$(SolutionDir)\Source\;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source\Tools\Converter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include;$(SolutionDir)\Source\;$(SolutionDir)\Source\Musa;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source\Tools\Converter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;FBXSDK_SHARED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -62,7 +65,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4201;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4625;5039;5045</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineCore_d.lib;Texture_d.lib;libfbxsdk.lib;File_d.lib;Math_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -86,16 +90,18 @@ echo         Copied libfbxsdk.dll! </Command>
     <ClCompile>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include;$(SolutionDir)\Source\;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source\Tools\Converter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include;$(SolutionDir)\Source\;$(SolutionDir)\Source\Musa;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source\Tools\Converter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;FBXSDK_SHARED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WarningLevel>Level4</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4625;</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libfbxsdk.lib;Texture.lib;File_d.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfbxsdk.lib;Texture.lib;File.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)ThirdParty\lib\FBX\_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -112,11 +118,13 @@ echo         Copied libfbxsdk.dll! </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Musa\Model\MeshUtilities.cpp" />
     <ClCompile Include="..\..\Source\Tools\Converter\Common\Common.cxx" />
     <ClCompile Include="..\..\Source\Tools\Converter\converterEntry.cpp" />
     <ClCompile Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Musa\Model\MeshUtilities.hpp" />
     <ClInclude Include="..\..\Source\Tools\Converter\Common\Common.h" />
     <ClInclude Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.h" />
   </ItemGroup>

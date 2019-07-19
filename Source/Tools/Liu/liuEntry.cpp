@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 
 #include "Archiver/PackageHeader.h"
 #include "File/FileCore/DirectoryUtilities.h"
@@ -68,7 +68,7 @@ void PackFilesTogether(char* outputFile, char* packageName, uint32 packageNameLe
 		FILE_CHECK_VA(fileSize > 0, "%s doesn't exist!\n", file);
 		packageFileSize += fileSize;
 
-		Array<uint8> fileData(fileSize);
+		DynamicArray<uint8> fileData(fileSize);
 		result = File::Read(fileHandle, fileData.GetData(), fileSize * sizeof(uint8));
 		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be read");
 
@@ -112,7 +112,8 @@ int main(int argc, char *argv[])
 		if (strcmp("-v", argv[i]) == 0 || strcmp("-V", argv[i]) == 0)
 		{
 			++i;
-			if (i >= argc || strchr(argv[i], '-') != nullptr)
+			char* s = strchr(argv[i], '-');
+			if (i >= argc || (s != nullptr && strlen(s) == 2))
 			{
 				printf("You must pass a correct type when using the -n option!\n");
 				return -1;
@@ -129,7 +130,8 @@ int main(int argc, char *argv[])
 		else if (strcmp("-n", argv[i]) == 0 || strcmp("-N", argv[i]) == 0)
 		{
 			++i;
-			if (i >= argc || strchr(argv[i], '-') != nullptr)
+			char* s = strchr(argv[i], '-');
+			if (i >= argc || (s != nullptr && strlen(s) == 2))
 			{
 				printf("You must pass a correct type when using the -n option!\n");
 				return -1;

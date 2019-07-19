@@ -1,17 +1,14 @@
 #pragma once
 
 #include "EngineCore/Types.h"
-#include "Containers/Array.h"
 #include "Shader/ShaderStages.hpp"
 
-class Material;
-
-// Represents a shader and parameters of the shader
 class Shader
 {
 public:
-	Shader(std::function<bool()> isSupportedShaderFunc, const tchar* fileName, ShaderStage stage);
+	Shader();
 
+	inline ShaderStage GetShaderStage() const { return stage; }
 
 private:
 	ShaderStage stage;

@@ -2,7 +2,7 @@
 
 namespace Internal
 {
-	InternalBlock::InternalBlock(char * fileName, int lineNumber, size_t allocationSize, int allocationIndex)
+	InternalBlock::InternalBlock(const char * fileName, uint32 lineNumber, size_t allocationSize, uint32 allocationIndex)
 		: Block(fileName, lineNumber, allocationSize, allocationIndex)
 	{
 	}

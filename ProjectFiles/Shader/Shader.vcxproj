@@ -19,47 +19,98 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\private\Shader\Material.cpp" />
+    <ClCompile Include="..\..\Source\Shader\Material.cpp" />
+    <ClCompile Include="..\..\Source\Shader\MaterialRenderInfo.cpp" />
     <ClCompile Include="..\..\Source\Shader\McppWrapper.cpp" />
     <ClCompile Include="..\..\Source\Shader\Shader.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderCompiler.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\BlinnShading.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\NormalMapping.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\PhongShading.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ScreenRendering.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderDefinition.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderObject.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderPipeline.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderResource.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ToonShading.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\UnlitShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ThirdParty\spirv_reflect.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Shader\Material.h" />
+    <ClInclude Include="..\..\Source\Shader\MaterialRenderInfo.hpp" />
     <ClInclude Include="..\..\Source\Shader\McppWrapper.hpp" />
     <ClInclude Include="..\..\Source\Shader\Shader.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderExternal.h" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\BlinnShading.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\NormalMapping.h" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\PhongShading.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ScreenRendering.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderDefinition.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderObject.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderPipeline.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderResource.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ToonShading.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\UnlitShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStages.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStructure.hpp" />
     <ClInclude Include="..\..\Source\Shader\ThirdParty\spirv_reflect.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\Shader\ShaderSrc\animationBlendClips.comp" />
-    <None Include="..\..\Source\Shader\ShaderSrc\animFrameInterpolation.comp" />
-    <None Include="..\..\Source\Shader\ShaderSrc\animHierarchyCalculation.comp" />
-    <None Include="..\..\Source\Shader\ShaderSrc\blinnPhong.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\blinnPhong.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\colorPerVertex.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\colorPerVertex.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\colorSkinning.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\colorSkinning.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\constantColor.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\constantColor.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\default.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\default.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\gpuColorSkinning.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\gpuColorSkinning.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\normalColor.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\normalColor.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\phong.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\phong.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\phongMultiTex.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\phongMultiTex.vert" />
-    <None Include="..\..\Source\Shader\ShaderSrc\processLocalTransforms.comp" />
-    <None Include="..\..\Source\Shader\ShaderSrc\texture.frag" />
-    <None Include="..\..\Source\Shader\ShaderSrc\texture.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\animationBlendClips.comp" />
+    <None Include="..\..\Assets\Shaders\Provided\animFrameInterpolation.comp" />
+    <None Include="..\..\Assets\Shaders\Provided\animHierarchyCalculation.comp" />
+    <None Include="..\..\Assets\Shaders\Provided\blinnPhong.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\blinnPhong.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\colorPerVertex.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\colorPerVertex.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\colorSkinning.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\colorSkinning.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\Common\FragmentCommon.hshad" />
+    <None Include="..\..\Assets\Shaders\Provided\Common\LightingCommon.hshad" />
+    <None Include="..\..\Assets\Shaders\Provided\Common\VertexCommon.hshad" />
+    <None Include="..\..\Assets\Shaders\Provided\Common\VulkanCommon.hshad" />
+    <None Include="..\..\Assets\Shaders\Provided\constantColor.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\constantColor.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\constantColorGBuffer.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\constantColorGBuffer.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\default.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\default.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\gbuffer.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\gbuffer.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\gbufferNormalMap.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\gbufferNormalMap.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\gpuColorSkinning.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\gpuColorSkinning.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\lightingGBuffer.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\lightingGBuffer.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\normalColor.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\normalColor.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\parallaxMap.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\parallaxMap.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\phong.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\phong.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\LightingSetup.shad" />
+    <None Include="..\..\Assets\Shaders\Provided\phongMultiTex.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\phongMultiTex.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\processLocalTransforms.comp" />
+    <None Include="..\..\Assets\Shaders\Provided\Screen.shad" />
+    <None Include="..\..\Assets\Shaders\Provided\screenRender.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\ScreenRender.shad" />
+    <None Include="..\..\Assets\Shaders\Provided\screenRender.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\shadowDepth.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\texture.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\texture.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\textureGBuffer.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\textureGBuffer.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\toon.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\toon.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\toonTexture.frag" />
+    <None Include="..\..\Assets\Shaders\Provided\toonTexture.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\TransformationVert.shad" />
     <None Include="..\..\Source\Shader\ThirdParty\LICENSE" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -117,6 +168,7 @@
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
@@ -142,11 +194,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>EngineCore_d.lib;File_d.lib;glslangd.lib;mcpp_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>File_d.lib;glslangd.lib;mcpp_d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
@@ -159,7 +212,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
@@ -167,10 +220,12 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>EngineCore_d.lib;File_d.lib;glslangd.lib;mcpp_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>File_d.lib;glslangd_64.lib;mcpp_64d.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
@@ -193,14 +248,15 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>EngineCore.lib;File.lib;glslang.lib;mcpp.lib</AdditionalDependencies>
+      <AdditionalDependencies>File.lib;glslang.lib;mcpp.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
@@ -213,7 +269,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -222,14 +278,16 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\Shader;$(SolutionDir)\Source;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>EngineCore.lib;File.lib;glslang.lib;mcpp.lib</AdditionalDependencies>
+      <AdditionalDependencies>File.lib;glslang_64.lib;mcpp_64.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>

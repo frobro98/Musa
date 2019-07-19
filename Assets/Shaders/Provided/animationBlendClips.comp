@@ -1,0 +1,116 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_shading_language_420pack : enable
+
+layout(local_size_x = 16) in;
+
+struct Bone
+{
+	vec4 translation;
+	vec4 rotation;
+	vec4 scale;
+};
+
+layout(binding = 0) readonly buffer Animation0
+{
+	uint blendFromSize;
+	Bone blendFrom[ ];
+};
+
+layout(binding = 1) readonly buffer Animation1
+{
+	uint blendClipSize;
+	Bone blendTo[ ];
+};
+
+layout(binding = 2) uniform KeyframeConstants
+{
+	uint boneCount;
+	float deltaTime;
+};
+
+layout(std140, binding = 3) buffer ResultingBoneInterpolations
+{
+	uint sizeFrame;
+	Bone boneResults[ ];
+};
+
+vec4 slerp(vec4 quat0, vec4 quat1, float deltaT);
+
+void main()
+{
+	uint index = gl_GlobalInvocationID.x;
+	if(index < boneCount)
+	{
+		vec4 translation = mix(blendFrom[index].translation, blendTo[index].translation, deltaTime);
+		vec4 rotation = slerp(blendFrom[index].rotation, blendTo[index].rotation, deltaTime);
+		vec4 scale = mix(blendFrom[index].scale, blendTo[index].scale, deltaTime);
+
+		boneResults[index].translation = translation;
+		boneResults[index].rotation = rotation;
+		boneResults[index].scale = scale;
+	}
+}
+
+
+#define EQUAL_TOLERENCE 0.000001;
+
+bool IsZero(float x)
+{
+	return abs(x) <= EQUAL_TOLERENCE;
+}
+
+bool IsEqual(float f0, float f1)
+{
+	float tmp = f0 - f1;
+	return abs(tmp) <= EQUAL_TOLERENCE;
+}
+
+bool IsEqual(vec4 v0, vec4 v1)
+{
+	return IsEqual(v0.x, v1.x) && 
+		   IsEqual(v0.y, v1.y) && 
+		   IsEqual(v0.z, v1.z) && 
+		   IsEqual(v0.w, v1.w);
+}
+
+bool isQuatEquivalent(vec4 q0, vec4 q1)
+{
+	return IsEqual(q0, q1) && IsEqual(q0, vec4(-q1.x, -q1.y, -q1.z, -q1.w));
+}
+
+vec4 slerp(vec4 quat0, vec4 quat1, float deltaT)
+{
+	vec4 result;
+	vec4 source = normalize(quat0);
+	vec4 target = normalize(quat1);
+	if(!isQuatEquivalent(source, target))
+	{
+		float tmpCos = dot(source, target);
+		if(tmpCos < 0.0)
+		{
+			tmpCos = -tmpCos;
+			target = -target;
+		}
+
+		float theta = acos(tmpCos);
+		if(IsZero(theta) || theta != theta)
+		{
+			result = source;
+		}
+		else
+		{
+			float sinTheta = sin(theta);
+			float sDelta = sin(theta * (1-deltaT)) / sinTheta;
+			float tDelta = sin(deltaT * theta) / sinTheta;
+			result = source * sDelta + target * tDelta;
+		}
+	}
+	else
+	{
+		result = source;
+	}
+
+	return result;
+}

@@ -23,7 +23,8 @@ public:
 	Path GetNormalized() const;
 	void MakeAbsolute();
 	Path GetAbsolute() const;
-	Array<String> Split() const;
+	Path GetDirectoryPath() const;
+	DynamicArray<String> Split() const;
 	const tchar* GetString() const;
 
 	// Operators

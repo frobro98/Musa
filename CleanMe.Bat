@@ -9,6 +9,8 @@ REM
 REM cleanup root director
 
     rmdir /S /Q Game
+	rmdir /S /Q Tools
+	rmdir /S /Q Binaries
     rmdir /S /Q ipch
     rmdir /S /Q .vs
 

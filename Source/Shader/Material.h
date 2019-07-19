@@ -4,50 +4,67 @@
 #include "Math/MathEngine.h"
 #include "Graphics.h"
 #include "Texture/Color.hpp"
+#include "Graphics/RenderApiDefinitions.hpp"
+#include "Shader/MaterialRenderInfo.hpp"
 
 struct Texture;
+struct TextureCube;
+struct ShaderResource;
+struct MaterialRenderInfo;
 class ShaderProgram;
 class Matrix;
-
-// TODO - Remove all vulkan from Material.h/.cpp
-class VulkanPipeline;
 
 class Material
 {
 public:
 	Material();
-	Material(const char* pipelineName, const char* textureName, const Color& color);
+	Material(ShaderResource& vertShader, ShaderResource& fragShader, const char* textureName, const Color32& color);
+	Material(ShaderResource& vertShader, ShaderResource& fragShader, Texture* tex, const Color32& color);
+	Material(const tchar* vertexShader, const tchar* fragmentShader, const char* textureName, const Color32& color);
 	~Material() = default;
 
 	void EnableWireframe();
 	void DisableWireframe();
 
-	void SetPipeline(VulkanPipeline* pipeline_);
 	void SetTexture0(Texture* texture0);
 	void SetTexture1(Texture* texture1);
-	void SetTexture2(Texture* texture2);
-	void SetColor(const Color& color);
+	void SetNormalMap(Texture* normMap);
+	void SetCubeTexture(TextureCube* cube);
+	void SetColor(const Color32& color);
+	void SetShadingModel(ShadingModel model);
 
-	Texture* GetTexture0() const { return texture0; }
-	Texture* GetTexture1() const { return texture1; }
-	VulkanPipeline* GetPipeline() const { return pipeline; }
-	Color GetColor() const { return diffuseColor; }
+
+	inline ShaderResource* GetVertexShader() const { return vertexShader; }
+	inline ShaderResource* GetFragmentShader() const { return fragmentShader; }
+	inline Texture* GetTexture0() const { return texture0; }
+	inline Texture* GetTexture1() const { return texture1; }
+	inline Texture* GetNormalMap() const { return normalMap; }
+	inline TextureCube* GetTextureCube() const { return cubeMap; }
+	inline Color32 GetColor() const { return diffuseColor; }
+// 	inline float32 GetRoughness() const { return roughness; }
+// 	inline float32 GetMetallic() const { return metallic; }
+
+	FillMode GetFillMode() const { return fillMode; }
+	ShadingModel GetShadingModel() const { return shadingModel; }
+	MaterialRenderInfo& GetMaterialRenderInfo() const { return *materialRendering; }
 
 private:
+	// TODO - This creation method must be refactored to be a better way of creation!
+	void ConfigureMaterialInfo();
 
-	int32 colorUniform;
-	int32 modelUniform;
-	int32 viewUniform;
-	int32 projUniform;
-	int32 viewPosUniform;
+private:
+	Color32 diffuseColor;
+// 	float32 roughness = 0.f;
+// 	float32 metallic = 0.f;
 
-	Color diffuseColor;
-
-	// TODO - The vulkan pipeline doesn't belong here...
-	VulkanPipeline* pipeline;
+	MaterialRenderInfo* materialRendering = new MaterialRenderInfo;
+	// TODO - The vulkan shaders don't belong here...
+	ShaderResource* vertexShader;
+	ShaderResource* fragmentShader;
 	Texture* texture0;
 	Texture* texture1 = nullptr;
-	Texture* texture2 = nullptr;
-
-	uint32 pad[2];
+	Texture* normalMap = nullptr;
+	TextureCube* cubeMap = nullptr;
+	FillMode fillMode = FillMode::Full;
+	ShadingModel shadingModel = ShadingModel::Lit;
 };

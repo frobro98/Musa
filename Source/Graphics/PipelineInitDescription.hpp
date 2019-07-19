@@ -1,0 +1,209 @@
+#pragma once
+
+#include "Graphics.h"
+#include "EngineCore/Types/Intrinsics.hpp"
+#include "VertexInputDescription.hpp"
+#include "EngineCore/FNV-1a.h"
+#include "RenderTargetDescription.hpp"
+
+struct ShaderResource;
+
+
+struct DepthStencilTestingDescription
+{
+	bool depthTestEnabled;
+	CompareOperation depthCompareOp;
+	bool frontStencilTestEnabled;
+	StencilOperation frontPassOp;
+	StencilOperation frontFailOp;
+	StencilOperation frontDepthFailOp;
+	CompareOperation frontCompareOp;
+	bool backStencilTestEnabled;
+	StencilOperation backPassOp;
+	StencilOperation backFailOp;
+	StencilOperation backDepthFailOp;
+	CompareOperation backCompareOp;
+	uint8 stencilReadMask;
+	uint8 stencilWriteMask;
+	bool pad[1] = { false };
+
+	friend bool operator==(const DepthStencilTestingDescription& lhs, const DepthStencilTestingDescription& rhs)
+	{
+		return lhs.depthTestEnabled == rhs.depthTestEnabled &&
+			lhs.depthCompareOp == rhs.depthCompareOp &&
+			lhs.frontStencilTestEnabled == rhs.frontStencilTestEnabled &&
+			lhs.frontPassOp == rhs.frontPassOp &&
+			lhs.frontFailOp == rhs.frontFailOp &&
+			lhs.frontDepthFailOp == rhs.frontDepthFailOp &&
+			lhs.frontCompareOp == rhs.frontCompareOp &&
+			lhs.backStencilTestEnabled == rhs.backStencilTestEnabled &&
+			lhs.backPassOp == rhs.backPassOp &&
+			lhs.backFailOp == rhs.backFailOp &&
+			lhs.backDepthFailOp == rhs.backDepthFailOp&&
+			lhs.backCompareOp == rhs.backCompareOp&&
+			lhs.stencilReadMask == rhs.stencilReadMask &&
+			lhs.stencilWriteMask == rhs.stencilWriteMask;
+	}
+};
+
+template<
+	bool enableDepthTest = true, 
+	CompareOperation depthOp = CompareOperation::LessThanOrEqual,
+	bool frontStencilTest = false,
+	StencilOperation frontPass = StencilOperation::Keep,
+	StencilOperation frontFail = StencilOperation::Keep,
+	StencilOperation frontDepthFail = StencilOperation::Keep,
+	CompareOperation frontCompareOp = CompareOperation::Always,
+	bool backStencilTest = false,
+	StencilOperation backPass = StencilOperation::Keep,
+	StencilOperation backFail = StencilOperation::Keep,
+	StencilOperation backDepthFail = StencilOperation::Keep,
+	CompareOperation backCompareOp = CompareOperation::Always,
+	uint8 stencilTestReadMask = 0xf,
+	uint8 stencilTestWriteMask = 0xf
+>
+constexpr DepthStencilTestingDescription DepthTestDesc()
+{
+	return DepthStencilTestingDescription
+	{
+		enableDepthTest,
+		depthOp,
+		frontStencilTest,
+		frontPass,
+		frontFail,
+		frontDepthFail,
+		frontCompareOp,
+		backStencilTest,
+		backPass,
+		backFail,
+		backDepthFail,
+		backCompareOp,
+		stencilTestReadMask,
+		stencilTestWriteMask
+	};
+}
+
+struct RasterizerDescription
+{
+	float32 depthBiasConstant;
+	float32 depthBiasSlope;
+	FillMode fillMode;
+	CullingMode cullMode;
+	
+
+	friend bool operator==(const RasterizerDescription& lhs, const RasterizerDescription& rhs)
+	{
+		return lhs.depthBiasConstant == rhs.depthBiasConstant &&
+			lhs.depthBiasSlope == rhs.depthBiasSlope &&
+			lhs.fillMode == rhs.fillMode &&
+			lhs.cullMode == rhs.cullMode;
+	}
+};
+
+template<
+	FillMode fillMode = FillMode::Full,
+	CullingMode cullMode = CullingMode::Back
+>
+constexpr RasterizerDescription RasterDesc()
+{
+	return RasterizerDescription
+	{
+		1.f,
+		1.f,
+		fillMode,
+		cullMode
+	};
+}
+
+struct BlendingDescription
+{
+	ColorMask colorMask;
+	BlendOperation colorBlendOperation;
+	BlendFactor srcBlend;
+	BlendFactor dstBlend;
+	BlendOperation alphaBlendOperation;
+	BlendFactor srcAlphaBlend;
+	BlendFactor dstAlphaBlend;
+
+	friend bool operator==(const BlendingDescription& lhs, const BlendingDescription& rhs)
+	{
+		return lhs.colorMask == rhs.colorMask &&
+			lhs.colorBlendOperation == rhs.colorBlendOperation &&
+			lhs.srcBlend == rhs.srcBlend &&
+			lhs.dstBlend == rhs.dstBlend &&
+			lhs.alphaBlendOperation == rhs.alphaBlendOperation &&
+			lhs.srcAlphaBlend == rhs.srcAlphaBlend &&
+			lhs.dstAlphaBlend == rhs.dstAlphaBlend;
+	}
+};
+
+template<
+	ColorMask mask = ColorMask::RGBA, 
+	BlendOperation blendOp = BlendOperation::Add, 
+	BlendFactor srcFactor = BlendFactor::One, 
+	BlendFactor dstFactor = BlendFactor::Zero,
+	BlendOperation alphaOp = BlendOperation::Add,
+	BlendFactor srcAlphaFactor = BlendFactor::One,
+	BlendFactor dstAlphaFactor = BlendFactor::Zero
+
+>
+constexpr BlendingDescription BlendDesc()
+{
+	return BlendingDescription
+		{
+			mask,
+			blendOp,
+			srcFactor,
+			dstFactor,
+			alphaOp,
+			srcAlphaFactor,
+			dstAlphaFactor
+		};
+}
+
+struct GraphicsPipelineDescription
+{
+	RenderTargetDescription renderTargets;
+	// Pipeline Information --> API implementation dependent apparently
+	RasterizerDescription rasterizerDesc;
+	BlendingDescription blendingDescs[GBufferCount];
+	DepthStencilTestingDescription depthStencilTestDesc;
+	VertexInputDescriptionList vertexInputs;
+	ShaderResource* vertexShader;
+	ShaderResource* fragmentShader;
+	PrimitiveTopology topology;
+
+	friend bool operator==(const GraphicsPipelineDescription& lhs, const GraphicsPipelineDescription& rhs)
+	{
+		if (lhs.renderTargets == rhs.renderTargets)
+		{
+			uint32 targetCount = lhs.renderTargets.targetCount;
+			bool result = true;
+			for (uint32 i = 0; i < targetCount; ++i)
+			{
+				result &= lhs.blendingDescs[i] == rhs.blendingDescs[i];
+			}
+
+			if (result)
+			{
+				return lhs.rasterizerDesc == rhs.rasterizerDesc &&
+					lhs.depthStencilTestDesc == rhs.depthStencilTestDesc &&
+					lhs.vertexInputs == rhs.vertexInputs &&
+					lhs.fragmentShader == rhs.fragmentShader &&
+					lhs.topology == rhs.topology;
+			}
+		}
+		return false;
+	}
+
+};
+
+struct ComputePipelineInitDescription
+{
+	ShaderResource* computeShader;
+};
+
+inline uint32 GetHash(const GraphicsPipelineDescription& desc)
+{
+	return fnv(&desc, sizeof(GraphicsPipelineDescription));
+}

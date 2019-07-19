@@ -10,7 +10,7 @@
 #define STUB_PLEASE_REPLACE(x) (x)
 
 // operator new
-void * operator new( size_t inSize, Heap *pHeap, Memory::Align align, char *inName, int lineNum )
+void * operator new( size_t inSize, Heap *pHeap, Memory::Align align, const char *inName, uint32 lineNum )
 {
 	return Memory::Malloc(inSize, pHeap, align, inName, lineNum);
 }
@@ -43,7 +43,7 @@ void operator delete( void *p )
 	}
 }
 
-void * operator new[]( size_t inSize ,Heap *pHeap, Memory::Align align, char *inName, int lineNum )
+void * operator new[]( size_t inSize ,Heap *pHeap, Memory::Align align, const char *inName, uint32 lineNum )
 {
 	return Memory::Malloc(inSize, pHeap, align, inName, lineNum);
 }

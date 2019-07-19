@@ -125,11 +125,11 @@ String String::SubStr(uint32 startIndex, uint32 endIndex) const
 	return String(stringData.GetData() + startIndex, stringData.Size() - diff);
 }
 
-Array<String> String::Split(const tchar* charToSplitOn) const
+DynamicArray<String> String::Split(const tchar* charToSplitOn) const
 {
 	// TODO - Implement string split
 	UNUSED(charToSplitOn);
-	return Array<String>();
+	return DynamicArray<String>();
 }
 
 int32 String::IndexOf(tchar ch) const
@@ -173,7 +173,7 @@ int32 String::FindFirst(const tchar* str) const
 		uint32 count = std::min(iterLen, searchStrLen);
 		if (Strncmp(iter, str, count) == 0)
 		{
-			return iter - stringData.GetData();
+			return static_cast<int32>(iter - stringData.GetData());
 		}
 	}
 }
@@ -201,11 +201,66 @@ int32 String::FindLast(const tchar* str) const
 
 		if (str[i] == '\0')
 		{
-			return iter - **this;
+			return static_cast<int32>(iter - **this);
 		}
 	}
 
 	return -1;
+}
+
+int32 String::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const
+{
+	Assert(str);
+	Assert(startIndex < stringData.Size());
+	Assert(endIndex < stringData.Size());
+	uint32 searchStrLen = Strlen(str);
+	if (searchStrLen == 0 || searchStrLen > stringData.Size())
+	{
+		return -1;
+	}
+
+	const tchar* endLoc = &stringData[endIndex];
+	for (const tchar* iter = &stringData[startIndex]; iter != endLoc; ++iter)
+	{
+		iter = Strstr(stringData.GetData(), str);
+		if (iter == nullptr)
+		{
+			return -1;
+		}
+		uint32 iterLen = Length() - static_cast<uint32>(iter - **this);
+		uint32 count = std::min(iterLen, searchStrLen);
+		if (Strncmp(iter, str, count) == 0)
+		{
+			return static_cast<int32>(iter - stringData.GetData());
+		}
+	}
+
+	return -1;
+}
+
+int32 String::FindFrom(uint32 index, const tchar* str) const
+{
+	Assert(str);
+	uint32 searchStrLen = Strlen(str);
+	if (searchStrLen == 0 || searchStrLen > stringData.Size())
+	{
+		return -1;
+	}
+
+	for (const tchar* iter = &stringData[index];; ++iter)
+	{
+		iter = Strstr(iter, str);
+		if (iter == nullptr)
+		{
+			return -1;
+		}
+		uint32 iterLen = Length() - static_cast<uint32>(iter - **this);
+		uint32 count = std::min(iterLen, searchStrLen);
+		if (Strncmp(iter, str, count) == 0)
+		{
+			return static_cast<int32>(iter - stringData.GetData());
+		}
+	}
 }
 
 void String::Insert(tchar c, uint32 index)

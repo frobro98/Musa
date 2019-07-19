@@ -43,7 +43,7 @@ Heap::Heap(const char* heapName, size_t heapSize, Heap* nextHeap, HANDLE heapHan
 	}
 
 	mInfo.TotalSize = heapSize;
-	mInfo.StartAddr = (unsigned int)this;
+	mInfo.StartAddr = (uint64)this;
 	mInfo.EndAddr = mInfo.StartAddr + heapSize;
 	
 	// Name initialization

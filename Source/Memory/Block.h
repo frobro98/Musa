@@ -21,16 +21,16 @@ public:
 	Block *GetHeapPrev();
 	Block *GetGlobalNext();
 	Block *GetGlobalPrev();
-	char *GetFileName();
-	int GetLineNum();
-	int GetAllocIndex();
-	unsigned int GetAllocSize();
+	const char *GetFileName();
+	uint32 GetLineNum();
+	uint32 GetAllocIndex();
+	uint64 GetAllocSize();
 
 	Block(const Block&) = delete;
 	Block& operator=(const Block&) = delete;
 
 protected:
-	Block(char* fileName, int lineNumber, size_t allocationSize, int allocationIndex);
+	Block(const char* fileName, uint32 lineNumber, size_t allocationSize, uint32 allocationIndex);
 	~Block();
 
 	// Total Size of this class:
@@ -46,10 +46,10 @@ protected:
    // Required
 	Block* globalNext;
 	Block* globalPrev;
+	uint64   mAllocSize;
 	char           mFileName[Block::NameLength];
-	int            mLineNum;
-	int            mAllocIndex;
-	unsigned int   mAllocSize;
+	uint32            mLineNum;
+	uint32            mAllocIndex;
 
 	Block* heapNext;
 	Block* heapPrev;

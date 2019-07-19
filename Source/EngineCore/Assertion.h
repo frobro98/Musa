@@ -19,17 +19,26 @@ namespace Debug
 		}
 	}
 
-	void AssertionFailed(const tchar* expr, const tchar* file, int32 line, const tchar* desc);
-	void AssertionFailedWithDescription(const tchar* expr, const tchar* file, int32 line, const tchar* desc, ...);
+	inline void AssertionFailed(const tchar* expr, const tchar* file, int32 line, const tchar* desc)
+	{
+		UNUSED(expr, file, line, desc);
+		DebugBreak();
+	}
+
+	inline void AssertionFailedWithDescription(const tchar* expr, const tchar* file, int32 line, const tchar* desc, ...)
+	{
+		UNUSED(expr, file, line, desc);
+		DebugBreak();
+	}
 }
 
-#define AssertStr(x, str)																\
+#define AssertStr(x, str)														\
 		do																		\
 		{																		\
 			if(!Debug::Internal::internalExpressionCheck(x))					\
-				Debug::AssertionFailed(#x, __FILE__, __LINE__, str);					\
+				Debug::AssertionFailed(#x, __FILE__, __LINE__, str);			\
 																				\
-		} while(false)
+		}while(false)
 
 #define Assert(x) AssertStr(x, "")
 

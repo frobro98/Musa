@@ -1,0 +1,52 @@
+#version 450
+
+#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_shading_language_420pack : enable
+
+layout(local_size_x = 16) in;
+
+const mat4 Identity = mat4(
+						1, 0, 0, 0,
+						0, 1, 0, 0,
+						0, 0, 1, 0,
+						0, 0, 0, 1
+					);
+
+layout(binding = 0) readonly buffer InterpolatedBoneFrames
+{
+	mat4 boneWorlds[ ];
+};
+
+#define MAX_BONES 120
+#define MAX_ELEMENT_LEN 20
+struct BoneTableElement
+{
+	uint boneParentHierarchy[MAX_ELEMENT_LEN];
+};
+
+layout(binding = 1) buffer BoneHierarcyTable
+{
+	BoneTableElement boneTable[MAX_BONES];
+};
+
+layout(binding = 2) buffer TransformedBoneWorlds
+{
+	mat4 transformedWorlds[ ];
+};
+
+void main(void)
+{
+	uint boneCount = transformedWorlds.length();
+	uint index = gl_GlobalInvocationID.x;
+
+	if(index < boneCount)
+	{
+		mat4 world = boneWorlds[boneTable[index].boneParentHierarchy[0]];
+		for(int i = 1; i < MAX_ELEMENT_LEN; ++i)
+		{
+			uint worldIndex = boneTable[index].boneParentHierarchy[i];
+			world = boneWorlds[worldIndex] * world;
+		}
+		transformedWorlds[index] = world;
+	}
+}

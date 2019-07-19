@@ -3,38 +3,41 @@
 #include "String/String.h"
 #include "DirectoryLocations.h"
 #include "File/FileCore/File.h"
+#include "File/Path.hpp"
 
-void AddDefinition(String& definitions, const String& macro, const String& macroDef)
+static void AddDefinition(const String& macro, const String& macroDef, String& definitions)
 {
-	definitions = "-D";
+	definitions += " -D";
 	definitions += macro + "=" + macroDef;
 }
 
-ShaderPreprocessor::ShaderPreprocessor(ShaderIntermediate& intermediateData)
-	: intermediate(intermediateData)
+ShaderPreprocessor::ShaderPreprocessor(ShaderStage stage, const Map<String, String>& definitions)
+	: preprocessorDefinitions(definitions),
+	shaderStage(stage)
 {
 }
 
-void ShaderPreprocessor::Preprocess()
+void ShaderPreprocessor::Preprocess(const Path& pathToShader)
 {
-	const char* filename = "/test.vert";
-	String file = EngineShaderSrcPath();
-	file += filename;
 	String options;
+	for (const auto& defPair : preprocessorDefinitions)
+	{
+		AddDefinition(defPair.first, defPair.second, options);
+	}
 
 	ansichar* output = nullptr;
 	ansichar* error = nullptr;
-	mcppCode = mcpp_run(*options, *file, &output, &error, GetLoader());
+	Path absolutePath = pathToShader.GetAbsolute();
+	mcppCode = mcpp_run(*options, absolutePath.GetString(), &output, &error, GetLoader());
 
-	printf("%s\n", output);
 	preprocessedOutput = output;
 	if (error)
 	{
 		preprocessError = error;
 	}
 
-	delete output;
-	delete error;
+// 	delete output;
+// 	delete error;
 }
 
 const char* ShaderPreprocessor::ErrorString() const
@@ -57,11 +60,11 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 	ShaderPreprocessor* preprocessor = reinterpret_cast<ShaderPreprocessor*>(userData);
 	auto& fileContentsMap = preprocessor->filePathToContents;
 	String path(filename);
-	Array<char> fileContents;
+	DynamicArray<char>* fileContents;
 
 	// TODO - This copies the data from one array to the other...consider adding callback functionality
-	bool found = fileContentsMap.TryFind(path, fileContents);
-	if (!found)
+	fileContents = fileContentsMap.Find(path);
+	if (!fileContents)
 	{
 		File::Handle shaderFile = 0;
 		auto result = File::Open(shaderFile, filename, File::Mode::READ);
@@ -69,28 +72,33 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 
 		uint32 size;
 		File::Size(shaderFile, size);
-		fileContents.Resize(size+1);
 
-		result = File::Read(shaderFile, fileContents.GetData(), size);
-		Assert(result == File::Result::SUCCESS);
+		if (size > 0)
+		{
+			DynamicArray<tchar> data(size + 1);
+			result = File::Read(shaderFile, data.GetData(), size);
+			Assert(result == File::Result::SUCCESS);
+
+			data[size] = 0;
+			fileContentsMap.Add(path, data);
+			fileContents = fileContentsMap.Find(path);
+			Assert(fileContents);
+		}
 
 		result = File::Close(shaderFile);
 		Assert(result == File::Result::SUCCESS);
-
-		fileContents[size] = 0;
-		fileContentsMap.Add(path, fileContents);
 	}
 
 	if (outContents)
 	{
-		*outContents = fileContents.Size() > 0 ? fileContents.GetData() : nullptr;
+		*outContents = fileContents != nullptr ? fileContents->GetData() : nullptr;
 	}
 	if (outContentsSize)
 	{
-		*outContentsSize = fileContents.Size();
+		*outContentsSize = fileContents != nullptr ? fileContents->Size() : 0;
 	}
 
-	return false;
+	return fileContents != nullptr;
 }
 
 file_loader ShaderPreprocessor::GetLoader()

@@ -4,8 +4,8 @@
 // HEADER FILES:
 //---------------------------------------------------------------------------
 #include "Time.h"
+#include "EngineCore/Assertion.h"
 #include <limits>   // For numeric_limits< Time::Representation >.
-#include <assert.h>
 
 //---------------------------------------------------------------------------
 // FRIENDS:
@@ -88,12 +88,12 @@ Time::Time(const Duration duration) : privRawTime(0)
 		break;
 
 	case DWORD:
-		assert(false);
+		Assert(false);
 		this->privRawTime = 0;
 		break;
 
 	default:
-		assert(false);
+		Assert(false);
 		this->privRawTime = 0;
 		break;
 	}
@@ -227,20 +227,20 @@ const Time Time::operator/(const float denominator) const
 
 const Time Time::operator/(const int denominator) const
 {
-	assert(denominator != 0.0f);
+	Assert(denominator != 0.0f);
 	return(Time(this->privRawTime / denominator));
 }
 
 Time& Time::operator/=(const float denominator)
 {
-	assert(denominator != 0.0f);
+	Assert(denominator != 0.0f);
 	this->privRawTime = (Representation)(this->privRawTime / denominator);
 	return(*this);
 }
 
 Time& Time::operator/=(const int denominator)
 {
-	assert(denominator != 0.0f);
+	Assert(denominator != 0.0f);
 	this->privRawTime /= denominator;
 	return(*this);
 }
@@ -251,7 +251,7 @@ Time& Time::operator/=(const int denominator)
 int 	Time::Quotient(const Time& numerator, const Time& denominator)
 {
 	// !!! FIXME: Divide by zero & check range
-	assert(denominator.privRawTime != 0.0f);
+	Assert(denominator.privRawTime != 0.0f);
 	return(static_cast<int> (numerator.privRawTime / denominator.privRawTime));
 }
 

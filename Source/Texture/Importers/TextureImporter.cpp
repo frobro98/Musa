@@ -26,7 +26,7 @@ void TextureImporter::Import()
 	ProcessImport();
 }
 
-const Array<uint8>& TextureImporter::GetImportedPixelData() const
+const DynamicArray<uint8>& TextureImporter::GetImportedPixelData() const
 {
 	return importedImageData;
 }

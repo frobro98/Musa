@@ -17,7 +17,7 @@ DynamicBlockHeap::~DynamicBlockHeap()
 {
 }
 
-void * DynamicBlockHeap::MallocInternal(size_t inSize, uint32 align, char *inName, int32 lineNum, int32 allocationIndex)
+void * DynamicBlockHeap::MallocInternal(uint64 inSize, uint32 align, const char *inName, uint32 lineNum, uint32 allocationIndex)
 {
 	assert(IsPowerOf2(align));
 
@@ -36,7 +36,7 @@ void * DynamicBlockHeap::MallocInternal(size_t inSize, uint32 align, char *inNam
 	size_t actualMemSize = inSize + sizeof(Block) + align;
 
 	void* data = HeapAlloc(mWinHeapHandle, HEAP_ZERO_MEMORY, actualMemSize);
-	if ((reinterpret_cast<uint32>(data)) < mInfo.EndAddr)
+	if ((reinterpret_cast<uint64>(data)) < mInfo.EndAddr)
 	{
 		InternalBlock* trackingBlock = new(data) InternalBlock(inName, lineNum, inSize, allocationIndex);
 
@@ -47,11 +47,11 @@ void * DynamicBlockHeap::MallocInternal(size_t inSize, uint32 align, char *inNam
 			(static_cast<InternalBlock*>(pBlkHead))->SetHeapPrev(trackingBlock);
 		}
 		pBlkHead = trackingBlock;
-		void* actualData = reinterpret_cast<void*>(reinterpret_cast<unsigned int>(trackingBlock) + sizeof(Block));
+		void* actualData = reinterpret_cast<void*>(reinterpret_cast<uint64>(trackingBlock) + sizeof(Block));
 		actualData = Align(actualData, align);
 
-		uint32* secretPointer = reinterpret_cast<uint32*>(reinterpret_cast<uint32>(actualData) - sizeof(size_t));
-		*secretPointer = reinterpret_cast<uint32>(trackingBlock);
+		uint64* secretPointer = reinterpret_cast<uint64*>(reinterpret_cast<uint64>(actualData) - sizeof(size_t));
+		*secretPointer = reinterpret_cast<uint64>(trackingBlock);
 		return actualData;
 	}
 	else
@@ -64,7 +64,7 @@ void * DynamicBlockHeap::MallocInternal(size_t inSize, uint32 align, char *inNam
 void DynamicBlockHeap::FreeInternal(void * memory)
 {
 	InternalBlock* block = reinterpret_cast<InternalBlock*>(GetSecretPointer(memory));
-	unsigned int blockSize = block->GetAllocSize();
+	uint64 blockSize = block->GetAllocSize();
 
 	InternalBlock* pHeapNext = static_cast<InternalBlock*>(block->GetHeapNext());
 	InternalBlock* pHeapPrev = static_cast<InternalBlock*>(block->GetHeapPrev());

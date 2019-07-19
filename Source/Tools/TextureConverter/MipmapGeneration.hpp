@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EngineCore/Types.h"
+#include "EngineCore/Types/Intrinsics.hpp"
 
 struct Texture;
 

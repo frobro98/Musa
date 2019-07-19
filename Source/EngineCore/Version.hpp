@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.h"
+#include "Types/Intrinsics.hpp"
 
 #define MUSA_VERSION(major, minor, patch) \
 			((major << 24) | ((minor & 0xff) << 16) | (patch))

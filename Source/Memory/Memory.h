@@ -41,13 +41,13 @@ public:
 	// info structure
 	struct Info
 	{
-		int32 CurrAllocIndex;
-		int32 PeakHeapCount;
-		int32 CurrHeapCount;
-		int32 PeakNumAlloc;
-		int32 CurrNumAlloc;
-		int32 PeakBytesUsed;
-		int32 CurrBytesUsed;
+		uint64 PeakBytesUsed;
+		uint64 CurrBytesUsed;
+		uint32 CurrAllocIndex;
+		uint32 PeakHeapCount;
+		uint32 CurrHeapCount;
+		uint32 PeakNumAlloc;
+		uint32 CurrNumAlloc;
 	};
 
 public:
@@ -61,7 +61,7 @@ public:
 	static Code HeapCreate(Heap *&newHeap, uint32 heapSize, const char * const Name);
 	static Code HeapCreate(Heap *&newHeap, uint32 numBlocks, uint32 sizePerBlock, const char * const Name);
 
-	static void* Malloc(size_t inSize, Heap *pHeap, Memory::Align align, char *inName, int lineNum);
+	static void* Malloc(uint64 inSize, Heap *pHeap, Memory::Align align, const char *inName, uint32 lineNum);
 	static void Free(void* data, Heap* heap);
 
 	// Create an Heap from the heap system

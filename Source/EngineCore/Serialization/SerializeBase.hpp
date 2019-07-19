@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.h"
+#include "Types/Intrinsics.hpp"
 
 class SerializeBase
 {
@@ -21,4 +21,17 @@ public:
 	friend void Serialize(SerializeBase& ser, int64 i64);
 	friend void Serialize(SerializeBase& ser, float f);
 	friend void Serialize(SerializeBase& ser, double d);
+
+	// Raw pointer data serialization
+	friend void Serialize(SerializeBase& ser, const tchar* c, uint32 size);
+	friend void Serialize(SerializeBase& ser, const uint8* u16, uint32 size);
+	friend void Serialize(SerializeBase& ser, const int8* i16, uint32 size);
+	friend void Serialize(SerializeBase& ser, const uint16* u16, uint32 size);
+	friend void Serialize(SerializeBase& ser, const int16* i16, uint32 size);
+	friend void Serialize(SerializeBase& ser, const uint32* u32, uint32 size);
+	friend void Serialize(SerializeBase& ser, const int32* i32, uint32 size);
+	friend void Serialize(SerializeBase& ser, const uint64* u64, uint32 size);
+	friend void Serialize(SerializeBase& ser, const int64* i64, uint32 size);
+	friend void Serialize(SerializeBase& ser, const float* f, uint32 size);
+	friend void Serialize(SerializeBase& ser, const double* d, uint32 size);
 };

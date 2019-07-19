@@ -328,3 +328,20 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/Assets/Models/warbear.pak
+/Assets/Models/stanford-bunny.pak
+/Assets/Models/space_frigate.pak
+/Assets/Models/Geth_Trooper.pak
+/Assets/Models/buggy.pak
+/Assets/Models/astroboy.pak
+/Assets/Textures/defaultBC7.tex
+/Assets/Textures/defaultBC3.tex
+/Assets/Textures/defaultBC1.tex
+/Assets/Textures/default.tex
+/Assets/Textures/brickwall_norm.tex
+/Assets/Textures/brickwall.tex
+/Assets/Textures/RedBrick_png.tex
+/Assets/Textures/RedBrick_jpg.tex
+/Assets/Textures/RedBrick_bmp.tex
+/Assets/Textures/RedBrick.tex
+/Binaries

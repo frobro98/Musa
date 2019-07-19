@@ -99,6 +99,7 @@
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
@@ -112,6 +113,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
@@ -123,17 +125,18 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\;$(SolutionDir)\Source\EngineCore</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4625;</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -143,17 +146,18 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4625;</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -169,12 +173,13 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\;$(SolutionDir)\Source\EngineCore</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4625;4201;4588;4587</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -190,12 +195,13 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;5039</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4625;5039</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -213,10 +219,11 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\;$(SolutionDir)\Source\EngineCore</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4625;5039;5045</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -230,7 +237,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -238,9 +245,10 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\PCSTree;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4625;</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

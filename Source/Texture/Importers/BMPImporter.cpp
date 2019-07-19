@@ -54,7 +54,7 @@ bool BMPFileValid(uint16 fileCode)
 }
 }
 
-void BMPImporter::SetImportData(const Array<uint8>& dataForImport)
+void BMPImporter::SetImportData(const DynamicArray<uint8>& dataForImport)
 {
 	importData = dataForImport;
 	ProcessBMPHeader();
@@ -153,7 +153,7 @@ void BMPImporter::ProcessBMPHeader()
 		bitDepth = bmpInfo->bmpBitDepth;
 		channels = bitDepth / 8;
 		Assert(channels > 1);
-		format = ImageFormat::BGRA_8;
+		format = ImageFormat::BGRA_8u;
 		// Storing data as if it has 4 channels
 		importedImageData.Resize(width * height * 4u);
 	}

@@ -9,24 +9,26 @@
 	__pragma(warning(disable : 4625)) \
 	__pragma(warning(disable : 4626)) \
     __pragma(warning(disable : 4774)) \
+	__pragma(warning(disable : 4623)) \
     __pragma(warning(disable : 5027)) \
 	__pragma(warning(disable : 4464)) \
 	__pragma(warning(disable : 4061)) \
     __pragma(warning(disable : 5026)) \
-	__pragma(warning(disable : 5039))
+	__pragma(warning(disable : 5039)) \
+	__pragma(warning(disable : 4820)) 
 
 #define WALL_WRN_POP \
 	__pragma(warning( pop ))
 
+WALL_WRN_PUSH
 #include <cstdio>
 #include <cstdlib>
 // TODO - Create my own custom assert
 #include <cassert>
 
-WALL_WRN_PUSH
 #include <new>
 #include <memory>
-// #include <vector>
+#include <array> // TODO - Get rid of this include...
 #include <algorithm>
 // #include <map>
 #include <functional>
@@ -47,7 +49,4 @@ WALL_WRN_POP
 	
 #define ArraySize(arr) ( ( (sizeof(arr)) / (sizeof(arr[0])) ) )
 
-#include "Types.h"
-
-#undef max
-#undef min
+#include "Types/Intrinsics.hpp"

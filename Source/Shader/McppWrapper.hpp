@@ -4,13 +4,15 @@
 #include "ShaderStructure.hpp"
 #include "Containers/Map.h"
 
+class Path;
+
 class ShaderPreprocessor
 {
 public:
-	ShaderPreprocessor(ShaderIntermediate& intermediateData);
+	ShaderPreprocessor(ShaderStage stage, const Map<String, String>& definitions);
 	ShaderPreprocessor& operator=(const ShaderPreprocessor&) = delete;
 
-	void Preprocess();
+	void Preprocess(const Path& pathToShader);
 	const char* ErrorString() const;
 	bool Success() const;
 	const char* PreprocessedOutput() const;
@@ -20,9 +22,11 @@ private:
 	file_loader GetLoader();
 
 private:
-	Map<String, Array<char>> filePathToContents;
+	Map<String, DynamicArray<char>> filePathToContents;
+	
 	String preprocessedOutput;
 	String preprocessError;
-	ShaderIntermediate& intermediate;
+	const Map<String, String>& preprocessorDefinitions;
+	ShaderStage shaderStage;
 	int mcppCode = 0;
 };

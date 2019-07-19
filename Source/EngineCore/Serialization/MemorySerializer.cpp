@@ -9,7 +9,7 @@ void MemorySerializer::SerializeData(const void* data, uint32 dataSize)
 	}
 }
 
-Array<uint8> MemorySerializer::GetSerializedData() const
+DynamicArray<uint8> MemorySerializer::GetSerializedData() const
 {
 	return memoryData;
 }

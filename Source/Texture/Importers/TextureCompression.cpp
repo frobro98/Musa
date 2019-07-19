@@ -17,7 +17,7 @@ namespace
 constexpr uint32 CompressonDenom = 4;
 constexpr uint32 ChannelsPerPixel = 4;
 
-void ForceMipDimensionForCompression(MipMapLevel& level)
+void ForceMipDimensionForCompression(MipmapLevel& level)
 {
 	uint32 origWidth = level.width;
 	uint32 origHeight = level.height;
@@ -26,10 +26,10 @@ void ForceMipDimensionForCompression(MipMapLevel& level)
 
 	if (adjustedWidth > origWidth || adjustedHeight > origHeight)
 	{
-
-		Array<uint8> adjustedData(adjustedWidth * adjustedHeight * ChannelsPerPixel);
-		const uint8* src = level.imageData.GetData();
-		uint8* dst = adjustedData.GetData();
+		uint32 dataSize = adjustedWidth * adjustedHeight * ChannelsPerPixel;
+		uint8* adjustedData = new uint8[dataSize];
+		const uint8* src = level.mipData.GetData();
+		uint8* dst = adjustedData;
 		const uint32 origRowWidth = origWidth * ChannelsPerPixel;
 		const uint32 adjustedRowWidth = adjustedWidth * ChannelsPerPixel;
 		for (uint32 i = 0; i < origHeight; ++i)
@@ -40,7 +40,7 @@ void ForceMipDimensionForCompression(MipMapLevel& level)
 			dst += adjustedRowWidth;
 		}
 
-		level.imageData = std::move(adjustedData);
+		level.mipData = ResourceBlob(adjustedData, dataSize);
 	}
 }
 
@@ -53,28 +53,29 @@ void ForceBufferDimensionForCompression(Texture& outDescription)
 
 }
 
-rgba_surface FormatMipForISPC(MipMapLevel& level)
+rgba_surface FormatMipForISPC(MipmapLevel& level)
 {
 	rgba_surface surface = {};
-	surface.ptr = level.imageData.GetData();
+	surface.ptr = level.mipData.GetData();
 	surface.width = static_cast<int32>(level.width);
 	surface.height = static_cast<int32>(level.height);
 	surface.stride = static_cast<int32>(level.width * ChannelsPerPixel);
 	return surface;
 }
 
-void PrepareMipsForCompression(ImageFormat currentFormat, Array<MipMapLevel>& mipLevels)
+void PrepareMipsForCompression(ImageFormat currentFormat, DynamicArray<MipmapLevel>& mipLevels)
 {
-	if (currentFormat == ImageFormat::BGRA_8 || currentFormat == ImageFormat::BGR_8)
+	if (currentFormat == ImageFormat::BGRA_8u || currentFormat == ImageFormat::BGR_8u)
 	{
 		for (auto& level : mipLevels)
 		{
 			const uint32 bytesPerPixel = FormatInBytes(currentFormat);
-			for (uint32 i = 0; i < level.imageData.Size(); i += bytesPerPixel)
+			uint8* imageData = level.mipData.GetData();
+			for (uint32 i = 0; i < level.mipData.GetSize(); i += bytesPerPixel)
 			{
-				uint8 tmp = level.imageData[i + 0];
-				level.imageData[i + 0] = level.imageData[i + 2];
-				level.imageData[i + 2] = tmp;
+				uint8 tmp = imageData[i + 0];
+				imageData[i + 0] = imageData[i + 2];
+				imageData[i + 2] = tmp;
 			}
 		}
 	}
@@ -85,7 +86,8 @@ void PerformCompression(Texture& texture, CompressionFormat compressionFormat)
 	for (auto& level : texture.mipLevels)
 	{
 		rgba_surface surface = FormatMipForISPC(level);
-		Array<uint8> compressedData;
+		uint8* compressedData;
+		uint32 compressedSize;
 		uint32 numBlocksX = level.width > 4 ? level.width / 4 : 1;
 		uint32 numBlocksY = level.height > 4 ? level.height / 4 : 1;
 		switch (compressionFormat)
@@ -93,31 +95,36 @@ void PerformCompression(Texture& texture, CompressionFormat compressionFormat)
 			case CompressionFormat::BC1:
 			{
 				texture.format = ImageFormat::BC1;
-				compressedData = Array<uint8>(numBlocksX * numBlocksY * 8);
-				CompressBlocksBC1(&surface, compressedData.GetData());
+				compressedSize = numBlocksX * numBlocksY * 8;
+				compressedData = new uint8[compressedSize];
+				CompressBlocksBC1(&surface, compressedData);
 			}break;
 			case CompressionFormat::BC3:
 			{
 				texture.format = ImageFormat::BC3;
-				compressedData = Array<uint8>(numBlocksX * numBlocksY * 16);
-				CompressBlocksBC3(&surface, compressedData.GetData());
+				compressedSize = numBlocksX * numBlocksY * 16;
+				compressedData = new uint8[compressedSize];
+				CompressBlocksBC3(&surface, compressedData);
 			}break;
 			case CompressionFormat::BC7:
 			{
 				texture.format = ImageFormat::BC7;
-				compressedData = Array<uint8>(numBlocksX * numBlocksY * 16);
+				compressedSize = numBlocksX * numBlocksY * 16;
+				compressedData = new uint8[compressedSize];
 				bc7_enc_settings settings;
 				GetProfile_slow(&settings);
-				CompressBlocksBC7(&surface, compressedData.GetData(), &settings);
+				CompressBlocksBC7(&surface, compressedData, &settings);
 			}break;
 			case CompressionFormat::Invalid:
 			default:
 			{
+				compressedData = nullptr;
+				compressedSize = 0;
 				Assert(false);
 			}
 		}
 
-		level.imageData = compressedData;
+		level.mipData = ResourceBlob(compressedData, compressedSize);
 	}
 }
 }

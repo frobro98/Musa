@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 #include "Serialization/SerializeBase.hpp"
 
 class MemorySerializer : public SerializeBase
@@ -10,8 +10,8 @@ public:
 
 	virtual void SerializeData(const void* data, uint32 dataSize) override;
 
-	Array<uint8> GetSerializedData() const;
+	DynamicArray<uint8> GetSerializedData() const;
 
 private:
-	Array<uint8> memoryData;
+	DynamicArray<uint8> memoryData;
 };

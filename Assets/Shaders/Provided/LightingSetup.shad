@@ -1,0 +1,20 @@
+#pragma once
+
+#include "Common/FragmentCommon.hshad"
+
+void main()
+{
+	float lightModel = 0;
+#if defined(BLINN_MODEL)
+	lightModel = 1;
+#elif defined(PHONG_MODEL)
+	lightModel = 2;
+#elif defined(TOON_MODEL)
+	lightModel = 3;
+#endif
+
+	vec4 cubeMapAlbedo = GetCubeMapAlbedo(FragPosition);
+	position = vec4(FragPosition, lightModel);
+	normal = CalculateGBufferNormal();
+	diffuseAlbedo = texture(matTexture, TexCoords) * cubeMapAlbedo * materialProps.diffuse;
+}

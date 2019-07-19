@@ -114,8 +114,8 @@ public:
 	* return: true if this Time is equal to the right-hand side.
 	*
 	*  Example:
-	*    assert( Time(ONE_HOUR)   == 60 * Time(ONE_MINUTE) );
-	*    assert( Time(ONE_MINUTE) == 60 * Time(ONE_SECOND) );
+	*    Assert( Time(ONE_HOUR)   == 60 * Time(ONE_MINUTE) );
+	*    Assert( Time(ONE_MINUTE) == 60 * Time(ONE_SECOND) );
 	*/
 	bool operator==(const Time& rhs) const;
 
@@ -161,7 +161,7 @@ public:
 	* Example:
 	*    void neverFail( const Time t )
 	*    {
-	*       assert( t + (-t) == Time(ZERO) );
+	*       Assert( t + (-t) == Time(ZERO) );
 	*    }
 	*/
 	const Time operator-() const;
@@ -172,7 +172,7 @@ public:
 	* Example:
 	*    void neverFail( const Time t )
 	*    {
-	*       assert( t + t == 2 * t );
+	*       Assert( t + t == 2 * t );
 	*    }
 	*/
 	const Time operator+(const Time& rhs) const;
@@ -183,7 +183,7 @@ public:
 	* Example:
 	*    void neverFail( const Time t )
 	*    {
-	*       assert( t - t == Time(ZERO) );
+	*       Assert( t - t == Time(ZERO) );
 	*    }
 	*/
 	const Time operator-(const Time& rhs) const;
@@ -197,7 +197,7 @@ public:
 	*    void zeroOutTime( Time& t )
 	*    {
 	*       t += (-t);
-	*       assert( Time(ZERO) == t );
+	*       Assert( Time(ZERO) == t );
 	*    }
 	*/
 	Time& operator+=(const Time& rhs);
@@ -211,7 +211,7 @@ public:
 	*    void zeroOutTime( Time& t )
 	*    {
 	*       t -= t;
-	*       assert( Time(ZERO) == t );
+	*       Assert( Time(ZERO) == t );
 	*    }
 	*/
 	Time& operator-=(const Time& rhs);

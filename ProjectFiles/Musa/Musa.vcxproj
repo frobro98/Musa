@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameEngine.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\RenderObject.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\RenderObjectManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\Input.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\InputManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Lighting\SpotLight.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Mesh\Mesh.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Mesh\MeshManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Mesh\MeshUtilities.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Model\Model.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Model\ModelFactory.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Renderer\Renderer.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Renderer\SceneRendering.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Scene\Scene.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Scene\ScreenView.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Windowing\Win32\Win32_Window.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Musa\Camera\Camera.h" />
+    <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
+    <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameEngine.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\RenderObject.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\RenderObjectManager.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h" />
+    <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.h" />
+    <ClInclude Include="..\..\Source\Musa\Input\InputManager.h" />
+    <ClInclude Include="..\..\Source\Musa\Lighting\Light.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Lighting\PointLight.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Lighting\SpotLight.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\GeometryPrimitives.h" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\Mesh.h" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshInfo.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshManager.h" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderEntity.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshSceneInfo.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshUtilities.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Model\Model.h" />
+    <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h" />
+    <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h" />
+    <ClInclude Include="..\..\Source\Musa\Renderer\Renderer.h" />
+    <ClInclude Include="..\..\Source\Musa\Renderer\RenderingEngine.h" />
+    <ClInclude Include="..\..\Source\Musa\Renderer\SceneRendering.h" />
+    <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\Scene.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h" />
+    <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Windowing\Window.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{0B25DC73-E259-4B82-A7E1-5341846193FB}</ProjectGuid>
+    <RootNamespace>Musa</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>rem copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
+rem echo         Copied nvtt.dll! 
+copy "$(SolutionDir)ThirdParty\lib\ispc\x64\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
+echo         Copied ispc_texcomp.dll!</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
+echo         Copied nvtt.dll! 
+copy "$(SolutionDir)ThirdParty\lib\ispc\x64\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
+echo         Copied ispc_texcomp.dll!</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

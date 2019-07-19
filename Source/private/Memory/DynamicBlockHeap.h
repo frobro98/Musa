@@ -17,7 +17,7 @@ public:
 #endif // _DEBUG
 	
 protected:
-	virtual void* MallocInternal(size_t inSize, uint32 align, char *inName, int32 lineNum, int32 allocationIndex) override;
+	virtual void* MallocInternal(uint64 inSize, uint32 align, const char *inName, uint32 lineNum, uint32 allocationIndex) override;
 	virtual void FreeInternal(void* memory) override;
 	virtual void DestroyInternal() override;
 

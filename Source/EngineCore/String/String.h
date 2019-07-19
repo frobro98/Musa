@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Platform.h"
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 
 class SerializeBase;
 class DeserializeBase;
@@ -26,11 +26,13 @@ public:
 	void Replace(const tchar* toFind, const tchar* toReplace);
 	String SubStr(uint32 startIndex) const;
 	String SubStr(uint32 startIndex, uint32 endIndex) const;
-	Array<String> Split(const tchar* charToSplitOn) const;
+	DynamicArray<String> Split(const tchar* charToSplitOn) const;
 	int32 IndexOf(tchar ch) const;
 	tchar CharAt(uint32 index) const;
 	int32 FindFirst(const tchar* str) const;
 	int32 FindLast(const tchar* str) const;
+	int32 FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const;
+	int32 FindFrom(uint32 index, const tchar* str) const;
 
 	void Insert(tchar c, uint32 index);
 	void Remove(uint32 index, uint32 count = 1);
@@ -65,7 +67,7 @@ public:
 	friend String operator+(const tchar* str0, const String& str1);
 
 private:
-	Array<tchar> stringData;
+	DynamicArray<tchar> stringData;
 
 public:
 	// Boolean operators

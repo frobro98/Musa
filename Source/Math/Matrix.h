@@ -19,11 +19,11 @@ public:
 	Matrix(const struct Quat& q);
 
 	Matrix(const Matrix& other);
-	Matrix(Matrix&& other);
+	Matrix(Matrix&& other) noexcept;
 	~Matrix();
 
 	Matrix& operator=(const Matrix& m);
-	Matrix& operator=(Matrix&& m);
+	Matrix& operator=(Matrix&& m) noexcept;
 
 	// Setting specific matrix types
 	void Set(MatrixTransType transEnum, const Vector& transVec);

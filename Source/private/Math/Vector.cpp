@@ -3,12 +3,16 @@
 #include "MathUtilities.h"
 #include "Internal/VectorImplementation.h"
 
+const Vector Vector::RightAxis(1, 0, 0);
+const Vector Vector::UpAxis(0, 1, 0);
+const Vector Vector::ForwardAxis(0, 0, 1);
+const Vector Vector::Zero(0, 0, 0);
+const Vector Vector::One(1, 1, 1);
+
 Vector::Vector(float x_, float y_, float z_, float w_)
 	: x(x_), y(y_), z(z_), w(w_)
 {
 }
-
-
 
 float Vector::Dot(const Vector& other) const
 {
@@ -65,10 +69,11 @@ bool Vector::IsZero(float epsilon) const
 			Math::IsOne(w, epsilon));
 }
 
-float Vector::GetAngle(const Vector& other) const
-{
-	return Internal::VectorAngleBetweenVectors(*this, other);
-}
+// TODO - Make this a free floating function that calls into the internal vector code
+// float Vector::GetAngle(const Vector& other) const
+// {
+// 	return Internal::VectorAngleBetweenVectors(*this, other);
+// }
 
 Vector Vector::operator+() const
 {

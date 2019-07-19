@@ -36,6 +36,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -52,7 +53,8 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
-      <DisableSpecificWarnings>4710;4668;4514;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4668;4514;5039;5045;4625</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

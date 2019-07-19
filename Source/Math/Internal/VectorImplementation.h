@@ -5,7 +5,7 @@ struct Vector;
 namespace Internal
 {
 
-// TODO - This is where the switch will be to actually implement SIMD vs regular
+// NOTE - This is where the switch will be to actually implement SIMD vs regular
 
 float VectorDotVector(const Vector& v0, const Vector& v1);
 void VectorCrossVector(const Vector& v0, const Vector& v1, Vector& perpVector);

@@ -29,12 +29,13 @@ void PNGImporter::PNGReadFunc(png_structp png_ptr, png_bytep data, png_size_t si
 {
 	PNGImporter* importer = reinterpret_cast<PNGImporter*>(png_get_io_ptr(png_ptr));
 	Assert(importer->bufferReadLocation + size <= importer->importData.Size());
-	Array<uint8>& compData = importer->importData;
+	DynamicArray<uint8>& compData = importer->importData;
 	Memcpy(data, size, &compData[importer->bufferReadLocation], size);
-	importer->bufferReadLocation += size;
+	// TODO - x64: Figure out how to handle size_t
+	importer->bufferReadLocation += (uint32)size;
 }
 
-void PNGImporter::SetImportData(const Array<uint8>& data)
+void PNGImporter::SetImportData(const DynamicArray<uint8>& data)
 {
 	importData = data;
 	ProcessPNGHeader();
@@ -56,7 +57,7 @@ void PNGImporter::ProcessPNGHeader()
 		height = static_cast<int32>(pngInfo->height);
 		bitDepth = pngInfo->bit_depth;
 		colorType = pngInfo->color_type;
-		format = (colorType & PNG_COLOR_MASK_COLOR) != 0 ? ImageFormat::RGBA_8 : ImageFormat::Gray_8;
+		format = (colorType & PNG_COLOR_MASK_COLOR) != 0 ? ImageFormat::RGBA_8u : ImageFormat::Gray_8u;
 		tRNSAlphaExists = png_get_valid(png, pngInfo, PNG_INFO_tRNS) != 0;
 
 		png_destroy_read_struct(&png, &pngInfo, nullptr);

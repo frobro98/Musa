@@ -18,21 +18,40 @@ uint32 Texture::TotalSize() const
 	uint32 totalSize = 0;
 	for (const auto& level : mipLevels)
 	{
-		totalSize += level.Size();
+		totalSize += level.mipData.GetSize();
 	}
 	return totalSize;
 }
 
-void Serialize(SerializeBase& ser, const MipMapLevel& level)
+ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels)
 {
-	Serialize(ser, level.imageData);
+	uint32 totalSize = 0;
+	for (const auto& level : levels)
+	{
+		totalSize += level.mipData.GetSize();
+	}
+	
+	uint8* data = new uint8[totalSize];
+	uint8* iter = data;
+	for (const auto& level : levels)
+	{
+		Memcpy(iter, level.mipData.GetSize(), level.mipData.GetData(), level.mipData.GetSize());
+		iter += level.mipData.GetSize();
+	}
+
+	return ResourceBlob(data, totalSize);
+}
+
+void Serialize(SerializeBase& ser, const MipmapLevel& level)
+{
+	Serialize(ser, level.mipData);
 	Serialize(ser, level.width);
 	Serialize(ser, level.height);
 }
 
-void Deserialize(DeserializeBase& ser, MipMapLevel& level)
+void Deserialize(DeserializeBase& ser, MipmapLevel& level)
 {
-	Deserialize(ser, level.imageData);
+	Deserialize(ser, level.mipData);
 	Deserialize(ser, level.width);
 	Deserialize(ser, level.height);
 }

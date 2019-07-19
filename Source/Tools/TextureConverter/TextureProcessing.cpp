@@ -31,10 +31,13 @@ Map<String, TextureImporter*> importerMap = {
 Texture ConstructTexture(TextureImporter& importer)
 {
 	Texture tex;
-	MipMapLevel baseLevel = {};
+	MipmapLevel baseLevel = {};
 	baseLevel.width = importer.GetWidth();
 	baseLevel.height = importer.GetHeight();
-	baseLevel.imageData = importer.GetImportedPixelData();
+	DynamicArray<uint8> pixels = importer.GetImportedPixelData();
+	uint8* data = new uint8[pixels.Size()];
+	Memcpy(data, pixels.Size(), pixels.GetData(), pixels.Size());
+	baseLevel.mipData = ResourceBlob(data, pixels.Size());
 	tex.mipLevels.Add(std::move(baseLevel));
 	tex.format = importer.GetFormat();
 	return tex;
@@ -63,7 +66,7 @@ Texture ProcessImageFile(const Path& filePath, CompressionFormat format)
 {
 	Assert(filePath.DoesFileExist());
 
-	Array<uint8> textureData = LoadFileToMemory(filePath);
+	DynamicArray<uint8> textureData = LoadFileToMemory(filePath);
 	String extension = filePath.GetFileExtension();
 	
 	TextureImporter* importer = importerMap[*extension];

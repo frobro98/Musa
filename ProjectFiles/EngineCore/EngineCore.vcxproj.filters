@@ -22,11 +22,14 @@
     <Filter Include="Source\GUID">
       <UniqueIdentifier>{185bfad3-763b-4270-870d-669d2779ff7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Types">
+      <UniqueIdentifier>{94af084f-3e6c-4087-aaaf-1f753c94b1bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utilities">
+      <UniqueIdentifier>{a55e51ee-b5d5-46ea-ba2b-cb03ddf0319f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\EngineCore\Types.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h">
       <Filter>Source\Windows</Filter>
     </ClInclude>
@@ -69,9 +72,6 @@
     <ClInclude Include="..\..\Source\EngineCore\String\String.h">
       <Filter>Source\String</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Containers\Array.h">
-      <Filter>Source\Containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Containers\List.h">
       <Filter>Source\Containers</Filter>
     </ClInclude>
@@ -86,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h">
       <Filter>Source\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h">
-      <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Time\EngineTick.h">
       <Filter>Source\Time</Filter>
@@ -119,6 +116,36 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Algorithms.hpp">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Extents.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\DynamicArray.hpp">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Ranges.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\Intrinsics.hpp">
+      <Filter>Source\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp">
+      <Filter>Source\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\ConcurrentTypes.hpp">
+      <Filter>Source\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h">
+      <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\CoreUtilities.hpp">
+      <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp">
+      <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\TemplateUtils.hpp">
+      <Filter>Source\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp">
       <Filter>Source\GUID</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp">
+      <Filter>Source\Types</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#include "Types.h"
+#include "Types/Intrinsics.hpp"
 #include "TextureProcessing.hpp"
 #include "Archiver/FileSerializer.hpp"
 #include "MipmapGeneration.hpp"
 #include "Texture/Color.hpp"
-#include "Math/MathUtilities.h"
+#include "Utilities/CoreUtilities.hpp"
 
 // TODO - Probably are useful utilities for color manipulation
 Color TintColor(const Color& color, const Color& tint)
@@ -19,23 +19,24 @@ Color TintColor(const Color& color, const Color& tint)
 
 uint8 TintValue(uint8 val, uint8 tint)
 {
-	float tintedValue = Math::Clamp((tint - val) * .5f, 0.f, 255.f);
+	float tintedValue = Clamp((tint - val) * .5f, 0.f, 255.f);
 	val = val + tintedValue > 255 ? 255u : val + static_cast<uint8>(tintedValue);
 	return val;
 }
 
-void TintMipMapColor(MipMapLevel& texture, const Color& tint)
+void TintMipMapColor(MipmapLevel& texture, const Color& tint)
 {
 
 	constexpr uint32 numChannels = 4;
 	const uint32 rowWidth = numChannels * texture.width;
+	uint8* imageData = texture.mipData.GetData();
 	for (uint32 i = 0; i < texture.height; ++i)
 	{
 		for (uint32 j = 0; j < rowWidth; j += 4)
 		{
-			texture.imageData[(j + 0) + rowWidth * i] = TintValue(texture.imageData[(j + 0) + rowWidth * i], tint.r);
-			texture.imageData[(j + 1) + rowWidth * i] = TintValue(texture.imageData[(j + 1) + rowWidth * i], tint.g);
-			texture.imageData[(j + 2) + rowWidth * i] = TintValue(texture.imageData[(j + 2) + rowWidth * i], tint.b);
+			imageData[(j + 0) + rowWidth * i] = TintValue(imageData[(j + 0) + rowWidth * i], tint.r);
+			imageData[(j + 1) + rowWidth * i] = TintValue(imageData[(j + 1) + rowWidth * i], tint.g);
+			imageData[(j + 2) + rowWidth * i] = TintValue(imageData[(j + 2) + rowWidth * i], tint.b);
 		}
 	}
 }

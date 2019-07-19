@@ -4,8 +4,8 @@
 
 namespace
 {
-constexpr tchar BackSlash[] = "\\";
-constexpr tchar ForwardSlash[] = "/";
+constexpr const tchar* BackSlash = "\\";
+constexpr const tchar* ForwardSlash = "/";
 }
 
 Path::Path(const tchar* strPath)
@@ -37,7 +37,6 @@ bool Path::DoesDirectoryExist() const
 String Path::GetFileExtension() const
 {
 	// TODO - Implement my version of string_view so that I can get at the extension without allocating
-	Assert(DoesFileExist());
 	int32 index = path.FindLast(".");
 	if (index != -1)
 	{
@@ -116,7 +115,28 @@ Path Path::GetAbsolute() const
 	return p;
 }
 
-Array<String> Path::Split() const
+Path Path::GetDirectoryPath() const
+{
+	if (GetFileExtension().Length() > 0)
+	{
+		const tchar* endStr = *path + (path.Length());
+		const tchar* curStr = endStr;
+		uint32 endIndex = path.Length();
+		while (!IsSlash(*(curStr - 1)))
+		{
+			--curStr;
+			--endIndex;
+		}
+		return Path(path.SubStr(0, endIndex));
+
+	}
+	else
+	{
+		return *this;
+	}
+}
+
+DynamicArray<String> Path::Split() const
 {
 	return path.Split(ForwardSlash);
 }

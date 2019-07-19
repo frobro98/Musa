@@ -2,7 +2,7 @@
 
 #include "File/Path.hpp"
 #include "File/FileCore/File.h"
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 #include "Serialization/DeserializeBase.hpp"
 
 class FileDeserializer final : public DeserializeBase
@@ -11,7 +11,7 @@ public:
 	FileDeserializer(const Path& filePath);
 	~FileDeserializer();
 
-	virtual void DeserializeData(void* data, uint32 dataSize) override final;
+	virtual void DeserializeData(void* data, uint64 dataSize) override final;
 
 	inline uint32 TotalSize() const { return fileData.Size(); }
 
@@ -19,7 +19,8 @@ private:
 	void CacheFile();
 
 private:
-	Array<uint8> fileData;
-	uint32 bufferReadLoc = 0;
+	DynamicArray<uint8> fileData;
 	File::Handle handle;
+	uint32 bufferReadLoc = 0;
+	uint32 pad[1] = { 0 };
 };

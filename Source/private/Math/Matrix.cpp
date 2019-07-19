@@ -1,5 +1,6 @@
 
 #include "MathEngine.h"
+#include "EngineCore/Assertion.h"
 
 Matrix::Matrix()
 	: _m0(0.f), _m1(0.f), _m2(0.f), _m3(0.f),
@@ -84,7 +85,7 @@ Matrix::Matrix(const Matrix& other)
 	_m15 = other._m15;
 }
 
-Matrix::Matrix(Matrix&& other)
+Matrix::Matrix(Matrix&& other) noexcept
 	: v0(std::move(other.v0)),
 	  v1(std::move(other.v1)),
 	  v2(std::move(other.v2)),
@@ -121,7 +122,7 @@ Matrix& Matrix::operator=(const Matrix& m)
 	return *this;
 }
 
-Matrix& Matrix::operator=(Matrix&& m)
+Matrix& Matrix::operator=(Matrix&& m) noexcept
 {
 	if (this != &m)
 	{
@@ -222,7 +223,7 @@ void Matrix::Set(RotType rotationEnum, float angle)
 		}break;
 		default:
 		{
-			assert(false);
+			Assert(false);
 		}
 	}
 }
@@ -249,7 +250,7 @@ void Matrix::Set(RotOrientType type, const Vector& dof, const Vector& up)
 		case ROT_ORIENT:
 		{
 			Vector right = dof.Cross(up);
-			assert(!right.IsZero());
+			Assert(!right.IsZero());
 			right.Normalize();
 			
 			Vector realUp = right.Cross(dof);
@@ -272,7 +273,7 @@ void Matrix::Set(RotOrientType type, const Vector& dof, const Vector& up)
 		case ROT_INVERSE_ORIENT:
 		{
 			Vector right = dof.Cross(up);
-			assert(!right.IsZero());
+			Assert(!right.IsZero());
 			right.Normalize();
 
 			Vector realUp = right.Cross(dof);
@@ -294,7 +295,7 @@ void Matrix::Set(RotOrientType type, const Vector& dof, const Vector& up)
 			Transpose();
 		}break;
 		default:
-			assert(false);
+			Assert(false);
 			break;
 	}
 }
@@ -358,7 +359,7 @@ void Matrix::Set(MatrixSpecialType specialEnum)
 		}break;
 		default:
 		{
-			assert(false);
+			Assert(false);
 		}
 	}
 }
@@ -392,7 +393,7 @@ void Matrix::Set(MatrixRowType rowEnum, const Vector& rowVec)
 			v3 = rowVec;
 		}break;
 		default:
-			assert(false);
+			Assert(false);
 	}
 }
 
@@ -481,7 +482,7 @@ Vector Matrix::Get(MatrixRowType rowEnum) const
 		}
 	}
 
-	assert(false);
+	Assert(false);
 	return Vector();
 }
 

@@ -7,7 +7,7 @@ namespace Internal
 	class InternalBlock : public Block
 	{
 	public:
-		InternalBlock(char* fileName, int lineNumber, size_t allocationSize, int allocationIndex);
+		InternalBlock(const char* fileName, uint32 lineNumber, size_t allocationSize, uint32 allocationIndex);
 		~InternalBlock();
 		InternalBlock(const InternalBlock&) = delete;
 		InternalBlock& operator=(const InternalBlock&) = delete;

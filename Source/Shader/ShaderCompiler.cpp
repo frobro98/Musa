@@ -1,13 +1,56 @@
+#include "Platform.h"
+WALL_WRN_PUSH
+#include <sstream>
+WALL_WRN_POP
+
 #include "ShaderCompiler.h"
 #include "ShaderStructure.hpp"
 #include "ShaderExternal.h"
 #include "McppWrapper.hpp"
+#include "spirv/disassemble.h"
 
 #include "DirectoryLocations.h"
 #include "Assertion.h"
+#include "File/Path.hpp"
 
 namespace
 {
+
+class SpvReadBuf : public std::stringbuf
+{
+public:
+
+	SpvReadBuf()
+	{
+
+	}
+
+	SpvReadBuf& operator=(const SpvReadBuf&) = delete;
+
+	virtual int32 sync() override
+	{
+		char* p = pbase();
+		char* end = pptr();
+		uint32 size = (uint32)(end - p);
+		spvBuffer.Clear();
+		spvBuffer.Reserve(size);
+		for (; p != end; ++p)
+		{
+			spvBuffer.Add(*p);
+		}
+
+		return 0;
+	}
+
+	inline DynamicArray<ansichar> GetSPVText()
+	{
+		return spvBuffer;
+	}
+
+private:
+	DynamicArray<ansichar> spvBuffer;
+};
+
 // TODO - Make this in accordance with the Vulkan Device properties
 static const TBuiltInResource DefaultTBuiltInResource =
 {
@@ -110,22 +153,21 @@ static EShLanguage GetGlslangStage(ShaderStage stage)
 {
 	switch (stage)
 	{
-		case Stage_Vert:
+		case ShaderStage::Vertex:
 			return EShLangVertex;
-		case Stage_Frag:
+		case ShaderStage::Fragment:
 			return EShLangFragment;
-		case Stage_Geom:
+		case ShaderStage::Geometry:
 			return EShLangGeometry;
-		case Stage_TessEval:
+		case ShaderStage::TessalationEval:
 			return EShLangTessEvaluation;
-		case Stage_TessControl:
+		case ShaderStage::TessalationControl:
 			return EShLangTessControl;
-		case Stage_Comp:
+		case ShaderStage::Compute:
 			return EShLangCompute;
-		case Stage_Max:
 		default:
 		{
-			assert(false);
+			Assert(false);
 			return static_cast<EShLanguage>(-1);
 		}
 	}
@@ -147,9 +189,11 @@ static ShaderIntrinsics GetShaderIntrinsic(SpvOp operation)
 			return ShaderIntrinsics::Vector;
 		case SpvOpTypeMatrix:
 			return ShaderIntrinsics::Matrix;
+		case SpvOpTypeStruct:
+			return ShaderIntrinsics::Struct;
 	}
 
-	assert(false);
+	Assert(false);
 	return static_cast<ShaderIntrinsics>(-1);
 }
 
@@ -173,42 +217,66 @@ static ShaderConstantType GetShaderConstantType(SpvReflectDescriptorType type)
 }
 #pragma warning(pop)
 
+static bool glslangInitialized = false;
+
+static void RemoveLinePreprocessorDirectives(String& preprocessedShader)
+{
+	do
+	{
+		int32 index = preprocessedShader.FindFirst("#line");
+		if (index >= 0)
+		{
+			uint32 usIndex = (uint32)index;
+			int32 newLineIndex = preprocessedShader.FindFrom(usIndex, "\n");
+			uint32 removeCount = (uint32)(newLineIndex - index + 1); // Remove the newline as well
+			preprocessedShader.Remove(usIndex, removeCount);
+		}
+
+	} while (preprocessedShader.Contains("#line"));
 }
 
+}
 
-static bool Preprocess(const ShaderSettings& inputs, String& preprocessedShader)
+bool Preprocess(const tchar* pathToShader, const ShaderCompilerDefinitions& inputs, PreprocessedShaderOutput& preprocessedOutput)
 {
-	ShaderIntermediate intermediate(inputs);
-	ShaderPreprocessor preprocessor(intermediate);
-	preprocessor.Preprocess();
+	ShaderPreprocessor preprocessor(inputs.shaderStage, inputs.definitions);
+	preprocessor.Preprocess(Path(pathToShader));
 
-	String extensions = "#extension GL_ARB_separate_shader_objects : enable\n#extension GL_ARB_shading_language_420pack : enable";
+	String extensions = "#extension GL_ARB_separate_shader_objects : enable\n#extension GL_ARB_shading_language_420pack : enable\n\n";
 	String shaderHeader = "#version 450 core\n";
 	shaderHeader += extensions;
 
-	preprocessedShader = shaderHeader + preprocessor.PreprocessedOutput();
+	String output = preprocessor.PreprocessedOutput();
+	RemoveLinePreprocessorDirectives(output);
 
-	// TODO - Figure out errors in preprocessing....
-	printf("%s\n", preprocessor.ErrorString());
+	preprocessedOutput.outputGlsl = shaderHeader + output;
+	preprocessedOutput.errors = preprocessor.ErrorString();
+
 	return preprocessor.Success();
 
 }
 
-bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
+bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompilerDefinitions& inputs, ShaderStructure& output)
 {
-	String preprocessedShader;
-	if (!Preprocess(inputs, preprocessedShader))
+	PreprocessedShaderOutput preprocessedShader;
+	if (!Preprocess(pathToFile, inputs, preprocessedShader))
 	{
 		// Log
-		Assert(false);
+		return false;
 	}
 
+	if (!glslangInitialized)
+	{
+		// TODO - glslang is initialized, however, it's not finalized at any point. This must be fixed somehow
+		glslang::InitializeProcess();
+		glslangInitialized = true;
+	}
 	bool result = false;
 	EShLanguage stage = GetGlslangStage(inputs.shaderStage);
-	const tchar* shaderCode = *inputs.shaderCode;
+	const tchar* shaderCode = *preprocessedShader.outputGlsl;
 	glslang::TShader shader(stage);
 	shader.setStringsWithLengths(&shaderCode, nullptr, 1);
-	shader.setEntryPoint("main");
+	shader.setEntryPoint(entryPoint);
 	TBuiltInResource resources = DefaultTBuiltInResource;
 	EShMessages messages = static_cast<EShMessages>(EShMsgVulkanRules | EShMsgSpvRules | EShMsgDefault);
 	if (!shader.parse(&resources, 110, true, messages))
@@ -242,15 +310,18 @@ bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
 				spirv.size() * sizeof(uint32), spirv.data(), &module);
 			Assert(spvResult == SPV_REFLECT_RESULT_SUCCESS);
 
+			output.compiledOutput.stage = inputs.shaderStage;
+			output.compiledOutput.shaderEntryPoint = entryPoint;
+
 			// Inputs
 			{
 				uint32 count;
 				result = spvReflectEnumerateInputVariables(&module, &count, nullptr);
-				assert(result == SPV_REFLECT_RESULT_SUCCESS);
+				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
-				Array<SpvReflectInterfaceVariable*> shaderInputs(count);
+				DynamicArray<SpvReflectInterfaceVariable*> shaderInputs(count);
 				result = spvReflectEnumerateInputVariables(&module, &count, shaderInputs.GetData());
-				assert(result == SPV_REFLECT_RESULT_SUCCESS);
+				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				for (const auto& input : shaderInputs)
 				{
@@ -258,7 +329,7 @@ bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
 					var.name = input->name;
 					var.variableType = GetShaderIntrinsic(input->type_description->op);
 					var.location = input->location;
-					output.locationToInputs.Add(var.location, var);
+					output.compiledOutput.locationToInputs.Add(var.location, var);
 				}
 			}
 
@@ -266,11 +337,11 @@ bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
 			{
 				uint32 count;
 				result = spvReflectEnumerateOutputVariables(&module, &count, nullptr);
-				assert(result == SPV_REFLECT_RESULT_SUCCESS);
+				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
-				Array<SpvReflectInterfaceVariable*> shaderOutputs(count);
+				DynamicArray<SpvReflectInterfaceVariable*> shaderOutputs(count);
 				result = spvReflectEnumerateOutputVariables(&module, &count, shaderOutputs.GetData());
-				assert(result == SPV_REFLECT_RESULT_SUCCESS);
+				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				for (const auto& out : shaderOutputs)
 				{
@@ -278,7 +349,7 @@ bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
 					var.name = out->name;
 					var.variableType = GetShaderIntrinsic(out->type_description->op);
 					var.location = out->location;
-					output.locationToOutputs.Add(var.location, var);
+					output.compiledOutput.locationToOutputs.Add(var.location, var);
 				}
 			}
 
@@ -287,11 +358,11 @@ bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
 			{
 				uint32 count;
 				result = spvReflectEnumerateDescriptorBindings(&module, &count, nullptr);
-				assert(result == SPV_REFLECT_RESULT_SUCCESS);
+				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
-				Array<SpvReflectDescriptorBinding*> shaderDescriptors(count);
+				DynamicArray<SpvReflectDescriptorBinding*> shaderDescriptors(count);
 				result = spvReflectEnumerateDescriptorBindings(&module, &count, shaderDescriptors.GetData());
-				assert(result == SPV_REFLECT_RESULT_SUCCESS);
+				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
 				for (const auto& binding : shaderDescriptors)
 				{
@@ -299,15 +370,24 @@ bool Compile(const ShaderSettings& inputs, ShaderStructure& output)
 					constant.name = binding->name;
 					constant.bindingType = GetShaderConstantType(binding->descriptor_type);
 					constant.binding = binding->binding;
-					output.bindingToConstants.Add(constant.binding, constant);
+					output.compiledOutput.bindingToConstants.Add(constant.binding, constant);
 				}
 			}
 
 			spvReflectDestroyShaderModule(&module);
 
 			// Shader code output
-			output.compiledCode.Resize(spirv.size() * sizeof(uint32));
-			Memcpy(output.compiledCode.GetData(), output.compiledCode.Size(), spirv.data(), spirv.size() * sizeof(uint32));
+			size_t compiledCodeSize = spirv.size() * sizeof(uint32);
+			output.compiledOutput.compiledCode.Resize((uint32)spirv.size());
+			Memcpy(output.compiledOutput.compiledCode.GetData(), compiledCodeSize, spirv.data(), compiledCodeSize);
+
+			SpvReadBuf buf;
+			std::ostream stream(&buf);
+			spv::Disassemble(stream, spirv);
+			output.readableShaderInfo.spirvByteCode = buf.str().c_str();
+			output.readableShaderInfo.glslProcessedCode = preprocessedShader.outputGlsl;
+
+			result = true;
 		}
 	}
 

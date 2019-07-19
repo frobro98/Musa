@@ -98,27 +98,34 @@
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|Win32'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,13 +134,14 @@
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -152,13 +160,14 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -176,19 +185,26 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>EngineCore_d.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <ClCompile>
@@ -197,18 +213,22 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -220,10 +240,11 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;5039;5045</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -235,7 +256,7 @@ copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>EngineCore_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>EngineCore.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -249,9 +270,10 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Source/EngineCore;$(SolutionDir)Source/Math;$(SolutionDir)Source/private/Math;</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;4625;</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -262,9 +284,15 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>EngineCore.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Math\Bounds.hpp" />
+    <ClInclude Include="..\..\Source\Math\BoundsVolumes.hpp" />
     <ClInclude Include="..\..\Source\Math\Internal\QuaternionImplementation.hpp" />
     <ClInclude Include="..\..\Source\Math\Internal\VectorImplementation.h" />
     <ClInclude Include="..\..\Source\Math\MathConstants.h" />
@@ -273,6 +301,8 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Math\MathUtilities.h" />
     <ClInclude Include="..\..\Source\Math\Matrix.h" />
     <ClInclude Include="..\..\Source\Math\3DMathUtilites.h" />
+    <ClInclude Include="..\..\Source\Math\MatrixUtilities.hpp" />
+    <ClInclude Include="..\..\Source\Math\Plane.hpp" />
     <ClInclude Include="..\..\Source\Math\Quat.h" />
     <ClInclude Include="..\..\Source\Math\QuatFunctions.h" />
     <ClInclude Include="..\..\Source\Math\Rect.hpp" />
@@ -282,6 +312,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Math\Internal\QuaternionImplementation.cpp" />
     <ClCompile Include="..\..\Source\Math\Internal\VectorImplementation.cpp" />
+    <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp" />
     <ClCompile Include="..\..\Source\private\Math\Matrix.cpp" />
     <ClCompile Include="..\..\Source\private\Math\Quat.cpp" />
     <ClCompile Include="..\..\Source\private\Math\Vector.cpp" />

@@ -3,7 +3,6 @@
 #include "MathDefinitions.h"
 #include "MathConstants.h"
 
-// TODO - Make this a struct instead of a class...
 struct Vector
 {
 	float x = 0.f;
@@ -13,6 +12,12 @@ struct Vector
 
 	Vector() = default;
 	explicit Vector(float x, float y, float z, float w = 1.f);
+
+	static const Vector RightAxis;
+	static const Vector UpAxis;
+	static const Vector ForwardAxis;
+	static const Vector Zero;
+	static const Vector One;
 
 	float Dot(const Vector& other) const;
 	Vector Cross(const Vector& other) const;
@@ -26,8 +31,6 @@ struct Vector
 	bool IsEqual(const Vector& other, float epsilon = Math::InternalTolerence) const;
 	bool IsZero(float epsilon = Math::InternalTolerence) const;
 
-	// TODO - get rid of this method?
-	float GetAngle(const Vector& other) const;
 
 	// Unary operators
 	Vector operator+() const;

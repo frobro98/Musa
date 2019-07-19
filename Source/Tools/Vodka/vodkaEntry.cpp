@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 
 #include "Archiver/ChunkHeader.h"
 #include "File/md5.h"
@@ -70,7 +70,7 @@ void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk c
 	File::Seek(fHandle, File::Location::BEGIN, 0);
 	FILE_CHECK(fileSize > 0, "Input file doesn't exist!\n");
 
-	Array<uint8> fileData(fileSize);
+	DynamicArray<uint8> fileData(fileSize);
 	File::Read(fHandle, fileData.GetData(), fileSize * sizeof(uint8));
 	FILE_CHECK(result == File::Result::SUCCESS, "Input file reading error!\n");
 
@@ -125,7 +125,8 @@ int main(int argc, char *argv[])
 		else if (strcmp("-n", argv[i]) == 0 || strcmp("-N", argv[i]) == 0)
 		{
 			++i;
-			if (i >= argc || strchr(argv[i], '-') != nullptr)
+			char* s = strchr(argv[i], '-');
+			if (i >= argc || (s != nullptr && strlen(s) == 2))
 			{
 				printf("You must pass a correct type when using the -n option!\n");
 				return -1;

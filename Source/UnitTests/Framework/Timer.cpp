@@ -38,7 +38,7 @@ void Timer::Tic()
 void Timer::Toc()
 {
 	this->tocTime = this->privGetTimer();
-	assert( this->tocTime.QuadPart >= this->ticTime.QuadPart );
+	Assert( this->tocTime.QuadPart >= this->ticTime.QuadPart );
 	this->deltaTime.QuadPart = this->tocTime.QuadPart - this->ticTime.QuadPart;
 }
 

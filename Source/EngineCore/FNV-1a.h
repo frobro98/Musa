@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
+#include "String/CStringUtilities.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 // FNV hash only supports 32 bit numbers currently
@@ -38,5 +39,5 @@ constexpr inline uint32 fnvHash(const T& objToHash)
 
 constexpr inline uint32 fnvHash(const tchar* objToHash)
 {
-	return fnv(objToHash, strlen(objToHash));
+	return fnv(objToHash, Strlen(objToHash));
 }

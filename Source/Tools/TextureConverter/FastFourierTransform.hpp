@@ -1,20 +1,20 @@
 #pragma once
 
-#include "EngineCore/Types.h"
-#include "Containers/Array.h"
+#include "EngineCore/Types/Intrinsics.hpp"
+#include "Containers/DynamicArray.hpp"
 
 void FastFourier(
 	uint32 numSamples,
-	const Array<float>& realIn, 
-	const Array<float>& imageIn,
-	Array<float>& realOut,
-	Array<float>& imageOut
+	const DynamicArray<float>& realIn, 
+	const DynamicArray<float>& imageIn,
+	DynamicArray<float>& realOut,
+	DynamicArray<float>& imageOut
 );
 
 void InverseFastFourier(
 	uint32 numSamples,
-	const Array<float>& realIn,
-	const Array<float>& imageIn,
-	Array<float>& realOut,
-	Array<float>& imageOut
+	const DynamicArray<float>& realIn,
+	const DynamicArray<float>& imageIn,
+	DynamicArray<float>& realOut,
+	DynamicArray<float>& imageOut
 );

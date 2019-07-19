@@ -33,8 +33,8 @@ public:
 
 	void RemoveIndex(uint32 index)
 	{
-		assert(listSize > 0);
-		assert(index < listSize);
+		Assert(listSize > 0);
+		Assert(index < listSize);
 		auto node = FindNode(index);
 		if (listHead == node)
 		{
@@ -51,7 +51,7 @@ public:
 
 	void RemoveValues(const T& val)
 	{
-		assert(listSize > 0);
+		Assert(listSize > 0);
 
 		--listSize;
 	}
@@ -186,7 +186,7 @@ public:
 		{
 			if (current != nullptr)
 			{
-				node = node.next;
+				current = current->next;
 			}
 			return *this;
 		}

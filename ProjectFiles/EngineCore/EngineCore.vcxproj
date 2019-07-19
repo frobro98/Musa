@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{B85B3691-9099-43F7-B95D-D642F9BBCEBA}</ProjectGuid>
     <RootNamespace>EngineCore</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,6 +73,7 @@
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
@@ -94,10 +95,11 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4668;4514;5039;5045</DisableSpecificWarnings>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -111,11 +113,12 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\Graphics</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4668;4514;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries"
@@ -133,8 +136,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4668;4514;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -154,10 +158,11 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\Graphics</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4668;4514;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -172,7 +177,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Algorithms.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Assertion.h" />
-    <ClInclude Include="..\..\Source\EngineCore\Containers\Array.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Containers\DynamicArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\List.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Map.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Pair.h" />
@@ -180,6 +185,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h" />
     <ClInclude Include="..\..\Source\EngineCore\DebugOutput.h" />
     <ClInclude Include="..\..\Source\EngineCore\DirectoryLocations.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Extents.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\FNV-1a.h" />
     <ClInclude Include="..\..\Source\EngineCore\Graphics.h" />
     <ClInclude Include="..\..\Source\EngineCore\GUID\Guid.hpp" />
@@ -188,6 +194,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h" />
     <ClInclude Include="..\..\Source\EngineCore\Platform.h" />
     <ClInclude Include="..\..\Source\EngineCore\PlatformDefinitions.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Ranges.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Serialization\DeserializeBase.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Serialization\MemoryDeserializer.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Serialization\MemorySerializer.hpp" />
@@ -197,7 +204,12 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Time\EngineTick.h" />
     <ClInclude Include="..\..\Source\EngineCore\Time\Time.h" />
     <ClInclude Include="..\..\Source\EngineCore\Time\Timer.h" />
-    <ClInclude Include="..\..\Source\EngineCore\Types.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Types\ConcurrentTypes.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Types\Intrinsics.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\CoreUtilities.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\TemplateUtils.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Version.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Windows\Win32InputDefinitions.h" />
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsDefinitions.h" />
@@ -218,6 +230,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\EngineCore\Time\Time.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer_win32.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

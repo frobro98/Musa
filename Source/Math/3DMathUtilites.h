@@ -3,7 +3,6 @@
 #include "Matrix.h"
 #include "MathUtilities.h"
 
-// TODO - Perspective and orthographic utilities sound nice, but also sound unnecessary. Think about where to possibly put these
 namespace Math
 {
 
@@ -17,7 +16,5 @@ namespace Math
 		return Math::Acos(cosAngle);
 	}
 
-	Matrix Perspective(float width, float height, float nearPlane, float farPlane);
 
-	Matrix Orthographic(float aspect, float nearPlane, float farPlane);
 }

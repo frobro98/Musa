@@ -11,7 +11,7 @@ namespace Internal
 	{
 
 	}
-	void * InternalHeap::Malloc(size_t inSize, unsigned int align, char * inName, int lineNum, int allocationIndex)
+	void* InternalHeap::Malloc(uint64 inSize, uint32 align, const char* inName, uint32 lineNum, uint32 allocationIndex)
 	{
 		return MallocInternal(inSize, align, inName, lineNum, allocationIndex);
 	}
@@ -46,9 +46,9 @@ namespace Internal
 		heapPrev = prevHeap;
 	}
 
-	bool InternalHeap::AddressInHeap(const void * data) const
+	bool InternalHeap::AddressInHeap(const void* data) const
 	{
-		unsigned int addrData = (unsigned int)data;
+		const uint64 addrData = reinterpret_cast<const uint64>(data);
 		return mInfo.StartAddr < addrData && addrData < mInfo.EndAddr;
 	}
 }

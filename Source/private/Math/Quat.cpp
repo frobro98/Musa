@@ -1,11 +1,5 @@
-//-----------------------------------------------------------------------------
-// Copyright Ed Keenan 2018
-// Gam575
-//----------------------------------------------------------------------------- 
 
-#include <math.h>
-#include <assert.h>
-
+#include "EngineCore/Assertion.h"
 #include "MathEngine.h"
 #include "Internal/QuaternionImplementation.hpp"
 
@@ -69,7 +63,7 @@ Quat::Quat(RotType type, float radAngle)
 		}break;
 		default:
 		{
-			assert(false);
+			Assert(false);
 		}break;
 	}
 }
@@ -178,7 +172,7 @@ void Quat::Set(RotType type, float radAngle)
 	}break;
 	default:
 	{
-		assert(false);
+		Assert(false);
 	}break;
 	}
 }

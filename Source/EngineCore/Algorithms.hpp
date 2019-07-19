@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 
 template <typename Exch>
 void Exchange(Exch& e0, Exch& e1)
@@ -11,7 +11,7 @@ void Exchange(Exch& e0, Exch& e1)
 }
 
 template<class Elem>
-void InsertionSort(Array<Elem>& arr)
+void InsertionSort(DynamicArray<Elem>& arr)
 {
 	int32 size = static_cast<int32>(arr.Size());
 	for (int32 i = 1; i < size; ++i)

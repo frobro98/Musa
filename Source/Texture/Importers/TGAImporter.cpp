@@ -11,13 +11,13 @@ TGAImporter::TGAImporter()
 {
 }
 
-void TGAImporter::SetImportData(const Array<uint8>& data)
+void TGAImporter::SetImportData(const DynamicArray<uint8>& data)
 {
 	ProcessHeader(data);
-	importData = Array<uint8>(data.GetData() + sizeof(tgaFile), data.Size() - sizeof(tgaFile));
+	importData = DynamicArray<uint8>(data.GetData() + sizeof(tgaFile), data.Size() - sizeof(tgaFile));
 }
 
-void TGAImporter::ProcessHeader(const Array<uint8>& data)
+void TGAImporter::ProcessHeader(const DynamicArray<uint8>& data)
 {
 	Memcpy(&tgaFile, sizeof(TGAFileHeader), data.GetData(), sizeof(TGAFileHeader));
 	validData = tgaFile.bits == 24 || tgaFile.bits == 32;
@@ -27,7 +27,7 @@ void TGAImporter::ProcessHeader(const Array<uint8>& data)
 	bitDepth = tgaFile.bits / 8u;
 	if (validData)
 	{
-		format = bitDepth == 3 ? ImageFormat::BGR_8 : ImageFormat::BGRA_8;
+		format = bitDepth == 3 ? ImageFormat::BGR_8u : ImageFormat::BGRA_8u;
 	}
 	else if (tgaFile.bits == 8)
 	{
@@ -67,7 +67,7 @@ void TGAImporter::ModifyBGRImage()
 		*texDataPtr = 0xff;
 		++texDataPtr;
 	}
-	format = ImageFormat::BGRA_8;
+	format = ImageFormat::BGRA_8u;
 }
 
 void TGAImporter::ProcessImport()

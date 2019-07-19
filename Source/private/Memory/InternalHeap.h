@@ -12,7 +12,7 @@ namespace Internal
 		InternalHeap(const InternalHeap&) = delete;
 		InternalHeap& operator=(const InternalHeap&) = delete;
 
-		void* Malloc(size_t inSize, unsigned int align, char *inName, int lineNum, int allocationIndex);
+		void* Malloc(uint64 inSize, uint32 align, const char *inName, uint32 lineNum, uint32 allocationIndex);
 		void Free(void* memory);
 
 		void Destroy();

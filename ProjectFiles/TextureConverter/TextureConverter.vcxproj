@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{8C051D75-DB14-40DC-97E9-71B8B9F41035}</ProjectGuid>
     <RootNamespace>TextureImporter</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>TextureConverter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,6 +74,7 @@
     <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
@@ -95,9 +96,10 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)Tools"
@@ -120,9 +122,10 @@ echo         Copied TextureConverter.exe!</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineCore_d.lib;File_d.lib;Archiver_d.lib;Texture_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -131,8 +134,10 @@ echo         Copied TextureConverter.exe!</Command>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)Tools"
 
-copy "$(OutputPath)*.exe" "$(SolutionDir)Tools" &gt; nul
-echo         Copied TextureImporter.exe!</Command>
+copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(SolutionDir)Tools" &gt;nul
+echo         Copied ispc_texcomp.dll!
+copy "$(OutputPath)TextureConverter.exe" "$(SolutionDir)Tools" &gt; nul
+echo         Copied TextureConverter.exe!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -145,13 +150,15 @@ echo         Copied TextureImporter.exe!</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EngineCore.lib;File.lib;Archiver.lib;Texture.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)Tools"
@@ -170,13 +177,15 @@ echo         Copied TextureImporter.exe!</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EngineCore.lib;File.lib;Archiver.lib;Texture.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)Tools"

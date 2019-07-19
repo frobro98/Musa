@@ -2,7 +2,7 @@
 
 #include "Platform.h"
 #include "HashBasicTypes.h"
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 #include "Containers/Pair.h"
 
 template<typename Key, typename Value>
@@ -11,7 +11,7 @@ class Map
 	using KeyType = Key;
 	using ValueType = Value;
 	using MapType = Pair<KeyType, ValueType>;
-	using BucketType = Array<MapType>;
+	using BucketType = DynamicArray<MapType>;
 public:
 	Map()
 		: buckets(DefaultAmountOfBuckets)
@@ -92,7 +92,21 @@ public:
 		return store->second;
 	}
 
-	bool TryFind(const Key& key, Value& value)
+	ValueType* Find(const KeyType& key)
+	{
+		ValueType* value = nullptr;
+		uint32 hash = GetHash(key);
+		BucketType& bucket = FindBucket(hash);
+		MapType* store = FindPair(bucket, key);
+		if (store)
+		{
+			value = &store->second;
+		}
+
+		return value;
+	}
+
+	bool TryFind(const KeyType& key, ValueType& value)
 	{
 		uint32 hash = GetHash(key);
 		BucketType& bucket = FindBucket(hash);
@@ -241,7 +255,7 @@ public:
 		}
 
 	private:
-		Array<BucketType>* buckets;
+		DynamicArray<BucketType>* buckets;
 		uint32 bucketIndex = 0;
 		uint32 bucketElementIndex = 0;
 
@@ -252,7 +266,7 @@ public:
 		friend class Map<Key, Value>;
 
 	public:
-		ConstIterator(Map<Key, Value>& map)
+		ConstIterator(const Map<Key, Value>& map)
 			: buckets(&map.buckets)
 		{
 			uint32 i = bucketIndex;
@@ -272,7 +286,7 @@ public:
 		{
 		}
 
-		MapType& operator*()
+		const MapType& operator*()
 		{
 			return (*buckets)[bucketIndex][bucketElementIndex];
 		}
@@ -310,7 +324,7 @@ public:
 		}
 
 	private:
-		const Array<BucketType>* buckets;
+		const DynamicArray<BucketType>* buckets;
 		uint32 bucketIndex = 0;
 		uint32 bucketElementIndex = 0;
 
@@ -318,12 +332,13 @@ public:
 
 private:
 	friend Iterator begin(Map& map) { return Iterator(map); }
-	friend Iterator begin(const Map& map) { return ConstIterator(map); }
+	friend ConstIterator begin(const Map& map) { return ConstIterator(map); }
 	friend Iterator end(Map& map) { return Iterator(map, map.buckets.Size()); }
-	friend Iterator end(const Map& map) { return ConstIterator(map, map.buckets.Size()); }
+	friend ConstIterator end(const Map& map) { return ConstIterator(map, map.buckets.Size()); }
 
 private:
 	static constexpr uint32 DefaultAmountOfBuckets = 32;
-	Array<BucketType> buckets;
+	DynamicArray<BucketType> buckets;
 	uint32 maxBucketSize = 0;
+	uint32 pad[1] = {};
 };

@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2c688be3-ae71-4d17-803d-4a7f50f87c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EngineEntry">
+      <UniqueIdentifier>{2406804d-2d0b-4aee-999f-94a599a2a331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{2fc7dc7a-d777-47ec-86ef-d9f9ba8cb0f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Mesh">
+      <UniqueIdentifier>{da7cc5d2-ad1e-4436-9f90-adbb99b4d2fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Window">
+      <UniqueIdentifier>{d69ee1f0-f27e-4e28-b14e-44cf4bdaa887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{ebb1c2f8-77f6-492e-ad7c-63d589690619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Model">
+      <UniqueIdentifier>{65e8eb56-7daa-4c06-ad6e-5b31125de6c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\GameObject">
+      <UniqueIdentifier>{4a480587-b640-4369-816e-bf64d7274149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Scene">
+      <UniqueIdentifier>{dabbd75c-ffa5-4084-b7a7-9f05b4c85d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderer">
+      <UniqueIdentifier>{0cd15028-954e-4cc9-b6e4-de370cd90040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Lighting">
+      <UniqueIdentifier>{69a09036-8915-4f64-98ec-0841f6d57b6e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameEngine.cpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Entry\main.cpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\InputManager.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\Input.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp">
+      <Filter>Source\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Windowing\Win32\Win32_Window.cpp">
+      <Filter>Source\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Mesh\MeshManager.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Mesh\MeshUtilities.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Mesh\Mesh.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Model\Model.cpp">
+      <Filter>Source\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Model\ModelFactory.cpp">
+      <Filter>Source\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\RenderObject.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\RenderObjectManager.cpp">
+      <Filter>Source\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Scene\Scene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Scene\ScreenView.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Renderer\SceneRendering.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Renderer\Renderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp">
+      <Filter>Source\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Lighting\SpotLight.cpp">
+      <Filter>Source\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp">
+      <Filter>Source\Lighting</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameEngine.hpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputManager.h">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\Input.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Windowing\Window.h">
+      <Filter>Source\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshInfo.hpp">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshManager.h">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderEntity.hpp">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshSceneInfo.hpp">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshUtilities.hpp">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\GeometryPrimitives.h">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\Mesh.h">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h">
+      <Filter>Source\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h">
+      <Filter>Source\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Model\Model.h">
+      <Filter>Source\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\RenderObject.hpp">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\RenderObjectManager.hpp">
+      <Filter>Source\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\Scene.hpp">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Renderer\SceneRendering.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Renderer\Renderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Renderer\RenderingEngine.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Lighting\PointLight.hpp">
+      <Filter>Source\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Lighting\SpotLight.hpp">
+      <Filter>Source\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Lighting\Light.hpp">
+      <Filter>Source\Lighting</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

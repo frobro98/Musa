@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Types.h"
-#include "Containers/Array.h"
+#include "Types/Intrinsics.hpp"
+#include "Containers/DynamicArray.hpp"
 #include "File/Path.hpp"
 
-Array<uint8> LoadFileToMemory(const Path& filePath);
+DynamicArray<uint8> LoadFileToMemory(const Path& filePath);

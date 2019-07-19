@@ -9,7 +9,7 @@ JPEGImporter::JPEGImporter()
 {
 }
 
-void JPEGImporter::SetImportData(const Array<uint8>& data)
+void JPEGImporter::SetImportData(const DynamicArray<uint8>& data)
 {
 	importData = data;
 	jpgd::jpeg_decoder_mem_stream jpegMemory(importData.GetData(), importData.Size());
@@ -22,12 +22,12 @@ void JPEGImporter::SetImportData(const Array<uint8>& data)
 	numComponents = decoder.get_num_components();
 	if (numComponents == 3)
 	{
-		format = ImageFormat::RGBA_8;
+		format = ImageFormat::RGBA_8u;
 		numComponents = 4;
 	}
 	else if (numComponents == 1)
 	{
-		format = ImageFormat::Gray_8;
+		format = ImageFormat::Gray_8u;
 		numComponents = 1;
 	}
 }
@@ -40,7 +40,7 @@ void JPEGImporter::ProcessImport()
 	if (data)
 	{
 		uint32 uncompressedSize = static_cast<uint32>(width * height * numComponents);
-		importedImageData = Array<uint8>(data, uncompressedSize);
+		importedImageData = DynamicArray<uint8>(data, uncompressedSize);
 		delete[] data;
 	}
 

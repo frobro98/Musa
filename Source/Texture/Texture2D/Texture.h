@@ -1,37 +1,20 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
-#include "Containers/Array.h"
+#include "Containers/DynamicArray.hpp"
 #include "String/String.h"
 #include "ImageFormats.h"
+#include "Texture2D/MipmapLevel.hpp"
 
+struct VulkanTexture;
 class SerializeBase;
 class DeserializeBase;
-
-struct MipMapLevel
-{
-	Array<uint8> imageData;
-	uint32 width = 0;
-	uint32 height = 0;
-
-	const uint8* Data() const
-	{
-		return imageData.GetData();
-	}
-
-	uint32 Size() const
-	{
-		return imageData.Size();
-	}
-};
-
-void Serialize(SerializeBase& ser, const MipMapLevel& level);
-void Deserialize(DeserializeBase& ser, MipMapLevel& level);
 
 struct Texture
 {
 	String name;
-	Array<MipMapLevel> mipLevels;
+	DynamicArray<MipmapLevel> mipLevels;
+	VulkanTexture* gpuResource = nullptr;
 	ImageFormat format = ImageFormat::Invalid;
 
 	// Texture size including all of the mip map levels
@@ -42,9 +25,13 @@ struct Texture
 	int32 wrapT;
 	int32 minFilter;
 	int32 magFilter;
-
-	int32 texID = -1;
+	uint32 pad[1] = { 0 };
 };
+
+ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels);
+
+void Serialize(SerializeBase& ser, const MipmapLevel& level);
+void Deserialize(DeserializeBase& ser, MipmapLevel& level);
 
 void Serialize(SerializeBase& ser, const Texture& tex);
 void Deserialize(DeserializeBase& ser, Texture& tex);

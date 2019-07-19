@@ -4,7 +4,7 @@
 FileDeserializer::FileDeserializer(const Path& filePath)
 {
 	auto result = File::Open(handle, filePath.GetString(), File::Mode::READ);
-	assert(result == File::Result::SUCCESS);
+	Assert(result == File::Result::SUCCESS);
 	CacheFile();
 }
 
@@ -13,11 +13,12 @@ FileDeserializer::~FileDeserializer()
 	File::Close(handle);
 }
 
-void FileDeserializer::DeserializeData(void* data, uint32 dataSize)
+void FileDeserializer::DeserializeData(void* data, uint64 dataSize)
 {
+	// TODO - Doesn't really work for things over 4Gb. Brainstorm ways to fix this
 	Assert(dataSize <= fileData.Size() - bufferReadLoc);
 	Memcpy(data, dataSize, &fileData[bufferReadLoc], dataSize);
-	bufferReadLoc += dataSize;
+	bufferReadLoc += (uint32)dataSize;
 }
 
 void FileDeserializer::CacheFile()

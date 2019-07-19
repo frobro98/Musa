@@ -1,0 +1,97 @@
+
+#include "ViewFrustum.hpp"
+#include "Math/BoundsVolumes.hpp"
+
+ViewFrustum::ViewFrustum(
+	const Matrix& viewMatrix,
+	const Vector& origin,
+	const Extents2D& nearExtents,
+	const Extents2D& farExtents,
+	float32 nearPlane,
+	float32 farPlane
+)
+{
+	Vector forward(viewMatrix[m2], viewMatrix[m6], viewMatrix[m10]);
+	Vector right(viewMatrix[m0], viewMatrix[m4], viewMatrix[m8]);
+	Vector up(viewMatrix[m1], viewMatrix[m5], viewMatrix[m9]);
+	float32 nearWidth = nearExtents.width;
+	float32 nearHeight = nearExtents.height;
+	float32 farWidth = farExtents.width;
+	float32 farHeight = farExtents.height;
+
+	nearTopLeft = origin - forward * nearPlane + up * nearHeight * 0.5f - right * nearWidth * 0.5f;
+	nearTopRight = origin - forward * nearPlane + up * nearHeight * 0.5f + right * nearWidth * 0.5f;
+	nearBottomLeft = origin - forward * nearPlane - up * nearHeight * 0.5f - right * nearWidth * 0.5f;
+	nearBottomRight = origin - forward * nearPlane - up * nearHeight * 0.5f + right * nearWidth * 0.5f;
+
+	farTopLeft = origin - forward * farPlane + up * farHeight * 0.5f - right * farWidth * 0.5f;
+	farTopRight = origin - forward * farPlane + up * farHeight * 0.5f + right * farWidth * 0.5f;
+	farBottomLeft = origin - forward * farPlane - up * farHeight * 0.5f - right * farWidth * 0.5f;
+	farBottomRight = origin - forward * farPlane - up * farHeight * 0.5f + right * farWidth * 0.5f;
+}
+
+bool ViewFrustum::DoesSphereIntersect(const SphereBounds& bounds)
+{
+	Vector pos = bounds.position;
+	float radius = bounds.radius;
+
+	// Near Plane Test
+	Vector vec = pos - nearBottomRight;
+	float nearDist = vec.Dot(nearPlaneNormal);
+
+	// Far Plane Test
+	vec = pos - farTopLeft;
+	float farDist = vec.Dot(farPlaneNormal);
+
+	// Left Plane Test
+	vec = pos - farTopLeft;
+	float leftDist = vec.Dot(leftNormal);
+
+	// Right Plane Test
+	vec = pos - nearBottomRight;
+	float rightDist = vec.Dot(rightNormal);
+
+	// Top Plane Test
+	vec = pos - farTopLeft;
+	float topDist = vec.Dot(topNormal);
+
+	// Bottom Plane Test
+	vec = pos - nearBottomRight;
+	float bottomDist = vec.Dot(bottomNormal);
+
+	return nearDist < radius &&
+		farDist < radius &&
+		leftDist < radius &&
+		rightDist < radius &&
+		topDist < radius &&
+		bottomDist < radius;
+}
+
+void ViewFrustum::CalculateCollisionNormals()
+{
+	Vector A = nearBottomLeft - nearTopLeft;
+	Vector B = nearTopRight - nearTopLeft;
+	Vector C = farTopLeft - nearTopLeft;
+
+	nearPlaneNormal = A.Cross(B);
+	nearPlaneNormal.Normalize();
+
+	leftNormal = C.Cross(A);
+	leftNormal.Normalize();
+
+	topNormal = B.Cross(C);
+	topNormal.Normalize();
+
+	A = farBottomLeft - farBottomRight;
+	B = farTopRight - farBottomRight;
+	C = nearBottomRight - farBottomRight;
+
+	farPlaneNormal = A.Cross(B);
+	farPlaneNormal.Normalize();
+
+	rightNormal = B.Cross(C);
+	rightNormal.Normalize();
+
+	bottomNormal = C.Cross(A);
+	bottomNormal.Normalize();
+}
