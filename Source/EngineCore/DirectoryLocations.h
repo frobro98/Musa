@@ -18,14 +18,19 @@ inline String EngineAssetPath()
 	return EngineRootPath() + "Assets/";
 }
 
+inline String EngineShaderSrcPath()
+{
+	return EngineAssetPath() + "Shaders/";
+}
+
+inline String EngineGeneratedShaderPath()
+{
+	return EngineAssetPath() + "Shaders/Generated/";
+}
+
 inline String EngineSourcePath()
 {
 	return EngineRootPath() + "Source/";
-}
-
-inline String EngineShaderSrcPath()
-{
-	return EngineSourcePath() + "Shader/ShaderSrc/";
 }
 
 inline String EngineTexturePath()

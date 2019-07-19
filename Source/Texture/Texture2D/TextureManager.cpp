@@ -106,6 +106,12 @@ Texture* TextureManager::CompressTextureData(DynamicArray<uint8>& textureData, c
 	return texture;
 }
 
+void TextureManager::AddTexture(Texture& tex)
+{
+	ConfigureNativeTexture(tex);
+	texturesLoaded.Add(&tex);
+}
+
 Texture* TextureManager::Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format)
 {
 	UNUSED(textureData, chunk, format);

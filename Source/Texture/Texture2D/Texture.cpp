@@ -1,6 +1,8 @@
 #include "Texture.h"
 #include "TextureUtilities.hpp"
 
+#include "Graphics.h"
+
 namespace
 {
 
@@ -11,6 +13,25 @@ ImageFormat DeserializeImageFormat(DeserializeBase& ser)
 	return static_cast<ImageFormat>(formatInt);
 }
 
+}
+
+Texture::Texture(uint8 r, uint8 g, uint8 b, uint8 a)
+{
+	uint8* pixel = new uint8[4]{ b, g, r, a };
+	ResourceBlob blob(pixel, 4);
+	MipmapLevel m;
+	m.mipData = std::move(blob);
+	m.width = 1;
+	m.height = 1;
+
+	mipLevels.Add(std::move(m));
+	format = ImageFormat::BGRA_8u;
+
+	// TODO - Sampler information doesn't belong in a texture. Should be in an object closer to the graphics api
+	wrapS = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	wrapT = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+	minFilter = VK_FILTER_LINEAR;
+	magFilter = VK_FILTER_LINEAR;
 }
 
 uint32 Texture::TotalSize() const

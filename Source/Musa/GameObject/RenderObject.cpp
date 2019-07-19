@@ -30,7 +30,7 @@ void RenderObject::PullDataFromGameObject(const View& currentView)
 void RenderObject::PullInfoForMesh(const View& currentView)
 {
 	TransformationUniformBuffer buffer;
-	//buffer.model = sceneObject->GetWorld();
+	buffer.model = sceneObject->GetWorld();
 	buffer.view = currentView.transforms.viewMatrix;
 	buffer.projection = currentView.transforms.projectionMatrix;
 

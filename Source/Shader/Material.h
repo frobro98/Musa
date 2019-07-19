@@ -19,7 +19,7 @@ class Material
 public:
 	Material();
 	Material(ShaderResource& vertShader, ShaderResource& fragShader, const char* textureName, const Color32& color);
-	Material(ShaderResource& vertShader, ShaderResource& fragShader, Texture* tex, const Color32& color);
+	Material(ShaderResource& vertShader, ShaderResource& fragShader, const Texture* tex, const Color32& color);
 	Material(const tchar* vertexShader, const tchar* fragmentShader, const char* textureName, const Color32& color);
 	~Material() = default;
 
@@ -36,7 +36,7 @@ public:
 
 	inline ShaderResource* GetVertexShader() const { return vertexShader; }
 	inline ShaderResource* GetFragmentShader() const { return fragmentShader; }
-	inline Texture* GetTexture0() const { return texture0; }
+	inline const Texture* GetTexture0() const { return texture0; }
 	inline Texture* GetTexture1() const { return texture1; }
 	inline Texture* GetNormalMap() const { return normalMap; }
 	inline TextureCube* GetTextureCube() const { return cubeMap; }
@@ -61,7 +61,7 @@ private:
 	// TODO - The vulkan shaders don't belong here...
 	ShaderResource* vertexShader;
 	ShaderResource* fragmentShader;
-	Texture* texture0;
+	const Texture* texture0;
 	Texture* texture1 = nullptr;
 	Texture* normalMap = nullptr;
 	TextureCube* cubeMap = nullptr;

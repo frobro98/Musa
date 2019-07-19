@@ -15,13 +15,16 @@ enum class Primitive
 class MeshManager
 {
 public:
-	static Mesh* LoadPrimitive(Primitive primitiveMesh);
-	static Mesh* LoadFrustumForCamera(class Camera* camera);
+	MeshManager() = default;
+	~MeshManager();
 
-	static Mesh* LoadMeshFromPak(uint8* modelData, const char* modelName);
-	static Mesh* LoadMeshFromPak(uint8* modelData, uint8* skinningData, const char* modelName);
-	static void UnloadMesh(const char* modelName);
-	static Mesh* FindMesh(const char* modelName);
+	Mesh* LoadPrimitive(Primitive primitiveMesh);
+	Mesh* LoadFrustumForCamera(class Camera* camera);
+
+	Mesh* LoadMeshFromPak(uint8* modelData, const char* modelName);
+	Mesh* LoadMeshFromPak(uint8* modelData, uint8* skinningData, const char* modelName);
+	void UnloadMesh(const char* modelName);
+	Mesh* FindMesh(const char* modelName);
 
 private:
 
@@ -35,11 +38,6 @@ private:
 	Mesh* LoadMeshInternalPak(uint8* modelData, uint8* skinningData, const char* modelName);
 	void UnloadMeshInternal(const char* modelName);
 
-	static MeshManager& Instance();
-
-	MeshManager() = default;
-	~MeshManager();
-
 	struct MeshNode
 	{
 		MeshNode* next = nullptr;
@@ -49,3 +47,5 @@ private:
 
 	MeshNode* head = nullptr;
 };
+
+MeshManager& GetMeshManager();

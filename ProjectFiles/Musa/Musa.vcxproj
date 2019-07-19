@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameEngine.cpp" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
+    <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameEngine.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />
@@ -154,6 +156,7 @@
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -208,6 +211,7 @@ echo         Copied ispc_texcomp.dll!</Command>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

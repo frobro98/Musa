@@ -146,7 +146,7 @@ constexpr uint32 ShadowMapWidth = 1024;
 constexpr uint32 ShadowMapHeight = 1024;
 VulkanShader* shadowVertShader = nullptr;
 
-static void InitializeShadowMap()
+/*static*/ void InitializeShadowMap()
 {
 	VkImageSubresourceRange range = {};
 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
@@ -273,7 +273,7 @@ void SceneRendering::RenderScene(Renderer* renderer_, Scene& scene, const View& 
 	renderer = renderer_;
 	if (shadowMap.depthTarget == nullptr)
 	{
-		InitializeShadowMap();
+		//InitializeShadowMap();
 	}
 
 	//ForwardRender(scene, view);

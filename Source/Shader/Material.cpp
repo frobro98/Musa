@@ -36,17 +36,17 @@ Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const
 		texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
 	}
 
-        ConfigureMaterialInfo();
+    ConfigureMaterialInfo();
 }
 
-Material::Material(ShaderResource & vertShader, ShaderResource & fragShader, Texture * tex, const Color32 & color)
+Material::Material(ShaderResource & vertShader, ShaderResource & fragShader, const Texture* tex, const Color32 & color)
 	: diffuseColor(color),
 	vertexShader(&vertShader),
 	fragmentShader(&fragShader)
 {
 	texture0 = tex;
 
-        ConfigureMaterialInfo();
+    ConfigureMaterialInfo();
 }
 
 Material::Material(const tchar* vertShaderName, const tchar* fragShaderName, const char * textureName, const Color32& color)

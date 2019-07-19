@@ -25,6 +25,9 @@ public:
 	Texture* CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* textureName, ImageFormat format);
 	Texture* CompressTextureData(DynamicArray<uint8>& textureData, const char* textureName);
 
+	// TODO - This is to get around the problem of global texture not having gpu resources...need to fix this issue somehow
+	void AddTexture(Texture& tex);
+
 private:
 	Texture* Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format);
 	void ConfigureNativeTexture(Texture& texture);

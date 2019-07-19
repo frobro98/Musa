@@ -12,13 +12,13 @@ Mesh* MeshManager::LoadPrimitive(Primitive primitiveMesh)
 	switch (primitiveMesh)
 	{
 	case Primitive::Sphere:
-		return Instance().LoadSpherePrimitive();
+		return LoadSpherePrimitive();
 	case Primitive::Box:
-		return Instance().LoadBoxPrimitive();
+		return LoadBoxPrimitive();
 	case Primitive::Plane:
-		return Instance().LoadPlanePrimitive();
+		return LoadPlanePrimitive();
 	case Primitive::Pyramid:
-		return Instance().LoadPyramidPrimitive();
+		return LoadPyramidPrimitive();
 	default:
 		Assert(false);
 	}
@@ -26,42 +26,7 @@ Mesh* MeshManager::LoadPrimitive(Primitive primitiveMesh)
 	return nullptr;
 }
 
-Mesh* MeshManager::LoadFrustumForCamera(Camera * camera)
-{
-	return Instance().LoadCameraFrustum(camera);
-}
-
-Mesh* MeshManager::LoadMeshFromPak(uint8* modelData, const char * modelName)
-{
-	return Instance().LoadMeshInternalPak(modelData, modelName);
-}
-
-Mesh* MeshManager::LoadMeshFromPak(uint8 * modelData, uint8 * skinningData, const char * modelName)
-{
-	return Instance().LoadMeshInternalPak(modelData, skinningData, modelName);
-}
-
-void MeshManager::UnloadMesh(const char * modelName)
-{
-	Instance().UnloadMeshInternal(modelName);
-}
-
-Mesh* MeshManager::FindMesh(const char * modelName)
-{
-	MeshNode* current = Instance().head;
-	while (current != nullptr)
-	{
-		if (strcmp(modelName, current->meshName) == 0)
-		{
-			return current->mesh;
-		}
-
-		current = current->next;
-	}
-	return nullptr;
-}
-
-Mesh* MeshManager::LoadCameraFrustum([[maybe_unused]] Camera* cam)
+Mesh* MeshManager::LoadFrustumForCamera([[maybe_unused]] Camera* cam)
 {
 	Vertex vertices[9];
 	Face faces[8];
@@ -199,6 +164,96 @@ Mesh* MeshManager::LoadCameraFrustum([[maybe_unused]] Camera* cam)
 	head = node;
 
 	return mesh;
+}
+
+Mesh* MeshManager::LoadMeshFromPak(uint8* modelData, const char * modelName)
+{
+	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
+	uint8* vertPtr = modelData + header->vertBufferOffset;
+	uint8* facePtr = modelData + header->facesBufferOffset;
+
+	DynamicArray<Vertex> vertices(header->numVerts);
+	DynamicArray<Face> faces(header->numFaces);
+	SphereBounds boundingSphere = header->boundingSphere;
+
+	Memcpy(vertices.GetData(), vertices.Size() * sizeof(Vertex), vertPtr, header->numVerts * sizeof(Vertex));
+	Memcpy(faces.GetData(), faces.Size() * sizeof(Face), facePtr, header->numFaces * sizeof(Face));
+
+	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces), boundingSphere);
+	MeshNode* node = new MeshNode;
+	node->meshName = modelName;
+	node->mesh = mesh;
+
+	node->next = head;
+	head = node;
+
+	return mesh;
+}
+
+Mesh* MeshManager::LoadMeshFromPak(uint8 * modelData, uint8 * skinningData, const char * modelName)
+{
+	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
+	uint8* vertPtr = modelData + header->vertBufferOffset;
+	uint8* facePtr = modelData + header->facesBufferOffset;
+
+
+	DynamicArray<Vertex> vertices(header->numVerts);
+	size_t verticesBytes = vertices.Size() * sizeof(Vertex);
+
+	DynamicArray<VertexBoneWeights> skinningWeights(header->numVerts);
+	size_t skinningWeightBytes = skinningWeights.Size() * sizeof(VertexBoneWeights);
+
+	DynamicArray<Face> faces(header->numFaces);
+	size_t facesBytes = faces.Size() * sizeof(Face);
+
+	SphereBounds boundingSphere = header->boundingSphere;
+
+	Memcpy(vertices.GetData(), verticesBytes, vertPtr, verticesBytes);
+	Memcpy(skinningWeights.GetData(), skinningWeightBytes, skinningData, skinningWeightBytes);
+	Memcpy(faces.GetData(), facesBytes, facePtr, facesBytes);
+
+	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces), std::move(skinningWeights), boundingSphere);
+	MeshNode* node = new MeshNode;
+	node->meshName = modelName;
+	node->mesh = mesh;
+
+	node->next = head;
+	head = node;
+
+	return mesh;
+}
+
+void MeshManager::UnloadMesh(const char * modelName)
+{
+	MeshNode* current = head;
+	while (current != nullptr)
+	{
+		if (strcmp(current->next->meshName, modelName) == 0)
+		{
+			MeshNode* node = current->next;
+			current->next = current->next->next;
+			delete node->mesh;
+			delete node;
+			break;
+		}
+
+		current = current->next;
+	}
+}
+
+Mesh* MeshManager::FindMesh(const char * modelName)
+{
+	MeshNode* current = head;
+	while (current != nullptr)
+	{
+		if (strcmp(modelName, current->meshName) == 0)
+		{
+			return current->mesh;
+		}
+
+		current = current->next;
+	}
+	return nullptr;
 }
 
 // Credited by Joey DeVries for this
@@ -441,87 +496,6 @@ Mesh* MeshManager::LoadPyramidPrimitive()
 	return mesh;
 }
 
-Mesh* MeshManager::LoadMeshInternalPak(uint8* modelData, const char* modelName)
-{
-	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
-	uint8* vertPtr = modelData + header->vertBufferOffset;
-	uint8* facePtr = modelData + header->facesBufferOffset;
-
-	DynamicArray<Vertex> vertices(header->numVerts);
-	DynamicArray<Face> faces(header->numFaces);
-	SphereBounds boundingSphere = header->boundingSphere;
-
-	Memcpy(vertices.GetData(), vertices.Size() * sizeof(Vertex), vertPtr, header->numVerts * sizeof(Vertex));
-	Memcpy(faces.GetData(), faces.Size() * sizeof(Face), facePtr, header->numFaces * sizeof(Face));
-
-	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces), boundingSphere);
-	MeshNode* node = new MeshNode;
-	node->meshName = modelName;
-	node->mesh = mesh;
-
-	node->next = head;
-	head = node;
-
-	return mesh;
-}
-
-Mesh* MeshManager::LoadMeshInternalPak(uint8* modelData, uint8* skinningData, const char* modelName)
-{
-	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
-	uint8* vertPtr = modelData + header->vertBufferOffset;
-	uint8* facePtr = modelData + header->facesBufferOffset;
-	
-
-	DynamicArray<Vertex> vertices(header->numVerts);
-	size_t verticesBytes = vertices.Size() * sizeof(Vertex);
-
-	DynamicArray<VertexBoneWeights> skinningWeights(header->numVerts);
-	size_t skinningWeightBytes = skinningWeights.Size() * sizeof(VertexBoneWeights);
-	
-	DynamicArray<Face> faces(header->numFaces);
-	size_t facesBytes = faces.Size() * sizeof(Face);
-
-	SphereBounds boundingSphere = header->boundingSphere;
-
-	Memcpy(vertices.GetData(), verticesBytes, vertPtr, verticesBytes);
-	Memcpy(skinningWeights.GetData(), skinningWeightBytes, skinningData, skinningWeightBytes);
-	Memcpy(faces.GetData(), facesBytes, facePtr, facesBytes);
-
-	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces), std::move(skinningWeights), boundingSphere);
-	MeshNode* node = new MeshNode;
-	node->meshName = modelName;
-	node->mesh = mesh;
-
-	node->next = head;
-	head = node;
-
-	return mesh;
-}
-
-void MeshManager::UnloadMeshInternal(const char* modelName)
-{
-	MeshNode* current = head;
-	while (current != nullptr)
-	{
-		if (strcmp(current->next->meshName, modelName) == 0)
-		{
-			MeshNode* node = current->next;
-			current->next = current->next->next;
-			delete node->mesh;
-			delete node;
-			break;
-		}
-
-		current = current->next;
-	}
-}
-
-MeshManager& MeshManager::Instance()
-{
-	static MeshManager mmInstance;
-	return mmInstance;
-}
-
 MeshManager::~MeshManager()
 {
 	MeshNode* current = head;
@@ -537,4 +511,10 @@ MeshManager::~MeshManager()
 
 		current = current->next;
 	}
+}
+
+MeshManager& GetMeshManager()
+{
+	static MeshManager meshMan;
+	return meshMan;
 }

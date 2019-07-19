@@ -12,6 +12,8 @@ class DeserializeBase;
 
 struct Texture
 {
+	Texture() = default;
+	Texture(uint8 r, uint8 g, uint8 b, uint8 a);
 	String name;
 	DynamicArray<MipmapLevel> mipLevels;
 	VulkanTexture* gpuResource = nullptr;
@@ -35,3 +37,10 @@ void Deserialize(DeserializeBase& ser, MipmapLevel& level);
 
 void Serialize(SerializeBase& ser, const Texture& tex);
 void Deserialize(DeserializeBase& ser, Texture& tex);
+
+namespace Internal
+{
+// TODO - Find a better way to handle these global textures
+static /*const*/ Texture* const WhiteTexture = new Texture(255, 255, 255, 255);
+static /*const*/ Texture* const BlackTexture = new Texture(0, 0, 0, 255);
+}
