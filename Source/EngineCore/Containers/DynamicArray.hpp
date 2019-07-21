@@ -157,7 +157,6 @@ public:
 	private:
 		DynamicArray<Type>* arr;
 		uint32 currentIndex = 0;
-		uint32 pad[1] = { 0 };
 	};
 	// Dynamic Array Constant Iterator
 	class ConstIterator final
