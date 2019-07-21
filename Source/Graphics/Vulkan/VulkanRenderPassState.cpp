@@ -11,7 +11,7 @@ void VulkanRenderPassState::FillWithRenderTargetDescription(GraphicsPipelineDesc
 	pipelineDescription.renderTargets = currentTarget;
 }
 
-void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, bool inlinedContents)
+void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
 {
 	if (cmdBuffer.IsInRenderPass())
 	{
@@ -21,7 +21,7 @@ void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer,
 
 	VulkanFramebuffer* newTargetFB = cmdBuffer.GetDevice().GetRenderingStorage()->FindOrCreateFramebuffer(targetDescription, renderTextures);
 
-	cmdBuffer.BeginRenderpass(newTargetFB, inlinedContents);
+	cmdBuffer.BeginRenderpass(newTargetFB, clearColors, inlinedContents);
 
 	framebufferContext = newTargetFB;
 	currentTarget = targetDescription;

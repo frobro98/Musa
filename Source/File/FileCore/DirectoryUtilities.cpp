@@ -19,7 +19,7 @@ uint32 NumberOfFilesInDirectory(const char* directory)
 	return fileCount;
 }
 
-uint32 GetRequestedNumFiles(const char* directory, char** directoryFiles, uint32 numFilesRequested)
+uint32 GetRequestedNumFiles(const char* directory, DynamicArray<String>& directoryFiles, uint32 numFilesRequested)
 {
 	HANDLE findHandle;
 	WIN32_FIND_DATA data;
@@ -30,9 +30,7 @@ uint32 GetRequestedNumFiles(const char* directory, char** directoryFiles, uint32
 	{
 		while (numFound < numFilesRequested)
 		{
-			size_t strLen = strlen(data.cFileName);
-			directoryFiles[numFound] = new char[strLen+1];
-			memcpy(directoryFiles[numFound], data.cFileName, strLen + 1);
+			directoryFiles[numFound] = data.cFileName;
 
 			++numFound;
 			if (!FindNextFile(findHandle, &data))
@@ -50,10 +48,10 @@ DirectoryDescription GetAllFilesInDirectory(const char* directory)
 {
 	uint32 filesInDir = NumberOfFilesInDirectory(directory);
 
-	char** files = new char*[filesInDir];
+	DynamicArray<String> files(filesInDir);
 	GetRequestedNumFiles(directory, files, filesInDir);
 
-	return DirectoryDescription{ files, filesInDir };
+	return DirectoryDescription{ std::move(files), filesInDir };
 }
 
 uint32 NumberOfFileTypesInCurrentDirectory(const char* fileExt)
@@ -76,7 +74,7 @@ uint32 NumberOfFileTypesInCurrentDirectory(const char* fileExt)
 	return fileCount;
 }
 
-static uint32 GetRequestedNumFileTypes(const char* fileType, char** directoryFiles, uint32 numFilesRequested)
+static uint32 GetRequestedNumFileTypes(const char* fileType, DynamicArray<String>& directoryFiles, uint32 numFilesRequested)
 {
 	HANDLE findHandle;
 	WIN32_FIND_DATA data;
@@ -87,9 +85,7 @@ static uint32 GetRequestedNumFileTypes(const char* fileType, char** directoryFil
 	{
 		while (numFound < numFilesRequested)
 		{
-			size_t strLen = strlen(data.cFileName);
-			directoryFiles[numFound] = new char[strLen + 1];
-			memcpy(directoryFiles[numFound], data.cFileName, strLen + 1);
+			directoryFiles[numFound] = data.cFileName;
 
 			++numFound;
 
@@ -108,8 +104,8 @@ DirectoryDescription GetAllFileTypesInCurrentDirectory(const char* fileType)
 {
 	uint32 filesInDir = NumberOfFileTypesInCurrentDirectory(fileType);
 
-	char** files = new char*[filesInDir];
+	DynamicArray<String> files(filesInDir);
 	GetRequestedNumFileTypes(fileType, files, filesInDir);
 
-	return DirectoryDescription{ files, filesInDir };
+	return DirectoryDescription{ std::move(files), filesInDir };
 }

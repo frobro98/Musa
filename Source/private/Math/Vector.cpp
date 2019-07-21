@@ -69,7 +69,6 @@ bool Vector::IsZero(float epsilon) const
 			Math::IsOne(w, epsilon));
 }
 
-// TODO - Make this a free floating function that calls into the internal vector code
 // float Vector::GetAngle(const Vector& other) const
 // {
 // 	return Internal::VectorAngleBetweenVectors(*this, other);

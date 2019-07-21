@@ -485,7 +485,7 @@ void SceneRendering::RenderShadowPass(VulkanCommandBuffer& cmdBuffer, Scene& sce
 	RenderTargetTextures renderTarget = {};
 	renderTarget.targetCount = 0;
 	renderTarget.depthTarget = shadowMap.depthTarget;
-	renderingState.SetFramebufferTarget(cmdBuffer, GetShadowMapTargetDescription(), renderTarget);
+	renderingState.SetFramebufferTarget(cmdBuffer, GetShadowMapTargetDescription(), renderTarget, {});
 
 	VkViewport view = {};
 	view.minDepth = 0;
@@ -690,7 +690,14 @@ void SceneRendering::DeferredRender(Scene& scene, const View& view)
 
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
 	TransitionTargetsToWrite(*cmdBuffer, targets);
-	renderingState.SetFramebufferTarget(*cmdBuffer, scene.GetGBufferDescription(), targets);
+	DynamicArray<Color32> clearColors(targets.targetCount);
+	clearColors[0] = Color32(0, 0, 0);
+	clearColors[1] = Color32(0, 0, 0);
+	for (uint32 i = 2; i < clearColors.Size(); ++i)
+	{
+		clearColors[i] = Color32(.7f, .7f, .8f);
+	}
+	renderingState.SetFramebufferTarget(*cmdBuffer, scene.GetGBufferDescription(), targets, clearColors);
 
 // 	VulkanFramebuffer& currentFB = renderingState.GetCurrentFramebuffer();
 // 	VulkanRenderPass* renderpass = currentFB.GetRenderPass();
@@ -733,8 +740,9 @@ void SceneRendering::DeferredRender(Scene& scene, const View& view)
 
 	//RenderShadowPass(*cmdBuffer, scene);
 
+	clearColors = { Color32(0, 0, 0) };
 	VulkanSwapchain* swapchain = GetGraphicsInterface().GetGraphicsSwapchain();
-	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain->GetSwapchainImageDescription(), swapchain->GetSwapchainTarget());
+	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain->GetSwapchainImageDescription(), swapchain->GetSwapchainTarget(), clearColors);
 
 	// TODO - This, to make unlit work, must be rendered to a different texture and then put on screen
 	RenderGBUffersToScreen(*cmdBuffer, scene, view);

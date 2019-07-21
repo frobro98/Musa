@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "Containers/DynamicArray.hpp"
+#include "Texture/Color.hpp"
 
 class VulkanDevice;
 class VulkanQueue;
@@ -32,7 +33,7 @@ public:
 	void DeInitialize(VkCommandPool cmdPool);
 
 	void Begin(VkCommandBufferUsageFlags cbUsageFlags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, const VkCommandBufferInheritanceInfo* pInheritanceInfo = nullptr);
-	void BeginRenderpass(VulkanFramebuffer* frameBuffer, bool inlinedContents = true);
+	void BeginRenderpass(VulkanFramebuffer* frameBuffer, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
 	void EndRenderPass();
 	void End();
 	void Submit(const VulkanQueue& queue, 

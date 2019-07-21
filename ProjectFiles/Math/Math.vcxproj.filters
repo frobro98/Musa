@@ -27,9 +27,6 @@
     <ClInclude Include="..\..\Source\Math\MathUtilities.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math\3DMathUtilites.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Math\QuatFunctions.h">
       <Filter>Source</Filter>
     </ClInclude>

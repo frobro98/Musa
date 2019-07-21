@@ -70,8 +70,7 @@ File::Result File::Close( const File::Handle fh )
 	return 	Result::SUCCESS;
 }
 
-// TODO - x64: Figure out how to handle size_t
-File::Result File::Write( File::Handle fh, const void* const buffer, const size_t inSize )
+File::Result File::Write( File::Handle fh, const void* const buffer, uint32 inSize )
 {
 	if (buffer == nullptr || inSize == (size_t)-1)
 	{
@@ -79,7 +78,7 @@ File::Result File::Write( File::Handle fh, const void* const buffer, const size_
 	}
 
 	DWORD bytesWritten;
-	bool result = WriteFile(fh, buffer, (uint32)inSize, &bytesWritten, nullptr);
+	bool result = WriteFile(fh, buffer, inSize, &bytesWritten, nullptr);
 	if (result == false)
 	{
 		return Result::WRITE_FAIL;
@@ -88,8 +87,7 @@ File::Result File::Write( File::Handle fh, const void* const buffer, const size_
 	return 	Result::SUCCESS;
 }
 
-// TODO - x64: Figure out how to handle size_t
-File::Result File::Read( File::Handle fh,  void * const buffer, const size_t inSize )
+File::Result File::Read( File::Handle fh,  void* const buffer, uint32 inSize )
 {
 	if (buffer == nullptr)
 	{
@@ -97,7 +95,7 @@ File::Result File::Read( File::Handle fh,  void * const buffer, const size_t inS
 	}
 
 	DWORD bytesRead;
-	bool result = ReadFile(fh, buffer, (uint32)inSize, &bytesRead, nullptr);
+	bool result = ReadFile(fh, buffer, inSize, &bytesRead, nullptr);
 
 	if (result == false)
 	{

@@ -69,7 +69,7 @@ void VulkanCommandBuffer::Begin(VkCommandBufferUsageFlags cbUsageFlags, const Vk
 	state = CommandBufferState::Began;
 }
 
-void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, bool inlinedContents)
+void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const DynamicArray<Color32>& clearColors, bool inlinedContents)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -77,14 +77,20 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, bool i
 		Begin();
 	}
 	Assert(state == CommandBufferState::Began);
+	Assert(frameBuffer->GetAttachmentCount() == clearColors.Size()+1);
 
-	DynamicArray<VkClearValue> clearColors(frameBuffer->GetAttachmentCount());
-	for (uint32 i = 0; i < clearColors.Size() - 1; ++i)
+	DynamicArray<VkClearValue> vkClearColors(frameBuffer->GetAttachmentCount());
+	for (uint32 i = 0; i < vkClearColors.Size() - 1; ++i)
 	{
-		clearColors[i].color = { .7f, .7f, .8f, 1.f };
+		vkClearColors[i].color = { 
+			clearColors[i].r,
+			clearColors[i].g,
+			clearColors[i].b,
+			clearColors[i].a
+		};
 	}
 
-	clearColors[clearColors.Size() - 1].depthStencil = { 1.f, 0 };
+	vkClearColors[vkClearColors.Size() - 1].depthStencil = { 1.f, 0 };
 
 	VkRenderPassBeginInfo renderPassBeginInfo = {};
 	renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -93,8 +99,8 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, bool i
 	renderPassBeginInfo.renderArea.offset = { 0,0 };
 	renderPassBeginInfo.renderArea.extent.width = frameBuffer->GetWidth();
 	renderPassBeginInfo.renderArea.extent.height = frameBuffer->GetHeight();
-	renderPassBeginInfo.clearValueCount = clearColors.Size();
-	renderPassBeginInfo.pClearValues = clearColors.GetData();
+	renderPassBeginInfo.clearValueCount = vkClearColors.Size();
+	renderPassBeginInfo.pClearValues = vkClearColors.GetData();
 
 	vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, inlinedContents ? VK_SUBPASS_CONTENTS_INLINE : VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
 

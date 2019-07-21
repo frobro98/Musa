@@ -34,6 +34,15 @@
 
 namespace Math
 {
+	// Gets angle between 2 vectors
+	inline float GetDegreesBetween(const Vector vec0, const Vector& vec1)
+	{
+		Vector v0 = vec0.GetNormalized();
+		Vector v1 = vec1.GetNormalized();
+		float cosAngle = v0.Dot(v1);
+		return Math::RadiansToDegrees(Math::Acos(cosAngle));
+	}
+
 	// Constexpr vector so this can work
 	inline void Lerp(Vector &out, const Vector& a, const Vector& b, const float t)
 	{

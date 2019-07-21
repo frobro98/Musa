@@ -6,6 +6,8 @@
 #include "Graphics/Vulkan/VulkanIndexBuffer.h"
 #include "Graphics/Vulkan/VulkanVertexBuffer.h"
 
+#include "Texture/Color.hpp"
+
 class VulkanFramebuffer;
 class VulkanPipeline;
 class VulkanCommandBuffer;
@@ -27,7 +29,7 @@ public:
 	void FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const;
 
 	// Changes the framebuffer being rendered to, while ending and beginning a new renderpass
-	void SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, bool inlinedContents = true);
+	void SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
 	void SetGraphicsPipeline(VulkanCommandBuffer& cmdBuffer, const GraphicsPipelineDescription& pipelineDescription);
 	void Bind(VulkanCommandBuffer& cmdBuffer) const;
 

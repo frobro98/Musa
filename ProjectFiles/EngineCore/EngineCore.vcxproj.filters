@@ -147,6 +147,12 @@
     <ClInclude Include="..\..\Source\EngineCore\Utilities\TemplateUtils.hpp">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\String\StringView.hpp">
+      <Filter>Source\String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\StaticArray.hpp">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -193,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp">
       <Filter>Source\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\String\StringView.cpp">
+      <Filter>Source\String</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
