@@ -100,3 +100,23 @@ inline ColorMask operator|(ColorMask e0, ColorMask e1)
 {
 	return (ColorMask)((uint32)e0 | (uint32)e1);
 }
+
+enum class SamplerAddressMode : uint8
+{
+	Repeat,
+	ClampToEdge,
+	ClampToBorder
+};
+
+enum class SamplerFilter : uint8
+{
+	Nearest,
+	Linear
+};
+
+enum class SamplerMipmapMode : uint8
+{
+	Nearest,
+	Linear
+};
+

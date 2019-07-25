@@ -180,7 +180,6 @@ private:
 	}
 
 public:
-	// TODO - Give a good compile error if a key is passed in with no GetHash() function
 	ValueType& operator[](const KeyType& key)
 	{
 		return FindOrDefault(key);

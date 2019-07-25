@@ -1,4 +1,5 @@
 #include "FixedBlockHeap.h"
+#include "Assertion.h"
 
 FixedBlockHeap::FixedBlockHeap(Heap* nextHeap, const char * const heapName, uint32 numBlocks, uint32 sizePerBlock, HANDLE heapHandle, Memory* memEngine) : Internal::InternalHeap(heapName, numBlocks*sizePerBlock, nextHeap, heapHandle, memEngine),
 	maxNumBlocks(numBlocks),
@@ -40,7 +41,7 @@ void * FixedBlockHeap::MallocInternal(uint64 inSize, uint32 /*align*/, const cha
 		return nullptr;
 	}
 #else
-	assert(inSize == sizeOfBlock);
+	Assert(inSize == sizeOfBlock);
 #endif
 	// Update heap information
 	mInfo.CurrNumAlloc += 1;
@@ -65,7 +66,7 @@ void * FixedBlockHeap::MallocInternal(uint64 inSize, uint32 /*align*/, const cha
 	}
 
 	// TODO - actually get better logging for assertions
-	assert(false);
+	Assert(false);
 	return nullptr;
 }
 

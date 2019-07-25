@@ -35,7 +35,6 @@ inline constexpr uint32 Gigabytes(uint32 bytes)
 
 inline void Memcpy(void* dest, size_t destSize,  const void* src, size_t srcSize)
 {
-	// TODO - memcpy_s probably isn't cross platform...figure out if it is
 	memcpy_s(dest, destSize, src, srcSize);
 }
 

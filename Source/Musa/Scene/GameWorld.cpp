@@ -63,13 +63,16 @@ GameWorld::~GameWorld()
 
 void GameWorld::Initialize(const Window& window)
 {
-	// Need to figure out if this is actually needed
-	renderEngine = new Renderer;
-	renderEngine->SetupRendering();
-
 	ScreenView* view = new ScreenView(window.GetWidth(), window.GetHeight());
 	scene->SetView(*view);
 	scene->InitializeScene();
+
+	// TODO - Don't really think that (x,y) coords are necessary for the viewport
+	viewport.x = 0;
+	viewport.y = 0;
+	viewport.width = window.GetWidth();
+	viewport.height = window.GetHeight();
+	viewport.graphicsViewport = GetGraphicsInterface().CreateViewport(window.GetWindowHandle(), viewport.width, viewport.height);
 }
 
 void GameWorld::TickWorld(float deltaTime)
@@ -84,7 +87,7 @@ void GameWorld::PushToRenderState()
 
 void GameWorld::RenderWorld()
 {
-	scene->RenderScene(*renderEngine);
+	scene->RenderScene(viewport);
 }
 
 Scene& GameWorld::GetScene()

@@ -6,8 +6,7 @@
 #include "Memory.h"
 #include "Heap.h"
 #include "GlobalNew.h"
-
-#define STUB_PLEASE_REPLACE(x) (x)
+#include "Assertion.h"
 
 // operator new
 void * operator new( size_t inSize, Heap *pHeap, Memory::Align align, const char *inName, uint32 lineNum )
@@ -17,7 +16,7 @@ void * operator new( size_t inSize, Heap *pHeap, Memory::Align align, const char
 
 void operator delete(void * /*p*/, Heap * /*inHeap*/, Memory::Align /*align*/, char * /*inName*/, int /*lineNum*/)
 {
-	assert(false);
+	Assert(false);
 }
 
 void * operator new( size_t inSize )
@@ -50,7 +49,7 @@ void * operator new[]( size_t inSize ,Heap *pHeap, Memory::Align align, const ch
 
 void operator delete[](void * /*p*/, Heap * /*pHeap*/, Memory::Align /*align*/, char * /*inName*/, int /*lineNum*/)
 {
-	assert(false);
+	Assert(false);
 }
 
 void * operator new[]( size_t inSize )

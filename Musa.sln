@@ -57,6 +57,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "ProjectFiles\UnitTests\UnitTests.vcxproj", "{B2313216-9C89-444C-8E63-2EB6AF20C029}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Memory", "ProjectFiles\Memory\Memory.vcxproj", "{4E89A7A9-64AA-49D2-BFAA-AAFEDA8840F3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B85B3691-9099-43F7-B95D-D642F9BBCEBA} = {B85B3691-9099-43F7-B95D-D642F9BBCEBA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCSTrees", "ProjectFiles\PCSTrees\PCSTrees.vcxproj", "{701BD694-0393-44C6-B17F-C8E5E074B745}"
 EndProject
@@ -97,6 +100,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shader", "ProjectFiles\Shader\Shader.vcxproj", "{3BEE9CB7-EB1A-4751-9F94-B6E3ED82F710}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FC2F1349-1A36-4C76-920F-7FD23F21D2B9} = {FC2F1349-1A36-4C76-920F-7FD23F21D2B9}
+		{5092D95D-99F5-43C8-8B0E-BFBEF6A63763} = {5092D95D-99F5-43C8-8B0E-BFBEF6A63763}
 	EndProjectSection
 EndProject
 Global

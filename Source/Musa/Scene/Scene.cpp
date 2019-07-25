@@ -8,6 +8,14 @@
 #include "Thread/JobSystem/JobUtilities.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "GameObject/RenderObjectManager.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Graphics/GraphicsInterface.hpp"
+#include "Renderer/SceneRendering.h"
+
+// TODO - Get rid of these vulkan includes
+#include "Graphics/Vulkan/VulkanViewport.hpp"
+#include "Graphics/Vulkan/VulkanDevice.h"
+#include "Graphics/Vulkan/VulkanStagingBufferManager.hpp"
 
 
 namespace
@@ -75,21 +83,6 @@ VulkanTexture* CreateColorRenderTexture(const ColorDescription& desc, const Scre
 	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, *image);
 	VulkanTexture* tex = new VulkanTexture(*image);
 
-	VkSamplerCreateInfo samplerInfo = {};
-	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-	samplerInfo.magFilter = VK_FILTER_NEAREST;
-	samplerInfo.minFilter = VK_FILTER_NEAREST;
-	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-	samplerInfo.mipLodBias = 0.f;
-	samplerInfo.minLod = 0.f;
-	samplerInfo.maxLod = 1.f;
-
-	CHECK_VK(vkCreateSampler(GetGraphicsInterface().GetGraphicsDevice()->GetNativeHandle(), &samplerInfo, nullptr, &tex->sampler));
-
 	return tex;
 }
 
@@ -117,21 +110,6 @@ VulkanTexture* CreateDepthRenderTexture(const DepthStencilDescription& desc, con
 
 	VulkanTexture* tex = new VulkanTexture(*image);
 
-	VkSamplerCreateInfo samplerInfo = {};
-	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-	samplerInfo.magFilter = VK_FILTER_NEAREST;
-	samplerInfo.minFilter = VK_FILTER_NEAREST;
-	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-	samplerInfo.mipLodBias = 0.f;
-	samplerInfo.minLod = 0.f;
-	samplerInfo.maxLod = 1.f;
-
-	CHECK_VK(vkCreateSampler(GetGraphicsInterface().GetGraphicsDevice()->GetNativeHandle(), &samplerInfo, nullptr, &tex->sampler));
-
 	return tex;
 }
 
@@ -151,7 +129,7 @@ void Scene::InitializeScene()
 
 	gbufferTargets.targetCount = GBufferCount;
 
-
+	sceneRendering = new SceneRendering;
 }
 
 void Scene::AddGameObjectToScene(GameObject& object)
@@ -228,7 +206,7 @@ void Scene::PushStateToGpu()
 	GetRenderObjectManager().SequenciallyPull(view->view);
 }
 
-void Scene::RenderScene(Renderer& renderer)
+void Scene::RenderScene(Viewport& viewport)
 {
 	if (!gbuffersInitialized)
 	{
@@ -236,8 +214,14 @@ void Scene::RenderScene(Renderer& renderer)
 		gbuffersInitialized = true;
 	}
 
-	renderer.SetCurrentScene(*this);
-	renderer.RenderFrame(view->view);
+	if (viewport.graphicsViewport->CanProceedWithRender())
+	{
+		GetGraphicsInterface().GetGraphicsDevice()->GetStagingBufferManager().ProcessDeferredReleases();
+
+		sceneRendering->RenderScene(*this, viewport, view->view);
+
+		viewport.graphicsViewport->SubmitFrame();
+	}
 }
 
 void Scene::SetView(ScreenView& view_)
@@ -253,8 +237,16 @@ void Scene::CreateGBuffer()
 
 	for (uint32 i = 0; i < GBufferCount; ++i)
 	{
-		gbufferTextures.colorTargets[i] = CreateColorRenderTexture(gbufferTargets.colorDescs[i], *view);
+		ColorDescription& desc = gbufferTargets.colorDescs[i];
+		gbufferTextures.colorTargets[i] = GetGraphicsInterface().CreateEmptyTexture2D(
+			view->GetScreenWidth(), view->GetScreenHeight(), 
+			desc.format, 1, TextureUsage::RenderTarget
+		);
 	}
 
-	gbufferTextures.depthTarget = CreateDepthRenderTexture(gbufferTargets.depthDesc, *view);
+	gbufferTextures.depthTarget = GetGraphicsInterface().CreateEmptyTexture2D(
+		view->GetScreenWidth(), view->GetScreenHeight(),
+		gbufferTargets.depthDesc.format, 1, 
+		TextureUsage::DepthStencilTarget
+	);
 }

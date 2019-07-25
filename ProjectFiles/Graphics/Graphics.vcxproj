@@ -193,6 +193,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
     <ClInclude Include="..\..\Source\Graphics\PipelineInitDescription.hpp" />
     <ClInclude Include="..\..\Source\Graphics\RenderApiDefinitions.hpp" />
@@ -235,6 +236,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanUniformBuffer.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanUtilities.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanVertexBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanViewport.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp" />
@@ -269,6 +271,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanUniformBuffer.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanUtilities.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanVertexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanViewport.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

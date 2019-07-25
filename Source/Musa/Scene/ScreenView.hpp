@@ -27,6 +27,7 @@ struct ViewTransforms
 	Matrix projectionMatrix;
 };
 
+// TODO - The view should be produced by the main Viewport somehow
 struct View
 {
 	ViewDescription description;

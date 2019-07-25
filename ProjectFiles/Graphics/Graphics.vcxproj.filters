@@ -138,6 +138,12 @@
     <ClInclude Include="..\..\Source\Graphics\PipelineInitDescription.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanViewport.hpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp">
@@ -234,6 +240,9 @@
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanCommandBuffer.cpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanViewport.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

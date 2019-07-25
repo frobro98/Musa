@@ -30,6 +30,7 @@
 #include "Graphics/GraphicsInterface.hpp"
 #include "GameObject/RenderObjectManager.hpp"
 #include "GameObject/RenderObject.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 //#include "Thread/JobSystem/JobSystem.hpp"
 //#include "Thread/JobSystem/JobUtilities.hpp"
@@ -57,6 +58,7 @@
 #include "Graphics/Vulkan/VulkanFramebuffer.h"
 #include "Graphics/Vulkan/VulkanRenderPass.h"
 #include "Graphics/Vulkan/VulkanRenderPassState.hpp"
+#include "Graphics/Vulkan/VulkanViewport.hpp"
 
 class LightUniformBufferPool
 {
@@ -182,21 +184,6 @@ VulkanShader* shadowVertShader = nullptr;
 
 	shadowMap.depthTextureResource = new VulkanTexture(*image);
 
-	VkSamplerCreateInfo sampler = {};
-	sampler.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-	sampler.magFilter = VK_FILTER_LINEAR;
-	sampler.minFilter = VK_FILTER_LINEAR;
-	sampler.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-	sampler.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	sampler.addressModeV = sampler.addressModeU;
-	sampler.addressModeW = sampler.addressModeU;
-	sampler.mipLodBias = 0.0f;
-	sampler.maxAnisotropy = 1.0f;
-	sampler.minLod = 0.0f;
-	sampler.maxLod = 1.0f;
-	sampler.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-	CHECK_VK(vkCreateSampler(GetGraphicsInterface().GetGraphicsDevice()->GetNativeHandle(), &sampler, nullptr, &shadowMap.depthTextureResource->sampler));
-
 	VulkanDescriptorSetLayout* descriptorSetLayout = GetDescriptorLayoutManager().CreateSetLayout();
 	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT, 0);
 	descriptorSetLayout->BindLayout();
@@ -224,9 +211,8 @@ static RenderTargetDescription GetShadowMapTargetDescription()
 
 // TODO - This should essentially be only the essential objects in the scene
 // i.e. the objects within the view frustum and the light "frustum"
-static void RenderSceneForShadowMap(VulkanCommandBuffer& cmdBuffer, VulkanRenderPassState& renderingState, Light* light, Renderer& renderer)
+static void RenderSceneForShadowMap(VulkanCommandBuffer& cmdBuffer, VulkanRenderPassState& renderingState, Light* light, Scene& scene)
 {
-	Scene& scene = renderer.GetCurrentScene();
 	[[maybe_unused]] Matrix proj = scene.GetScreenView().view.transforms.projectionMatrix;
 	LightDescription lightDesc = light->GetLightDescription();
 	TransformationUniformBuffer transformations;
@@ -243,7 +229,6 @@ static void RenderSceneForShadowMap(VulkanCommandBuffer& cmdBuffer, VulkanRender
 	for (const auto& info : renderObjects)
 	{
 		// Contains all of the persistent data that will be given to the gpu
-		//RenderingEntity* entity = RenderingEntityManager::CreateOrGetEntity(&renderer, *info);
 
 		//transformations.model = info->transform;
 
@@ -268,151 +253,42 @@ static void RenderSceneForShadowMap(VulkanCommandBuffer& cmdBuffer, VulkanRender
 	cmdBuffer.EndRenderPass();
 }
 
-void SceneRendering::RenderScene(Renderer* renderer_, Scene& scene, const View& view)
+void SceneRendering::RenderScene(Scene& scene, const Viewport& viewport, const View& view)
 {
-	renderer = renderer_;
 	if (shadowMap.depthTarget == nullptr)
 	{
 		//InitializeShadowMap();
 	}
 
 	//ForwardRender(scene, view);
-	DeferredRender(scene, view);
-
-	renderer = nullptr;
+	DeferredRender(scene, viewport, view);
 }
-
-/*
-void SceneRendering::ForwardRender(Scene&, const View& view)
-{
-	VulkanCommandBuffer* cmdBuffer = renderer->GetDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
-	VulkanSwapchain* swapchain = renderer->GetSwapchain();
-
-	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain->GetSwapchainImageDescription(), swapchain->GetSwapchainTarget());
-
-	SetViewportAndScissor(*cmdBuffer, view);
-
-	// Per model:
-
-	for (auto& info : renderer->GetCurrentScene().GetRenderInfo())
-	{
-		// Lighting pass, determining light scene data for model
-
-		// Model rendering, pushing everything forward to command buffer
-		Material* mat = info->meshMaterial;
-
-		// Contains all of the persistent data that will be given to the gpu
-		RenderingEntity* entity = RenderingEntityManager::CreateOrGetEntity(renderer, *info);
-
-		// Transformation data
-		TransformationUniformBuffer transformations;
-		transformations.model = info->transform;
-		transformations.view = view.transforms.viewMatrix;
-		transformations.projection = view.transforms.projectionMatrix;
-
-		// TODO - Currently, the new render system doesn't support animation compute, so this needs to be fixed...
-// 		DynamicArray<BonePoseData> poseData = model->GetPoseData();
-// 		if (poseData.Size() > 0)
-// 		{
-// 			PoseInverseUniformBuffer poseInverses;
-// 			Memcpy(poseInverses.inverses, sizeof(PoseInverseUniformBuffer), poseData.GetData(), sizeof(BonePoseData) * poseData.Size());
-// 			entity->GetPoseInverseBuffer()->UpdateUniforms(&poseInverses);
-// 		}
-// 		ComputeEntity* computeEntity = nullptr;
-// 		if(model->GetPoseData().Size() > 0)
-// 		{
-// 			computeEntity = &BuildComputeCommandBuffer(*model);
-// 		}
-
-		// Material Properties
-		MaterialProperties props;
-		props.diffuse = mat->GetColor();
-
-		ViewProperties viewProps;
-		viewProps.viewPosition = view.description.origin;
-
-		// Pushing the data to the buffers
-		entity->GetTransformBuffer()->UpdateUniforms(&transformations);
-		entity->GetMaterialPropsBuffer()->UpdateUniforms(&props);
-		entity->GetViewPropertiesBuffer()->UpdateUniforms(&viewProps);
-
-		// TODO - Get descriptor sets and update them based on information in the rendering entity
-		GraphicsPipelineDescription pipelineDesc;
-		ConstructPipelineDescription(renderingState, pipelineDesc);
-		pipelineDesc.vertexShader = mat->GetVertexShader();
-		pipelineDesc.fragmentShader = mat->GetFragmentShader();
-		renderingState.SetGraphicsPipeline(*cmdBuffer, pipelineDesc);
-
-		// Set Transform Data
-		renderingState.SetUniformBuffer(entity->GetTransformBuffer()->GetBuffer(), 0);
-
-		if (entity->GetNativeTexture()->image != nullptr)
-		{
-			// Set Texture Data
-			renderingState.SetTexture(*entity->GetNativeTexture(), 1);
-		}
-
-		// TODO - Get rid of hack!!!
-		if (entity->GetNativeTexture1()->image != nullptr)
-		{
-			// Set Texture Data
-			renderingState.SetTexture(*entity->GetNativeTexture1(), 2);
-			// Set Material Data
-			renderingState.SetUniformBuffer(entity->GetMaterialPropsBuffer()->GetBuffer(), 3);
-			// Set View Data
-			renderingState.SetUniformBuffer(entity->GetViewPropertiesBuffer()->GetBuffer(), 4);
-		}
-		else
-		{
-			// Set Material Data
-			renderingState.SetUniformBuffer(entity->GetMaterialPropsBuffer()->GetBuffer(), 2);
-			// Set View Data
-			renderingState.SetUniformBuffer(entity->GetViewPropertiesBuffer()->GetBuffer(), 3);
-		}
-
-		// 		// SKINNING
-		// 		if (poseData.Size() > 0)
-		// 		{
-		// 			// Pose Inverses!
-		// 			renderingState.SetUniformBuffer(entity->GetPoseInverseBuffer()->GetBuffer(), 4);
-		// 			// Computed bone transforms
-		// 			renderingState.SetStorageBuffer(computeEntity->GetTransformedHierarchy().GetBuffer(), 5);
-		// 		}
-
-
-
-		// 		if (entity->GetWeightsBuffer()->IsValid())
-		// 		{
-		// 			entity->GetWeightsBuffer()->Bind(cmdBuffer);
-		// 		}
-
-		entity->GetVertexBuffer()->Bind(cmdBuffer);
-		entity->GetIndexBuffer()->Bind(cmdBuffer);
-		uint32 indexCount = entity->GetIndexBuffer()->GetNumberOfIndicies();
-
-		renderingState.Bind(*cmdBuffer);
-
-		cmdBuffer->DrawIndexed(indexCount, 1, 0, 0, 0);
-	}
-
-	cmdBuffer->EndRenderPass();
-
-}
-//*/
 
 void RenderWithNormalMap(VulkanRenderPassState& renderingState, const RenderObject& object)
 {
 	// Set Transform Data
 	renderingState.SetUniformBuffer(object.gpuRenderInfo->transformBuffer->GetBuffer(), 0);
 
+	TextureSamplerCreateParams params = {};
+	params.addrModeU = SamplerAddressMode::ClampToEdge;
+	params.addrModeV = SamplerAddressMode::ClampToEdge;
+	params.enabledAnisotropy = false;
+	params.magFilter = SamplerFilter::Linear;
+	params.minFilter = SamplerFilter::Linear;
+	params.maxAnisotropy = 1.f;
+	params.minLod = 0.f;
+	params.maxLod = 1.f;
+	params.mipMode = SamplerMipmapMode::Linear;
+	TextureSampler sampler = GetGraphicsInterface().CreateTextureSampler(params);
+
 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderingState.SetTexture(*matInfo->baseTexture, 1);
+		renderingState.SetTexture(*matInfo->baseTexture, sampler, 1);
 	}
 
-	renderingState.SetTexture(*matInfo->normalMap, 2);
+	renderingState.SetTexture(*matInfo->normalMap, sampler, 2);
 
 	// Set Material Data
 	renderingState.SetUniformBuffer(matInfo->materialProperties->GetBuffer(), 3);
@@ -424,13 +300,25 @@ void RenderNormally(VulkanRenderPassState& renderingState, const RenderObject& o
 {
 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
 
+	TextureSamplerCreateParams params = {};
+	params.addrModeU = SamplerAddressMode::ClampToEdge;
+	params.addrModeV = SamplerAddressMode::ClampToEdge;
+	params.enabledAnisotropy = false;
+	params.magFilter = SamplerFilter::Linear;
+	params.minFilter = SamplerFilter::Linear;
+	params.maxAnisotropy = 1.f;
+	params.minLod = 0.f;
+	params.maxLod = 1.f;
+	params.mipMode = SamplerMipmapMode::Linear;
+	TextureSampler sampler = GetGraphicsInterface().CreateTextureSampler(params);
+
 	// Set Transform Data
 	renderingState.SetUniformBuffer(object.gpuRenderInfo->transformBuffer->GetBuffer(), 0);
 
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderingState.SetTexture(*matInfo->baseTexture, 1);
+		renderingState.SetTexture(*matInfo->baseTexture, sampler, 1);
 	}
 
 	// Set Material Data
@@ -508,7 +396,7 @@ void SceneRendering::RenderShadowPass(VulkanCommandBuffer& cmdBuffer, Scene& sce
 // 
 // 	renderingState.SetGraphicsPipeline(cmdBuffer, desc);
 
-	RenderSceneForShadowMap(cmdBuffer, renderingState, scene.GetLights()[0], *renderer);
+	RenderSceneForShadowMap(cmdBuffer, renderingState, scene.GetLights()[0], scene);
 
 	// Transition depth images
 	VkImageSubresourceRange range = {};
@@ -545,27 +433,6 @@ void SceneRendering::RenderUnlitToScreen(VulkanCommandBuffer& cmdBuffer)
 
 		if (mat->shadingModel == ShadingModel::Unlit)
 		{
-// 			// Contains all of the persistent data that will be given to the gpu
-// 			RenderingEntity* entity = RenderingEntityManager::CreateOrGetEntity(renderer, *info);
-// 
-// 			// Transformation data
-// 			TransformationUniformBuffer transformations;
-// 			transformations.model = info->transform;
-// 			transformations.view = view.transforms.viewMatrix;
-// 			transformations.projection = view.transforms.projectionMatrix;
-// 
-// 			// Material Properties
-// 			MaterialProperties props;
-// 			props.diffuse = mat->baseColor;
-// 
-// 			ViewProperties viewProps;
-// 			viewProps.viewPosition = view.description.origin;
-// 
-// 			// Pushing the data to the buffers
-// 			entity->GetTransformBuffer()->UpdateUniforms(&transformations);
-// 			entity->GetMaterialPropsBuffer()->UpdateUniforms(&props);
-// 			entity->GetViewPropertiesBuffer()->UpdateUniforms(&viewProps);
-
 			// TODO - Get descriptor sets and update them based on information in the rendering entity
 			GraphicsPipelineDescription pipelineDesc;
 			ConstructPipelineDescription(renderingState, pipelineDesc);
@@ -600,9 +467,21 @@ void SceneRendering::RenderGBUffersToScreen(VulkanCommandBuffer& cmdBuffer, Scen
 	Light* light = scene.GetLights()[0];
 	LightDescription lightDesc = light->GetLightDescription();
 
+	TextureSamplerCreateParams params = {};
+	params.addrModeU = SamplerAddressMode::ClampToEdge;
+	params.addrModeV = SamplerAddressMode::ClampToEdge;
+	params.enabledAnisotropy = false;
+	params.magFilter = SamplerFilter::Linear;
+	params.minFilter = SamplerFilter::Linear;
+	params.maxAnisotropy = 1.f;
+	params.minLod = 0.f;
+	params.maxLod = 1.f;
+	params.mipMode = SamplerMipmapMode::Linear;
+	TextureSampler sampler = GetGraphicsInterface().CreateTextureSampler(params);
+
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
-		renderingState.SetTexture(*targets.colorTargets[i], i);
+		renderingState.SetTexture(*targets.colorTargets[i], sampler, i);
 	}
 
 	//renderingState.SetTexture(*shadowMap.depthTextureResource, 3);
@@ -684,7 +563,7 @@ void SceneRendering::SecondaryGBufferPass_Job(VulkanCommandBuffer& secondaryCmdB
 	secondaryCmdBuffer.End();
 }
 
-void SceneRendering::DeferredRender(Scene& scene, const View& view)
+void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, const View& view)
 {
 	VulkanCommandBuffer* cmdBuffer = GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
 
@@ -699,50 +578,13 @@ void SceneRendering::DeferredRender(Scene& scene, const View& view)
 	}
 	renderingState.SetFramebufferTarget(*cmdBuffer, scene.GetGBufferDescription(), targets, clearColors);
 
-// 	VulkanFramebuffer& currentFB = renderingState.GetCurrentFramebuffer();
-// 	VulkanRenderPass* renderpass = currentFB.GetRenderPass();
-// 
-// 	const uint32 numJobs = DetermineJobCount();
-// 	DynamicArray<VulkanCommandBuffer*> secondaryBuffers = GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetSecondaryCommandBuffers(numJobs);
-// 
-// 	Job* gbufferPassJob = GetJobSystem().CreateEmptyJob();
-// 	
-// 	uint32 startIndex = 0;
-// 	for (uint32 i = 0; i < numJobs; ++i)
-// 	{
-// 		uint32 endIndex = 0;
-// 		if (i == numJobs - 1)
-// 		{
-// 			uint32 diff = GetRenderObjectManager().GetRenderObjects().Size() - startIndex;
-// 			endIndex = startIndex + diff;
-// 		}
-// 		else
-// 		{
-// 			endIndex = startIndex + minNumObjectsPerJob;
-// 		}
-// 		// Create jobs
-// 		PushConcurrentJobUnder(
-// 			*gbufferPassJob,
-// 			[=, &view, &currentFB, &secCB = secondaryBuffers[i]]
-// 			{
-// 				SecondaryGBufferPass_Job(*secCB, view, currentFB.GetNativeHandle(), renderpass->GetNativeHandle(), startIndex, endIndex);
-// 			}
-// 		);
-// 
-// 		startIndex += minNumObjectsPerJob;
-// 	}
-// 	
-// 	GetJobSystem().WaitOnJob(*gbufferPassJob);
-// 
-// 	cmdBuffer->ExecuteCommandBuffers(secondaryBuffers);
-
 	RenderGBufferPass(*cmdBuffer, view);
 
 	//RenderShadowPass(*cmdBuffer, scene);
 
 	clearColors = { Color32(0, 0, 0) };
-	VulkanSwapchain* swapchain = GetGraphicsInterface().GetGraphicsSwapchain();
-	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain->GetSwapchainImageDescription(), swapchain->GetSwapchainTarget(), clearColors);
+	const VulkanSwapchain& swapchain = viewport.graphicsViewport->GetSwapchain();
+	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain.GetSwapchainImageDescription(), swapchain.GetSwapchainTarget(), clearColors);
 
 	// TODO - This, to make unlit work, must be rendered to a different texture and then put on screen
 	RenderGBUffersToScreen(*cmdBuffer, scene, view);

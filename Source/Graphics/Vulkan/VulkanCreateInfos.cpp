@@ -1,7 +1,9 @@
 
 #include "VulkanCreateInfos.h"
 #include "VulkanDevice.h"
+#include "VulkanUtilities.h"
 #include "EngineCore/Assertion.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 
 namespace Vk
@@ -100,6 +102,29 @@ namespace Vk
 		renderPassInfo.pDependencies = dependencies;
 
 		return renderPassInfo;
+	}
+
+	VkSamplerCreateInfo SamplerInfo(const TextureSamplerCreateParams& params)
+	{
+		VkSamplerCreateInfo samplerInfo = {};
+		samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+		samplerInfo.magFilter = MusaFilterToVkFilter(params.magFilter);
+		samplerInfo.minFilter = MusaFilterToVkFilter(params.minFilter);
+		samplerInfo.addressModeU = MusaAddressModeToVkAddressMode(params.addrModeU);
+		samplerInfo.addressModeV = MusaAddressModeToVkAddressMode(params.addrModeV);
+		samplerInfo.addressModeW = MusaAddressModeToVkAddressMode(params.addrModeU);
+		samplerInfo.anisotropyEnable = params.enabledAnisotropy;
+		samplerInfo.maxAnisotropy = params.maxAnisotropy;
+		samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
+		samplerInfo.unnormalizedCoordinates = VK_FALSE;
+		samplerInfo.compareEnable = VK_FALSE;
+		samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+		samplerInfo.mipmapMode = MusaMipModeToVkMipMode(params.mipMode);
+		samplerInfo.mipLodBias = params.mipLodBias;
+		samplerInfo.minLod = params.minLod;
+		samplerInfo.maxLod = params.maxLod;
+
+		return samplerInfo;
 	}
 
 	namespace create

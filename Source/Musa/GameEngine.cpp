@@ -32,14 +32,14 @@ void GameEngine::RunEngine()
 	int32 width = 1080;
 	int32 height = 720;
 
+	// TODO - This call needs some sort of type safety for the window handle...
+	GetGraphicsInterface().InitializeGraphics();
+
+	InitializeShaders();
+
 	Window* window = new Window(width, height);
 	window->Initialize();
 	window->SetAsActiveWindow();
-
-	// TODO - This call needs some sort of type safety for the window handle...
-	GetGraphicsInterface().InitializeGraphics(window->GetWindowHandle(), width, height);
-
-	InitializeShaders();
 
 	world = new GameWorld;
 	world->Initialize(*window);

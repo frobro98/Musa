@@ -28,11 +28,11 @@
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{dabbd75c-ffa5-4084-b7a7-9f05b4c85d7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Renderer">
-      <UniqueIdentifier>{0cd15028-954e-4cc9-b6e4-de370cd90040}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Lighting">
       <UniqueIdentifier>{69a09036-8915-4f64-98ec-0841f6d57b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\RenderPipeline">
+      <UniqueIdentifier>{4dcc6131-5f58-436c-ae26-daaade43caa7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,12 +102,6 @@
     <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Renderer\SceneRendering.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Renderer\Renderer.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp">
       <Filter>Source\Lighting</Filter>
     </ClCompile>
@@ -119,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp">
       <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Renderer\SceneRendering.cpp">
+      <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,18 +203,6 @@
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Renderer\SceneRendering.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Renderer\Renderer.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Renderer\RenderingEngine.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Lighting\PointLight.hpp">
       <Filter>Source\Lighting</Filter>
     </ClInclude>
@@ -229,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp">
       <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Renderer\SceneRendering.h">
+      <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@
 
 #include "Containers/Map.h"
 #include "Graphics/PipelineInitDescription.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class VulkanDevice;
 class VulkanPipeline;
@@ -28,22 +29,25 @@ public:
 
 	void SetupSwapchainFramebuffers(const RenderTargetDescription& desc, const DynamicArray<VkImage>& swapchainImages);
 
-	VulkanPipeline* FindOrCreatePipeline(const GraphicsPipelineDescription& desc);
-	VulkanRenderPass* FindOrCreateRenderPass(const RenderTargetDescription& desc);
+	[[nodiscard]] VulkanPipeline* FindOrCreatePipeline(const GraphicsPipelineDescription& desc);
+	[[nodiscard]] VulkanRenderPass* FindOrCreateRenderPass(const RenderTargetDescription& desc);
 	// TODO - This isn't entirely correct, because a framebuffer could have the same attachment information, but not have the same render textures
 	[[nodiscard]] VulkanFramebuffer* FindOrCreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs);
 
+	[[nodiscard]] VkSampler FindOrCreateSampler(const TextureSamplerCreateParams& params);
 private:
 	VulkanPipeline* CreatePipeline(const GraphicsPipelineDescription& desc);
 	VulkanRenderPass* CreateRenderPass(const RenderTargetDescription& desc);
 	VulkanFramebuffer* CreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs);
 	VulkanPipelineLayout* ConfigurePipelineLayout(const GraphicsPipelineDescription& desc);
 private:
+	using SimilarFramebuffers = DynamicArray<VulkanFramebuffer*>;
+
 	Map<GraphicsPipelineDescription, VulkanPipeline*> pipelineStore;
 	Map<RenderTargetDescription, VulkanRenderPass*> renderPassStore;
-
-	using SimilarFramebuffers = DynamicArray<VulkanFramebuffer*>;
 	Map<RenderTargetDescription, SimilarFramebuffers> framebufferStore;
+	Map<TextureSamplerCreateParams, VkSampler> samplerStore;
+
 	const VulkanDevice* logicalDevice;
 
 };

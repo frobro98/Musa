@@ -3,6 +3,7 @@
 #include "Graphics.h"
 
 class VulkanDevice;
+struct TextureSamplerCreateParams;
 
 namespace Vk
 {
@@ -45,6 +46,8 @@ namespace Vk
 		const VkSubpassDescription* subpasses, uint32 numSubpasses,
 		const VkSubpassDependency* dependencies = nullptr, uint32 numDependencies = 0
 	);
+
+	VkSamplerCreateInfo SamplerInfo(const TextureSamplerCreateParams& params);
 
 	namespace create
 	{

@@ -4,16 +4,13 @@
 //----------------------------------------------------------------------------- 
 
 #include <stdio.h>
-#include <string.h>
-#include <new>
 
 #include "InternalMem.h"
 #include "DynamicBlockHeap.h"
 #include "FixedBlockHeap.h"
 #include "InternalBlock.h"
 #include "MemoryUtilities.h"
-
-#define STUB_PLEASE_REPLACE(x) (x)
+#include "Assertion.h"
 
 // Allowing use of Internal
 using namespace Internal;
@@ -54,7 +51,7 @@ unsigned int GetAlignment(Memory::Align alignment)
 		default:
 		{
 			// Don't know why this happened
-			assert(false);
+			Assert(false);
 		}
 	}
 	return 0;
@@ -97,11 +94,6 @@ Memory::Code Memory::HeapCreate(Heap *&newHeap, unsigned int heapSize, const cha
 
 Memory::Code Memory::HeapCreate(Heap *&newHeap, uint32 numBlocks, uint32 sizePerBlock, const char * const Name)
 {
-	STUB_PLEASE_REPLACE(newHeap);
-	STUB_PLEASE_REPLACE(numBlocks);
-	STUB_PLEASE_REPLACE(sizePerBlock);
-	STUB_PLEASE_REPLACE(Name);
-
 	Memory* mem = Instance();
 	if (!mem->mInitialized)
 	{
@@ -139,8 +131,8 @@ Memory::Code Memory::HeapCreate(Heap *&newHeap, uint32 numBlocks, uint32 sizePer
 void* Memory::Malloc(uint64 inSize, Heap *heap, Memory::Align align, const char *inName, uint32 lineNum)
 {
 	Memory* mem = Instance();
-	assert(mem->mInitialized);
-	assert(heap != nullptr);
+	Assert(mem->mInitialized);
+	Assert(heap != nullptr);
 
 	uint32 alignment = GetAlignment(align);
 	
@@ -281,7 +273,7 @@ void Memory::CreateDebugHeap()
 	const int numBlocks = 10000;
 	unsigned int heapSize = sizeof(Block) * 10000 + (2*1024);
 	HANDLE heapHandle = ::HeapCreate(0, heapSize, 0);
-	assert(heapHandle != INVALID_HANDLE_VALUE);
+	Assert(heapHandle != INVALID_HANDLE_VALUE);
 	// TODO - finish refactor of this debug heap idea
 }
 #endif

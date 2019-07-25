@@ -4,7 +4,7 @@
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanStagingBufferManager.hpp"
 #include "VulkanUtilities.h"
-
+#include "Shader/ShaderStructure.hpp"
 
 VkAccessFlags GetAccessFlagsFor(VkImageLayout layout)
 {
@@ -239,6 +239,27 @@ void CopyImage(VulkanCommandBuffer& cmdBuffer, const VulkanImage& srcImage, cons
 		regionsToCopy.Size(), regionsToCopy.GetData());
 }
 
+VkDescriptorType MusaConstantToDescriptorType(ShaderConstant constant)
+{
+	switch (constant.bindingType)
+	{
+		case ShaderConstantType::StorageBuffer:
+			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+		case ShaderConstantType::StorageDynamicBuffer:
+			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
+		case ShaderConstantType::TextureSampler:
+			return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+		case ShaderConstantType::UniformBuffer:
+			return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		case ShaderConstantType::UniformDynamicBuffer:
+			return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+		default:
+			Assert(false);
+	}
+
+	return VK_DESCRIPTOR_TYPE_MAX_ENUM;
+}
+
 VkFormat MusaFormatToVkFormat(ImageFormat format)
 {
 	switch (format)
@@ -464,5 +485,46 @@ VkShaderStageFlagBits MusaStageToVkStage(ShaderStage shaderStage)
 		default:
 			Assert(false);
 			return VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
+	}
+}
+
+VkFilter MusaFilterToVkFilter(SamplerFilter filter)
+{
+	switch (filter)
+	{
+		case SamplerFilter::Nearest:
+			return VK_FILTER_NEAREST;
+		case SamplerFilter::Linear:
+			return VK_FILTER_LINEAR;
+		default:
+			return VK_FILTER_RANGE_SIZE;
+	}
+}
+
+VkSamplerAddressMode MusaAddressModeToVkAddressMode(SamplerAddressMode addrMode)
+{
+	switch (addrMode)
+	{
+		case SamplerAddressMode::Repeat:
+			return VK_SAMPLER_ADDRESS_MODE_REPEAT;
+		case SamplerAddressMode::ClampToEdge:
+			return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+		case SamplerAddressMode::ClampToBorder:
+			return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+		default:
+			return VK_SAMPLER_ADDRESS_MODE_RANGE_SIZE;
+	}
+}
+
+VkSamplerMipmapMode MusaMipModeToVkMipMode(SamplerMipmapMode mipMode)
+{
+	switch (mipMode)
+	{
+		case SamplerMipmapMode::Nearest:
+			return VK_SAMPLER_MIPMAP_MODE_NEAREST;
+		case SamplerMipmapMode::Linear:
+			return VK_SAMPLER_MIPMAP_MODE_LINEAR;
+		default:
+			return VK_SAMPLER_MIPMAP_MODE_RANGE_SIZE;
 	}
 }

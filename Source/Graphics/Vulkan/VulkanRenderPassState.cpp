@@ -5,6 +5,7 @@
 #include "VulkanRenderingCloset.hpp"
 #include "VulkanDevice.h"
 #include "VulkanDescriptorSet.h"
+#include "GraphicsInterface.hpp"
 
 void VulkanRenderPassState::FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const
 {
@@ -19,7 +20,7 @@ void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer,
 		framebufferContext = nullptr;
 	}
 
-	VulkanFramebuffer* newTargetFB = cmdBuffer.GetDevice().GetRenderingStorage()->FindOrCreateFramebuffer(targetDescription, renderTextures);
+	VulkanFramebuffer* newTargetFB = GetGraphicsInterface().GetRenderTarget(targetDescription, renderTextures);
 
 	cmdBuffer.BeginRenderpass(newTargetFB, clearColors, inlinedContents);
 
@@ -64,10 +65,10 @@ void VulkanRenderPassState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 
 	activeDescriptorSet->SetStorageBufferInfo(buffer, bindIndex);
 }
 
-void VulkanRenderPassState::SetTexture(const VulkanTexture& texture, uint32 bindIndex)
+void VulkanRenderPassState::SetTexture(const VulkanTexture& texture, const TextureSampler& sampler, uint32 bindIndex)
 {
 	Assert(activeDescriptorSet);
-	activeDescriptorSet->SetSampledTextureInfo(texture, bindIndex);
+	activeDescriptorSet->SetSampledTextureInfo(texture, sampler, bindIndex);
 }
 
 void VulkanRenderPassState::ResetState()

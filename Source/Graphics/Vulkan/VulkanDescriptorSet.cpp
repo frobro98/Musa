@@ -2,6 +2,7 @@
 #include "VulkanDevice.h"
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanImageAllocation.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanDevice& device)
 	: logicalDevice(device)
@@ -158,7 +159,7 @@ void VulkanDescriptorSet::SetStorageBufferInfo(const VulkanBuffer& storageBuffer
 	}
 }
 
-void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, uint32 textureBinding)
+void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding)
 {
 	for (auto& writer : descriptorWrites)
 	{
@@ -172,7 +173,7 @@ void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, ui
 				// TODO - There must be a better way to get the layout down to this level. Look up is required at this level as well...
 				imageInfo.imageLayout = texture.image->format != VK_FORMAT_D32_SFLOAT_S8_UINT ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 				imageInfo.imageView = texture.imageView;
-				imageInfo.sampler = texture.sampler;
+				imageInfo.sampler = sampler.nativeSampler;
 				imageInfos.Add(std::move(imageInfo));
 				writer.pImageInfo = &imageInfos.Last();
 			}
@@ -191,7 +192,7 @@ void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, ui
 				// TODO - There must be a better way to get the layout down to this level. Look up is required at this level as well...
 				imageInfo->imageLayout = texture.image->format != VK_FORMAT_D32_SFLOAT_S8_UINT ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
 				imageInfo->imageView = texture.imageView;
-				imageInfo->sampler = texture.sampler;
+				imageInfo->sampler = sampler.nativeSampler;
 			}
 		}
 	}

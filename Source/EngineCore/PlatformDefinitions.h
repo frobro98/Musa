@@ -23,22 +23,15 @@
 WALL_WRN_PUSH
 #include <cstdio>
 #include <cstdlib>
-// TODO - Create my own custom assert
-#include <cassert>
 
 #include <new>
 #include <memory>
-#include <array> // TODO - Get rid of this include...
 #include <algorithm>
-// #include <map>
 #include <functional>
-#include <unordered_map>
 WALL_WRN_POP
 
 #ifdef _WIN32
-WALL_WRN_PUSH
 #include "Windows/WindowsDefinitions.h"
-WALL_WRN_POP
 #endif
 
 #define UNUSED(...)						\

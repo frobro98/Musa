@@ -2,7 +2,6 @@
 #include "String/CStringUtilities.hpp"
 
 
-// TODO - This is a windows implementation. This needs to move somewhere more generic
 String EngineExeFullPath()
 {
 	HMODULE hCurrentModule;

@@ -27,7 +27,6 @@ struct VulkanImage
 struct VulkanTexture
 {
 	VkImageView imageView = VK_NULL_HANDLE;
-	VkSampler sampler = VK_NULL_HANDLE;
 	VulkanImage* image = nullptr;
 
 	VulkanTexture(VulkanImage& allocedImage);
@@ -44,12 +43,10 @@ struct VulkanTexture
 
 	VulkanTexture(VulkanTexture&& other) noexcept
 		: imageView(other.imageView),
-		sampler(other.sampler),
 		image(other.image)
 	{
 		other.image = nullptr;
 		other.imageView = VK_NULL_HANDLE;
-		other.sampler = VK_NULL_HANDLE;
 	}
 
 	VulkanTexture& operator=(VulkanTexture&& other) noexcept
@@ -58,11 +55,9 @@ struct VulkanTexture
 		{
 			image = other.image;
 			imageView = other.imageView;
-			sampler = other.sampler;
 
 			other.image = nullptr;
 			other.imageView = VK_NULL_HANDLE;
-			other.sampler = VK_NULL_HANDLE;
 		}
 
 		return *this;

@@ -4,6 +4,7 @@
 #include "MemoryUtilities.h"
 #include "InternalBlock.h"
 #include "InternalMem.h"
+#include "Assertion.h"
 
 using namespace Internal;
 
@@ -19,7 +20,7 @@ DynamicBlockHeap::~DynamicBlockHeap()
 
 void * DynamicBlockHeap::MallocInternal(uint64 inSize, uint32 align, const char *inName, uint32 lineNum, uint32 allocationIndex)
 {
-	assert(IsPowerOf2(align));
+	Assert(IsPowerOf2(align));
 
 	// Update Info
 	mInfo.CurrBytesUsed += inSize;

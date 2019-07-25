@@ -1,6 +1,8 @@
 #pragma once
 
 #include <type_traits>
+// TODO - Remove this...
+#include <array>
 
 #include "EngineCore/Types/Intrinsics.hpp"
 #include "Musa/Mesh/GeometryPrimitives.h"

@@ -8,6 +8,7 @@
 class VulkanDevice;
 class VulkanFence;
 class VulkanCommandBuffer;
+struct TextureSampler;
 
 class VulkanDescriptorSetLayout
 {
@@ -43,7 +44,7 @@ public:
 
 	void SetUniformBufferInfo(const VulkanBuffer& uniformBuffer, uint32 bufferBinding);
 	void SetStorageBufferInfo(const VulkanBuffer& storageBuffer, uint32 bufferBinding);
-	void SetSampledTextureInfo(const VulkanTexture& texture, uint32 textureBinding);
+	void SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding);
 
 	void UpdateDescriptorSet();
 

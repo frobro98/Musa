@@ -7,6 +7,7 @@ class Camera;
 class Model;
 class Scene;
 struct View;
+struct Viewport;
 
 // TODO - These need to be refactored out of here!
 #include "Graphics/Vulkan/VulkanRenderPassState.hpp"
@@ -20,7 +21,7 @@ public:
 	SceneRendering() = default;
 	~SceneRendering() = default;
 
-	void RenderScene(Renderer* renderer, Scene& scene, const View& view);
+	void RenderScene(Scene& scene, const Viewport& viewport, const View& view);
 
 	//void SetTexture(class Texture* texture);
 
@@ -29,7 +30,7 @@ private:
 	void SecondaryGBufferPass_Job(VulkanCommandBuffer& secondaryCmdBuffer, const View& view, VkFramebuffer framebufferHandle, VkRenderPass renderpassHandle, uint32 startRenderIndex, uint32 endRenderIndex) const;
 
 	void ForwardRender(Scene& scene, const View& view);
-	void DeferredRender(Scene& scene, const View& view);
+	void DeferredRender(Scene& scene, const Viewport& viewport, const View& view);
 
 	void RenderGBufferPass(VulkanCommandBuffer& cmdBuffer, const View& view);
 	void RenderShadowPass(VulkanCommandBuffer& cmdBuffer, Scene& scene);

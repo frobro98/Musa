@@ -18,6 +18,7 @@ struct RenderTargetTextures;
 struct GraphicsPipelineDescription;
 struct VulkanBuffer;
 struct VulkanTexture;
+struct TextureSampler;
 
 
 // Describes what is currently processing within a render pass in Vulkan
@@ -35,7 +36,7 @@ public:
 
 	void SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex);
 	void SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex);
-	void SetTexture(const VulkanTexture& texture, uint32 bindIndex);
+	void SetTexture(const VulkanTexture& texture, const TextureSampler& sampler, uint32 bindIndex);
 
 	inline VulkanFramebuffer& GetCurrentFramebuffer() const { return *framebufferContext; }
 

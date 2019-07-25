@@ -1,6 +1,7 @@
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "Types/Intrinsics.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class Scene;
 class Window;
@@ -14,7 +15,7 @@ public:
 
 	void Initialize(const Window& window);
 
-	// These are just passthroughs right now
+	// These are just pass throughs right now
 	void TickWorld(float deltaTime);
 	void PushToRenderState();
 	void RenderWorld();
@@ -22,8 +23,6 @@ public:
 	Scene& GetScene();
 
 private:
+	Viewport viewport;
 	Scene* scene;
-
-	// TODO - Make this something that doesn't live anywhere 
-	class Renderer* renderEngine;
 };

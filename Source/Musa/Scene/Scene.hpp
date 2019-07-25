@@ -2,13 +2,15 @@
 
 #include "Containers/DynamicArray.hpp"
 //#include "PCSTree/PCSTree.h"
-#include "Renderer/RenderingEngine.h"
 #include "GameObject/GameObject.h"
 #include "Graphics/RenderTargetDescription.hpp"
 
 class Light;
 class ScreenView;
 struct MeshRenderInfo;
+struct Viewport;
+
+class SceneRendering;
 
 // TODO - this structure would correspond to a file that records all of the objects in scene
 
@@ -31,7 +33,7 @@ public:
 
 	void Tick(float deltaTime);
 	void PushStateToGpu();
-	void RenderScene(Renderer& renderer);
+	void RenderScene(Viewport& viewport);
 	
 	void SetView(ScreenView& view);
 
@@ -62,6 +64,7 @@ private:
 	Light* lights[3] = { nullptr, nullptr, nullptr };
 
 	ScreenView* view = nullptr;
+	SceneRendering* sceneRendering = nullptr;
 
 	bool gbuffersInitialized = false;
 	bool pad[3] = { false, false, false };

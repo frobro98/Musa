@@ -6,7 +6,6 @@
 
 Guid::Guid()
 {
-	// TODO - Clearly not cross platform!
 	GUID guid;
 	::CoCreateGuid(&guid);
 	Memcpy(bytes, GuidSize, &guid, GuidSize);

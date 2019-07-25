@@ -12,6 +12,8 @@
 #include "VulkanUtilities.h"
 #include "VulkanMemoryManager.hpp"
 #include "VulkanCommandBuffer.h"
+#include "VulkanRenderingCloset.hpp"
+#include "VulkanViewport.hpp"
 
 namespace
 {
@@ -101,7 +103,7 @@ VulkanGraphicsInterface::~VulkanGraphicsInterface()
 	vkDestroyInstance(instance, nullptr);
 }
 
-void VulkanGraphicsInterface::InitializeGraphics(void* windowHandle, uint32 width, uint32 height)
+void VulkanGraphicsInterface::InitializeGraphics()
 {
 	CreateInstance();
 
@@ -110,10 +112,6 @@ void VulkanGraphicsInterface::InitializeGraphics(void* windowHandle, uint32 widt
 
 	GetShaderManager().logicalDevice = logicalDevice;
 	VulkanMemory::Initialize(logicalDevice);
-
-	VulkanSurface* surface = new VulkanSurface(instance, logicalDevice, windowHandle, width, height);
-	swapchain = new VulkanSwapchain(*logicalDevice, surface);
-	swapchain->Initialize();
 }
 
 VulkanTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
@@ -201,9 +199,20 @@ VulkanTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
 	samplerInfo.minLod = 0.f;
 	samplerInfo.maxLod = (float)mipLevels;
 
-	CHECK_VK(vkCreateSampler(logicalDevice->GetNativeHandle(), &samplerInfo, nullptr, &tex->sampler));
+	//CHECK_VK(vkCreateSampler(logicalDevice->GetNativeHandle(), &samplerInfo, nullptr, &tex->sampler));
 
 	return tex;
+}
+
+VulkanFramebuffer* VulkanGraphicsInterface::GetRenderTarget(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures)
+{
+	return logicalDevice->GetRenderingStorage()->FindOrCreateFramebuffer(targetDesc, renderTextures);
+}
+
+TextureSampler VulkanGraphicsInterface::CreateTextureSampler(const TextureSamplerCreateParams& params)
+{
+	VkSampler sampler = logicalDevice->GetRenderingStorage()->FindOrCreateSampler(params);
+	return TextureSampler{ sampler };
 }
 
 VulkanDevice* VulkanGraphicsInterface::GetGraphicsDevice()
@@ -211,9 +220,9 @@ VulkanDevice* VulkanGraphicsInterface::GetGraphicsDevice()
 	return logicalDevice;
 }
 
-VulkanSwapchain* VulkanGraphicsInterface::GetGraphicsSwapchain()
+VulkanViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
 {
-	return swapchain;
+	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
 void VulkanGraphicsInterface::CreateInstance()

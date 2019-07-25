@@ -4,8 +4,6 @@
 
 #include "MemoryUtilities.h"
 
-// TODO - Need to move these importer files to either a library project or somewhere more common...
-
 TGAImporter::TGAImporter()
 	: TextureImporter()
 {

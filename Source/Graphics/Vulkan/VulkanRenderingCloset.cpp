@@ -13,29 +13,7 @@
 #include "VulkanDescriptorLayoutManager.h"
 
 #include "Shader/ShaderObjects/ShaderResource.hpp"
-#include "Shader/ShaderStructure.hpp"
 
-
-VkDescriptorType MusaConstantToDescriptorType(ShaderConstant constant)
-{
-	switch (constant.bindingType)
-	{
-		case ShaderConstantType::StorageBuffer:
-			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-		case ShaderConstantType::StorageDynamicBuffer:
-			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
-		case ShaderConstantType::TextureSampler:
-			return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		case ShaderConstantType::UniformBuffer:
-			return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		case ShaderConstantType::UniformDynamicBuffer:
-			return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
-		default:
-			Assert(false);
-	}
-
-	return VK_DESCRIPTOR_TYPE_MAX_ENUM;
-}
 
 VulkanRenderingCloset::VulkanRenderingCloset(const VulkanDevice& device)
 	: logicalDevice(&device)
@@ -91,6 +69,21 @@ VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const RenderTa
 		framebufferStore.Add(desc, std::move(similarFBs));
 	}
 	return framebuffer;
+}
+
+VkSampler VulkanRenderingCloset::FindOrCreateSampler(const TextureSamplerCreateParams& params)
+{
+	VkSampler* foundSampler = samplerStore.Find(params);
+	if (!foundSampler)
+	{
+		VkSamplerCreateInfo samplerInfo = Vk::SamplerInfo(params);
+		VkSampler sampler;
+		vkCreateSampler(logicalDevice->GetNativeHandle(), &samplerInfo, nullptr, &sampler);
+		samplerStore.Add(params, sampler);
+		return sampler;
+	}
+
+	return *foundSampler;
 }
 
 VulkanPipeline* VulkanRenderingCloset::CreatePipeline(const GraphicsPipelineDescription& desc)
