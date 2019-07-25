@@ -10,7 +10,7 @@
 #include "GameObject/RenderObjectManager.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "Renderer/SceneRendering.h"
+#include "RenderPipeline/SceneRendering.h"
 
 // TODO - Get rid of these vulkan includes
 #include "Graphics/Vulkan/VulkanViewport.hpp"

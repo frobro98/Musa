@@ -1,7 +1,6 @@
 
 #include "GameWorld.hpp"
 #include "Scene/Scene.hpp"
-#include "Renderer/RenderingEngine.h"
 #include "ScreenView.hpp"
 #include "Windowing/Window.h"
 #include "Graphics/PipelineInitDescription.hpp"

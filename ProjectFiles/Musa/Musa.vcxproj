@@ -39,7 +39,7 @@
     <ClCompile Include="..\..\Source\Musa\Mesh\MeshUtilities.cpp" />
     <ClCompile Include="..\..\Source\Musa\Model\Model.cpp" />
     <ClCompile Include="..\..\Source\Musa\Model\ModelFactory.cpp" />
-    <ClCompile Include="..\..\Source\Musa\Renderer\SceneRendering.cpp" />
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRendering.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\Scene.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\ScreenView.cpp" />
@@ -74,7 +74,7 @@
     <ClInclude Include="..\..\Source\Musa\Model\Model.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h" />
-    <ClInclude Include="..\..\Source\Musa\Renderer\SceneRendering.h" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRendering.h" />
     <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Scene.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp" />

@@ -3,10 +3,6 @@
 
 #include "SceneRendering.h"
 
-#include "Renderer.h"
-// #include "ComputeEntity.h"
-// #include "ComputeEntityManager.h"
-
 #include "Scene/ScreenView.hpp"
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"

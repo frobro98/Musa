@@ -32,7 +32,7 @@
       <UniqueIdentifier>{69a09036-8915-4f64-98ec-0841f6d57b6e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\RenderPipeline">
-      <UniqueIdentifier>{4dcc6131-5f58-436c-ae26-daaade43caa7}</UniqueIdentifier>
+      <UniqueIdentifier>{35864a29-d840-4473-ba6e-911a71deab12}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +114,7 @@
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Renderer\SceneRendering.cpp">
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRendering.cpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
   </ItemGroup>
@@ -215,7 +215,7 @@
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp">
       <Filter>Source\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Renderer\SceneRendering.h">
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRendering.h">
       <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
