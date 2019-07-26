@@ -6,8 +6,8 @@ class Renderer;
 class Camera;
 class Model;
 class Scene;
+class Viewport;
 struct View;
-struct Viewport;
 
 // TODO - These need to be refactored out of here!
 #include "Graphics/Vulkan/VulkanRenderPassState.hpp"

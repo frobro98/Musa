@@ -1,11 +1,11 @@
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
-#include "EngineCore/Extents.hpp"
+#include "Types/Intrinsics.hpp"
+#include "Extents.hpp"
+#include "FNV-1a.h"
+#include "MemoryUtilities.h"
 #include "Texture/ImageFormats.h"
-#include "RenderApiDefinitions.hpp"
-#include "EngineCore/FNV-1a.h"
-#include "EngineCore/MemoryUtilities.h"
+#include "Graphics/GraphicsAPIDefinitions.hpp"
 
 // TODO - Remove these includes by abstracting them
 #include "Vulkan/VulkanAbstractions.h"

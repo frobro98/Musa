@@ -132,9 +132,6 @@
     <ClInclude Include="..\..\Source\Graphics\UniformBuffer.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\RenderApiDefinitions.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\PipelineInitDescription.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -143,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanViewport.hpp">
       <Filter>Source\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

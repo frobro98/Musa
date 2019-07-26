@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Graphics.h"
-#include "Graphics/RenderApiDefinitions.hpp"
+#include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "FNV-1a.h"
 
 class VulkanViewport;
@@ -46,12 +46,3 @@ struct TextureSampler
 	VkSampler nativeSampler;
 };
 
-struct Viewport
-{
-	VulkanViewport* graphicsViewport;
-	int32 x;
-	int32 y;
-	int32 width;
-	int32 height;
-	//Color clearColor;
-};

@@ -43,6 +43,7 @@
     <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\Scene.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\ScreenView.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp" />
     <ClCompile Include="..\..\Source\Musa\Windowing\Win32\Win32_Window.cpp" />
     <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h" />
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />
     <ClInclude Include="..\..\Source\Musa\Windowing\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

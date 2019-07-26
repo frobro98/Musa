@@ -8,7 +8,7 @@
 #include "Thread/JobSystem/JobUtilities.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "GameObject/RenderObjectManager.hpp"
-#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Scene/Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "RenderPipeline/SceneRendering.h"
 
@@ -17,115 +17,36 @@
 #include "Graphics/Vulkan/VulkanDevice.h"
 #include "Graphics/Vulkan/VulkanStagingBufferManager.hpp"
 
-
-namespace
+static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat format)
 {
-
-void BuildPositionGBuffer(ColorDescription& posGbuffer)
-{
-	posGbuffer.format = ImageFormat::RGBA_16f;
-	posGbuffer.load = LoadOperation::Clear;
-	posGbuffer.store = StoreOperation::Store;
-	posGbuffer.stencilLoad = LoadOperation::DontCare;
-	posGbuffer.stencilStore = StoreOperation::DontCare;
-	posGbuffer.sampleCount = 1;
+	gbufferDesc.format = format;
+	gbufferDesc.load = LoadOperation::Clear;
+	gbufferDesc.store = StoreOperation::Store;
+	gbufferDesc.stencilLoad = LoadOperation::DontCare;
+	gbufferDesc.stencilStore = StoreOperation::DontCare;
+	gbufferDesc.sampleCount = 1;
 }
 
-void BuildNormalGBuffer(ColorDescription& normalGBuffer)
+static void BuildGBufferDepth(DepthStencilDescription& depthDesc)
 {
-	normalGBuffer.format = ImageFormat::RGBA_16f;
-	normalGBuffer.load = LoadOperation::Clear;
-	normalGBuffer.store = StoreOperation::Store;
-	normalGBuffer.stencilLoad = LoadOperation::DontCare;
-	normalGBuffer.stencilStore = StoreOperation::DontCare;
-	normalGBuffer.sampleCount = 1;
+	depthDesc.format = ImageFormat::DS_32f_8u;
+	depthDesc.load = LoadOperation::Clear;
+	depthDesc.store = StoreOperation::Store;
+	depthDesc.stencilLoad = LoadOperation::DontCare;
+	depthDesc.stencilStore = StoreOperation::DontCare;
+	depthDesc.sampleCount = 1;
 }
 
-void BuildDiffuseGBuffer(ColorDescription& diffuseGBuffer)
-{
-	diffuseGBuffer.format = ImageFormat::RGBA_8norm;
-	diffuseGBuffer.load = LoadOperation::Clear;
-	diffuseGBuffer.store = StoreOperation::Store;
-	diffuseGBuffer.stencilLoad = LoadOperation::DontCare;
-	diffuseGBuffer.stencilStore = StoreOperation::DontCare;
-	diffuseGBuffer.sampleCount = 1;
-}
-
-}
-
-// TODO - REMOVE THESE HEADERS!!!
-#include "Graphics/Vulkan/VulkanMemory.h"
-#include "Graphics/Vulkan/VulkanUtilities.h"
-#include "Graphics/Vulkan/VulkanDevice.h"
-#include "Graphics/Vulkan/VulkanCommandBuffer.h"
-#include "Graphics/Vulkan/VulkanMemoryManager.hpp"
-
-VulkanTexture* CreateColorRenderTexture(const ColorDescription& desc, const ScreenView& view)
-{
-	VkFormat format = MusaFormatToVkFormat(desc.format);
-	VulkanImage* image = GetGraphicsInterface().GetGraphicsDevice()->GetMemoryManager().AllocateImage(
-		(uint32)view.GetScreenWidth(), (uint32)view.GetScreenHeight(), 
-		format, 1, VK_IMAGE_TILING_OPTIMAL, 
-		VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	image->aspectFlags = MusaFormatToVkAspect(desc.format);
-
-	VulkanDevice& device = *GetGraphicsInterface().GetGraphicsDevice();
-	VulkanCommandBuffer* cmdBuffer = device.GetCmdBufferManager().GetActiveGraphicsBuffer();
-
-	VkImageSubresourceRange range = {};
-	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-	range.baseArrayLayer = 0;
-	range.layerCount = 1;
-	range.baseMipLevel = 0;
-	range.levelCount = 1;
-
-	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, *image);
-	VulkanTexture* tex = new VulkanTexture(*image);
-
-	return tex;
-}
-
-VulkanTexture* CreateDepthRenderTexture(const DepthStencilDescription& desc, const ScreenView& view)
-{
-	VkFormat format = MusaFormatToVkFormat(desc.format);
-	VulkanImage* image = GetGraphicsInterface().GetGraphicsDevice()->GetMemoryManager().AllocateImage(
-		(uint32)view.GetScreenWidth(), (uint32)view.GetScreenHeight(),
-		format, 1, VK_IMAGE_TILING_OPTIMAL,
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	image->aspectFlags = MusaFormatToVkAspect(desc.format);
-
-	VulkanDevice& device = *GetGraphicsInterface().GetGraphicsDevice();
-	VulkanCommandBuffer* cmdBuffer = device.GetCmdBufferManager().GetActiveGraphicsBuffer();
-
-	VkImageSubresourceRange range = {};
-	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	range.baseArrayLayer = 0;
-	range.layerCount = 1;
-	range.baseMipLevel = 0;
-	range.levelCount = 1;
-
-	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, *image);
-
-	VulkanTexture* tex = new VulkanTexture(*image);
-
-	return tex;
-}
-
+//////////////////////////////////////////////////////////////////////////
+// Scene Definition
+//////////////////////////////////////////////////////////////////////////
 
 void Scene::InitializeScene()
 {
-	BuildPositionGBuffer(gbufferTargets.colorDescs[0]);
-	BuildNormalGBuffer(gbufferTargets.colorDescs[1]);
-	BuildDiffuseGBuffer(gbufferTargets.colorDescs[2]);
-
-	gbufferTargets.depthDesc.format = ImageFormat::DS_32f_8u;
-	gbufferTargets.depthDesc.load = LoadOperation::Clear;
-	gbufferTargets.depthDesc.store = StoreOperation::Store;
-	gbufferTargets.depthDesc.stencilLoad = LoadOperation::DontCare;
-	gbufferTargets.depthDesc.stencilStore = StoreOperation::DontCare;
-	gbufferTargets.depthDesc.sampleCount = 1;
+	BuildGBufferDescription(gbufferTargets.colorDescs[0], ImageFormat::RGBA_16f);
+	BuildGBufferDescription(gbufferTargets.colorDescs[1], ImageFormat::RGBA_16f);
+	BuildGBufferDescription(gbufferTargets.colorDescs[2], ImageFormat::RGBA_8norm);
+	BuildGBufferDepth(gbufferTargets.depthDesc);
 
 	gbufferTargets.targetCount = GBufferCount;
 
@@ -188,13 +109,7 @@ void Scene::Tick(float deltaTime)
 {
 	for (auto& go : activeGameObjects)
 	{
-		//PushConcurrentJobUnder(
-			//GetActiveJobParent(),
-			//[=]
-			//{
-				go->Update(deltaTime);
-			//}
-		//);
+		go->Update(deltaTime);
 	}
 }
 
@@ -214,13 +129,13 @@ void Scene::RenderScene(Viewport& viewport)
 		gbuffersInitialized = true;
 	}
 
-	if (viewport.graphicsViewport->CanProceedWithRender())
+	if (viewport.GetNativeViewport().CanProceedWithRender())
 	{
 		GetGraphicsInterface().GetGraphicsDevice()->GetStagingBufferManager().ProcessDeferredReleases();
 
 		sceneRendering->RenderScene(*this, viewport, view->view);
 
-		viewport.graphicsViewport->SubmitFrame();
+		viewport.GetNativeViewport().SubmitFrame();
 	}
 }
 

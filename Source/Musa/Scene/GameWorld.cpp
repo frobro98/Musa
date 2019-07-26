@@ -6,7 +6,7 @@
 #include "Graphics/PipelineInitDescription.hpp"
 
 
-// TODO - Get rid of vulkan being in my fucking game....
+// TODO - Get rid of vulkan being in my fucking game world....
 #include "Graphics/Vulkan/VulkanPipeline.h"
 #include "Graphics/Vulkan/VulkanShader.h"
 #include "Graphics/Vulkan/VulkanShaderManager.h"
@@ -50,28 +50,18 @@ GraphicsPipelineDescription GetDefaultDescription()
 	return graphicsInit;
 }
 
-GameWorld::GameWorld()
-	: scene(new Scene)
+GameWorld::GameWorld(const Window& window)
+	: viewport(window.GetWindowHandle(), window.GetWidth(), window.GetHeight()),
+	scene(new Scene)
 {
+	ScreenView* view = new ScreenView(window.GetWidth(), window.GetHeight());
+	scene->SetView(*view);
+	scene->InitializeScene();
 }
 
 GameWorld::~GameWorld()
 {
 	delete scene;
-}
-
-void GameWorld::Initialize(const Window& window)
-{
-	ScreenView* view = new ScreenView(window.GetWidth(), window.GetHeight());
-	scene->SetView(*view);
-	scene->InitializeScene();
-
-	// TODO - Don't really think that (x,y) coords are necessary for the viewport
-	viewport.x = 0;
-	viewport.y = 0;
-	viewport.width = window.GetWidth();
-	viewport.height = window.GetHeight();
-	viewport.graphicsViewport = GetGraphicsInterface().CreateViewport(window.GetWindowHandle(), viewport.width, viewport.height);
 }
 
 void GameWorld::TickWorld(float deltaTime)

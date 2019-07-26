@@ -26,11 +26,15 @@ public:
 
 	virtual VulkanTexture* CreateEmptyTexture2D(uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
 	virtual VulkanTexture* CreateInitializedTexture2D(const ResourceBlob& textureBlob, uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
-	virtual VulkanFramebuffer* GetRenderTarget(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures) = 0;
-
+	virtual void PushTextureData(VulkanTexture& texture, const ResourceBlob& textureBlob) = 0;
+	virtual VulkanFramebuffer* CreateOrFindFramebuffer(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures) = 0;
 	virtual TextureSampler CreateTextureSampler(const TextureSamplerCreateParams& params) = 0;
 
 	virtual VulkanDevice* GetGraphicsDevice() = 0;
+
+	// TODO - These functions might access more command buffer related behaviors, so they might not belong here
+	virtual void TransitionToWriteState(const VulkanTexture* texture, uint32 textureCount) = 0;
+	virtual void TransitionToReadState(const VulkanTexture* texture, uint32 textureCount) = 0;
 };
 
 GraphicsInterface& GetGraphicsInterface();

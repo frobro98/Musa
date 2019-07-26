@@ -26,7 +26,7 @@
 #include "Graphics/GraphicsInterface.hpp"
 #include "GameObject/RenderObjectManager.hpp"
 #include "GameObject/RenderObject.hpp"
-#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Scene/Viewport.hpp"
 
 //#include "Thread/JobSystem/JobSystem.hpp"
 //#include "Thread/JobSystem/JobUtilities.hpp"
@@ -161,7 +161,8 @@ VulkanShader* shadowVertShader = nullptr;
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, *image);
+	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	ImageLayoutTransition(*cmdBuffer, range, &layout, image, 1);
 	shadowMap.depthTarget = new VulkanTexture(*image);
 
 	// Setup read texture
@@ -176,7 +177,7 @@ VulkanShader* shadowVertShader = nullptr;
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, *image);
+	ImageLayoutTransition(*cmdBuffer, range, &layout, image, 1);
 
 	shadowMap.depthTextureResource = new VulkanTexture(*image);
 
@@ -188,7 +189,7 @@ VulkanShader* shadowVertShader = nullptr;
 // 	shadowVertShader->SetDescriptorInformation(*descriptorSetLayout);
 }
 
-static RenderTargetDescription GetShadowMapTargetDescription()
+RenderTargetDescription GetShadowMapTargetDescription()
 {
 	RenderTargetDescription targetDesc = {};
 	targetDesc.targetCount = 0;
@@ -207,7 +208,7 @@ static RenderTargetDescription GetShadowMapTargetDescription()
 
 // TODO - This should essentially be only the essential objects in the scene
 // i.e. the objects within the view frustum and the light "frustum"
-static void RenderSceneForShadowMap(VulkanCommandBuffer& cmdBuffer, VulkanRenderPassState& renderingState, Light* light, Scene& scene)
+void RenderSceneForShadowMap(VulkanCommandBuffer& cmdBuffer, VulkanRenderPassState& renderingState, Light* light, Scene& scene)
 {
 	[[maybe_unused]] Matrix proj = scene.GetScreenView().view.transforms.projectionMatrix;
 	LightDescription lightDesc = light->GetLightDescription();
@@ -360,63 +361,61 @@ void SceneRendering::RenderGBufferPass(VulkanCommandBuffer& cmdBuffer, const Vie
 		
 
 	}
-
-	//TransitionTargetsToRead(cmdBuffer, targets);
 }
 
-void SceneRendering::RenderShadowPass(VulkanCommandBuffer& cmdBuffer, Scene& scene)
-{
-	RenderTargetTextures renderTarget = {};
-	renderTarget.targetCount = 0;
-	renderTarget.depthTarget = shadowMap.depthTarget;
-	renderingState.SetFramebufferTarget(cmdBuffer, GetShadowMapTargetDescription(), renderTarget, {});
-
-	VkViewport view = {};
-	view.minDepth = 0;
-	view.maxDepth = 1;
-	view.x = 0;
-	view.y = 0;
-	view.width = ShadowMapWidth;
-	view.height = ShadowMapHeight;
-	cmdBuffer.SetViewport(0, 1, &view);
-
-	VkRect2D scissor = {};
-	scissor.extent = { ShadowMapWidth, ShadowMapHeight };
-	scissor.offset = { 0, 0 };
-	cmdBuffer.SetScissor(0, 1, &scissor);
-
-	// TODO - This doesn't work with the current render pass state. There needs to be a way to have pipelines stick around, but reset the descriptor set!
-// 	GraphicsPipelineDescription desc = {};
-// 	ConstructPipelineDescription(renderingState, desc);
-// 	desc.vertexShader = shadowVertShader;
+// void SceneRendering::RenderShadowPass(VulkanCommandBuffer& cmdBuffer, Scene& scene)
+// {
+// 	RenderTargetTextures renderTarget = {};
+// 	renderTarget.targetCount = 0;
+// 	renderTarget.depthTarget = shadowMap.depthTarget;
+// 	renderingState.SetFramebufferTarget(cmdBuffer, GetShadowMapTargetDescription(), renderTarget, {});
 // 
-// 	renderingState.SetGraphicsPipeline(cmdBuffer, desc);
-
-	RenderSceneForShadowMap(cmdBuffer, renderingState, scene.GetLights()[0], scene);
-
-	// Transition depth images
-	VkImageSubresourceRange range = {};
-	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	range.baseArrayLayer = 0;
-	range.layerCount = 1;
-	range.baseMipLevel = 0;
-	range.levelCount = 1;
-
-	VulkanImage* depthImage = shadowMap.depthTarget->image;
-	VkImageLayout targetOldLayout = depthImage->layout;
-	VkImageLayout targetNewLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
-
-	ImageLayoutTransition(cmdBuffer, range, targetNewLayout, *depthImage);
-
-	depthImage = shadowMap.depthTextureResource->image;
-	VkImageLayout resourceNewLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-	ImageLayoutTransition(cmdBuffer, range, resourceNewLayout, *depthImage);
-
-	CopyImage(cmdBuffer, *shadowMap.depthTarget->image, *shadowMap.depthTextureResource->image);
-
-	ImageLayoutTransition(cmdBuffer, range, targetOldLayout, *shadowMap.depthTarget->image);
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *shadowMap.depthTextureResource->image);
-}
+// 	VkViewport view = {};
+// 	view.minDepth = 0;
+// 	view.maxDepth = 1;
+// 	view.x = 0;
+// 	view.y = 0;
+// 	view.width = ShadowMapWidth;
+// 	view.height = ShadowMapHeight;
+// 	cmdBuffer.SetViewport(0, 1, &view);
+// 
+// 	VkRect2D scissor = {};
+// 	scissor.extent = { ShadowMapWidth, ShadowMapHeight };
+// 	scissor.offset = { 0, 0 };
+// 	cmdBuffer.SetScissor(0, 1, &scissor);
+// 
+// 	// TODO - This doesn't work with the current render pass state. There needs to be a way to have pipelines stick around, but reset the descriptor set!
+// // 	GraphicsPipelineDescription desc = {};
+// // 	ConstructPipelineDescription(renderingState, desc);
+// // 	desc.vertexShader = shadowVertShader;
+// // 
+// // 	renderingState.SetGraphicsPipeline(cmdBuffer, desc);
+// 
+// 	RenderSceneForShadowMap(cmdBuffer, renderingState, scene.GetLights()[0], scene);
+// 
+// 	// Transition depth images
+// 	VkImageSubresourceRange range = {};
+// 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+// 	range.baseArrayLayer = 0;
+// 	range.layerCount = 1;
+// 	range.baseMipLevel = 0;
+// 	range.levelCount = 1;
+// 
+// 	VulkanImage* depthImage = shadowMap.depthTarget->image;
+// 	VkImageLayout targetOldLayout = depthImage->layout;
+// 	VkImageLayout targetNewLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+// 
+// 	ImageLayoutTransition(cmdBuffer, range, targetNewLayout, *depthImage);
+// 
+// 	depthImage = shadowMap.depthTextureResource->image;
+// 	VkImageLayout resourceNewLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+// 	ImageLayoutTransition(cmdBuffer, range, resourceNewLayout, *depthImage);
+// 
+// 	CopyImage(cmdBuffer, *shadowMap.depthTarget->image, *shadowMap.depthTextureResource->image);
+// 
+// 	ImageLayoutTransition(cmdBuffer, range, targetOldLayout, *shadowMap.depthTarget->image);
+// 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *shadowMap.depthTextureResource->image);
+// }
 
 void SceneRendering::RenderUnlitToScreen(VulkanCommandBuffer& cmdBuffer)
 {
@@ -578,8 +577,12 @@ void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, cons
 
 	//RenderShadowPass(*cmdBuffer, scene);
 
+	TransitionTargetsToRead(*cmdBuffer, targets);
+
 	clearColors = { Color32(0, 0, 0) };
-	const VulkanSwapchain& swapchain = viewport.graphicsViewport->GetSwapchain();
+	const VulkanSwapchain& swapchain = viewport.GetNativeViewport().GetSwapchain();
+	RenderTargetTextures swapchainTargets = swapchain.GetSwapchainTarget();
+	TransitionTargetsToWrite(*cmdBuffer, swapchainTargets);
 	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain.GetSwapchainImageDescription(), swapchain.GetSwapchainTarget(), clearColors);
 
 	// TODO - This, to make unlit work, must be rendered to a different texture and then put on screen
@@ -608,11 +611,13 @@ void SceneRendering::TransitionTargetsToRead(VulkanCommandBuffer& cmdBuffer, Ren
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
 		const VulkanTexture* colorTexture = targets.colorTargets[i];
-		ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, *colorTexture->image);
+		VkImageLayout layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		ImageLayoutTransition(cmdBuffer, range, &layout, colorTexture->image, 1);
 	}
 	
 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *targets.depthTarget->image);
+	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+	ImageLayoutTransition(cmdBuffer, range, &layout, targets.depthTarget->image, 1);
 }
 
 void SceneRendering::TransitionTargetsToWrite(VulkanCommandBuffer& cmdBuffer, RenderTargetTextures& targets)
@@ -634,11 +639,13 @@ void SceneRendering::TransitionTargetsToWrite(VulkanCommandBuffer& cmdBuffer, Re
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
 		const VulkanTexture* colorTexture = targets.colorTargets[i];
-		ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, *colorTexture->image);
+		VkImageLayout layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		ImageLayoutTransition(cmdBuffer, range, &layout, colorTexture->image, 1);
 	}
 
 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, *targets.depthTarget->image);
+	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	ImageLayoutTransition(cmdBuffer, range, &layout, targets.depthTarget->image, 1);
 }
 
 void SceneRendering::SetViewportAndScissor(VulkanCommandBuffer& cmdBuffer, const View& view) const

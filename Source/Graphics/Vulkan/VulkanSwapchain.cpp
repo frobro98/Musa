@@ -54,6 +54,17 @@ void VulkanSwapchain::SubmitFrame()
 {
 	VulkanCommandBufferManager& cmdBufferManager = logicalDevice.GetCmdBufferManager();
 
+	VkImageSubresourceRange range = {};
+	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	range.baseArrayLayer = 0;
+	range.layerCount = 1;
+	range.baseMipLevel = 0;
+	range.levelCount = 1;
+	VkImageLayout layout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+	ImageLayoutTransition(
+		*cmdBufferManager.GetActiveGraphicsBuffer(), range, &layout, 
+		swapchainImageTargets[imageIndex]->image, 1
+	);
 	VkSemaphore graphicsWait = imageAvailable;
 // 	if (cmdBufferManager.HasValidTransferBuffer())
 // 	{
@@ -225,7 +236,7 @@ void VulkanSwapchain::CacheSwapchainImages()
 		img->width = swapchainExtent.width;
 		img->height = swapchainExtent.height;
 		img->format = swapchainFormat;
-		img->layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		img->layout = VK_IMAGE_LAYOUT_UNDEFINED;
 		img->aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT;
 		swapchainImageTargets[i] = new VulkanTexture(*img);
 	}
@@ -277,7 +288,8 @@ void VulkanSwapchain::CreateDepthImage()
 
 	VulkanCommandBuffer* cmdBuffer = logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	// Image transition
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, *depthImage);
+	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	ImageLayoutTransition(*cmdBuffer, subresourceRange, &layout, depthImage, 1);
 }
 
 void VulkanSwapchain::CreateSwapchainFramebuffers()

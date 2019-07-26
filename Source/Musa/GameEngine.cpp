@@ -41,8 +41,7 @@ void GameEngine::RunEngine()
 	window->Initialize();
 	window->SetAsActiveWindow();
 
-	world = new GameWorld;
-	world->Initialize(*window);
+	world = new GameWorld(*window);
 
 	GetGameObjectManager().Initialize(*world);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Texture/Color.hpp"
-#include "Graphics/RenderApiDefinitions.hpp"
+#include "Graphics/GraphicsAPIDefinitions.hpp"
 
 #include "Graphics/Vulkan/VulkanUniformBuffer.h"
 

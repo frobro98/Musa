@@ -20,7 +20,7 @@ void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer,
 		framebufferContext = nullptr;
 	}
 
-	VulkanFramebuffer* newTargetFB = GetGraphicsInterface().GetRenderTarget(targetDescription, renderTextures);
+	VulkanFramebuffer* newTargetFB = GetGraphicsInterface().CreateOrFindFramebuffer(targetDescription, renderTextures);
 
 	cmdBuffer.BeginRenderpass(newTargetFB, clearColors, inlinedContents);
 

@@ -35,6 +35,7 @@ struct View
 	UniformBuffer* viewBuffer = nullptr;
 };
 
+// TODO - Determine if this and the Viewport class are similar and try and consolidate if they are
 // Represents the entire screen's view into the scene.
 // Can be broken up into multiple views
 class ScreenView

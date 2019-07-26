@@ -4,7 +4,7 @@
 #include "Math/MathEngine.h"
 #include "Graphics.h"
 #include "Texture/Color.hpp"
-#include "Graphics/RenderApiDefinitions.hpp"
+#include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Shader/MaterialRenderInfo.hpp"
 
 struct Texture;

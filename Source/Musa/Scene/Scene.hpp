@@ -7,8 +7,8 @@
 
 class Light;
 class ScreenView;
+class Viewport;
 struct MeshRenderInfo;
-struct Viewport;
 
 class SceneRendering;
 

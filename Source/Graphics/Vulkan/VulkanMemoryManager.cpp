@@ -28,7 +28,7 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 	VkImageCreateInfo imageInfo = {};
 	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 	imageInfo.imageType = VK_IMAGE_TYPE_2D;
-	imageInfo.initialLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+	imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	imageInfo.format = imgFormat;
 	imageInfo.extent = { imgWidth, imgHeight, 1 };
 	imageInfo.arrayLayers = 1;
@@ -73,7 +73,7 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 	Assert(success);
 
 	VulkanImage* image = new VulkanImage;
-	image->layout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+	image->layout = VK_IMAGE_LAYOUT_UNDEFINED;
 	image->format = imgFormat;
 	image->width = imgWidth;
 	image->height = imgHeight;

@@ -4,7 +4,7 @@
 #include "Shader/ShaderStages.hpp"
 #include "Texture/ImageFormats.h"
 #include "Graphics/VertexInputDescription.hpp"
-#include "Graphics/RenderApiDefinitions.hpp"
+#include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Shader/ShaderStructure.hpp"
 
 class VulkanDevice;
@@ -13,7 +13,7 @@ struct VulkanStagingBuffer;
 
 bool PresentationSupported(GPUHandle gpu, uint32 queueIndex);
 
-void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, VkImageLayout newLayout, VulkanImage& image);
+void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, const VkImageLayout* newLayouts, VulkanImage* images, uint32 imageCount);
 void CopyToDeviceBuffer(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& stagingBuffer, const VulkanBuffer& dstBuffer);
 void CopyStagingBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanStagingBuffer& buffer, const VulkanImage& image);
 void CopyBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& buffer, const VulkanImage& image);

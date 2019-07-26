@@ -15,16 +15,8 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	{
 		const ColorDescription& colorDescription = targets.colorDescs[i];
 		VkAttachmentDescription colorAttachment = {};
-		colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-		// TODO - This is a hack. Need to transition the image out of color and into present!
-		if (attachments.Size() - 1 == 1)
-		{
-			colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-		}
-		else
-		{
-			colorAttachment.finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		}
+		colorAttachment.initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		colorAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 		colorAttachment.format = MusaFormatToVkFormat(colorDescription.format);
 		colorAttachment.samples = static_cast<VkSampleCountFlagBits>(colorDescription.sampleCount);

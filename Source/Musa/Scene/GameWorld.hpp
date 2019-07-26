@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types/Intrinsics.hpp"
-#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Scene/Viewport.hpp"
 
 class Scene;
 class Window;
@@ -10,10 +10,8 @@ class Window;
 class GameWorld final
 {
 public:
-	GameWorld();
+	GameWorld(const Window& window);
 	~GameWorld();
-
-	void Initialize(const Window& window);
 
 	// These are just pass throughs right now
 	void TickWorld(float deltaTime);

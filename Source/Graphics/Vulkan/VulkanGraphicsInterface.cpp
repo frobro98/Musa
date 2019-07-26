@@ -15,9 +15,6 @@
 #include "VulkanRenderingCloset.hpp"
 #include "VulkanViewport.hpp"
 
-namespace
-{
-
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_LUNARG_standard_validation"
 };
@@ -28,7 +25,7 @@ constexpr const tchar* instanceExtensions[] = {
 	VK_EXT_DEBUG_REPORT_EXTENSION_NAME
 };
 
-VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
+static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
 	VkDebugReportFlagsEXT flags,
 	VkDebugReportObjectTypeEXT objType,
 	uint64_t srcObj, size_t location, int32_t msgCode,
@@ -70,7 +67,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
 	return false;
 }
 
-void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& blob, VulkanImage& image)
+static void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& blob, VulkanImage& image)
 {
 	VulkanCommandBuffer* cmdBuffer = logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	VulkanStagingBuffer* stagingBuffer = logicalDevice.GetStagingBufferManager().AllocateStagingBuffer(blob.GetSize());
@@ -83,16 +80,14 @@ void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& blob, Vu
 	subresourceRange.baseArrayLayer = 0;
 	subresourceRange.layerCount = 1;
 
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, image);
+	VkImageLayout layouts[] = { VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL };
+	ImageLayoutTransition(*cmdBuffer, subresourceRange, layouts, &image, 1);
 	CopyStagingBufferToImage(*cmdBuffer, *stagingBuffer, image);
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, image);
+	layouts[0] = { VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL };
+	ImageLayoutTransition(*cmdBuffer, subresourceRange, layouts, &image, 1);
 
 	logicalDevice.GetStagingBufferManager().ReleaseStagingBuffer(*cmdBuffer, *stagingBuffer);
 }
-
-}
-
-
 
 
 
@@ -180,31 +175,15 @@ VulkanTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
 
 	UploadTextureBlob(*logicalDevice, textureBlob, *image);
 
-	// TODO - This doesn't really belong here...need to figure out a different place to construct a sampler
-	VkSamplerCreateInfo samplerInfo = {};
-	samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-	samplerInfo.magFilter = VK_FILTER_LINEAR;
-	samplerInfo.minFilter = VK_FILTER_LINEAR;
-	samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	samplerInfo.anisotropyEnable = VK_TRUE;
-	samplerInfo.maxAnisotropy = 16;
-	samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-	samplerInfo.unnormalizedCoordinates = VK_FALSE;
-	samplerInfo.compareEnable = VK_FALSE;
-	samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
-	samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-	samplerInfo.mipLodBias = 0.f;
-	samplerInfo.minLod = 0.f;
-	samplerInfo.maxLod = (float)mipLevels;
-
-	//CHECK_VK(vkCreateSampler(logicalDevice->GetNativeHandle(), &samplerInfo, nullptr, &tex->sampler));
-
 	return tex;
 }
 
-VulkanFramebuffer* VulkanGraphicsInterface::GetRenderTarget(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures)
+void VulkanGraphicsInterface::PushTextureData(VulkanTexture& texture, const ResourceBlob& textureBlob)
+{
+	UploadTextureBlob(*logicalDevice, textureBlob, *texture.image);
+}
+
+VulkanFramebuffer* VulkanGraphicsInterface::CreateOrFindFramebuffer(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures)
 {
 	return logicalDevice->GetRenderingStorage()->FindOrCreateFramebuffer(targetDesc, renderTextures);
 }
@@ -213,6 +192,16 @@ TextureSampler VulkanGraphicsInterface::CreateTextureSampler(const TextureSample
 {
 	VkSampler sampler = logicalDevice->GetRenderingStorage()->FindOrCreateSampler(params);
 	return TextureSampler{ sampler };
+}
+
+void VulkanGraphicsInterface::TransitionToWriteState(const VulkanTexture* texture, uint32 textureCount)
+{
+	UNUSED(textureCount, texture);
+}
+
+void VulkanGraphicsInterface::TransitionToReadState(const VulkanTexture* texture, uint32 textureCount)
+{
+	UNUSED(textureCount, texture);
 }
 
 VulkanDevice* VulkanGraphicsInterface::GetGraphicsDevice()

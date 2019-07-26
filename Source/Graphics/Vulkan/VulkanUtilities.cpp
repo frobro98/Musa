@@ -95,7 +95,7 @@ VkPipelineStageFlags GetStageFor(VkImageLayout layout)
 		case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
 		{
 			flags = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
-		}
+		}break;
 		default:
 			Assert(false);
 			break;
@@ -109,31 +109,54 @@ bool PresentationSupported(GPUHandle gpu, uint32 queueIndex)
 	return vkGetPhysicalDeviceWin32PresentationSupportKHR((VkPhysicalDevice)gpu, queueIndex);
 }
 
-void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, VkImageLayout newLayout, VulkanImage& image)
+void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, const VkImageLayout* newLayouts, VulkanImage* images, uint32 imageCount)
 {
-	if (image.layout != newLayout)
+	if (imageCount > 0)
 	{
-		VkImageMemoryBarrier imageBarrier = {};
-		imageBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-		imageBarrier.image = image.handle;
-		imageBarrier.oldLayout = image.layout;
-		imageBarrier.newLayout = newLayout;
-		imageBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-		imageBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-		imageBarrier.subresourceRange = resourceRange;
+		Assert(newLayouts);
+		Assert(images);
+		DynamicArray<VkImageMemoryBarrier> imageBarriers;
+		imageBarriers.Reserve(imageCount);
+		VkPipelineStageFlags srcStageFlags = 0;
+		VkPipelineStageFlags dstStageFlags = 0;
+		for (uint32 i = 0; i < imageCount; ++i)
+		{
+			VulkanImage& image = images[i];
+			VkImageLayout newLayout = newLayouts[i];
+			if (image.layout != newLayouts[i])
+			{
+				VkImageMemoryBarrier imageBarrier = {};
+				imageBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+				imageBarrier.image = image.handle;
+				imageBarrier.oldLayout = image.layout;
+				imageBarrier.newLayout = newLayout;
+				imageBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+				imageBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+				imageBarrier.subresourceRange = resourceRange;
 
-		imageBarrier.srcAccessMask = GetAccessFlagsFor(image.layout);
-		imageBarrier.dstAccessMask = GetAccessFlagsFor(newLayout);
+				imageBarrier.srcAccessMask = GetAccessFlagsFor(image.layout);
+				imageBarrier.dstAccessMask = GetAccessFlagsFor(newLayout);
 
-		VkPipelineStageFlags srcStageFlags = GetStageFor(image.layout);
-		VkPipelineStageFlags dstStageFlags = GetStageFor(newLayout);
+				srcStageFlags |= GetStageFor(image.layout);
+				dstStageFlags |= GetStageFor(newLayout);
 
-		cmdBuffer.ImageMemoryBarrier(
-			srcStageFlags, dstStageFlags,
-			0,
-			1, &imageBarrier);
+				imageBarriers.Add(imageBarrier);
 
-		image.layout = newLayout;
+				image.layout = newLayout;
+			}
+		}
+
+		if (!imageBarriers.IsEmpty())
+		{
+			Assert(srcStageFlags != 0);
+			Assert(dstStageFlags != 0);
+
+			cmdBuffer.ImageMemoryBarrier(
+				srcStageFlags, dstStageFlags,
+				0,
+				imageBarriers.Size(), imageBarriers.GetData()
+			);
+		}
 	}
 }
 
