@@ -21,8 +21,8 @@ public:
 	virtual TextureSampler CreateTextureSampler(const TextureSamplerCreateParams& params) override;
 
 	// TODO - These functions might access more command buffer related behaviors, so they might not belong here
-	virtual void TransitionToWriteState(const VulkanTexture* texture, uint32 textureCount) override;
-	virtual void TransitionToReadState(const VulkanTexture* texture, uint32 textureCount) override;
+	virtual void TransitionToWriteState(const VulkanTexture** textures, uint32 textureCount) override;
+	virtual void TransitionToReadState(const VulkanTexture** textures, uint32 textureCount) override;
 
 private:
 	void CreateInstance();

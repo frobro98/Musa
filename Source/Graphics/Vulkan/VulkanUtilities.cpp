@@ -3,7 +3,6 @@
 #include "VulkanDevice.h"
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanStagingBufferManager.hpp"
-#include "VulkanUtilities.h"
 #include "Shader/ShaderStructure.hpp"
 
 VkAccessFlags GetAccessFlagsFor(VkImageLayout layout)
@@ -109,21 +108,19 @@ bool PresentationSupported(GPUHandle gpu, uint32 queueIndex)
 	return vkGetPhysicalDeviceWin32PresentationSupportKHR((VkPhysicalDevice)gpu, queueIndex);
 }
 
-void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, const VkImageLayout* newLayouts, VulkanImage* images, uint32 imageCount)
+void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, VkImageLayout newLayout, const DynamicArray<VulkanImage*>& images)
 {
-	if (imageCount > 0)
+	if (images.Size() > 0)
 	{
-		Assert(newLayouts);
-		Assert(images);
+		uint32 imageCount = images.Size();
 		DynamicArray<VkImageMemoryBarrier> imageBarriers;
 		imageBarriers.Reserve(imageCount);
 		VkPipelineStageFlags srcStageFlags = 0;
 		VkPipelineStageFlags dstStageFlags = 0;
 		for (uint32 i = 0; i < imageCount; ++i)
 		{
-			VulkanImage& image = images[i];
-			VkImageLayout newLayout = newLayouts[i];
-			if (image.layout != newLayouts[i])
+			VulkanImage& image = *images[i];
+			if (image.layout != newLayout)
 			{
 				VkImageMemoryBarrier imageBarrier = {};
 				imageBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;

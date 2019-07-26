@@ -14,6 +14,7 @@
 #include "VulkanCommandBuffer.h"
 #include "VulkanRenderingCloset.hpp"
 #include "VulkanViewport.hpp"
+#include "VulkanUtilities.h"
 
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_LUNARG_standard_validation"
@@ -80,11 +81,9 @@ static void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& b
 	subresourceRange.baseArrayLayer = 0;
 	subresourceRange.layerCount = 1;
 
-	VkImageLayout layouts[] = { VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL };
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, layouts, &image, 1);
+	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, { &image });
 	CopyStagingBufferToImage(*cmdBuffer, *stagingBuffer, image);
-	layouts[0] = { VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL };
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, layouts, &image, 1);
+	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, { &image });
 
 	logicalDevice.GetStagingBufferManager().ReleaseStagingBuffer(*cmdBuffer, *stagingBuffer);
 }
@@ -194,14 +193,122 @@ TextureSampler VulkanGraphicsInterface::CreateTextureSampler(const TextureSample
 	return TextureSampler{ sampler };
 }
 
-void VulkanGraphicsInterface::TransitionToWriteState(const VulkanTexture* texture, uint32 textureCount)
+void VulkanGraphicsInterface::TransitionToWriteState(const VulkanTexture** textures, uint32 textureCount)
 {
-	UNUSED(textureCount, texture);
+	Assert(textureCount > 0);
+	Assert(textures != nullptr);
+
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice->GetCmdBufferManager().GetActiveGraphicsBuffer();
+
+	DynamicArray<VkImageMemoryBarrier> imageBarriers;
+	imageBarriers.Reserve(textureCount);
+	VkPipelineStageFlags srcStageFlags = 0;
+	VkPipelineStageFlags dstStageFlags = 0;
+	for (uint32 i = 0; i < textureCount; ++i)
+	{
+		VulkanImage& image = *textures[i]->image;
+		bool isDepthStencilTexture = (image.aspectFlags & 
+			(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT)) != 0;
+		VkImageLayout srcLayout = image.layout;
+		VkImageLayout dstLayout = isDepthStencilTexture ?
+			VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+		if (srcLayout != dstLayout)
+		{
+			VkImageMemoryBarrier imageBarrier = {};
+			imageBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			imageBarrier.image = image.handle;
+			imageBarrier.oldLayout = srcLayout;
+			imageBarrier.newLayout = dstLayout;
+			imageBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			imageBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			imageBarrier.subresourceRange.aspectMask = image.aspectFlags;
+			imageBarrier.subresourceRange.baseArrayLayer = 0;
+			imageBarrier.subresourceRange.baseMipLevel = 0;
+			imageBarrier.subresourceRange.layerCount = 1;
+			imageBarrier.subresourceRange.levelCount = image.mipmapLevels;
+
+			imageBarrier.srcAccessMask = GetAccessFlagsFor(srcLayout);
+			imageBarrier.dstAccessMask = GetAccessFlagsFor(dstLayout);
+
+			srcStageFlags |= GetStageFor(srcLayout);
+			dstStageFlags |= GetStageFor(dstLayout);
+
+			imageBarriers.Add(imageBarrier);
+
+			image.layout = dstLayout;
+		}
+	}
+
+	if (!imageBarriers.IsEmpty())
+	{
+		Assert(srcStageFlags != 0);
+		Assert(dstStageFlags != 0);
+
+		cmdBuffer.ImageMemoryBarrier(
+			srcStageFlags, dstStageFlags,
+			0,
+			imageBarriers.Size(), imageBarriers.GetData()
+		);
+	}
 }
 
-void VulkanGraphicsInterface::TransitionToReadState(const VulkanTexture* texture, uint32 textureCount)
+void VulkanGraphicsInterface::TransitionToReadState(const VulkanTexture** textures, uint32 textureCount)
 {
-	UNUSED(textureCount, texture);
+	Assert(textureCount > 0);
+	Assert(textures != nullptr);
+
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice->GetCmdBufferManager().GetActiveGraphicsBuffer();
+
+	DynamicArray<VkImageMemoryBarrier> imageBarriers;
+	imageBarriers.Reserve(textureCount);
+	VkPipelineStageFlags srcStageFlags = 0;
+	VkPipelineStageFlags dstStageFlags = 0;
+	for (uint32 i = 0; i < textureCount; ++i)
+	{
+		VulkanImage& image = *textures[i]->image;
+		bool isDepthStencilTexture = (image.aspectFlags &
+			(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT)) != 0;
+		VkImageLayout srcLayout = image.layout;
+		VkImageLayout dstLayout = isDepthStencilTexture ?
+			VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+		if (srcLayout != dstLayout)
+		{
+			VkImageMemoryBarrier imageBarrier = {};
+			imageBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+			imageBarrier.image = image.handle;
+			imageBarrier.oldLayout = srcLayout;
+			imageBarrier.newLayout = dstLayout;
+			imageBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			imageBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+			imageBarrier.subresourceRange.aspectMask = image.aspectFlags;
+			imageBarrier.subresourceRange.baseArrayLayer = 0;
+			imageBarrier.subresourceRange.baseMipLevel = 0;
+			imageBarrier.subresourceRange.layerCount = 1;
+			imageBarrier.subresourceRange.levelCount = image.mipmapLevels;
+
+			imageBarrier.srcAccessMask = GetAccessFlagsFor(srcLayout);
+			imageBarrier.dstAccessMask = GetAccessFlagsFor(dstLayout);
+
+			srcStageFlags |= GetStageFor(srcLayout);
+			dstStageFlags |= GetStageFor(dstLayout);
+
+			imageBarriers.Add(imageBarrier);
+
+			image.layout = dstLayout;
+		}
+	}
+
+	if (!imageBarriers.IsEmpty())
+	{
+		Assert(srcStageFlags != 0);
+		Assert(dstStageFlags != 0);
+
+		cmdBuffer.ImageMemoryBarrier(
+			srcStageFlags, dstStageFlags,
+			0,
+			imageBarriers.Size(), imageBarriers.GetData()
+		);
+	}
 }
 
 VulkanDevice* VulkanGraphicsInterface::GetGraphicsDevice()

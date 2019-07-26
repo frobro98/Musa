@@ -161,8 +161,7 @@ VulkanShader* shadowVertShader = nullptr;
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	ImageLayoutTransition(*cmdBuffer, range, &layout, image, 1);
+	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { image });
 	shadowMap.depthTarget = new VulkanTexture(*image);
 
 	// Setup read texture
@@ -177,7 +176,7 @@ VulkanShader* shadowVertShader = nullptr;
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-	ImageLayoutTransition(*cmdBuffer, range, &layout, image, 1);
+	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, {image});
 
 	shadowMap.depthTextureResource = new VulkanTexture(*image);
 
@@ -607,17 +606,17 @@ void SceneRendering::TransitionTargetsToRead(VulkanCommandBuffer& cmdBuffer, Ren
 	range.layerCount = 1;
 	range.baseMipLevel = 0;
 	range.levelCount = 1;
-	
+
+	DynamicArray<VulkanImage*> colorImages(targets.targetCount);
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
 		const VulkanTexture* colorTexture = targets.colorTargets[i];
-		VkImageLayout layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-		ImageLayoutTransition(cmdBuffer, range, &layout, colorTexture->image, 1);
+		colorImages[i] = colorTexture->image;
 	}
+	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, colorImages);
 	
 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
-	ImageLayoutTransition(cmdBuffer, range, &layout, targets.depthTarget->image, 1);
+	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, {targets.depthTarget->image});
 }
 
 void SceneRendering::TransitionTargetsToWrite(VulkanCommandBuffer& cmdBuffer, RenderTargetTextures& targets)
@@ -636,16 +635,17 @@ void SceneRendering::TransitionTargetsToWrite(VulkanCommandBuffer& cmdBuffer, Re
 	range.baseMipLevel = 0;
 	range.levelCount = 1;
 
+	DynamicArray<VulkanImage*> colorImages(targets.targetCount);
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
 		const VulkanTexture* colorTexture = targets.colorTargets[i];
-		VkImageLayout layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-		ImageLayoutTransition(cmdBuffer, range, &layout, colorTexture->image, 1);
+		colorImages[i] = colorTexture->image;
 	}
+	
+	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, colorImages);
 
 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	ImageLayoutTransition(cmdBuffer, range, &layout, targets.depthTarget->image, 1);
+	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { targets.depthTarget->image });
 }
 
 void SceneRendering::SetViewportAndScissor(VulkanCommandBuffer& cmdBuffer, const View& view) const

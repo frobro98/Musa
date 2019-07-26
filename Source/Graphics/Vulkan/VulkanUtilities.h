@@ -11,9 +11,12 @@ class VulkanDevice;
 class VulkanCommandBuffer;
 struct VulkanStagingBuffer;
 
+VkAccessFlags GetAccessFlagsFor(VkImageLayout layout);
+VkPipelineStageFlags GetStageFor(VkImageLayout layout);
+
 bool PresentationSupported(GPUHandle gpu, uint32 queueIndex);
 
-void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, const VkImageLayout* newLayouts, VulkanImage* images, uint32 imageCount);
+void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, VkImageLayout newLayouts, const DynamicArray<VulkanImage*>& images);
 void CopyToDeviceBuffer(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& stagingBuffer, const VulkanBuffer& dstBuffer);
 void CopyStagingBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanStagingBuffer& buffer, const VulkanImage& image);
 void CopyBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& buffer, const VulkanImage& image);

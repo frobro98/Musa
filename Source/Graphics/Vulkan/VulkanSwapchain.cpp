@@ -60,10 +60,10 @@ void VulkanSwapchain::SubmitFrame()
 	range.layerCount = 1;
 	range.baseMipLevel = 0;
 	range.levelCount = 1;
-	VkImageLayout layout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 	ImageLayoutTransition(
-		*cmdBufferManager.GetActiveGraphicsBuffer(), range, &layout, 
-		swapchainImageTargets[imageIndex]->image, 1
+		*cmdBufferManager.GetActiveGraphicsBuffer(), range,
+		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+		{ swapchainImageTargets[imageIndex]->image }
 	);
 	VkSemaphore graphicsWait = imageAvailable;
 // 	if (cmdBufferManager.HasValidTransferBuffer())
@@ -288,8 +288,7 @@ void VulkanSwapchain::CreateDepthImage()
 
 	VulkanCommandBuffer* cmdBuffer = logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	// Image transition
-	VkImageLayout layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, &layout, depthImage, 1);
+	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { depthImage });
 }
 
 void VulkanSwapchain::CreateSwapchainFramebuffers()
