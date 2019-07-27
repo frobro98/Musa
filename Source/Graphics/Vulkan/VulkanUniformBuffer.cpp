@@ -15,7 +15,7 @@
 // 	VulkanMemory::DeallocateBuffer(uniformBuffer);
 // }
 
-void VulkanUniformBuffer::Initialize(const VulkanDevice& device, uint32 bufferSize)
+VulkanUniformBuffer::VulkanUniformBuffer(const VulkanDevice & device, uint32 bufferSize)
 {
 	uniformBuffer = device.GetMemoryManager().AllocateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);

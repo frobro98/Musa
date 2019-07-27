@@ -5,12 +5,18 @@
 #include "Texture/ImageFormats.h"
 #include "GraphicsResourceDefinitions.hpp"
 #include "RenderTargetDescription.hpp"
+#include "Containers/DynamicArray.hpp"
 
+struct Vertex;
+struct Face;
 class ResourceBlob;
 class VulkanDevice;
 class VulkanSwapchain;
 class VulkanFramebuffer;
 class VulkanViewport;
+class VulkanVertexBuffer;
+class VulkanIndexBuffer;
+class VulkanUniformBuffer;
 
 class GraphicsInterface
 {
@@ -23,6 +29,10 @@ public:
 	virtual void InitializeGraphics() = 0;
 	
 	virtual VulkanViewport* CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) = 0;
+
+	virtual VulkanVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const = 0;
+	virtual VulkanIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces) const = 0;
+	virtual VulkanUniformBuffer* CreateUniformBuffer(uint32 bufferSize) const = 0;
 
 	virtual VulkanTexture* CreateEmptyTexture2D(uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
 	virtual VulkanTexture* CreateInitializedTexture2D(const ResourceBlob& textureBlob, uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;

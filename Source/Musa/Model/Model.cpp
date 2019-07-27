@@ -7,12 +7,8 @@
 // #include "Animation/Skeleton/SkeletonBone.h"
 //#include "Animation/Skeleton/Skeleton.h"
 #include "Archiver/SkeletonHeader.h"
-
-#include "Graphics/Vulkan/VulkanVertexBuffer.h"
-#include "Graphics/Vulkan/VulkanIndexBuffer.h"
-#include "Graphics/Vulkan/VulkanUniformBuffer.h"
+#include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffer.h"
-#include "Graphics/Vulkan/VulkanMemory.h"
 
 Model::Model(Mesh* modelMesh, Material* mat)
 	: mesh(modelMesh),
@@ -33,7 +29,7 @@ void Model::SetupMeshRenderInfo()
 	renderInfo = new MeshRenderInfo;
 	renderInfo->vertexBuffer = &mesh->GetVertexBuffer();
 	renderInfo->indexBuffer = &mesh->GetIndexBuffer();
-	renderInfo->transformBuffer = VulkanMemory::CreateUniformBuffer(sizeof(TransformationUniformBuffer));
+	renderInfo->transformBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(TransformationUniformBuffer));
 	renderInfo->meshMaterial = &material->GetMaterialRenderInfo();
 }
 

@@ -5,13 +5,7 @@
 #include "Shader/ShaderObjects/ShaderResource.hpp"
 #include "Shader/ShaderObjects/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/ScreenRendering.hpp"
-
-// TODO - Remove all traces of vulkan from here
-#include "Graphics/Vulkan/VulkanDescriptorLayoutManager.h"
-#include "Graphics/Vulkan/VulkanDescriptorSet.h"
-#include "Graphics/Vulkan/VulkanShader.h"
-#include "Graphics/Vulkan/VulkanShaderManager.h"
-#include "Graphics/Vulkan/VulkanMemory.h"
+#include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffer.h"
 
 ScreenView::ScreenView(int32 screenWidth, int32 screenHeight)
@@ -19,15 +13,6 @@ ScreenView::ScreenView(int32 screenWidth, int32 screenHeight)
 {
 	Assert(screenWidth > 0);
 	Assert(screenHeight > 0);
-
-	VulkanDescriptorSetLayout* descriptorSetLayout = GetDescriptorLayoutManager().CreateSetLayout();
-	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 0);
-	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 1);
-	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 2);
-	//descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 3);
-	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT, 4);
-	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT, 5);
-	descriptorSetLayout->BindLayout();
 
 	screenVertexShader = &GetShader<ScreenRenderVert>()->GetNativeShader();
 	screenFragmentShader = &GetShader<ScreenRenderFrag>()->GetNativeShader();
@@ -66,7 +51,7 @@ void ScreenView::AssociateCameraWithView(const Camera& camera)
 
 	if (view.viewBuffer == nullptr)
 	{
-		view.viewBuffer = VulkanMemory::CreateUniformBuffer(sizeof(ViewProperties));
+		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewProperties));
 	}
 
 	ViewProperties props;

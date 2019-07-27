@@ -5,6 +5,7 @@
 class SerializeBase;
 class DeserializeBase;
 
+// TODO - Currently, this object represents both general data, for resources such as textures, and for a collection of data, like index and vertex data. It might be good to separate this behavior
 class ResourceBlob final
 {
 public:
@@ -29,5 +30,4 @@ public:
 private:
 	uint8* data = nullptr;
 	uint32 size = 0;
-	uint32 pad[1] = { 0 };
 };

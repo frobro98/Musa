@@ -30,9 +30,6 @@ public:
 // 		VkMemoryPropertyFlags memoryFlags
 // 	);
 
-	static VulkanVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices);
-	static VulkanIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces);
-	static VulkanUniformBuffer* CreateUniformBuffer(uint32 bufferSize);
 
 	// TODO - Could be viewed as some sort of hack to get at the logical device. Need to probably refactor
 // 	static void* MapMemory(VkDeviceMemory memory, VkDeviceSize memorySize);

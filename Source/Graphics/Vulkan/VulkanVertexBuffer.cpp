@@ -22,25 +22,6 @@ VulkanVertexBuffer::VulkanVertexBuffer(VulkanDevice& device, const DynamicArray<
 		Memcpy(vertexBuffer->memory->GetMappedPtr(), vertexBufferSize, vertices.GetData(), vertexBufferSize);
 		vertexBuffer->memory->Unlock();
 	}
-
-// 	VulkanBuffer stagingBuffer = VulkanMemory::AllocateBuffer(
-// 		vertexBufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-// 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-// 	);
-
-// 	void* data = VulkanMemory::MapMemory(stagingBuffer.allocatedMemory, stagingBuffer.size);
-// 	Memcpy(data, vertexBufferSize, vertices.GetData(), vertexBufferSize);
-// 	VulkanMemory::UnmapMemory(stagingBuffer.allocatedMemory);
-
-// 	vertexBuffer = VulkanMemory::AllocateBuffer(
-// 		vertexBufferSize,
-// 		VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-// 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-// 	);
-
-	//CopyToDeviceBuffer(stagingBuffer, vertexBuffer);
-
-	//VulkanMemory::DeallocateBuffer(stagingBuffer);
 }
 
 VulkanVertexBuffer::~VulkanVertexBuffer()

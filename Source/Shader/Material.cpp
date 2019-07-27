@@ -3,12 +3,7 @@
 #include "Texture2D/TextureManager.h"
 #include "Texture2D/Texture.h"
 #include "ShaderObjects/UnlitShading.hpp"
-
-// TODO - Remove all vulkan from Material.h/.cpp
-#include "Graphics/Vulkan/VulkanShaderManager.h"
-#include "Graphics/Vulkan/VulkanDescriptorSet.h"
-#include "Graphics/Vulkan/VulkanDescriptorLayoutManager.h"
-#include "Graphics/Vulkan/VulkanMemory.h"
+#include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffer.h"
 
 Material::Material()
@@ -117,5 +112,5 @@ void Material::ConfigureMaterialInfo()
 	materialRendering->fragmentShader = fragmentShader;
 	materialRendering->normalMap = normalMap ? normalMap->gpuResource : nullptr;
 	materialRendering->shadingModel = shadingModel;
-	materialRendering->materialProperties = VulkanMemory::CreateUniformBuffer(sizeof(MaterialProperties));
+	materialRendering->materialProperties = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 }

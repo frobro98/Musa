@@ -6,6 +6,7 @@
 struct Vertex;
 class VulkanDevice;
 class VulkanCommandBuffer;
+class ResourceBlob;
 
 class VulkanVertexBuffer
 {

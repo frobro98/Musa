@@ -32,27 +32,13 @@
 //#include "Thread/JobSystem/JobUtilities.hpp"
 
 // TODO - Remove all vulkan from this level of abstraction/make a completely different render path...
-#include "Graphics/Vulkan/VulkanMemory.h"
-#include "Graphics/Vulkan/VulkanCreateInfos.h"
-#include "Graphics/Vulkan/VulkanAbstractions.h"
-#include "Graphics/Vulkan/VulkanUtilities.h"
+
 #include "Graphics/Vulkan/VulkanDevice.h"
-#include "Graphics/Vulkan/VulkanQueue.h"
 #include "Graphics/Vulkan/VulkanCommandBuffer.h"
-#include "Graphics/Vulkan/VulkanPipeline.h"
-#include "Graphics/Vulkan/VulkanDescriptorSet.h"
 #include "Graphics/Vulkan/VulkanSwapchain.h"
-#include "Graphics/Vulkan/VulkanComputePipeline.h"
 #include "Graphics/Vulkan/VulkanShader.h"
 #include "Graphics/Vulkan/VulkanShaderManager.h"
-#include "Graphics/Vulkan/VulkanRenderingCloset.hpp"
-#include "Graphics/Vulkan/VulkanDescriptorLayoutManager.h"
 #include "Graphics/Vulkan/VulkanFence.hpp"
-#include "Graphics/Vulkan/VulkanBufferAllocation.hpp"
-#include "Graphics/Vulkan/VulkanImageAllocation.hpp"
-#include "Graphics/Vulkan/VulkanMemoryManager.hpp"
-#include "Graphics/Vulkan/VulkanFramebuffer.h"
-#include "Graphics/Vulkan/VulkanRenderPass.h"
 #include "Graphics/Vulkan/VulkanRenderPassState.hpp"
 #include "Graphics/Vulkan/VulkanViewport.hpp"
 
@@ -94,7 +80,7 @@ private:
 	{
 		LightUniformBuffer pooledBuffer = {};
 		pooledBuffer.fenceCount = cmdBuffer.GetFence()->GetFenceSignaledCount();
-		UniformBuffer* buffer = VulkanMemory::CreateUniformBuffer(sizeof(TransformationUniformBuffer));
+		UniformBuffer* buffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(TransformationUniformBuffer));
 		pooledBuffer.buffer = buffer;
 		lightUniformPool.Add(pooledBuffer);
 
@@ -144,49 +130,49 @@ constexpr uint32 ShadowMapWidth = 1024;
 constexpr uint32 ShadowMapHeight = 1024;
 VulkanShader* shadowVertShader = nullptr;
 
-/*static*/ void InitializeShadowMap()
-{
-	VkImageSubresourceRange range = {};
-	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	range.layerCount = 1;
-	range.levelCount = 1;
-
-	VulkanCommandBuffer* cmdBuffer = GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
-
-	// Setup initial texture
-	VulkanImage* image = GetGraphicsInterface().GetGraphicsDevice()->GetMemoryManager().AllocateImage(
-		ShadowMapWidth, ShadowMapHeight, 
-		VK_FORMAT_D32_SFLOAT_S8_UINT, 1, VK_IMAGE_TILING_OPTIMAL, 
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
-
-	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { image });
-	shadowMap.depthTarget = new VulkanTexture(*image);
-
-	// Setup read texture
-	image = GetGraphicsInterface().GetGraphicsDevice()->GetMemoryManager().AllocateImage(
-		ShadowMapWidth, ShadowMapHeight,
-		VK_FORMAT_D32_SFLOAT_S8_UINT, 1, VK_IMAGE_TILING_OPTIMAL,
-
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
-		VK_IMAGE_USAGE_TRANSFER_DST_BIT |
-		VK_IMAGE_USAGE_SAMPLED_BIT,
-		
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
-
-	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, {image});
-
-	shadowMap.depthTextureResource = new VulkanTexture(*image);
-
-	VulkanDescriptorSetLayout* descriptorSetLayout = GetDescriptorLayoutManager().CreateSetLayout();
-	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT, 0);
-	descriptorSetLayout->BindLayout();
-
-// 	shadowVertShader = GetShaderManager().CreateShader("shadowDepth.vs.spv", ShaderStage::Vertex);
-// 	shadowVertShader->SetDescriptorInformation(*descriptorSetLayout);
-}
+// static void InitializeShadowMap()
+// {
+// 	VkImageSubresourceRange range = {};
+// 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+// 	range.layerCount = 1;
+// 	range.levelCount = 1;
+// 
+// 	VulkanCommandBuffer* cmdBuffer = GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
+// 
+// 	// Setup initial texture
+// 	VulkanImage* image = GetGraphicsInterface().GetGraphicsDevice()->GetMemoryManager().AllocateImage(
+// 		ShadowMapWidth, ShadowMapHeight, 
+// 		VK_FORMAT_D32_SFLOAT_S8_UINT, 1, VK_IMAGE_TILING_OPTIMAL, 
+// 		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT,
+// 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+// 	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
+// 
+// 	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { image });
+// 	shadowMap.depthTarget = new VulkanTexture(*image);
+// 
+// 	// Setup read texture
+// 	image = GetGraphicsInterface().GetGraphicsDevice()->GetMemoryManager().AllocateImage(
+// 		ShadowMapWidth, ShadowMapHeight,
+// 		VK_FORMAT_D32_SFLOAT_S8_UINT, 1, VK_IMAGE_TILING_OPTIMAL,
+// 
+// 		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
+// 		VK_IMAGE_USAGE_TRANSFER_DST_BIT |
+// 		VK_IMAGE_USAGE_SAMPLED_BIT,
+// 		
+// 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+// 	image->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
+// 
+// 	ImageLayoutTransition(*cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, {image});
+// 
+// 	shadowMap.depthTextureResource = new VulkanTexture(*image);
+// 
+// 	VulkanDescriptorSetLayout* descriptorSetLayout = GetDescriptorLayoutManager().CreateSetLayout();
+// 	descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT, 0);
+// 	descriptorSetLayout->BindLayout();
+// 
+// // 	shadowVertShader = GetShaderManager().CreateShader("shadowDepth.vs.spv", ShaderStage::Vertex);
+// // 	shadowVertShader->SetDescriptorInformation(*descriptorSetLayout);
+// }
 
 RenderTargetDescription GetShadowMapTargetDescription()
 {
@@ -562,6 +548,7 @@ void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, cons
 	VulkanCommandBuffer* cmdBuffer = GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
 
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
+	
 	TransitionTargetsToWrite(*cmdBuffer, targets);
 	DynamicArray<Color32> clearColors(targets.targetCount);
 	clearColors[0] = Color32(0, 0, 0);
@@ -576,12 +563,15 @@ void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, cons
 
 	//RenderShadowPass(*cmdBuffer, scene);
 
+	
 	TransitionTargetsToRead(*cmdBuffer, targets);
 
 	clearColors = { Color32(0, 0, 0) };
 	const VulkanSwapchain& swapchain = viewport.GetNativeViewport().GetSwapchain();
 	RenderTargetTextures swapchainTargets = swapchain.GetSwapchainTarget();
+
 	TransitionTargetsToWrite(*cmdBuffer, swapchainTargets);
+
 	renderingState.SetFramebufferTarget(*cmdBuffer, swapchain.GetSwapchainImageDescription(), swapchain.GetSwapchainTarget(), clearColors);
 
 	// TODO - This, to make unlit work, must be rendered to a different texture and then put on screen
@@ -600,27 +590,38 @@ void SceneRendering::TransitionTargetsToRead(VulkanCommandBuffer& cmdBuffer, Ren
 		cmdBuffer.EndRenderPass();
 	}
 
-	VkImageSubresourceRange range = {};
-	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-	range.baseArrayLayer = 0;
-	range.layerCount = 1;
-	range.baseMipLevel = 0;
-	range.levelCount = 1;
-
-	DynamicArray<VulkanImage*> colorImages(targets.targetCount);
-	for (uint32 i = 0; i < targets.targetCount; ++i)
+	DynamicArray<const VulkanTexture*> gbufferTargets(targets.targetCount + 1);
+	uint32 i;
+	for (i = 0; i < targets.targetCount; ++i)
 	{
-		const VulkanTexture* colorTexture = targets.colorTargets[i];
-		colorImages[i] = colorTexture->image;
+		gbufferTargets[i] = targets.colorTargets[i];
 	}
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, colorImages);
-	
-	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, {targets.depthTarget->image});
+	gbufferTargets[i] = targets.depthTarget;
+	GetGraphicsInterface().TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
+
+// 	VkImageSubresourceRange range = {};
+// 	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+// 	range.baseArrayLayer = 0;
+// 	range.layerCount = 1;
+// 	range.baseMipLevel = 0;
+// 	range.levelCount = 1;
+// 
+// 	DynamicArray<VulkanImage*> colorImages(targets.targetCount);
+// 	for (uint32 i = 0; i < targets.targetCount; ++i)
+// 	{
+// 		const VulkanTexture* colorTexture = targets.colorTargets[i];
+// 		colorImages[i] = colorTexture->image;
+// 	}
+// 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, colorImages);
+// 	
+// 	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+// 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, {targets.depthTarget->image});
 }
 
 void SceneRendering::TransitionTargetsToWrite(VulkanCommandBuffer& cmdBuffer, RenderTargetTextures& targets)
 {
+	// TODO - This all should be in the graphics api part of the engine. There is no need at all for this behavior to be known about at this level of the render pipeline
+
 	// Assuming that I'm only manipulating the framebuffer textures, cb must not be in a renderpass
 	// This only applies to the current framebuffer, so it needs to be known at this point...
 	if (cmdBuffer.IsInRenderPass())
@@ -628,24 +629,14 @@ void SceneRendering::TransitionTargetsToWrite(VulkanCommandBuffer& cmdBuffer, Re
 		cmdBuffer.EndRenderPass();
 	}
 
-	VkImageSubresourceRange range = {};
-	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-	range.baseArrayLayer = 0;
-	range.layerCount = 1;
-	range.baseMipLevel = 0;
-	range.levelCount = 1;
-
-	DynamicArray<VulkanImage*> colorImages(targets.targetCount);
-	for (uint32 i = 0; i < targets.targetCount; ++i)
+	DynamicArray<const VulkanTexture*> gbufferTargets(targets.targetCount + 1);
+	uint32 i;
+	for (i = 0; i < targets.targetCount; ++i)
 	{
-		const VulkanTexture* colorTexture = targets.colorTargets[i];
-		colorImages[i] = colorTexture->image;
+		gbufferTargets[i] = targets.colorTargets[i];
 	}
-	
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, colorImages);
-
-	range.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { targets.depthTarget->image });
+	gbufferTargets[i] = targets.depthTarget;
+	GetGraphicsInterface().TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
 void SceneRendering::SetViewportAndScissor(VulkanCommandBuffer& cmdBuffer, const View& view) const

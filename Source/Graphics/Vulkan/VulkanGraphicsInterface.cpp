@@ -15,6 +15,9 @@
 #include "VulkanRenderingCloset.hpp"
 #include "VulkanViewport.hpp"
 #include "VulkanUtilities.h"
+#include "VulkanVertexBuffer.h"
+#include "VulkanIndexBuffer.h"
+#include "VulkanUniformBuffer.h"
 
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_LUNARG_standard_validation"
@@ -319,6 +322,21 @@ VulkanDevice* VulkanGraphicsInterface::GetGraphicsDevice()
 VulkanViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
 {
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
+}
+
+VulkanVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
+{
+	return new VulkanVertexBuffer(*logicalDevice, vertices);
+}
+
+VulkanIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
+{
+	return new VulkanIndexBuffer(*logicalDevice, faces);
+}
+
+VulkanUniformBuffer* VulkanGraphicsInterface::CreateUniformBuffer(uint32 bufferSize) const
+{
+	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
 }
 
 void VulkanGraphicsInterface::CreateInstance()

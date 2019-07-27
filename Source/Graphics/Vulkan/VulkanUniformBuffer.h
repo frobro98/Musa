@@ -6,13 +6,11 @@
 class VulkanUniformBuffer
 {
 public:
-	VulkanUniformBuffer() = default;
-	//~VulkanUniformBuffer();
+	VulkanUniformBuffer(const VulkanDevice& device, uint32 bufferSize);
 
 	VulkanUniformBuffer(const VulkanUniformBuffer&) = delete;
 	VulkanUniformBuffer& operator=(const VulkanUniformBuffer&) = delete;
 
-	void Initialize(const VulkanDevice& device, uint32 bufferSize);
 	void UpdateUniforms(const void* bufferData);
 
 	inline VulkanBuffer& GetBuffer() { return *uniformBuffer; }
