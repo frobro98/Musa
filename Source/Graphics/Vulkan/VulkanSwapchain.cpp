@@ -18,6 +18,10 @@ VulkanSwapchain::VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurf
 
 VulkanSwapchain::~VulkanSwapchain()
 {
+	for (auto tex : swapchainImageTargets)
+	{
+		vkDestroyImageView(logicalDevice.GetNativeHandle(), tex->imageView, nullptr);
+	}
 	delete depthImage;
 	vkDestroySemaphore(logicalDevice.GetNativeHandle(), imageAvailable, nullptr);
 	vkDestroySemaphore(logicalDevice.GetNativeHandle(), renderingFinished, nullptr);

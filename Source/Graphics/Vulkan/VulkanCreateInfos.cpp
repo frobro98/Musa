@@ -126,16 +126,5 @@ namespace Vk
 
 		return samplerInfo;
 	}
-
-	namespace create
-	{
-		VkImageView ImageView(const VulkanDevice* device, VkImage image, VkFormat format, VkImageAspectFlags aspectFlags)
-		{
-			VkImageViewCreateInfo imageViewInfo = ImageViewInfo(image, 1, format, aspectFlags);
-			VkImageView imageView;
-			CHECK_VK(vkCreateImageView(device->GetNativeHandle(), &imageViewInfo, nullptr, &imageView));
-			return imageView;
-		}
-	}
 }
 
