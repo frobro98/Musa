@@ -18,8 +18,6 @@ public:
 		bool canMap, bool cached, bool coherent
 	);
 
-	virtual ~BufferGraphicsAllocation();
-
 	VkBuffer buffer;
 	VkBufferUsageFlags usageFlags;
 

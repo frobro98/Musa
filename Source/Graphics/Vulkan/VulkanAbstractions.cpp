@@ -3,6 +3,11 @@
 #include "VulkanCreateInfos.h"
 #include "VulkanDevice.h"
 
+VulkanImage::~VulkanImage()
+{
+	vkDestroyImage(device->GetNativeHandle(), handle, nullptr);
+}
+
 VkImageView VulkanImage::CreateView() const
 {
 	VkImageViewCreateInfo imageViewInfo = Vk::ImageViewInfo(handle, mipmapLevels, format, aspectFlags);
@@ -20,4 +25,15 @@ VulkanTexture::VulkanTexture(VulkanImage& allocedImage)
 	: image(&allocedImage)
 {
 	imageView = image->CreateView();
+}
+
+VulkanTexture::~VulkanTexture()
+{
+	vkDestroyImageView(image->device->GetNativeHandle(), imageView, nullptr);
+	delete image;
+}
+
+VulkanBuffer::~VulkanBuffer()
+{
+	vkDestroyBuffer(device.GetNativeHandle(), handle, nullptr);
 }

@@ -153,6 +153,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Containers\StaticArray.hpp">
       <Filter>Source\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Color.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -202,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\String\StringView.cpp">
       <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Color.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

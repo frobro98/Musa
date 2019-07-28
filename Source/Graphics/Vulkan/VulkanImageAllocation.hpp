@@ -17,9 +17,7 @@ struct ImageGraphicsAllocation : public GraphicsMemoryAllocation<ImageMemory>
 		bool canMap, bool cached, bool coherent
 	);
 
-	virtual ~ImageGraphicsAllocation();
-
-	inline VkImageUsageFlags GetBufferUsage() const { return usageFlags; }
+	inline VkImageUsageFlags GetImageUsage() const { return usageFlags; }
 	inline VkImage GetImageHandle() const { return image; }
 
 	VkImage image;

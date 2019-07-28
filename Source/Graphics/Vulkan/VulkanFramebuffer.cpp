@@ -10,6 +10,10 @@ VulkanFramebuffer::VulkanFramebuffer(const VulkanDevice& device)
 
 VulkanFramebuffer::~VulkanFramebuffer()
 {
+	for (auto view : viewAttachments)
+	{
+		vkDestroyImageView(logicalDevice->GetNativeHandle(), view, nullptr);
+	}
 	vkDestroyFramebuffer(logicalDevice->GetNativeHandle(), frameBuffer, nullptr);
 }
 

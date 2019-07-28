@@ -36,9 +36,6 @@
     <ClCompile Include="..\..\Source\Texture\Importers\BMPImporter.cpp">
       <Filter>Source\Importers</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Color.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureManager.h">
@@ -74,11 +71,11 @@
     <ClInclude Include="..\..\Source\Texture\Importers\BMPImporter.hpp">
       <Filter>Source\Importers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Color.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Texture\Texture2D\MipmapLevel.hpp">
       <Filter>Source\Texture2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Texture\TextureSampleSettings.hpp">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

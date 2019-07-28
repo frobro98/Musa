@@ -79,8 +79,3 @@ void VulkanShader::Compile(const DynamicArray<uint8>& source, ShaderStage stage)
 
 	CHECK_VK(vkCreateShaderModule(logicalDevice->GetNativeHandle(), &shaderModInfo, nullptr, &shaderModule));
 }
-
-void VulkanShader::SetDescriptorInformation(VulkanDescriptorSetLayout& layout)
-{
-	descriptorLayout = &layout;
-}

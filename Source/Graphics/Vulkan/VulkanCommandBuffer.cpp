@@ -15,11 +15,6 @@ VulkanCommandBuffer::VulkanCommandBuffer(const VulkanDevice& device, VulkanComma
 {
 }
 
-VulkanCommandBuffer::~VulkanCommandBuffer()
-{
-	Assert(commandBuffer == VK_NULL_HANDLE);
-}
-
 void VulkanCommandBuffer::Initialize(VkCommandBufferLevel cmdBufferLevel, VkCommandPool cmdPool)
 {
 	bufferLevel = cmdBufferLevel;
@@ -583,4 +578,5 @@ VulkanCommandBufferManager::VulkanCommandBufferManager(const VulkanDevice& devic
 VulkanCommandBufferManager::~VulkanCommandBufferManager()
 {
 	vkDestroyCommandPool(logicalDevice->GetNativeHandle(), graphicsCmdPool, nullptr);
+	vkDestroyCommandPool(logicalDevice->GetNativeHandle(), transferCmdPool, nullptr);
 }

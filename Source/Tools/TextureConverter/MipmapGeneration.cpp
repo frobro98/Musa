@@ -3,7 +3,7 @@
 #include "FastFourierTransform.hpp"
 #include "Texture2D/Texture.h"
 #include "Math/MathUtilities.h"
-#include "Texture/Color.hpp"
+#include "Color.hpp"
 #include "Texture2D/TextureUtilities.hpp"
 
 namespace

@@ -22,6 +22,7 @@ Model::~Model()
 {
 	material = nullptr;
 	mesh = nullptr;
+	delete renderInfo;
 }
 
 void Model::SetupMeshRenderInfo()

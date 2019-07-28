@@ -57,9 +57,6 @@
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanIndexBuffer.h">
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanMemory.h">
-      <Filter>Source\Vulkan</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanMemoryManager.hpp">
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.h">
-      <Filter>Source\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPassState.hpp">
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShader.h">
@@ -144,6 +138,18 @@
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Renderer.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderer.hpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.hpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorSetUtilities.hpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp">
@@ -185,9 +191,6 @@
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanIndexBuffer.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanMemory.cpp">
-      <Filter>Source\Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanMemoryManager.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
@@ -201,9 +204,6 @@
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.cpp">
-      <Filter>Source\Vulkan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPassState.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShader.cpp">
@@ -243,6 +243,18 @@
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanViewport.cpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderer.cpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.cpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Renderer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorSetUtilities.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

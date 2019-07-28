@@ -34,12 +34,6 @@ VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicAr
 VulkanPipelineLayout::~VulkanPipelineLayout()
 {
 	vkDestroyPipelineLayout(logicalDevice->GetNativeHandle(), pipelineLayout, nullptr);
-
-	// TODO - this will be deleted and managed by the entity that actually creates the pipelines (only vk object that really uses this...)
-// 	for (uint32 i = 0; i < descriptorSetLayouts.Size(); ++i)
-// 	{
-// 		delete descriptorSetLayouts[i];
-// 	}
 }
 
 VulkanPipeline::VulkanPipeline(const VulkanDevice& device)

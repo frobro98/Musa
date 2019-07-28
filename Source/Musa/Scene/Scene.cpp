@@ -41,6 +41,20 @@ static void BuildGBufferDepth(DepthStencilDescription& depthDesc)
 // Scene Definition
 //////////////////////////////////////////////////////////////////////////
 
+Scene::~Scene()
+{
+	for (auto go : gameObjectsInScene)
+	{
+		delete go;
+	}
+
+	for (auto tex : gbufferTextures.colorTargets)
+	{
+		delete tex;
+	}
+	delete gbufferTextures.depthTarget;
+}
+
 void Scene::InitializeScene()
 {
 	BuildGBufferDescription(gbufferTargets.colorDescs[0], ImageFormat::RGBA_16f);
@@ -56,11 +70,13 @@ void Scene::InitializeScene()
 void Scene::AddGameObjectToScene(GameObject& object)
 {
 	activeGameObjects.Add(&object);
+	gameObjectsInScene.Add(&object);
 }
 
 void Scene::RemoveGameObjectFromScene(GameObject& object)
 {
 	activeGameObjects.RemoveAll(&object);
+	gameObjectsInScene.RemoveAll(&object);
 }
 
 void Scene::AddMeshInfoToScene(MeshRenderInfo& obj)
@@ -153,15 +169,21 @@ void Scene::CreateGBuffer()
 	for (uint32 i = 0; i < GBufferCount; ++i)
 	{
 		ColorDescription& desc = gbufferTargets.colorDescs[i];
-		gbufferTextures.colorTargets[i] = GetGraphicsInterface().CreateEmptyTexture2D(
+		VulkanTexture* target = GetGraphicsInterface().CreateEmptyTexture2D(
 			view->GetScreenWidth(), view->GetScreenHeight(), 
 			desc.format, 1, TextureUsage::RenderTarget
 		);
+		TextureSamplerCreateParams params;
+		target->sampler = GetGraphicsInterface().CreateTextureSampler(params);
+		gbufferTextures.colorTargets[i] = target;
 	}
 
-	gbufferTextures.depthTarget = GetGraphicsInterface().CreateEmptyTexture2D(
+	VulkanTexture* depthTarget = GetGraphicsInterface().CreateEmptyTexture2D(
 		view->GetScreenWidth(), view->GetScreenHeight(),
 		gbufferTargets.depthDesc.format, 1, 
 		TextureUsage::DepthStencilTarget
 	);
+	TextureSamplerCreateParams params;
+	depthTarget->sampler = GetGraphicsInterface().CreateTextureSampler(params);
+	gbufferTextures.depthTarget = depthTarget;
 }

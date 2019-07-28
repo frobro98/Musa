@@ -17,6 +17,9 @@ public:
 	// TODO - Might not be the best place. Could be in Texture scope
 	static constexpr const char* DefaultTexture = "_default-texture";
 
+	// Only exists because it's a static object and it needs to destroyed before the vulkan instance
+	void Deinitialize();
+
 	Texture* LoadTextureFromFile(const Path& textureFilePath, const String& textureName);
 	Texture* LoadTexture(DynamicArray<uint8>& textureData, const char* textureName);
 	void UnloadTexture(const char* textureName);

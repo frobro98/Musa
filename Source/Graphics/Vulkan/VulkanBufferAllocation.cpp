@@ -24,11 +24,6 @@ BufferGraphicsAllocation::BufferGraphicsAllocation(
 	CHECK_VK(vkBindBufferMemory(device.GetNativeHandle(), buffer, graphicsMemory, 0));
 }
 
-BufferGraphicsAllocation::~BufferGraphicsAllocation()
-{
-	vkDestroyBuffer(logicalDevice.GetNativeHandle(), buffer, nullptr);
-}
-
 BufferMemory* BufferGraphicsAllocation::CreateMemoryRange(uint32 bufferSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
 {
 	return new BufferMemory(*this, buffer, bufferSize, blockSize, alignedOffset, actualOffset);

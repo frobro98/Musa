@@ -23,7 +23,8 @@ public:
 	static GameObjectManager& Instance();
 
 private:
-	GameObjectManager();
+	GameObjectManager() = default;
+
 
 	GameObjectManager(const GameObjectManager&) = delete;
 	GameObjectManager& operator=(const GameObjectManager&) = delete;

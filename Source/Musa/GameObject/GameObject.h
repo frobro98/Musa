@@ -4,7 +4,6 @@
 #include "Math/Matrix.h"
 #include "Mesh/Mesh.h"
 #include "Model/Model.h"
-#include "Texture/Color.hpp"
 
 class ShaderProgram;
 

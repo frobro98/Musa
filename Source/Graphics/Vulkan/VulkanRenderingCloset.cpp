@@ -3,7 +3,6 @@
 #include "VulkanShader.h"
 #include "VulkanDescriptorSet.h"
 #include "VulkanPipeline.h"
-#include "VulkanMemory.h"
 #include "VulkanUtilities.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanDevice.h"
@@ -16,8 +15,31 @@
 
 
 VulkanRenderingCloset::VulkanRenderingCloset(const VulkanDevice& device)
-	: logicalDevice(&device)
+	: logicalDevice(device)
 {
+}
+
+VulkanRenderingCloset::~VulkanRenderingCloset()
+{
+	for (auto pipelinePair : pipelineStore)
+	{
+		delete pipelinePair.second;
+	}
+	for (auto renderPassPair : renderPassStore)
+	{
+		delete renderPassPair.second;
+	}
+	for (auto similarFBPair : framebufferStore)
+	{
+		for (auto framebuffer : similarFBPair.second)
+		{
+			delete framebuffer;
+		}
+	}
+	for (auto samplerPair : samplerStore)
+	{
+		vkDestroySampler(logicalDevice.GetNativeHandle(), samplerPair.second, nullptr);
+	}
 }
 
 VulkanPipeline* VulkanRenderingCloset::FindOrCreatePipeline(const GraphicsPipelineDescription& desc)
@@ -78,7 +100,7 @@ VkSampler VulkanRenderingCloset::FindOrCreateSampler(const TextureSamplerCreateP
 	{
 		VkSamplerCreateInfo samplerInfo = Vk::SamplerInfo(params);
 		VkSampler sampler;
-		vkCreateSampler(logicalDevice->GetNativeHandle(), &samplerInfo, nullptr, &sampler);
+		vkCreateSampler(logicalDevice.GetNativeHandle(), &samplerInfo, nullptr, &sampler);
 		samplerStore.Add(params, sampler);
 		return sampler;
 	}
@@ -91,7 +113,7 @@ VulkanPipeline* VulkanRenderingCloset::CreatePipeline(const GraphicsPipelineDesc
 	VulkanRenderPass* renderPass = FindOrCreateRenderPass(desc.renderTargets);
 	VulkanPipelineLayout* layout = ConfigurePipelineLayout(desc);
 	
-	VulkanPipeline* pipeline = new VulkanPipeline(*logicalDevice);
+	VulkanPipeline* pipeline = new VulkanPipeline(logicalDevice);
 	pipeline->Initialize(layout, desc, renderPass);
 	pipelineStore.Add(desc, pipeline);
 
@@ -100,7 +122,7 @@ VulkanPipeline* VulkanRenderingCloset::CreatePipeline(const GraphicsPipelineDesc
 
 VulkanRenderPass* VulkanRenderingCloset::CreateRenderPass(const RenderTargetDescription& desc)
 {
-	VulkanRenderPass* renderPass = new VulkanRenderPass(*logicalDevice, desc);
+	VulkanRenderPass* renderPass = new VulkanRenderPass(logicalDevice, desc);
 	renderPassStore.Add(desc, renderPass);
 	return renderPass;
 }
@@ -108,7 +130,7 @@ VulkanRenderPass* VulkanRenderingCloset::CreateRenderPass(const RenderTargetDesc
 VulkanFramebuffer* VulkanRenderingCloset::CreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs)
 {
 	VulkanRenderPass* renderPass = FindOrCreateRenderPass(desc);
-	VulkanFramebuffer* framebuffer = new VulkanFramebuffer(*logicalDevice);
+	VulkanFramebuffer* framebuffer = new VulkanFramebuffer(logicalDevice);
 	framebuffer->Initialize(desc, correspondingRTs, renderPass);
 	return framebuffer;
 }
@@ -136,5 +158,5 @@ VulkanPipelineLayout* VulkanRenderingCloset::ConfigurePipelineLayout(const Graph
 
 	dsLayout->BindLayout();
 
-	return new VulkanPipelineLayout(*logicalDevice, { dsLayout });
+	return new VulkanPipelineLayout(logicalDevice, { dsLayout });
 }

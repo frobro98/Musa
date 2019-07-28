@@ -42,15 +42,19 @@ CompressionFormat ImageToCompressionFormat(ImageFormat format)
 }
 }
 
+void TextureManager::Deinitialize()
+{
+	for (auto texture : texturesLoaded)
+	{
+		delete texture;
+	}
+}
+
 Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const String& /*textureName*/)
 {
 	Texture* texture = new Texture;
 	FileDeserializer deserializer(textureFilePath);
 	Deserialize(deserializer, *texture);
-	texture->wrapS = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->wrapT = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->minFilter = VK_FILTER_LINEAR;
-	texture->magFilter = VK_FILTER_LINEAR;
 
 	ConfigureNativeTexture(*texture);
 
@@ -64,10 +68,6 @@ Texture* TextureManager::LoadTexture(DynamicArray<uint8>& textureData, const cha
 	Texture* texture = new Texture;
 	MemoryDeserializer deserializer(textureData);
 	Deserialize(deserializer, *texture);
-	texture->wrapS = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->wrapT = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->minFilter = VK_FILTER_LINEAR;
-	texture->magFilter = VK_FILTER_LINEAR;
 
 	ConfigureNativeTexture(*texture);
 
@@ -96,10 +96,6 @@ Texture* TextureManager::CompressTextureData(DynamicArray<uint8>& textureData, c
 
 	Texture* texture = new Texture;
 	*texture = std::move(compressed);
-	texture->wrapS = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->wrapT = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->minFilter = VK_FILTER_LINEAR;
-	texture->magFilter = VK_FILTER_LINEAR;
 
 	texturesLoaded.Add(texture);
 
@@ -126,10 +122,6 @@ Texture* TextureManager::Compress(const TextureChunk& chunk, uint8* textureData,
 
 	Texture* texture = new Texture;// (chunkData.width, chunkData.height, chunkData.format, std::move(data));
 	*texture = std::move(compressed);
-	texture->wrapS = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->wrapT = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	texture->minFilter = VK_FILTER_LINEAR;
-	texture->magFilter = VK_FILTER_LINEAR;
 	return texture;
 }
 
@@ -140,6 +132,13 @@ void TextureManager::ConfigureNativeTexture(Texture& texture)
 	uint32 width = texture.mipLevels[0].width;
 	uint32 height = texture.mipLevels[0].height;
 	texture.gpuResource = GetGraphicsInterface().CreateInitializedTexture2D(textureBlob, width, height, texture.format, texture.mipLevels.Size(), TextureUsage::SampledResource);
+	TextureSamplerCreateParams params(
+		TextureToGraphicsFilter(texture.filter),
+		TextureToGraphicsAddressMode(texture.addrMode),
+		TextureToGraphicsAddressMode(texture.addrMode),
+		TextureToGraphicsMipMode(texture.mipMode)
+	);
+	texture.gpuResource->sampler = GetGraphicsInterface().CreateTextureSampler(params);
 }
 
 void TextureManager::UnloadTexture(const char* textureName)

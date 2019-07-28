@@ -14,6 +14,14 @@ VulkanMemoryManager::VulkanMemoryManager(VulkanDevice& device)
 
 VulkanMemoryManager::~VulkanMemoryManager()
 {
+	for (auto alloc : allocations)
+	{
+		delete alloc;
+	}
+// 	for (auto freeAlloc : allocationsToFree)
+// 	{
+// 		delete freeAlloc;
+// 	}
 }
 
 VulkanImage* VulkanMemoryManager::AllocateImage(
@@ -126,7 +134,8 @@ VulkanBuffer* VulkanMemoryManager::AllocateBuffer(
 
 void VulkanMemoryManager::DeallocateBuffer(VulkanBuffer& buffer)
 {
-	UNUSED(buffer);
+	// TODO - There needs to be some sort of free list that this gets added to
+	delete &buffer;
 }
 
 void VulkanMemoryManager::FreePendingAllocations()
@@ -144,7 +153,7 @@ VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(uint32 bufferSize, uint32
 	bool success = allocation->TrySelectMemoryRange(bufferSize, suballocationAlignment, memory);
 	Assert(success);
 
-	return new VulkanBuffer(allocation->buffer, *memory);
+	return new VulkanBuffer(logicalDevice, allocation->buffer, *memory);
 }
 
 uint32 VulkanMemoryManager::QueryMemoryType(uint32 typeFilter, VkMemoryPropertyFlags propertyFlags)

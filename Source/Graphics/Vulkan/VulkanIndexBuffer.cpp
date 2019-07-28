@@ -1,5 +1,4 @@
 #include "VulkanIndexBuffer.h"
-#include "VulkanMemory.h"
 #include "VulkanUtilities.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanDevice.h"

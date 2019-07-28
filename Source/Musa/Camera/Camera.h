@@ -2,7 +2,7 @@
 
 #include "Math/MathEngine.h"
 #include "Math/Rect.hpp"
-#include "Texture/Color.hpp"
+#include "Color.hpp"
 #include "EngineCore/Extents.hpp"
 
 class Camera final

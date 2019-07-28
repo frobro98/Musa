@@ -1,12 +1,8 @@
 
 #include "Vulkan/VulkanGraphicsInterface.hpp"
 
-namespace
-{
-static VulkanGraphicsInterface graphicsInterface;
-}
-
 GraphicsInterface& GetGraphicsInterface()
 {
+	static VulkanGraphicsInterface graphicsInterface;
 	return graphicsInterface;
 }

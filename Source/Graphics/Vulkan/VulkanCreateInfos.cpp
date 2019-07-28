@@ -108,8 +108,8 @@ namespace Vk
 	{
 		VkSamplerCreateInfo samplerInfo = {};
 		samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-		samplerInfo.magFilter = MusaFilterToVkFilter(params.magFilter);
-		samplerInfo.minFilter = MusaFilterToVkFilter(params.minFilter);
+		samplerInfo.magFilter = MusaFilterToVkFilter(params.filter);
+		samplerInfo.minFilter = MusaFilterToVkFilter(params.filter);
 		samplerInfo.addressModeU = MusaAddressModeToVkAddressMode(params.addrModeU);
 		samplerInfo.addressModeV = MusaAddressModeToVkAddressMode(params.addrModeV);
 		samplerInfo.addressModeW = MusaAddressModeToVkAddressMode(params.addrModeU);

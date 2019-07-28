@@ -5,7 +5,6 @@
 #include "VulkanCreateInfos.h"
 #include "VulkanDevice.h"
 #include "VulkanShaderManager.h"
-#include "VulkanMemory.h"
 #include "VulkanSurface.h"
 #include "VulkanSwapchain.h"
 #include "VulkanStagingBufferManager.hpp"
@@ -95,6 +94,7 @@ static void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& b
 
 VulkanGraphicsInterface::~VulkanGraphicsInterface()
 {
+	delete logicalDevice;
 	// TODO - add clean up for vulkan classes
 	vkDestroyDebugReportCallbackEXT(instance, debugReportHandle, nullptr);
 	vkDestroyInstance(instance, nullptr);
@@ -108,7 +108,6 @@ void VulkanGraphicsInterface::InitializeGraphics()
 	logicalDevice->Initialize(instance);
 
 	GetShaderManager().logicalDevice = logicalDevice;
-	VulkanMemory::Initialize(logicalDevice);
 }
 
 VulkanTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(

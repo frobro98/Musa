@@ -5,7 +5,6 @@
 #include "VulkanSurface.h"
 #include "VulkanCreateInfos.h"
 #include "VulkanRenderPass.h"
-#include "VulkanMemory.h"
 #include "VulkanUtilities.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanQueue.h"
@@ -19,7 +18,9 @@ VulkanSwapchain::VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurf
 
 VulkanSwapchain::~VulkanSwapchain()
 {
-	// TODO - Need to clean up semaphores and fences
+	delete depthImage;
+	vkDestroySemaphore(logicalDevice.GetNativeHandle(), imageAvailable, nullptr);
+	vkDestroySemaphore(logicalDevice.GetNativeHandle(), renderingFinished, nullptr);
 	Assert(swapchainHandle != VK_NULL_HANDLE);
 	vkDestroySwapchainKHR(logicalDevice.GetNativeHandle(), swapchainHandle, nullptr);
 }
@@ -29,7 +30,6 @@ void VulkanSwapchain::Initialize()
 	CreateSwapchain();
 	CacheSwapchainImages();
 	InitializeRenderTargets();
-	CreateSwapchainFramebuffers();
 	InitializeSwapchainSyncronization();
 }
 
@@ -42,7 +42,6 @@ void VulkanSwapchain::Recreate()
 	CreateSwapchain();
 	CacheSwapchainImages();
 	InitializeRenderTargets();
-	CreateSwapchainFramebuffers();
 }
 
 VkResult VulkanSwapchain::GetNextImage()
@@ -289,22 +288,6 @@ void VulkanSwapchain::CreateDepthImage()
 	VulkanCommandBuffer* cmdBuffer = logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	// Image transition
 	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { depthImage });
-}
-
-void VulkanSwapchain::CreateSwapchainFramebuffers()
-{
-// 	swapchainFramebuffers.Reserve(swapchainImageViews.Size());
-// 	for (uint32 i = 0; i < swapchainImageViews.Size(); ++i)
-// 	{
-// 		VkImageView framebufferAttachments[] = {
-// 			swapchainImageViews[i],
-// 			depthImageView
-// 		};
-// 
-// 		VulkanFramebuffer* frameBuffer = new VulkanFramebuffer(*logicalDevice);
-// 		frameBuffer->Initialize(framebufferAttachments, swapchainExtent, renderPass);
-// 		swapchainFramebuffers.Add(std::move(frameBuffer));
-// 	}
 }
 
 void VulkanSwapchain::InitializeSwapchainSyncronization()

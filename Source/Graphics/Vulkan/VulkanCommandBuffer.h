@@ -2,7 +2,7 @@
 
 #include "Graphics.h"
 #include "Containers/DynamicArray.hpp"
-#include "Texture/Color.hpp"
+#include "Color.hpp"
 
 class VulkanDevice;
 class VulkanQueue;
@@ -26,7 +26,6 @@ class VulkanCommandBuffer
 {
 public:
 	VulkanCommandBuffer(const VulkanDevice& device, class VulkanCommandBufferManager& manager);
-	~VulkanCommandBuffer();
 
 	void Initialize(VkCommandBufferLevel cmdBufferLevel, VkCommandPool cmdPool);
 	void Initialize(VkCommandBuffer cmdBuffer, VkCommandBufferLevel cmdBufferLevel);

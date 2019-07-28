@@ -105,13 +105,13 @@ public:
 		return GetData()[index];
 	}
 
-	inline const valueType& First() const
+	inline valueType& First() const
 	{
 		Assert(arraySize > 0);
 		return data[0];
 	}
 
-	inline const valueType& Last() const
+	inline valueType& Last() const
 	{
 		Assert(arraySize > 0);
 		return data[arraySize - 1];

@@ -13,6 +13,7 @@ VulkanViewport::VulkanViewport(VulkanDevice& device, VkInstance instance, void* 
 VulkanViewport::~VulkanViewport()
 {
 	delete swapchain;
+	delete viewSurface;
 }
 
 bool VulkanViewport::CanProceedWithRender()

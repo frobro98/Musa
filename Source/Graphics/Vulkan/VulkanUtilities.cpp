@@ -527,10 +527,10 @@ VkSamplerAddressMode MusaAddressModeToVkAddressMode(SamplerAddressMode addrMode)
 	{
 		case SamplerAddressMode::Repeat:
 			return VK_SAMPLER_ADDRESS_MODE_REPEAT;
-		case SamplerAddressMode::ClampToEdge:
+		case SamplerAddressMode::Clamp:
 			return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-		case SamplerAddressMode::ClampToBorder:
-			return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+		case SamplerAddressMode::Mirror:
+			return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
 		default:
 			return VK_SAMPLER_ADDRESS_MODE_RANGE_SIZE;
 	}

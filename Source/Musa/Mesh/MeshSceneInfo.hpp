@@ -14,6 +14,13 @@ struct MaterialRenderInfo;
 // TODO - There needs to be different ones for this and for animated meshes!
 struct MeshRenderInfo 
 {
+	~MeshRenderInfo()
+	{
+		delete vertexBuffer;
+		delete indexBuffer;
+		delete transformBuffer;
+	}
+
 	SphereBounds bounds;
 	MaterialRenderInfo* meshMaterial;
 	VertexBuffer* vertexBuffer;

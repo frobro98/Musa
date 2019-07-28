@@ -21,6 +21,8 @@ class SceneRendering;
 class Scene
 {
 public:
+	~Scene();
+
 	void InitializeScene();
 
 	void AddGameObjectToScene(GameObject& object);

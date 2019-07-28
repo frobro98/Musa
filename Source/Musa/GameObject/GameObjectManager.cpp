@@ -22,10 +22,6 @@ void GameObjectManager::Remove(GameObject* go)
 	delete go;
 }
 
-GameObjectManager::GameObjectManager()
-{
-}
-
 GameObjectManager& GameObjectManager::Instance()
 {
 	static GameObjectManager gomInstance;

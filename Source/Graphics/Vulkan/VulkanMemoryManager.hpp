@@ -75,7 +75,7 @@ inline bool VulkanMemoryManager::TryCreateBufferFrom(const DynamicArray<Allocati
 			BufferMemory* bufferMemory;
 			if (allocation->TrySelectMemoryRange((uint32)bufferSize, alignment, bufferMemory))
 			{
-				subAlloc = new VulkanBuffer(allocation->buffer, *bufferMemory);
+				subAlloc = new VulkanBuffer(logicalDevice, allocation->buffer, *bufferMemory);
 				return true;
 			}
 		}

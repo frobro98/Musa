@@ -15,6 +15,20 @@
 
 VulkanDevice::~VulkanDevice()
 {
+	delete graphicsQueue;
+	delete transferQueue;
+	delete fenceManager;
+	delete commandBufferManager;
+	delete stagingBufferManager;
+	delete memoryManager;
+	delete storage;
+
+	for (auto pool : descriptorPools)
+	{
+		delete pool;
+	}
+
+	vkDestroyDevice(vulkanDevice, nullptr);
 }
 
 void VulkanDevice::Initialize(VkInstance inst)

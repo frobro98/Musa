@@ -41,7 +41,6 @@ private:
 	void CacheSwapchainImages();
 	void CreateDepthImage();
 	void InitializeRenderTargets();
-	void CreateSwapchainFramebuffers();
 	void InitializeSwapchainSyncronization();
 
 private:

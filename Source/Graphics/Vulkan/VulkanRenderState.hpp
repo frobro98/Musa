@@ -6,7 +6,7 @@
 #include "Graphics/Vulkan/VulkanIndexBuffer.h"
 #include "Graphics/Vulkan/VulkanVertexBuffer.h"
 
-#include "Texture/Color.hpp"
+#include "Color.hpp"
 
 class VulkanFramebuffer;
 class VulkanPipeline;
@@ -23,10 +23,9 @@ struct TextureSampler;
 
 // Describes what is currently processing within a render pass in Vulkan
 // When a new render target is set, the current render pass ends and a new one begins
-class VulkanRenderPassState
+class VulkanRenderState
 {
 public:
-
 	void FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const;
 
 	// Changes the framebuffer being rendered to, while ending and beginning a new renderpass
@@ -44,6 +43,7 @@ private:
 	void ResetState();
 
 private:
+	
 	RenderTargetDescription currentTarget;
 	VulkanFramebuffer* framebufferContext;
 	VulkanPipeline* currentPipeline;

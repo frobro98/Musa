@@ -26,12 +26,11 @@ Texture::Texture(uint8 r, uint8 g, uint8 b, uint8 a)
 
 	mipLevels.Add(std::move(m));
 	format = ImageFormat::BGRA_8u;
+}
 
-	// TODO - Sampler information doesn't belong in a texture. Should be in an object closer to the graphics api
-	wrapS = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	wrapT = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	minFilter = VK_FILTER_LINEAR;
-	magFilter = VK_FILTER_LINEAR;
+Texture::~Texture()
+{
+	delete gpuResource;
 }
 
 uint32 Texture::TotalSize() const

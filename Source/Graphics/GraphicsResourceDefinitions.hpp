@@ -3,17 +3,39 @@
 #include "Graphics.h"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "FNV-1a.h"
+#include "Math/MathUtilities.h"
 
 class VulkanViewport;
 
 struct TextureSamplerCreateParams
 {
+	TextureSamplerCreateParams(
+		SamplerFilter filter_ = SamplerFilter::Linear,
+		SamplerAddressMode uAddrMode = SamplerAddressMode::Clamp,
+		SamplerAddressMode vAddrMode = SamplerAddressMode::Clamp,
+		SamplerMipmapMode mipMode_ = SamplerMipmapMode::Linear,
+		float32 anisotropy = 0,
+		float32 minLOD = 0,
+		float32 maxLOD = 1,
+		float32 mipLODBias = 0
+	)
+		: maxAnisotropy(anisotropy),
+		minLod(minLOD),
+		maxLod(maxLOD),
+		mipLodBias(mipLODBias),
+		filter(filter_),
+		addrModeU(uAddrMode),
+		addrModeV(vAddrMode),
+		mipMode(mipMode_),
+		enabledAnisotropy(!Math::IsZero(anisotropy))
+	{
+	}
+
 	float32 maxAnisotropy;
 	float32 minLod;
 	float32 maxLod;
 	float32 mipLodBias;
-	SamplerFilter minFilter;
-	SamplerFilter magFilter;
+	SamplerFilter filter;
 	SamplerAddressMode addrModeU;
 	SamplerAddressMode addrModeV;
 	SamplerMipmapMode mipMode;
@@ -25,8 +47,7 @@ struct TextureSamplerCreateParams
 			lhs.mipLodBias == rhs.mipLodBias &&
 			lhs.minLod == rhs.minLod &&
 			lhs.maxLod == rhs.maxLod &&
-			lhs.minFilter == rhs.minFilter &&
-			lhs.magFilter == rhs.magFilter &&
+			lhs.filter == rhs.filter &&
 			lhs.addrModeU == rhs.addrModeU &&
 			lhs.addrModeV == rhs.addrModeV &&
 			lhs.mipMode == rhs.mipMode &&

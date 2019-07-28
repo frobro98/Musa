@@ -35,7 +35,6 @@ class VulkanDescriptorSet
 {
 public:
 	VulkanDescriptorSet(const VulkanDevice& device, VulkanFence* fence, VkDescriptorSet ds, VulkanDescriptorSetLayout* layout);
-	~VulkanDescriptorSet();
 
 	VulkanDescriptorSet& operator=(const VulkanDescriptorSet&) = delete;
 

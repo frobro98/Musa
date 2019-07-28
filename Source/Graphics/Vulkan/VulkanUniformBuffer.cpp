@@ -1,5 +1,4 @@
 #include "VulkanUniformBuffer.h"
-#include "VulkanMemory.h"
 #include "VulkanDevice.h"
 #include "VulkanMemoryManager.hpp"
 #include "VulkanBufferAllocation.hpp"
@@ -16,9 +15,15 @@
 // }
 
 VulkanUniformBuffer::VulkanUniformBuffer(const VulkanDevice & device, uint32 bufferSize)
+	: logicalDevice(device)
 {
-	uniformBuffer = device.GetMemoryManager().AllocateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+	uniformBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+}
+
+VulkanUniformBuffer::~VulkanUniformBuffer()
+{
+	logicalDevice.GetMemoryManager().DeallocateBuffer(*uniformBuffer);
 }
 
 void VulkanUniformBuffer::UpdateUniforms(const void* bufferData)

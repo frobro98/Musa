@@ -27,7 +27,7 @@ private:
 	// This is because it needs a device. This needs to move or change because this isn't good
 	friend class VulkanGraphicsInterface;
 
-	DynamicArray<VulkanShader*> shaders;
+	DynamicArray<ShaderResource*> shaders;
 	class VulkanDevice* logicalDevice = nullptr;
 };
 

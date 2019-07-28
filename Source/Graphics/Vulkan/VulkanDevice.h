@@ -70,5 +70,4 @@ private:
 	VulkanRenderingCloset* storage = nullptr;
 	VulkanQueue* graphicsQueue = nullptr;
 	VulkanQueue* transferQueue = nullptr;
-	uint32 pad[1] = { 0 };
 };

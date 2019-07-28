@@ -19,11 +19,6 @@ ImageGraphicsAllocation::ImageGraphicsAllocation(
 	CHECK_VK(vkBindImageMemory(device.GetNativeHandle(), image, graphicsMemory, 0));
 }
 
-ImageGraphicsAllocation::~ImageGraphicsAllocation()
-{
-	vkDestroyImage(logicalDevice.GetNativeHandle(), image, nullptr);
-}
-
 ImageMemory* ImageGraphicsAllocation::CreateMemoryRange(uint32 actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
 {
 	return new ImageMemory(*this, image, actualSize, blockSize, alignedOffset, actualOffset);

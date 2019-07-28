@@ -5,6 +5,7 @@
 #include "String/String.h"
 #include "ImageFormats.h"
 #include "Texture2D/MipmapLevel.hpp"
+#include "TextureSampleSettings.hpp"
 
 struct VulkanTexture;
 class SerializeBase;
@@ -14,20 +15,18 @@ struct Texture
 {
 	Texture() = default;
 	Texture(uint8 r, uint8 g, uint8 b, uint8 a);
+	~Texture();
+
 	String name;
 	DynamicArray<MipmapLevel> mipLevels;
 	VulkanTexture* gpuResource = nullptr;
 	ImageFormat format = ImageFormat::Invalid;
+	TextureFilter filter = TextureFilter::Linear;
+	TextureAddress addrMode = TextureAddress::Repeat;
+	TextureMipMode mipMode = TextureMipMode::Linear;
 
 	// Texture size including all of the mip map levels
 	uint32 TotalSize() const;
-
-	// TODO - This belongs more on the gpu side of things. Deals with sampler info
-	int32 wrapS;
-	int32 wrapT;
-	int32 minFilter;
-	int32 magFilter;
-	uint32 pad[1] = { 0 };
 };
 
 ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels);

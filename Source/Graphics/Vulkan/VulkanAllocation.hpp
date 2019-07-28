@@ -152,6 +152,11 @@ GraphicsMemoryAllocation<Suballoc>::GraphicsMemoryAllocation(
 template<class Suballoc>
 inline GraphicsMemoryAllocation<Suballoc>::~GraphicsMemoryAllocation()
 {
+	for (auto subAlloc : suballocationBlocks)
+	{
+		delete subAlloc;
+	}
+	vkFreeMemory(logicalDevice.GetNativeHandle(), graphicsMemory, nullptr);
 }
 
 template<class Suballoc>

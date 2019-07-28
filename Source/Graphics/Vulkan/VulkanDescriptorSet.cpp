@@ -76,10 +76,6 @@ VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence
 	imageInfos.Reserve(samplerDescriptors);
 }
 
-VulkanDescriptorSet::~VulkanDescriptorSet()
-{
-}
-
 void VulkanDescriptorSet::SetUniformBufferInfo(const VulkanBuffer& uniformBuffer, uint32 bufferBinding)
 {
 	for(auto& writer : descriptorWrites)

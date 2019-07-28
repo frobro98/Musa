@@ -1,6 +1,5 @@
 
 #include "VulkanStagingBufferManager.hpp"
-#include "VulkanMemory.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanFence.hpp"
 #include "VulkanDevice.h"

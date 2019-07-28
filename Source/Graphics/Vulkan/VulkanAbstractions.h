@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Graphics.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class VulkanDevice;
 class ImageMemory;
@@ -9,6 +10,8 @@ class ImageMemory;
 
 struct VulkanImage
 {
+	~VulkanImage();
+
 	VkImage handle = VK_NULL_HANDLE;
 	VkImageLayout layout;
 	VkFormat format;
@@ -28,14 +31,10 @@ struct VulkanTexture
 {
 	VkImageView imageView = VK_NULL_HANDLE;
 	VulkanImage* image = nullptr;
-
+	TextureSampler sampler;
 	VulkanTexture(VulkanImage& allocedImage);
 
-	~VulkanTexture()
-	{
-		// TODO - This needs to be cleaned up somehow!
-		//vkDestroyImageView(image->device->GetNativeHandle(), imageView, nullptr);
-	}
+	~VulkanTexture();
 
 	// TODO - Might consider implementing copying for these instead of leaving them default
 	VulkanTexture(const VulkanTexture&) = default;
@@ -69,12 +68,16 @@ struct VulkanBuffer
 {
 	VkBuffer handle = VK_NULL_HANDLE;
 	BufferMemory* memory;
+	VulkanDevice& device;
 
-	VulkanBuffer(VkBuffer hdl, BufferMemory& mem)
+	VulkanBuffer(VulkanDevice& dev, VkBuffer hdl, BufferMemory& mem)
 		: handle(hdl),
-		memory(&mem)
+		memory(&mem),
+		device(dev)
 	{
 	}
+
+	~VulkanBuffer();
 
 	// TODO - Might consider implementing copying for these instead of leaving them default
 	VulkanBuffer(const VulkanBuffer&) = default;
@@ -82,7 +85,8 @@ struct VulkanBuffer
 
 	VulkanBuffer(VulkanBuffer&& other) noexcept
 		: handle(other.handle),
-		memory(other.memory)
+		memory(other.memory),
+		device(other.device)
 	{
 		other.handle = VK_NULL_HANDLE;
 		other.memory = nullptr;

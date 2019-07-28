@@ -26,6 +26,7 @@ class VulkanRenderingCloset
 {
 public:
 	VulkanRenderingCloset(const VulkanDevice& device);
+	~VulkanRenderingCloset();
 
 	void SetupSwapchainFramebuffers(const RenderTargetDescription& desc, const DynamicArray<VkImage>& swapchainImages);
 
@@ -48,6 +49,6 @@ private:
 	Map<RenderTargetDescription, SimilarFramebuffers> framebufferStore;
 	Map<TextureSamplerCreateParams, VkSampler> samplerStore;
 
-	const VulkanDevice* logicalDevice;
+	const VulkanDevice& logicalDevice;
 
 };

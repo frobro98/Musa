@@ -76,6 +76,8 @@ void GameEngine::RunEngine()
 		EngineFrame();
 	}
 
+	delete world;
+	GetTextureManager().Deinitialize();
 }
 
 void GameEngine::LoadContent()

@@ -104,8 +104,8 @@ inline ColorMask operator|(ColorMask e0, ColorMask e1)
 enum class SamplerAddressMode : uint8
 {
 	Repeat,
-	ClampToEdge,
-	ClampToBorder
+	Clamp,
+	Mirror
 };
 
 enum class SamplerFilter : uint8

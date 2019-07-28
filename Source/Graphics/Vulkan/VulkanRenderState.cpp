@@ -1,4 +1,4 @@
-#include "VulkanRenderPassState.hpp"
+#include "VulkanRenderState.hpp"
 #include "EngineCore/Assertion.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanPipeline.h"
@@ -7,12 +7,12 @@
 #include "VulkanDescriptorSet.h"
 #include "GraphicsInterface.hpp"
 
-void VulkanRenderPassState::FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const
+void VulkanRenderState::FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const
 {
 	pipelineDescription.renderTargets = currentTarget;
 }
 
-void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
+void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
 {
 	if (cmdBuffer.IsInRenderPass())
 	{
@@ -28,7 +28,7 @@ void VulkanRenderPassState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer,
 	currentTarget = targetDescription;
 }
 
-void VulkanRenderPassState::SetGraphicsPipeline(VulkanCommandBuffer& cmdBuffer, const GraphicsPipelineDescription& pipelineDescription)
+void VulkanRenderState::SetGraphicsPipeline(VulkanCommandBuffer& cmdBuffer, const GraphicsPipelineDescription& pipelineDescription)
 {
 	if (cmdBuffer.GetLevel() == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
 	{
@@ -42,7 +42,7 @@ void VulkanRenderPassState::SetGraphicsPipeline(VulkanCommandBuffer& cmdBuffer, 
 	activeDescriptorSet = currentPipeline->GetUnusedDescriptorSet(cmdBuffer);
 }
 
-void VulkanRenderPassState::Bind(VulkanCommandBuffer& cmdBuffer) const
+void VulkanRenderState::Bind(VulkanCommandBuffer& cmdBuffer) const
 {
 	if (activeDescriptorSet)
 	{
@@ -53,25 +53,25 @@ void VulkanRenderPassState::Bind(VulkanCommandBuffer& cmdBuffer) const
 	currentPipeline->BindDescriptorSet(&cmdBuffer, activeDescriptorSet);
 }
 
-void VulkanRenderPassState::SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
+void VulkanRenderState::SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
 {
 	Assert(activeDescriptorSet);
 	activeDescriptorSet->SetUniformBufferInfo(buffer, bindIndex);
 }
 
-void VulkanRenderPassState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
+void VulkanRenderState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
 {
 	Assert(activeDescriptorSet);
 	activeDescriptorSet->SetStorageBufferInfo(buffer, bindIndex);
 }
 
-void VulkanRenderPassState::SetTexture(const VulkanTexture& texture, const TextureSampler& sampler, uint32 bindIndex)
+void VulkanRenderState::SetTexture(const VulkanTexture& texture, const TextureSampler& sampler, uint32 bindIndex)
 {
 	Assert(activeDescriptorSet);
 	activeDescriptorSet->SetSampledTextureInfo(texture, sampler, bindIndex);
 }
 
-void VulkanRenderPassState::ResetState()
+void VulkanRenderState::ResetState()
 {
 
 }

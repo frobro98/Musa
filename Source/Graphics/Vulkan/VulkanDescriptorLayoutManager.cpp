@@ -11,7 +11,9 @@ VulkanDescriptorLayoutManager::~VulkanDescriptorLayoutManager()
 
 VulkanDescriptorSetLayout* VulkanDescriptorLayoutManager::CreateSetLayout()
 {
-	return new VulkanDescriptorSetLayout(*logicalDevice);
+	VulkanDescriptorSetLayout* layout = new VulkanDescriptorSetLayout(*logicalDevice);
+	layouts.Add(layout);
+	return layout;
 }
 
 VulkanDescriptorLayoutManager& VulkanDescriptorLayoutManager::Instance()

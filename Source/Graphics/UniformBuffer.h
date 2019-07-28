@@ -3,7 +3,7 @@
 #include "Platform.h"
 #include "MemoryUtilities.h"
 #include "Math/MathEngine.h"
-#include "Texture/Color.hpp"
+#include "Color.hpp"
 #include "Graphics/Vulkan/VulkanUniformBuffer.h"
 
 constexpr uint32 MaxBones = 120;

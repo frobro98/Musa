@@ -179,6 +179,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Algorithms.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Assertion.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Color.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\DynamicArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\List.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Map.h" />
@@ -221,6 +222,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Color.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DirectoryLocations.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp" />
