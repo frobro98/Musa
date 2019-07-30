@@ -12,6 +12,7 @@ class VulkanFramebuffer;
 class VulkanPipeline;
 class VulkanCommandBuffer;
 class VulkanDescriptorSet;
+class WriteDescriptorSet;
 
 struct RenderTargetDescription;
 struct RenderTargetTextures;
@@ -26,27 +27,24 @@ struct TextureSampler;
 class VulkanRenderState
 {
 public:
-	void FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const;
 
 	// Changes the framebuffer being rendered to, while ending and beginning a new renderpass
 	void SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
-	void SetGraphicsPipeline(VulkanCommandBuffer& cmdBuffer, const GraphicsPipelineDescription& pipelineDescription);
-	void Bind(VulkanCommandBuffer& cmdBuffer) const;
+	void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDescription);
+	void BindState(VulkanCommandBuffer& cmdBuffer);
 
 	void SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex);
 	void SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex);
 	void SetTexture(const VulkanTexture& texture, uint32 bindIndex);
 
-	inline VulkanFramebuffer& GetCurrentFramebuffer() const { return *framebufferContext; }
+	bool IsTextureInRender(const VulkanTexture& texture);
 
 private:
 	void ResetState();
 
 private:
-	
-	RenderTargetDescription currentTarget;
+
+	WriteDescriptorSet* writeDescriptorSet;
 	VulkanFramebuffer* framebufferContext;
 	VulkanPipeline* currentPipeline;
-	VulkanDescriptorSet* activeDescriptorSet;
-
 };

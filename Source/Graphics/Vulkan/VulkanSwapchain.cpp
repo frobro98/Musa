@@ -56,6 +56,7 @@ VkResult VulkanSwapchain::GetNextImage()
 void VulkanSwapchain::SubmitFrame()
 {
 	VulkanCommandBufferManager& cmdBufferManager = logicalDevice.GetCmdBufferManager();
+	//cmdBufferManager.GetActiveGraphicsBuffer()->EndRenderPass();
 
 	VkImageSubresourceRange range = {};
 	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -75,7 +76,7 @@ void VulkanSwapchain::SubmitFrame()
 // 		graphicsWait = copyFinished;
 // 	}
 	cmdBufferManager.SubmitGraphicsBuffer(true, graphicsWait, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, renderingFinished);
-
+	vkQueueWaitIdle(logicalDevice.GetGraphicsQueue()->GetNativeHandle());
 	//VulkanQueue* graphicsQueue = logicalDevice->GetGraphicsQueue();
 	//vkQueueWaitIdle(graphicsQueue->GetNativeHandle());
 }

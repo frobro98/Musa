@@ -41,10 +41,6 @@ public:
 	virtual TextureSampler CreateTextureSampler(const TextureSamplerCreateParams& params) = 0;
 
 	virtual VulkanDevice* GetGraphicsDevice() = 0;
-
-	// TODO - These functions might access more command buffer related behaviors, so they might not belong here
-	virtual void TransitionToWriteState(const VulkanTexture** textures, uint32 textureCount) = 0;
-	virtual void TransitionToReadState(const VulkanTexture** textures, uint32 textureCount) = 0;
 };
 
 GraphicsInterface& GetGraphicsInterface();

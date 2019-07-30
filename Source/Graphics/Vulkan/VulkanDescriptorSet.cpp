@@ -76,129 +76,124 @@ VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence
 	bufferInfos.Reserve(uniformDescriptors + storageDescriptors);
 	imageInfos.Reserve(samplerDescriptors);
 }
-
-void VulkanDescriptorSet::SetUniformBufferInfo(const VulkanBuffer& uniformBuffer, uint32 bufferBinding)
-{
-	for(auto& writer : descriptorWrites)
-	{
-		// TODO - Figure out how to test a failed binding
-		if (writer.descriptorType == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER &&
-			writer.dstBinding == bufferBinding)
-		{
-			if (writer.pBufferInfo == nullptr)
-			{
-				VkDescriptorBufferInfo bufferInfo = {};
-				bufferInfo.buffer = uniformBuffer.handle;
-				bufferInfo.offset = uniformBuffer.memory->alignedOffset;
-				bufferInfo.range = uniformBuffer.memory->size;
-				bufferInfos.Add(std::move(bufferInfo));
-				writer.pBufferInfo = &bufferInfos.Last();
-				break;
-			}
-			else
-			{
-				VkDescriptorBufferInfo* bufferInfo = nullptr;
-				for(auto& info : bufferInfos)
-				{
-					// TODO - This is sort of gross. I would like to figure out a way to not have to do this loop
-					if (&info == writer.pBufferInfo)
-					{
-						bufferInfo = &info;
-						break;
-					}
-				}
-				bufferInfo->buffer = uniformBuffer.handle;
-				bufferInfo->offset = uniformBuffer.memory->alignedOffset;
-				bufferInfo->range = uniformBuffer.memory->size;
-				break;
-			}
-		}
-	}
-}
-
-// TODO - this needs to be refactored. This is duplicate code when compared to the 
-void VulkanDescriptorSet::SetStorageBufferInfo(const VulkanBuffer& storageBuffer, uint32 bufferBinding)
-{
-	for (auto& writer : descriptorWrites)
-	{
-		// TODO - Figure out how to test a failed binding
-		if (writer.descriptorType == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER &&
-			writer.dstBinding == bufferBinding)
-		{
-			if (writer.pBufferInfo == nullptr)
-			{
-				VkDescriptorBufferInfo bufferInfo = {};
-				bufferInfo.buffer = storageBuffer.handle;
-				bufferInfo.offset = 0;
-				bufferInfo.range = storageBuffer.memory->size;
-				bufferInfos.Add(std::move(bufferInfo));
-				writer.pBufferInfo = &bufferInfos.Last();
-				break;
-			}
-			else
-			{
-				VkDescriptorBufferInfo* bufferInfo = nullptr;
-				for (auto& info : bufferInfos)
-				{
-					// TODO - This is sort of gross. I would like to figure out a way to not have to do this loop
-					if (&info == writer.pBufferInfo)
-					{
-						bufferInfo = &info;
-						break;
-					}
-				}
-				bufferInfo->buffer = storageBuffer.handle;
-				bufferInfo->offset = 0;
-				bufferInfo->range = storageBuffer.memory->size;
-				break;
-			}
-		}
-	}
-}
-
-void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding)
-{
-	for (auto& writer : descriptorWrites)
-	{
-		// TODO - Figure out how to test a failed binding
-		if (writer.descriptorType == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER &&
-			writer.dstBinding == textureBinding)
-		{
-			if (writer.pImageInfo == nullptr)
-			{
-				VkDescriptorImageInfo imageInfo = {};
-				// TODO - There must be a better way to get the layout down to this level. Look up is required at this level as well...
-				imageInfo.imageLayout = texture.image->format != VK_FORMAT_D32_SFLOAT_S8_UINT ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
-				imageInfo.imageView = texture.imageView;
-				imageInfo.sampler = sampler.nativeSampler;
-				imageInfos.Add(std::move(imageInfo));
-				writer.pImageInfo = &imageInfos.Last();
-			}
-			else
-			{
-				VkDescriptorImageInfo* imageInfo = nullptr;
-				for (auto& info : imageInfos)
-				{
-					// TODO - This is sort of gross. I would like to figure out a way to not have to do this loop
-					if (&info == writer.pImageInfo)
-					{
-						imageInfo = &info;
-						break;
-					}
-				}
-				// TODO - There must be a better way to get the layout down to this level. Look up is required at this level as well...
-				imageInfo->imageLayout = texture.image->format != VK_FORMAT_D32_SFLOAT_S8_UINT ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
-				imageInfo->imageView = texture.imageView;
-				imageInfo->sampler = sampler.nativeSampler;
-			}
-		}
-	}
-}
-
-void VulkanDescriptorSet::UpdateDescriptorSet()
-{
-	vkUpdateDescriptorSets(logicalDevice.GetNativeHandle(), descriptorWrites.Size(), descriptorWrites.GetData(), 0, nullptr);
-}
+// 
+// void VulkanDescriptorSet::SetUniformBufferInfo(const VulkanBuffer& uniformBuffer, uint32 bufferBinding)
+// {
+// 	for(auto& writer : descriptorWrites)
+// 	{
+// 		// TODO - Figure out how to test a failed binding
+// 		if (writer.descriptorType == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER &&
+// 			writer.dstBinding == bufferBinding)
+// 		{
+// 			if (writer.pBufferInfo == nullptr)
+// 			{
+// 				VkDescriptorBufferInfo bufferInfo = {};
+// 				bufferInfo.buffer = uniformBuffer.handle;
+// 				bufferInfo.offset = uniformBuffer.memory->alignedOffset;
+// 				bufferInfo.range = uniformBuffer.memory->size;
+// 				bufferInfos.Add(std::move(bufferInfo));
+// 				writer.pBufferInfo = &bufferInfos.Last();
+// 				break;
+// 			}
+// 			else
+// 			{
+// 				VkDescriptorBufferInfo* bufferInfo = nullptr;
+// 				for(auto& info : bufferInfos)
+// 				{
+// 					// TODO - This is sort of gross. I would like to figure out a way to not have to do this loop
+// 					if (&info == writer.pBufferInfo)
+// 					{
+// 						bufferInfo = &info;
+// 						break;
+// 					}
+// 				}
+// 				bufferInfo->buffer = uniformBuffer.handle;
+// 				bufferInfo->offset = uniformBuffer.memory->alignedOffset;
+// 				bufferInfo->range = uniformBuffer.memory->size;
+// 				break;
+// 			}
+// 		}
+// 	}
+// }
+// 
+// // TODO - this needs to be refactored. This is duplicate code when compared to the 
+// void VulkanDescriptorSet::SetStorageBufferInfo(const VulkanBuffer& storageBuffer, uint32 bufferBinding)
+// {
+// 	for (auto& writer : descriptorWrites)
+// 	{
+// 		// TODO - Figure out how to test a failed binding
+// 		if (writer.descriptorType == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER &&
+// 			writer.dstBinding == bufferBinding)
+// 		{
+// 			if (writer.pBufferInfo == nullptr)
+// 			{
+// 				VkDescriptorBufferInfo bufferInfo = {};
+// 				bufferInfo.buffer = storageBuffer.handle;
+// 				bufferInfo.offset = 0;
+// 				bufferInfo.range = storageBuffer.memory->size;
+// 				bufferInfos.Add(std::move(bufferInfo));
+// 				writer.pBufferInfo = &bufferInfos.Last();
+// 				break;
+// 			}
+// 			else
+// 			{
+// 				VkDescriptorBufferInfo* bufferInfo = nullptr;
+// 				for (auto& info : bufferInfos)
+// 				{
+// 					// TODO - This is sort of gross. I would like to figure out a way to not have to do this loop
+// 					if (&info == writer.pBufferInfo)
+// 					{
+// 						bufferInfo = &info;
+// 						break;
+// 					}
+// 				}
+// 				bufferInfo->buffer = storageBuffer.handle;
+// 				bufferInfo->offset = 0;
+// 				bufferInfo->range = storageBuffer.memory->size;
+// 				break;
+// 			}
+// 		}
+// 	}
+// }
+// 
+// void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding)
+// {
+// 	for (auto& writer : descriptorWrites)
+// 	{
+// 		// TODO - Figure out how to test a failed binding
+// 		if (writer.descriptorType == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER &&
+// 			writer.dstBinding == textureBinding)
+// 		{
+// 			if (writer.pImageInfo == nullptr)
+// 			{
+// 				VkDescriptorImageInfo imageInfo = {};
+// 				// TODO - There must be a better way to get the layout down to this level. Look up is required at this level as well...
+// 				imageInfo.imageLayout = texture.image->format != VK_FORMAT_D32_SFLOAT_S8_UINT ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+// 				imageInfo.imageView = texture.imageView;
+// 				imageInfo.sampler = sampler.nativeSampler;
+// 				imageInfos.Add(std::move(imageInfo));
+// 				writer.pImageInfo = &imageInfos.Last();
+// 			}
+// 			else
+// 			{
+// 				VkDescriptorImageInfo* imageInfo = nullptr;
+// 				for (auto& info : imageInfos)
+// 				{
+// 					// TODO - This is sort of gross. I would like to figure out a way to not have to do this loop
+// 					if (&info == writer.pImageInfo)
+// 					{
+// 						imageInfo = &info;
+// 						break;
+// 					}
+// 				}
+// 				// TODO - There must be a better way to get the layout down to this level. Look up is required at this level as well...
+// 				imageInfo->imageLayout = texture.image->format != VK_FORMAT_D32_SFLOAT_S8_UINT ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+// 				imageInfo->imageView = texture.imageView;
+// 				imageInfo->sampler = sampler.nativeSampler;
+// 			}
+// 		}
+// 	}
+// }
 
 void VulkanDescriptorSet::UpdateDescriptorSet(const WriteDescriptorSet& writeDescriptorSet)
 {
@@ -224,3 +219,4 @@ void VulkanDescriptorSet::UpdateDescriptorSet(const WriteDescriptorSet& writeDes
 
 	vkUpdateDescriptorSets(logicalDevice.GetNativeHandle(), descriptorWrites.Size(), descriptorWrites.GetData(), 0, nullptr);
 }
+

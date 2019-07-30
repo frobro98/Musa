@@ -30,17 +30,3 @@ VulkanIndexBuffer::~VulkanIndexBuffer()
 {
 	logicalDevice.GetMemoryManager().DeallocateBuffer(*indexBuffer);
 }
-
-void VulkanIndexBuffer::Bind(VulkanCommandBuffer* cmdBuffer) const
-{
-	if (cmdBuffer->GetLevel() == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
-	{
-		Assert(cmdBuffer->IsInRenderPass());
-	}
-	vkCmdBindIndexBuffer(
-		cmdBuffer->GetNativeHandle(), 
-		indexBuffer->handle, 
-		indexBuffer->memory->alignedOffset, 
-		VK_INDEX_TYPE_UINT32
-	);
-}

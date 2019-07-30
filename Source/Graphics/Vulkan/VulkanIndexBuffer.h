@@ -14,8 +14,6 @@ public:
 	VulkanIndexBuffer(const VulkanIndexBuffer&) = delete;
 	VulkanIndexBuffer& operator=(const VulkanIndexBuffer&) = delete;
 
-	void Bind(class VulkanCommandBuffer* cmdBuffer) const;
-
 	inline VulkanBuffer& GetBuffer() const { return *indexBuffer; }
 	inline uint32 GetNumberOfIndicies() const { return numIndicies; }
 

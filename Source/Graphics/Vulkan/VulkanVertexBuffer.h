@@ -15,9 +15,6 @@ public:
 	~VulkanVertexBuffer();
 
 	VulkanVertexBuffer(const VulkanVertexBuffer&);
-	//VulkanVertexBuffer& operator=(const VulkanVertexBuffer&) = delete;
-
-	void Bind(VulkanCommandBuffer* cmdBuffer) const;
 
 	inline VulkanBuffer& GetBuffer() const { return *vertexBuffer; }
 

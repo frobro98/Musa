@@ -41,10 +41,10 @@ public:
 
 	inline VkDescriptorSet GetNativeHandle() const { return descriptorSet; }
 	inline const VulkanFence* GetFence() const { return associatedFence; }
-
-	void SetUniformBufferInfo(const VulkanBuffer& uniformBuffer, uint32 bufferBinding);
-	void SetStorageBufferInfo(const VulkanBuffer& storageBuffer, uint32 bufferBinding);
-	void SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding);
+// 
+// 	void SetUniformBufferInfo(const VulkanBuffer& uniformBuffer, uint32 bufferBinding);
+// 	void SetStorageBufferInfo(const VulkanBuffer& storageBuffer, uint32 bufferBinding);
+// 	void SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding);
 
 	void UpdateDescriptorSet();
 	void UpdateDescriptorSet(const WriteDescriptorSet& writeDescriptors);

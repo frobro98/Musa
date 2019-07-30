@@ -5,6 +5,7 @@
 
 void WriteDescriptorSet::SetupWriteDescriptors(const VulkanDescriptorSetLayout& layout)
 {
+	// TODO - have the descriptors be actually sorted and placed in the location of their binding index...
 	DynamicArray<VkDescriptorSetLayoutBinding> layoutBindings = layout.GetLayoutBindings();
 	// TODO - have the descriptors be actually sorted and placed in the location of their binding index...
 	for (auto& binding : layoutBindings)

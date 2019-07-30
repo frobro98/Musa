@@ -7,6 +7,7 @@
 
 class VulkanDevice;
 class VulkanRenderPass;
+struct VulkanTexture;
 struct RenderTargetDescription;
 struct RenderTargetTextures;
 struct VulkanTexture;

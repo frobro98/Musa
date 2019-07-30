@@ -241,12 +241,14 @@ void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* ver
 	}
 
 	DynamicArray<VkBuffer> nativeHandles(bufferCount);
+	DynamicArray<VkDeviceSize> offsets(bufferCount);
 	for (uint32 i = 0; i < bufferCount; ++i)
 	{
 		nativeHandles[i] = vertexBuffers[i]->GetBuffer().handle;
+		offsets[i] = vertexBufferOffsets[i];
 	}
 
-	vkCmdBindVertexBuffers(commandBuffer, 0, bufferCount, nativeHandles.GetData(), (const VkDeviceSize*)vertexBufferOffsets);
+	vkCmdBindVertexBuffers(commandBuffer, 0, bufferCount, nativeHandles.GetData(), offsets.GetData());
 }
 
 void VulkanCommandBuffer::BindIndexBuffer(const VulkanIndexBuffer& indexBuffer)

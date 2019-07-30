@@ -35,16 +35,6 @@ VulkanVertexBuffer::VulkanVertexBuffer(const VulkanVertexBuffer& other)
 {
 }
 
-void VulkanVertexBuffer::Bind(VulkanCommandBuffer* cmdBuffer) const
-{
-	if (cmdBuffer->GetLevel() == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
-	{
-		Assert(cmdBuffer->IsInRenderPass());
-	}
-	VkDeviceSize offsets[] = { vertexBuffer->memory->alignedOffset };
-	vkCmdBindVertexBuffers(cmdBuffer->GetNativeHandle(), 0, 1, &vertexBuffer->handle, offsets);
-}
-
 VulkanWeightsBuffer::VulkanWeightsBuffer(VulkanDevice& device, const DynamicArray<VertexBoneWeights>& weights)
 	: logicalDevice(device)
 {

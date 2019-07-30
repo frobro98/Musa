@@ -6,11 +6,12 @@
 #include "VulkanDevice.h"
 #include "VulkanDescriptorSet.h"
 #include "GraphicsInterface.hpp"
-
-void VulkanRenderState::FillWithRenderTargetDescription(GraphicsPipelineDescription& pipelineDescription) const
-{
-	pipelineDescription.renderTargets = currentTarget;
-}
+#include "VulkanAbstractions.h"
+#include "VulkanVertexBuffer.h"
+#include "VulkanIndexBuffer.h"
+#include "VulkanUniformBuffer.h"
+#include "VulkanBufferAllocation.hpp"
+#include "VulkanFramebuffer.h"
 
 void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
 {
@@ -25,53 +26,50 @@ void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, con
 	cmdBuffer.BeginRenderpass(newTargetFB, clearColors, inlinedContents);
 
 	framebufferContext = newTargetFB;
-	currentTarget = targetDescription;
 }
 
-void VulkanRenderState::SetGraphicsPipeline(VulkanCommandBuffer& cmdBuffer, const GraphicsPipelineDescription& pipelineDescription)
+void VulkanRenderState::SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDescription)
 {
-	if (cmdBuffer.GetLevel() == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
-	{
-		Assert(cmdBuffer.IsInRenderPass());
-	}
+// 	if (cmdBuffer.GetLevel() == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
+// 	{
+// 		Assert(cmdBuffer.IsInRenderPass());
+// 	}
 
-	VulkanPipeline* newPipeline = cmdBuffer.GetDevice().GetRenderingStorage()->FindOrCreatePipeline(pipelineDescription);
+	VulkanPipeline* newPipeline = GetGraphicsInterface().GetGraphicsDevice()->GetRenderingStorage()->FindOrCreatePipeline(pipelineDescription);
 
 	currentPipeline = newPipeline;
-	// TODO - This doesn't work if the pipeline is being reused, so the active is still happening...
-	activeDescriptorSet = currentPipeline->GetUnusedDescriptorSet(cmdBuffer);
+	writeDescriptorSet = &newPipeline->GetWriteDescriptorSet();
 }
 
-void VulkanRenderState::Bind(VulkanCommandBuffer& cmdBuffer) const
+void VulkanRenderState::BindState(VulkanCommandBuffer& cmdBuffer)
 {
-	if (activeDescriptorSet)
-	{
-		activeDescriptorSet->UpdateDescriptorSet();
-	}
+	VulkanDescriptorSet* ds = currentPipeline->GetUnusedDescriptorSet(cmdBuffer);
+	ds->UpdateDescriptorSet(*writeDescriptorSet);
 
-	currentPipeline->Bind(&cmdBuffer);
-	currentPipeline->BindDescriptorSet(&cmdBuffer, activeDescriptorSet);
+ 	currentPipeline->Bind(&cmdBuffer);
+ 	currentPipeline->BindDescriptorSet(&cmdBuffer, ds);
 }
 
 void VulkanRenderState::SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
 {
-	Assert(activeDescriptorSet);
-	activeDescriptorSet->SetUniformBufferInfo(buffer, bindIndex);
+	Assert(writeDescriptorSet);
+	writeDescriptorSet->SetBuffer(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, buffer, bindIndex);
 }
 
 void VulkanRenderState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
 {
-	Assert(activeDescriptorSet);
-	activeDescriptorSet->SetStorageBufferInfo(buffer, bindIndex);
+	Assert(writeDescriptorSet);
+	writeDescriptorSet->SetBuffer(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, buffer, bindIndex);
 }
 
 void VulkanRenderState::SetTexture(const VulkanTexture& texture, uint32 bindIndex)
 {
-	Assert(activeDescriptorSet);
-	activeDescriptorSet->SetSampledTextureInfo(texture, texture.sampler, bindIndex);
+	Assert(writeDescriptorSet);
+	writeDescriptorSet->SetTexture(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, texture, bindIndex);
 }
 
-void VulkanRenderState::ResetState()
+bool VulkanRenderState::IsTextureInRender(const VulkanTexture& texture)
 {
-
+	return framebufferContext && framebufferContext->ContainsRT(texture);
 }
+

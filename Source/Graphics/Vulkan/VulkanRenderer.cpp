@@ -61,9 +61,9 @@ void VulkanRenderer::SetVertexBuffer(const VulkanVertexBuffer& vertexBuffer)
 	vertexBuffersAndOffsets.vertexBufferOffsets.Add(vertexBuffer.GetBuffer().memory->alignedOffset);
 }
 
-void VulkanRenderer::SetGraphicsPipeline(const GraphicsPipelineDescription& /*pipelineDesc*/)
+void VulkanRenderer::SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc)
 {
-	//currentRenderState.SetGraphicsPipeline(pipelineDesc);
+	currentRenderState.SetGraphicsPipeline(pipelineDesc);
 }
 
 void VulkanRenderer::SetUniformBuffer(const VulkanUniformBuffer& uniformBuffer, uint32 bufferIndex)
@@ -79,7 +79,7 @@ void VulkanRenderer::SetTexture(const VulkanTexture& texture, uint32 textureInde
 void VulkanRenderer::Draw(uint32 vertexCount, uint32 instanceCount)
 {
 	VulkanCommandBuffer& cmdBuffer = *GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
-	if (updateViewState)
+	if(updateViewState)
 	{
 		UpdateViewState(cmdBuffer);
 	}
@@ -95,7 +95,7 @@ void VulkanRenderer::Draw(uint32 vertexCount, uint32 instanceCount)
 		vertexBuffersAndOffsets.vertexBufferOffsets.Clear();
 	}
 
-	//currentRenderState.BindState(cmdBuffer);
+	currentRenderState.BindState(cmdBuffer);
 
 	cmdBuffer.Draw(vertexCount, instanceCount, 0, 0);
 }
@@ -121,7 +121,7 @@ void VulkanRenderer::DrawIndexed(const VulkanIndexBuffer& indexBuffer, uint32 in
 	uint32 indexCount = indexBuffer.GetNumberOfIndicies();
 	cmdBuffer.BindIndexBuffer(indexBuffer);
 
-	//currentRenderState.BindState(cmdBuffer);
+	currentRenderState.BindState(cmdBuffer);
 
 	cmdBuffer.DrawIndexed(indexCount, instanceCount, 0, 0, 0);
 }
@@ -260,4 +260,5 @@ void VulkanRenderer::TransitionToReadState(const VulkanTexture** textures, uint3
 		);
 	}
 }
+
 
