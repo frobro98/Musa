@@ -19,7 +19,7 @@ public:
 
 	void Bind(VulkanCommandBuffer* cmdBuffer) const;
 
-	inline VulkanBuffer& GetBuffer() { return *vertexBuffer; }
+	inline VulkanBuffer& GetBuffer() const { return *vertexBuffer; }
 
 private:
 	VulkanDevice& logicalDevice;

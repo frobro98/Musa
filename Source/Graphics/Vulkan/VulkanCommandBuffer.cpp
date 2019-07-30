@@ -4,8 +4,11 @@
 #include "VulkanRenderPass.h"
 #include "VulkanFramebuffer.h"
 #include "VulkanFence.hpp"
+#include "VulkanVertexBuffer.h"
+#include "VulkanIndexBuffer.h"
+#include "VulkanBufferAllocation.hpp"
 
-#include "EngineCore/Assertion.h"
+#include "Assertion.h"
 
 
 VulkanCommandBuffer::VulkanCommandBuffer(const VulkanDevice& device, VulkanCommandBufferManager& manager)
@@ -228,6 +231,36 @@ void VulkanCommandBuffer::SetScissor(uint32 firstScissor, uint32 scissorCount, c
 void VulkanCommandBuffer::Dispatch(uint32 workgroupX, uint32 workgroupY, uint32 workgroupZ)
 {
 	vkCmdDispatch(commandBuffer, workgroupX, workgroupY, workgroupZ);
+}
+
+void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* vertexBuffers, const uint32* vertexBufferOffsets, uint32 bufferCount)
+{
+	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
+	{
+		Assert(IsInRenderPass());
+	}
+
+	DynamicArray<VkBuffer> nativeHandles(bufferCount);
+	for (uint32 i = 0; i < bufferCount; ++i)
+	{
+		nativeHandles[i] = vertexBuffers[i]->GetBuffer().handle;
+	}
+
+	vkCmdBindVertexBuffers(commandBuffer, 0, bufferCount, nativeHandles.GetData(), (const VkDeviceSize*)vertexBufferOffsets);
+}
+
+void VulkanCommandBuffer::BindIndexBuffer(const VulkanIndexBuffer& indexBuffer)
+{
+	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
+	{
+		Assert(IsInRenderPass());
+	}
+	vkCmdBindIndexBuffer(
+		commandBuffer,
+		indexBuffer.GetBuffer().handle,
+		indexBuffer.GetBuffer().memory->alignedOffset,
+		VK_INDEX_TYPE_UINT32
+	);
 }
 
 void VulkanCommandBuffer::DrawIndexed(

@@ -229,6 +229,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 
 	CHECK_VK(vkCreateGraphicsPipelines(logicalDevice->GetNativeHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline));
 
+	writeDescriptorSet.SetupWriteDescriptors(*layout->GetDescriptorSetLayouts()[0]);
 }
 
 void VulkanPipeline::Bind(VulkanCommandBuffer * cmdBuffer) const

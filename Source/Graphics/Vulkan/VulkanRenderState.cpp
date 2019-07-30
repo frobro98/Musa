@@ -65,10 +65,10 @@ void VulkanRenderState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 bind
 	activeDescriptorSet->SetStorageBufferInfo(buffer, bindIndex);
 }
 
-void VulkanRenderState::SetTexture(const VulkanTexture& texture, const TextureSampler& sampler, uint32 bindIndex)
+void VulkanRenderState::SetTexture(const VulkanTexture& texture, uint32 bindIndex)
 {
 	Assert(activeDescriptorSet);
-	activeDescriptorSet->SetSampledTextureInfo(texture, sampler, bindIndex);
+	activeDescriptorSet->SetSampledTextureInfo(texture, texture.sampler, bindIndex);
 }
 
 void VulkanRenderState::ResetState()

@@ -9,6 +9,7 @@ class VulkanDevice;
 class VulkanRenderPass;
 struct RenderTargetDescription;
 struct RenderTargetTextures;
+struct VulkanTexture;
 
 class VulkanFramebuffer
 {
@@ -20,6 +21,7 @@ public:
 
 	void Initialize(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures, VulkanRenderPass* renderPass_);
 
+	bool ContainsRT(const VulkanTexture& texture);
 	bool ContainsRTs(const RenderTargetTextures& renderTextures);
 
 	uint32 GetAttachmentCount() const { return nativeTargets.targetCount + 1; }

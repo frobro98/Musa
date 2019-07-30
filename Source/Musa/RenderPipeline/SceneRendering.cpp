@@ -256,10 +256,10 @@ void RenderWithNormalMap(VulkanRenderState& renderingState, const RenderObject& 
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderingState.SetTexture(*matInfo->baseTexture, matInfo->baseTexture->sampler, 1);
+		renderingState.SetTexture(*matInfo->baseTexture, 1);
 	}
 
-	renderingState.SetTexture(*matInfo->normalMap, matInfo->normalMap->sampler, 2);
+	renderingState.SetTexture(*matInfo->normalMap, 2);
 
 	// Set Material Data
 	renderingState.SetUniformBuffer(matInfo->materialProperties->GetBuffer(), 3);
@@ -277,7 +277,7 @@ void RenderNormally(VulkanRenderState& renderingState, const RenderObject& objec
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderingState.SetTexture(*matInfo->baseTexture, matInfo->baseTexture->sampler, 1);
+		renderingState.SetTexture(*matInfo->baseTexture, 1);
 	}
 
 	// Set Material Data
@@ -426,7 +426,7 @@ void SceneRendering::RenderGBUffersToScreen(VulkanCommandBuffer& cmdBuffer, Scen
 
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
-		renderingState.SetTexture(*targets.colorTargets[i], targets.colorTargets[i]->sampler, i);
+		renderingState.SetTexture(*targets.colorTargets[i], i);
 	}
 
 	//renderingState.SetTexture(*shadowMap.depthTextureResource, 3);

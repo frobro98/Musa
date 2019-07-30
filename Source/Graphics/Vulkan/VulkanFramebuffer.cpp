@@ -45,6 +45,18 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 	renderPass = renderPass_;
 }
 
+bool VulkanFramebuffer::ContainsRT(const VulkanTexture& texture)
+{
+	for (const auto target : nativeTargets.colorTargets)
+	{
+		if (target == &texture)
+		{
+			return true;
+		}
+	}
+	return nativeTargets.depthTarget == &texture;
+}
+
 bool VulkanFramebuffer::ContainsRTs(const RenderTargetTextures& renderTextures)
 {
 	if (nativeTargets.targetCount == renderTextures.targetCount)

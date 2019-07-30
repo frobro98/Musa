@@ -8,6 +8,7 @@
 class VulkanDevice;
 class VulkanFence;
 class VulkanCommandBuffer;
+class WriteDescriptorSet;
 struct TextureSampler;
 
 class VulkanDescriptorSetLayout
@@ -46,6 +47,7 @@ public:
 	void SetSampledTextureInfo(const VulkanTexture& texture, const TextureSampler& sampler, uint32 textureBinding);
 
 	void UpdateDescriptorSet();
+	void UpdateDescriptorSet(const WriteDescriptorSet& writeDescriptors);
 
 public:
 	uint64 associatedFenceSignal;

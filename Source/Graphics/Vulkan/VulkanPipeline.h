@@ -4,6 +4,7 @@
 
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/PipelineInitDescription.hpp"
+#include "VulkanDescriptorSetUtilities.hpp"
 
 class VulkanDevice;
 class VulkanRenderPass;
@@ -39,10 +40,13 @@ public:
 	void BindDescriptorSet(VulkanCommandBuffer* cmdBuffer, VulkanDescriptorSet* descriptorSet) const;
 	VulkanDescriptorSet* GetUnusedDescriptorSet(VulkanCommandBuffer& cmdBuffer);
 
+	inline WriteDescriptorSet& GetWriteDescriptorSet() { return writeDescriptorSet; }
+
 private:
 	std::mutex descriptorMut;
 	VkPipeline pipeline = VK_NULL_HANDLE;
 	GraphicsPipelineDescription init;
+	WriteDescriptorSet writeDescriptorSet;
 	const VulkanPipelineLayout* pipelineLayout;
 	const VulkanDevice* logicalDevice;
 	DynamicArray<VulkanDescriptorSet*> descriptorSets;

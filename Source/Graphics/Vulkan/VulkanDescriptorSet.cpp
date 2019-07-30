@@ -3,6 +3,7 @@
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanImageAllocation.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "VulkanDescriptorSetUtilities.hpp"
 
 VulkanDescriptorSetLayout::VulkanDescriptorSetLayout(VulkanDevice& device)
 	: logicalDevice(device)
@@ -196,5 +197,30 @@ void VulkanDescriptorSet::SetSampledTextureInfo(const VulkanTexture& texture, co
 
 void VulkanDescriptorSet::UpdateDescriptorSet()
 {
+	vkUpdateDescriptorSets(logicalDevice.GetNativeHandle(), descriptorWrites.Size(), descriptorWrites.GetData(), 0, nullptr);
+}
+
+void VulkanDescriptorSet::UpdateDescriptorSet(const WriteDescriptorSet& writeDescriptorSet)
+{
+	DynamicArray<WriteDescriptor> descriptors = writeDescriptorSet.GetWriteDescriptors();
+	for (uint32 i = 0; i < descriptors.Size(); ++i)
+	{
+		WriteDescriptor& descriptor = descriptors[i];
+		VkWriteDescriptorSet& writeDescriptor = descriptorWrites[i];
+		if (descriptor.bufferDescriptor != nullptr)
+		{
+			Assert(writeDescriptor.descriptorType == descriptor.bufferDescriptor->descType);
+			Assert(writeDescriptor.dstBinding == descriptor.bufferDescriptor->bindingIndex);
+			writeDescriptor.pBufferInfo = &descriptor.bufferDescriptor->bufferInfo;
+		}
+		else if (descriptor.imageDescriptor != nullptr)
+		{
+			Assert(writeDescriptor.descriptorType == descriptor.imageDescriptor->descType);
+			Assert(writeDescriptor.dstBinding == descriptor.imageDescriptor->bindingIndex);
+			writeDescriptor.pImageInfo = &descriptor.imageDescriptor->imageInfo;
+		}
+		writeDescriptor.dstSet = descriptorSet;
+	}
+
 	vkUpdateDescriptorSets(logicalDevice.GetNativeHandle(), descriptorWrites.Size(), descriptorWrites.GetData(), 0, nullptr);
 }

@@ -9,7 +9,8 @@ class VulkanQueue;
 class VulkanFramebuffer;
 class VulkanRenderPass;
 class VulkanFence;
-
+class VulkanVertexBuffer;
+class VulkanIndexBuffer;
 class VulkanCommandBufferManager;
 
 enum class CommandBufferState
@@ -108,6 +109,16 @@ public:
 		uint32 workgroupX, 
 		uint32 workgroupY, 
 		uint32 workgroupZ
+	);
+
+	void BindVertexBuffers(
+		const VulkanVertexBuffer* const* vertexBuffers,
+		const uint32* vertexBufferOffsets,
+		uint32 bufferCount
+	);
+
+	void BindIndexBuffer(
+		const VulkanIndexBuffer& indexBuffer
 	);
 
 	void DrawIndexed(
