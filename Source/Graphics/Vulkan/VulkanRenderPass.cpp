@@ -6,11 +6,11 @@
 
 VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTargetDescription& targets)
 // TODO - There isn't necessarily a depth attachment. Assuming there is, but needs to change later...
-	: attachments(targets.targetCount + 1),
+	: attachments(targets.hasDepth ? targets.targetCount + 1 : targets.targetCount),
 	logicalDevice(&device)
 {
 
-	DynamicArray<VkAttachmentReference> attachmentRefs(attachments.Size() - 1);
+	DynamicArray<VkAttachmentReference> attachmentRefs(targets.targetCount);
 	for (uint32 i = 0; i < attachmentRefs.Size(); ++i)
 	{
 		const ColorDescription& colorDescription = targets.colorDescs[i];
@@ -33,7 +33,8 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 		attachmentRefs[i] = colorAttachmentRef;
 	}
 
-
+	VkAttachmentReference depthAttachmentRef = {};
+	if(targets.hasDepth)
 	{
 		const DepthStencilDescription& depthDescription = targets.depthDesc;
 		VkAttachmentDescription depthAttachment = {};
@@ -49,17 +50,16 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 
 		Assert(logicalDevice->IsFormatSupported(depthAttachment.format, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT));
 		attachments[attachments.Size() - 1] = depthAttachment;
-	}
 
-	VkAttachmentReference depthAttachmentRef = {};
-	depthAttachmentRef.attachment = attachments.Size() - 1;
-	depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		depthAttachmentRef.attachment = attachments.Size() - 1;
+		depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+	}
 
 	VkSubpassDescription subpass = {};
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.colorAttachmentCount = attachmentRefs.Size();
 	subpass.pColorAttachments = attachmentRefs.GetData();
-	subpass.pDepthStencilAttachment = &depthAttachmentRef;
+	subpass.pDepthStencilAttachment = targets.hasDepth ? &depthAttachmentRef : nullptr;
 
 	VkPipelineStageFlags dstStage0 = attachmentRefs.Size() > 0 ?
 		VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT :

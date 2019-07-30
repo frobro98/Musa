@@ -238,7 +238,6 @@ void SceneRendering::RenderScene(Scene& scene, const Viewport& viewport, const V
 		//InitializeShadowMap();
 	}
 
-	//ForwardRender(scene, view);
 	DeferredRender(scene, viewport, view);
 }
 
@@ -258,8 +257,6 @@ void RenderWithNormalMap(Renderer& renderer, const RenderObject& object)
 
 	// Set Material Data
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
-	// Set View Data
-	//renderingState.SetUniformBuffer(entity.GetViewPropertiesBuffer()->GetBuffer(), 3);
 }
 
 void RenderNormally(Renderer& renderer, const RenderObject& object)
@@ -277,8 +274,6 @@ void RenderNormally(Renderer& renderer, const RenderObject& object)
 
 	// Set Material Data
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 2);
-	// Set View Data
-	//renderingState.SetUniformBuffer(entity.GetViewPropertiesBuffer()->GetBuffer(), 3);
 }
 
 void SceneRendering::RenderGBufferPass(Scene& scene, const View& view)
@@ -497,25 +492,33 @@ void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, cons
 
 void SceneRendering::TransitionTargetsToRead(RenderTargetTextures& targets)
 {
-	DynamicArray<const VulkanTexture*> gbufferTargets(targets.targetCount + 1);
+	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
+	DynamicArray<const VulkanTexture*> gbufferTargets(targetCount);
 	uint32 i;
 	for (i = 0; i < targets.targetCount; ++i)
 	{
 		gbufferTargets[i] = targets.colorTargets[i];
 	}
-	gbufferTargets[i] = targets.depthTarget;
+	if (targets.depthTarget)
+	{
+		gbufferTargets[i] = targets.depthTarget;
+	}
 	renderer->TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
 void SceneRendering::TransitionTargetsToWrite(RenderTargetTextures& targets)
 {
-	DynamicArray<const VulkanTexture*> gbufferTargets(targets.targetCount + 1);
+	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
+	DynamicArray<const VulkanTexture*> gbufferTargets(targetCount);
 	uint32 i;
 	for (i = 0; i < targets.targetCount; ++i)
 	{
 		gbufferTargets[i] = targets.colorTargets[i];
 	}
-	gbufferTargets[i] = targets.depthTarget;
+	if (targets.depthTarget)
+	{
+		gbufferTargets[i] = targets.depthTarget;
+	}
 	renderer->TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 

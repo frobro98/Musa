@@ -22,7 +22,6 @@ VulkanSwapchain::~VulkanSwapchain()
 	{
 		vkDestroyImageView(logicalDevice.GetNativeHandle(), tex->imageView, nullptr);
 	}
-	delete depthImage;
 	vkDestroySemaphore(logicalDevice.GetNativeHandle(), imageAvailable, nullptr);
 	vkDestroySemaphore(logicalDevice.GetNativeHandle(), renderingFinished, nullptr);
 	Assert(swapchainHandle != VK_NULL_HANDLE);
@@ -76,9 +75,6 @@ void VulkanSwapchain::SubmitFrame()
 // 		graphicsWait = copyFinished;
 // 	}
 	cmdBufferManager.SubmitGraphicsBuffer(true, graphicsWait, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, renderingFinished);
-	vkQueueWaitIdle(logicalDevice.GetGraphicsQueue()->GetNativeHandle());
-	//VulkanQueue* graphicsQueue = logicalDevice->GetGraphicsQueue();
-	//vkQueueWaitIdle(graphicsQueue->GetNativeHandle());
 }
 
 void VulkanSwapchain::Present()
@@ -113,9 +109,9 @@ RenderTargetDescription VulkanSwapchain::GetSwapchainImageDescription() const
 
 RenderTargetTextures VulkanSwapchain::GetSwapchainTarget() const
 {
-	RenderTargetTextures screenTargets;
+	RenderTargetTextures screenTargets = {};
 	screenTargets.colorTargets[0] = swapchainImageTargets[imageIndex];
-	screenTargets.depthTarget = swapchainImageTargets.Last();
+	//screenTargets.depthTarget = swapchainImageTargets.Last();
 	screenTargets.targetCount = 1;
 	return screenTargets;
 }
@@ -231,7 +227,7 @@ void VulkanSwapchain::CacheSwapchainImages()
 	swapchainImages.Resize(imageCount);
 	vkGetSwapchainImagesKHR(logicalDevice.GetNativeHandle(), swapchainHandle, &imageCount, swapchainImages.GetData());
 
-	swapchainImageTargets.Resize(imageCount + 1);
+	swapchainImageTargets.Resize(imageCount);
 	for (uint32 i = 0; i < imageCount; ++i)
 	{
 		VulkanImage* img = new VulkanImage;
@@ -244,9 +240,6 @@ void VulkanSwapchain::CacheSwapchainImages()
 		img->aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT;
 		swapchainImageTargets[i] = new VulkanTexture(*img);
 	}
-
-	CreateDepthImage();
-	swapchainImageTargets[imageCount] = new VulkanTexture(*depthImage);
 }
 
 void VulkanSwapchain::InitializeRenderTargets()
@@ -262,37 +255,15 @@ void VulkanSwapchain::InitializeRenderTargets()
 	colorDesc.stencilStore = StoreOperation::DontCare;
 	colorDesc.sampleCount = 1;
 
-	DepthStencilDescription& depthDesc = targetDescription.depthDesc;
-	depthDesc.format = ImageFormat::DS_32f_8u;
-	depthDesc.load = LoadOperation::Clear;
-	depthDesc.store = StoreOperation::Store;
-	depthDesc.stencilLoad = LoadOperation::DontCare;
-	depthDesc.stencilStore = StoreOperation::DontCare;
-	depthDesc.sampleCount = 1;
-}
+	targetDescription.hasDepth = false;
 
-// TODO - This depth image creation can hopefully be taken out of here and only used once in the entire scene
-void VulkanSwapchain::CreateDepthImage()
-{
-	depthImage = logicalDevice.GetMemoryManager().AllocateImage(
-		swapchainExtent.width, swapchainExtent.height,
-		VK_FORMAT_D32_SFLOAT_S8_UINT, 1, VK_IMAGE_TILING_OPTIMAL,
-		VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
-		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-	);
-
-	depthImage->aspectFlags = VK_IMAGE_ASPECT_DEPTH_BIT;
-
-	VkImageSubresourceRange subresourceRange = {};
-	subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-	subresourceRange.baseArrayLayer = 0;
-	subresourceRange.layerCount = 1;
-	subresourceRange.baseMipLevel = 0;
-	subresourceRange.levelCount = 1;
-
-	VulkanCommandBuffer* cmdBuffer = logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
-	// Image transition
-	ImageLayoutTransition(*cmdBuffer, subresourceRange, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, { depthImage });
+// 	DepthStencilDescription& depthDesc = targetDescription.depthDesc;
+// 	depthDesc.format = ImageFormat::DS_32f_8u;
+// 	depthDesc.load = LoadOperation::Clear;
+// 	depthDesc.store = StoreOperation::Store;
+// 	depthDesc.stencilLoad = LoadOperation::DontCare;
+// 	depthDesc.stencilStore = StoreOperation::DontCare;
+// 	depthDesc.sampleCount = 1;
 }
 
 void VulkanSwapchain::InitializeSwapchainSyncronization()

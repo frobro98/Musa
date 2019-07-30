@@ -22,13 +22,17 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 	Assert(targetDesc.targetCount == renderTextures.targetCount);
 	nativeTargets = renderTextures;
 
-	viewAttachments.Resize(nativeTargets.targetCount + 1);
+	uint32 targetCount = targetDesc.hasDepth ? nativeTargets.targetCount + 1 : nativeTargets.targetCount;
+	viewAttachments.Resize(targetCount);
 	for (uint32 i = 0; i < nativeTargets.targetCount; ++i)
 	{
 		viewAttachments[i] = renderTextures.colorTargets[i]->image->CreateView();
 	}
 
-	viewAttachments[renderTextures.targetCount] = renderTextures.depthTarget->image->CreateView();
+	if (targetDesc.hasDepth)
+	{
+		viewAttachments[renderTextures.targetCount] = renderTextures.depthTarget->image->CreateView();
+	}
 
 	extents = { (uint32)targetDesc.targetExtents.width, (uint32)targetDesc.targetExtents.height };
 	VkFramebufferCreateInfo framebufferInfo = {};

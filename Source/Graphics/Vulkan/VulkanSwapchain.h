@@ -39,7 +39,6 @@ public:
 private:
 	void CreateSwapchain();
 	void CacheSwapchainImages();
-	void CreateDepthImage();
 	void InitializeRenderTargets();
 	void InitializeSwapchainSyncronization();
 
@@ -51,7 +50,6 @@ private:
 	RenderTargetDescription targetDescription = {};
 
 	VkFormat swapchainFormat = {};
-	VulkanImage* depthImage;
 	DynamicArray<VkImage> swapchainImages;
 	DynamicArray<VulkanTexture*> swapchainImageTargets;
 

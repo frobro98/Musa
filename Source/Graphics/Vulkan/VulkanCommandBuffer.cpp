@@ -75,10 +75,10 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const 
 		Begin();
 	}
 	Assert(state == CommandBufferState::Began);
-	Assert(frameBuffer->GetAttachmentCount() == clearColors.Size()+1);
 
 	DynamicArray<VkClearValue> vkClearColors(frameBuffer->GetAttachmentCount());
-	for (uint32 i = 0; i < vkClearColors.Size() - 1; ++i)
+	uint32 numColorAttachments = frameBuffer->HasDepthAttachment() ? vkClearColors.Size() - 1 : vkClearColors.Size();
+	for (uint32 i = 0; i < numColorAttachments; ++i)
 	{
 		vkClearColors[i].color = { 
 			clearColors[i].r,
@@ -88,7 +88,10 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const 
 		};
 	}
 
-	vkClearColors[vkClearColors.Size() - 1].depthStencil = { 1.f, 0 };
+	if (frameBuffer->HasDepthAttachment())
+	{
+		vkClearColors[vkClearColors.Size() - 1].depthStencil = { 1.f, 0 };
+	}
 
 	VkRenderPassBeginInfo renderPassBeginInfo = {};
 	renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;

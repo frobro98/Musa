@@ -25,7 +25,8 @@ public:
 	bool ContainsRT(const VulkanTexture& texture);
 	bool ContainsRTs(const RenderTargetTextures& renderTextures);
 
-	uint32 GetAttachmentCount() const { return nativeTargets.targetCount + 1; }
+	uint32 GetAttachmentCount() const { return viewAttachments.Size(); }
+	bool HasDepthAttachment() const { return nativeTargets.depthTarget != nullptr; }
 
 	inline VkFramebuffer GetNativeHandle() const { return frameBuffer; }
 	inline VulkanRenderPass* GetRenderPass() const { return renderPass; }

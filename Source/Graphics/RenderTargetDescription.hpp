@@ -59,6 +59,7 @@ struct RenderTargetDescription
 	Extents2D targetExtents;
 	// TODO - Rename this so that it is more clear how many COLOR targets there are...
 	uint32 targetCount;
+	bool hasDepth = true;
 
 	friend bool operator==(const RenderTargetDescription& lhs, const RenderTargetDescription& rhs)
 	{
