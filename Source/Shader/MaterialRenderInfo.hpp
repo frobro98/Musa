@@ -3,18 +3,17 @@
 #include "Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 
-#include "Graphics/Vulkan/VulkanUniformBuffer.h"
-
-struct VulkanTexture;
+struct NativeUniformBuffer;
+struct NativeTexture;
 class Material;
 struct ShaderResource;
 
 struct MaterialRenderInfo
 {
 	Color32 baseColor = Color32::White();
-	UniformBuffer* materialProperties;
-	VulkanTexture* baseTexture = nullptr;
-	VulkanTexture* normalMap = nullptr;
+	NativeUniformBuffer* materialProperties;
+	NativeTexture* baseTexture = nullptr;
+	NativeTexture* normalMap = nullptr;
 	ShaderResource* vertexShader = nullptr;
 	ShaderResource* fragmentShader = nullptr;
 	ShadingModel shadingModel = ShadingModel::Lit;

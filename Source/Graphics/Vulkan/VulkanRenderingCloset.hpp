@@ -13,7 +13,7 @@
 
 
 #include "Containers/Map.h"
-#include "Graphics/PipelineInitDescription.hpp"
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class VulkanDevice;
@@ -35,7 +35,7 @@ public:
 	// TODO - This isn't entirely correct, because a framebuffer could have the same attachment information, but not have the same render textures
 	[[nodiscard]] VulkanFramebuffer* FindOrCreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs);
 
-	[[nodiscard]] VkSampler FindOrCreateSampler(const TextureSamplerCreateParams& params);
+	[[nodiscard]] VkSampler FindOrCreateSampler(const SamplerDescription& params);
 private:
 	VulkanPipeline* CreatePipeline(const GraphicsPipelineDescription& desc);
 	VulkanRenderPass* CreateRenderPass(const RenderTargetDescription& desc);
@@ -47,7 +47,7 @@ private:
 	Map<GraphicsPipelineDescription, VulkanPipeline*> pipelineStore;
 	Map<RenderTargetDescription, VulkanRenderPass*> renderPassStore;
 	Map<RenderTargetDescription, SimilarFramebuffers> framebufferStore;
-	Map<TextureSamplerCreateParams, VkSampler> samplerStore;
+	Map<SamplerDescription, VkSampler> samplerStore;
 
 	const VulkanDevice& logicalDevice;
 

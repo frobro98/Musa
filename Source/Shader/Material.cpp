@@ -8,7 +8,6 @@
 
 Material::Material()
 {
-	// TODO - This is very inefficient
 	vertexShader = &GetShader<UnlitVert>()->GetNativeShader();
 	fragmentShader = &GetShader<UnlitFrag>()->GetNativeShader();
 	texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);

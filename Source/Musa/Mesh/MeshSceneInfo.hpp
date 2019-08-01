@@ -5,10 +5,9 @@
 #include "Math/BoundsVolumes.hpp"
 #include "Math/Matrix.h"
 
-#include "Graphics/Vulkan/VulkanVertexBuffer.h"
-#include "Graphics/Vulkan/VulkanIndexBuffer.h"
-#include "Graphics/Vulkan/VulkanUniformBuffer.h"
-
+struct NativeVertexBuffer;
+struct NativeIndexBuffer;
+struct NativeUniformBuffer;
 struct MaterialRenderInfo;
 
 // TODO - There needs to be different ones for this and for animated meshes!
@@ -23,7 +22,7 @@ struct MeshRenderInfo
 
 	SphereBounds bounds;
 	MaterialRenderInfo* meshMaterial;
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
-	UniformBuffer* transformBuffer;
+	NativeVertexBuffer* vertexBuffer;
+	NativeIndexBuffer* indexBuffer;
+	NativeUniformBuffer* transformBuffer;
 };

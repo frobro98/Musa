@@ -2,13 +2,14 @@
 
 #include "VulkanAbstractions.h"
 #include "Containers/DynamicArray.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 struct Vertex;
 class VulkanDevice;
 class VulkanCommandBuffer;
 class ResourceBlob;
 
-class VulkanVertexBuffer
+class VulkanVertexBuffer : public NativeVertexBuffer
 {
 public:
 	VulkanVertexBuffer(VulkanDevice& device, const DynamicArray<Vertex>& vertices);
@@ -44,6 +45,3 @@ private:
 	VulkanBuffer* weightsBuffer;
 
 };
-
-using VertexBuffer = VulkanVertexBuffer;
-using WeightsBuffer = VulkanWeightsBuffer;

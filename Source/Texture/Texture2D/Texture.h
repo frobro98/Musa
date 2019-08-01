@@ -7,7 +7,7 @@
 #include "Texture2D/MipmapLevel.hpp"
 #include "TextureSampleSettings.hpp"
 
-struct VulkanTexture;
+struct NativeTexture;
 class SerializeBase;
 class DeserializeBase;
 
@@ -19,7 +19,7 @@ struct Texture
 
 	String name;
 	DynamicArray<MipmapLevel> mipLevels;
-	VulkanTexture* gpuResource = nullptr;
+	NativeTexture* gpuResource = nullptr;
 	ImageFormat format = ImageFormat::Invalid;
 	TextureFilter filter = TextureFilter::Linear;
 	TextureAddress addrMode = TextureAddress::Repeat;

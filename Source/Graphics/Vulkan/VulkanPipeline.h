@@ -3,7 +3,7 @@
 #include <mutex>
 
 #include "Containers/DynamicArray.hpp"
-#include "Graphics/PipelineInitDescription.hpp"
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "VulkanDescriptorSetUtilities.hpp"
 
 class VulkanDevice;

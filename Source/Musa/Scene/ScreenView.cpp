@@ -56,5 +56,5 @@ void ScreenView::AssociateCameraWithView(const Camera& camera)
 
 	ViewProperties props;
 	props.viewPosition = view.description.origin;
-	view.viewBuffer->UpdateUniforms(&props);
+	GetGraphicsInterface().PushBufferData(*view.viewBuffer, &props);
 }

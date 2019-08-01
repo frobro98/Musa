@@ -17,6 +17,9 @@
 #include "VulkanVertexBuffer.h"
 #include "VulkanIndexBuffer.h"
 #include "VulkanUniformBuffer.h"
+#include "VulkanSampler.hpp"
+#include "VulkanRenderer.hpp"
+#include "VulkanTexture.h"
 
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_LUNARG_standard_validation"
@@ -107,10 +110,12 @@ void VulkanGraphicsInterface::InitializeGraphics()
 	logicalDevice = new VulkanDevice();
 	logicalDevice->Initialize(instance);
 
+	renderContext = new VulkanRenderer(*logicalDevice);
+
 	GetShaderManager().logicalDevice = logicalDevice;
 }
 
-VulkanTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
+NativeTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
 	uint32 width, 
 	uint32 height, 
 	ImageFormat textureFormat, 
@@ -140,10 +145,10 @@ VulkanTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
 	// TODO - Move this somewhere when refactoring vulkan image creation...
 	image->aspectFlags = MusaFormatToVkAspect(textureFormat);
 
-	return new VulkanTexture(*image);
+	return new VulkanTexture(*logicalDevice, *image);
 }
 
-VulkanTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
+NativeTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
 	const ResourceBlob& textureBlob, 
 	uint32 width, uint32 height, 
 	ImageFormat textureFormat, 
@@ -172,52 +177,58 @@ VulkanTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
 	// TODO - Move this somewhere when refactoring vulkan image creation...
 	image->aspectFlags = MusaFormatToVkAspect(textureFormat);
 
-	VulkanTexture* tex = new VulkanTexture(*image);
+	VulkanTexture* tex = new VulkanTexture(*logicalDevice, *image);
 
 	UploadTextureBlob(*logicalDevice, textureBlob, *image);
 
 	return tex;
 }
 
-void VulkanGraphicsInterface::PushTextureData(VulkanTexture& texture, const ResourceBlob& textureBlob)
+void VulkanGraphicsInterface::PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob)
 {
-	UploadTextureBlob(*logicalDevice, textureBlob, *texture.image);
+	VulkanTexture* tex = static_cast<VulkanTexture*>(&texture);
+	UploadTextureBlob(*logicalDevice, textureBlob, *tex->image);
 }
 
-VulkanFramebuffer* VulkanGraphicsInterface::CreateOrFindFramebuffer(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures)
+NativeSampler* VulkanGraphicsInterface::CreateTextureSampler(const SamplerDescription& params)
 {
-	return logicalDevice->GetRenderingStorage()->FindOrCreateFramebuffer(targetDesc, renderTextures);
+	return new VulkanSampler(*logicalDevice, params);
 }
 
-TextureSampler VulkanGraphicsInterface::CreateTextureSampler(const TextureSamplerCreateParams& params)
-{
-	VkSampler sampler = logicalDevice->GetRenderingStorage()->FindOrCreateSampler(params);
-	return TextureSampler{ sampler };
-}
-
-VulkanDevice* VulkanGraphicsInterface::GetGraphicsDevice()
-{
-	return logicalDevice;
-}
-
-VulkanViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
+NativeViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
 {
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
-VulkanVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
+NativeVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
 {
 	return new VulkanVertexBuffer(*logicalDevice, vertices);
 }
 
-VulkanIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
+NativeIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
 {
 	return new VulkanIndexBuffer(*logicalDevice, faces);
 }
 
-VulkanUniformBuffer* VulkanGraphicsInterface::CreateUniformBuffer(uint32 bufferSize) const
+NativeUniformBuffer* VulkanGraphicsInterface::CreateUniformBuffer(uint32 bufferSize) const
 {
 	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
+}
+
+void VulkanGraphicsInterface::PushBufferData(NativeUniformBuffer& buffer, const void* data) const
+{
+	VulkanUniformBuffer* uniformBuffer = static_cast<VulkanUniformBuffer*>(&buffer);
+	uniformBuffer->UpdateUniforms(data);
+}
+
+void* VulkanGraphicsInterface::GetGraphicsDevice()
+{
+	return logicalDevice->GetNativeHandle();
+}
+
+Renderer* VulkanGraphicsInterface::GetRenderContext()
+{
+	return renderContext;
 }
 
 void VulkanGraphicsInterface::CreateInstance()

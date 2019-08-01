@@ -13,6 +13,11 @@
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanFramebuffer.h"
 
+VulkanRenderState::VulkanRenderState(VulkanDevice& device)
+	: logicalDevice(device)
+{
+}
+
 void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
 {
 	if (cmdBuffer.IsInRenderPass())
@@ -21,7 +26,7 @@ void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, con
 		framebufferContext = nullptr;
 	}
 
-	VulkanFramebuffer* newTargetFB = GetGraphicsInterface().CreateOrFindFramebuffer(targetDescription, renderTextures);
+	VulkanFramebuffer* newTargetFB = logicalDevice.GetRenderingStorage()->FindOrCreateFramebuffer(targetDescription, renderTextures);
 
 	cmdBuffer.BeginRenderpass(newTargetFB, clearColors, inlinedContents);
 
@@ -35,7 +40,7 @@ void VulkanRenderState::SetGraphicsPipeline(const GraphicsPipelineDescription& p
 // 		Assert(cmdBuffer.IsInRenderPass());
 // 	}
 
-	VulkanPipeline* newPipeline = GetGraphicsInterface().GetGraphicsDevice()->GetRenderingStorage()->FindOrCreatePipeline(pipelineDescription);
+	VulkanPipeline* newPipeline = logicalDevice.GetRenderingStorage()->FindOrCreatePipeline(pipelineDescription);
 
 	currentPipeline = newPipeline;
 	writeDescriptorSet = &newPipeline->GetWriteDescriptorSet();
@@ -62,10 +67,10 @@ void VulkanRenderState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 bind
 	writeDescriptorSet->SetBuffer(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, buffer, bindIndex);
 }
 
-void VulkanRenderState::SetTexture(const VulkanTexture& texture, uint32 bindIndex)
+void VulkanRenderState::SetTexture(const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex)
 {
 	Assert(writeDescriptorSet);
-	writeDescriptorSet->SetTexture(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, texture, bindIndex);
+	writeDescriptorSet->SetTexture(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, texture, sampler, bindIndex);
 }
 
 bool VulkanRenderState::IsTextureInRender(const VulkanTexture& texture)

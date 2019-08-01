@@ -10,6 +10,7 @@
 #include "VulkanQueue.h"
 #include "VulkanRenderingCloset.hpp"
 #include "VulkanMemoryManager.hpp"
+#include "VulkanTexture.h"
 
 VulkanSwapchain::VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurface)
 	:logicalDevice(device), surface(renderSurface)
@@ -107,13 +108,9 @@ RenderTargetDescription VulkanSwapchain::GetSwapchainImageDescription() const
 	return targetDescription;
 }
 
-RenderTargetTextures VulkanSwapchain::GetSwapchainTarget() const
+VulkanTexture& VulkanSwapchain::GetSwapchainTarget() const
 {
-	RenderTargetTextures screenTargets = {};
-	screenTargets.colorTargets[0] = swapchainImageTargets[imageIndex];
-	//screenTargets.depthTarget = swapchainImageTargets.Last();
-	screenTargets.targetCount = 1;
-	return screenTargets;
+	return *swapchainImageTargets[imageIndex];
 }
 
 void VulkanSwapchain::CreateSwapchain()
@@ -238,7 +235,7 @@ void VulkanSwapchain::CacheSwapchainImages()
 		img->format = swapchainFormat;
 		img->layout = VK_IMAGE_LAYOUT_UNDEFINED;
 		img->aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT;
-		swapchainImageTargets[i] = new VulkanTexture(*img);
+		swapchainImageTargets[i] = new VulkanTexture(logicalDevice, *img);
 	}
 }
 

@@ -195,7 +195,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
-    <ClInclude Include="..\..\Source\Graphics\PipelineInitDescription.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\ResourceInitializationDescriptions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Renderer.hpp" />
     <ClInclude Include="..\..\Source\Graphics\RenderTargetDescription.hpp" />
@@ -228,6 +228,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderingCloset.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanSampler.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShader.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShaderManager.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanStagingBufferManager.hpp" />
@@ -266,12 +267,14 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderingCloset.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanSampler.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShader.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShaderManager.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanStagingBufferManager.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanStorageBuffer.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanSurface.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanSwapchain.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanTexture.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanUniformBuffer.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanUtilities.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanVertexBuffer.cpp" />

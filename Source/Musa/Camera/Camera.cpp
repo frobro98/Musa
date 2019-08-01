@@ -41,10 +41,6 @@ void Camera::SetOrientationAndPosition(const Vector& inLookAt, const Vector& pos
 // 	farWidth = farHeight * aspectRatio;
 // }
 
-void Camera::Update()
-{
-	// TODO - Remove this func call!
-}
 Vector Camera::GetPosition() const
 {
 	return position;

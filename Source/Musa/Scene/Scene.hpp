@@ -8,6 +8,7 @@
 class Light;
 class ScreenView;
 class Viewport;
+class Renderer;
 struct MeshRenderInfo;
 
 class SceneRendering;
@@ -64,6 +65,8 @@ private:
 	// the engine will become fully deferred, so there won't really be 
 	// a hard limit on what lights affect what geometry
 	Light* lights[3] = { nullptr, nullptr, nullptr };
+
+	Renderer* renderer;
 
 	ScreenView* view = nullptr;
 	SceneRendering* sceneRendering = nullptr;

@@ -2,7 +2,7 @@
 #include "VulkanDevice.h"
 #include "VulkanCreateInfos.h"
 #include "VulkanUtilities.h"
-#include "PipelineInitDescription.hpp"
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 
 VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTargetDescription& targets)
 // TODO - There isn't necessarily a depth attachment. Assuming there is, but needs to change later...

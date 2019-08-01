@@ -5,6 +5,7 @@
 #include "Shader/MaterialRenderInfo.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Graphics/UniformBuffer.h"
+#include "Graphics/GraphicsInterface.hpp"
 
 void RenderObject::SetGameObject(const GameObject& obj, MeshRenderInfo& meshInfo)
 {
@@ -34,7 +35,7 @@ void RenderObject::PullInfoForMesh(const View& currentView)
 	buffer.view = currentView.transforms.viewMatrix;
 	buffer.projection = currentView.transforms.projectionMatrix;
 
-	gpuRenderInfo->transformBuffer->UpdateUniforms(&buffer);
+	GetGraphicsInterface().PushBufferData(*gpuRenderInfo->transformBuffer, &buffer);
 }
 
 void RenderObject::PullInfoForMaterial()
@@ -44,5 +45,5 @@ void RenderObject::PullInfoForMaterial()
 
 	MaterialProperties props;
 	props.diffuse = matInfo->baseColor;
-	matInfo->materialProperties->UpdateUniforms(&props);
+	GetGraphicsInterface().PushBufferData(*matInfo->materialProperties, &props);
 }

@@ -21,18 +21,6 @@ VkImageView VulkanImage::CreateView() const
 	return imageView;
 }
 
-VulkanTexture::VulkanTexture(VulkanImage& allocedImage)
-	: image(&allocedImage)
-{
-	imageView = image->CreateView();
-}
-
-VulkanTexture::~VulkanTexture()
-{
-	vkDestroyImageView(image->device->GetNativeHandle(), imageView, nullptr);
-	delete image;
-}
-
 VulkanBuffer::~VulkanBuffer()
 {
 	vkDestroyBuffer(device.GetNativeHandle(), handle, nullptr);

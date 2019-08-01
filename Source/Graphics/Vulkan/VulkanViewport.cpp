@@ -16,26 +16,20 @@ VulkanViewport::~VulkanViewport()
 	delete viewSurface;
 }
 
-bool VulkanViewport::CanProceedWithRender()
+void VulkanViewport::AcquireBackBuffer()
 {
 	VkResult result = swapchain->GetNextImage();
-	if (result == VK_ERROR_OUT_OF_DATE_KHR)
-	{
-		swapchain->Recreate();
-		return false;
-	}
-	else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
-	{
-		// TODO - log
-		Assert(false);
-		return false;
-	}
-
-	return true;
+	Assert(result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR);
+	backBufferTexture = &swapchain->GetSwapchainTarget();
+	Assert(backBufferTexture);
 }
 
 void VulkanViewport::SubmitFrame()
 {
 	swapchain->SubmitFrame();
+}
+
+void VulkanViewport::PresentFrame()
+{
 	swapchain->Present();
 }

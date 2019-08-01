@@ -93,7 +93,7 @@ VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const RenderTa
 	return framebuffer;
 }
 
-VkSampler VulkanRenderingCloset::FindOrCreateSampler(const TextureSamplerCreateParams& params)
+VkSampler VulkanRenderingCloset::FindOrCreateSampler(const SamplerDescription& params)
 {
 	VkSampler* foundSampler = samplerStore.Find(params);
 	if (!foundSampler)

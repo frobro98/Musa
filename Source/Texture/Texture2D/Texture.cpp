@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "TextureUtilities.hpp"
 
-#include "Graphics.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 namespace
 {

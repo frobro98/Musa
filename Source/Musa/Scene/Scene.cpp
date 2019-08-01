@@ -11,11 +11,9 @@
 #include "Scene/Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "RenderPipeline/SceneRendering.h"
+#include "Graphics/Renderer.hpp"
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 
-// TODO - Get rid of these vulkan includes
-#include "Graphics/Vulkan/VulkanViewport.hpp"
-#include "Graphics/Vulkan/VulkanDevice.h"
-#include "Graphics/Vulkan/VulkanStagingBufferManager.hpp"
 
 static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat format)
 {
@@ -65,6 +63,8 @@ void Scene::InitializeScene()
 	gbufferTargets.targetCount = GBufferCount;
 
 	sceneRendering = new SceneRendering;
+
+	renderer = GetGraphicsInterface().GetRenderContext();
 }
 
 void Scene::AddGameObjectToScene(GameObject& object)
@@ -145,14 +145,9 @@ void Scene::RenderScene(Viewport& viewport)
 		gbuffersInitialized = true;
 	}
 
-	if (viewport.GetNativeViewport().CanProceedWithRender())
-	{
-		GetGraphicsInterface().GetGraphicsDevice()->GetStagingBufferManager().ProcessDeferredReleases();
-
-		sceneRendering->RenderScene(*this, viewport, view->view);
-
-		viewport.GetNativeViewport().SubmitFrame();
-	}
+	renderer->BeginRenderFrame(viewport.GetNativeViewport());
+	sceneRendering->RenderScene(*renderer, *this, viewport, view->view);
+	renderer->EndRenderFrame(viewport.GetNativeViewport());
 }
 
 void Scene::SetView(ScreenView& view_)
@@ -169,21 +164,17 @@ void Scene::CreateGBuffer()
 	for (uint32 i = 0; i < GBufferCount; ++i)
 	{
 		ColorDescription& desc = gbufferTargets.colorDescs[i];
-		VulkanTexture* target = GetGraphicsInterface().CreateEmptyTexture2D(
+		NativeTexture* target = GetGraphicsInterface().CreateEmptyTexture2D(
 			view->GetScreenWidth(), view->GetScreenHeight(), 
 			desc.format, 1, TextureUsage::RenderTarget
 		);
-		TextureSamplerCreateParams params;
-		target->sampler = GetGraphicsInterface().CreateTextureSampler(params);
 		gbufferTextures.colorTargets[i] = target;
 	}
 
-	VulkanTexture* depthTarget = GetGraphicsInterface().CreateEmptyTexture2D(
+	NativeTexture* depthTarget = GetGraphicsInterface().CreateEmptyTexture2D(
 		view->GetScreenWidth(), view->GetScreenHeight(),
 		gbufferTargets.depthDesc.format, 1, 
 		TextureUsage::DepthStencilTarget
 	);
-	TextureSamplerCreateParams params;
-	depthTarget->sampler = GetGraphicsInterface().CreateTextureSampler(params);
 	gbufferTextures.depthTarget = depthTarget;
 }

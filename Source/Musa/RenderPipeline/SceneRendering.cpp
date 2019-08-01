@@ -11,7 +11,7 @@
 
 #include "Archiver/SkeletonHeader.h"
 
-#include "Graphics/PipelineInitDescription.hpp"
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/Renderer.hpp"
@@ -26,10 +26,6 @@
 #include "Scene/Scene.hpp"
 #include "Scene/Viewport.hpp"
 #include "Scene/ScreenView.hpp"
-
-// TODO - Remove all vulkan from this level of abstraction/make a completely different render path...
-#include "Graphics/Vulkan/VulkanSwapchain.h"
-#include "Graphics/Vulkan/VulkanViewport.hpp"
 
 // class LightUniformBufferPool
 // {
@@ -226,23 +222,19 @@ void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 }
 //*/
 
-SceneRendering::SceneRendering()
-	: renderer(&GetRenderContext())
-{
-}
-
-void SceneRendering::RenderScene(Scene& scene, const Viewport& viewport, const View& view)
+void SceneRendering::RenderScene(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
 	if (shadowMap.depthTarget == nullptr)
 	{
 		//InitializeShadowMap();
 	}
 
-	DeferredRender(scene, viewport, view);
+	DeferredRender(renderer, scene, viewport, view);
 }
 
 void RenderWithNormalMap(Renderer& renderer, const RenderObject& object)
 {
+
 	// Set Transform Data
 	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
 
@@ -250,10 +242,10 @@ void RenderWithNormalMap(Renderer& renderer, const RenderObject& object)
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, 1);
+		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 1);
 	}
 
-	renderer.SetTexture(*matInfo->normalMap, 2);
+	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 2);
 
 	// Set Material Data
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
@@ -269,16 +261,16 @@ void RenderNormally(Renderer& renderer, const RenderObject& object)
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, 1);
+		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 1);
 	}
 
 	// Set Material Data
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 2);
 }
 
-void SceneRendering::RenderGBufferPass(Scene& scene, const View& view)
+void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view)
 {
-	SetViewportAndScissor(view);
+	SetViewportAndScissor(renderer, view);
 
 	const DynamicArray<RenderObject*>& renderObjects = GetRenderObjectManager().GetRenderObjects();
 
@@ -286,24 +278,23 @@ void SceneRendering::RenderGBufferPass(Scene& scene, const View& view)
 	{
 		MaterialRenderInfo* matInfo = info->gpuRenderInfo->meshMaterial;
 
-		// TODO - Decide whether the responsibility should be on the user of the graphics API to keep track of the current render targets or if the graphics API should
 		GraphicsPipelineDescription pipelineDesc;
 		ConstructPipelineDescription(scene.GetGBufferDescription(), pipelineDesc);
 		pipelineDesc.vertexShader = matInfo->vertexShader;
 		pipelineDesc.fragmentShader = matInfo->fragmentShader;
-		renderer->SetGraphicsPipeline(pipelineDesc);
+		renderer.SetGraphicsPipeline(pipelineDesc);
 
 		if (matInfo->normalMap != nullptr)
 		{
-			RenderWithNormalMap(*renderer, *info);
+			RenderWithNormalMap(renderer, *info);
 		}
 		else
 		{
-			RenderNormally(*renderer, *info);
+			RenderNormally(renderer, *info);
 		}
 
-		renderer->SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
-		renderer->DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
+		renderer.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
+		renderer.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
 	}
 }
 
@@ -361,22 +352,22 @@ void SceneRendering::RenderGBufferPass(Scene& scene, const View& view)
 // 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *shadowMap.depthTextureResource->image);
 // }
 
-void SceneRendering::RenderGBUffersToScreen(Scene& scene, const View& view)
+void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, const View& view)
 {
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
 
-	SetViewportAndScissor(view);
+	SetViewportAndScissor(renderer, view);
 
 	GraphicsPipelineDescription desc = {};
-	ConstructScreenGraphicsDescription(*renderer, scene, desc);
-	renderer->SetGraphicsPipeline(desc);
+	ConstructScreenGraphicsDescription(renderer, scene, desc);
+	renderer.SetGraphicsPipeline(desc);
 
 	Light* light = scene.GetLights()[0];
 	LightDescription lightDesc = light->GetLightDescription();
 
 	for (uint32 i = 0; i < targets.targetCount; ++i)
 	{
-		renderer->SetTexture(*targets.colorTargets[i], i);
+		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i);
 	}
 
 	//renderingState.SetTexture(*shadowMap.depthTextureResource, 3);
@@ -389,13 +380,13 @@ void SceneRendering::RenderGBUffersToScreen(Scene& scene, const View& view)
 	properties.lightViewTransform = Math::ConstructViewMatrix(light->GetPosition(), Vector::Zero, Vector::UpAxis);
 	properties.lightProjection = Math::ConstructPerspectiveMatrix(90.f, (float)ShadowMapWidth / (float)ShadowMapHeight, .1f, 1000.);
 
-	light->GetLightBuffer().UpdateUniforms(&properties);
+	GetGraphicsInterface().PushBufferData(light->GetLightBuffer(), &properties);
 
-	renderer->SetUniformBuffer(*view.viewBuffer, 4);
+	renderer.SetUniformBuffer(*view.viewBuffer, 4);
 
-	renderer->SetUniformBuffer(light->GetLightBuffer(), 5);
+	renderer.SetUniformBuffer(light->GetLightBuffer(), 5);
 
-	renderer->Draw(3, 1);
+	renderer.Draw(3, 1);
 }
 
 // constexpr uint32 minNumObjectsPerJob = 20;
@@ -456,11 +447,11 @@ void SceneRendering::RenderGBUffersToScreen(Scene& scene, const View& view)
 // 	secondaryCmdBuffer.End();
 // }
 
-void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, const View& view)
+void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
 	
-	TransitionTargetsToWrite(targets);
+	TransitionTargetsToWrite(renderer, targets);
 	DynamicArray<Color32> clearColors(targets.targetCount);
 	clearColors[0] = Color32(0, 0, 0);
 	clearColors[1] = Color32(0, 0, 0);
@@ -468,32 +459,47 @@ void SceneRendering::DeferredRender(Scene& scene, const Viewport& viewport, cons
 	{
 		clearColors[i] = Color32(.7f, .7f, .8f);
 	}
-	renderer->SetRenderTarget(scene.GetGBufferDescription(), targets, clearColors);
+	renderer.SetRenderTarget(scene.GetGBufferDescription(), targets, clearColors);
 
-	RenderGBufferPass(scene, view);
+	RenderGBufferPass(renderer, scene, view);
 
 	//RenderShadowPass(*cmdBuffer, scene);
 
 	
-	TransitionTargetsToRead(targets);
+	TransitionTargetsToRead(renderer, targets);
 
 	clearColors = { Color32(0, 0, 0) };
-	const VulkanSwapchain& swapchain = viewport.GetNativeViewport().GetSwapchain();
-	RenderTargetTextures swapchainTargets = swapchain.GetSwapchainTarget();
+	NativeTexture* backBuffer = renderer.GetBackBuffer();
+	RenderTargetTextures backBufferTarget = {};
+	backBufferTarget.colorTargets[0] = backBuffer;
+	backBufferTarget.targetCount = 1;
 
-	TransitionTargetsToWrite(swapchainTargets);
+	RenderTargetDescription targetDescription = {};
+	targetDescription.targetCount = 1;
+	targetDescription.targetExtents = { (float32)viewport.GetWidth(), (float32)viewport.GetHeight() };
+	targetDescription.hasDepth = false;
 
-	renderer->SetRenderTarget(swapchain.GetSwapchainImageDescription(), swapchain.GetSwapchainTarget(), clearColors);
+	ColorDescription& colorDesc = targetDescription.colorDescs[0];
+	colorDesc.format = ImageFormat::RGBA_8norm;
+	colorDesc.load = LoadOperation::Clear;
+	colorDesc.store = StoreOperation::Store;
+	colorDesc.stencilLoad = LoadOperation::DontCare;
+	colorDesc.stencilStore = StoreOperation::DontCare;
+	colorDesc.sampleCount = 1;
 
-	RenderGBUffersToScreen(scene, view);
+	TransitionTargetsToWrite(renderer, backBufferTarget);
 
-	TransitionTargetsToRead(swapchainTargets);
+	renderer.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+
+	RenderGBUffersToScreen(renderer, scene, view);
+
+	TransitionTargetsToRead(renderer, backBufferTarget);
 }
 
-void SceneRendering::TransitionTargetsToRead(RenderTargetTextures& targets)
+void SceneRendering::TransitionTargetsToRead(Renderer& renderer, RenderTargetTextures& targets)
 {
 	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
-	DynamicArray<const VulkanTexture*> gbufferTargets(targetCount);
+	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
 	uint32 i;
 	for (i = 0; i < targets.targetCount; ++i)
 	{
@@ -503,13 +509,13 @@ void SceneRendering::TransitionTargetsToRead(RenderTargetTextures& targets)
 	{
 		gbufferTargets[i] = targets.depthTarget;
 	}
-	renderer->TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
+	renderer.TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
-void SceneRendering::TransitionTargetsToWrite(RenderTargetTextures& targets)
+void SceneRendering::TransitionTargetsToWrite(Renderer& renderer, RenderTargetTextures& targets)
 {
 	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
-	DynamicArray<const VulkanTexture*> gbufferTargets(targetCount);
+	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
 	uint32 i;
 	for (i = 0; i < targets.targetCount; ++i)
 	{
@@ -519,15 +525,15 @@ void SceneRendering::TransitionTargetsToWrite(RenderTargetTextures& targets)
 	{
 		gbufferTargets[i] = targets.depthTarget;
 	}
-	renderer->TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
+	renderer.TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
-void SceneRendering::SetViewportAndScissor(const View& view) const
+void SceneRendering::SetViewportAndScissor(Renderer& renderer, const View& view) const
 {
 	// TODO - Research viewport normalization and if I should be doing that
 	Rect sceneViewport = view.description.viewport;
-	renderer->SetViewport(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height, 0, 1);
-	renderer->SetScissor(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height);
+	renderer.SetViewport(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height, 0, 1);
+	renderer.SetScissor(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height);
 }
 
 

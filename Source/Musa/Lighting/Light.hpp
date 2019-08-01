@@ -2,10 +2,10 @@
 
 #include "GameObject/GameObject.h"
 #include "Math/Matrix.h"
-
-// TODO - Remove this header and all references to vulkan/rendering
 #include "Graphics/UniformBuffer.h"
+
 class VulkanDevice;
+struct NativeUniformBuffer;
 
 struct LightDescription
 {
@@ -33,11 +33,11 @@ public:
 		return worldLight;
 	}
 
-	inline UniformBuffer& GetLightBuffer() { return *lightInformationBuffer; }
+	inline NativeUniformBuffer& GetLightBuffer() { return *lightInformationBuffer; }
 
 	Color lightColor;
 
 protected:
 	Matrix worldLight;
-	UniformBuffer* lightInformationBuffer;
+	NativeUniformBuffer* lightInformationBuffer;
 };

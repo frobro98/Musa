@@ -2,6 +2,8 @@
 
 #include "GraphicsInterface.hpp"
 
+class VulkanDevice;
+
 class VulkanGraphicsInterface final : public GraphicsInterface
 {
 public:
@@ -9,20 +11,21 @@ public:
 
 	virtual void InitializeGraphics() override;
 
-	virtual VulkanDevice* GetGraphicsDevice() override;
+	virtual NativeViewport* CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) override;
 
-	virtual VulkanViewport* CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) override;
+	virtual NativeVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const override;
+	virtual NativeIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces) const override;
+	virtual NativeUniformBuffer* CreateUniformBuffer(uint32 bufferSize) const override;
+	virtual void PushBufferData(NativeUniformBuffer& buffer, const void* data) const override;
 
-	virtual VulkanVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const override;
-	virtual VulkanIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces) const override;
-	virtual VulkanUniformBuffer* CreateUniformBuffer(uint32 bufferSize) const override;
+	virtual NativeTexture* CreateEmptyTexture2D(uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) override;
+	virtual NativeTexture* CreateInitializedTexture2D(const ResourceBlob& textureBlob, uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) override;
+	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) override;
 
-	virtual VulkanTexture* CreateEmptyTexture2D(uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) override;
-	virtual VulkanTexture* CreateInitializedTexture2D(const ResourceBlob& textureBlob, uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) override;
-	virtual void PushTextureData(VulkanTexture& texture, const ResourceBlob& textureBlob) override;
+	virtual NativeSampler* CreateTextureSampler(const SamplerDescription& params) override;
 
-	virtual VulkanFramebuffer* CreateOrFindFramebuffer(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures) override;
-	virtual TextureSampler CreateTextureSampler(const TextureSamplerCreateParams& params) override;
+	virtual void* GetGraphicsDevice() override;
+	virtual Renderer* GetRenderContext() override;
 
 private:
 	void CreateInstance();
@@ -31,6 +34,6 @@ private:
 	VkDebugReportCallbackEXT debugReportHandle = VK_NULL_HANDLE;
 	VkInstance instance = VK_NULL_HANDLE;
 
-	class VulkanDevice* logicalDevice = nullptr;
-	class VulkanRenderingCloset* renderingStorage = nullptr;
+	Renderer* renderContext = nullptr;
+	VulkanDevice* logicalDevice = nullptr;
 };

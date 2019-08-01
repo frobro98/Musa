@@ -2,6 +2,8 @@
 #include "VulkanDescriptorSetUtilities.hpp"
 #include "VulkanDescriptorSet.h"
 #include "VulkanBufferAllocation.hpp"
+#include "VulkanSampler.hpp"
+#include "VulkanTexture.h"
 
 void WriteDescriptorSet::SetupWriteDescriptors(const VulkanDescriptorSetLayout& layout)
 {
@@ -67,7 +69,7 @@ void WriteDescriptorSet::SetBuffer(VkDescriptorType type, const VulkanBuffer& bu
 	}
 }
 
-void WriteDescriptorSet::SetTexture(VkDescriptorType type, const VulkanTexture& texture, uint32 bindIndex)
+void WriteDescriptorSet::SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex)
 {
 	for (auto& writeDescriptor : writeDescriptors)
 	{
@@ -78,7 +80,7 @@ void WriteDescriptorSet::SetTexture(VkDescriptorType type, const VulkanTexture& 
 			Assert(imageInfo->descType == type);
 			imageInfo->bindingIndex = bindIndex;
 			imageInfo->imageInfo.imageView = texture.imageView;
-			imageInfo->imageInfo.sampler = texture.sampler.nativeSampler;
+			imageInfo->imageInfo.sampler = sampler.sampler;
 			imageInfo->imageInfo.imageLayout = texture.image->layout;
 		}
 	}

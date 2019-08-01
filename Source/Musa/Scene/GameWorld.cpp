@@ -3,15 +3,7 @@
 #include "Scene/Scene.hpp"
 #include "ScreenView.hpp"
 #include "Windowing/Window.h"
-#include "Graphics/PipelineInitDescription.hpp"
-
-
-// TODO - Get rid of vulkan being in my fucking game world....
-#include "Graphics/Vulkan/VulkanPipeline.h"
-#include "Graphics/Vulkan/VulkanShader.h"
-#include "Graphics/Vulkan/VulkanShaderManager.h"
-#include "Graphics/Vulkan/VulkanDescriptorSet.h"
-
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
 void InitializeRenderTarget(GraphicsPipelineDescription& init)

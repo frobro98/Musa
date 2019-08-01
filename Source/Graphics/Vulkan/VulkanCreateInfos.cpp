@@ -3,7 +3,7 @@
 #include "VulkanDevice.h"
 #include "VulkanUtilities.h"
 #include "EngineCore/Assertion.h"
-#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Graphics/ResourceInitializationDescriptions.hpp"
 
 
 namespace Vk
@@ -104,7 +104,7 @@ namespace Vk
 		return renderPassInfo;
 	}
 
-	VkSamplerCreateInfo SamplerInfo(const TextureSamplerCreateParams& params)
+	VkSamplerCreateInfo SamplerInfo(const SamplerDescription& params)
 	{
 		VkSamplerCreateInfo samplerInfo = {};
 		samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;

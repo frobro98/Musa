@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class VulkanDevice;
 class ImageMemory;
@@ -25,42 +26,6 @@ struct VulkanImage
 	VkImageView CreateView() const;
 
 	bool Initialized() const { return handle != VK_NULL_HANDLE && memory != nullptr; }
-};
-
-struct VulkanTexture
-{
-	VkImageView imageView = VK_NULL_HANDLE;
-	VulkanImage* image = nullptr;
-	TextureSampler sampler;
-	VulkanTexture(VulkanImage& allocedImage);
-
-	~VulkanTexture();
-
-	// TODO - Might consider implementing copying for these instead of leaving them default
-	VulkanTexture(const VulkanTexture&) = default;
-	VulkanTexture& operator=(const VulkanTexture&) = default;
-
-	VulkanTexture(VulkanTexture&& other) noexcept
-		: imageView(other.imageView),
-		image(other.image)
-	{
-		other.image = nullptr;
-		other.imageView = VK_NULL_HANDLE;
-	}
-
-	VulkanTexture& operator=(VulkanTexture&& other) noexcept
-	{
-		if (&other != this && other.image->Initialized())
-		{
-			image = other.image;
-			imageView = other.imageView;
-
-			other.image = nullptr;
-			other.imageView = VK_NULL_HANDLE;
-		}
-
-		return *this;
-	}
 };
 
 // TODO - This is getting big enough to make it a class

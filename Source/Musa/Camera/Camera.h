@@ -14,8 +14,6 @@ public:
 	void SetViewport(const IntRect& vp);
 	void SetOrientationAndPosition(const Vector& lookAt, const Vector& pos, const Vector& up);
 
-	void Update();
-
 	Vector GetPosition() const;
 	Vector GetForward() const;
 	Vector GetUp() const;

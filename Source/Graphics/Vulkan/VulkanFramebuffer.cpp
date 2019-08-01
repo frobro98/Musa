@@ -2,6 +2,8 @@
 #include "VulkanDevice.h"
 #include "VulkanRenderPass.h"
 #include "RenderTargetDescription.hpp"
+#include "VulkanTexture.h"
+#include "Utilities/CoreUtilities.hpp"
 
 VulkanFramebuffer::VulkanFramebuffer(const VulkanDevice& device)
 	:logicalDevice(&device)
@@ -23,18 +25,27 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 	nativeTargets = renderTextures;
 
 	uint32 targetCount = targetDesc.hasDepth ? nativeTargets.targetCount + 1 : nativeTargets.targetCount;
+	extents = { (uint32)targetDesc.targetExtents.width, (uint32)targetDesc.targetExtents.height };
+
 	viewAttachments.Resize(targetCount);
 	for (uint32 i = 0; i < nativeTargets.targetCount; ++i)
 	{
-		viewAttachments[i] = renderTextures.colorTargets[i]->image->CreateView();
+		const VulkanTexture* colorTex = static_cast<const VulkanTexture*>(renderTextures.colorTargets[i]);
+		viewAttachments[i] = colorTex->image->CreateView();
+		// TODO - Initialize extents in a better place. Possibly in the structure that is passed in?? (RenderTargetDescription)
+		extents.width = Min(extents.width, colorTex->image->width);
+		extents.height = Min(extents.height, colorTex->image->height);
 	}
 
 	if (targetDesc.hasDepth)
 	{
-		viewAttachments[renderTextures.targetCount] = renderTextures.depthTarget->image->CreateView();
+		const VulkanTexture* depthTex = static_cast<const VulkanTexture*>(renderTextures.depthTarget);
+		viewAttachments[renderTextures.targetCount] = depthTex->image->CreateView();
+		// TODO - Initialize extents in a better place. Possibly in the structure that is passed in?? (RenderTargetDescription)
+		extents.width = Min(extents.width, depthTex->image->width);
+		extents.height = Min(extents.height, depthTex->image->height);
 	}
 
-	extents = { (uint32)targetDesc.targetExtents.width, (uint32)targetDesc.targetExtents.height };
 	VkFramebufferCreateInfo framebufferInfo = {};
 	framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 	framebufferInfo.attachmentCount = viewAttachments.Size();

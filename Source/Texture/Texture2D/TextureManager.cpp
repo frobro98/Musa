@@ -132,13 +132,6 @@ void TextureManager::ConfigureNativeTexture(Texture& texture)
 	uint32 width = texture.mipLevels[0].width;
 	uint32 height = texture.mipLevels[0].height;
 	texture.gpuResource = GetGraphicsInterface().CreateInitializedTexture2D(textureBlob, width, height, texture.format, texture.mipLevels.Size(), TextureUsage::SampledResource);
-	TextureSamplerCreateParams params(
-		TextureToGraphicsFilter(texture.filter),
-		TextureToGraphicsAddressMode(texture.addrMode),
-		TextureToGraphicsAddressMode(texture.addrMode),
-		TextureToGraphicsMipMode(texture.mipMode)
-	);
-	texture.gpuResource->sampler = GetGraphicsInterface().CreateTextureSampler(params);
 }
 
 void TextureManager::UnloadTexture(const char* textureName)

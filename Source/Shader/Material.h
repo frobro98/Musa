@@ -58,7 +58,6 @@ private:
 // 	float32 metallic = 0.f;
 
 	MaterialRenderInfo* materialRendering = new MaterialRenderInfo;
-	// TODO - The vulkan shaders don't belong here...
 	ShaderResource* vertexShader;
 	ShaderResource* fragmentShader;
 	const Texture* texture0;

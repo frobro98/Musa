@@ -3,7 +3,7 @@
 #include "Graphics.h"
 
 class VulkanDevice;
-struct TextureSamplerCreateParams;
+struct SamplerDescription;
 
 namespace Vk
 {
@@ -47,7 +47,7 @@ namespace Vk
 		const VkSubpassDependency* dependencies = nullptr, uint32 numDependencies = 0
 	);
 
-	VkSamplerCreateInfo SamplerInfo(const TextureSamplerCreateParams& params);
+	VkSamplerCreateInfo SamplerInfo(const SamplerDescription& params);
 
 	namespace create
 	{

@@ -2,11 +2,12 @@
 
 #include "VulkanAbstractions.h"
 #include "Containers/DynamicArray.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 struct Face;
 class VulkanDevice;
 
-class VulkanIndexBuffer
+class VulkanIndexBuffer : public NativeIndexBuffer
 {
 public:
 	VulkanIndexBuffer(VulkanDevice& device, const DynamicArray<Face>& indices);
@@ -22,5 +23,3 @@ private:
 	VulkanBuffer* indexBuffer;
 	uint32 numIndicies;
 };
-
-typedef VulkanIndexBuffer IndexBuffer;

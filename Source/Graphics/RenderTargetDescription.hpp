@@ -6,9 +6,7 @@
 #include "MemoryUtilities.h"
 #include "Texture/ImageFormats.h"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
-
-// TODO - Remove these includes by abstracting them
-#include "Vulkan/VulkanAbstractions.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 constexpr uint32 GBufferCount = 3;
 
@@ -83,8 +81,8 @@ struct RenderTargetDescription
 // Allocated textures associated with a render texture
 struct RenderTargetTextures
 {
-	const VulkanTexture* colorTargets[GBufferCount];
-	const VulkanTexture* depthTarget;
+	const NativeTexture* colorTargets[GBufferCount];
+	const NativeTexture* depthTarget;
 	uint32 targetCount;
 };
 

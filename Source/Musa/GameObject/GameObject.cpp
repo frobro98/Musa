@@ -12,11 +12,6 @@
 
 #include "RenderObjectManager.hpp"
 
-// TODO - This needs to be removed!
-#include "Graphics/Vulkan/VulkanDescriptorSet.h"
-#include "Graphics/Vulkan/VulkanShaderManager.h"
-#include "Graphics/Vulkan/VulkanShader.h"
-#include "Graphics/Vulkan/VulkanDescriptorLayoutManager.h"
 
 GameObject::GameObject()
 	: world(IDENTITY),
@@ -108,14 +103,6 @@ void GameObject::ShowDebugVolume(bool show)
 	{
 		if (show && debugVolume == nullptr)
 		{
-			// TODO - This will be leaked because nothing currently deletes this, I'm fairly certain
-			VulkanDescriptorSetLayout* descriptorSetLayout = GetDescriptorLayoutManager().CreateSetLayout();
-			descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT, 0);
-			descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, 1);
-			descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT, 2);
-			//descriptorSetLayout->AddDescriptorBinding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT, 3);
-			descriptorSetLayout->BindLayout();
-
 // 			VulkanShader* vertShader = GetShaderManager().CreateShader("default.vs.spv", ShaderStage::Vertex);
 // 			vertShader->SetDescriptorInformation(*descriptorSetLayout);
 // 			VulkanShader* fragShader = GetShaderManager().CreateShader("default.fs.spv", ShaderStage::Vertex);

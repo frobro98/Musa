@@ -10,18 +10,30 @@
 #include "VulkanUtilities.h"
 #include "VulkanVertexBuffer.h"
 #include "VulkanBufferAllocation.hpp"
+#include "VulkanViewport.hpp"
+#include "VulkanStagingBufferManager.hpp"
+#include "VulkanSampler.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
-void VulkanRenderer::BeginRenderFrame()
+VulkanRenderer::VulkanRenderer(VulkanDevice& device)
+	: logicalDevice(device),
+	currentRenderState(device)
 {
 }
 
-void VulkanRenderer::EndRenderFrame()
+void VulkanRenderer::BeginRenderFrame(NativeViewport& renderViewport)
 {
+	VulkanViewport* vp = static_cast<VulkanViewport*>(&renderViewport);
+	vp->AcquireBackBuffer();
+	backBuffer = &vp->GetBackBuffer();
+	logicalDevice.GetStagingBufferManager().ProcessDeferredReleases();
 }
 
-void VulkanRenderer::PresentRender()
+void VulkanRenderer::EndRenderFrame(NativeViewport& renderViewport)
 {
+	VulkanViewport* vp = static_cast<VulkanViewport*>(&renderViewport);
+	vp->SubmitFrame();
+	vp->PresentFrame();
 }
 
 void VulkanRenderer::InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const
@@ -50,15 +62,16 @@ void VulkanRenderer::SetScissor(uint32 offsetX, uint32 offsetY, uint32 width, ui
 
 void VulkanRenderer::SetRenderTarget(const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors)
 {
-	VulkanCommandBuffer& cmdBuffer = *GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	currentTarget = targetDescription;
 	currentRenderState.SetFramebufferTarget(cmdBuffer, targetDescription, renderTextures, clearColors);
 }
 
-void VulkanRenderer::SetVertexBuffer(const VulkanVertexBuffer& vertexBuffer)
+void VulkanRenderer::SetVertexBuffer(const NativeVertexBuffer& vertexBuffer)
 {
-	vertexBuffersAndOffsets.vertexBuffers.Add(&vertexBuffer);
-	vertexBuffersAndOffsets.vertexBufferOffsets.Add(vertexBuffer.GetBuffer().memory->alignedOffset);
+	const VulkanVertexBuffer* vb = static_cast<const VulkanVertexBuffer*>(&vertexBuffer);
+	vertexBuffersAndOffsets.vertexBuffers.Add(vb);
+	vertexBuffersAndOffsets.vertexBufferOffsets.Add(vb->GetBuffer().memory->alignedOffset);
 }
 
 void VulkanRenderer::SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc)
@@ -66,19 +79,22 @@ void VulkanRenderer::SetGraphicsPipeline(const GraphicsPipelineDescription& pipe
 	currentRenderState.SetGraphicsPipeline(pipelineDesc);
 }
 
-void VulkanRenderer::SetUniformBuffer(const VulkanUniformBuffer& uniformBuffer, uint32 bufferIndex)
+void VulkanRenderer::SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex)
 {
-	currentRenderState.SetUniformBuffer(uniformBuffer.GetBuffer(), bufferIndex);
+	const VulkanUniformBuffer* ub = static_cast<const VulkanUniformBuffer*>(&uniformBuffer);
+	currentRenderState.SetUniformBuffer(ub->GetBuffer(), bufferIndex);
 }
 
-void VulkanRenderer::SetTexture(const VulkanTexture& texture, uint32 textureIndex)
+void VulkanRenderer::SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex)
 {
-	currentRenderState.SetTexture(texture, textureIndex);
+	const VulkanTexture* tex = static_cast<const VulkanTexture*>(&texture);
+	const VulkanSampler* samp = static_cast<const VulkanSampler*>(&sampler);
+	currentRenderState.SetTexture(*tex, *samp, textureIndex);
 }
 
 void VulkanRenderer::Draw(uint32 vertexCount, uint32 instanceCount)
 {
-	VulkanCommandBuffer& cmdBuffer = *GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	if(updateViewState)
 	{
 		UpdateViewState(cmdBuffer);
@@ -100,9 +116,10 @@ void VulkanRenderer::Draw(uint32 vertexCount, uint32 instanceCount)
 	cmdBuffer.Draw(vertexCount, instanceCount, 0, 0);
 }
 
-void VulkanRenderer::DrawIndexed(const VulkanIndexBuffer& indexBuffer, uint32 instanceCount)
+void VulkanRenderer::DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount)
 {
-	VulkanCommandBuffer& cmdBuffer = *GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	const VulkanIndexBuffer* ib = static_cast<const VulkanIndexBuffer*>(&indexBuffer);
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	if (updateViewState)
 	{
 		UpdateViewState(cmdBuffer);
@@ -118,12 +135,17 @@ void VulkanRenderer::DrawIndexed(const VulkanIndexBuffer& indexBuffer, uint32 in
 		vertexBuffersAndOffsets.vertexBuffers.Clear();
 		vertexBuffersAndOffsets.vertexBufferOffsets.Clear();
 	}
-	uint32 indexCount = indexBuffer.GetNumberOfIndicies();
-	cmdBuffer.BindIndexBuffer(indexBuffer);
+	uint32 indexCount = ib->GetNumberOfIndicies();
+	cmdBuffer.BindIndexBuffer(*ib);
 
 	currentRenderState.BindState(cmdBuffer);
 
 	cmdBuffer.DrawIndexed(indexCount, instanceCount, 0, 0, 0);
+}
+
+NativeTexture* VulkanRenderer::GetBackBuffer() const
+{
+	return backBuffer;
 }
 
 void VulkanRenderer::UpdateViewState(VulkanCommandBuffer& cmdBuffer)
@@ -133,13 +155,13 @@ void VulkanRenderer::UpdateViewState(VulkanCommandBuffer& cmdBuffer)
 	cmdBuffer.SetScissor(0, 1, &scissorRect);
 }
 
-void VulkanRenderer::TransitionToWriteState(const VulkanTexture** textures, uint32 textureCount)
+void VulkanRenderer::TransitionToWriteState(const NativeTexture** textures, uint32 textureCount)
 {
 	Assert(textureCount > 0);
 	Assert(textures != nullptr);
 
 	// TODO - Need to bring the logical device into the vulkan renderer as well
-	VulkanCommandBuffer& cmdBuffer = *GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	if (cmdBuffer.IsInRenderPass())
 	{
 		cmdBuffer.EndRenderPass();
@@ -151,7 +173,8 @@ void VulkanRenderer::TransitionToWriteState(const VulkanTexture** textures, uint
 	VkPipelineStageFlags dstStageFlags = 0;
 	for (uint32 i = 0; i < textureCount; ++i)
 	{
-		VulkanImage& image = *textures[i]->image;
+		const VulkanTexture* texture = static_cast<const VulkanTexture*>(textures[i]);
+		VulkanImage& image = *texture->image;
 		bool isDepthStencilTexture = (image.aspectFlags &
 			(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT)) != 0;
 		VkImageLayout srcLayout = image.layout;
@@ -197,13 +220,13 @@ void VulkanRenderer::TransitionToWriteState(const VulkanTexture** textures, uint
 	}
 }
 
-void VulkanRenderer::TransitionToReadState(const VulkanTexture** textures, uint32 textureCount)
+void VulkanRenderer::TransitionToReadState(const NativeTexture** textures, uint32 textureCount)
 {
 	Assert(textureCount > 0);
 	Assert(textures != nullptr);
 
 	// TODO - Need to bring the logical device into the vulkan renderer as well
-	VulkanCommandBuffer& cmdBuffer = *GetGraphicsInterface().GetGraphicsDevice()->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	if (cmdBuffer.IsInRenderPass())
 	{
 		cmdBuffer.EndRenderPass();
@@ -215,7 +238,8 @@ void VulkanRenderer::TransitionToReadState(const VulkanTexture** textures, uint3
 	VkPipelineStageFlags dstStageFlags = 0;
 	for (uint32 i = 0; i < textureCount; ++i)
 	{
-		VulkanImage& image = *textures[i]->image;
+		const VulkanTexture* texture = static_cast<const VulkanTexture*>(textures[i]);
+		VulkanImage& image = *texture->image;
 		bool isDepthStencilTexture = (image.aspectFlags &
 			(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT)) != 0;
 		VkImageLayout srcLayout = image.layout;

@@ -2,7 +2,6 @@
 
 #include "Graphics.h"
 #include "Containers/DynamicArray.hpp"
-#include "VulkanAbstractions.h"
 #include "Graphics/RenderTargetDescription.hpp"
 
 class VulkanDevice;
@@ -10,6 +9,7 @@ class VulkanSurface;
 class VulkanRenderPass;
 class VulkanCommandBuffer;
 class VulkanFramebuffer;
+struct VulkanTexture;
 
 class VulkanSwapchain
 {
@@ -30,7 +30,7 @@ public:
 	void Present();
 
 	RenderTargetDescription GetSwapchainImageDescription() const;
-	RenderTargetTextures GetSwapchainTarget() const;
+	VulkanTexture& GetSwapchainTarget() const;
 
 	inline VkFormat GetSwapchainFormat() const { return swapchainFormat; }
 	inline VkExtent2D GetSwapchainExtent() const { return swapchainExtent; }

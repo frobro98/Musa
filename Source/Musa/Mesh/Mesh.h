@@ -5,8 +5,8 @@
 #include "Containers/DynamicArray.hpp"
 #include "Math/BoundsVolumes.hpp"
 
-#include "Graphics/Vulkan/VulkanVertexBuffer.h"
-#include "Graphics/Vulkan/VulkanIndexBuffer.h"
+struct NativeVertexBuffer;
+struct NativeIndexBuffer;
 
 class ShaderProgram;
 
@@ -28,16 +28,16 @@ public:
 	inline DynamicArray<Face> GetFaces() const { return faces; }
 	inline SphereBounds GetCollitionInfo() const { return boundingSphere; }
 
-	inline VertexBuffer& GetVertexBuffer() { return *vertexBuffer; }
-	inline IndexBuffer& GetIndexBuffer() { return *indexBuffer; }
+	inline NativeVertexBuffer& GetVertexBuffer() { return *vertexBuffer; }
+	inline NativeIndexBuffer& GetIndexBuffer() { return *indexBuffer; }
 
 private:
 	DynamicArray<Vertex> vertices;
 	DynamicArray<Face> faces;
 	DynamicArray<VertexBoneWeights> skinWeights;
 
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
+	NativeVertexBuffer* vertexBuffer;
+	NativeIndexBuffer* indexBuffer;
 
 	SphereBounds boundingSphere;
 };

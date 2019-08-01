@@ -2,8 +2,9 @@
 
 #include "Graphics.h"
 #include "VulkanAbstractions.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
-class VulkanUniformBuffer
+class VulkanUniformBuffer : public NativeUniformBuffer
 {
 public:
 	VulkanUniformBuffer(const VulkanDevice& device, uint32 bufferSize);
@@ -22,5 +23,3 @@ private:
 	
 };
 
-
-typedef VulkanUniformBuffer UniformBuffer;

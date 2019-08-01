@@ -6,11 +6,9 @@
 #include "Math/Rect.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 
-// TODO - Remove all traces of vulkan from here
-#include "Graphics/Vulkan/VulkanUniformBuffer.h"
-
 class Camera;
 struct ShaderResource;
+struct NativeUniformBuffer;
 
 struct ViewDescription
 {
@@ -32,7 +30,7 @@ struct View
 {
 	ViewDescription description;
 	ViewTransforms transforms;
-	UniformBuffer* viewBuffer = nullptr;
+	NativeUniformBuffer* viewBuffer = nullptr;
 };
 
 // TODO - Determine if this and the Viewport class are similar and try and consolidate if they are

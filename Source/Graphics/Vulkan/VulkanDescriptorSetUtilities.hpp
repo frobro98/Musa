@@ -1,6 +1,8 @@
 #pragma once
 
 #include "VulkanAbstractions.h"
+#include "VulkanTexture.h"
+#include "VulkanSampler.hpp"
 #include "Containers/DynamicArray.hpp"
 
 class VulkanDescriptorSetLayout;
@@ -31,7 +33,7 @@ public:
 	void SetupWriteDescriptors(const VulkanDescriptorSetLayout& layout);
 
 	void SetBuffer(VkDescriptorType type, const VulkanBuffer& buffer, uint32 bindIndex);
-	void SetTexture(VkDescriptorType type, const VulkanTexture& texture, uint32 bindIndex);
+	void SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex);
 
 	const DynamicArray<WriteDescriptor>& GetWriteDescriptors() const { return writeDescriptors; }
 

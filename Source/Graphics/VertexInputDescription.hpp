@@ -1,7 +1,7 @@
 #pragma once
 
 #include <type_traits>
-// TODO - Remove this...
+// TODO - Remove the include of std::array<>...
 #include <array>
 
 #include "EngineCore/Types/Intrinsics.hpp"
