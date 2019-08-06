@@ -153,6 +153,12 @@
     <ClInclude Include="..\..\Source\Graphics\ResourceInitializationDescriptions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\ResourceArray.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.hpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp">
@@ -254,9 +260,6 @@
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\Renderer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDescriptorSetUtilities.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
@@ -264,6 +267,9 @@
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanTexture.cpp">
+      <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.cpp">
       <Filter>Source\Vulkan</Filter>
     </ClCompile>
   </ItemGroup>

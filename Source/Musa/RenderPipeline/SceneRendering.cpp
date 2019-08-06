@@ -464,7 +464,6 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 	RenderGBufferPass(renderer, scene, view);
 
 	//RenderShadowPass(*cmdBuffer, scene);
-
 	
 	TransitionTargetsToRead(renderer, targets);
 

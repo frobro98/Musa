@@ -195,6 +195,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\ResourceArray.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceInitializationDescriptions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Renderer.hpp" />
@@ -218,6 +219,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanDevice.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFence.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFramebuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanGraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanImageAllocation.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanIndexBuffer.h" />
@@ -243,7 +245,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp" />
-    <ClCompile Include="..\..\Source\Graphics\Renderer.cpp" />
     <ClCompile Include="..\..\Source\Graphics\ResourceBlob.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanAbstractions.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanBufferAllocation.cpp" />
@@ -257,6 +258,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanDevice.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFence.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFramebuffer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanGraphicsInterface.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanImageAllocation.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanIndexBuffer.cpp" />

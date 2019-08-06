@@ -26,6 +26,7 @@ public:
 //	virtual void SetStorageBuffer() override;
 	virtual void Draw(uint32 vertexCount, uint32 instanceCount) override;
 	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount) override;
+	virtual void DrawRaw(const ResourceArray& rawVerts) override;
 
 	virtual NativeTexture* GetBackBuffer() const override;
 

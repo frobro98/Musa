@@ -143,6 +143,11 @@ void VulkanRenderer::DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 in
 	cmdBuffer.DrawIndexed(indexCount, instanceCount, 0, 0, 0);
 }
 
+void VulkanRenderer::DrawRaw(const ResourceArray& /*rawVerts*/)
+{
+	// This will use temp memory to allocate a vertex buffer for these raw vertices
+}
+
 NativeTexture* VulkanRenderer::GetBackBuffer() const
 {
 	return backBuffer;

@@ -3,19 +3,19 @@
 #include "Platform.h"
 
 
-inline constexpr uint32 KilobytesAsBytes(uint32 bytes)
+inline constexpr uint32 KilobytesAsBytes(uint32 kilobytes)
 {
-	return bytes * 1024;
+	return kilobytes * 1024;
 }
 
-inline constexpr uint32 MegabytesAsBytes(uint32 bytes)
+inline constexpr uint32 MegabytesAsBytes(uint32 megabytes)
 {
-	return KilobytesAsBytes(bytes) * 1024;
+	return KilobytesAsBytes(megabytes) * 1024;
 }
 
-inline constexpr uint32 GigabytesAsBytes(uint32 bytes)
+inline constexpr uint32 GigabytesAsBytes(uint32 gigabytes)
 {
-	return MegabytesAsBytes(bytes) * 1024;
+	return MegabytesAsBytes(gigabytes) * 1024;
 }
 
 inline constexpr uint32 Kilobytes(uint32 bytes)

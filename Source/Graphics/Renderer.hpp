@@ -8,7 +8,7 @@
 struct RenderTargetDescription;
 struct RenderTargetTextures;
 struct GraphicsPipelineDescription;
-
+struct ResourceArray;
 
 class Renderer
 {
@@ -27,9 +27,10 @@ public:
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) = 0;
 	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex) = 0;
 	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex) = 0;
-	//virtual void SetStorageBuffer(cons) = 0;
+	
 	virtual void Draw(uint32 vertexCount, uint32 instanceCount) = 0;
 	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount) = 0;
+	virtual void DrawRaw(const ResourceArray& rawVerts) = 0;
 
 	virtual NativeTexture* GetBackBuffer() const = 0;
 
