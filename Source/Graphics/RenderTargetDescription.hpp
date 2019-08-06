@@ -56,7 +56,7 @@ struct RenderTargetDescription
 	DepthStencilDescription depthDesc;
 	Extents2D targetExtents;
 	// TODO - Rename this so that it is more clear how many COLOR targets there are...
-	uint32 targetCount;
+	uint32 targetCount = 0;
 	bool hasDepth = true;
 
 	friend bool operator==(const RenderTargetDescription& lhs, const RenderTargetDescription& rhs)

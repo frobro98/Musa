@@ -9,9 +9,10 @@
 using namespace Internal;
 
 DynamicBlockHeap::DynamicBlockHeap(const char * heapName, size_t heapSize, Heap * nextHeap, HANDLE heapHandle, Memory * memEngine)
-	:Internal::InternalHeap(heapName, heapSize, nextHeap, heapHandle, memEngine)
+	:Internal::InternalHeap(heapName, heapSize, nextHeap, heapHandle, memEngine),
+	pBlkHead(nullptr)
 {
-	mInfo.mType = Heap::Type::Normal;
+	mInfo.type = Heap::Type::Normal;
 }
 
 DynamicBlockHeap::~DynamicBlockHeap()
@@ -37,7 +38,7 @@ void * DynamicBlockHeap::MallocInternal(uint64 inSize, uint32 align, const char 
 	size_t actualMemSize = inSize + sizeof(Block) + align;
 
 	void* data = HeapAlloc(mWinHeapHandle, HEAP_ZERO_MEMORY, actualMemSize);
-	if ((reinterpret_cast<uint64>(data)) < mInfo.EndAddr)
+	if (data != nullptr && (reinterpret_cast<uint64>(data)) < mInfo.EndAddr)
 	{
 		InternalBlock* trackingBlock = new(data) InternalBlock(inName, lineNum, inSize, allocationIndex);
 

@@ -15,7 +15,9 @@
 	__pragma(warning(disable : 4061)) \
     __pragma(warning(disable : 5026)) \
 	__pragma(warning(disable : 5039)) \
-	__pragma(warning(disable : 4820)) 
+	__pragma(warning(disable : 4820)) \
+	__pragma(warning(suppress: 26451))\
+	__pragma(warning(suppress: 26495))
 
 #define WALL_WRN_POP \
 	__pragma(warning( pop ))

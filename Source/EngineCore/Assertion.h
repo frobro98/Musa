@@ -47,5 +47,5 @@ namespace Debug
 		{																		\
 			if(!Debug::Internal::internalExpressionCheck(x))					\
 				Debug::AssertionFailedWithDescription(#x, __FILE__, __LINE__, str, ##__VA_ARGS__);		\
-																				\
+			__assume(x);														\
 		} while(false)

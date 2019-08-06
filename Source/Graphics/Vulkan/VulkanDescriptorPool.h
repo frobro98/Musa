@@ -36,6 +36,4 @@ private:
 	uint32 currentSampledImagePool = 0;
 	uint32 currentStorageImagePool = 0;
 	uint32 currentInputAttachmentPool = 0;
-
-	uint32 pad[1];
 };

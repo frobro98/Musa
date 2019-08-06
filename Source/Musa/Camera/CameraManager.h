@@ -25,7 +25,7 @@ private:
 
 	struct CameraNode
 	{
-		const char* cameraName;
+		const char* cameraName = nullptr;
 		Camera* camera = nullptr;
 	};
 

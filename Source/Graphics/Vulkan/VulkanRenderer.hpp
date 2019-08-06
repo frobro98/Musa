@@ -45,7 +45,7 @@ private:
 	} vertexBuffersAndOffsets;
 
 	// TODO - It sort of feels weird to have this exist in the renderer. Maybe it should, I don't know
-	NativeTexture* backBuffer;
+	NativeTexture* backBuffer = nullptr;
 
 	VulkanDevice& logicalDevice;
 

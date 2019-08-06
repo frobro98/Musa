@@ -35,7 +35,7 @@ public:
 		uint64 TotalSize;
 		uint32 PeakNumAlloc;
 		uint32 CurrNumAlloc;
-		Type	mType;
+		Type   type;
 
 		Info()
 			:StartAddr(0),
@@ -44,7 +44,8 @@ public:
 			CurrBytesUsed(0),
 			TotalSize(0),
 			PeakNumAlloc(0),
-			CurrNumAlloc(0)
+			CurrNumAlloc(0),
+			type(Type::Normal)
 		{
 			Memset(Name, 0, Heap::NameLength);
 		}

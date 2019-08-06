@@ -34,7 +34,7 @@ public:
 	inline uint32 GetHeight() const { return extents.height; }
 
 private:
-	RenderTargetTextures nativeTargets;
+	RenderTargetTextures nativeTargets{};
 	DynamicArray<VkImageView> viewAttachments;
 	VkFramebuffer frameBuffer = VK_NULL_HANDLE;
 	VkExtent2D extents;

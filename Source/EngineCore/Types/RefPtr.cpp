@@ -21,7 +21,7 @@ ThreadSafeCounter::ThreadSafeCounter(const ThreadSafeCounter& other)
 	count.store(c, std::memory_order_release);
 }
 
-ThreadSafeCounter::ThreadSafeCounter(ThreadSafeCounter&& other)
+ThreadSafeCounter::ThreadSafeCounter(ThreadSafeCounter&& other) noexcept
 {
 	uint32 c = other.count.load(std::memory_order_acquire);
 	count.store(c, std::memory_order_release);
@@ -37,7 +37,7 @@ ThreadSafeCounter& ThreadSafeCounter::operator=(const ThreadSafeCounter& other)
 	return *this;
 }
 
-ThreadSafeCounter& ThreadSafeCounter::operator=(ThreadSafeCounter&& other)
+ThreadSafeCounter& ThreadSafeCounter::operator=(ThreadSafeCounter&& other) noexcept
 {
 	if (this != &other)
 	{

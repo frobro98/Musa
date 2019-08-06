@@ -42,6 +42,6 @@ private:
 	DynamicArray<WriteImageDescriptor> imageDescriptors;
 	// Arranged by the binding index
 	DynamicArray<WriteDescriptor> writeDescriptors;
-	uint32 numBuffers;
-	uint32 numImages;
+	uint32 numBuffers = 0;
+	uint32 numImages = 0;
 };

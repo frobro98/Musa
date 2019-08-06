@@ -20,9 +20,9 @@ public:
 	ThreadSafeCounter();
 
 	ThreadSafeCounter(const ThreadSafeCounter& other);
-	ThreadSafeCounter(ThreadSafeCounter&& other);
+	ThreadSafeCounter(ThreadSafeCounter&& other) noexcept;
 	ThreadSafeCounter& operator=(const ThreadSafeCounter& other);
-	ThreadSafeCounter& operator=(ThreadSafeCounter&& other);
+	ThreadSafeCounter& operator=(ThreadSafeCounter&& other) noexcept;
 
 	void Increment();
 	void Decrement();

@@ -18,7 +18,7 @@ ResourceBlob::ResourceBlob(const ResourceBlob& other)
 {
 }
 
-ResourceBlob::ResourceBlob(ResourceBlob&& other)
+ResourceBlob::ResourceBlob(ResourceBlob&& other) noexcept
 	:data(other.data),
 	size(other.size)
 {
@@ -43,7 +43,7 @@ ResourceBlob& ResourceBlob::operator=(const ResourceBlob& other)
 	return *this;
 }
 
-ResourceBlob& ResourceBlob::operator=(ResourceBlob&& other)
+ResourceBlob& ResourceBlob::operator=(ResourceBlob&& other) noexcept
 {
 	if (this != &other)
 	{

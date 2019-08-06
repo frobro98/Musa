@@ -57,5 +57,5 @@ private:
 
 private:
 	uint8 bytes[GuidSize];
-	uint32 hash;
+	uint32 hash = 0;
 };

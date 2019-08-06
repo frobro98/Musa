@@ -23,7 +23,7 @@ public:
 	void ResetPipeline();
 private:
 	VkPipeline pipeline;
-	const VulkanPipelineLayout* pipelineLayout;
+	const VulkanPipelineLayout* pipelineLayout = nullptr;
 	VulkanDevice& logicalDevice;
 	DynamicArray<VulkanDescriptorSet*> descriptorSets;
 	uint32 unusedSetIndex;

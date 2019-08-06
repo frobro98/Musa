@@ -19,7 +19,7 @@ void operator delete(void * /*p*/, Heap * /*inHeap*/, Memory::Align /*align*/, c
 	Assert(false);
 }
 
-void * operator new( size_t inSize )
+void* operator new(size_t inSize)
 {
 	void *p = malloc( inSize );
 	return p;
@@ -42,7 +42,7 @@ void operator delete( void *p )
 	}
 }
 
-void * operator new[]( size_t inSize ,Heap *pHeap, Memory::Align align, const char *inName, uint32 lineNum )
+void* operator new[]( size_t inSize ,Heap *pHeap, Memory::Align align, const char *inName, uint32 lineNum )
 {
 	return Memory::Malloc(inSize, pHeap, align, inName, lineNum);
 }
@@ -52,7 +52,7 @@ void operator delete[](void * /*p*/, Heap * /*pHeap*/, Memory::Align /*align*/, 
 	Assert(false);
 }
 
-void * operator new[]( size_t inSize )
+void* operator new[](size_t inSize)
 {
 	// TODO - Get at the first heap of the memory system and allocate it
 	void *p = malloc( inSize );

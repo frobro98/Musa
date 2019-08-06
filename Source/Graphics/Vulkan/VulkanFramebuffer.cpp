@@ -6,7 +6,7 @@
 #include "Utilities/CoreUtilities.hpp"
 
 VulkanFramebuffer::VulkanFramebuffer(const VulkanDevice& device)
-	:logicalDevice(&device)
+	: logicalDevice(&device)
 {
 }
 

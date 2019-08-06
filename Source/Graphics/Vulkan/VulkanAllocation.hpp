@@ -134,6 +134,7 @@ GraphicsMemoryAllocation<Suballoc>::GraphicsMemoryAllocation(
 	allocationSize(size),
 	usedSpaceSize(0),
 	offsetAlignment(memAlignment),
+	memoryTypeIndex(typeIndex),
 	canMapData(canMap),
 	isCoherent(coherent),
 	isCached(cached)

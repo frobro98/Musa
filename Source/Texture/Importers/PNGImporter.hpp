@@ -22,8 +22,7 @@ private:
 
 private:
 	uint32 bufferReadLocation = 0;
-	uint32 bitDepth;
-	uint32 colorType;
+	uint32 bitDepth = 0;
+	uint32 colorType = 0;
 	bool tRNSAlphaExists;
-	bool pad[3];
 };

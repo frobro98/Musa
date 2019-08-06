@@ -41,7 +41,7 @@ private:
 	struct MeshNode
 	{
 		MeshNode* next = nullptr;
-		const char* meshName;
+		const char* meshName = nullptr;
 		Mesh* mesh = nullptr;
 	};
 

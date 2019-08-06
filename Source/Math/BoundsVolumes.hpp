@@ -11,7 +11,7 @@ struct BoxBounds
 struct SphereBounds
 {
 	Vector position;
-	float radius;
+	float radius = 0.f;
 };
 
 // Combines both bounded box and sphere together
@@ -19,5 +19,5 @@ struct BoxSphereBounds
 {
 	Vector position;
 	Vector dimensions;
-	float radius;
+	float radius = 0.f;
 };

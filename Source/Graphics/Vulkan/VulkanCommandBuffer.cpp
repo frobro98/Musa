@@ -362,23 +362,21 @@ void VulkanCommandBuffer::Reset(bool forceReset)
 
 void VulkanCommandBufferManager::Initialize()
 {
-	Assert(logicalDevice != nullptr);
-
 	VkCommandPoolCreateInfo cmdPoolInfo = {};
 	cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	cmdPoolInfo.queueFamilyIndex = logicalDevice->GetGraphicsQueue()->GetFamilyIndex();
+	cmdPoolInfo.queueFamilyIndex = logicalDevice.GetGraphicsQueue()->GetFamilyIndex();
 	// TODO - Find out if there are any flags for creating command pools
 	cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-	CHECK_VK(vkCreateCommandPool(logicalDevice->GetNativeHandle(), &cmdPoolInfo, nullptr, &graphicsCmdPool));
+	CHECK_VK(vkCreateCommandPool(logicalDevice.GetNativeHandle(), &cmdPoolInfo, nullptr, &graphicsCmdPool));
 
 	cmdPoolInfo = {};
 	cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	cmdPoolInfo.queueFamilyIndex = logicalDevice->GetTransferQueue()->GetFamilyIndex();
+	cmdPoolInfo.queueFamilyIndex = logicalDevice.GetTransferQueue()->GetFamilyIndex();
 	// TODO - Find out if there are any flags for creating command pools
 	cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-	CHECK_VK(vkCreateCommandPool(logicalDevice->GetNativeHandle(), &cmdPoolInfo, nullptr, &transferCmdPool));
+	CHECK_VK(vkCreateCommandPool(logicalDevice.GetNativeHandle(), &cmdPoolInfo, nullptr, &transferCmdPool));
 
 }
 
@@ -392,7 +390,7 @@ void VulkanCommandBufferManager::SubmitGraphicsBuffer(
 	Assert(activeGraphicsBuffer);
 	Assert(!activeTransferBuffer);
 
-	SubmitCommandBuffer(*activeGraphicsBuffer, *logicalDevice->GetGraphicsQueue(), waitForFence, waitSemaphore, waitMask, signalSemaphore);
+	SubmitCommandBuffer(*activeGraphicsBuffer, *logicalDevice.GetGraphicsQueue(), waitForFence, waitSemaphore, waitMask, signalSemaphore);
 
 	activeGraphicsBuffer = nullptr;
 }
@@ -405,7 +403,7 @@ void VulkanCommandBufferManager::SubmitTransferBuffer(
 )
 {
 	Assert(activeTransferBuffer);
-	SubmitCommandBuffer(*activeTransferBuffer, *logicalDevice->GetTransferQueue(), waitForFence, waitSemaphore, waitMask, signalSemaphore);
+	SubmitCommandBuffer(*activeTransferBuffer, *logicalDevice.GetTransferQueue(), waitForFence, waitSemaphore, waitMask, signalSemaphore);
 	activeTransferBuffer = nullptr;
 }
 
@@ -459,7 +457,7 @@ bool VulkanCommandBufferManager::HasValidTransferBuffer() const
 VulkanCommandBuffer* VulkanCommandBufferManager::CreateGraphicsCommandBuffer()
 {
 	Assert(graphicsCmdPool != VK_NULL_HANDLE);
-	VulkanCommandBuffer* cBuffer = new VulkanCommandBuffer(*logicalDevice, *this);
+	VulkanCommandBuffer* cBuffer = new VulkanCommandBuffer(logicalDevice, *this);
 	cBuffer->Initialize(VK_COMMAND_BUFFER_LEVEL_PRIMARY, graphicsCmdPool);
 	return cBuffer;
 }
@@ -467,7 +465,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::CreateGraphicsCommandBuffer()
 VulkanCommandBuffer* VulkanCommandBufferManager::CreateTransferCommandBuffer()
 {
 	Assert(transferCmdPool != VK_NULL_HANDLE);
-	VulkanCommandBuffer* cBuffer = new VulkanCommandBuffer(*logicalDevice, *this);
+	VulkanCommandBuffer* cBuffer = new VulkanCommandBuffer(logicalDevice, *this);
 	cBuffer->Initialize(VK_COMMAND_BUFFER_LEVEL_PRIMARY, transferCmdPool);
 	return cBuffer;
 }
@@ -482,11 +480,11 @@ void VulkanCommandBufferManager::AllocateMissingCommandBuffers(uint32 remainingC
 	cmdAllocInfo.commandPool = graphicsCmdPool;
 	cmdAllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
 
-	CHECK_VK(vkAllocateCommandBuffers(logicalDevice->GetNativeHandle(), &cmdAllocInfo, buffers.GetData()));
+	CHECK_VK(vkAllocateCommandBuffers(logicalDevice.GetNativeHandle(), &cmdAllocInfo, buffers.GetData()));
 
 	for (uint32 i = 0; i < remainingCmdBufs; ++i)
 	{
-		VulkanCommandBuffer* cmdBuffer = new VulkanCommandBuffer(*logicalDevice, *this);
+		VulkanCommandBuffer* cmdBuffer = new VulkanCommandBuffer(logicalDevice, *this);
 		cmdBuffer->Initialize(buffers[i], VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 		graphicsSecondaryCommandBuffers.Add(cmdBuffer);
 		outCommandBuffers.Add(cmdBuffer);
@@ -609,12 +607,12 @@ DynamicArray<VulkanCommandBuffer*> VulkanCommandBufferManager::FindOrCreateSecon
 }
 
 VulkanCommandBufferManager::VulkanCommandBufferManager(const VulkanDevice& device)
-	: logicalDevice(&device)
+	: logicalDevice(device)
 {
 }
 
 VulkanCommandBufferManager::~VulkanCommandBufferManager()
 {
-	vkDestroyCommandPool(logicalDevice->GetNativeHandle(), graphicsCmdPool, nullptr);
-	vkDestroyCommandPool(logicalDevice->GetNativeHandle(), transferCmdPool, nullptr);
+	vkDestroyCommandPool(logicalDevice.GetNativeHandle(), graphicsCmdPool, nullptr);
+	vkDestroyCommandPool(logicalDevice.GetNativeHandle(), transferCmdPool, nullptr);
 }

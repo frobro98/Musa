@@ -75,7 +75,7 @@ void BMPImporter::ProcessImport()
 	}
 	else
 	{
-		pixelData += bytesPerRowAligned * (height - 1);
+		pixelData += (uintptr_t)(bytesPerRowAligned * (height - 1));
 	}
 	// Get at the pixel data
 	uint8* importedPixels = importedImageData.GetData();

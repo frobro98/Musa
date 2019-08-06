@@ -20,7 +20,7 @@ public:
 	Material();
 	Material(ShaderResource& vertShader, ShaderResource& fragShader, const char* textureName, const Color32& color);
 	Material(ShaderResource& vertShader, ShaderResource& fragShader, const Texture* tex, const Color32& color);
-	Material(const tchar* vertexShader, const tchar* fragmentShader, const char* textureName, const Color32& color);
+	/*Material(const tchar* vertexShader, const tchar* fragmentShader, const char* textureName, const Color32& color);*/
 	~Material() = default;
 
 	void EnableWireframe();

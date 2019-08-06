@@ -24,7 +24,7 @@ public:
 
 private:
 	static constexpr uint32 JobMask = size - 1;
-	Job* jobs[size];
+	Job* jobs[size]{};
 	atom32 topIndex, bottomIndex;
 	const uint64 owningThreadID;
 };

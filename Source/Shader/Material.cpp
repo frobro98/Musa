@@ -43,25 +43,25 @@ Material::Material(ShaderResource & vertShader, ShaderResource & fragShader, con
     ConfigureMaterialInfo();
 }
 
-Material::Material(const tchar* vertShaderName, const tchar* fragShaderName, const char * textureName, const Color32& color)
-{
-	Assert(vertShaderName);
-	Assert(fragShaderName);
-	//vertexShader = GetShaderManager().CreateShader(vertShaderName, ShaderStage::Vertex);
-	//fragmentShader = GetShaderManager().CreateShader(fragShaderName, ShaderStage::Fragment);
-
-	if (textureName != nullptr)
-	{
-		texture0 = GetTextureManager().FindTexture(textureName);
-	}
-	else
-	{
-		texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
-	}
-	diffuseColor = color;
-
-	ConfigureMaterialInfo();
-}
+// Material::Material(const tchar* vertShaderName, const tchar* fragShaderName, const char * textureName, const Color32& color)
+// {
+// 	Assert(vertShaderName);
+// 	Assert(fragShaderName);
+// 	//vertexShader = GetShaderManager().CreateShader(vertShaderName, ShaderStage::Vertex);
+// 	//fragmentShader = GetShaderManager().CreateShader(fragShaderName, ShaderStage::Fragment);
+// 
+// 	if (textureName != nullptr)
+// 	{
+// 		texture0 = GetTextureManager().FindTexture(textureName);
+// 	}
+// 	else
+// 	{
+// 		texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
+// 	}
+// 	diffuseColor = color;
+// 
+// 	ConfigureMaterialInfo();
+// }
 
 void Material::EnableWireframe()
 {

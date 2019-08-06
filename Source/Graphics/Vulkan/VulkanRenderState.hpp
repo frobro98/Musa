@@ -41,11 +41,8 @@ public:
 	bool IsTextureInRender(const VulkanTexture& texture);
 
 private:
-	void ResetState();
-
-private:
 	VulkanDevice& logicalDevice;
 	WriteDescriptorSet* writeDescriptorSet;
 	VulkanFramebuffer* framebufferContext;
-	VulkanPipeline* currentPipeline;
+	VulkanPipeline* currentPipeline = nullptr;
 };

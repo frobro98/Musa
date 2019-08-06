@@ -20,7 +20,7 @@ public:
 private:
 	friend class VulkanDevice;
 	DynamicArray<VulkanDescriptorSetLayout*> layouts;
-	VulkanDevice* logicalDevice;
+	VulkanDevice* logicalDevice = nullptr;
 };
 
 VulkanDescriptorLayoutManager& GetDescriptorLayoutManager();

@@ -154,7 +154,7 @@ private:
 	VkCommandBufferLevel bufferLevel;
 	const VulkanDevice* logicalDevice;
 	VulkanCommandBufferManager* cmdBufferManager;
-	VulkanFence* fence;
+	VulkanFence* fence = nullptr;
 	CommandBufferState state;
 };
 
@@ -215,5 +215,5 @@ private:
 	DynamicArray<VulkanCommandBuffer*> transferCommandBuffers;
 	VulkanCommandBuffer* activeGraphicsBuffer = nullptr;
 	VulkanCommandBuffer* activeTransferBuffer = nullptr;
-	const VulkanDevice* logicalDevice;
+	const VulkanDevice& logicalDevice;
 };

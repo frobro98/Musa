@@ -100,10 +100,10 @@ Memory::Code Memory::HeapCreate(Heap *&newHeap, uint32 numBlocks, uint32 sizePer
 		return ERROR_Mem_Not_Initialized;
 	}
 
-	uint32 heapSize = sizeof(FixedBlockHeap) + (numBlocks * sizePerBlock);
+	uint32 heapSize = (uint32)sizeof(FixedBlockHeap) + (numBlocks * sizePerBlock);
 
 	HANDLE heapHandle = ::HeapCreate(0, heapSize, 0);
-	if (heapHandle == INVALID_HANDLE_VALUE)
+	if (heapHandle == 0)
 	{
 		return ERROR_Heap_Create;
 	}

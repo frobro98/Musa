@@ -33,7 +33,6 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Vector *pt, uint32 numPts)
 	{
 		Vector v;
 		int index;
-		int pad[3];  // padding
 	};
 
 	tmpNode data[6];

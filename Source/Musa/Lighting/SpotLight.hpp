@@ -14,6 +14,6 @@ public:
 
 private:
 	// Eventually, these will be out of here and only calculated when needed. 
-	float cosInnerAngle;
-	float cosOuterAngle;
+	float cosInnerAngle = 0;
+	float cosOuterAngle = 0;
 };

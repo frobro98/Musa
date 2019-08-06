@@ -52,8 +52,8 @@ private:
 
 private:
 	// TODO - GBuffer per scene doesn't really make any sense, but because there's only a single scene, it's aight for now
-	RenderTargetDescription gbufferTargets;
-	RenderTargetTextures gbufferTextures;
+	RenderTargetDescription gbufferTargets{};
+	RenderTargetTextures gbufferTextures{};
 
 	//PCSTree<GameObject> sceneGraph;
 	DynamicArray<GameObject*> activeGameObjects;
@@ -72,5 +72,4 @@ private:
 	SceneRendering* sceneRendering = nullptr;
 
 	bool gbuffersInitialized = false;
-	bool pad[3] = { false, false, false };
 };

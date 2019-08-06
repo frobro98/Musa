@@ -2,7 +2,9 @@
 #include "Graphics/Vulkan/VulkanShaderManager.h"
 
 ShaderObject::ShaderObject(const ShaderCompiledOutput& compiledOutput)
-	: byteCode(compiledOutput.compiledCode)
+	: byteCode(compiledOutput.compiledCode),
+	// TODO - Need to actually compute the hash for the data
+	byteCodeHash(0)
 {
 	nativeShader = GetShaderManager().CreateShader(compiledOutput);
 }

@@ -42,6 +42,7 @@ void JPEGImporter::ProcessImport()
 		uint32 uncompressedSize = static_cast<uint32>(width * height * numComponents);
 		importedImageData = DynamicArray<uint8>(data, uncompressedSize);
 		delete[] data;
+		data = nullptr;
 	}
 
 	validData = data != nullptr;

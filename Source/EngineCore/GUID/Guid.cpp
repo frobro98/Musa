@@ -7,7 +7,7 @@
 Guid::Guid()
 {
 	GUID guid;
-	::CoCreateGuid(&guid);
+	[[maybe_unused]] HRESULT result = ::CoCreateGuid(&guid);
 	Memcpy(bytes, GuidSize, &guid, GuidSize);
 	ComputeHash();
 }

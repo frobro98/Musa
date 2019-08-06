@@ -1,9 +1,11 @@
 #include "FixedBlockHeap.h"
 #include "Assertion.h"
 
-FixedBlockHeap::FixedBlockHeap(Heap* nextHeap, const char * const heapName, uint32 numBlocks, uint32 sizePerBlock, HANDLE heapHandle, Memory* memEngine) : Internal::InternalHeap(heapName, numBlocks*sizePerBlock, nextHeap, heapHandle, memEngine),
+FixedBlockHeap::FixedBlockHeap(Heap* nextHeap, const char * const heapName, uint32 numBlocks, uint32 sizePerBlock, HANDLE heapHandle, Memory* memEngine)
+	: Internal::InternalHeap(heapName, (size_t)(numBlocks*sizePerBlock), nextHeap, heapHandle, memEngine),
 	maxNumBlocks(numBlocks),
-	sizeOfBlock(sizePerBlock)
+	sizeOfBlock(sizePerBlock),
+	currentNumBlocks(0)
 {
 	// Setting up initial information
 	uint8* heapAddr = reinterpret_cast<uint8*>(this);
@@ -26,7 +28,7 @@ FixedBlockHeap::FixedBlockHeap(Heap* nextHeap, const char * const heapName, uint
 	}
 
 	prevBlock->next = nullptr;
-	mInfo.mType = Heap::Type::Fixed;
+	mInfo.type = Heap::Type::Fixed;
 }
 
 FixedBlockHeap::~FixedBlockHeap()

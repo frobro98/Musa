@@ -11,7 +11,8 @@
 Block::Block(const char* fileName, uint32 lineNumber, size_t allocationSize, uint32 allocationIndex)
 	: mAllocSize(allocationSize),
 	mLineNum(lineNumber),
-	mAllocIndex(allocationIndex)
+	mAllocIndex(allocationIndex),
+	pSecret(nullptr)
 {
 	pSecret = this;
 

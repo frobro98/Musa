@@ -15,8 +15,8 @@ struct ViewDescription
 	Vector origin;
 	Vector direction;
 	Rect viewport;
-	float32 fieldOfView;
-	float32 aspectRatio;
+	float32 fieldOfView = 0;
+	float32 aspectRatio = 0;
 };
 
 struct ViewTransforms

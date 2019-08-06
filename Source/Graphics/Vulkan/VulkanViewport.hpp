@@ -32,7 +32,7 @@ public:
 	inline uint32 GetHeight() const { return viewportHeight; }
 
 private:
-	VulkanTexture* backBufferTexture;
+	VulkanTexture* backBufferTexture = nullptr;
 	VulkanDevice& logicalDevice;
 	VulkanSurface* viewSurface;
 	VulkanSwapchain* swapchain;

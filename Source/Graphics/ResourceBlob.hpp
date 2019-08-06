@@ -12,11 +12,11 @@ public:
 	ResourceBlob() = default;
 	ResourceBlob(uint8* blobData, uint32 blobSize);
 	ResourceBlob(const ResourceBlob& other);
-	ResourceBlob(ResourceBlob&& other);
+	ResourceBlob(ResourceBlob&& other) noexcept;
 	~ResourceBlob();
 
 	ResourceBlob& operator=(const ResourceBlob& other);
-	ResourceBlob& operator=(ResourceBlob&& other);
+	ResourceBlob& operator=(ResourceBlob&& other) noexcept;
 
 	void MergeWith(const ResourceBlob& other);
 

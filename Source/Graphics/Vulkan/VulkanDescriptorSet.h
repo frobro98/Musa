@@ -50,8 +50,8 @@ public:
 	void UpdateDescriptorSet(const WriteDescriptorSet& writeDescriptors);
 
 public:
-	uint64 associatedFenceSignal;
 	VulkanCommandBuffer* associatedCommandBuffer;
+	uint64 associatedFenceSignal;
 
 private:
 	VkDescriptorSet descriptorSet;

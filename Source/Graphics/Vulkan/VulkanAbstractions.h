@@ -15,7 +15,7 @@ struct VulkanImage
 
 	VkImage handle = VK_NULL_HANDLE;
 	VkImageLayout layout;
-	VkFormat format;
+	VkFormat format = VK_FORMAT_UNDEFINED;
 	VkImageAspectFlags aspectFlags;
 	uint32 width = 0;
 	uint32 height = 0;

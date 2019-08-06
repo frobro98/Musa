@@ -35,7 +35,6 @@ private:
 	void ModifyBGRImage();
 
 private:
-	TGAFileHeader tgaFile;
-	uint8 pad[2];
+	TGAFileHeader tgaFile{};
 	uint32 bitDepth;
 };

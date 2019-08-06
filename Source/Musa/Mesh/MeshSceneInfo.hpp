@@ -21,8 +21,8 @@ struct MeshRenderInfo
 	}
 
 	SphereBounds bounds;
-	MaterialRenderInfo* meshMaterial;
-	NativeVertexBuffer* vertexBuffer;
-	NativeIndexBuffer* indexBuffer;
-	NativeUniformBuffer* transformBuffer;
+	MaterialRenderInfo* meshMaterial = nullptr;
+	NativeVertexBuffer* vertexBuffer = nullptr;
+	NativeIndexBuffer* indexBuffer = nullptr;
+	NativeUniformBuffer* transformBuffer = nullptr;
 };

@@ -325,7 +325,7 @@ void FileSerializationTest()
 
 #include "GameEngine.hpp"
 
-int CALLBACK WinMain(HINSTANCE /*hInstance*/,
+int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	HINSTANCE /*hPrevInstance*/,
 	LPSTR /*lpCmdLine*/,
 	int /*nCmdShow*/)

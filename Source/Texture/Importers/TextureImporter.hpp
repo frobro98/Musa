@@ -28,8 +28,7 @@ protected:
 	DynamicArray<uint8> importData;
 	DynamicArray<uint8> importedImageData;
 	ImageFormat format = ImageFormat::Invalid;
-	int32 width;
-	int32 height;
-	bool validData;
-	bool pad[3];
+	int32 width = 0;
+	int32 height = 0;
+	bool validData = false;
 };
