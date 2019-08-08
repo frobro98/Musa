@@ -157,6 +157,10 @@ inline GraphicsMemoryAllocation<Suballoc>::~GraphicsMemoryAllocation()
 	{
 		delete subAlloc;
 	}
+	if (IsMapped())
+	{
+		Unlock();
+	}
 	vkFreeMemory(logicalDevice.GetNativeHandle(), graphicsMemory, nullptr);
 }
 

@@ -5,6 +5,7 @@
 
 struct GraphicsPipelineDescription;
 class VulkanVertexBuffer;
+struct VulkanFrameTempAllocation;
 
 class VulkanRenderer : public Renderer
 {
@@ -26,7 +27,8 @@ public:
 //	virtual void SetStorageBuffer() override;
 	virtual void Draw(uint32 vertexCount, uint32 instanceCount) override;
 	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount) override;
-	virtual void DrawRaw(const ResourceArray& rawVerts) override;
+	virtual void DrawRaw(const ResourceArray& rawVerts, uint32 instanceCount) override;
+	virtual void DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, uint32 instanceCount) override;
 
 	virtual NativeTexture* GetBackBuffer() const override;
 
@@ -43,6 +45,10 @@ private:
 		DynamicArray<const VulkanVertexBuffer*> vertexBuffers;
 		DynamicArray<uint32> vertexBufferOffsets;
 	} vertexBuffersAndOffsets;
+
+	static constexpr uint32 frameTempAllocCount = 2;
+	VulkanFrameTempAllocation* frameTempAlloc[frameTempAllocCount];
+	VulkanFrameTempAllocation* currentFrameTempAlloc = nullptr;
 
 	// TODO - It sort of feels weird to have this exist in the renderer. Maybe it should, I don't know
 	NativeTexture* backBuffer = nullptr;

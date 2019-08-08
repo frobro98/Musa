@@ -348,7 +348,5 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	GameEngine engine;
 	engine.RunEngine();
 
-	// TODO - Fix crash when the engine exits. It is likely due to the graphics not being cleaned up correctly.
-
 	return 0;
 }

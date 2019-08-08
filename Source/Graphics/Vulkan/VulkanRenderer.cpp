@@ -13,12 +13,17 @@
 #include "VulkanViewport.hpp"
 #include "VulkanStagingBufferManager.hpp"
 #include "VulkanSampler.hpp"
+#include "VulkanFrameTempAllocation.hpp"
+
 #include "Graphics/GraphicsInterface.hpp"
+#include "Graphics/ResourceArray.hpp"
 
 VulkanRenderer::VulkanRenderer(VulkanDevice& device)
 	: logicalDevice(device),
 	currentRenderState(device)
 {
+	frameTempAlloc[0] = new VulkanFrameTempAllocation(logicalDevice);
+	frameTempAlloc[1] = new VulkanFrameTempAllocation(logicalDevice);
 }
 
 void VulkanRenderer::BeginRenderFrame(NativeViewport& renderViewport)
@@ -27,6 +32,11 @@ void VulkanRenderer::BeginRenderFrame(NativeViewport& renderViewport)
 	vp->AcquireBackBuffer();
 	backBuffer = &vp->GetBackBuffer();
 	logicalDevice.GetStagingBufferManager().ProcessDeferredReleases();
+
+	currentFrameTempAlloc = currentFrameTempAlloc == frameTempAlloc[0] ?
+		frameTempAlloc[0] : frameTempAlloc[1];
+	Assert(currentFrameTempAlloc != nullptr);
+	currentFrameTempAlloc->ClearSuballocations();
 }
 
 void VulkanRenderer::EndRenderFrame(NativeViewport& renderViewport)
@@ -143,9 +153,49 @@ void VulkanRenderer::DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 in
 	cmdBuffer.DrawIndexed(indexCount, instanceCount, 0, 0, 0);
 }
 
-void VulkanRenderer::DrawRaw(const ResourceArray& /*rawVerts*/)
+void VulkanRenderer::DrawRaw(const ResourceArray& rawVerts, uint32 instanceCount)
 {
-	// This will use temp memory to allocate a vertex buffer for these raw vertices
+	constexpr uint32 bufferAlignment = 4;
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
+	{
+		TempAlloc alloc = currentFrameTempAlloc->AllocateTempMemory(rawVerts.totalByteSize, bufferAlignment);
+		Assert(alloc.buffer != VK_NULL_HANDLE);
+		Memcpy(alloc.allocData, alloc.allocSize, rawVerts.byteArrayData, rawVerts.totalByteSize);
+		cmdBuffer.BindVertexBuffers(&alloc.buffer, &alloc.offset, 1);
+	}
+
+	if (updateViewState)
+	{
+		UpdateViewState(cmdBuffer);
+	}
+
+	currentRenderState.BindState(cmdBuffer);
+	cmdBuffer.Draw(rawVerts.elementCount, instanceCount, 0, 0);
+}
+
+void VulkanRenderer::DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, uint32 instanceCount)
+{
+	constexpr uint32 bufferAlignment = 4;
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
+	{
+		TempAlloc vertsAlloc = currentFrameTempAlloc->AllocateTempMemory(rawVerts.totalByteSize, bufferAlignment);
+		Assert(vertsAlloc.buffer != VK_NULL_HANDLE);
+		Memcpy(vertsAlloc.allocData, vertsAlloc.allocSize, rawVerts.byteArrayData, rawVerts.totalByteSize);
+		cmdBuffer.BindVertexBuffers(&vertsAlloc.buffer, &vertsAlloc.offset, 1);
+
+		TempAlloc indicesAlloc = currentFrameTempAlloc->AllocateTempMemory(rawIndices.totalByteSize, bufferAlignment);
+		Assert(indicesAlloc.buffer != VK_NULL_HANDLE);
+		Memcpy(indicesAlloc.allocData, indicesAlloc.allocSize, rawIndices.byteArrayData, rawIndices.totalByteSize);
+		cmdBuffer.BindIndexBuffer(indicesAlloc.buffer, indicesAlloc.offset);
+	}
+
+	if (updateViewState)
+	{
+		UpdateViewState(cmdBuffer);
+	}
+
+	currentRenderState.BindState(cmdBuffer);
+	cmdBuffer.DrawIndexed(rawIndices.elementCount, instanceCount, 0, 0, 0);
 }
 
 NativeTexture* VulkanRenderer::GetBackBuffer() const

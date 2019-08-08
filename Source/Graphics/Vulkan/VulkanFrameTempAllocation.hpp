@@ -8,6 +8,7 @@ constexpr uint32 AllocationSizeBytes = MegabytesAsBytes(1);
 
 struct TempAlloc
 {
+	void* allocData;
 	VkBuffer buffer;
 	uint32 allocSize;
 	uint32 offset;

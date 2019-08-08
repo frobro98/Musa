@@ -117,8 +117,19 @@ public:
 		uint32 bufferCount
 	);
 
+	void BindVertexBuffers(
+		const VkBuffer* vertexBuffers,
+		const uint32* vertexBufferOffsets,
+		uint32 bufferCount
+	);
+
 	void BindIndexBuffer(
 		const VulkanIndexBuffer& indexBuffer
+	);
+
+	void BindIndexBuffer(
+		VkBuffer indexBuffer,
+		uint32 bufferOffset
 	);
 
 	void DrawIndexed(

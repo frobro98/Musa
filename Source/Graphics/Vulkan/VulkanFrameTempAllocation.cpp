@@ -10,6 +10,8 @@ VulkanFrameTempAllocation::VulkanFrameTempAllocation(const VulkanDevice& device)
 	allocBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(AllocationSizeBytes,
 		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	// TODO - Unlike other instances of the memory object, this one owns the entire allocation. It doesn't make sense to incur a mutex lock for an owning allocation...
+	allocBuffer->memory->LockForWrite();
 	mappedBeginningPtr = allocBuffer->memory->GetMappedPtr();
 	freeAllocPtr = mappedBeginningPtr;
 	allocationSize = allocBuffer->memory->size;
@@ -29,9 +31,18 @@ TempAlloc VulkanFrameTempAllocation::AllocateTempMemory(uint32 allocSize, uint32
 	uint8* dataPtr = Align((uint8*)freeAllocPtr, allocAlignment);
 	Assert(dataPtr + allocSize <= (uint8*)mappedBeginningPtr + allocationSize);
 
-	// Align address and fill the memory structure up with the data required
+	// Fill the memory structure up with the data required
+	// TODO - Have a helper function do the pointer difference calc
+	uint32 offset = (uint32)((uint8*)freeAllocPtr - (uint8*)mappedBeginningPtr);
+	freeAllocPtr = dataPtr + allocSize;
 
-	return TempAlloc();
+	return TempAlloc
+	{
+		dataPtr,
+		allocBuffer->handle,
+		allocSize,
+		offset
+	};
 }
 
 void VulkanFrameTempAllocation::ClearSuballocations()

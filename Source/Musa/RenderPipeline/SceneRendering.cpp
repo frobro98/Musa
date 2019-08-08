@@ -106,8 +106,8 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 
 struct ShadowMapTextures
 {
-	VulkanTexture* depthTarget = nullptr;
-	VulkanTexture* depthTextureResource = nullptr;
+	NativeTexture* depthTarget = nullptr;
+	NativeTexture* depthTextureResource = nullptr;
 };
 static ShadowMapTextures shadowMap;
 
@@ -529,7 +529,6 @@ void SceneRendering::TransitionTargetsToWrite(Renderer& renderer, RenderTargetTe
 
 void SceneRendering::SetViewportAndScissor(Renderer& renderer, const View& view) const
 {
-	// TODO - Research viewport normalization and if I should be doing that
 	Rect sceneViewport = view.description.viewport;
 	renderer.SetViewport(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height, 0, 1);
 	renderer.SetScissor(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height);

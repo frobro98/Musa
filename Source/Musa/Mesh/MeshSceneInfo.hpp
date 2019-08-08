@@ -4,10 +4,8 @@
 
 #include "Math/BoundsVolumes.hpp"
 #include "Math/Matrix.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
-struct NativeVertexBuffer;
-struct NativeIndexBuffer;
-struct NativeUniformBuffer;
 struct MaterialRenderInfo;
 
 // TODO - There needs to be different ones for this and for animated meshes!

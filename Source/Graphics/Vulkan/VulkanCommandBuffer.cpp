@@ -254,6 +254,22 @@ void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* ver
 	vkCmdBindVertexBuffers(commandBuffer, 0, bufferCount, nativeHandles.GetData(), offsets.GetData());
 }
 
+void VulkanCommandBuffer::BindVertexBuffers(const VkBuffer* vertexBuffers, const uint32* vertexBufferOffsets, uint32 bufferCount)
+{
+	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
+	{
+		Assert(IsInRenderPass());
+	}
+
+	DynamicArray<VkDeviceSize> offsets(bufferCount);
+	for (uint32 i = 0; i < bufferCount; ++i)
+	{
+		offsets[i] = vertexBufferOffsets[i];
+	}
+
+	vkCmdBindVertexBuffers(commandBuffer, 0, bufferCount, vertexBuffers, offsets.GetData());
+}
+
 void VulkanCommandBuffer::BindIndexBuffer(const VulkanIndexBuffer& indexBuffer)
 {
 	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
@@ -264,6 +280,20 @@ void VulkanCommandBuffer::BindIndexBuffer(const VulkanIndexBuffer& indexBuffer)
 		commandBuffer,
 		indexBuffer.GetBuffer().handle,
 		indexBuffer.GetBuffer().memory->alignedOffset,
+		VK_INDEX_TYPE_UINT32
+	);
+}
+
+void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, uint32 bufferOffset)
+{
+	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
+	{
+		Assert(IsInRenderPass());
+	}
+	vkCmdBindIndexBuffer(
+		commandBuffer,
+		indexBuffer,
+		bufferOffset,
 		VK_INDEX_TYPE_UINT32
 	);
 }

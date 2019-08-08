@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Platform.h"
-
+#include "Assertion.h"
 
 inline constexpr uint32 KilobytesAsBytes(uint32 kilobytes)
 {
@@ -63,7 +62,7 @@ inline const void* Memchr(const void* ptr, tchar ch, size_t count)
 	return memchr(ptr, ch, count);
 }
 
-constexpr bool IsPowerOf2(uint32 num)
+constexpr bool IsPowerOf2(uint64 num)
 {
 	return (!(num == 0)) & ((num & (num - 1)) == 0);
 }
@@ -71,6 +70,7 @@ constexpr bool IsPowerOf2(uint32 num)
 template <typename AlignType>
 constexpr AlignType Align(const AlignType ptr, uint64 alignment)
 {
+	Assert(IsPowerOf2(alignment));
 	return (AlignType)(((uint64)ptr + (alignment - 1)) & ~(alignment - 1));
 }
 

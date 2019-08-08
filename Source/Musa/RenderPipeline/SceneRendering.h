@@ -7,12 +7,9 @@ class Camera;
 class Model;
 class Scene;
 class Viewport;
-struct View;
 class Renderer;
-
-// TODO - These need to be refactored out of here!
-#include "Graphics/Vulkan/VulkanRenderState.hpp"
-class VulkanCommandBuffer;
+struct View;
+struct RenderTargetTextures;
 
 class SceneRendering
 {
@@ -28,7 +25,7 @@ private:
 	void DeferredRender(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view);
 
 	void RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view);
-	void RenderShadowPass(Renderer& renderer, Scene& scene);
+	//void RenderShadowPass(Renderer& renderer, Scene& scene);
 	void RenderGBUffersToScreen(Renderer& renderer, Scene& scene, const View& view);
 
 	void TransitionTargetsToRead(Renderer& renderer, RenderTargetTextures& targets);
