@@ -69,6 +69,106 @@ tchar* Strstr(tchar* str, const tchar* findStr) noexcept
 	return strstr(str, findStr);
 }
 
+int32 FindFirstIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 findStrLen)
+{
+	Assert(str);
+	Assert(findStr);
+	if (findStrLen == 0 || findStrLen > strLen)
+	{
+		return -1;
+	}
+
+	for (const tchar* iter = str;; ++iter)
+	{
+		iter = Strstr(str, findStr);
+		if (iter == nullptr)
+		{
+			return -1;
+		}
+		uint32 iterLen = strLen - static_cast<uint32>(iter - str);
+		uint32 count = std::min(iterLen, findStrLen);
+		if (Strncmp(iter, str, count) == 0)
+		{
+			return static_cast<int32>(iter - str);
+		}
+	}
+}
+
+int32 FindLastIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 findStrLen)
+{
+	Assert(str);
+	Assert(findStr);
+	if (findStrLen == 0 || findStrLen > strLen)
+	{
+		return -1;
+	}
+
+	const tchar* const endPos = str + strLen;
+	for (const tchar* iter = endPos - findStrLen; iter != (str - 1); --iter)
+	{
+		uint32 i;
+		for (i = 0; i < findStrLen; ++i)
+		{
+			if (iter[i] != findStr[i])
+			{
+				break;
+			}
+		}
+
+		if (findStr[i] == '\0')
+		{
+			return static_cast<int32>(iter - str);
+		}
+	}
+
+	return -1;
+}
+
+bool StartsWith(const tchar* str, uint32 strLen, const tchar* startStr, uint32 startStrLen)
+{
+	if (startStrLen > strLen)
+	{
+		return false;
+	}
+
+	while (*startStr != '\0')
+	{
+		if (*startStr != *str)
+		{
+			return false;
+		}
+		++str;
+		++startStr;
+	}
+	return true;
+}
+
+bool EndsWith(const tchar* str, uint32 strLen, const tchar* endStr, uint32 endStrLen)
+{
+	if (endStrLen > strLen)
+	{
+		return false;
+	}
+
+	// account for null terminator
+	const tchar* strData = str + strLen - 1;
+	const tchar* endStrData = endStr + endStrLen - 1;
+	int32 chCount = static_cast<int32>(endStrLen);
+
+	while (chCount > 0)
+	{
+		if (*strData != *endStrData)
+		{
+			return false;
+		}
+
+		--endStrData;
+		--strData;
+		--chCount;
+	}
+	return true;
+}
+
 tchar ToUpper(tchar character) noexcept
 {
 	return (tchar)::toupper(character);

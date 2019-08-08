@@ -134,12 +134,12 @@ DynamicArray<String> String::Split(const tchar* charToSplitOn) const
 
 int32 String::IndexOf(tchar ch) const
 {
-	uint32 indexOf = 0;
+	int32 indexOf = 0;
 	while (stringData[indexOf] != '\0')
 	{
 		if (stringData[indexOf] == ch)
 		{
-			return static_cast<int32>(indexOf);
+			return indexOf;
 		}
 		++indexOf;
 	}
@@ -155,112 +155,30 @@ tchar String::CharAt(uint32 index) const
 
 int32 String::FindFirst(const tchar* str) const
 {
-	Assert(str);
-	uint32 searchStrLen = Strlen(str);
-	if (searchStrLen == 0 || searchStrLen > stringData.Size())
-	{
-		return -1;
-	}
-
-	for (const tchar* iter = stringData.GetData();; ++iter)
-	{
-		iter = Strstr(stringData.GetData(), str);
-		if (iter == nullptr)
-		{
-			return -1;
-		}
-		uint32 iterLen = Length() - static_cast<uint32>(iter - **this);
-		uint32 count = std::min(iterLen, searchStrLen);
-		if (Strncmp(iter, str, count) == 0)
-		{
-			return static_cast<int32>(iter - stringData.GetData());
-		}
-	}
+	return FindFirstIn(stringData.GetData(), Length(), str, Strlen(str));
 }
 
 int32 String::FindLast(const tchar* str) const
 {
-	Assert(str);
-	uint32 searchStrLen = Strlen(str);
-	if (searchStrLen == 0 || searchStrLen > stringData.Size())
-	{
-		return -1;
-	}
-
-	const tchar* const endPos = stringData.GetData() + Length();
-	for (const tchar* iter = endPos - searchStrLen; iter != (**this - 1); --iter)
-	{
-		uint32 i;
-		for (i = 0; i < searchStrLen; ++i)
-		{
-			if (iter[i] != str[i])
-			{
-				break;
-			}
-		}
-
-		if (str[i] == '\0')
-		{
-			return static_cast<int32>(iter - **this);
-		}
-	}
-
-	return -1;
+	return FindLastIn(stringData.GetData(), Length(), str, Strlen(str));
 }
 
 int32 String::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const
 {
 	Assert(str);
 	Assert(startIndex < stringData.Size());
-	Assert(endIndex < stringData.Size());
+	Assert(startIndex < endIndex);
+	Assert(endIndex <= stringData.Size());
 	uint32 searchStrLen = Strlen(str);
-	if (searchStrLen == 0 || searchStrLen > stringData.Size())
-	{
-		return -1;
-	}
-
-	const tchar* endLoc = &stringData[endIndex];
-	for (const tchar* iter = &stringData[startIndex]; iter != endLoc; ++iter)
-	{
-		iter = Strstr(stringData.GetData(), str);
-		if (iter == nullptr)
-		{
-			return -1;
-		}
-		uint32 iterLen = Length() - static_cast<uint32>(iter - **this);
-		uint32 count = std::min(iterLen, searchStrLen);
-		if (Strncmp(iter, str, count) == 0)
-		{
-			return static_cast<int32>(iter - stringData.GetData());
-		}
-	}
-
-	return -1;
+	return FindFirstIn(stringData.GetData() + startIndex, endIndex - startIndex, str, searchStrLen);
 }
 
 int32 String::FindFrom(uint32 index, const tchar* str) const
 {
 	Assert(str);
+	Assert(index < Length());
 	uint32 searchStrLen = Strlen(str);
-	if (searchStrLen == 0 || searchStrLen > stringData.Size())
-	{
-		return -1;
-	}
-
-	for (const tchar* iter = &stringData[index];; ++iter)
-	{
-		iter = Strstr(iter, str);
-		if (iter == nullptr)
-		{
-			return -1;
-		}
-		uint32 iterLen = Length() - static_cast<uint32>(iter - **this);
-		uint32 count = std::min(iterLen, searchStrLen);
-		if (Strncmp(iter, str, count) == 0)
-		{
-			return static_cast<int32>(iter - stringData.GetData());
-		}
-	}
+	return FindFirstIn(stringData.GetData() + index, Length() - index, str, searchStrLen);
 }
 
 void String::Insert(tchar c, uint32 index)
@@ -281,23 +199,7 @@ void String::RemoveAll(tchar c)
 
 bool String::StartsWith(const tchar* cStr) const
 {
-	uint32 len = Strlen(cStr);
-	if (len > stringData.Size())
-	{
-		return false;
-	}
-
-	const tchar* strData = stringData.GetData();
-	while (*cStr != '\0')
-	{
-		if (*cStr != *strData)
-		{
-			return false;
-		}
-		++cStr;
-		++strData;
-	}
-	return true;
+	return ::StartsWith(stringData.GetData(), Length(), cStr, Strlen(cStr));
 }
 
 bool String::StartsWith(tchar ch) const
@@ -307,28 +209,7 @@ bool String::StartsWith(tchar ch) const
 
 bool String::EndsWith(const tchar* cStr) const
 {
-	uint32 len = Strlen(cStr);
-	if (len > stringData.Size())
-	{
-		return false;
-	}
-
-	const tchar* strData = stringData.GetData() + stringData.Size() - 1;
-	// account for null terminator
-	const tchar* str = cStr+len-1;
-	int32 chCount = static_cast<int32>(len);
-	while (chCount > 0)
-	{
-		if (*strData != *str)
-		{
-			return false;
-		}
-
-		--str;
-		--strData;
-		--chCount;
-	}
-	return true;
+	return ::EndsWith(stringData.GetData(), Length(), cStr, Strlen(cStr));
 }
 
 bool String::EndsWith(tchar ch) const
@@ -344,29 +225,7 @@ bool String::IsEmpty() const
 
 bool String::Contains(const tchar* str) const
 {
-	uint32 strLen = Strlen(str);
-	uint32 len = Length();
-	bool contains = false;
-	if (len >= strLen)
-	{
-		for (const tchar* s = **this; *s; ++s, --len)
-		{
-			if (len < strLen)
-			{
-				break;
-			}
-
-			if (*s == *str)
-			{
-				contains = Strncmp(s, str, strLen) == 0;
-				if (contains)
-				{
-					break;
-				}
-			}
-		}
-	}
-	return contains;
+	return Strstr(stringData.GetData(), str);
 }
 
 String String::GetUpperCase() const

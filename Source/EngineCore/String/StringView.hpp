@@ -2,8 +2,6 @@
 
 #include "Types/Intrinsics.hpp"
 
-class String;
-
 class StringView
 {
 public:
@@ -26,8 +24,11 @@ public:
 	bool Contains(const tchar* str) const;
 	uint32 Length() const;
 
+	int32 IndexOf(tchar ch) const;
 	tchar CharAt(uint32 index) const;
 	tchar operator[](uint32 index) const;
+
+	const tchar* operator*() const;
 
 private:
 	const tchar* string;

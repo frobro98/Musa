@@ -34,6 +34,12 @@ const tchar* Strrchr(const tchar* str, tchar character) noexcept;
 const tchar* Strstr(const tchar* str, const tchar* findStr) noexcept;
 tchar* Strstr(tchar* str, const tchar* findStr) noexcept;
 
+int32 FindFirstIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 findStrLen);
+int32 FindLastIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 findStrLen);
+
+bool StartsWith(const tchar* str, uint32 strLen, const tchar* startStr, uint32 startStrLen);
+bool EndsWith(const tchar* str, uint32 strLen, const tchar* endStr, uint32 endStrLen);
+
 tchar ToUpper(tchar character) noexcept;
 tchar ToLower(tchar character) noexcept;
 bool IsAlpha(tchar character) noexcept;
