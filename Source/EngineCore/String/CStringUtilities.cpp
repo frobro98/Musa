@@ -87,7 +87,7 @@ int32 FindFirstIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 
 		}
 		uint32 iterLen = strLen - static_cast<uint32>(iter - str);
 		uint32 count = std::min(iterLen, findStrLen);
-		if (Strncmp(iter, str, count) == 0)
+		if (Strncmp(iter, findStr, count) == 0)
 		{
 			return static_cast<int32>(iter - str);
 		}

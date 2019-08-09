@@ -170,7 +170,8 @@ int32 String::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) co
 	Assert(startIndex < endIndex);
 	Assert(endIndex <= stringData.Size());
 	uint32 searchStrLen = Strlen(str);
-	return FindFirstIn(stringData.GetData() + startIndex, endIndex - startIndex, str, searchStrLen);
+	int32 foundFirstIndex = FindFirstIn(stringData.GetData() + startIndex, endIndex - startIndex, str, searchStrLen);
+	return foundFirstIndex + startIndex;
 }
 
 int32 String::FindFrom(uint32 index, const tchar* str) const
@@ -178,7 +179,8 @@ int32 String::FindFrom(uint32 index, const tchar* str) const
 	Assert(str);
 	Assert(index < Length());
 	uint32 searchStrLen = Strlen(str);
-	return FindFirstIn(stringData.GetData() + index, Length() - index, str, searchStrLen);
+	int32 foundFirstIndex = FindFirstIn(stringData.GetData() + index, Length() - index, str, searchStrLen);
+	return foundFirstIndex + index;
 }
 
 void String::Insert(tchar c, uint32 index)

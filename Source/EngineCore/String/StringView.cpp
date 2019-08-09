@@ -68,7 +68,8 @@ int32 StringView::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str
 	Assert(startIndex < endIndex);
 	Assert(endIndex <= stringLen);
 	uint32 searchStrLen = Strlen(str);
-	return FindFirstIn(string + startIndex, endIndex - startIndex, str, searchStrLen);
+	int32 foundFirstIndex = FindFirstIn(string + startIndex, endIndex - startIndex, str, searchStrLen);
+	return foundFirstIndex + startIndex;
 }
 
 int32 StringView::FindFrom(uint32 index, const tchar* str) const
@@ -76,7 +77,8 @@ int32 StringView::FindFrom(uint32 index, const tchar* str) const
 	Assert(str);
 	Assert(index < Length());
 	uint32 searchStrLen = Strlen(str);
-	return FindFirstIn(string + index, stringLen - index, str, searchStrLen);
+	int32 foundFirstIndex = FindFirstIn(string + index, stringLen - index, str, searchStrLen);
+	return foundFirstIndex + index;
 }
 
 bool StringView::IsEmpty() const
