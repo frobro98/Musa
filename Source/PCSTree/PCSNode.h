@@ -41,7 +41,7 @@ PCSNode<TreeType>::PCSNode(TreeType* pInParent, TreeType* pInChild, TreeType* pI
 	parent(pInParent),
 	child(pInChild),
 	nextSibling(pInNextSibling),
-	prevSibling(pInPrevSibling),
+	prevSibling(pInPrevSibling)
 {
 }
 

@@ -3,17 +3,9 @@
 #include "EngineCore/PlatformDefinitions.h"
 
 // TODO - Fix PCSTree implementation because animations don't really compile now...
-template<class NodeType>
-class PCSNode;
-
-template<class TreeType, bool = std::is_base_of_v<PCSNode<TreeType>, TreeType>>
-class PCSTree;
 
 template<class TreeType>
-class PCSTree<TreeType, false>;
-
-template<class TreeType>
-class PCSTree<TreeType, true>
+class PCSTree
 {
 public:
 	struct Info
@@ -57,20 +49,24 @@ public:
 		{
 			return root;
 		}
-		virtual bool IsDone() const
+
+		bool IsDone() const
 		{
 			return current == nullptr;
 		}
+
 		IteratorType *CurrentItem() const
 		{
 			return current;
 		}
 
-		virtual IteratorType *Next() = 0;
-
 		Iter& operator++()
 		{
-			current = Next();
+			if (current != nullptr)
+			{
+				current = current->forward;
+			}
+
 			return *this;
 		}
 
@@ -93,56 +89,50 @@ public:
 	class FwdIter : public Iter<isConst>
 	{
 	public:
+		//using IteratorType = typename std::conditional_t<isConst, const TreeType, TreeType>;
+	public:
 		FwdIter(TreeType *rootNode)
 			: Iter<isConst>(rootNode)
 		{
 		}
-
-		virtual Iter<isConst>::IteratorType *Next() override
-		{
-			if (current != nullptr)
-			{
-				current = current->forward;
-			}
-
-			return current;
-		}
 	};
 
-	template<bool isConst>
-	class RevIter : public Iter<isConst>
-	{
-	public:
-		RevIter(TreeType* rootNode)
-			: Iter<isConst>(
-				rootNode == nullptr || rootNode->reverse == nullptr ?
-				rootNode : rootNode->reverse
-			)
-		{
-		}
-
-		virtual Iter<isConst>::IteratorType *Next() override
-		{
-			if (current != nullptr)
-			{
-				if (current->reverse == root)
-				{
-					current = nullptr;
-				}
-				else
-				{
-					current = current->reverse;
-				}
-			}
-
-			return current;
-		}
-	};
+// 	template<bool isConst>
+// 	class RevIter : public Iter<isConst>
+// 	{
+// 	public:
+// 		using IteratorType = typename std::conditional_t<isConst, const TreeType, TreeType>;
+// 	public:
+// 		RevIter(TreeType* rootNode)
+// 			: Iter<isConst>(
+// 				rootNode == nullptr || rootNode->reverse == nullptr ?
+// 				rootNode : rootNode->reverse
+// 			)
+// 		{
+// 		}
+// 
+// 		virtual typename Iter<isConst>::IteratorType* Next() override
+// 		{
+// 			if (current != nullptr)
+// 			{
+// 				if (current->reverse == root)
+// 				{
+// 					current = nullptr;
+// 				}
+// 				else
+// 				{
+// 					current = current->reverse;
+// 				}
+// 			}
+// 
+// 			return current;
+// 		}
+// 	};
 
 	using ForwardIterator = FwdIter<false>;
-	using ReverseIterator = RevIter<false>;
+	//using ReverseIterator = RevIter<false>;
 	using ConstForwardIterator = FwdIter<true>;
-	using ConstReverseIterator = RevIter <true>;
+	//using ConstReverseIterator = RevIter <true>;
 
 	friend ForwardIterator begin(PCSTree<TreeType>& tree) { return ForwardIterator(tree.GetRoot()); }
 	friend ConstForwardIterator begin(const PCSTree<TreeType>& tree) { return ConstForwardIterator(tree.GetRoot()); }
@@ -160,14 +150,14 @@ private:
 };
 
 template <class TreeType>
-PCSTree<TreeType, true>::PCSTree(PCSTree&& other) noexcept
+PCSTree<TreeType>::PCSTree(PCSTree&& other) noexcept
 	: root(other.root)
 {
 	other.root = nullptr;
 }
 
 template <class TreeType>
-PCSTree<TreeType, true>& PCSTree<TreeType, true>::operator=(PCSTree&& other) noexcept
+PCSTree<TreeType>& PCSTree<TreeType>::operator=(PCSTree&& other) noexcept
 {
 	if (this != &other)
 	{
@@ -180,16 +170,16 @@ PCSTree<TreeType, true>& PCSTree<TreeType, true>::operator=(PCSTree&& other) noe
 }
 
 template <class TreeType>
-TreeType* PCSTree<TreeType, true>::GetRoot() const
+TreeType* PCSTree<TreeType>::GetRoot() const
 {
 	return root;
 }
 
 template <class TreeType>
-void PCSTree<TreeType, true>::Insert(TreeType* const pInNode, TreeType* const pParent)
+void PCSTree<TreeType>::Insert(TreeType* const pInNode, TreeType* const pParent)
 {
-	assert(pInNode != nullptr);
-	assert(pInNode != pParent);
+	Assert(pInNode != nullptr);
+	Assert(pInNode != pParent);
 
 	// Adding a child
 	if (pParent != nullptr)
@@ -254,7 +244,7 @@ void PCSTree<TreeType, true>::Insert(TreeType* const pInNode, TreeType* const pP
 }
 
 template <class TreeType>
-void PCSTree<TreeType, true>::Remove(TreeType* pInNode)
+void PCSTree<TreeType>::Remove(TreeType* pInNode)
 {
 	// pInNode would be base case if it got that far
 	if (pInNode != nullptr)
@@ -321,7 +311,7 @@ void PCSTree<TreeType, true>::Remove(TreeType* pInNode)
 }
 
 template<class TreeType>
-void PCSTree<TreeType, true>::GetInfo(Info &info)
+void PCSTree<TreeType>::GetInfo(Info &info)
 {
 	treeInfo.currNumLevels = TotalLevels(root);
 	if (treeInfo.currNumLevels > treeInfo.maxNumLevels)
@@ -333,13 +323,13 @@ void PCSTree<TreeType, true>::GetInfo(Info &info)
 }
 
 template<class TreeType>
-void PCSTree<TreeType, true>::Print() const
+void PCSTree<TreeType>::Print() const
 {
 	PrintTree(root);
 }
 
 template<class TreeType>
-void PCSTree<TreeType, true>::PrintTree(TreeType* root) const
+void PCSTree<TreeType>::PrintTree(TreeType* root) const
 {
 	if (root != nullptr)
 	{
@@ -354,7 +344,7 @@ void PCSTree<TreeType, true>::PrintTree(TreeType* root) const
 }
 
 template<class TreeType>
-uint32 PCSTree<TreeType, true>::TotalLevels(TreeType* root)
+uint32 PCSTree<TreeType>::TotalLevels(TreeType* root)
 {
 	if (root == nullptr)
 	{

@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "PCSTree/PCSNode.h"
+#include "PCSTree/PCSNode.h"
 #include "ECS/SystemTypeDefinitions.hpp"
 #include "ECS/ComponentTypeDefinition.hpp"
 
@@ -14,7 +14,7 @@ namespace Internal
 System* GetSystemWithType(SystemType type);
 }
 
-class System //: public PCSNode<System>
+class System : public PCSNode<System>
 {
 public:
 	virtual void Tick(float tick) = 0;

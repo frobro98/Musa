@@ -21,12 +21,12 @@ void SystemManager::Initialize()
 void SystemManager::AddSystem(System& system)
 {
 	// TODO - Adding a system to the root is reverse ordering. Can't do this by default because that's not how people would assume it works
-	//systemDependencyTree.Insert(&system, systemDependencyTree.GetRoot());
+	systemDependencyTree.Insert(&system, systemDependencyTree.GetRoot());
 }
 
 void SystemManager::AddSystemDependentOn(System& system, System& dependingSystem)
 {
-	//systemDependencyTree.Insert(&system, &dependingSystem);
+	systemDependencyTree.Insert(&system, &dependingSystem);
 }
 
 System* SystemManager::FindSystemOfType(SystemType type)
@@ -55,10 +55,10 @@ void SystemManager::ProcessDirtyEntities()
 
 void SystemManager::TickSystems(float deltaTime)
 {
-// 	for (auto system : systemDependencyTree)
-// 	{
-// 		system->Tick(deltaTime);
-// 	}
+	for (auto system : systemDependencyTree)
+	{
+		system->Tick(deltaTime);
+	}
 }
 
 void SystemManager::AddEntityToRequiredSystems(const Entity& entity)

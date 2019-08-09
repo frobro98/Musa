@@ -2,7 +2,7 @@
 
 #include "EngineCore/Types/Intrinsics.hpp"
 #include "Containers/DynamicArray.hpp"
-//#include "PCSTree/PCSTree.h"
+#include "PCSTree/PCSTree.h"
 #include "ECS/System.hpp"
 #include "Containers/Map.h"
 
@@ -36,7 +36,7 @@ private:
 
 private:
 	DynamicArray<const Entity*> dirtyEntities;
-	//PCSTree<System> systemDependencyTree;
+	PCSTree<System> systemDependencyTree;
 	Map<SystemType, System*> systemsMap;
 	Map<ComponentGroupDescription, DynamicArray<System*>> componentsToRelevantSystems;
 };

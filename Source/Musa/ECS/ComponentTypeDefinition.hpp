@@ -7,11 +7,11 @@ WALL_WRN_PUSH
 #include <bitset>
 WALL_WRN_POP
 
-#include "EngineCore/Types/Intrinsics.hpp"
-#include "EngineCore/Algorithms.hpp"
-#include "EngineCore/Templates/TemplateUtils.hpp"
-#include "EngineCore/HashBasicTypes.h"
-#include "EngineCore/Templates/CompileTimeCounter.hpp"
+#include "Types/Intrinsics.hpp"
+#include "Algorithms.hpp"
+#include "HashBasicTypes.h"
+#include "Utilities/TemplateUtils.hpp"
+#include "Utilities/CompileTimeCounter.hpp"
 
 namespace Musa
 {
@@ -85,7 +85,7 @@ public:
 	void AddComponents()
 	{
 		[[maybe_unused]] int dummy[] = {0, (AddComponent<Types>(), 0)...};
-		hash = fnv(componentSet.to_string().c_str(), componentSet.size());
+		hash = fnv(componentSet.to_string().c_str(), (uint32)componentSet.size());
 	}
 
 	void AddComponentWithType(ComponentType type)
@@ -121,7 +121,6 @@ public:
 private:
 	ComponentSet componentSet;
 	uint32 hash;
-	uint32 pad[1] = {};
 };
 
 template <typename... Components, typename = std::enable_if_t<all_base_of_v<struct Component, Components...>>>
