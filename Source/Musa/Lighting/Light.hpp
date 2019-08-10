@@ -9,9 +9,9 @@ struct NativeUniformBuffer;
 
 struct LightDescription
 {
-	Vector position;
+	Vector4 position;
 	Color color;
-	Vector direction;
+	Vector4 direction;
 	float cosOuterAngle = 0; // Because shader is doing dot product using this information, the outer angle is kept in cosine space, allowing the shader to do angle calculations
 	float inverseCosDiff = 0; // 1 / (innerCos - outerCos)
 	float radius = 0;
@@ -24,9 +24,9 @@ public:
 
 	virtual LightDescription GetLightDescription() = 0;
 
-	inline Vector GetDirection() const
+	inline Vector4 GetDirection() const
 	{
-		return Vector(-worldLight[m2], -worldLight[m6], -worldLight[m10]);
+		return Vector4(-worldLight[m2], -worldLight[m6], -worldLight[m10]);
 	}
 	inline const Matrix& GetWorldLightTransform() const
 	{

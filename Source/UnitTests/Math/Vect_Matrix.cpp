@@ -14,18 +14,18 @@
 
 TEST(Vect_mult_matrix, vector_tests)
 {
-	Vector vA(2.0f, 3.0f, 4.0f, -2.0f);
-	Vector vOut;
+	Vector4 vA(2.0f, 3.0f, 4.0f, -2.0f);
+	Vector4 vOut;
 
 	CHECK(vA.x == 2.0f);
 	CHECK(vA.y == 3.0f);
 	CHECK(vA.z == 4.0f);
 	CHECK(vA.w == -2.0f);
 
-	Vector V0(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector V1(7.0f, 6.0f, 5.0f, 3.0f);
-	Vector V2(-4.0f, -2.0f, -1.0f, -4.0f);
-	Vector V3(9.0f, -7.0f, -2.0f, 5.0f);
+	Vector4 V0(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 V1(7.0f, 6.0f, 5.0f, 3.0f);
+	Vector4 V2(-4.0f, -2.0f, -1.0f, -4.0f);
+	Vector4 V3(9.0f, -7.0f, -2.0f, 5.0f);
 
 	Matrix M(V0, V1, V2, V3);
 
@@ -78,7 +78,7 @@ TEST(Vect_mult_matrix, vector_tests)
 
 TEST(Vect_multEqual_matrix, vector_tests)
 {
-	Vector vA(2.0f, 3.0f, 4.0f, -2.0f);
+	Vector4 vA(2.0f, 3.0f, 4.0f, -2.0f);
 
 	CHECK(vA.x == 2.0f);
 	CHECK(vA.y == 3.0f);
@@ -86,10 +86,10 @@ TEST(Vect_multEqual_matrix, vector_tests)
 	CHECK(vA.w == -2.0f);
 
 
-	Vector V0(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector V1(7.0f, 6.0f, 5.0f, 3.0f);
-	Vector V2(-4.0f, -2.0f, -1.0f, -4.0f);
-	Vector V3(9.0f, -7.0f, -2.0f, 5.0f);
+	Vector4 V0(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 V1(7.0f, 6.0f, 5.0f, 3.0f);
+	Vector4 V2(-4.0f, -2.0f, -1.0f, -4.0f);
+	Vector4 V3(9.0f, -7.0f, -2.0f, 5.0f);
 
 	Matrix M(V0, V1, V2, V3);
 

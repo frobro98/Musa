@@ -14,9 +14,9 @@
 
 TEST( VectorLine, combo_tests )
 {
-	Vector A(0.0f, 50.0f, 300.0f, 5.0f);
-	Vector B(10.0f, 100.0f, 1000.0f, 51.0f);
-	Vector C;
+	Vector4 A(0.0f, 50.0f, 300.0f, 5.0f);
+	Vector4 B(10.0f, 100.0f, 1000.0f, 51.0f);
+	Vector4 C;
 
 	CHECK( A.x == 0.0f );
 	CHECK( A.y == 50.0f );
@@ -28,7 +28,7 @@ TEST( VectorLine, combo_tests )
 	CHECK( B.z == 1000.0f );
 	CHECK( B.w == 51.0f );
 
-	Vector Line;
+	Vector4 Line;
 	float t;
 
 	t = 0.0f;
@@ -88,9 +88,9 @@ TEST( VectorLine, combo_tests )
 
 TEST( VectorCrossAddSub, combo_tests )
 {
-	Vector A(1.0f, 2.0f, 3.0f, 5.0f);
-	Vector B(10.0f, 11.0f, 12.0f, 13.0f);
-	Vector C;
+	Vector4 A(1.0f, 2.0f, 3.0f, 5.0f);
+	Vector4 B(10.0f, 11.0f, 12.0f, 13.0f);
+	Vector4 C;
 
 	CHECK( A.x == 1.0f );
 	CHECK( A.y == 2.0f );
@@ -122,9 +122,9 @@ TEST( VectorCrossAddSub, combo_tests )
 
 TEST( VectorCrossAddSubMatrixMult, combo_tests )
 {
-	Vector A(1.0f, 2.0f, 3.0f, 5.0f);
-	Vector B(10.0f, 11.0f, 12.0f, 13.0f);
-	Vector C;
+	Vector4 A(1.0f, 2.0f, 3.0f, 5.0f);
+	Vector4 B(10.0f, 11.0f, 12.0f, 13.0f);
+	Vector4 C;
 
 	CHECK( A.x == 1.0f );
 	CHECK( A.y == 2.0f );
@@ -137,7 +137,7 @@ TEST( VectorCrossAddSubMatrixMult, combo_tests )
 	CHECK( B.w == 13.0f );
 
 	C = A + (A-B).Cross(B);
-	Vector D = C.Dot(A) * B;
+	Vector4 D = C.Dot(A) * B;
 
 	CHECK( D.x == 140.0f );
 	CHECK( D.y == 154.0f );
@@ -171,9 +171,9 @@ TEST( VectorCrossAddSubMatrixMult, combo_tests )
 
 TEST( VectorCrossAddSubMatrixMultCross, combo_tests )
 {
-	Vector A(1.0f, 2.0f, 3.0f, 5.0f);
-	Vector B(10.0f, 11.0f, 12.0f, 13.0f);
-	Vector C;
+	Vector4 A(1.0f, 2.0f, 3.0f, 5.0f);
+	Vector4 B(10.0f, 11.0f, 12.0f, 13.0f);
+	Vector4 C;
 
 	CHECK( A.x == 1.0f );
 	CHECK( A.y == 2.0f );
@@ -186,7 +186,7 @@ TEST( VectorCrossAddSubMatrixMultCross, combo_tests )
 	CHECK( B.w == 13.0f );
 	
 	C = A + (A-B).Cross(B);
-	Vector D = C.Dot(A) * B;
+	Vector4 D = C.Dot(A) * B;
 	CHECK( D.x == 140.0f );
 	CHECK( D.y == 154.0f );
 	CHECK( D.z == 168.0f );
@@ -209,7 +209,7 @@ TEST( VectorCrossAddSubMatrixMultCross, combo_tests )
 
 	Matrix M(A,B,C,D);
 
-	A = Vector(1.0f, 0.0f, 4.0f,1.0f).Cross(B * M);
+	A = Vector4(1.0f, 0.0f, 4.0f,1.0f).Cross(B * M);
 
 	CHECK( A.x == -9532.0f );
 	CHECK( A.y == 5102.0f );
@@ -219,9 +219,9 @@ TEST( VectorCrossAddSubMatrixMultCross, combo_tests )
 
 TEST( VectorCrossCrossNormalize, combo_tests )
 {
-	Vector A(1.0f, 2.0f, 3.0f, 5.0f);
-	Vector B(10.0f, 11.0f, 12.0f, 13.0f);
-	Vector C;
+	Vector4 A(1.0f, 2.0f, 3.0f, 5.0f);
+	Vector4 B(10.0f, 11.0f, 12.0f, 13.0f);
+	Vector4 C;
 
 	CHECK( A.x == 1.0f );
 	CHECK( A.y == 2.0f );
@@ -234,7 +234,7 @@ TEST( VectorCrossCrossNormalize, combo_tests )
 	CHECK( B.w == 13.0f );
 	
 	C = (A-B).Cross(B);
-	Vector D = C.Cross(B);
+	Vector4 D = C.Cross(B);
 	D.Normalize();
 
 	CHECK( eq( D.x, 0.74790420f, Math::InternalTolerence) );
@@ -260,9 +260,9 @@ TEST( VectorCrossCrossNormalize, combo_tests )
 
 TEST( junkfood, combo_tests )
 {
-	Vector A(1.0f, 2.0f, 3.0f, 5.0f);
-	Vector B(10.0f, 11.0f, 12.0f, 13.0f);
-	Vector C;
+	Vector4 A(1.0f, 2.0f, 3.0f, 5.0f);
+	Vector4 B(10.0f, 11.0f, 12.0f, 13.0f);
+	Vector4 C;
 
 	CHECK( A.x == 1.0f );
 	CHECK( A.y == 2.0f );
@@ -291,14 +291,14 @@ TEST( junkfood, combo_tests )
 
 TEST(ComboRex, combo_tests)
 {
-	Vector v0(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector v1(5.0f, 6.0f, 7.0f, 8.0f);
-	Vector v2(9.0f, 10.0f, 11.0f, 12.0f);
-	Vector v3(13.0f, 14.0f, 15.0f, 16.0f);
-	Vector v4(10.0f, 20.0f, 30.0f, 40.0f);
-	Vector v5(50.0f, 60.0f, 70.0f, 80.0f);
-	Vector v6(90.0f, 100.0f, 110.0f, 120.0f);
-	Vector v7(130.0f, 140.0f, 150.0f, 160.0f);
+	Vector4 v0(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 v1(5.0f, 6.0f, 7.0f, 8.0f);
+	Vector4 v2(9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 v3(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 v4(10.0f, 20.0f, 30.0f, 40.0f);
+	Vector4 v5(50.0f, 60.0f, 70.0f, 80.0f);
+	Vector4 v6(90.0f, 100.0f, 110.0f, 120.0f);
+	Vector4 v7(130.0f, 140.0f, 150.0f, 160.0f);
 
 	Matrix A(v0, v1, v2, v3);
 	Matrix B(v4, v5, v6, v7);
@@ -342,8 +342,8 @@ TEST(ComboRex, combo_tests)
 	Quat	Q1;
 	Matrix	M1;
 
-	Q1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
-	M1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
+	Q1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
+	M1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
 
 	C = A * Q1 * B;
 	D = A * M1 * B;
@@ -368,14 +368,14 @@ TEST(ComboRex, combo_tests)
 
 TEST(ComboRex2, combo_tests)
 {
-	Vector v0(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector v1(5.0f, 6.0f, 7.0f, 8.0f);
-	Vector v2(9.0f, 10.0f, 11.0f, 12.0f);
-	Vector v3(13.0f, 14.0f, 15.0f, 16.0f);
-	Vector v4(10.0f, 20.0f, 30.0f, 40.0f);
-	Vector v5(50.0f, 60.0f, 70.0f, 80.0f);
-	Vector v6(90.0f, 100.0f, 110.0f, 120.0f);
-	Vector v7(130.0f, 140.0f, 150.0f, 160.0f);
+	Vector4 v0(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 v1(5.0f, 6.0f, 7.0f, 8.0f);
+	Vector4 v2(9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 v3(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 v4(10.0f, 20.0f, 30.0f, 40.0f);
+	Vector4 v5(50.0f, 60.0f, 70.0f, 80.0f);
+	Vector4 v6(90.0f, 100.0f, 110.0f, 120.0f);
+	Vector4 v7(130.0f, 140.0f, 150.0f, 160.0f);
 
 	Matrix A(v0, v1, v2, v3);
 	Matrix B(v4, v5, v6, v7);
@@ -419,8 +419,8 @@ TEST(ComboRex2, combo_tests)
 	Quat	Q1;
 	Matrix	M1;
 
-	Q1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
-	M1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
+	Q1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
+	M1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
 
 	C = Q1 * B * A;
 	D = M1 * B * A;

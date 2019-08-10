@@ -25,7 +25,7 @@ TEST(getConjugate, QuatFunctionsTests)
 {
 	Matrix	mm2, mm3;
 	Quat	q1, q2, q3, qtmp;
-	Vector	v1, v2, v3, v4;
+	Vector4	v1, v2, v3, v4;
 
 	// Conjugate
 
@@ -632,12 +632,12 @@ TEST( QuatLqcvq_Lqvqc_1, QuatFunctionsTests )
 
 	Quat   QTxyz(Qxyz.GetTranspose());
 
-	Vector vx(1.0f, 0.0f, 0.0f, 1.0f);
-	Vector vy(0.0f, 1.0f, 0.0f, 1.0f);
-	Vector vz(0.0f, 0.0f, 1.0f, 1.0f);
-	Vector vo(1.0f,2.0f,3.0f);
-	Vector Vout1_x,Vout1_y,Vout1_z,Vout1_o;
-	Vector Vout2_x,Vout2_y,Vout2_z,Vout2_o;
+	Vector4 vx(1.0f, 0.0f, 0.0f, 1.0f);
+	Vector4 vy(0.0f, 1.0f, 0.0f, 1.0f);
+	Vector4 vz(0.0f, 0.0f, 1.0f, 1.0f);
+	Vector4 vo(1.0f,2.0f,3.0f);
+	Vector4 Vout1_x,Vout1_y,Vout1_z,Vout1_o;
+	Vector4 Vout2_x,Vout2_y,Vout2_z,Vout2_o;
 
 	Vout1_x = vx * Mxyz;
 	Vout1_y = vy * Mxyz;

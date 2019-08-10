@@ -36,10 +36,10 @@ TEST( Matrix_default_constructor, matix_tests )
 
 TEST( Matrix_vector_constructor, matix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(7.0f,6.0f,5.0f,3.0f);
-	Vector V2(-4.0f,-2.0f,-1.0f,-4.0f);
-	Vector V3(9.0f,-7.0f,-2.0f,5.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(7.0f,6.0f,5.0f,3.0f);
+	Vector4 V2(-4.0f,-2.0f,-1.0f,-4.0f);
+	Vector4 V3(9.0f,-7.0f,-2.0f,5.0f);
 
 	CHECK( V0.x == 1.0f );
 	CHECK( V0.y == 2.0f );
@@ -80,10 +80,10 @@ TEST( Matrix_vector_constructor, matix_tests )
 
 TEST( Matrix_copy_constructor, matix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(7.0f,6.0f,5.0f,3.0f);
-	Vector V2(-4.0f,-2.0f,-1.0f,-4.0f);
-	Vector V3(9.0f,-7.0f,-2.0f,5.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(7.0f,6.0f,5.0f,3.0f);
+	Vector4 V2(-4.0f,-2.0f,-1.0f,-4.0f);
+	Vector4 V3(9.0f,-7.0f,-2.0f,5.0f);
 
 	CHECK( V0.x == 1.0f );
 	CHECK( V0.y == 2.0f );
@@ -143,10 +143,10 @@ TEST( Matrix_copy_constructor, matix_tests )
 
 TEST( Destructor_constuctor, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(7.0f,6.0f,5.0f,3.0f);
-	Vector V2(-4.0f,-2.0f,-1.0f,-4.0f);
-	Vector V3(9.0f,-7.0f,-2.0f,5.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(7.0f,6.0f,5.0f,3.0f);
+	Vector4 V2(-4.0f,-2.0f,-1.0f,-4.0f);
+	Vector4 V3(9.0f,-7.0f,-2.0f,5.0f);
 
 	Matrix M(V0,V1,V2,V3);
 
@@ -158,7 +158,7 @@ TEST( Destructor_constuctor, matrix_tests )
 TEST( MatrixRotAxisAngle, matrix_tests )
 {
 	// Axis and Angle Type Constructor:
-	Vector  v11( 2.0f, 53.0f, 24.0f);
+	Vector4  v11( 2.0f, 53.0f, 24.0f);
 	Matrix m54( ROT_AXIS_ANGLE, v11, Math::PiOver3 );
 			
 	// => Vector  v11( 2.0f, 53.0f, 24.0f); \n"););
@@ -184,8 +184,8 @@ TEST( MatrixRotAxisAngle, matrix_tests )
 TEST( MatrixRotOrient, matrix_tests )
 {
 	// Orientation Type Constructor:
-	Vector  v15( 2.0f, 53.0f, 24.0f);
-	Vector  v16( 0.0f, -24.0f, 53.0f);
+	Vector4  v15( 2.0f, 53.0f, 24.0f);
+	Vector4  v16( 0.0f, -24.0f, 53.0f);
 	Matrix m56(ROT_ORIENT, v15, v16 );
 
 	CHECK( eq(m56[m0],-0.9994f, Math::InternalTolerence) );
@@ -209,8 +209,8 @@ TEST( MatrixRotOrient, matrix_tests )
 TEST( MatrixRotInverseOrient, matrix_tests)
 {
 	// Orientation Type Constructor:
-	Vector  v17( 2.0f, 53.0f, 24.0f);
-	Vector  v18( 0.0f, -24.0f, 53.0f);
+	Vector4  v17( 2.0f, 53.0f, 24.0f);
+	Vector4  v18( 0.0f, -24.0f, 53.0f);
 	Matrix m57(ROT_INVERSE_ORIENT, v17, v18 );
 
 	CHECK( eq(m57[m0],-0.9994f, Math::InternalTolerence) );

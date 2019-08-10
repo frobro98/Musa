@@ -28,9 +28,9 @@ struct Quat final
 	explicit Quat(float x, float y, float z, float w);
 	explicit Quat(RotType, float radAngle);
 	explicit Quat(Rot3AxisType, float radX, float radY, float radZ);
-	explicit Quat(RotAxisAngleType, const Vector& axis, float angleRad);
-	explicit Quat(RotOrientType, const Vector& dof, const Vector& up);
-	explicit Quat(const Vector& v, float angle);
+	explicit Quat(RotAxisAngleType, const Vector4& axis, float angleRad);
+	explicit Quat(RotOrientType, const Vector4& dof, const Vector4& up);
+	explicit Quat(const Vector4& v, float angle);
 	explicit Quat(MatrixSpecialType);
 	explicit Quat(const Matrix& mat);
 
@@ -39,16 +39,16 @@ struct Quat final
 	// Accessors
 	void Set(float x, float y, float z, float w);
 	void Set(const Matrix& mat);
-	void Set(const Vector& vect, float real);
+	void Set(const Vector4& vect, float real);
 	void Set(MatrixSpecialType);
 	void Set(RotType, float radAngle);
 	void Set(Rot3AxisType, float radX, float radY, float radZ);
-	void Set(RotAxisAngleType, const Vector& axis, float angleRad);
-	void Set(RotOrientType, const Vector& dof, const Vector& up);
+	void Set(RotAxisAngleType, const Vector4& axis, float angleRad);
+	void Set(RotOrientType, const Vector4& dof, const Vector4& up);
 
-	void SetVector(const Vector& v);
-	Vector GetVector() const;
-	Vector GetAxis() const;
+	void SetVector(const Vector4& v);
+	Vector4 GetVector() const;
+	Vector4 GetAxis() const;
 
 	float GetAngle() const;	
 
@@ -65,8 +65,8 @@ struct Quat final
 	float Magnitude() const;
 	float MagnitudeSqr() const;
 	float InverseMagnitude() const;
-	void Lqcvq(const Vector& v, Vector& vOut) const;
-	void Lqvqc(const Vector& v, Vector& vOut) const;
+	void Lqcvq(const Vector4& v, Vector4& vOut) const;
+	void Lqvqc(const Vector4& v, Vector4& vOut) const;
 
 	// Boolean tests
 	bool IsEqual(const Quat& q, float tolerance = Math::InternalTolerence) const;
@@ -98,9 +98,9 @@ struct Quat final
 	friend Matrix operator*(const Matrix& m, const Quat& q);
 	friend Matrix operator*(const Quat& q, const Matrix& m_);
 
-	friend Vector& operator*=(Vector& v, const Quat& q);
-	friend Vector operator*(const Vector& v, const Quat& q);
-	friend Vector operator*(const Quat& q, const Vector& v);
+	friend Vector4& operator*=(Vector4& v, const Quat& q);
+	friend Vector4 operator*(const Vector4& v, const Quat& q);
+	friend Vector4 operator*(const Quat& q, const Vector4& v);
 
 	friend Quat& operator+=(Quat& q, float val);
 	friend Quat& operator-=(Quat& q, float val);

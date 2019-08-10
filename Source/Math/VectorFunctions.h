@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "Vector.h"
+#include "Vector4.h"
 
 //----------------------------------------------------------------------------- 
 //  LERP - linear interpolation
@@ -35,22 +35,22 @@
 namespace Math
 {
 	// Gets angle between 2 vectors
-	inline float GetDegreesBetween(const Vector vec0, const Vector& vec1)
+	inline float GetDegreesBetween(const Vector4 vec0, const Vector4& vec1)
 	{
-		Vector v0 = vec0.GetNormalized();
-		Vector v1 = vec1.GetNormalized();
+		Vector4 v0 = vec0.GetNormalized();
+		Vector4 v1 = vec1.GetNormalized();
 		float cosAngle = v0.Dot(v1);
 		return Math::RadiansToDegrees(Math::Acos(cosAngle));
 	}
 
 	// Constexpr vector so this can work
-	inline void Lerp(Vector &out, const Vector& a, const Vector& b, const float t)
+	inline void Lerp(Vector4 &out, const Vector4& a, const Vector4& b, const float t)
 	{
 		// out = a + t * (b - a);
 		out = a + t * (b - a);
 	}
 
-	inline void LerpArray(Vector *out, const Vector* a, const Vector* b, const float t, const int numVects)
+	inline void LerpArray(Vector4 *out, const Vector4* a, const Vector4* b, const float t, const int numVects)
 	{
 		for (int i = 0; i < numVects; ++i)
 		{

@@ -173,7 +173,7 @@ void GameObject::Update([[maybe_unused]] float tick)
 	}
 }
 
-void GameObject::SetPos(const Vector& pos)
+void GameObject::SetPos(const Vector4& pos)
 {
 	position = (pos);
 }
@@ -209,7 +209,7 @@ void GameObject::InputSetup()
 
 void GameObject::MoveForward(int32 mod)
 {
-	position += Vector((float)mod, 0, 0);
+	position += Vector4((float)mod, 0, 0);
 }
 
 void GameObject::MoveRight(int32 /*mod*/)

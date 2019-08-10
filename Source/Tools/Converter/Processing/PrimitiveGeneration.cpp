@@ -2,7 +2,7 @@
 #include "Math/MathUtilities.h"
 #include "PrimitiveGeneration.h"
 
-void MostSeparatedPointsOnAABB(int &min, int &max, Vector *pt, uint32 numPts)
+void MostSeparatedPointsOnAABB(int &min, int &max, Vector4 *pt, uint32 numPts)
 {
 	// First find most extreme points along principal axes
 	int minx = 0;
@@ -31,7 +31,7 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Vector *pt, uint32 numPts)
 	// Given 6pts minx,miny,minz,maxx,maxy,maxz find the greatest distance
 	struct tmpNode
 	{
-		Vector v;
+		Vector4 v;
 		int index;
 	};
 
@@ -79,10 +79,10 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Vector *pt, uint32 numPts)
 }
 
 
-void SphereOfSphereAndPt(SphereBounds &s, Vector &p)
+void SphereOfSphereAndPt(SphereBounds &s, Vector4 &p)
 {
 	// Compute squared distance between point and sphere center
-	Vector d = p - s.position;
+	Vector4 d = p - s.position;
 
 	float dist2 = d.Dot(d);
 	// Only update s if point p is outside it
@@ -96,7 +96,7 @@ void SphereOfSphereAndPt(SphereBounds &s, Vector &p)
 	}
 }
 
-void SphereFromDistantPoints(SphereBounds &s, Vector *pt, uint32 numPts)
+void SphereFromDistantPoints(SphereBounds &s, Vector4 *pt, uint32 numPts)
 {
 	// Find the most separated point pair defining the encompassing AABB
 	int min, max;
@@ -109,7 +109,7 @@ void SphereFromDistantPoints(SphereBounds &s, Vector *pt, uint32 numPts)
 }
 
 
-void RitterSphere(SphereBounds &s, Vector *pt, uint32 numPts)
+void RitterSphere(SphereBounds &s, Vector4 *pt, uint32 numPts)
 {
 	// Get sphere encompassing two approximately most distant points
 	SphereFromDistantPoints(s, pt, numPts);

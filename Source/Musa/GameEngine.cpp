@@ -4,7 +4,7 @@
 #include "Camera/CameraManager.h"
 #include "Math/Rect.hpp"
 #include "Types/Intrinsics.hpp"
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Mesh/MeshManager.h"
 #include "Windowing/Window.h"
 #include "Input/Input.hpp"
@@ -53,7 +53,7 @@ void GameEngine::RunEngine()
 	Camera* mainCamera = new Camera;
 	mainCamera->SetViewport(viewport);
 	mainCamera->SetPerspective(45.f, aspect, .1f, 10000.f);
-	mainCamera->SetOrientationAndPosition(Vector(0, 0, 0), Vector(0, 0, 155.f), Vector(0, 1, 0));
+	mainCamera->SetOrientationAndPosition(Vector4(0, 0, 0), Vector4(0, 0, 155.f), Vector4(0, 1, 0));
 
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
@@ -93,7 +93,7 @@ void GameEngine::LoadContent()
 
 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...
 	Light* light = GetGameObjectManager().CreateAndAdd<SpotLight>();
-	light->SetPos(Vector(100, 100, 100));
+	light->SetPos(Vector4(100, 100, 100));
 	light->SetRotation(-40.f, 45.f, 0.f);
 	world->GetScene().AddLightToScene(*light);
 }

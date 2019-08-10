@@ -14,10 +14,10 @@
 
 TEST( Matrix_add_matrix, matix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -38,10 +38,10 @@ TEST( Matrix_add_matrix, matix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V4(20.0f,21.0f,22.0f,23.0f);
-	Vector V5(24.0f,25.0f,26.0f,27.0f);
-	Vector V6(28.0f,29.0f,30.0f,31.0f);
-	Vector V7(32.0f,33.0f,34.0f,35.0f);
+	Vector4 V4(20.0f,21.0f,22.0f,23.0f);
+	Vector4 V5(24.0f,25.0f,26.0f,27.0f);
+	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
+	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
 	Matrix B(V4,V5,V6,V7);
 
@@ -120,10 +120,10 @@ TEST( Matrix_add_matrix, matix_tests )
 
 TEST( Matrix_addEqual_matrix, matix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -144,10 +144,10 @@ TEST( Matrix_addEqual_matrix, matix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V4(20.0f,21.0f,22.0f,23.0f);
-	Vector V5(24.0f,25.0f,26.0f,27.0f);
-	Vector V6(28.0f,29.0f,30.0f,31.0f);
-	Vector V7(32.0f,33.0f,34.0f,35.0f);
+	Vector4 V4(20.0f,21.0f,22.0f,23.0f);
+	Vector4 V5(24.0f,25.0f,26.0f,27.0f);
+	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
+	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
 	Matrix B(V4,V5,V6,V7);
 
@@ -209,10 +209,10 @@ TEST( Matrix_addEqual_matrix, matix_tests )
 
 TEST( Matrix_sub_matrix, matix_tests )
 {
-	Vector V0(30.0f,29.0f,28.0f,27.0f);
-	Vector V1(26.0f,25.0f,24.0f,23.0f);
-	Vector V2(22.0f,21.0f,20.0f,19.0f);
-	Vector V3(18.0f,17.0f,16.0f,15.0f);
+	Vector4 V0(30.0f,29.0f,28.0f,27.0f);
+	Vector4 V1(26.0f,25.0f,24.0f,23.0f);
+	Vector4 V2(22.0f,21.0f,20.0f,19.0f);
+	Vector4 V3(18.0f,17.0f,16.0f,15.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -233,10 +233,10 @@ TEST( Matrix_sub_matrix, matix_tests )
 	CHECK( A[m14] == 16.0f );
 	CHECK( A[m15] == 15.0f );
 
-	Vector V4(20.0f,21.0f,22.0f,23.0f);
-	Vector V5(24.0f,25.0f,26.0f,27.0f);
-	Vector V6(28.0f,29.0f,30.0f,31.0f);
-	Vector V7(32.0f,33.0f,34.0f,35.0f);
+	Vector4 V4(20.0f,21.0f,22.0f,23.0f);
+	Vector4 V5(24.0f,25.0f,26.0f,27.0f);
+	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
+	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
 	Matrix B(V4,V5,V6,V7);
 
@@ -315,10 +315,10 @@ TEST( Matrix_sub_matrix, matix_tests )
 
 TEST( Matrix_subEqual_matrix, matix_tests )
 {
-	Vector V0(30.0f,29.0f,28.0f,27.0f);
-	Vector V1(26.0f,25.0f,24.0f,23.0f);
-	Vector V2(22.0f,21.0f,20.0f,19.0f);
-	Vector V3(18.0f,17.0f,16.0f,15.0f);
+	Vector4 V0(30.0f,29.0f,28.0f,27.0f);
+	Vector4 V1(26.0f,25.0f,24.0f,23.0f);
+	Vector4 V2(22.0f,21.0f,20.0f,19.0f);
+	Vector4 V3(18.0f,17.0f,16.0f,15.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -339,10 +339,10 @@ TEST( Matrix_subEqual_matrix, matix_tests )
 	CHECK( A[m14] == 16.0f );
 	CHECK( A[m15] == 15.0f );
 
-	Vector V4(20.0f,21.0f,22.0f,23.0f);
-	Vector V5(24.0f,25.0f,26.0f,27.0f);
-	Vector V6(28.0f,29.0f,30.0f,31.0f);
-	Vector V7(32.0f,33.0f,34.0f,35.0f);
+	Vector4 V4(20.0f,21.0f,22.0f,23.0f);
+	Vector4 V5(24.0f,25.0f,26.0f,27.0f);
+	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
+	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
 	Matrix B(V4,V5,V6,V7);
 

@@ -2,7 +2,7 @@
 
 #include "Platform.h"
 #include "Malloc16Align.h"
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Math/Quat.h"
 #include "Time/Time.h"
 

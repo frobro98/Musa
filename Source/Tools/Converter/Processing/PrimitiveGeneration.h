@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Math/BoundsVolumes.hpp"
 
-void RitterSphere(SphereBounds &s, Vector *pt, uint32 numPts);
+void RitterSphere(SphereBounds &s, Vector4 *pt, uint32 numPts);

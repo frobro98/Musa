@@ -8,14 +8,14 @@ public:
 	Transform();
 	~Transform() = default;
 
-	Vector GetForward() const;
-	Vector GetRight() const;
-	Vector GetUp() const;
+	Vector4 GetForward() const;
+	Vector4 GetRight() const;
+	Vector4 GetUp() const;
 
 private:
-	Vector forward;
-	Vector right;
-	Vector up;
-	Vector position;
+	Vector4 forward;
+	Vector4 right;
+	Vector4 up;
+	Vector4 position;
 	
 };

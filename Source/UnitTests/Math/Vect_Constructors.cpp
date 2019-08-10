@@ -14,7 +14,7 @@
 
 TEST(default_constuctor, vector_tests)
 {
-	Vector A;
+	Vector4 A;
 
 	CHECK(A.x == 0.0f);
 	CHECK(A.y == 0.0f);
@@ -24,7 +24,7 @@ TEST(default_constuctor, vector_tests)
 
 TEST(individual_defaultW_constuctor, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -34,7 +34,7 @@ TEST(individual_defaultW_constuctor, vector_tests)
 
 TEST(individual_constuctor, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -44,8 +44,8 @@ TEST(individual_constuctor, vector_tests)
 
 TEST(assignment_operator, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
-	Vector B(10.0f, 11.0f, 12.0f, 13.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 B(10.0f, 11.0f, 12.0f, 13.0f);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -72,8 +72,8 @@ TEST(assignment_operator, vector_tests)
 
 TEST(Copy_constuctor, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
-	Vector B(A);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 B(A);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -88,9 +88,9 @@ TEST(Copy_constuctor, vector_tests)
 
 TEST(Destructor_constuctor, vector_tests)
 {
-	Vector v2(5.0f, 6.0f, 7.0f, 8.0f);
-	Vector *pV2 = &v2;
-	pV2->~Vector();
+	Vector4 v2(5.0f, 6.0f, 7.0f, 8.0f);
+	Vector4 *pV2 = &v2;
+	pV2->~Vector4();
 	CHECK(1);
 }
 

@@ -13,12 +13,12 @@ struct CameraComponent : public Musa::Component
 	Matrix projection;
 	Matrix view;
 
-	Vector right;
-	Vector up = Vector(0, 1, 0);
-	Vector forward;
+	Vector4 right;
+	Vector4 up = Vector4(0, 1, 0);
+	Vector4 forward;
 
-	Vector position = Vector();
-	Vector lookAt = Vector(0, 0, 1);
+	Vector4 position = Vector4();
+	Vector4 lookAt = Vector4(0, 0, 1);
 	IntRect viewport;
 
 	Color clearColor = Color::Black();

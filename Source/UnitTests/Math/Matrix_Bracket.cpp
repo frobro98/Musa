@@ -122,10 +122,10 @@ TEST( Get_Brackets_const, Matrix_tests )
 
 TEST( Matrix_Bracket_get, matix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(7.0f,6.0f,5.0f,3.0f);
-	Vector V2(-4.0f,-2.0f,-1.0f,-4.0f);
-	Vector V3(9.0f,-7.0f,-2.0f,5.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(7.0f,6.0f,5.0f,3.0f);
+	Vector4 V2(-4.0f,-2.0f,-1.0f,-4.0f);
+	Vector4 V3(9.0f,-7.0f,-2.0f,5.0f);
 
 	Matrix M(V0,V1,V2,V3);
 

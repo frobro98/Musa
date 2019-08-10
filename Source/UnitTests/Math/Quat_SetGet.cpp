@@ -26,14 +26,14 @@ TEST(Quat_Set_everyElement, QuatSetGetTests)
 
 TEST(Vect_set_3_elements, QuatSetGetTests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
 	CHECK(A.z == 4.0f);
 	CHECK(A.w == 5.0f);
 
-	A = Vector(10.0f, 20.0f, 30.0f);
+	A = Vector4(10.0f, 20.0f, 30.0f);
 
 	CHECK(A.x == 10.0f);
 	CHECK(A.y == 20.0f);
@@ -44,10 +44,10 @@ TEST(Vect_set_3_elements, QuatSetGetTests)
 TEST(Quat_Set_Vect_Real, QuatSetGetTests)
 {
 	Quat q1;
-	Vector v1;
+	Vector4 v1;
 
 	// Set Vector component, Real component
-	v1 = Vector(12.0f, 13.0f, 14.0f, 15.0f);
+	v1 = Vector4(12.0f, 13.0f, 14.0f, 15.0f);
 	q1 = Quat(v1, 20.0f);
 
 	CHECK((12.0f == q1.x));
@@ -1032,7 +1032,7 @@ TEST(Quat_ZYX_set, QuatSetGetTests)
 TEST(Quat_AXIS_ANGLE_set, QuatSetGetTests)
 {
 	// Axis and Angle Type Constructor:
-	Vector  v11(2.0f, 53.0f, 24.0f);
+	Vector4  v11(2.0f, 53.0f, 24.0f);
 	Quat Qa1;
 	Qa1.Set(ROT_AXIS_ANGLE, v11, Math::PiOver3);
 
@@ -1072,8 +1072,8 @@ TEST(Quat_AXIS_ANGLE_set, QuatSetGetTests)
 TEST(Quat_ROT_ORIENT_set, QuatSetGetTests)
 {
 	// Orientation Type Constructor:
-	Vector  v15(2.0f, 53.0f, 24.0f);
-	Vector  v16(0.0f, -24.0f, 53.0f);
+	Vector4  v15(2.0f, 53.0f, 24.0f);
+	Vector4  v16(0.0f, -24.0f, 53.0f);
 	Quat q56;
 	q56.Set(ROT_ORIENT, v15, v16);
 
@@ -1111,8 +1111,8 @@ TEST(Quat_ROT_ORIENT_set, QuatSetGetTests)
 TEST(Quat_ROT_INVERSE_ORIENT_set, QuatSetGetTests)
 {
 	// Orientation Type Constructor:
-	Vector  v17(2.0f, 53.0f, 24.0f);
-	Vector  v18(0.0f, -24.0f, 53.0f);
+	Vector4  v17(2.0f, 53.0f, 24.0f);
+	Vector4  v18(0.0f, -24.0f, 53.0f);
 	Quat q57;
 	q57.Set(ROT_INVERSE_ORIENT, v17, v18);
 
@@ -1166,11 +1166,11 @@ TEST(Quat_Set_Each_ELEMENT, QuatSetGetTests)
 
 TEST(Quat_Set_From_VECT, QuatSetGetTests)
 {
-	Vector v1;
+	Vector4 v1;
 	Quat q2;
 	// set Quat Vector Element:
 
-	v1 = Vector(3.0f, 4.0f, 5.0f, 6.0f);
+	v1 = Vector4(3.0f, 4.0f, 5.0f, 6.0f);
 
 	q2.Set(ZERO);
 
@@ -1208,7 +1208,7 @@ TEST(Quat_Get_Vect_elements, QuatSetGetTests)
 TEST(Quat_Get_Vect, QuatSetGetTests)
 {
 	Quat q1;
-	Vector v1;
+	Vector4 v1;
 
 	//  Get Vector:
 	q1.Set(7.0f, 8.0f, 9.0f, 10.0f);
@@ -1228,11 +1228,11 @@ TEST(Quat_Get_Vect, QuatSetGetTests)
 TEST(Quat_Get_Angle_of_rotation, QuatSetGetTests)
 {
 	Quat q1, qtmp;
-	Vector v1;
+	Vector4 v1;
 	Matrix M2, M3;
 
 	//  Get Angle of rotattion about the axis of rotation
-	v1 = Vector(2.0f, 53.0f, 24.0f);
+	v1 = Vector4(2.0f, 53.0f, 24.0f);
 	q1.Set(ROT_AXIS_ANGLE, v1, Math::PiOver3);
 
 	// Matrix to Quaternion
@@ -1271,11 +1271,11 @@ TEST(Quat_Get_Angle_of_rotation, QuatSetGetTests)
 TEST(Quat_Get_Axis_of_rotation, QuatSetGetTests)
 {
 	Quat q1, qtmp;
-	Vector v1;
+	Vector4 v1;
 	Matrix M2, M3;
 
 	//  Get Axis of rotattion about the axis of rotation
-	v1 = Vector(2.0f, 53.0f, 24.0f);
+	v1 = Vector4(2.0f, 53.0f, 24.0f);
 
 	q1.Set(ROT_AXIS_ANGLE, v1, Math::PiOver3);
 

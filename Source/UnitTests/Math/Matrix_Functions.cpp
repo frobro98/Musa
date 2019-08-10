@@ -14,10 +14,10 @@
 
 TEST( Matrix_det, matrix_tests )
 {
-	Vector v0(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector v1(5.0f, 6.0f, 7.0f, 8.0f);
-	Vector v2(-0.8f, -7.0f, -0.6f, -5.0f);
-	Vector v3(-4.0f, -3.0f, 2.0f, -0.1f);\
+	Vector4 v0(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 v1(5.0f, 6.0f, 7.0f, 8.0f);
+	Vector4 v2(-0.8f, -7.0f, -0.6f, -5.0f);
+	Vector4 v3(-4.0f, -3.0f, 2.0f, -0.1f);\
 
 	Matrix A(v0,v1,v2,v3);
 
@@ -62,10 +62,10 @@ TEST( Matrix_det, matrix_tests )
 
 TEST( Matrix_Transpose, matrix_tests )
 {
-	Vector v0( 1.0f,  2.0f,  3.0f,  4.0f);
-	Vector v1( 5.0f,  6.0f,  7.0f,  8.0f);
-	Vector v2( 9.0f, 10.0f, 11.0f, 12.0f);
-	Vector v3(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 v0( 1.0f,  2.0f,  3.0f,  4.0f);
+	Vector4 v1( 5.0f,  6.0f,  7.0f,  8.0f);
+	Vector4 v2( 9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 v3(13.0f, 14.0f, 15.0f, 16.0f);
 
 	Matrix A(v0,v1,v2,v3);
 
@@ -108,10 +108,10 @@ TEST( Matrix_Transpose, matrix_tests )
 
 TEST( Matrix_GetTranspose, matrix_tests )
 {
-	Vector v0( 1.0f,  2.0f,  3.0f,  4.0f);
-	Vector v1( 5.0f,  6.0f,  7.0f,  8.0f);
-	Vector v2( 9.0f, 10.0f, 11.0f, 12.0f);
-	Vector v3(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 v0( 1.0f,  2.0f,  3.0f,  4.0f);
+	Vector4 v1( 5.0f,  6.0f,  7.0f,  8.0f);
+	Vector4 v2( 9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 v3(13.0f, 14.0f, 15.0f, 16.0f);
 
 	Matrix A(v0,v1,v2,v3);
 
@@ -173,10 +173,10 @@ TEST( Matrix_GetTranspose, matrix_tests )
 
 TEST( Matrix_AssignmentOperator, matrix_tests )
 {
-	Vector v0( 1.0f,  2.0f,  3.0f,  4.0f);
-	Vector v1( 5.0f,  6.0f,  7.0f,  8.0f);
-	Vector v2( 9.0f, 10.0f, 11.0f, 12.0f);
-	Vector v3(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 v0( 1.0f,  2.0f,  3.0f,  4.0f);
+	Vector4 v1( 5.0f,  6.0f,  7.0f,  8.0f);
+	Vector4 v2( 9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 v3(13.0f, 14.0f, 15.0f, 16.0f);
 
 	Matrix A(v0,v1,v2,v3);
 
@@ -197,10 +197,10 @@ TEST( Matrix_AssignmentOperator, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector v4( 10.0f,  20.0f,  30.0f,  40.0f);
-	Vector v5(  50.0f,  60.0f,  70.0f,  80.0f);
-	Vector v6(  90.0f, 100.0f, 110.0f, 120.0f);
-	Vector v7( 130.0f, 140.0f, 150.0f, 160.0f);
+	Vector4 v4( 10.0f,  20.0f,  30.0f,  40.0f);
+	Vector4 v5(  50.0f,  60.0f,  70.0f,  80.0f);
+	Vector4 v6(  90.0f, 100.0f, 110.0f, 120.0f);
+	Vector4 v7( 130.0f, 140.0f, 150.0f, 160.0f);
 
 	Matrix B(v4,v5,v6,v7);
 

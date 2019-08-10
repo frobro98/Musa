@@ -14,8 +14,8 @@
 
 TEST(IsEqualFalse, vector_tests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2(9.0f, -3.0f, 5.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2(9.0f, -3.0f, 5.0f);
 	bool bvalue1;
 
 	bvalue1 = v1.IsEqual(v2, 0.1f);
@@ -26,8 +26,8 @@ TEST(IsEqualFalse, vector_tests)
 TEST(IsEqualTrue, vector_tests)
 {
 	bool bvalue1;
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2(1.0f, 2.0f, 3.05f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2(1.0f, 2.0f, 3.05f);
 
 	bvalue1 = v1.IsEqual(v2, 0.1f);
 
@@ -37,7 +37,7 @@ TEST(IsEqualTrue, vector_tests)
 TEST(IsZeroFalse, vector_tests)
 {
 	bool bvalue1;
-	Vector v1(0.023f, 0.0f, 0.0f, 1.05f);
+	Vector4 v1(0.023f, 0.0f, 0.0f, 1.05f);
 
 	bvalue1 = v1.IsZero(0.0f);
 
@@ -47,7 +47,7 @@ TEST(IsZeroFalse, vector_tests)
 TEST(IsZeroTrue, vector_tests)
 {
 	bool bvalue1;
-	Vector v1(0.0f, 0.0f, 0.0f, 1.05f);
+	Vector4 v1(0.0f, 0.0f, 0.0f, 1.05f);
 
 	bvalue1 = v1.IsZero(0.1f);
 
@@ -56,8 +56,8 @@ TEST(IsZeroTrue, vector_tests)
 
 TEST(IsEqualFalse_default, vector_tests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2(9.0f, -3.0f, 5.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2(9.0f, -3.0f, 5.0f);
 	bool bvalue1;
 
 	bvalue1 = v1.IsEqual(v2);
@@ -68,8 +68,8 @@ TEST(IsEqualFalse_default, vector_tests)
 TEST(IsEqualTrue_default, vector_tests)
 {
 	bool bvalue1;
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2(1.0f, 2.0f, 3.05f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2(1.0f, 2.0f, 3.05f);
 
 	bvalue1 = v1.IsEqual(v2);
 
@@ -79,7 +79,7 @@ TEST(IsEqualTrue_default, vector_tests)
 TEST(IsZeroFalse_default, vector_tests)
 {
 	bool bvalue1;
-	Vector v1(0.023f, 0.0f, 0.0f, 1.05f);
+	Vector4 v1(0.023f, 0.0f, 0.0f, 1.05f);
 
 	bvalue1 = v1.IsZero();
 
@@ -89,7 +89,7 @@ TEST(IsZeroFalse_default, vector_tests)
 TEST(IsZeroTrue_default, vector_tests)
 {
 	bool bvalue1;
-	Vector v1(0.0f, 0.0f, 0.0f, 1.05f);
+	Vector4 v1(0.0f, 0.0f, 0.0f, 1.05f);
 
 	bvalue1 = v1.IsZero();
 

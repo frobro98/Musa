@@ -169,7 +169,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Math\Quat.h" />
     <ClInclude Include="..\..\Source\Math\QuatFunctions.h" />
     <ClInclude Include="..\..\Source\Math\Rect.hpp" />
-    <ClInclude Include="..\..\Source\Math\Vector.h" />
+    <ClInclude Include="..\..\Source\Math\Vector2.hpp" />
+    <ClInclude Include="..\..\Source\Math\Vector3.hpp" />
+    <ClInclude Include="..\..\Source\Math\Vector4.h" />
     <ClInclude Include="..\..\Source\Math\VectorFunctions.h" />
   </ItemGroup>
   <ItemGroup>
@@ -178,7 +180,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp" />
     <ClCompile Include="..\..\Source\private\Math\Matrix.cpp" />
     <ClCompile Include="..\..\Source\private\Math\Quat.cpp" />
-    <ClCompile Include="..\..\Source\private\Math\Vector.cpp" />
+    <ClCompile Include="..\..\Source\private\Math\Vector4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

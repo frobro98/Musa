@@ -14,9 +14,9 @@
 
 TEST(scale_Vect, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
 	float s = 5.0f;
-	Vector C;
+	Vector4 C;
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -38,9 +38,9 @@ TEST(scale_Vect, vector_tests)
 
 TEST(Vect_times_Scale, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
 	float s = 5.0f;
-	Vector C;
+	Vector4 C;
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -62,7 +62,7 @@ TEST(Vect_times_Scale, vector_tests)
 
 TEST(Vect_ScaleEquals, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
 	float s = 5.0f;
 
 	CHECK(A.x == 2.0f);

@@ -14,10 +14,10 @@
 
 TEST( Matrix_SET_Identity, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -60,10 +60,10 @@ TEST( Matrix_SET_Identity, matrix_tests )
 
 TEST( Matrix_SET_Zero, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -106,10 +106,10 @@ TEST( Matrix_SET_Zero, matrix_tests )
 
 TEST( Matrix_SET_Trans, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -152,10 +152,10 @@ TEST( Matrix_SET_Trans, matrix_tests )
 
 TEST(Matrix_SET_Trans_Vect, matrix_tests)
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -176,7 +176,7 @@ TEST(Matrix_SET_Trans_Vect, matrix_tests)
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector vTrans(2.0f, 3.0f, 4.0f);
+	Vector4 vTrans(2.0f, 3.0f, 4.0f);
 	A.Set(TRANS, vTrans);
 
 	CHECK( A[m0] == 1.0f );
@@ -199,10 +199,10 @@ TEST(Matrix_SET_Trans_Vect, matrix_tests)
 
 TEST( Matrix_SET_SCALE, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -245,10 +245,10 @@ TEST( Matrix_SET_SCALE, matrix_tests )
 
 TEST(Matrix_SET_SCALE_Vect, matrix_tests)
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -269,7 +269,7 @@ TEST(Matrix_SET_SCALE_Vect, matrix_tests)
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector vScale(2.0f, 3.0f, 4.0f);
+	Vector4 vScale(2.0f, 3.0f, 4.0f);
 	A.Set(SCALE, vScale);
 
 	CHECK( A[m0] == 2.0f );
@@ -292,10 +292,10 @@ TEST(Matrix_SET_SCALE_Vect, matrix_tests)
 
 TEST( RotX_SET, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix Rx(V0,V1,V2,V3);
 
@@ -339,10 +339,10 @@ TEST( RotX_SET, matrix_tests )
 
 TEST( RotY_SET, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix Ry(V0,V1,V2,V3);
 
@@ -385,10 +385,10 @@ TEST( RotY_SET, matrix_tests )
 
 TEST( RotZ_SET, matrix_tests )
 {
-	Vector V0(17.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(17.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix Rz(V0,V1,V2,V3);
 
@@ -431,10 +431,10 @@ TEST( RotZ_SET, matrix_tests )
 
 TEST( set_ROW_0, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -455,7 +455,7 @@ TEST( set_ROW_0, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	A.Set(ROW_0, V);
 
@@ -479,10 +479,10 @@ TEST( set_ROW_0, matrix_tests )
 
 TEST( set_ROW_1, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -503,7 +503,7 @@ TEST( set_ROW_1, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	A.Set(ROW_1, V);
 
@@ -527,10 +527,10 @@ TEST( set_ROW_1, matrix_tests )
 
 TEST( set_ROW_2, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -551,7 +551,7 @@ TEST( set_ROW_2, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	A.Set(ROW_2, V);
 
@@ -575,10 +575,10 @@ TEST( set_ROW_2, matrix_tests )
 
 TEST( set_ROW_3, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -599,7 +599,7 @@ TEST( set_ROW_3, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	A.Set(ROW_3, V);
 
@@ -623,10 +623,10 @@ TEST( set_ROW_3, matrix_tests )
 
 TEST( get_ROW_0, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -647,7 +647,7 @@ TEST( get_ROW_0, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	V = A.Get(ROW_0);
 
@@ -676,10 +676,10 @@ TEST( get_ROW_0, matrix_tests )
 
 TEST( get_ROW_1, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -700,7 +700,7 @@ TEST( get_ROW_1, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	V = A.Get(ROW_1);
 
@@ -729,10 +729,10 @@ TEST( get_ROW_1, matrix_tests )
 
 TEST( get_ROW_2, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -753,7 +753,7 @@ TEST( get_ROW_2, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	V = A.Get(ROW_2);
 
@@ -782,10 +782,10 @@ TEST( get_ROW_2, matrix_tests )
 
 TEST( get_ROW_3, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -806,7 +806,7 @@ TEST( get_ROW_3, matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V(20.0f, 30.0f, 40.0, 50.0f);
+	Vector4 V(20.0f, 30.0f, 40.0, 50.0f);
 
 	V = A.Get(ROW_3);
 
@@ -835,10 +835,10 @@ TEST( get_ROW_3, matrix_tests )
 
 TEST( set_Vectors, matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(ZERO);
 
@@ -972,7 +972,7 @@ TEST( RotXYZ_SET, matrix_tests )
 TEST( MatrixRotAxisAngle_set, matrix_tests )
 {
 	// Axis and Angle Type Constructor:
-	Vector  v11( 2.0f, 53.0f, 24.0f);
+	Vector4  v11( 2.0f, 53.0f, 24.0f);
 	Matrix m54;
 	
 	m54.Set( ROT_AXIS_ANGLE, v11, Math::PiOver3 );
@@ -1000,8 +1000,8 @@ TEST( MatrixRotAxisAngle_set, matrix_tests )
 TEST( MatrixRotOrient_set, matrix_tests )
 {
 	// Orientation Type Constructor:
-	Vector  v15( 2.0f, 53.0f, 24.0f);
-	Vector  v16( 0.0f, -24.0f, 53.0f);
+	Vector4  v15( 2.0f, 53.0f, 24.0f);
+	Vector4  v16( 0.0f, -24.0f, 53.0f);
 	Matrix m56;
 	m56.Set(ROT_ORIENT, v15, v16 );
 
@@ -1026,8 +1026,8 @@ TEST( MatrixRotOrient_set, matrix_tests )
 TEST( MatrixRotInverseOrient_set,matrix_tests )
 {
 	// Orientation Type Constructor:
-	Vector  v17( 2.0f, 53.0f, 24.0f);
-	Vector  v18( 0.0f, -24.0f, 53.0f);
+	Vector4  v17( 2.0f, 53.0f, 24.0f);
+	Vector4  v18( 0.0f, -24.0f, 53.0f);
 	Matrix m57;
 	m57.Set(ROT_INVERSE_ORIENT, v17, v18 );
 

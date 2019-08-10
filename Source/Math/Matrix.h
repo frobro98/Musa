@@ -1,20 +1,20 @@
 #pragma once
 
-#include "Vector.h"
+#include "Vector4.h"
 
 class Matrix
 {
 public:
 	Matrix();
-	explicit Matrix(const Vector& row0, const Vector& row1, const Vector& row2, const Vector& row3);
+	explicit Matrix(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
 	explicit Matrix(MatrixSpecialType specialEnum);
-	explicit Matrix(MatrixTransType transEnum, const Vector& transVec);
+	explicit Matrix(MatrixTransType transEnum, const Vector4& transVec);
 	explicit Matrix(MatrixTransType transEnum, float x, float y, float z);
 	explicit Matrix(RotType rotationEnum, float angle);
 	explicit Matrix(Rot3AxisType multiAxisEnum, float xAngleRad, float yAngleRad, float zAngleRad);
-	explicit Matrix(RotAxisAngleType axisEnum, const Vector& vect, float angleRads);
-	explicit Matrix(RotOrientType orientEnum, const Vector& dof, const Vector& up);
-	explicit Matrix(MatrixScaleType scaleEnum, const Vector& scaleVec);
+	explicit Matrix(RotAxisAngleType axisEnum, const Vector4& vect, float angleRads);
+	explicit Matrix(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
+	explicit Matrix(MatrixScaleType scaleEnum, const Vector4& scaleVec);
 	explicit Matrix(MatrixScaleType scaleEnum, float sx, float sy, float sz);
 	Matrix(const struct Quat& q);
 
@@ -26,23 +26,23 @@ public:
 	Matrix& operator=(Matrix&& m) noexcept;
 
 	// Setting specific matrix types
-	void Set(MatrixTransType transEnum, const Vector& transVec);
+	void Set(MatrixTransType transEnum, const Vector4& transVec);
 	void Set(MatrixTransType transEnum, float x, float y, float z);
 	void Set(RotType rotationEnum, float angle);
 	void Set(Rot3AxisType axisEnum, float xRad, float yRad, float zRad);
-	void Set(RotAxisAngleType axisEnum, const Vector& vect, float angleRads);
-	void Set(RotOrientType orientEnum, const Vector& dof, const Vector& up);
+	void Set(RotAxisAngleType axisEnum, const Vector4& vect, float angleRads);
+	void Set(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
 	void Set(const struct Quat& q);
-	void Set(MatrixScaleType scaleEnum, const Vector& scaleVec);
+	void Set(MatrixScaleType scaleEnum, const Vector4& scaleVec);
 	void Set(MatrixScaleType scaleEnum, float sx, float sy, float sz);
 	void Set(MatrixSpecialType specialEnum);
-	void Set(const Vector &axis, float angle);
+	void Set(const Vector4 &axis, float angle);
 
 	// Setting matrix
-	void Set(const Vector& row0, const Vector& row1, const Vector& row2, const Vector& row3);
-	void Set(MatrixRowType rowEnum, const Vector& rowVec);
+	void Set(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
+	void Set(MatrixRowType rowEnum, const Vector4& rowVec);
 	// Get row of matrix
-	Vector Get(MatrixRowType rowEnum) const;
+	Vector4 Get(MatrixRowType rowEnum) const;
 	
 	// Matrix operations
 
@@ -71,9 +71,9 @@ public:
 	Matrix& operator*=(const Matrix& m);
 	Matrix& operator*=(float s);
 
-	friend Vector operator*(const Vector& v, const Matrix& m);
+	friend Vector4 operator*(const Vector4& v, const Matrix& m);
 	friend Matrix operator*(float s, const Matrix& m);
-	friend Vector& operator*=(Vector& v, const Matrix& m);
+	friend Vector4& operator*=(Vector4& v, const Matrix& m);
 
 	// Unary operators
 	Matrix operator+() const;
@@ -160,10 +160,10 @@ private:
 	{
 		struct
 		{
-			Vector v0;
-			Vector v1;
-			Vector v2;
-			Vector v3;
+			Vector4 v0;
+			Vector4 v1;
+			Vector4 v2;
+			Vector4 v3;
 		};
 
 		struct

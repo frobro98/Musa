@@ -10,7 +10,7 @@ Matrix::Matrix()
 {
 }
 
-Matrix::Matrix(const Vector & row0, const Vector & row1, const Vector & row2, const Vector & row3)
+Matrix::Matrix(const Vector4 & row0, const Vector4 & row1, const Vector4 & row2, const Vector4 & row3)
 	: v0(row0), v1(row1), v2(row2), v3(row3)
 {
 }
@@ -20,7 +20,7 @@ Matrix::Matrix(MatrixSpecialType specialEnum)
 	Set(specialEnum);
 }
 
-Matrix::Matrix(MatrixTransType transEnum, const Vector & transVec)
+Matrix::Matrix(MatrixTransType transEnum, const Vector4 & transVec)
 {
 	Set(transEnum, transVec);
 }
@@ -40,17 +40,17 @@ Matrix::Matrix(Rot3AxisType type, float xAngleRad, float yAngleRad, float zAngle
 	Set(type, xAngleRad, yAngleRad, zAngleRad);
 }
 
-Matrix::Matrix(RotAxisAngleType type, const Vector& vect, float angleRads)
+Matrix::Matrix(RotAxisAngleType type, const Vector4& vect, float angleRads)
 {
 	Set(type, vect, angleRads);
 }
 
-Matrix::Matrix(RotOrientType type, const Vector& dof, const Vector& up)
+Matrix::Matrix(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
 	Set(type, dof, up);
 }
 
-Matrix::Matrix(MatrixScaleType scaleEnum, const Vector& scaleVec)
+Matrix::Matrix(MatrixScaleType scaleEnum, const Vector4& scaleVec)
 {
 	Set(scaleEnum, scaleVec);
 }
@@ -135,20 +135,20 @@ Matrix& Matrix::operator=(Matrix&& m) noexcept
 	return *this;
 }
 
-void Matrix::Set(MatrixTransType /*transEnum*/, const Vector& transVec)
+void Matrix::Set(MatrixTransType /*transEnum*/, const Vector4& transVec)
 {
-	v0 = Vector(1.f, 0.f, 0.f, 0.f);
-	v1 = Vector(0.f, 1.f, 0.f, 0.f);
-	v2 = Vector(0.f, 0.f, 1.f, 0.f);
-	v3 = Vector(transVec.x, transVec.y, transVec.z, 1.f);
+	v0 = Vector4(1.f, 0.f, 0.f, 0.f);
+	v1 = Vector4(0.f, 1.f, 0.f, 0.f);
+	v2 = Vector4(0.f, 0.f, 1.f, 0.f);
+	v3 = Vector4(transVec.x, transVec.y, transVec.z, 1.f);
 }
 
 void Matrix::Set(MatrixTransType /*transEnum*/, float x, float y, float z)
 {
-	v0 = Vector(1.f, 0.f, 0.f, 0.f);
-	v1 = Vector(0.f, 1.f, 0.f, 0.f);
-	v2 = Vector(0.f, 0.f, 1.f, 0.f);
-	v3 = Vector(x, y, z, 1.f);
+	v0 = Vector4(1.f, 0.f, 0.f, 0.f);
+	v1 = Vector4(0.f, 1.f, 0.f, 0.f);
+	v2 = Vector4(0.f, 0.f, 1.f, 0.f);
+	v3 = Vector4(x, y, z, 1.f);
 }
 
 void Matrix::Set(RotType rotationEnum, float angle)
@@ -237,60 +237,60 @@ void Matrix::Set(Rot3AxisType, float xRad, float yRad, float zRad)
 	Set(qX*qY*qZ);
 }
 
-void Matrix::Set(RotAxisAngleType type, const Vector& vect, float angleRads)
+void Matrix::Set(RotAxisAngleType type, const Vector4& vect, float angleRads)
 {
 	Quat q(type, vect, angleRads);
 	Set(q);
 }
 
-void Matrix::Set(RotOrientType type, const Vector& dof, const Vector& up)
+void Matrix::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
 	switch (type)
 	{
 		case ROT_ORIENT:
 		{
-			Vector right = dof.Cross(up);
+			Vector4 right = dof.Cross(up);
 			Assert(!right.IsZero());
 			right.Normalize();
 			
-			Vector realUp = right.Cross(dof);
+			Vector4 realUp = right.Cross(dof);
 			realUp.Normalize();
 
-			Vector upDof = realUp.Cross(dof);
+			Vector4 upDof = realUp.Cross(dof);
 			upDof.Normalize();
 
-			Vector newUp = dof.Cross(upDof);
+			Vector4 newUp = dof.Cross(upDof);
 			newUp.Normalize();
 
-			Vector normDof = dof.GetNormalized();
+			Vector4 normDof = dof.GetNormalized();
 			Set(
-				Vector(upDof.x, upDof.y, upDof.z, 0),
-				Vector(newUp.x, newUp.y, newUp.z, 0),
-				Vector(normDof.x, normDof.y, normDof.z, 0),
-				Vector(0, 0, 0, 1)
+				Vector4(upDof.x, upDof.y, upDof.z, 0),
+				Vector4(newUp.x, newUp.y, newUp.z, 0),
+				Vector4(normDof.x, normDof.y, normDof.z, 0),
+				Vector4(0, 0, 0, 1)
 			);
 		}break;
 		case ROT_INVERSE_ORIENT:
 		{
-			Vector right = dof.Cross(up);
+			Vector4 right = dof.Cross(up);
 			Assert(!right.IsZero());
 			right.Normalize();
 
-			Vector realUp = right.Cross(dof);
+			Vector4 realUp = right.Cross(dof);
 			realUp.Normalize();
 
-			Vector upDof = realUp.Cross(dof);
+			Vector4 upDof = realUp.Cross(dof);
 			upDof.Normalize();
 
-			Vector newUp = dof.Cross(upDof);
+			Vector4 newUp = dof.Cross(upDof);
 			newUp.Normalize();
 
-			Vector normDof = dof.GetNormalized();
+			Vector4 normDof = dof.GetNormalized();
 			Set(
-				Vector(upDof.x, upDof.y, upDof.z, 0),
-				Vector(newUp.x, newUp.y, newUp.z, 0),
-				Vector(normDof.x, normDof.y, normDof.z, 0),
-				Vector(0, 0, 0, 1)
+				Vector4(upDof.x, upDof.y, upDof.z, 0),
+				Vector4(newUp.x, newUp.y, newUp.z, 0),
+				Vector4(normDof.x, normDof.y, normDof.z, 0),
+				Vector4(0, 0, 0, 1)
 			);
 			Transpose();
 		}break;
@@ -323,20 +323,20 @@ void Matrix::Set(const Quat& q)
 	_m15 = 1.f;
 }
 
-void Matrix::Set(MatrixScaleType /*scaleEnum*/, const Vector& scaleVec)
+void Matrix::Set(MatrixScaleType /*scaleEnum*/, const Vector4& scaleVec)
 {
-	v0 = Vector(scaleVec.x, 0.f, 0.f, 0.f);
-	v1 = Vector(0.f, scaleVec.y, 0.f, 0.f);
-	v2 = Vector(0.f, 0.f, scaleVec.z, 0.f);
-	v3 = Vector(0.f, 0.f, 0.f, 1.f);
+	v0 = Vector4(scaleVec.x, 0.f, 0.f, 0.f);
+	v1 = Vector4(0.f, scaleVec.y, 0.f, 0.f);
+	v2 = Vector4(0.f, 0.f, scaleVec.z, 0.f);
+	v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 }
 
 void Matrix::Set(MatrixScaleType /*scaleEnum*/, float sx, float sy, float sz)
 {
-	v0 = Vector(sx, 0.f, 0.f, 0.f);
-	v1 = Vector(0.f, sy, 0.f, 0.f);
-	v2 = Vector(0.f, 0.f, sz, 0.f);
-	v3 = Vector(0.f, 0.f, 0.f, 1.f);
+	v0 = Vector4(sx, 0.f, 0.f, 0.f);
+	v1 = Vector4(0.f, sy, 0.f, 0.f);
+	v2 = Vector4(0.f, 0.f, sz, 0.f);
+	v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 }
 
 void Matrix::Set(MatrixSpecialType specialEnum)
@@ -345,17 +345,17 @@ void Matrix::Set(MatrixSpecialType specialEnum)
 	{
 		case ZERO:
 		{
-			v0 = Vector(0.f, 0.f, 0.f, 0.f);
-			v1 = Vector(0.f, 0.f, 0.f, 0.f);
-			v2 = Vector(0.f, 0.f, 0.f, 0.f);
-			v3 = Vector(0.f, 0.f, 0.f, 0.f);
+			v0 = Vector4(0.f, 0.f, 0.f, 0.f);
+			v1 = Vector4(0.f, 0.f, 0.f, 0.f);
+			v2 = Vector4(0.f, 0.f, 0.f, 0.f);
+			v3 = Vector4(0.f, 0.f, 0.f, 0.f);
 		}break;
 		case IDENTITY:
 		{
-			v0 = Vector(1.f, 0.f, 0.f, 0.f);
-			v1 = Vector(0.f, 1.f, 0.f, 0.f);
-			v2 = Vector(0.f, 0.f, 1.f, 0.f);
-			v3 = Vector(0.f, 0.f, 0.f, 1.f);
+			v0 = Vector4(1.f, 0.f, 0.f, 0.f);
+			v1 = Vector4(0.f, 1.f, 0.f, 0.f);
+			v2 = Vector4(0.f, 0.f, 1.f, 0.f);
+			v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 		}break;
 		default:
 		{
@@ -364,7 +364,7 @@ void Matrix::Set(MatrixSpecialType specialEnum)
 	}
 }
 
-void Matrix::Set(const Vector& row0, const Vector& row1, const Vector& row2, const Vector& row3)
+void Matrix::Set(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3)
 {
 	v0 = row0;
 	v1 = row1;
@@ -372,7 +372,7 @@ void Matrix::Set(const Vector& row0, const Vector& row1, const Vector& row2, con
 	v3 = row3;
 }
 
-void Matrix::Set(MatrixRowType rowEnum, const Vector& rowVec)
+void Matrix::Set(MatrixRowType rowEnum, const Vector4& rowVec)
 {
 	switch (rowEnum)
 	{
@@ -397,7 +397,7 @@ void Matrix::Set(MatrixRowType rowEnum, const Vector& rowVec)
 	}
 }
 
-void Matrix::Set(const Vector &axis, float angle)
+void Matrix::Set(const Vector4 &axis, float angle)
 {
 	// angle
 	// axis;
@@ -408,11 +408,11 @@ void Matrix::Set(const Vector &axis, float angle)
 	cos_a = cosf(angle_a);
 	sin_a = sinf(angle_a);
 
-	Vector qV = axis.GetNormalized();
+	Vector4 qV = axis.GetNormalized();
 
 	qV *= sin_a;
 
-	Vector Q;
+	Vector4 Q;
 	Q.x = qV.x;
 	Q.y = qV.y;
 	Q.z = qV.z;
@@ -457,10 +457,10 @@ void Matrix::Set(const Vector &axis, float angle)
 	_m10 = 1.0f - (xx + yy);
 	_m11 = 0.0f;
 
-	v3 = Vector(0.0f, 0.0f, 0.0f, 1.0f);
+	v3 = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-Vector Matrix::Get(MatrixRowType rowEnum) const
+Vector4 Matrix::Get(MatrixRowType rowEnum) const
 {
 	switch (rowEnum)
 	{
@@ -483,7 +483,7 @@ Vector Matrix::Get(MatrixRowType rowEnum) const
 	}
 
 	Assert(false);
-	return Vector();
+	return Vector4();
 }
 
 float Matrix::Determinant() const
@@ -552,25 +552,25 @@ void Matrix::Inverse()
 		float v3z = _m12*(m2Xm5 - m1Xm6)      - m2Xm4*_m13    + m0Xm6*_m13  + _m14*(m1Xm4 - m0Xm5);
 		float v3w = _m8*(m1Xm6 - m2Xm5)       + _m9*(m2Xm4    - m0Xm6)      - _m1*m4Xm10 + _m0*m5Xm10;
 
-		v0 = Vector(
+		v0 = Vector4(
 			v0x * detScalar,
 			v0y * detScalar,
 			v0z * detScalar,
 			v0w * detScalar
 		);
-		v1 = Vector(
+		v1 = Vector4(
 			v1x * detScalar,
 			v1y * detScalar,
 			v1z * detScalar,
 			v1w * detScalar
 		);
-		v2 = Vector(
+		v2 = Vector4(
 			v2x * detScalar,
 			v2y * detScalar,
 			v2z * detScalar,
 			v2w * detScalar
 		);
-		v3 = Vector(
+		v3 = Vector4(
 			v3x * detScalar,
 			v3y * detScalar,
 			v3z * detScalar,
@@ -625,25 +625,25 @@ Matrix Matrix::GetInverse() const
 		float v3w = _m8*(m1Xm6 - m2Xm5)       + _m9*(m2Xm4    - m0Xm6)      - _m1*m4Xm10 + _m0*m5Xm10;
 
 		Matrix m;
-		m.v0 = Vector(
+		m.v0 = Vector4(
 			v0x * detScalar,
 			v0y * detScalar,
 			v0z * detScalar,
 			v0w * detScalar
 		);
-		m.v1 = Vector(
+		m.v1 = Vector4(
 			v1x * detScalar,
 			v1y * detScalar,
 			v1z * detScalar,
 			v1w * detScalar
 		);
-		m.v2 = Vector(
+		m.v2 = Vector4(
 			v2x * detScalar,
 			v2y * detScalar,
 			v2z * detScalar,
 			v2w * detScalar
 		);
-		m.v3 = Vector(
+		m.v3 = Vector4(
 			v3x * detScalar,
 			v3y * detScalar,
 			v3z * detScalar,
@@ -807,28 +807,28 @@ Matrix& Matrix::operator-=(const Matrix& m)
 
 Matrix& Matrix::operator*=(const Matrix& m)
 {
-	v0 = Vector(
+	v0 = Vector4(
 		_m0*m._m0 + _m1*m._m4 + _m2*m._m8 + _m3*m._m12,
 		_m0*m._m1 + _m1*m._m5 + _m2*m._m9 + _m3*m._m13,
 		_m0*m._m2 + _m1*m._m6 + _m2*m._m10 + _m3*m._m14,
 		_m0*m._m3 + _m1*m._m7 + _m2*m._m11 + _m3*m._m15
 		);
 	
-	v1 = Vector(
+	v1 = Vector4(
 		_m4*m._m0 + _m5*m._m4 + _m6*m._m8+ _m7*m._m12,
 		_m4*m._m1 + _m5*m._m5 + _m6*m._m9+ _m7*m._m13,
 		_m4*m._m2 + _m5*m._m6 + _m6*m._m10 + _m7*m._m14,
 		_m4*m._m3 + _m5*m._m7 + _m6*m._m11 + _m7*m._m15
 	);
 
-	v2 = Vector(
+	v2 = Vector4(
 		_m8*m._m0 + _m9*m._m4 + _m10*m._m8 + _m11*m._m12,
 		_m8*m._m1 + _m9*m._m5 + _m10*m._m9 + _m11*m._m13,
 		_m8*m._m2 + _m9*m._m6 + _m10*m._m10 + _m11*m._m14,
 		_m8*m._m3 + _m9*m._m7 + _m10*m._m11 + _m11*m._m15
 	);
 
-	v3 = Vector(
+	v3 = Vector4(
 		_m12*m._m0 + _m13*m._m4 + _m14*m._m8 + _m15*m._m12,
 		_m12*m._m1 + _m13*m._m5 + _m14*m._m9 + _m15*m._m13,
 		_m12*m._m2 + _m13*m._m6 + _m14*m._m10 + _m15*m._m14,
@@ -863,20 +863,20 @@ Matrix& Matrix::operator*=(float s)
 Matrix Matrix::operator+() const
 {
 	return Matrix(
-		Vector(+v0.x, +v0.y, +v0.z, +v0.w),
-		Vector(+v1.x, +v1.y, +v1.z, +v1.w),
-		Vector(+v2.x, +v2.y, +v2.z, +v2.w),
-		Vector(+v3.x, +v3.y, +v3.z, +v3.w)
+		Vector4(+v0.x, +v0.y, +v0.z, +v0.w),
+		Vector4(+v1.x, +v1.y, +v1.z, +v1.w),
+		Vector4(+v2.x, +v2.y, +v2.z, +v2.w),
+		Vector4(+v3.x, +v3.y, +v3.z, +v3.w)
 	);
 }
 
 Matrix Matrix::operator-() const
 {
 	return Matrix(
-		Vector(-v0.x, -v0.y, -v0.z, -v0.w),
-		Vector(-v1.x, -v1.y, -v1.z, -v1.w), 
-		Vector(-v2.x, -v2.y, -v2.z, -v2.w),
-		Vector(-v3.x, -v3.y, -v3.z, -v3.w)
+		Vector4(-v0.x, -v0.y, -v0.z, -v0.w),
+		Vector4(-v1.x, -v1.y, -v1.z, -v1.w), 
+		Vector4(-v2.x, -v2.y, -v2.z, -v2.w),
+		Vector4(-v3.x, -v3.y, -v3.z, -v3.w)
 	);
 }
 
@@ -1200,9 +1200,9 @@ const float & Matrix::operator[](m15_enum) const
 	return _m15;
 }
 
-Vector operator*(const Vector& v, const Matrix& m)
+Vector4 operator*(const Vector4& v, const Matrix& m)
 {
-	Vector ret(v);
+	Vector4 ret(v);
 	return ret *= m;
 }
 
@@ -1212,9 +1212,9 @@ Matrix operator*(float s, const Matrix& m)
 	return ret *= s;
 }
 
-Vector & operator*=(Vector& v, const Matrix& m)
+Vector4 & operator*=(Vector4& v, const Matrix& m)
 {
-	v = Vector(
+	v = Vector4(
 		v.x * m.m0() + v.y * m.m4() + v.z * m.m8()  + v.w * m.m12(),
 		v.x * m.m1() + v.y * m.m5() + v.z * m.m9()  + v.w * m.m13(),
 		v.x * m.m2() + v.y * m.m6() + v.z * m.m10() + v.w * m.m14(),

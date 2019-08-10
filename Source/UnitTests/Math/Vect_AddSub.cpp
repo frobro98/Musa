@@ -14,9 +14,9 @@
 
 TEST(Vect_Add_Vect, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
-	Vector B(21.0f, 31.0f, 41.0f, 51.0f);
-	Vector C;
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 B(21.0f, 31.0f, 41.0f, 51.0f);
+	Vector4 C;
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -48,8 +48,8 @@ TEST(Vect_Add_Vect, vector_tests)
 
 TEST(Vect_plusEqual_Vect, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
-	Vector B(21.0f, 31.0f, 41.0f, 51.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 B(21.0f, 31.0f, 41.0f, 51.0f);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -76,9 +76,9 @@ TEST(Vect_plusEqual_Vect, vector_tests)
 
 TEST(Vect_Sub_Vect, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
-	Vector B(21.0f, 31.0f, 41.0f, 51.0f);
-	Vector C;
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 B(21.0f, 31.0f, 41.0f, 51.0f);
+	Vector4 C;
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);
@@ -110,8 +110,8 @@ TEST(Vect_Sub_Vect, vector_tests)
 
 TEST(Vect_SubEqual_Vect, vector_tests)
 {
-	Vector A(2.0f, 3.0f, 4.0f, 5.0f);
-	Vector B(21.0f, 31.0f, 41.0f, 51.0f);
+	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
+	Vector4 B(21.0f, 31.0f, 41.0f, 51.0f);
 
 	CHECK(A.x == 2.0f);
 	CHECK(A.y == 3.0f);

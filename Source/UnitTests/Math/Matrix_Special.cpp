@@ -83,7 +83,7 @@ TEST( Matrix_Trans, matrix_tests )
 
 TEST(Matrix_Trans_Vect, matrix_tests)
 {
-	Vector vTrans(2.0f, 3.0f, 4.0f);
+	Vector4 vTrans(2.0f, 3.0f, 4.0f);
 	Matrix A(TRANS, vTrans);
 
 	CHECK( A[m0] == 1.0f );
@@ -129,7 +129,7 @@ TEST( Matrix_SCALE, matrix_tests )
 
 TEST(Matrix_SCALE_Vect, matrix_tests)
 {
-	Vector vScale(2.0f, 3.0f, 4.0f);
+	Vector4 vScale(2.0f, 3.0f, 4.0f);
 	Matrix A(SCALE, vScale);
 
 	CHECK( A[m0] == 2.0f );
@@ -308,10 +308,10 @@ TEST( RotXYZ_Constructor, matrix_tests )
 
 TEST( isEqual_false , matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -332,10 +332,10 @@ TEST( isEqual_false , matrix_tests )
 	CHECK( A[m14] == 15.0f );
 	CHECK( A[m15] == 16.0f );
 
-	Vector V4(20.0f,21.0f,22.0f,23.0f);
-	Vector V5(24.0f,25.0f,26.0f,27.0f);
-	Vector V6(28.0f,29.0f,30.0f,31.0f);
-	Vector V7(32.0f,33.0f,34.0f,35.0f);
+	Vector4 V4(20.0f,21.0f,22.0f,23.0f);
+	Vector4 V5(24.0f,25.0f,26.0f,27.0f);
+	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
+	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
 	Matrix B(V4,V5,V6,V7);
 
@@ -363,10 +363,10 @@ TEST( isEqual_false , matrix_tests )
 
 TEST(isEqual_true, matrix_tests)
 {
-	Vector V0(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector V1(5.0f, 6.0f, 7.0f, 8.0f);
-	Vector V2(9.0f, 10.0f, 11.0f, 12.0f);
-	Vector V3(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 V0(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 V1(5.0f, 6.0f, 7.0f, 8.0f);
+	Vector4 V2(9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 V3(13.0f, 14.0f, 15.0f, 16.0f);
 
 	Matrix A(V0, V1, V2, V3);
 
@@ -387,10 +387,10 @@ TEST(isEqual_true, matrix_tests)
 	CHECK(A[m14] == 15.0f);
 	CHECK(A[m15] == 16.0f);
 
-	Vector V4(1.0f, 2.0f, 3.0f, 4.0f);
-	Vector V5(5.0f, 6.0f, 7.0f, 8.0f);
-	Vector V6(9.0f, 10.0f, 11.0f, 12.0f);
-	Vector V7(13.0f, 14.0f, 15.0f, 16.0f);
+	Vector4 V4(1.0f, 2.0f, 3.0f, 4.0f);
+	Vector4 V5(5.0f, 6.0f, 7.0f, 8.0f);
+	Vector4 V6(9.0f, 10.0f, 11.0f, 12.0f);
+	Vector4 V7(13.0f, 14.0f, 15.0f, 16.0f);
 
 	Matrix B(V4, V5, V6, V7);
 
@@ -418,10 +418,10 @@ TEST(isEqual_true, matrix_tests)
 
 TEST( isIdentity_false , matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 
@@ -449,10 +449,10 @@ TEST( isIdentity_false , matrix_tests )
 
 TEST( isIdentity_true , matrix_tests )
 {
-	Vector V0(1.0f,0.0f,0.0f,0.0f);
-	Vector V1(0.0f,1.0f,0.0f,0.0f);
-	Vector V2(0.0f,0.0f,1.0f,0.0f);
-	Vector V3(0.0f,0.0f,0.0f,1.0f);
+	Vector4 V0(1.0f,0.0f,0.0f,0.0f);
+	Vector4 V1(0.0f,1.0f,0.0f,0.0f);
+	Vector4 V2(0.0f,0.0f,1.0f,0.0f);
+	Vector4 V3(0.0f,0.0f,0.0f,1.0f);
 
 	Matrix A(V0,V1,V2,V3);
 

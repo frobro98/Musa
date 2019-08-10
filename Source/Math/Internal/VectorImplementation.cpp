@@ -1,7 +1,7 @@
 
 #include "VectorImplementation.h"
 #include "Assertion.h"
-#include "Vector.h"
+#include "Vector4.h"
 #include "MathUtilities.h"
 
 #include "PlatformDefinitions.h"
@@ -18,21 +18,21 @@ namespace Internal
 using VectorRegister = __m128;
 
 #else
-float VectorDotVector(const Vector& v0, const Vector& v1)
+float VectorDotVector(const Vector4& v0, const Vector4& v1)
 {
 	return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z;
 }
 
-void VectorCrossVector(const Vector& v0, const Vector& v1, Vector& perpVector)
+void VectorCrossVector(const Vector4& v0, const Vector4& v1, Vector4& perpVector)
 {
-	perpVector = Vector(
+	perpVector = Vector4(
 		v0.y * v1.z - v1.y * v0.z,
 		v0.z * v1.x - v1.z * v0.x,
 		v0.x * v1.y - v1.x * v0.y
 	);
 }
 
-void VectorNormalize(Vector& v)
+void VectorNormalize(Vector4& v)
 {
 	Assert(!v.IsZero());
 	float invMag = VectorInverseMagnitude(v);
@@ -41,25 +41,25 @@ void VectorNormalize(Vector& v)
 	v.z *= invMag;
 }
 
-float VectorMagnitudeSqr(const Vector& v)
+float VectorMagnitudeSqr(const Vector4& v)
 {
 	return v.x * v.x + v.y * v.y + v.z * v.z;
 }
 
-float VectorMagnitude(const Vector& v)
+float VectorMagnitude(const Vector4& v)
 {
 	return Math::Sqrt(VectorMagnitudeSqr(v));
 }
 
-float VectorInverseMagnitude(const Vector& v)
+float VectorInverseMagnitude(const Vector4& v)
 {
 	return 1.f / VectorMagnitude(v);
 }
 
-float VectorAngleBetweenVectors(const Vector& v0, const Vector& v1)
+float VectorAngleBetweenVectors(const Vector4& v0, const Vector4& v1)
 {
-	Vector v0Norm = v0;
-	Vector v1Norm = v1;
+	Vector4 v0Norm = v0;
+	Vector4 v1Norm = v1;
 	VectorNormalize(v0Norm);
 	VectorNormalize(v1Norm);
 	float cosAngle = VectorDotVector(v0Norm, v1Norm);
@@ -67,7 +67,7 @@ float VectorAngleBetweenVectors(const Vector& v0, const Vector& v1)
 }
 
 // Vector Math
-void VectorAddTo(Vector& v0, const Vector& v1)
+void VectorAddTo(Vector4& v0, const Vector4& v1)
 {
 	v0.x += v1.x;
 	v0.y += v1.y;
@@ -75,7 +75,7 @@ void VectorAddTo(Vector& v0, const Vector& v1)
 	v0.w = 1.f;
 }
 
-void VectorSubTo(Vector& v0, const Vector& v1)
+void VectorSubTo(Vector4& v0, const Vector4& v1)
 {
 	v0.x -= v1.x;
 	v0.y -= v1.y;
@@ -83,7 +83,7 @@ void VectorSubTo(Vector& v0, const Vector& v1)
 	v0.w = 1.f;
 }
 
-void VectorMultiTo(Vector& v0, float s)
+void VectorMultiTo(Vector4& v0, float s)
 {
 	v0.x *= s;
 	v0.y *= s;
@@ -91,7 +91,7 @@ void VectorMultiTo(Vector& v0, float s)
 	v0.w = 1.f;
 }
 
-void VectorDivTo(Vector& v0, float s)
+void VectorDivTo(Vector4& v0, float s)
 {
 	float invS = 1.f / s;
 	v0.x *= invS;

@@ -36,7 +36,7 @@ Quat::Quat(RotType type, float radAngle)
 	{
 		case ROT_X:
 		{
-			Vector v(1.f, 0.f, 0.f);
+			Vector4 v(1.f, 0.f, 0.f);
 			v *= Math::Sin(angle);
 			x = v.x;
 			y = v.y;
@@ -45,7 +45,7 @@ Quat::Quat(RotType type, float radAngle)
 		}break;
 		case ROT_Y:
 		{
-			Vector v(0.f, 1.f, 0.f);
+			Vector4 v(0.f, 1.f, 0.f);
 			v *= Math::Sin(angle);
 			x = v.x;
 			y = v.y;
@@ -54,7 +54,7 @@ Quat::Quat(RotType type, float radAngle)
 		}break;
 		case ROT_Z:
 		{
-			Vector v(0.f, 0.f, 1.f);
+			Vector4 v(0.f, 0.f, 1.f);
 			v *= Math::Sin(angle);
 			x = v.x;
 			y = v.y;
@@ -73,17 +73,17 @@ Quat::Quat(Rot3AxisType type, float radX, float radY, float radZ)
 	Set(type, radX, radY, radZ);
 }
 
-Quat::Quat(RotAxisAngleType type, const Vector& axis, float angleRad)
+Quat::Quat(RotAxisAngleType type, const Vector4& axis, float angleRad)
 {
 	Set(type, axis, angleRad);
 }
 
-Quat::Quat(RotOrientType type, const Vector& dof, const Vector& up)
+Quat::Quat(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
 	Set(type, dof, up);
 }
 
-Quat::Quat(const Vector& v, float angle)
+Quat::Quat(const Vector4& v, float angle)
 {
 	Set(v, angle);
 }
@@ -112,7 +112,7 @@ void Quat::Set(const Matrix& mat)
 	Internal::QuaternionSetMatrix(*this, mat);
 }
 
-void Quat::Set(const Vector& vect, float real)
+void Quat::Set(const Vector4& vect, float real)
 {
 	x = vect.x;
 	y = vect.y;
@@ -145,7 +145,7 @@ void Quat::Set(RotType type, float radAngle)
 	{
 	case ROT_X:
 	{
-		Vector v(1.f, 0.f, 0.f);
+		Vector4 v(1.f, 0.f, 0.f);
 		v *= Math::Sin(angle);
 		x = v.x;
 		y = v.y;
@@ -154,7 +154,7 @@ void Quat::Set(RotType type, float radAngle)
 	}break;
 	case ROT_Y:
 	{
-		Vector v(0.f, 1.f, 0.f);
+		Vector4 v(0.f, 1.f, 0.f);
 		v *= Math::Sin(angle);
 		x = v.x;
 		y = v.y;
@@ -163,7 +163,7 @@ void Quat::Set(RotType type, float radAngle)
 	}break;
 	case ROT_Z:
 	{
-		Vector v(0.f, 0.f, 1.f);
+		Vector4 v(0.f, 0.f, 1.f);
 		v *= Math::Sin(angle);
 		x = v.x;
 		y = v.y;
@@ -185,9 +185,9 @@ void Quat::Set(Rot3AxisType, float radX, float radY, float radZ)
 	Set(qX*qY*qZ);
 }
 
-void Quat::Set(RotAxisAngleType, const Vector& axis, float angleRad)
+void Quat::Set(RotAxisAngleType, const Vector4& axis, float angleRad)
 {
-	Vector v = axis.GetNormalized();
+	Vector4 v = axis.GetNormalized();
 	float angle = angleRad * .5f;
 	float sinAngle = Math::Sin(angle);
 	x = v.x * sinAngle;
@@ -196,27 +196,27 @@ void Quat::Set(RotAxisAngleType, const Vector& axis, float angleRad)
 	w = Math::Cos(angle);
 }
 
-void Quat::Set(RotOrientType type, const Vector& dof, const Vector& up)
+void Quat::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
 	Matrix m(type, dof, up);
 	Set(m);
 }
 
-void Quat::SetVector(const Vector& v)
+void Quat::SetVector(const Vector4& v)
 {
 	x = v.x;
 	y = v.y;
 	z = v.z;
 }
 
-Vector Quat::GetVector() const
+Vector4 Quat::GetVector() const
 {
-	return Vector(x, y, z);
+	return Vector4(x, y, z);
 }
 
-Vector Quat::GetAxis() const
+Vector4 Quat::GetAxis() const
 {
-	return Vector(x, y, z);
+	return Vector4(x, y, z);
 }
 
 float Quat::GetAngle() const
@@ -296,12 +296,12 @@ float Quat::InverseMagnitude() const
 	return Internal::QuaternionMagnitudeInverse(*this);
 }
 
-void Quat::Lqcvq(const Vector& v, Vector& vOut) const
+void Quat::Lqcvq(const Vector4& v, Vector4& vOut) const
 {
 	Internal::QuaternionLqcvq(*this, v, vOut);
 }
 
-void Quat::Lqvqc(const Vector& v, Vector & vOut) const
+void Quat::Lqvqc(const Vector4& v, Vector4 & vOut) const
 {
 	Internal::QuaternionLqvqc(*this, v, vOut);
 }
@@ -449,22 +449,22 @@ Matrix operator*(const Quat& q, const Matrix& m)
 	return Matrix(mq * m);
 }
 
-Vector& operator*=(Vector& v, const Quat& q)
+Vector4& operator*=(Vector4& v, const Quat& q)
 {
 	q.Lqcvq(v, v);
 	return v;
 }
 
-Vector operator*(const Vector& v, const Quat& q)
+Vector4 operator*(const Vector4& v, const Quat& q)
 {
-	Vector vec(v);
+	Vector4 vec(v);
 	vec *= q;
 	return vec;
 }
 
-Vector operator*(const Quat& q, const Vector& v)
+Vector4 operator*(const Quat& q, const Vector4& v)
 {
-	Vector vec;
+	Vector4 vec;
 	q.Lqvqc(v, vec);
 	return vec;
 }

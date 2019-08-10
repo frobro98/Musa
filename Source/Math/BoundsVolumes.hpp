@@ -1,23 +1,23 @@
 #pragma once
 
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 
 struct BoxBounds
 {
-	Vector position;
-	Vector dimensions;
+	Vector4 position;
+	Vector4 dimensions;
 };
 
 struct SphereBounds
 {
-	Vector position;
+	Vector4 position;
 	float radius = 0.f;
 };
 
 // Combines both bounded box and sphere together
 struct BoxSphereBounds
 {
-	Vector position;
-	Vector dimensions;
+	Vector4 position;
+	Vector4 dimensions;
 	float radius = 0.f;
 };

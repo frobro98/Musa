@@ -10,7 +10,7 @@ TransformComponent::TransformComponent()
 {
 }
 
-void TransformComponent::SetPosition(const Vector& pos)
+void TransformComponent::SetPosition(const Vector4& pos)
 {
 	position = pos;
 	TransformChanged();
@@ -22,13 +22,13 @@ void TransformComponent::SetRotation(const Quat& rot)
 	TransformChanged();
 }
 
-void TransformComponent::SetScale(const Vector& sca)
+void TransformComponent::SetScale(const Vector4& sca)
 {
 	scale = sca;
 	TransformChanged();
 }
 
-Vector TransformComponent::GetPosition() const
+Vector4 TransformComponent::GetPosition() const
 {
 	return position;
 }
@@ -38,7 +38,7 @@ Quat TransformComponent::GetRotation() const
 	return rotation;
 }
 
-Vector TransformComponent::GetScale() const
+Vector4 TransformComponent::GetScale() const
 {
 	return scale;
 }

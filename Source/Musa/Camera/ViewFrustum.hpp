@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineCore/Extents.hpp"
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Math/Matrix.h"
 
 struct SphereBounds;
@@ -10,7 +10,7 @@ class ViewFrustum
 {
 	ViewFrustum(
 		const Matrix& viewMatrix,
-		const Vector& origin,  
+		const Vector4& origin,  
 		const Extents2D& nearExtents,
 		const Extents2D& farExtents,
 		float32 nearPlane,
@@ -24,24 +24,24 @@ private:
 
 private:
 	// near points
-	Vector nearTopLeft;
-	Vector nearTopRight;
-	Vector nearBottomLeft;
-	Vector nearBottomRight;
+	Vector4 nearTopLeft;
+	Vector4 nearTopRight;
+	Vector4 nearBottomLeft;
+	Vector4 nearBottomRight;
 
 	// far points
-	Vector farTopLeft;
-	Vector farTopRight;
-	Vector farBottomLeft;
-	Vector farBottomRight;
+	Vector4 farTopLeft;
+	Vector4 farTopRight;
+	Vector4 farBottomLeft;
+	Vector4 farBottomRight;
 
 	// Normals for collision
-	Vector nearPlaneNormal;
-	Vector farPlaneNormal;
-	Vector topNormal;
-	Vector bottomNormal;
-	Vector leftNormal;
-	Vector rightNormal;
+	Vector4 nearPlaneNormal;
+	Vector4 farPlaneNormal;
+	Vector4 topNormal;
+	Vector4 bottomNormal;
+	Vector4 leftNormal;
+	Vector4 rightNormal;
 
 
 };

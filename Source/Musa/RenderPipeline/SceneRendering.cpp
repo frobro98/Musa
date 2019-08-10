@@ -377,7 +377,7 @@ void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, co
 	LightProperties properties = {};
 	properties.direction = -light->GetPosition();//-light->GetDirection();
 	properties.position = lightDesc.position;
-	properties.lightViewTransform = Math::ConstructViewMatrix(light->GetPosition(), Vector::Zero, Vector::UpAxis);
+	properties.lightViewTransform = Math::ConstructViewMatrix(light->GetPosition(), Vector4::Zero, Vector4::UpAxis);
 	properties.lightProjection = Math::ConstructPerspectiveMatrix(90.f, (float)ShadowMapWidth / (float)ShadowMapHeight, .1f, 1000.);
 
 	GetGraphicsInterface().PushBufferData(light->GetLightBuffer(), &properties);

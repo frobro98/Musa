@@ -12,13 +12,13 @@ public:
 
 	void SetPerspective(float fovDeg, float aspectRatio, float nearPlane, float farPlane);
 	void SetViewport(const IntRect& vp);
-	void SetOrientationAndPosition(const Vector& lookAt, const Vector& pos, const Vector& up);
+	void SetOrientationAndPosition(const Vector4& lookAt, const Vector4& pos, const Vector4& up);
 
-	Vector GetPosition() const;
-	Vector GetForward() const;
-	Vector GetUp() const;
-	Vector GetRight() const;
-	Vector GetLookAt() const;
+	Vector4 GetPosition() const;
+	Vector4 GetForward() const;
+	Vector4 GetUp() const;
+	Vector4 GetRight() const;
+	Vector4 GetLookAt() const;
 
 	// TODO - This most definitely should be somewhere else, like a Window class
 	int GetScreenWidth() const;
@@ -43,12 +43,12 @@ private:
 	Matrix view;
 
 	// view matrix
-	Vector viewRight;
-	Vector viewUp;
-	Vector viewForward;
+	Vector4 viewRight;
+	Vector4 viewUp;
+	Vector4 viewForward;
 	
-	Vector position;
-	Vector lookAt;
+	Vector4 position;
+	Vector4 lookAt;
 
 	IntRect viewport;
 

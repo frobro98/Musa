@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Math/Matrix.h"
 #include "Math/Rect.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
@@ -12,8 +12,8 @@ struct NativeUniformBuffer;
 
 struct ViewDescription
 {
-	Vector origin;
-	Vector direction;
+	Vector4 origin;
+	Vector4 direction;
 	Rect viewport;
 	float32 fieldOfView = 0;
 	float32 aspectRatio = 0;

@@ -18,7 +18,7 @@ void Camera::SetViewport(const IntRect& vp)
 	viewport = vp;
 }
 
-void Camera::SetOrientationAndPosition(const Vector& inLookAt, const Vector& pos, const Vector& up)
+void Camera::SetOrientationAndPosition(const Vector4& inLookAt, const Vector4& pos, const Vector4& up)
 {
 	lookAt = inLookAt;
 	position = pos;
@@ -41,27 +41,27 @@ void Camera::SetOrientationAndPosition(const Vector& inLookAt, const Vector& pos
 // 	farWidth = farHeight * aspectRatio;
 // }
 
-Vector Camera::GetPosition() const
+Vector4 Camera::GetPosition() const
 {
 	return position;
 }
 
-Vector Camera::GetForward() const
+Vector4 Camera::GetForward() const
 {
 	return viewForward;
 }
 
-Vector Camera::GetUp() const
+Vector4 Camera::GetUp() const
 {
 	return viewUp;
 }
 
-Vector Camera::GetRight() const
+Vector4 Camera::GetRight() const
 {
 	return viewRight;
 }
 
-Vector Camera::GetLookAt() const
+Vector4 Camera::GetLookAt() const
 {
 	return lookAt;
 }

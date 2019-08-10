@@ -1,7 +1,7 @@
 #pragma once
 
 struct Quat;
-struct Vector;
+struct Vector4;
 class Matrix;
 
 namespace Internal
@@ -14,8 +14,8 @@ void  QuaternionSetMatrix(Quat& q, const Matrix& m);
 float QuaternionMagnitude(const Quat& q);
 float QuaternionMagnitudeSqr(const Quat& q);
 float QuaternionMagnitudeInverse(const Quat& q);
-void QuaternionLqcvq(const Quat& q, const Vector& v, Vector& out);
-void QuaternionLqvqc(const Quat& q, const Vector& v, Vector& out);
+void QuaternionLqcvq(const Quat& q, const Vector4& v, Vector4& out);
+void QuaternionLqvqc(const Quat& q, const Vector4& v, Vector4& out);
 void QuaternionMultiByElement(Quat& q0, const Quat& q1);
 
 void QuaternionAddTo(Quat& q0, const Quat& q1);

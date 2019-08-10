@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Math/BoundsVolumes.hpp"
 
 struct Plane
 {
-	Vector topLeft;
-	Vector topRight;
-	Vector bottomLeft;
-	Vector bottomRight;
+	Vector4 topLeft;
+	Vector4 topRight;
+	Vector4 bottomLeft;
+	Vector4 bottomRight;
 };
 
 bool PlaneIntersectsSphere()

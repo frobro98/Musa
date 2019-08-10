@@ -1,6 +1,6 @@
 
 #include "Quat.h"
-#include "Vector.h"
+#include "Vector4.h"
 #include "Matrix.h"
 #include "MathUtilities.h"
 #include "QuaternionImplementation.hpp"
@@ -96,18 +96,18 @@ float QuaternionMagnitudeInverse(const Quat& q)
 	return 1.f / QuaternionMagnitude(q);
 }
 
-void QuaternionLqcvq(const Quat& q, const Vector& v, Vector& out)
+void QuaternionLqcvq(const Quat& q, const Vector4& v, Vector4& out)
 {
-	Vector quatV(q.x, q.y, q.z);
+	Vector4 quatV(q.x, q.y, q.z);
 
 	float qdq = quatV.Dot(quatV);
 	float qdv = quatV.Dot(v);
 	out = 2.f*q.w*(quatV.Cross(v)) + (q.w*q.w - qdq) * v + 2.f * (qdv)* quatV;
 }
 
-void QuaternionLqvqc(const Quat& q, const Vector& v, Vector& out)
+void QuaternionLqvqc(const Quat& q, const Vector4& v, Vector4& out)
 {
-	Vector quatV(q.x, q.y, q.z);
+	Vector4 quatV(q.x, q.y, q.z);
 	out = 2.f*q.w*(v.Cross(quatV)) + (q.w*q.w - quatV.Dot(quatV)) * v + 2.f * (quatV.Dot(v)) * quatV;
 }
 void QuaternionMultiByElement(Quat& q0, const Quat& q1)
@@ -133,8 +133,8 @@ void QuaternionSubTo(Quat& q0, const Quat& q1)
 }
 void QuaternionMultiTo(Quat& q0, const Quat& q1)
 {
-	Vector v0(q0.x, q0.y, q0.z);
-	Vector v1(q1.x, q1.y, q1.z);
+	Vector4 v0(q0.x, q0.y, q0.z);
+	Vector4 v1(q1.x, q1.y, q1.z);
 	q0.Set(v1.Cross(v0) + q1.w*v0 + q0.w * v1, q0.w*q1.w - v0.Dot(v1));
 }
 void QuaternionDivTo(Quat& q0, const Quat& q1)

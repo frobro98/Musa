@@ -751,8 +751,8 @@ TEST(Quat_VectorTimesQuat, QuatAddSubMultDivTests)
 {
 	Quat	q1;
 	Matrix	m1;
-	Vector	v1(1.0f, 2.0f, 3.0f);
-	Vector	v2, v3;
+	Vector4	v1(1.0f, 2.0f, 3.0f);
+	Vector4	v2, v3;
 
 	q1.Set(ROT_X, Math::TwoPiOver3);
 	m1.Set(q1);
@@ -770,8 +770,8 @@ TEST(Quat_VectorTimesEqualQuat, QuatAddSubMultDivTests)
 {
 	Quat	q1;
 	Matrix	m1;
-	Vector	v1(1.0f, 2.0f, 3.0f);
-	Vector	v2,v3;
+	Vector4	v1(1.0f, 2.0f, 3.0f);
+	Vector4	v2,v3;
 
 	q1.Set(ROT_X, Math::TwoPiOver3);
 	m1.Set(q1);
@@ -792,11 +792,11 @@ TEST(Quat_VectorTimesQuat2, QuatAddSubMultDivTests)
 {
 	Quat	q1;
 	Matrix	m1;
-	Vector	v1(1.0f, 2.0f, 3.0f);
-	Vector	v2, v3;
+	Vector4	v1(1.0f, 2.0f, 3.0f);
+	Vector4	v2, v3;
 
-	q1.Set(ROT_AXIS_ANGLE, Vector(3,-4,7), -Math::TwoPiOver3);
-	m1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
+	q1.Set(ROT_AXIS_ANGLE, Vector4(3,-4,7), -Math::TwoPiOver3);
+	m1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
 
 	v2 = v1;
 	v3 = v1;
@@ -814,11 +814,11 @@ TEST(Quat_VectorTimesEqualQuat2, QuatAddSubMultDivTests)
 {
 	Quat	q1;
 	Matrix	m1;
-	Vector	v1(1.0f, 2.0f, 3.0f);
-	Vector	v2, v3;
+	Vector4	v1(1.0f, 2.0f, 3.0f);
+	Vector4	v2, v3;
 
-	q1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
-	m1.Set(ROT_AXIS_ANGLE, Vector(3, -4, 7), -Math::TwoPiOver3);
+	q1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
+	m1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
 
 	v2 *= m1;
 	v3 *= q1;

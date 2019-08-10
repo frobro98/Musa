@@ -75,9 +75,9 @@ namespace
 {
 struct BoneData
 {
-	std::vector<Vector> translationKeys;
+	std::vector<Vector4> translationKeys;
 	std::vector<Quat> rotationKeys;
-	std::vector<Vector> scaleKeys;
+	std::vector<Vector4> scaleKeys;
 	std::vector<uint32> timeMSPerKey;
 	uint32 totalAnimTimeMS;
 	std::string name;
@@ -434,10 +434,10 @@ void ChunkAnimationData(const std::vector<AnimationClip>& clips)
 static Matrix FbxMatToMusaMat(const FbxAMatrix& fbxMat)
 {
 	Matrix mat;
-	mat.Set(ROW_0, Vector{ static_cast<float>(fbxMat[0][0]), static_cast<float>(fbxMat[0][1]), static_cast<float>(fbxMat[0][2]), static_cast<float>(fbxMat[0][3]) });
-	mat.Set(ROW_1, Vector{ static_cast<float>(fbxMat[1][0]), static_cast<float>(fbxMat[1][1]), static_cast<float>(fbxMat[1][2]), static_cast<float>(fbxMat[1][3]) });
-	mat.Set(ROW_2, Vector{ static_cast<float>(fbxMat[2][0]), static_cast<float>(fbxMat[2][1]), static_cast<float>(fbxMat[2][2]), static_cast<float>(fbxMat[2][3]) });
-	mat.Set(ROW_3, Vector{ static_cast<float>(fbxMat[3][0]), static_cast<float>(fbxMat[3][1]), static_cast<float>(fbxMat[3][2]), static_cast<float>(fbxMat[3][3]) });
+	mat.Set(ROW_0, Vector4{ static_cast<float>(fbxMat[0][0]), static_cast<float>(fbxMat[0][1]), static_cast<float>(fbxMat[0][2]), static_cast<float>(fbxMat[0][3]) });
+	mat.Set(ROW_1, Vector4{ static_cast<float>(fbxMat[1][0]), static_cast<float>(fbxMat[1][1]), static_cast<float>(fbxMat[1][2]), static_cast<float>(fbxMat[1][3]) });
+	mat.Set(ROW_2, Vector4{ static_cast<float>(fbxMat[2][0]), static_cast<float>(fbxMat[2][1]), static_cast<float>(fbxMat[2][2]), static_cast<float>(fbxMat[2][3]) });
+	mat.Set(ROW_3, Vector4{ static_cast<float>(fbxMat[3][0]), static_cast<float>(fbxMat[3][1]), static_cast<float>(fbxMat[3][2]), static_cast<float>(fbxMat[3][3]) });
 
 	return mat;
 }
@@ -1022,7 +1022,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 					FbxVector4 RotXYZ = matrix.GetR();
 					FbxVector4 Scale = matrix.GetS();
 
-					Vector trans = Vector(
+					Vector4 trans = Vector4(
 						static_cast<float>(Trans[0]),
 						static_cast<float>(Trans[1]),
 						static_cast<float>(Trans[2])
@@ -1035,7 +1035,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 						Math::DegreesToRadians(static_cast<float>(RotXYZ[2]))
 					);
 
-					Vector scale = Vector(
+					Vector4 scale = Vector4(
 						static_cast<float>(Scale[0]),
 						static_cast<float>(Scale[1]),
 						static_cast<float>(Scale[2])
@@ -1058,7 +1058,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 					FbxVector4 RotXYZ = matrix.GetR();
 					FbxVector4 Scale = matrix.GetS();
 
-					Vector trans = Vector(
+					Vector4 trans = Vector4(
 						static_cast<float>(Trans[0]),
 						static_cast<float>(Trans[1]),
 						static_cast<float>(Trans[2])
@@ -1071,7 +1071,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 						Math::DegreesToRadians(static_cast<float>(RotXYZ[2]))
 					);
 
-					Vector scale = Vector(
+					Vector4 scale = Vector4(
 						static_cast<float>(Scale[0]),
 						static_cast<float>(Scale[1]),
 						static_cast<float>(Scale[2])
@@ -1559,11 +1559,11 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 // 			);
 // 		}
 
-		std::vector<Vector> convertedPositions;
+		std::vector<Vector4> convertedPositions;
 		convertedPositions.reserve(modelData.vertices.Size());
 		for (const Vertex& vert : modelData.vertices)
 		{
-			convertedPositions.push_back(Vector(vert.x, vert.y, vert.z));
+			convertedPositions.push_back(Vector4(vert.x, vert.y, vert.z));
 		}
 
 		SphereBounds boundingSphere;

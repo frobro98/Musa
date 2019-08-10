@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS/Component.hpp"
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 #include "Math/Quat.h"
 #include "Math/Matrix.h"
 
@@ -11,13 +11,13 @@ struct TransformComponent : public Musa::Component
 
 	TransformComponent();
 
-	void SetPosition(const Vector& pos);
+	void SetPosition(const Vector4& pos);
 	void SetRotation(const Quat& rot);
-	void SetScale(const Vector& sca);
+	void SetScale(const Vector4& sca);
 
-	Vector GetPosition() const;
+	Vector4 GetPosition() const;
 	Quat GetRotation() const;
-	Vector GetScale() const;
+	Vector4 GetScale() const;
 
 	void SetWorldTransform(const Matrix& mat);
 	void SetLocalTransform(const Matrix& mat);
@@ -35,9 +35,9 @@ private:
 private:
 	Matrix worldTransform;
 	Matrix localTransform;
-	Vector position;
+	Vector4 position;
 	Quat   rotation;
-	Vector scale;
+	Vector4 scale;
 
 	bool transformDirty = true;
 	bool wasUpdated = false;

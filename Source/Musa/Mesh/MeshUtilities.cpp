@@ -12,12 +12,12 @@ void GenerateMeshTangents(DynamicArray<Vertex>& verts, const DynamicArray<Face>&
 		Vertex& v1 = verts[face.v1];
 		Vertex& v2 = verts[face.v2];
 
-		Vector v0Pos(v0.x, v0.y, v0.z);
-		Vector v1Pos(v1.x, v1.y, v1.z);
-		Vector v2Pos(v2.x, v2.y, v2.z);
+		Vector4 v0Pos(v0.x, v0.y, v0.z);
+		Vector4 v1Pos(v1.x, v1.y, v1.z);
+		Vector4 v2Pos(v2.x, v2.y, v2.z);
 
-		Vector edge0 = v1Pos - v0Pos;
-		Vector edge1 = v2Pos - v0Pos;
+		Vector4 edge0 = v1Pos - v0Pos;
+		Vector4 edge1 = v2Pos - v0Pos;
 
 		// TODO - Make some sort of Vector2 data structure!
 		float deltaU0 = v1.u - v0.u;
@@ -35,7 +35,7 @@ void GenerateMeshTangents(DynamicArray<Vertex>& verts, const DynamicArray<Face>&
 		// 		float bny = frac + (-deltaU1 + edge0.y + deltaU0 + edge1.y);
 		// 		float bnz = frac + (-deltaU1 + edge0.z + deltaU0 + edge1.z);
 
-		Vector normalizedTangent = Vector(tx, ty, tz).GetNormalized();
+		Vector4 normalizedTangent = Vector4(tx, ty, tz).GetNormalized();
 		//Vector normalizedBinormal = Vector(bnx, bny, bnz).GetNormalized();
 
 		v0.tx = normalizedTangent.x;

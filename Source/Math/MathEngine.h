@@ -4,7 +4,7 @@
 
 #include "MathUtilities.h"
 #include "MathDefinitions.h"
-#include "Vector.h"
+#include "Vector4.h"
 #include "Matrix.h"
 #include "3DMathUtilites.h"
 #include "Quat.h"

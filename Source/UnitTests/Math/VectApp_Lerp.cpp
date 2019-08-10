@@ -21,32 +21,32 @@ TEST(VectorLERPFunction, VectorLerpTests)
 
 TEST(LERP_Array, VectorLerpTests)
 {
-	Vector vSource[] =
+	Vector4 vSource[] =
 	{
-		Vector(1.00f, 2.0f,   3.0f,  4.0f),
-		Vector(21.00f, 12.0f, 23.0f, 40.0f),
-		Vector(13.00f, 24.0f, 33.0f, 40.0f),
-		Vector(0.50f, 22.0f, 43.0f, 40.0f),
-		Vector(1.30f, 23.0f, 35.0f, 40.0f),
-		Vector(15.00f, 72.0f, 35.0f, 40.0f),
-		Vector(21.00f, 92.0f, 33.0f, 40.0f),
+		Vector4(1.00f, 2.0f,   3.0f,  4.0f),
+		Vector4(21.00f, 12.0f, 23.0f, 40.0f),
+		Vector4(13.00f, 24.0f, 33.0f, 40.0f),
+		Vector4(0.50f, 22.0f, 43.0f, 40.0f),
+		Vector4(1.30f, 23.0f, 35.0f, 40.0f),
+		Vector4(15.00f, 72.0f, 35.0f, 40.0f),
+		Vector4(21.00f, 92.0f, 33.0f, 40.0f),
 	};
 
-	Vector vTarget[] =
+	Vector4 vTarget[] =
 	{
-		Vector(-1.00f, 12.0f,   13.0f,  41.0f),
-		Vector(213.00f, -12.0f, 263.0f, 140.0f),
-		Vector(133.00f, -24.0f, 363.0f, 240.0f),
-		Vector(3.50f, -22.0f, 453.0f, 340.0f),
-		Vector(13.30f, -23.0f, 365.0f, 440.0f),
-		Vector(153.00f, -72.0f, 735.0f, 540.0f),
-		Vector(231.00f, -92.0f, 733.0f, 340.0f),
+		Vector4(-1.00f, 12.0f,   13.0f,  41.0f),
+		Vector4(213.00f, -12.0f, 263.0f, 140.0f),
+		Vector4(133.00f, -24.0f, 363.0f, 240.0f),
+		Vector4(3.50f, -22.0f, 453.0f, 340.0f),
+		Vector4(13.30f, -23.0f, 365.0f, 440.0f),
+		Vector4(153.00f, -72.0f, 735.0f, 540.0f),
+		Vector4(231.00f, -92.0f, 733.0f, 340.0f),
 	};
 
 #define numVectors  ((sizeof(vSource))/(sizeof(vSource[0])) )
 
-	Vector vResult[numVectors];
-	Vector vOut;
+	Vector4 vResult[numVectors];
+	Vector4 vOut;
 
 	Math::LerpArray(vResult, vSource, vTarget, 0.65f, numVectors);
 
@@ -63,9 +63,9 @@ TEST(LERP_Array, VectorLerpTests)
 
 TEST(MathLerp, MathTests)
 {
-	Vector va(0.0f, 0.0f, 0.0f);
-	Vector vb(10.0f, 20.0f, 30.0f);
-	Vector vout;
+	Vector4 va(0.0f, 0.0f, 0.0f);
+	Vector4 vb(10.0f, 20.0f, 30.0f);
+	Vector4 vout;
 
 	Math::Lerp(vout, va, vb, 0.0f);
 
@@ -77,9 +77,9 @@ TEST(MathLerp, MathTests)
 
 TEST(MathLerp2, MathTests)
 {
-	Vector va(0.0f, 0.0f, 0.0f);
-	Vector vb(10.0f, 20.0f, 30.0f);
-	Vector vout;
+	Vector4 va(0.0f, 0.0f, 0.0f);
+	Vector4 vb(10.0f, 20.0f, 30.0f);
+	Vector4 vout;
 
 	Math::Lerp(vout, va, vb, 0.5f);
 
@@ -91,9 +91,9 @@ TEST(MathLerp2, MathTests)
 
 TEST(MathLerp3, MathTests)
 {
-	Vector va(0.0f, 0.0f, 0.0f);
-	Vector vb(10.0f, 20.0f, 30.0f);
-	Vector vout;
+	Vector4 va(0.0f, 0.0f, 0.0f);
+	Vector4 vb(10.0f, 20.0f, 30.0f);
+	Vector4 vout;
 
 	Math::Lerp(vout, va, vb, 0.25f);
 
@@ -105,9 +105,9 @@ TEST(MathLerp3, MathTests)
 
 TEST(MathLerp4, MathTests)
 {
-	Vector va(0.0f, 0.0f, 0.0f);
-	Vector vb(10.0f, 20.0f, 30.0f);
-	Vector vout;
+	Vector4 va(0.0f, 0.0f, 0.0f);
+	Vector4 vb(10.0f, 20.0f, 30.0f);
+	Vector4 vout;
 
 	Math::Lerp(vout, va, vb, 1.0f);
 

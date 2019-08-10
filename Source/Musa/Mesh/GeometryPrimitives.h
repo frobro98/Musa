@@ -21,116 +21,73 @@ struct Vertex
 	float tx;
 	float ty;
 	float tz;
-// 	float bnx;
-// 	float bny;
-// 	float bnz;
 	float u;
 	float v;
 
-	bool operator==(const Vertex& vert)
+	friend bool operator==(const Vertex& vert0, const Vertex& vert1)
 	{
 		return (
-			(x == vert.x) &&
-			(y == vert.y) &&
-			(z == vert.z) &&
-			(u == vert.u) &&
-			(v == vert.v) &&
-			(nx == vert.nx) &&
-			(ny == vert.ny) &&
- 			(nz == vert.nz) &&
-			(tx == vert.tx) &&
-			(ty == vert.ty) &&
-			(tz == vert.tz) //&&
-// 			(bnx == vert.bnx) &&
-// 			(bny == vert.bny) &&
-// 			(bnz == vert.bnz)
+			(vert0.x == vert1.x) &&
+			(vert0.y == vert1.y) &&
+			(vert0.z == vert1.z) &&
+			(vert0.u == vert1.u) &&
+			(vert0.v == vert1.v) &&
+			(vert0.nx == vert1.nx) &&
+			(vert0.ny == vert1.ny) &&
+ 			(vert0.nz == vert1.nz) &&
+			(vert0.tx == vert1.tx) &&
+			(vert0.ty == vert1.ty) &&
+			(vert0.tz == vert1.tz)
 		);
 	}
 
-	bool operator<(const Vertex& vert)
+	friend bool operator<(const Vertex& vert0, const Vertex& vert1)
 	{
-		// X position
-		if (x < vert.x)
-		{
-			return true;
-		}
-		else if (x > vert.x)
-		{
-			return false;
-		}
-
-		// Y Position
-		if (y < vert.y)
-		{
-			return true;
-		}
-		else if (y > vert.y)
-		{
-			return false;
-		}
-
-		// Z Position
-		if (z < vert.z)
-		{
-			return true;
-		}
-		else if (z > vert.z)
-		{
-			return false;
-		}
-
-		// Normal X
-		if (nx < vert.nx)
-		{
-			return true;
-		}
-		else if (nx > vert.nx)
-		{
-			return false;
-		}
-
-		// Normal Y
-		if (ny < vert.ny)
-		{
-			return true;
-		}
-		else if (ny > vert.ny)
-		{
-			return false;
-		}
-
-		// Normal Z
-		if (nz < vert.nz)
-		{
-			return true;
-		}
-		else if (nz > vert.nz)
-		{
-			return false;
-		}
-
-		// U Coordinate
-		if (u < vert.u)
-		{
-			return true;
-		}
-		else if (u > vert.u)
-		{
-			return false;
-		}
-
-		// V Coordinate
-		if (v < vert.v)
-		{
-			return true;
-		}
-		else if (v > vert.v)
-		{
-			return false;
-		}
-
-		return false;
+		return (
+			(vert0.x < vert1.x) &&
+			(vert0.y < vert1.y) &&
+			(vert0.z < vert1.z) &&
+			(vert0.nx < vert1.nx) &&
+			(vert0.ny < vert1.ny) &&
+			(vert0.nz < vert1.nz) &&
+			(vert0.tx < vert1.tx) &&
+			(vert0.ty < vert1.ty) &&
+			(vert0.tz < vert1.tz) &&
+			(vert0.u < vert1.u) &&
+			(vert0.v < vert1.v)
+		);
 	}
+
+	friend bool operator>(const Vertex& vert0, const Vertex& vert1)
+	{
+		return (
+			(vert0.x > vert1.x) &&
+			(vert0.y > vert1.y) &&
+			(vert0.z > vert1.z) &&
+			(vert0.nx > vert1.nx) &&
+			(vert0.ny > vert1.ny) &&
+			(vert0.nz > vert1.nz) &&
+			(vert0.tx > vert1.tx) &&
+			(vert0.ty > vert1.ty) &&
+			(vert0.tz > vert1.tz) &&
+			(vert0.u > vert1.u) &&
+			(vert0.v > vert1.v)
+			);
+	}
+};
+
+struct PrimitiveVertex
+{
+	float x;
+	float y;
+	float z;
+	float nx;
+	float ny;
+	float nz;
+	float tx;
+	float ty;
+	float tz;
+	
 };
 
 struct VertexBoneWeights

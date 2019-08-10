@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject/GameObject.h"
-#include "Math/Vector.h"
+#include "Math/Vector4.h"
 
 class Camera;
 
@@ -24,7 +24,7 @@ private:
 	void CameraLookAtAdjust(float changeX, float changeY);
 
 private:
-	Vector cameraUp;
-	Vector cameraLookAt;
+	Vector4 cameraUp;
+	Vector4 cameraLookAt;
 	Camera& camera;
 };

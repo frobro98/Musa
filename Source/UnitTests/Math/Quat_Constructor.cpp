@@ -59,7 +59,7 @@ TEST( Quat_Copy_Constructor, QuatConstructorTests )
 TEST( Quat_Vect_Component_Real_Component_Constructor, QuatConstructorTests )
 {
 	// Vector component, Real component Constructor
-	Vector v10(12.0f,13.0f,14.0f,15.0f);
+	Vector4 v10(12.0f,13.0f,14.0f,15.0f);
 	Quat q13(v10,20.0f);
 
 	CHECK( ( 12.0f == q13.x ) );
@@ -1037,7 +1037,7 @@ TEST( Quat_ZYX_Constructor, QuatConstructorTests )
 TEST( Quat_AXIS_ANGLE_Constructor, QuatConstructorTests )
 {
 	// Axis and Angle Type Constructor:
-	Vector  v11( 2.0f, 53.0f, 24.0f);
+	Vector4  v11( 2.0f, 53.0f, 24.0f);
 	Quat Qa1(ROT_AXIS_ANGLE, v11, Math::PiOver3 );
 
 	// Matrix to Quaternion
@@ -1077,8 +1077,8 @@ TEST( Quat_ROT_ORIENT_Constructor, QuatConstructorTests )
 {
 	// Orientation Type Constructor:
 
-	Vector  v15( 2.0f, 53.0f, 24.0f);
-	Vector  v16( 0.0f, -24.0f, 53.0f);
+	Vector4  v15( 2.0f, 53.0f, 24.0f);
+	Vector4  v16( 0.0f, -24.0f, 53.0f);
 	Quat q56(ROT_ORIENT, v15, v16 );
 
 	Matrix M2,M3;
@@ -1115,8 +1115,8 @@ TEST( Quat_ROT_ORIENT_Constructor, QuatConstructorTests )
 TEST( Quat_ROT_INVERSE_ORIENT_Constructor, QuatConstructorTests )
 {
 	// Orientation Type Constructor:
-	Vector  v17( 2.0f, 53.0f, 24.0f);
-	Vector  v18( 0.0f, -24.0f, 53.0f);
+	Vector4  v17( 2.0f, 53.0f, 24.0f);
+	Vector4  v18( 0.0f, -24.0f, 53.0f);
 	Quat q57(ROT_INVERSE_ORIENT, v17, v18 );
 
 	Matrix M2,M3;

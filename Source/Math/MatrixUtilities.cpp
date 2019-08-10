@@ -3,20 +3,20 @@
 
 namespace Math
 {
-Matrix ConstructViewMatrix(const Vector& position, const Vector& lookAt, const Vector& up)
+Matrix ConstructViewMatrix(const Vector4& position, const Vector4& lookAt, const Vector4& up)
 {
-	Vector viewForward = position - lookAt;
+	Vector4 viewForward = position - lookAt;
 	viewForward.Normalize();
 
-	Vector viewRight = up.Cross(viewForward);
+	Vector4 viewRight = up.Cross(viewForward);
 	viewRight.Normalize();
 
-	Vector viewUp = viewForward.Cross(viewRight);
+	Vector4 viewUp = viewForward.Cross(viewRight);
 	viewUp.Normalize();
 
 	return ConstructViewMatrix(position, viewForward, viewRight, viewUp);
 }
-Matrix ConstructViewMatrix(const Vector& position, const Vector& forward, const Vector& right, const Vector& up)
+Matrix ConstructViewMatrix(const Vector4& position, const Vector4& forward, const Vector4& right, const Vector4& up)
 {
 	Matrix view;
 	view[m0] = right.x;

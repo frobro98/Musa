@@ -57,8 +57,8 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 	Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed);
 	Quat quatY(ROT_Y, -changeX * speed);
 
-	Vector newLookAtDir = camera.GetForward() * quatX * quatY;
+	Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
 	newLookAtDir.Normalize();
 	cameraLookAt = position - newLookAtDir;
-	Vector up = camera.GetUp() * quatX * quatY;
+	Vector4 up = camera.GetUp() * quatX * quatY;
 }

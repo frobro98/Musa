@@ -14,10 +14,10 @@
 
 TEST( Matrix_Scale, matix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 	Matrix C;
@@ -79,10 +79,10 @@ TEST( Matrix_Scale, matix_tests )
 
 TEST( Matrix_times_Scale, Matrix_tests )
 {
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 	Matrix C;
@@ -145,10 +145,10 @@ TEST( Matrix_times_Scale, Matrix_tests )
 TEST( Matrix_ScaleEquals, Matrix_tests )
 {
 
-	Vector V0(1.0f,2.0f,3.0f,4.0f);
-	Vector V1(5.0f,6.0f,7.0f,8.0f);
-	Vector V2(9.0f,10.0f,11.0f,12.0f);
-	Vector V3(13.0f,14.0f,15.0f,16.0f);
+	Vector4 V0(1.0f,2.0f,3.0f,4.0f);
+	Vector4 V1(5.0f,6.0f,7.0f,8.0f);
+	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
+	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
 	Matrix A(V0,V1,V2,V3);
 	float scale = 10.0f;

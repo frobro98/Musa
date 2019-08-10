@@ -4,16 +4,16 @@
 
 ViewFrustum::ViewFrustum(
 	const Matrix& viewMatrix,
-	const Vector& origin,
+	const Vector4& origin,
 	const Extents2D& nearExtents,
 	const Extents2D& farExtents,
 	float32 nearPlane,
 	float32 farPlane
 )
 {
-	Vector forward(viewMatrix[m2], viewMatrix[m6], viewMatrix[m10]);
-	Vector right(viewMatrix[m0], viewMatrix[m4], viewMatrix[m8]);
-	Vector up(viewMatrix[m1], viewMatrix[m5], viewMatrix[m9]);
+	Vector4 forward(viewMatrix[m2], viewMatrix[m6], viewMatrix[m10]);
+	Vector4 right(viewMatrix[m0], viewMatrix[m4], viewMatrix[m8]);
+	Vector4 up(viewMatrix[m1], viewMatrix[m5], viewMatrix[m9]);
 	float32 nearWidth = nearExtents.width;
 	float32 nearHeight = nearExtents.height;
 	float32 farWidth = farExtents.width;
@@ -32,11 +32,11 @@ ViewFrustum::ViewFrustum(
 
 bool ViewFrustum::DoesSphereIntersect(const SphereBounds& bounds)
 {
-	Vector pos = bounds.position;
+	Vector4 pos = bounds.position;
 	float radius = bounds.radius;
 
 	// Near Plane Test
-	Vector vec = pos - nearBottomRight;
+	Vector4 vec = pos - nearBottomRight;
 	float nearDist = vec.Dot(nearPlaneNormal);
 
 	// Far Plane Test
@@ -69,9 +69,9 @@ bool ViewFrustum::DoesSphereIntersect(const SphereBounds& bounds)
 
 void ViewFrustum::CalculateCollisionNormals()
 {
-	Vector A = nearBottomLeft - nearTopLeft;
-	Vector B = nearTopRight - nearTopLeft;
-	Vector C = farTopLeft - nearTopLeft;
+	Vector4 A = nearBottomLeft - nearTopLeft;
+	Vector4 B = nearTopRight - nearTopLeft;
+	Vector4 C = farTopLeft - nearTopLeft;
 
 	nearPlaneNormal = A.Cross(B);
 	nearPlaneNormal.Normalize();

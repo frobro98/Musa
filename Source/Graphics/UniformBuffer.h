@@ -41,13 +41,13 @@ struct MaterialProperties
 
 struct ViewProperties
 {
-	Vector viewPosition;
+	Vector4 viewPosition;
 };
 
 struct LightProperties
 {
-	Vector position;
-	Vector direction;
+	Vector4 position;
+	Vector4 direction;
 	Color32 color;
 	Matrix lightViewTransform;
 	Matrix lightProjection;//lightSpaceTransform;

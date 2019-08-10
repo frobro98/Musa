@@ -14,8 +14,8 @@
 
 TEST(Dot, vector_tests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2(4.0f, 5.0f, 6.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2(4.0f, 5.0f, 6.0f);
 
 	float value1;
 
@@ -25,9 +25,9 @@ TEST(Dot, vector_tests)
 
 TEST(Cross, vector_tests)
 {
-	Vector v1(1.0f, 0.0f, 0.0f);
-	Vector v2(0.0f, 1.0f, 0.0f);
-	Vector out1;
+	Vector4 v1(1.0f, 0.0f, 0.0f);
+	Vector4 v2(0.0f, 1.0f, 0.0f);
+	Vector4 out1;
 
 	out1 = v1.Cross(v2);
 
@@ -39,7 +39,7 @@ TEST(Cross, vector_tests)
 
 TEST(Normalizealize, vector_tests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
 
 	v1.Normalize();
 
@@ -51,8 +51,8 @@ TEST(Normalizealize, vector_tests)
 
 TEST(GetNormalize, vector_tests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2;
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2;
 
 	v2 = v1.GetNormalized();
 
@@ -68,7 +68,7 @@ TEST(GetNormalize, vector_tests)
 
 TEST(Magnitude, VectFunctionTests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
 	float value;
 
 	value = v1.Magnitude();
@@ -78,7 +78,7 @@ TEST(Magnitude, VectFunctionTests)
 
 TEST(MagnitudeSquared, vector_tests)
 {
-	Vector v1(1.0f, 2.0f, 3.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
 	float value;
 	value = v1.MagnitudeSqr();
 	CHECK(eq(value, 14, Math::InternalTolerence));
@@ -87,8 +87,8 @@ TEST(MagnitudeSquared, vector_tests)
 TEST(GetAngle, vector_tests)
 {
 	float value;
-	Vector v1(1.0f, 2.0f, 3.0f);
-	Vector v2(1.80f, -2.0f, 2.0f);
+	Vector4 v1(1.0f, 2.0f, 3.0f);
+	Vector4 v2(1.80f, -2.0f, 2.0f);
 
 	value = v1.GetAngle(v2);
 
