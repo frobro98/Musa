@@ -3,8 +3,6 @@
 // TODO - Move these out of this mesh file
 #include "Platform.h"
 
-struct Vertex
-{
 	// NOTE - MSVC Internal compiler error occurs when these variables are all defaulted with '= 0'
 	// Don't know how to approach this issue. This is the error given:
 	//
@@ -12,6 +10,8 @@ struct Vertex
 	// Please choose the Technical Support command on the Visual C++
 	// Help menu, or open the Technical Support help file for more information
 	//
+struct Vertex
+{
 	float x;
 	float y;
 	float z;

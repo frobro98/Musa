@@ -6,11 +6,9 @@
 #include <new.h>  // for placement new
 
 #include "Heap.h"
-#include "InternalBlock.h"
 #include "MemoryUtilities.h"
-#include "InternalMem.h"
-
-#define STUB_PLEASE_REPLACE(x) (x)
+#include "Internal/InternalBlock.h"
+#include "Internal/InternalMem.h"
 
 using namespace Internal;
 

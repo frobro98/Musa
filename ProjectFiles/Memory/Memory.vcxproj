@@ -153,26 +153,26 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Malloc16Align.h" />
     <ClInclude Include="..\..\Source\Memory\Block.h" />
+    <ClInclude Include="..\..\Source\Memory\DynamicBlockHeap.h" />
+    <ClInclude Include="..\..\Source\Memory\FixedBlockHeap.h" />
     <ClInclude Include="..\..\Source\Memory\GlobalNew.h" />
     <ClInclude Include="..\..\Source\Memory\Heap.h" />
+    <ClInclude Include="..\..\Source\Memory\Internal\InternalBlock.h" />
+    <ClInclude Include="..\..\Source\Memory\Internal\InternalHeap.h" />
+    <ClInclude Include="..\..\Source\Memory\Internal\InternalMem.h" />
     <ClInclude Include="..\..\Source\Memory\Memory.h" />
     <ClInclude Include="..\..\Source\Memory\MemoryEngine.h" />
-    <ClInclude Include="..\..\Source\private\Memory\DynamicBlockHeap.h" />
-    <ClInclude Include="..\..\Source\private\Memory\FixedBlockHeap.h" />
-    <ClInclude Include="..\..\Source\private\Memory\InternalBlock.h" />
-    <ClInclude Include="..\..\Source\private\Memory\InternalHeap.h" />
-    <ClInclude Include="..\..\Source\private\Memory\InternalMem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\private\Memory\Block.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\DynamicBlockHeap.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\FixedBlockHeap.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\GlobalNew.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\Heap.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\InternalBlock.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\InternalHeap.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\InternalMem.cpp" />
-    <ClCompile Include="..\..\Source\private\Memory\Memory.cpp" />
+    <ClCompile Include="..\..\Source\Memory\Block.cpp" />
+    <ClCompile Include="..\..\Source\Memory\DynamicBlockHeap.cpp" />
+    <ClCompile Include="..\..\Source\Memory\FixedBlockHeap.cpp" />
+    <ClCompile Include="..\..\Source\Memory\GlobalNew.cpp" />
+    <ClCompile Include="..\..\Source\Memory\Heap.cpp" />
+    <ClCompile Include="..\..\Source\Memory\Internal\InternalBlock.cpp" />
+    <ClCompile Include="..\..\Source\Memory\Internal\InternalHeap.cpp" />
+    <ClCompile Include="..\..\Source\Memory\Internal\InternalMem.cpp" />
+    <ClCompile Include="..\..\Source\Memory\Memory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

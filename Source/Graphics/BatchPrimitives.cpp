@@ -9,14 +9,14 @@ static void RenderBatchedLines()
 
 }
 
-void BatchLinePrimitive(const BatchedLineDescription& lineDesc)
+void BatchLinePrimitive(const BatchedLineDescription& /*lineDesc*/)
 {
 
 }
 
-void RenderBatchedPrimitives(Renderer& renderer)
+void RenderBatchedPrimitives(Renderer& /*renderer*/)
 {
-
+	RenderBatchedLines();
 
 
 	batchedLines.Clear();

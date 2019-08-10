@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EngineCore/Platform.h"
-#include "InternalHeap.h"
+#include "Internal/InternalHeap.h"
 
 // TODO - Write unit tests for fixed block
 class FixedBlockHeap final : public Internal::InternalHeap

@@ -112,9 +112,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Archiver\SkeletonHeader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Archiver\ArchiveQuery.cpp" />
     <ClCompile Include="..\..\Source\Archiver\FileDeserializer.cpp" />
     <ClCompile Include="..\..\Source\Archiver\FileSerializer.cpp" />
-    <ClCompile Include="..\..\Source\private\Archiver\ArchiveQuery.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

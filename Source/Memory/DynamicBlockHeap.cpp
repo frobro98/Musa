@@ -2,8 +2,8 @@
 #include "EngineCore/Platform.h"
 #include "DynamicBlockHeap.h"
 #include "MemoryUtilities.h"
-#include "InternalBlock.h"
-#include "InternalMem.h"
+#include "Internal/InternalBlock.h"
+#include "Internal/InternalMem.h"
 #include "Assertion.h"
 
 using namespace Internal;

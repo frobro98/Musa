@@ -4,8 +4,8 @@
     <Filter Include="Source">
       <UniqueIdentifier>{81420870-16a3-4e2d-9f40-42bd7eaad2b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\private">
-      <UniqueIdentifier>{389fea99-09fb-4c02-83fa-d3a15fe5faae}</UniqueIdentifier>
+    <Filter Include="Source\Internal">
+      <UniqueIdentifier>{5fc1d027-0b55-43ec-a6d3-5bde7b641154}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,49 +27,49 @@
     <ClInclude Include="..\..\Source\Memory\MemoryEngine.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\private\Memory\InternalBlock.h">
-      <Filter>Source\private</Filter>
+    <ClInclude Include="..\..\Source\Memory\FixedBlockHeap.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\private\Memory\InternalHeap.h">
-      <Filter>Source\private</Filter>
+    <ClInclude Include="..\..\Source\Memory\DynamicBlockHeap.h">
+      <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\private\Memory\InternalMem.h">
-      <Filter>Source\private</Filter>
+    <ClInclude Include="..\..\Source\Memory\Internal\InternalHeap.h">
+      <Filter>Source\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\private\Memory\FixedBlockHeap.h">
-      <Filter>Source\private</Filter>
+    <ClInclude Include="..\..\Source\Memory\Internal\InternalMem.h">
+      <Filter>Source\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\private\Memory\DynamicBlockHeap.h">
-      <Filter>Source\private</Filter>
+    <ClInclude Include="..\..\Source\Memory\Internal\InternalBlock.h">
+      <Filter>Source\Internal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\private\Memory\Block.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\GlobalNew.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\GlobalNew.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\Heap.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\Heap.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\Memory.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\Memory.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\Block.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\InternalBlock.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\DynamicBlockHeap.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\InternalHeap.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\FixedBlockHeap.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\InternalMem.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\Internal\InternalHeap.cpp">
+      <Filter>Source\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\DynamicBlockHeap.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\Internal\InternalMem.cpp">
+      <Filter>Source\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\private\Memory\FixedBlockHeap.cpp">
-      <Filter>Source\private</Filter>
+    <ClCompile Include="..\..\Source\Memory\Internal\InternalBlock.cpp">
+      <Filter>Source\Internal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
