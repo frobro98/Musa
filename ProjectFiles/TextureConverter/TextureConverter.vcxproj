@@ -86,7 +86,7 @@ echo         Copied TextureConverter.exe!</Command>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>

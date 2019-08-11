@@ -1,7 +1,9 @@
 #pragma once
 
-// TODO - Move these out of this mesh file
 #include "Platform.h"
+#include "Math/Vector2.hpp"
+#include "Math/Vector3.hpp"
+#include "Color.hpp"
 
 	// NOTE - MSVC Internal compiler error occurs when these variables are all defaulted with '= 0'
 	// Don't know how to approach this issue. This is the error given:
@@ -12,81 +14,41 @@
 	//
 struct Vertex
 {
-	float x;
-	float y;
-	float z;
-	float nx;
-	float ny;
-	float nz;
-	float tx;
-	float ty;
-	float tz;
-	float u;
-	float v;
+	Vector3 position;
+	Vector3 normal;
+	Vector3 tangent;
+	Vector2 texCoords;
 
 	friend bool operator==(const Vertex& vert0, const Vertex& vert1)
 	{
-		return (
-			(vert0.x == vert1.x) &&
-			(vert0.y == vert1.y) &&
-			(vert0.z == vert1.z) &&
-			(vert0.u == vert1.u) &&
-			(vert0.v == vert1.v) &&
-			(vert0.nx == vert1.nx) &&
-			(vert0.ny == vert1.ny) &&
- 			(vert0.nz == vert1.nz) &&
-			(vert0.tx == vert1.tx) &&
-			(vert0.ty == vert1.ty) &&
-			(vert0.tz == vert1.tz)
-		);
+		return vert0.position == vert1.position &&
+			vert0.normal == vert1.normal &&
+			vert0.tangent == vert1.tangent &&
+			vert0.texCoords == vert1.texCoords;
 	}
 
 	friend bool operator<(const Vertex& vert0, const Vertex& vert1)
 	{
-		return (
-			(vert0.x < vert1.x) &&
-			(vert0.y < vert1.y) &&
-			(vert0.z < vert1.z) &&
-			(vert0.nx < vert1.nx) &&
-			(vert0.ny < vert1.ny) &&
-			(vert0.nz < vert1.nz) &&
-			(vert0.tx < vert1.tx) &&
-			(vert0.ty < vert1.ty) &&
-			(vert0.tz < vert1.tz) &&
-			(vert0.u < vert1.u) &&
-			(vert0.v < vert1.v)
-		);
+		return vert0.position < vert1.position &&
+			vert0.normal < vert1.normal &&
+			vert0.tangent < vert1.tangent &&
+			vert0.texCoords < vert1.texCoords;
 	}
 
 	friend bool operator>(const Vertex& vert0, const Vertex& vert1)
 	{
-		return (
-			(vert0.x > vert1.x) &&
-			(vert0.y > vert1.y) &&
-			(vert0.z > vert1.z) &&
-			(vert0.nx > vert1.nx) &&
-			(vert0.ny > vert1.ny) &&
-			(vert0.nz > vert1.nz) &&
-			(vert0.tx > vert1.tx) &&
-			(vert0.ty > vert1.ty) &&
-			(vert0.tz > vert1.tz) &&
-			(vert0.u > vert1.u) &&
-			(vert0.v > vert1.v)
-			);
+		return vert0.position > vert1.position &&
+			vert0.normal > vert1.normal &&
+			vert0.tangent > vert1.tangent &&
+			vert0.texCoords > vert1.texCoords;
 	}
 };
 
 struct PrimitiveVertex
 {
-	float x;
-	float y;
-	float z;
-	float nx;
-	float ny;
-	float nz;
-	float tx;
-	float ty;
-	float tz;
+	Vector3 position;
+	Vector3 normal;
+	Vector3 tangent;
 	
 };
 

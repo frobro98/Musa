@@ -1,5 +1,6 @@
 
-#include "MathEngine.h"
+#include "Vector4.h"
+#include "Vector3.hpp"
 #include "MathUtilities.h"
 #include "Internal/VectorImplementation.h"
 
@@ -11,6 +12,11 @@ const Vector4 Vector4::One(1, 1, 1);
 
 Vector4::Vector4(float x_, float y_, float z_, float w_)
 	: x(x_), y(y_), z(z_), w(w_)
+{
+}
+
+Vector4::Vector4(const Vector3& v)
+	: x(v.x), y(v.y), z(v.z), w(1.f)
 {
 }
 
@@ -96,20 +102,19 @@ Vector4& Vector4::operator-=(const Vector4& other)
 	return *this;
 }
 
-Vector4 Vector4::operator+(const Vector4 & other) const
+Vector4 Vector4::operator+(const Vector4& other) const
 {
 	Vector4 v(*this);
 	return v += other;
 }
 
-Vector4 Vector4::operator-(const Vector4 & other) const
+Vector4 Vector4::operator-(const Vector4& other) const
 {
-
 	Vector4 v(*this);
 	return v -= other;
 }
 
-Vector4 & Vector4::operator*=(float s)
+Vector4& Vector4::operator*=(float s)
 {
 	Internal::VectorMultiTo(*this, s);
 	return *this;
@@ -122,7 +127,7 @@ Vector4 Vector4::operator*(float s) const
 	return v;
 }
 
-Vector4 operator*(float s, const Vector4 & vec)
+Vector4 operator*(float s, const Vector4& vec)
 {
 	Vector4 v(vec);
 	v *= s;

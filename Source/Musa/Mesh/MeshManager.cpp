@@ -281,10 +281,10 @@ Mesh* MeshManager::LoadSpherePrimitive()
 
 			vertices.Add(
 				Vertex{
-					xPos, yPos, zPos,
-					xPos, yPos, zPos,
-					0, 0, 0,
-					xSeg, ySeg
+					Vector3(xPos, yPos, zPos),
+					Vector3(xPos, yPos, zPos),
+					Vector3(0, 0, 0),
+					Vector2(xSeg, ySeg)
 				}
 			);
 		}
@@ -326,43 +326,43 @@ Mesh* MeshManager::LoadBoxPrimitive()
 {
 	Vertex vertices[] =
 	{
-		    /* Position */         /* Normal */          /* Tangent */       /* Binormal */    /* UV */
+		/* Position */         /* Normal */          /* Tangent */   /* UV */
 
-		// Back
-		{-0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,    0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 0.0f},
-		{ 0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,    0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 0.0f},
-		{ 0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,    0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 1.0f},
-		{-0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,    0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 1.0f},
-								 				       					   /*				  */
-		// Front				 				       					   /*				  */
-		{-0.5f, -0.5f,  0.5f,   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 0.0f},
-		{ 0.5f, -0.5f,  0.5f,   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 0.0f},
-		{ 0.5f,  0.5f,  0.5f,   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 1.0f},
-		{-0.5f,  0.5f,  0.5f,   0.0f,  0.0f, 1.0f,     0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 1.0f},
-								 				        				   /*				  */
-		// Left					 				        				   /*				  */
-		{-0.5f,  0.5f,  0.5f,   -1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 1.0f},
-		{-0.5f,  0.5f, -0.5f,   -1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 1.0f},
-		{-0.5f, -0.5f, -0.5f,   -1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 0.0f},
-		{-0.5f, -0.5f,  0.5f,   -1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 0.0f},
-							  	 				        				   /*				  */
-		// Right			  	 				        				   /*				  */
-		 {0.5f,  0.5f,  0.5f,    1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 1.0f},
-		 {0.5f,  0.5f, -0.5f,    1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 1.0f},
-		 {0.5f, -0.5f, -0.5f,    1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 0.0f},
-		 {0.5f, -0.5f,  0.5f,    1.0f,  0.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 0.0f},
-							  					        				   /*				  */
-		 // Bottom			  					        				   /*				  */
-		{-0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 1.0f},
-		{ 0.5f, -0.5f, -0.5f,    0.0f, -1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 1.0f},
-		{ 0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 0.0f},
-		{-0.5f, -0.5f,  0.5f,    0.0f, -1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 0.0f},
-							  	 				        				   /*				  */
-		// Top				  	 				        				   /*				  */
-		{-0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 1.0f},
-		{ 0.5f,  0.5f, -0.5f,    0.0f,  1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 1.0f},
-		{ 0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  1.0f, 0.0f},
-		{-0.5f,  0.5f,  0.5f,    0.0f,  1.0f,  0.0f,   0.0f, 0.0f, 0.0f,   /*0.0f, 0.0f, 0.0f,*/  0.0f, 0.0f},
+	// Back
+	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(0.5f, -0.5f, -0.5f),    Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	{Vector3(0.5f,  0.5f, -0.5f),    Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+
+	// Front
+	{Vector3(-0.5f, -0.5f,  0.5f),   Vector3(0.0f,  0.0f, 1.0f),     Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(0.5f, -0.5f,  0.5f),    Vector3(0.0f,  0.0f, 1.0f),     Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	{Vector3(0.5f,  0.5f,  0.5f),    Vector3(0.0f,  0.0f, 1.0f),     Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(-0.5f,  0.5f,  0.5f),   Vector3(0.0f,  0.0f, 1.0f),     Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+
+	// Left
+	{Vector3(-0.5f,  0.5f,  0.5f),   Vector3(-1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(-1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(-1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(-0.5f, -0.5f,  0.5f),   Vector3(-1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+
+	// Right
+	 {Vector3(0.5f,  0.5f,  0.5f),    Vector3(1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	 {Vector3(0.5f,  0.5f, -0.5f),    Vector3(1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	 {Vector3(0.5f, -0.5f, -0.5f),    Vector3(1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	 {Vector3(0.5f, -0.5f,  0.5f),    Vector3(1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+
+	 // Bottom
+	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	{Vector3(0.5f, -0.5f, -0.5f),    Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(0.5f, -0.5f,  0.5f),    Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	{Vector3(-0.5f, -0.5f,  0.5f),   Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+
+	// Top
+	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	{Vector3(0.5f,  0.5f, -0.5f),    Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(0.5f,  0.5f,  0.5f),    Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	{Vector3(-0.5f,  0.5f,  0.5f),   Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
 	};
 
 	Face faces[] =
@@ -410,10 +410,10 @@ Mesh* MeshManager::LoadPlanePrimitive()
 	Vertex verts[] = 
 	{
 		/* Position */         /* Normal */     /* Tangent */    /* Binormal */  /* UV */
-		{0.5f, 0.5f, 0.f,    0.0f, 0.0f, 1.f,   0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/  0.f, 0.f},
-		{-0.5f, 0.5f, 0.f,   0.0f, 0.0f, 1.f,   0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/  1.f, 0.f},
-		{-0.5f, -0.5f, 0.f,  0.0f, 0.0f, 1.f,   0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/  1.f, 1.f},
-		{0.5f, -0.5f, 0.f,   0.0f, 0.0f, 1.f,   0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/  0.f, 1.f}
+		{Vector3( 0.5f,  0.5f, 0.f),  Vector3(0.0f, 0.0f, 1.f),   Vector3(0.f, 0.f, 0.f),  Vector2(0.f, 0.f) },
+		{Vector3(-0.5f,  0.5f, 0.f),  Vector3(0.0f, 0.0f, 1.f),   Vector3(0.f, 0.f, 0.f),  Vector2(1.f, 0.f) },
+		{Vector3(-0.5f, -0.5f, 0.f),  Vector3(0.0f, 0.0f, 1.f),   Vector3(0.f, 0.f, 0.f),  Vector2(1.f, 1.f) },
+		{Vector3( 0.5f, -0.5f, 0.f),  Vector3(0.0f, 0.0f, 1.f),   Vector3(0.f, 0.f, 0.f),  Vector2(0.f, 1.f) }
 	};
 
 	Face faces[] = 
@@ -455,31 +455,31 @@ Mesh* MeshManager::LoadPyramidPrimitive()
 
 	Vertex  verts[] =
 	{
-		/* Position */                 /* Normal */          /* Tangent */    /* Binormal */    /* UV */
-		{ -0.25f, 0.0f, -0.25f,     -0.6f,  0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 0.0f },
-		{ -0.25f, 0.0f, -0.25f,     -0.6f, -0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 1.0f },
-		{  0.25f, 0.0f, -0.25f,      0.6f, -0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 1.0f },
-		{  0.0f,  1.0f,  0.0f,       0.6f,  0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 0.0f },
-		{  0.25f, 0.0f, -0.25f,      0.6f, -0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 1.0f },
-		{  0.25f, 0.0f,  0.25f,      0.6f, -0.6f,  0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 1.0f },
-		{  0.0f,  1.0f,  0.0f,       0.6f,  0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 0.0f },
-		{  0.25f, 0.0f,  0.25f,      0.6f,  0.6f,  0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 0.0f },
-		{  0.25f, 0.0f,  0.25f,      0.6f, -0.6f, 0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 1.0f },
-		{ -0.25f, 0.0f,  0.25f,     -0.6f, -0.6f, 0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 1.0f },
-		{  0.0f,  1.0f,  0.0f,       0.6f,  0.6f, 0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 0.0f },
-		{ -0.0f,  1.0f,  0.0f,      -0.6f,  0.6f, 0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 0.0f },
-		{ -0.25f, 0.0f,  0.25f,     -0.6f, -0.6f,  0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 0.0f },
-		{ -0.25f, 0.0f, -0.25f,     -0.6f, -0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 1.0f },
-		{ -0.0f,  1.0f,  0.0f,      -0.6f,  0.6f,  0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 0.0f, },
-		{ -0.0f,  1.0f,  0.0f,      -0.6f,  0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 1.0f },
-		{ -0.25f, 0.0f,  0.25f,     -0.6f, -0.6f,  0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 0.0f },
-		{  0.25f, 0.0f,  0.25f,      0.6f, -0.6f,  0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 0.0f },
-		{  0.25f, 0.0f, -0.25f,      0.6f, -0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 1.0f },
-		{ -0.25f, 0.0f, -0.25f,     -0.6f, -0.6f, -0.6f,    0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 1.0f, },
-		{ -0.0f,  1.0f,  0.0f,      -0.6f, 0.6f, -0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 1.0f },
-		{  0.0f,  1.0f,  0.0f,       0.6f, 0.6f, -0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 1.0f },
-		{  0.0f,  1.0f,  0.0f,       0.6f, 0.6f,  0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   1.0f, 0.0f },
-		{ -0.0f,  1.0f,  0.0f,      -0.6f, 0.6f,  0.6f,     0.f, 0.f, 0.f,   /*0.f, 0.f, 0.f,*/   0.0f, 0.0f },
+		/* Position */                       /* Normal */                     /* Tangent */              /* UV */
+		{ Vector3(-0.25f, 0.0f, -0.25f),     Vector3(-0.6f,  0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2{0.0f, 0.0f} },
+		{ Vector3(-0.25f, 0.0f, -0.25f),     Vector3(-0.6f, -0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 1.0f) },
+		{ Vector3( 0.25f, 0.0f, -0.25f),     Vector3( 0.6f, -0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 1.0f) },
+		{ Vector3( 0.0f,  1.0f,  0.0f),      Vector3( 0.6f,  0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 0.0f) },
+		{ Vector3( 0.25f, 0.0f, -0.25f),     Vector3( 0.6f, -0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 1.0f) },
+		{ Vector3( 0.25f, 0.0f,  0.25f),     Vector3( 0.6f, -0.6f,  0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 1.0f) },
+		{ Vector3( 0.0f,  1.0f,  0.0f),      Vector3( 0.6f,  0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 0.0f) },
+		{ Vector3( 0.25f, 0.0f,  0.25f),     Vector3( 0.6f,  0.6f,  0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 0.0f) },
+		{ Vector3( 0.25f, 0.0f,  0.25f),     Vector3( 0.6f, -0.6f, 0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 1.0f) },
+		{ Vector3(-0.25f, 0.0f,  0.25f),     Vector3(-0.6f, -0.6f, 0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 1.0f) },
+		{ Vector3( 0.0f,  1.0f,  0.0f),      Vector3( 0.6f,  0.6f, 0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 0.0f) },
+		{ Vector3(-0.0f,  1.0f,  0.0f),      Vector3(-0.6f,  0.6f, 0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 0.0f) },
+		{ Vector3(-0.25f, 0.0f,  0.25f),     Vector3(-0.6f, -0.6f,  0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 0.0f) },
+		{ Vector3(-0.25f, 0.0f, -0.25f),     Vector3(-0.6f, -0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 1.0f) },
+		{ Vector3(-0.0f,  1.0f,  0.0f),      Vector3(-0.6f,  0.6f,  0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 0.0f) },
+		{ Vector3(-0.0f,  1.0f,  0.0f),      Vector3(-0.6f,  0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 1.0f) },
+		{ Vector3(-0.25f, 0.0f,  0.25f),     Vector3(-0.6f, -0.6f,  0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 0.0f) },
+		{ Vector3( 0.25f, 0.0f,  0.25f),     Vector3( 0.6f, -0.6f,  0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 0.0f) },
+		{ Vector3( 0.25f, 0.0f, -0.25f),     Vector3( 0.6f, -0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 1.0f) },
+		{ Vector3(-0.25f, 0.0f, -0.25f),     Vector3(-0.6f, -0.6f, -0.6f),    Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 1.0f) },
+		{ Vector3(-0.0f,  1.0f,  0.0f),      Vector3(-0.6f, 0.6f, -0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 1.0f) },
+		{ Vector3( 0.0f,  1.0f,  0.0f),      Vector3( 0.6f, 0.6f, -0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 1.0f) },
+		{ Vector3( 0.0f,  1.0f,  0.0f),      Vector3( 0.6f, 0.6f,  0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(1.0f, 0.0f) },
+		{ Vector3(-0.0f,  1.0f,  0.0f),      Vector3(-0.6f, 0.6f,  0.6f),     Vector3(0.f, 0.f, 0.f),   Vector2(0.0f, 0.0f) },
 
 	};
 	

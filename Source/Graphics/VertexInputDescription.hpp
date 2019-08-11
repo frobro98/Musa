@@ -74,7 +74,7 @@ inline const VertexInputDescriptionList GetVertexInput<class Mesh>()
 			{
 				VertexInputType::F32_3, // Type
 				sizeof(Vertex), // Stride
-				offsetof(Vertex, x), // Offset
+				offsetof(Vertex, position), // Offset
 				0, // Binding
 				0 // Location
 			},
@@ -82,7 +82,7 @@ inline const VertexInputDescriptionList GetVertexInput<class Mesh>()
 			{
 				VertexInputType::F32_3,
 				sizeof(Vertex),
-				offsetof(Vertex, nx),
+				offsetof(Vertex, normal),
 				0,
 				1
 			},
@@ -90,23 +90,15 @@ inline const VertexInputDescriptionList GetVertexInput<class Mesh>()
 			{
 				VertexInputType::F32_3,
 				sizeof(Vertex),
-				offsetof(Vertex, tx),
+				offsetof(Vertex, tangent),
 				0,
 				2
 			},
 
-// 			{
-// 				VertexInputType::F32_3,
-// 				sizeof(Vertex),
-// 				offsetof(Vertex, bnx),
-// 				0,
-// 				3
-// 			},
-
 			{
 				VertexInputType::F32_2,
 				sizeof(Vertex),
-				offsetof(Vertex, u),
+				offsetof(Vertex, texCoords),
 				0,
 				3
 			}

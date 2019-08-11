@@ -180,6 +180,8 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Math\Matrix.cpp" />
     <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp" />
     <ClCompile Include="..\..\Source\Math\Quat.cpp" />
+    <ClCompile Include="..\..\Source\Math\Vector2.cpp" />
+    <ClCompile Include="..\..\Source\Math\Vector3.cpp" />
     <ClCompile Include="..\..\Source\Math\Vector4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

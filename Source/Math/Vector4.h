@@ -1,10 +1,19 @@
 #pragma once
 
 #include "MathDefinitions.h"
-#include "MathConstants.h"
+#include "Math/MathConstants.h"
+
+struct Vector3;
 
 struct Vector4
 {
+	static const Vector4 RightAxis;
+	static const Vector4 UpAxis;
+	static const Vector4 ForwardAxis;
+	static const Vector4 Zero;
+	static const Vector4 One;
+
+public:
 	float x = 0.f;
 	float y = 0.f;
 	float z = 0.f;
@@ -12,12 +21,7 @@ struct Vector4
 
 	Vector4() = default;
 	explicit Vector4(float x, float y, float z, float w = 1.f);
-
-	static const Vector4 RightAxis;
-	static const Vector4 UpAxis;
-	static const Vector4 ForwardAxis;
-	static const Vector4 Zero;
-	static const Vector4 One;
+	explicit Vector4(const Vector3& v);
 
 	float Dot(const Vector4& other) const;
 	Vector4 Cross(const Vector4& other) const;
