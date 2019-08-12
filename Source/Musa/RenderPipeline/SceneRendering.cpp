@@ -27,6 +27,8 @@
 #include "Scene/Viewport.hpp"
 #include "Scene/ScreenView.hpp"
 
+#include "RenderPipeline/BatchPrimitives.hpp"
+
 // class LightUniformBufferPool
 // {
 // public:
@@ -377,12 +379,8 @@ void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, co
 		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i);
 	}
 
-	//renderingState.SetTexture(*shadowMap.depthTextureResource, 3);
-
-	//Vector lightDirection = light->GetPosition() + light->GetDirection();
-
 	LightProperties properties = {};
-	properties.direction = -light->GetPosition();//-light->GetDirection();
+	properties.direction = -light->GetDirection();
 	properties.position = lightDesc.position;
 	properties.lightViewTransform = Math::ConstructViewMatrix(light->GetPosition(), Vector4::Zero, Vector4::UpAxis);
 	properties.lightProjection = Math::ConstructPerspectiveMatrix(90.f, (float)ShadowMapWidth / (float)ShadowMapHeight, .1f, 1000.);
@@ -470,7 +468,7 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 
 	RenderGBufferPass(renderer, scene, view);
 
-	//RenderShadowPass(*cmdBuffer, scene);
+	RenderBatchedPrimitives(renderer, view);
 	
 	TransitionTargetsToRead(renderer, targets);
 

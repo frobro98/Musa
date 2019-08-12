@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ScreenRendering.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderObject.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderPipeline.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ToonShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\UnlitShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderResource.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ScreenRendering.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderObject.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderPipeline.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ToonShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\UnlitShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderResource.hpp" />

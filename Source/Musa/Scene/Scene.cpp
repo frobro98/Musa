@@ -13,6 +13,7 @@
 #include "RenderPipeline/SceneRendering.h"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
+#include "RenderPipeline/BatchPrimitives.hpp"
 
 
 static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat format)
@@ -144,6 +145,18 @@ void Scene::RenderScene(Viewport& viewport)
 		CreateGBuffer();
 		gbuffersInitialized = true;
 	}
+
+	BatchedLineDescription desc = {};
+	desc.color = Color32::Blue();
+	desc.start = Vector3(-100, 0, 0);
+	desc.end = Vector3(100, 0, 0);
+	BatchLinePrimitive(desc);
+
+	desc = {};
+	desc.color = Color32::Red();
+	desc.start = Vector3(0, -100, 0);
+	desc.end = Vector3(0, 100, 0);
+	BatchLinePrimitive(desc);
 
 	renderer->BeginRenderFrame(viewport.GetNativeViewport());
 	sceneRendering->RenderScene(*renderer, *this, viewport, view->view);

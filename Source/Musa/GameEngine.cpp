@@ -58,8 +58,8 @@ void GameEngine::RunEngine()
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
 
-	GetTextureManager().AddTexture(*::Internal::WhiteTexture);
-	GetTextureManager().AddTexture(*::Internal::BlackTexture);
+	GetTextureManager().AddTexture(*::Internal::WhiteTexture());
+	GetTextureManager().AddTexture(*::Internal::BlackTexture());
 
 	GetMeshManager().LoadPrimitive(Primitive::Box);
 	GetMeshManager().LoadPrimitive(Primitive::Plane);
@@ -88,7 +88,7 @@ void GameEngine::LoadContent()
 	ShaderResource& fragShader = GetShader<BlinnFrag>()->GetNativeShader();
 
 	GameObject* go = GetGameObjectManager().CreateAndAdd<GameObject>();
-	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, ::Internal::WhiteTexture, Color32::Cyan())));
+	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, ::Internal::WhiteTexture(), Color32::Cyan())));
 	go->SetScale(30, 30, 30);
 
 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...
