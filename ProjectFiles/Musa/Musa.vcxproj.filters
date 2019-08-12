@@ -183,6 +183,9 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Components\TransformComponent.cpp">
       <Filter>Source\ECS\Components</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.cpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -343,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\TransformComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp">
+      <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,8 +10,13 @@ constexpr uint32 MaxBones = 120;
 struct TransformationUniformBuffer
 {
 	Matrix model;
-	Matrix view;
-	Matrix projection;
+};
+
+struct ViewPropertiesBuffer
+{
+	Matrix viewTransform;
+	Matrix projectionTransform;
+	Vector4 viewPosition;
 };
 
 struct PoseInverseUniformBuffer
@@ -37,11 +42,6 @@ struct BoneDeltasUniformBuffer
 struct MaterialProperties
 {
 	Color32 diffuse;
-};
-
-struct ViewProperties
-{
-	Vector4 viewPosition;
 };
 
 struct LightProperties

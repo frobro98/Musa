@@ -1,22 +1,20 @@
 #pragma once
 
+// TODO - These defines shouldn't really be here. It makes more sense to put it in the shader that's using this stuff
+#define MAT_BOUND 3
+#define VIEW_BOUND 1
+
 #include "VulkanCommon.hshad"
+#include "UniformBufferCommon.hshad"
 
-#if FRAG_SHADER
-
-layout(binding = 1) uniform sampler2D matTexture;
-
-layout(binding = 2) uniform MaterialProperties
-{
-	vec4	  diffuse;
-} materialProps;
+layout(binding = 2) uniform sampler2D matTexture;
 
 #if NORMAL_MAP
-layout(binding = 3) uniform sampler2D normalMapTexture;
+layout(binding = 4) uniform sampler2D normalMapTexture;
 #endif
 
 #if CUBE_MAP
-layout(binding = 4) uniform samplerCube cubeMapTexture;
+layout(binding = 5) uniform samplerCube cubeMapTexture;
 #endif
 
 vec4 GetCubeMapAlbedo(vec3 samplePosition)
@@ -57,4 +55,3 @@ vec4 CalculateGBufferNormal()
 #endif
 }
 
-#endif

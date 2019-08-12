@@ -8,7 +8,7 @@
 //#include "Animation/Skeleton/Skeleton.h"
 #include "Archiver/SkeletonHeader.h"
 #include "Graphics/GraphicsInterface.hpp"
-#include "Graphics/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 
 Model::Model(Mesh* modelMesh, Material* mat)
 	: mesh(modelMesh),

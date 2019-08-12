@@ -134,7 +134,7 @@ void Scene::PushStateToGpu()
 	Camera* cam = GetCameraManager().GetActiveCamera();
 	view->AssociateCameraWithView(*cam);
 
-	GetRenderObjectManager().SequenciallyPull(view->view);
+	GetRenderObjectManager().SequenciallyPull();
 }
 
 void Scene::RenderScene(Viewport& viewport)

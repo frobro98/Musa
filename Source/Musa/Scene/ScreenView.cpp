@@ -2,11 +2,11 @@
 #include "Assertion.h"
 #include "Math/MatrixUtilities.hpp"
 #include "Camera/Camera.h"
-#include "Shader/ShaderObjects/ShaderResource.hpp"
-#include "Shader/ShaderObjects/ShaderDefinition.hpp"
+#include "Shader/ShaderDefinition.hpp"
+#include "Shader/ShaderResource.hpp"
 #include "Shader/ShaderObjects/ScreenRendering.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "Graphics/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 
 ScreenView::ScreenView(int32 screenWidth, int32 screenHeight)
 	: width(screenWidth), height(screenHeight)
@@ -51,10 +51,12 @@ void ScreenView::AssociateCameraWithView(const Camera& camera)
 
 	if (view.viewBuffer == nullptr)
 	{
-		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewProperties));
+		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
 	}
 
-	ViewProperties props;
+	ViewPropertiesBuffer props;
+	props.viewTransform = view.transforms.viewMatrix;
+	props.projectionTransform = view.transforms.projectionMatrix;
 	props.viewPosition = view.description.origin;
 	GetGraphicsInterface().PushBufferData(*view.viewBuffer, &props);
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Shader/ShaderObjects/ShaderObject.hpp"
-#include "Shader/ShaderObjects/ShaderDefinition.hpp"
+#include "Shader/ShaderDefinition.hpp"
 
 class ScreenRenderVert : public ShaderObject
 {

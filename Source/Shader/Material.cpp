@@ -4,7 +4,7 @@
 #include "Texture2D/Texture.h"
 #include "ShaderObjects/UnlitShading.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "Graphics/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 
 Material::Material()
 {

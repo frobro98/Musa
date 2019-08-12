@@ -21,7 +21,7 @@
 #include "Model/ModelFactory.h"
 #include "Camera/GodCamera.hpp"
 
-#include "Shader/ShaderObjects/ShaderDefinition.hpp"
+#include "Shader/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/UnlitShading.hpp"
 #include "Shader/ShaderObjects/BlinnShading.hpp"
 

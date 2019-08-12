@@ -2,7 +2,7 @@
 
 #include "Platform.h"
 #include "Graphics.h"
-#include "Graphics/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 #include "Malloc16Align.h"
 #include "Containers/DynamicArray.hpp"
 

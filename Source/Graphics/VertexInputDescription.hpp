@@ -65,7 +65,7 @@ inline const VertexInputDescriptionList GetVertexInput()
 }
 
 template<>
-inline const VertexInputDescriptionList GetVertexInput<class Mesh>()
+inline const VertexInputDescriptionList GetVertexInput<Vertex>()
 {
 	return VertexInputDescriptionList
 	{
@@ -105,5 +105,41 @@ inline const VertexInputDescriptionList GetVertexInput<class Mesh>()
 		}},
 		// Count
 		4
+	};
+}
+
+template<>
+inline const VertexInputDescriptionList GetVertexInput<PrimitiveVertex>()
+{
+	return VertexInputDescriptionList
+	{
+		// List
+		{{
+			{
+				VertexInputType::F32_3, // Type
+				sizeof(PrimitiveVertex), // Stride
+				offsetof(PrimitiveVertex, position), // Offset
+				0, // Binding
+				0 // Location
+			},
+
+			{
+				VertexInputType::F32_2,
+				sizeof(PrimitiveVertex),
+				offsetof(PrimitiveVertex, texCoords),
+				0,
+				1
+			},
+
+			{
+				VertexInputType::F32_4,
+				sizeof(PrimitiveVertex),
+				offsetof(PrimitiveVertex, color),
+				0,
+				2
+			}
+		}},
+		// Count
+		3
 	};
 }

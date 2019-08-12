@@ -105,7 +105,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Graphics\BatchPrimitives.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
@@ -116,7 +115,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\RenderTargetDescription.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceBlob.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceLockPtr.hpp" />
-    <ClInclude Include="..\..\Source\Graphics\UniformBuffer.h" />
+    <ClInclude Include="..\..\Source\Graphics\UniformBuffers.h" />
     <ClInclude Include="..\..\Source\Graphics\UniformBufferType.hpp" />
     <ClInclude Include="..\..\Source\Graphics\VertexInputDescription.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanAbstractions.h" />
@@ -158,7 +157,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanViewport.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Graphics\BatchPrimitives.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp" />
     <ClCompile Include="..\..\Source\Graphics\ResourceBlob.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanAbstractions.cpp" />

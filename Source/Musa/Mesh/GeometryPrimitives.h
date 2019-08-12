@@ -47,9 +47,8 @@ struct Vertex
 struct PrimitiveVertex
 {
 	Vector3 position;
-	Vector3 normal;
-	Vector3 tangent;
-	
+	Vector2 texCoords;
+	Color32 color;
 };
 
 struct VertexBoneWeights

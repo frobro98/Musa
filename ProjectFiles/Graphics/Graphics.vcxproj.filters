@@ -123,9 +123,6 @@
     <ClInclude Include="..\..\Source\Graphics\RenderTargetDescription.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\UniformBuffer.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -159,7 +156,7 @@
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.hpp">
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\BatchPrimitives.hpp">
+    <ClInclude Include="..\..\Source\Graphics\UniformBuffers.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
@@ -274,9 +271,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.cpp">
       <Filter>Source\Vulkan</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\BatchPrimitives.cpp">
-      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

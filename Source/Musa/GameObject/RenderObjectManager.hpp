@@ -13,7 +13,7 @@ public:
 	void RegisterGameObject(const GameObject& obj, MeshRenderInfo& meshInfo);
 	void UnregisterGameObject(const GameObject& obj);
 
-	void SequenciallyPull(const View& view);
+	void SequenciallyPull();
 
 	inline const DynamicArray<RenderObject*>& GetRenderObjects() const { return renderObjects; }
 

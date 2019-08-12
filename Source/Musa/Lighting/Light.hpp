@@ -2,7 +2,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Math/Matrix.h"
-#include "Graphics/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 
 class VulkanDevice;
 struct NativeUniformBuffer;

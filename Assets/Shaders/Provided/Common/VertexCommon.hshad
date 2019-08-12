@@ -1,7 +1,12 @@
 #pragma once
-#include "VulkanCommon.hshad"
 
-#if VERT_SHADER
+// TODO - These defines shouldn't really be here. It makes more sense to put it in the shader that's using this stuff
+#define WORLD_BOUND 0
+#define VIEW_BOUND 1
+
+#include "VulkanCommon.hshad"
+#include "UniformBufferCommon.hshad"
+
 // Vertex Inputs
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec3 normal;
@@ -14,14 +19,6 @@ layout(location = 1) out vec3 Normal;
 layout(location = 2) out vec2 TexCoords;
 layout(location = 3) out vec3 Tangent;
 
-#endif
-
-layout(binding = 0) uniform Transformations
-{
-	mat4 world;
-	mat4 view;
-	mat4 projection;
-};
 
 vec3 GetWorldPosition()
 {
@@ -43,3 +40,4 @@ vec4 GetClipSpacePosition()
 	vec4 clipPos = projection * view * world * position;
 	return VulkanProjectionModification(clipPos);
 }
+

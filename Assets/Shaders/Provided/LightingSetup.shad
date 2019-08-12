@@ -16,5 +16,5 @@ void main()
 	vec4 cubeMapAlbedo = GetCubeMapAlbedo(FragPosition);
 	position = vec4(FragPosition, lightModel);
 	normal = CalculateGBufferNormal();
-	diffuseAlbedo = texture(matTexture, TexCoords) * cubeMapAlbedo * materialProps.diffuse;
+	diffuseAlbedo = texture(matTexture, TexCoords) * cubeMapAlbedo * matDiffuse;
 }

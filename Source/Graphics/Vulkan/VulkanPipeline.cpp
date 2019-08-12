@@ -7,7 +7,9 @@
 #include "VulkanCommandBuffer.h"
 #include "VulkanUtilities.h"
 #include "VulkanFence.hpp"
-#include "Shader/ShaderObjects/ShaderResource.hpp"
+
+// TODO - The shader resource that lives in the Shader.lib doesn't belong here..
+#include "Shader/ShaderResource.hpp"
 
 VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicArray<VulkanDescriptorSetLayout*>&& layouts)
 	: descriptorSetLayouts(std::move(layouts)),

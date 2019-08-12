@@ -4,7 +4,7 @@
 #include "Mesh/MeshSceneInfo.hpp"
 #include "Shader/MaterialRenderInfo.hpp"
 #include "Scene/ScreenView.hpp"
-#include "Graphics/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 #include "Graphics/GraphicsInterface.hpp"
 
 void RenderObject::SetGameObject(const GameObject& obj, MeshRenderInfo& meshInfo)
@@ -19,21 +19,19 @@ void RenderObject::ResetGameObject()
 	gpuRenderInfo = nullptr;
 }
 
-void RenderObject::PullDataFromGameObject(const View& currentView)
+void RenderObject::PullDataFromGameObject()
 {
 	Assert(sceneObject != nullptr);
 	Assert(gpuRenderInfo != nullptr);
 
-	PullInfoForMesh(currentView);
+	PullInfoForMesh();
 	PullInfoForMaterial();
 }
 
-void RenderObject::PullInfoForMesh(const View& currentView)
+void RenderObject::PullInfoForMesh()
 {
 	TransformationUniformBuffer buffer;
 	buffer.model = sceneObject->GetWorld();
-	buffer.view = currentView.transforms.viewMatrix;
-	buffer.projection = currentView.transforms.projectionMatrix;
 
 	GetGraphicsInterface().PushBufferData(*gpuRenderInfo->transformBuffer, &buffer);
 }

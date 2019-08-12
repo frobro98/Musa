@@ -32,7 +32,7 @@ GraphicsPipelineDescription GetDefaultDescription()
 	GraphicsPipelineDescription graphicsInit = {};
 	InitializeRenderTarget(graphicsInit);
 
-	graphicsInit.vertexInputs = GetVertexInput<Mesh>();
+	graphicsInit.vertexInputs = GetVertexInput<Vertex>();
 	graphicsInit.rasterizerDesc = RasterDesc<>();
 	graphicsInit.depthStencilTestDesc = DepthTestDesc<>();
 	graphicsInit.blendingDescs[0] = BlendDesc<>();

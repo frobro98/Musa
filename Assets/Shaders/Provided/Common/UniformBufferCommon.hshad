@@ -1,0 +1,25 @@
+#pragma once
+
+#if defined(WORLD_BOUND)
+layout(binding = WORLD_BOUND) uniform Transformations
+{
+	mat4 world;
+};
+#endif // defined(WORLD_BOUND)
+
+#if defined(VIEW_BOUND)
+layout(binding = VIEW_BOUND) uniform ViewProperties
+{
+	mat4 view;
+	mat4 projection;
+	vec3 viewPosition;
+};
+#endif // defined(VIEW_BOUND)
+
+#if defined(MAT_BOUND)
+layout(binding = MAT_BOUND) uniform MaterialProperties
+{
+	vec4	  matDiffuse;
+};
+#endif // defined(MAT_BOUND)
+

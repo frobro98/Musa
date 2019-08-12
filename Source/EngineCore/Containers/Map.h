@@ -24,8 +24,7 @@ public:
 	}
 
 	Map(std::initializer_list<MapType> list)
-		: buckets(DefaultAmountOfBuckets),
-		maxBucketSize(0)
+		: buckets(DefaultAmountOfBuckets)
 	{
 		const MapType* beginning = list.begin();
 		const MapType* ending = list.end();
@@ -37,12 +36,14 @@ public:
 
 	Map(const Map& other)
 		: buckets(other.buckets),
+		size(other.size),
 		maxBucketSize(other.maxBucketSize)
 	{
 	}
 
 	Map(Map&& other)
 		: buckets(std::move(other.buckets)),
+		size(other.size),
 		maxBucketSize(other.maxBucketSize)
 	{
 		other.maxBucketSize = 0;
@@ -53,6 +54,7 @@ public:
 		if (this != &other)
 		{
 			buckets = other.buckets;
+			size = other.size;
 			maxBucketSize = other.maxBucketSize;
 		}
 
@@ -64,6 +66,7 @@ public:
 		if (this != &other)
 		{
 			buckets = std::move(other.buckets);
+			size = other.size;
 			maxBucketSize = other.maxBucketSize;
 
 			other.maxBucketSize = 0;
@@ -87,6 +90,7 @@ public:
 			Pair<KeyType, ValueType> pair = { key, val };
 			uint32 index = bucket.Add(pair);
 			store = &bucket[index];
+			++size;
 		}
 
 		return store->second;
@@ -127,6 +131,16 @@ public:
 		return RemoveBucketElement(bucket, key);
 	}
 
+	inline uint32 Size() const
+	{
+		return size;
+	}
+
+	inline bool IsEmpty() const
+	{
+		return size == 0;
+	}
+
 private:
 	bool RemoveBucketElement(BucketType& bucket, const KeyType& key)
 	{
@@ -135,6 +149,7 @@ private:
 			if (bucket[i].first == key)
 			{
 				bucket.Remove(i);
+				--size;
 				return true;
 			}
 		}
@@ -338,6 +353,6 @@ private:
 private:
 	static constexpr uint32 DefaultAmountOfBuckets = 32;
 	DynamicArray<BucketType> buckets;
+	uint32 size = 0;
 	uint32 maxBucketSize = 0;
-	uint32 pad[1] = {};
 };

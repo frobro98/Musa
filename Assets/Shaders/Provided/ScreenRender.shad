@@ -14,6 +14,9 @@ void main()
 
 #elif FRAG_SHADER
 
+#define VIEW_BOUND 3
+#include "Common/UniformBufferCommon.hshad"
+
 layout(location = 0) in vec2 texCoords;
 
 layout(location = 0) out vec4 outColor;
@@ -32,12 +35,7 @@ struct Light
 	mat4 lightProjection;
 };
 
-layout(binding = 4) uniform ViewInformation
-{
-	vec4 viewPosition;
-};
-
-layout(binding = 5) uniform LightDescriptions
+layout(binding = 4) uniform LightDescriptions
 {
 	Light lights;
 };

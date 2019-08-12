@@ -18,25 +18,47 @@ VulkanDescriptorSetLayout::~VulkanDescriptorSetLayout()
 
 void VulkanDescriptorSetLayout::AddDescriptorBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStages, uint32 binding)
 {
-	VkDescriptorSetLayoutBinding layoutBinding = {};
-	layoutBinding.descriptorType = descriptorType;
-	layoutBinding.stageFlags = shaderStages;
-	layoutBinding.binding = binding;
-	layoutBinding.descriptorCount = 1;
 
-	layoutBindings.Add(layoutBinding);
+	VkDescriptorSetLayoutBinding layoutBinding = {};
+	if (!layoutBindings.TryFind(binding, layoutBinding))
+	{
+		layoutBinding.descriptorType = descriptorType;
+		layoutBinding.stageFlags = shaderStages;
+		layoutBinding.binding = binding;
+		layoutBinding.descriptorCount = 1;
+
+		layoutBindings.Add(binding, layoutBinding);
+	}
+	else
+	{
+		layoutBinding.stageFlags |= shaderStages;
+		layoutBindings[binding] = layoutBinding;
+	}
 }
 
 void VulkanDescriptorSetLayout::BindLayout()
 {
 	Assert(descriptorSetLayout == VK_NULL_HANDLE);
 
+	DynamicArray<VkDescriptorSetLayoutBinding> bindings = GetLayoutBindings();
+
 	VkDescriptorSetLayoutCreateInfo layoutInfo = {};
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-	layoutInfo.bindingCount = layoutBindings.Size();
-	layoutInfo.pBindings = layoutBindings.GetData();
+	layoutInfo.bindingCount = bindings.Size();
+	layoutInfo.pBindings = bindings.GetData();
 
 	CHECK_VK(vkCreateDescriptorSetLayout(logicalDevice.GetNativeHandle(), &layoutInfo, nullptr, &descriptorSetLayout));
+}
+
+DynamicArray<VkDescriptorSetLayoutBinding> VulkanDescriptorSetLayout::GetLayoutBindings() const
+{
+	DynamicArray<VkDescriptorSetLayoutBinding> bindings;
+	bindings.Reserve(layoutBindings.Size());
+	for (auto bindingPair : layoutBindings)
+	{
+		bindings.Add(bindingPair.second);
+	}
+	return bindings;
 }
 
 VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence* fence, VkDescriptorSet ds, VulkanDescriptorSetLayout* layout)

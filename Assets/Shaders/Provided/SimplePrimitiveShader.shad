@@ -1,0 +1,40 @@
+
+#include "Common/VulkanCommon.hshad"
+
+#if VERT_SHADER
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec2 uvCoords;
+layout(location = 2) in vec4 color;
+
+layout(location = 0) out vec2 texCoords;
+layout(location = 1) out vec4 
+
+layout(binding = 0) uniform ViewProperties
+{
+	mat4 view;
+	mat4 projection;
+	vec3 viewPosition;
+};
+
+void main()
+{
+	texCoords = uvCoords;
+	gl_Position = projection * view * vec4(position, 1);
+}
+
+#elif FRAG_SHADER
+layout(location = 0) in vec2 texCoords;
+layout(location = 1) int vec4 color;
+
+layout(location = 0) out vec4 outColor;
+
+layout(binding = 1) uniform sampler2D primitiveTexture;
+
+void main()
+{
+	outColor = color * texture(primitiveTexture, texCoords);
+}
+
+#endif
+
+

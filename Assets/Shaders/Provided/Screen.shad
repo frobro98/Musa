@@ -1,7 +1,10 @@
 #pragma once
 
+#if VERT_SHADER
 #include "Common/VertexCommon.hshad"
+#elif FRAG_SHADER
 #include "Common/FragmentCommon.hshad"
+#endif
 
 #if VERT_SHADER
 

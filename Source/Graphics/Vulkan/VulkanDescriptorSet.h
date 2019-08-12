@@ -2,6 +2,7 @@
 
 #include "Graphics.h"
 #include "Containers/DynamicArray.hpp"
+#include "Containers/Map.h"
 
 #include "VulkanAbstractions.h"
 
@@ -24,11 +25,14 @@ public:
 
 	inline VkDescriptorSetLayout GetNativeHandle() const { return descriptorSetLayout; }
 
-	inline DynamicArray<VkDescriptorSetLayoutBinding> GetLayoutBindings() const { return layoutBindings; }
+	DynamicArray<VkDescriptorSetLayoutBinding> GetLayoutBindings() const;
+
+private:
+	void CombineRepeatBindings();
 
 private:
 	VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
-	DynamicArray<VkDescriptorSetLayoutBinding> layoutBindings;
+	Map<uint32, VkDescriptorSetLayoutBinding> layoutBindings;
 	VulkanDevice& logicalDevice;
 };
 

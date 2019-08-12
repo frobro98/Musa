@@ -9,12 +9,12 @@ struct RenderObject
 	void SetGameObject(const GameObject& obj, MeshRenderInfo& meshInfo);
 	void ResetGameObject(); 
 
-	void PullDataFromGameObject(const View& currentView);
+	void PullDataFromGameObject();
 
 	const GameObject* sceneObject = nullptr;
 	MeshRenderInfo* gpuRenderInfo = nullptr;
 
 private:
-	void PullInfoForMesh(const View& currentView);
+	void PullInfoForMesh();
 	void PullInfoForMaterial();
 };

@@ -16,17 +16,17 @@
     <ClCompile Include="..\..\Source\Shader\McppWrapper.cpp" />
     <ClCompile Include="..\..\Source\Shader\Shader.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderCompiler.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderDefinition.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\BlinnShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\NormalMapping.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\PhongShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ScreenRendering.cpp" />
-    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderDefinition.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderObject.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderPipeline.cpp" />
-    <ClCompile Include="..\..\Source\Shader\ShaderObjects\ShaderResource.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ToonShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\UnlitShading.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderResource.cpp" />
     <ClCompile Include="..\..\Source\Shader\ThirdParty\spirv_reflect.c" />
   </ItemGroup>
   <ItemGroup>
@@ -35,18 +35,18 @@
     <ClInclude Include="..\..\Source\Shader\McppWrapper.hpp" />
     <ClInclude Include="..\..\Source\Shader\Shader.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h" />
+    <ClInclude Include="..\..\Source\Shader\ShaderDefinition.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderExternal.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\BlinnShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\NormalMapping.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\PhongShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ScreenRendering.hpp" />
-    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderDefinition.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderObject.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderPipeline.hpp" />
-    <ClInclude Include="..\..\Source\Shader\ShaderObjects\ShaderResource.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ToonShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\UnlitShading.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderResource.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStages.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStructure.hpp" />
     <ClInclude Include="..\..\Source\Shader\ThirdParty\spirv_reflect.h" />
@@ -63,6 +63,7 @@
     <None Include="..\..\Assets\Shaders\Provided\colorSkinning.vert" />
     <None Include="..\..\Assets\Shaders\Provided\Common\FragmentCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\LightingCommon.hshad" />
+    <None Include="..\..\Assets\Shaders\Provided\Common\UniformBufferCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\VertexCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\VulkanCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\constantColor.frag" />
@@ -94,6 +95,7 @@
     <None Include="..\..\Assets\Shaders\Provided\ScreenRender.shad" />
     <None Include="..\..\Assets\Shaders\Provided\screenRender.vert" />
     <None Include="..\..\Assets\Shaders\Provided\shadowDepth.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\SimplePrimitiveShader.shad" />
     <None Include="..\..\Assets\Shaders\Provided\texture.frag" />
     <None Include="..\..\Assets\Shaders\Provided\texture.vert" />
     <None Include="..\..\Assets\Shaders\Provided\textureGBuffer.frag" />

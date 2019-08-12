@@ -94,7 +94,7 @@ static void ConstructScreenGraphicsDescription(const Renderer& renderer, const S
 static void ConstructPipelineDescription(const RenderTargetDescription& targetDesc, GraphicsPipelineDescription& desc)
 {
 	desc.renderTargets = targetDesc;
-	desc.vertexInputs = GetVertexInput<Mesh>();
+	desc.vertexInputs = GetVertexInput<Vertex>();
 	desc.rasterizerDesc = RasterDesc();
 	for (uint32 i = 0; i < desc.renderTargets.targetCount; ++i)
 	{
@@ -232,40 +232,47 @@ void SceneRendering::RenderScene(Renderer& renderer, Scene& scene, const Viewpor
 	DeferredRender(renderer, scene, viewport, view);
 }
 
-void RenderWithNormalMap(Renderer& renderer, const RenderObject& object)
+void RenderWithNormalMap(Renderer& renderer, const RenderObject& object, const View& view)
 {
 
 	// Set Transform Data
 	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
 
+	// Set View information
+	renderer.SetUniformBuffer(*view.viewBuffer, 1);
+
 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 1);
+		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
 	}
-
-	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 2);
 
 	// Set Material Data
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
+
+	// Set Normal Map
+	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
 }
 
-void RenderNormally(Renderer& renderer, const RenderObject& object)
+void RenderNormally(Renderer& renderer, const RenderObject& object, const View& view)
 {
 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
 
 	// Set Transform Data
 	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
 
+	// Set View information
+	renderer.SetUniformBuffer(*view.viewBuffer, 1);
+
 	if (matInfo->baseTexture != nullptr)
 	{
 		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 1);
+		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
 	}
 
 	// Set Material Data
-	renderer.SetUniformBuffer(*matInfo->materialProperties, 2);
+	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
 }
 
 void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view)
@@ -286,11 +293,11 @@ void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const V
 
 		if (matInfo->normalMap != nullptr)
 		{
-			RenderWithNormalMap(renderer, *info);
+			RenderWithNormalMap(renderer, *info, view);
 		}
 		else
 		{
-			RenderNormally(renderer, *info);
+			RenderNormally(renderer, *info, view);
 		}
 
 		renderer.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
@@ -382,9 +389,9 @@ void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, co
 
 	GetGraphicsInterface().PushBufferData(light->GetLightBuffer(), &properties);
 
-	renderer.SetUniformBuffer(*view.viewBuffer, 4);
+	renderer.SetUniformBuffer(*view.viewBuffer, 3);
 
-	renderer.SetUniformBuffer(light->GetLightBuffer(), 5);
+	renderer.SetUniformBuffer(light->GetLightBuffer(), 4);
 
 	renderer.Draw(3, 1);
 }
