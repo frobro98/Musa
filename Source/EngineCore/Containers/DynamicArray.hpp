@@ -67,6 +67,9 @@ public:
 	bool IsEmpty() const;
 	bool Contains(const Type& obj) const;
 
+	template <typename Pred>
+	void Sort(const Pred& predicate);
+
 	inline Type* GetData()
 	{
 		return data;
@@ -452,6 +455,37 @@ void DynamicArray<Type>::Insert(InsertType&& elem, uint32 index)
 	MoveForward(index);
 	new(GetData() + index) valueType(std::forward<InsertType>(elem));
 	arraySize = newSize;
+}
+
+template<class Type>
+template<typename Pred>
+inline void DynamicArray<Type>::Sort(const Pred& pred)
+{
+	// TODO - Test this number and see when quick sort is faster than insertion sort
+	if (arraySize <= 30)
+	{
+		// Insertion sort
+		for (uint32 i = 1; i < arraySize; ++i)
+		{
+			for (int32 j = i; j > 0; --j)
+			{
+				if (pred(data[j], data[j - 1]))
+				{
+					// Exchange
+					Type tmp = data[j];
+					data[j] = data[j - 1];
+					data[j - 1] = tmp;
+
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		// Quicksort
+		// TODO - Implement Quicksort
+	}
 }
 
 template<class Type>

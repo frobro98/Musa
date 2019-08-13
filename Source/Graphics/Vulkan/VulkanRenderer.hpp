@@ -22,6 +22,7 @@ public:
 	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors) override;
 	virtual void SetVertexBuffer(const NativeVertexBuffer& vertexBuffer) override;
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) override;
+	virtual void SetGlobalUniform(const void* uniformData, uint32 dataSize) override;
 	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex) override;
 	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex) override;
 //	virtual void SetStorageBuffer() override;

@@ -37,8 +37,5 @@ void Deserialize(DeserializeBase& ser, MipmapLevel& level);
 void Serialize(SerializeBase& ser, const Texture& tex);
 void Deserialize(DeserializeBase& ser, Texture& tex);
 
-namespace Internal
-{
 Texture* WhiteTexture();
 Texture* BlackTexture();
-}

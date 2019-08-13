@@ -23,3 +23,19 @@ private:
 	
 };
 
+class VulkanGlobalUniformBuffer
+{
+public:
+	VulkanGlobalUniformBuffer(const VulkanDevice& device, uint32 totalMemory);
+	~VulkanGlobalUniformBuffer();
+
+	void AddDataToBuffer(const void* bufferData, uint32 dataSize);
+	inline VulkanBuffer& GetBuffer() const { return *globalBuffer; }
+
+private:
+	const VulkanDevice& logicalDevice;
+	VulkanBuffer* globalBuffer;
+	uint32 bufferPosition;
+	uint32 alignment;
+};
+

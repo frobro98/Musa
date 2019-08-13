@@ -89,6 +89,11 @@ void VulkanRenderer::SetGraphicsPipeline(const GraphicsPipelineDescription& pipe
 	currentRenderState.SetGraphicsPipeline(pipelineDesc);
 }
 
+void VulkanRenderer::SetGlobalUniform(const void* uniformData, uint32 dataSize)
+{
+	UNUSED(uniformData, dataSize);
+}
+
 void VulkanRenderer::SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex)
 {
 	const VulkanUniformBuffer* ub = static_cast<const VulkanUniformBuffer*>(&uniformBuffer);

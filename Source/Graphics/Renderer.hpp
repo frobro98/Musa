@@ -25,6 +25,7 @@ public:
 	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors) = 0;
 	virtual void SetVertexBuffer(const NativeVertexBuffer& vertexBuffer) = 0;
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) = 0;
+	virtual void SetGlobalUniform(const void* uniformData, uint32 dataSize) = 0;
 	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex) = 0;
 	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex) = 0;
 	

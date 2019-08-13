@@ -7,13 +7,14 @@ GodCamera::GodCamera(Camera& cam)
 {
 	position = camera.GetPosition();
 	cameraLookAt = camera.GetLookAt();
+	cameraUp = camera.GetUp();
 
 	SetupGodInputInput();
 }
 
 void GodCamera::Update(float /*tick*/)
 {
-	camera.SetOrientationAndPosition(cameraLookAt, position, camera.GetUp());
+	camera.SetOrientationAndPosition(cameraLookAt, position, cameraUp);
 
 	// TODO - This should be done in the SetWorld method...
 	world = Matrix(TRANS, position);
@@ -43,6 +44,7 @@ void GodCamera::MoveCameraRight(int32 mod)
 {
 	position += camera.GetRight() * (float)mod * 1.5f;
 	cameraLookAt += camera.GetRight() * (float)mod * 1.5f;
+	//printf("Camera Right: (%f, %f, %f)\n", camera.GetRight().x, camera.GetRight().y, camera.GetRight().z);
 }
 
 void GodCamera::MoveCameraUp(int32 mod)
@@ -61,4 +63,5 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 	newLookAtDir.Normalize();
 	cameraLookAt = position - newLookAtDir;
 	Vector4 up = camera.GetUp() * quatX * quatY;
+	cameraUp = up;
 }

@@ -90,8 +90,6 @@ void Deserialize(DeserializeBase& ser, Texture& tex)
 	Deserialize(ser, tex.mipLevels);
 }
 
-namespace Internal
-{
 Texture* WhiteTexture()
 {
 	static Texture* const whiteTexture = new Texture(255, 255, 255, 255);
@@ -103,4 +101,4 @@ Texture* BlackTexture()
 	static Texture* const blackTexture = new Texture(0, 0, 0, 255);
 	return blackTexture;
 }
-}
+

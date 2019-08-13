@@ -146,17 +146,20 @@ void Scene::RenderScene(Viewport& viewport)
 		gbuffersInitialized = true;
 	}
 
-	BatchedLineDescription desc = {};
-	desc.color = Color32::Blue();
-	desc.start = Vector3(-100, 0, 0);
-	desc.end = Vector3(100, 0, 0);
-	BatchLinePrimitive(desc);
+	float xOffset = -100.f;
+	BatchedLineDescription desc[3] = {};
+	desc[0].color = Color32::Red();
+	desc[0].start = Vector3(xOffset, 0, 0);
+	desc[0].end = Vector3(xOffset + 50, 0, 0);
 
-	desc = {};
-	desc.color = Color32::Red();
-	desc.start = Vector3(0, -100, 0);
-	desc.end = Vector3(0, 100, 0);
-	BatchLinePrimitive(desc);
+	desc[1].color = Color32::Green();
+	desc[1].start = Vector3(xOffset, 0, 0);
+	desc[1].end = Vector3(xOffset, 50, 0);
+
+	desc[2].color = Color32::Blue();
+	desc[2].start = Vector3(xOffset, 0, 0);
+	desc[2].end = Vector3(xOffset, 0, 50);
+	BatchLinePrimitives(desc, ArraySize(desc));
 
 	renderer->BeginRenderFrame(viewport.GetNativeViewport());
 	sceneRendering->RenderScene(*renderer, *this, viewport, view->view);
