@@ -17,16 +17,30 @@ struct BatchedLineDescription
 	Color32 color;
 };
 
+struct BatchedTriangleDescription
+{
+	Color32 color;
+	Vector3 pos0;
+	Vector3 pos1;
+	Vector3 pos2;
+};
+
 struct BatchedQuadDescription
 {
-	Matrix transform;
 	Color32 color;
-	NativeTexture* texture;
-	float uStart, vStart;
-	float uEnd, vEnd;
 	Vector3 position;
 	float width;
 	float height;
+};
+
+struct BatchedCircleDescription
+{
+	Color32 color;
+	Vector3 position;
+	Vector3 up;
+	Vector3 right;
+	float radius;
+	float numSegments;
 };
 
 // Define functions to batch specific primitives, like lines, quads, circles, etc
@@ -34,8 +48,13 @@ struct BatchedQuadDescription
 void BatchLinePrimitive(const BatchedLineDescription& lineDesc);
 void BatchLinePrimitives(const BatchedLineDescription* lineDesc, uint32 lineCount);
 
+void BatchTrianglePrimitive(const BatchedTriangleDescription& triDesc);
 void BatchQuadPrimitive(const BatchedQuadDescription& quadDesc);
-void BatchCirclePrimitive();
+void BatchCirclePrimitive(const BatchedCircleDescription& circleDesc);
+
+void BatchWireTrianglePrimitive(const BatchedTriangleDescription& triDesc);
+void BatchWireQuadPrimitive(const BatchedQuadDescription& quadDesc);
+void BatchWireCirclePrimitive(const BatchedCircleDescription& circleDesc);
 
 
 // Render current batch of primitives
