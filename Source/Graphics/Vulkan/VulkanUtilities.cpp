@@ -298,7 +298,7 @@ VkFormat MusaFormatToVkFormat(ImageFormat format)
 			return VK_FORMAT_R8G8B8A8_UINT;
 		case ImageFormat::RGBA_16f:
 			return VK_FORMAT_R16G16B16A16_SFLOAT;
-		case ImageFormat::BGRA_8u:
+		case ImageFormat::BGRA_8norm:
 			return VK_FORMAT_B8G8R8A8_UNORM;
 		case ImageFormat::Gray_8u:
 			return VK_FORMAT_R8_UNORM;

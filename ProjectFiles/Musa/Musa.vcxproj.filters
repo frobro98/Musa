@@ -46,6 +46,9 @@
     <Filter Include="Source\ECS\Components">
       <UniqueIdentifier>{539ffc82-36d8-4353-9cc0-425dd05ce4ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Fonts">
+      <UniqueIdentifier>{90c2ae6f-792a-4c7f-aeed-71961393073a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -185,6 +188,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.cpp">
       <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp">
+      <Filter>Source\Fonts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp">
       <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp">
+      <Filter>Source\Fonts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,11 +16,14 @@ void FormatString(tchar * buffer, uint32 bufferLen, const tchar * format, ...)
 uint32 Strlen(const tchar* str) noexcept
 {
 	uint32 len = 0;
-	const tchar* ptr = str;
-	while (*ptr != '\0')
+	if (str != nullptr)
 	{
-		++ptr;
-		++len;
+		const tchar* ptr = str;
+		while (*ptr != '\0')
+		{
+			++ptr;
+			++len;
+		}
 	}
 	return len;
 }
@@ -191,6 +194,15 @@ bool IsAlnum(tchar character) noexcept
 
 int32 Strcmp(const tchar* str1, const tchar* str2) noexcept
 {
+	if (str1 == nullptr)
+	{
+		return -1;
+	}
+	else if (str2 == nullptr)
+	{
+		return 1;
+	}
+
 	uint32 len1 = Strlen(str1);
 	uint32 len2 = Strlen(str2);
 	uint32 minLen = std::min(len1, len2);

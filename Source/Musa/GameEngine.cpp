@@ -25,6 +25,8 @@
 #include "Shader/ShaderObjects/UnlitShading.hpp"
 #include "Shader/ShaderObjects/BlinnShading.hpp"
 
+#include "Font/FontCache.hpp"
+
 #include "GameEngine.hpp"
 
 void GameEngine::RunEngine()
@@ -52,7 +54,7 @@ void GameEngine::RunEngine()
 
 	Camera* mainCamera = new Camera;
 	mainCamera->SetViewport(viewport);
-	mainCamera->SetPerspective(45.f, aspect, .1f, 10000.f);
+	mainCamera->SetPerspective(60.f, aspect, .1f, 10000.f);
 	mainCamera->SetOrientationAndPosition(Vector4(0, 0, 0), Vector4(0, 0, 155.f), Vector4(0, 1, 0));
 
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
@@ -82,13 +84,15 @@ void GameEngine::RunEngine()
 
 void GameEngine::LoadContent()
 {
-	Mesh* sphere = GetMeshManager().FindMesh(Mesh::SphereName);
+	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 
-	ShaderResource& vertShader = GetShader<BlinnVert>()->GetNativeShader();
-	ShaderResource& fragShader = GetShader<BlinnFrag>()->GetNativeShader();
+	Mesh* sphere = GetMeshManager().FindMesh(Mesh::BoxName);
+
+	ShaderResource& vertShader = GetShader<UnlitVert>()->GetNativeShader();
+	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
 	GameObject* go = GetGameObjectManager().CreateAndAdd<GameObject>();
-	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, WhiteTexture(), Color32::Cyan())));
+	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel-a", Color32::White())));
 	go->SetScale(30, 30, 30);
 
 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...

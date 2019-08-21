@@ -11,7 +11,7 @@ enum class ImageFormat : uint32
 	RGBA_8norm,
 	RGBA_8u,
 	RGBA_16f,
-	BGRA_8u,
+	BGRA_8norm,
 	Gray_8u,
 	BC1,
 	BC3,

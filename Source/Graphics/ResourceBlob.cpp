@@ -5,11 +5,12 @@
 #include "Assertion.h"
 
 ResourceBlob::ResourceBlob(uint8* blobData, uint32 blobSize)
-	: data(blobData),
-	size(blobSize)
+	: size(blobSize)
 {
 	Assert(blobData != nullptr);
 	Assert(blobSize > 0);
+	data = new uint8[blobSize];
+	Memcpy(data, size, blobData, blobSize);
 }
 
 ResourceBlob::ResourceBlob(const ResourceBlob& other)

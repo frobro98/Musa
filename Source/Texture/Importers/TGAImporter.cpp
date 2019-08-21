@@ -25,7 +25,7 @@ void TGAImporter::ProcessHeader(const DynamicArray<uint8>& data)
 	bitDepth = tgaFile.bits / 8u;
 	if (validData)
 	{
-		format = bitDepth == 3 ? ImageFormat::BGR_8u : ImageFormat::BGRA_8u;
+		format = bitDepth == 3 ? ImageFormat::BGR_8u : ImageFormat::BGRA_8norm;
 	}
 	else if (tgaFile.bits == 8)
 	{
@@ -65,7 +65,7 @@ void TGAImporter::ModifyBGRImage()
 		*texDataPtr = 0xff;
 		++texDataPtr;
 	}
-	format = ImageFormat::BGRA_8u;
+	format = ImageFormat::BGRA_8norm;
 }
 
 void TGAImporter::ProcessImport()

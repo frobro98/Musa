@@ -17,7 +17,7 @@ constexpr uint32 FormatInBytes(ImageFormat format)
 		case ImageFormat::RGBA_8u:
 		case ImageFormat::RGBA_8norm:
 			return 4;
-		case ImageFormat::BGRA_8u:
+		case ImageFormat::BGRA_8norm:
 			return 4;
 		case ImageFormat::Gray_8u:
 			return 1;

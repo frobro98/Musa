@@ -25,7 +25,7 @@ Texture::Texture(uint8 r, uint8 g, uint8 b, uint8 a)
 	m.height = 1;
 
 	mipLevels.Add(std::move(m));
-	format = ImageFormat::BGRA_8u;
+	format = ImageFormat::BGRA_8norm;
 }
 
 Texture::~Texture()

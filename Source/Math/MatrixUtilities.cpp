@@ -54,7 +54,7 @@ Matrix ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 n
 	projection[m3] = 0;
 
 	projection[m4] = 0;
-	projection[m5] = 2.f * nearPlane / nearHeight;//1.f / tanHalfFOV;
+	projection[m5] = 2.f * nearPlane / nearHeight;// tanHalfFOV;
 	projection[m6] = 0;
 	projection[m7] = 0;
 

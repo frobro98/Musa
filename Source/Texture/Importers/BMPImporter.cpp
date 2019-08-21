@@ -153,7 +153,7 @@ void BMPImporter::ProcessBMPHeader()
 		bitDepth = bmpInfo->bmpBitDepth;
 		channels = bitDepth / 8;
 		Assert(channels > 1);
-		format = ImageFormat::BGRA_8u;
+		format = ImageFormat::BGRA_8norm;
 		// Storing data as if it has 4 channels
 		importedImageData.Resize(width * height * 4u);
 	}

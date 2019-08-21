@@ -65,7 +65,7 @@ rgba_surface FormatMipForISPC(MipmapLevel& level)
 
 void PrepareMipsForCompression(ImageFormat currentFormat, DynamicArray<MipmapLevel>& mipLevels)
 {
-	if (currentFormat == ImageFormat::BGRA_8u || currentFormat == ImageFormat::BGR_8u)
+	if (currentFormat == ImageFormat::BGRA_8norm || currentFormat == ImageFormat::BGR_8u)
 	{
 		for (auto& level : mipLevels)
 		{

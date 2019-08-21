@@ -29,7 +29,7 @@ CompressionFormat ImageToCompressionFormat(ImageFormat format)
 		case ImageFormat::RGBA_8u:
 		case ImageFormat::RGBA_8norm:
 		case ImageFormat::RGBA_16f:
-		case ImageFormat::BGRA_8u:
+		case ImageFormat::BGRA_8norm:
 		case ImageFormat::Gray_8u:
 		case ImageFormat::D_32f:
 		case ImageFormat::DS_32f_8u:
@@ -120,11 +120,12 @@ Texture* TextureManager::Compress(const TextureChunk& chunk, uint8* textureData,
 // 	Compression::CompressForGPU(uncompressed, compressed, ImageToCompressionFormat(format));
 // 	compressed.format = format;
 
-	Texture* texture = new Texture;// (chunkData.width, chunkData.height, chunkData.format, std::move(data));
+	Texture* texture = new Texture;
 	*texture = std::move(compressed);
 	return texture;
 }
 
+// TODO - Get this out of here and into the texture itself as part of initialization...
 void TextureManager::ConfigureNativeTexture(Texture& texture)
 {
 	ResourceBlob textureBlob = ConstructBlobOfMipLevels(texture.mipLevels);

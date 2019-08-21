@@ -33,6 +33,7 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameEngine.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameEngine.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h" />
@@ -160,7 +162,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -169,7 +171,7 @@
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetyped.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -188,7 +190,7 @@ echo         Copied ispc_texcomp.dll!</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -198,8 +200,8 @@ echo         Copied ispc_texcomp.dll!</Command>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
