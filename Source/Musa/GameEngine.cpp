@@ -92,7 +92,7 @@ void GameEngine::LoadContent()
 	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
 	GameObject* go = GetGameObjectManager().CreateAndAdd<GameObject>();
-	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel-a", Color32::White())));
+	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...

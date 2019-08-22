@@ -8,11 +8,54 @@
 
 #include "Texture/Texture2D/TextureManager.h"
 #include "Texture/Texture2D/Texture.h"
+#include "Utilities/CoreUtilities.hpp"
 
-FontID ImportTTFont(const Path& path)
+//////////////////////////////////////////////////////////////////////////
+// FontID
+//////////////////////////////////////////////////////////////////////////
+
+FontID::FontID(const StringView& fontName)
+	: id(GetHash(fontName))
+{
+}
+
+//////////////////////////////////////////////////////////////////////////
+// FontCharDescription
+//////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////
+// Font
+//////////////////////////////////////////////////////////////////////////
+Font::Font(const String& fontName)
+	: name(fontName),
+	id(StringView{ *fontName })
+{
+}
+
+Font::~Font()
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Font Caching
+//////////////////////////////////////////////////////////////////////////
+
+static constexpr uint32 ftToPixelSpace(uint32 fontSpaceVal)
+{
+	return fontSpaceVal >> 6;
+}
+
+static constexpr uint32 ftToFontSpace(uint32 pixelSpaceVal)
+{
+	return pixelSpaceVal << 6;
+}
+
+Font* ImportTTFont(const Path& path)
 {
 	// Ascii only
-	const uint32 charCount = 256;
+	constexpr uint32 charCount = 256;
 
 	FT_Library lib;
 	FT_Error error = FT_Init_FreeType(&lib);
@@ -22,32 +65,32 @@ FontID ImportTTFont(const Path& path)
 	error = FT_New_Face(lib, path.GetString(), 0, &face);
 	Assert(error != FT_Err_Unknown_File_Format);
 
-	// Available glyphs in font face
-	face->num_glyphs;
-	// Describes face properties
-	face->face_flags;
-	// Only valid for scalable formats
-	face->units_per_EM;
-	// Number of embedded bitmap strikes (glyph images for given char pixel size)
-	face->num_fixed_sizes;
-	// Pointer containing pixel width and height for all strikes
-	face->available_sizes;
-
 	constexpr uint32 bitmapWidth = 1024;
 	constexpr uint32 bitmapHeight = 1024;
 	constexpr uint32 bitmapChannels = 4;
-	constexpr uint32 sdfScaleFactor = 9;
+	constexpr uint32 sdfScaleFactor = 1;
+
+	String fontName = "Ariel";
+	Font* font = new Font(fontName);
 
 	DynamicArray<uint8> bitmap(bitmapWidth*bitmapHeight*bitmapChannels);
-	const uint32 sdfHeight = 16 * sdfScaleFactor; // size 16 font with sdf scale
-	error = FT_Set_Char_Size(face, 0, sdfHeight << 6, 96, 96); // Everything it seems to be in 1/64 units, so we are shifting right to mult by 64
+	const uint32 sdfHeight = 48 * sdfScaleFactor; // size 16 font with sdf scale
+	error = FT_Set_Char_Size(face, 0, ftToFontSpace(sdfHeight), 96, 96); // Everything it seems to be in 1/64 units, so we are shifting right to mult by 64
+
+	uint32 acenderInPixels = ftToPixelSpace(FT_MulFix(face->ascender, face->size->metrics.y_scale));
 
 	Texture* t = new Texture;
-	t->name = "Ariel-a";
+	t->name = fontName;
 	t->format = ImageFormat::RGBA_8norm;
+
+	uint32 bitmapWidthOffset = 0;
+	uint32 bitmapHeightOffset = 0;
+	uint32 maxCharHeight = 0;
 	for (uint32 i = 0; i < charCount; ++i)
 	{
-		uint32 glyphIndex = FT_Get_Char_Index(face, 'a');
+		tchar c = (tchar)i;
+
+		uint32 glyphIndex = FT_Get_Char_Index(face, i);
 		if (glyphIndex != 0)
 		{
 			FT_Load_Glyph(face, glyphIndex, FT_LOAD_DEFAULT);
@@ -57,40 +100,71 @@ FontID ImportTTFont(const Path& path)
 
 			// Transfer bitmap information to font cache
 
-			uint32 glyphWidth = glyph->advance.x >> 6; // Why do we shift left 6?? Everything it seems to be in 1/64 units, so we are dividing by 64
+			uint32 glyphWidth = ftToPixelSpace(glyph->advance.x); // Why do we shift left 6?? Everything it seems to be in 1/64 units, so we are dividing by 64
 			glyphWidth *= sdfScaleFactor;
 			uint32 glyphHeight = glyph->bitmap.rows;
 			glyphHeight *= sdfScaleFactor;
 
-			DynamicArray<uint8> texData(glyph->bitmap.width * glyph->bitmap.rows * 4);
+			// Move to next row
+			if (bitmapWidthOffset + glyphWidth > bitmapWidth)
+			{
+				bitmapWidthOffset = 0;
+				bitmapHeightOffset += maxCharHeight;
+				maxCharHeight = 0;
+			}
+
+			Assert(bitmapHeightOffset + glyphHeight < bitmapHeight);
+
+			maxCharHeight = Max(maxCharHeight, glyphHeight);
+
+			FontCharDescription desc = {};
+			desc.characterCode = c;
+			desc.uTexelStart = bitmapWidthOffset;
+			desc.vTexelStart = bitmapHeightOffset;
+			desc.texelWidth = bitmapWidth;
+			desc.texelHeight = bitmapHeight;
+			desc.characterHeightOffset = acenderInPixels - glyph->bitmap_top;
+
+			font->fontCharacterMap.Add(c, desc);
+
 			uint32 bitmapY = glyph->bitmap.rows - 1;
 			for (uint32 y = 0; y < glyph->bitmap.rows; ++y)
 			{
 				for (uint32 x = 0; x < glyph->bitmap.width; ++x)
 				{
 					const uint8 bitmapVal = glyph->bitmap.buffer[x + bitmapY * glyph->bitmap.width];
+					const uint32 xTexPos = x + bitmapWidthOffset;
+					const uint32 yTexPos = y + bitmapHeightOffset;
+					const uint32 totalArrayPos = (xTexPos + yTexPos * bitmapWidth) * 4;
 
-					texData[(x + y * glyph->bitmap.width) * 4 + 0] = bitmapVal; // red
-					texData[(x + y * glyph->bitmap.width) * 4 + 1] = bitmapVal; // green
-					texData[(x + y * glyph->bitmap.width) * 4 + 2] = bitmapVal; // blue
-					texData[(x + y * glyph->bitmap.width) * 4 + 3] = 255; // Alpha; TODO - put sdf information in this...
+					// TODO - Because of blending, there needs to be some meaningful alpha value. 
+					// TODO - The alpha lives in the bitmap, so it doesn't really make much sense to store it multiple times. Just keep the alpha for the entire pixel, disregarding the other 3 values
+					bitmap[totalArrayPos + 0] = bitmapVal; // red
+					bitmap[totalArrayPos + 1] = bitmapVal; // green
+					bitmap[totalArrayPos + 2] = bitmapVal; // blue
+					bitmap[totalArrayPos + 3] = 255; // Alpha; TODO - put sdf information in this...
 				}
 				--bitmapY;
 			}
 
-			MipmapLevel level;
-			level.width = glyph->bitmap.width;
-			level.height = glyph->bitmap.rows;
-			level.mipData = { texData.GetData(), texData.SizeInBytes() };
-			t->mipLevels.Add(std::move(level));
+			bitmapWidthOffset += glyphWidth;
 
-			break;
 		}
 	}
+
+
+	MipmapLevel level;
+	level.width = bitmapWidth;
+	level.height = bitmapHeight;
+	level.mipData = { bitmap.GetData(), bitmap.SizeInBytes() };
+	t->mipLevels.Add(std::move(level));
+
+	font->fontTexture = t;
 
 	GetTextureManager().AddTexture(*t);
 
 	error = FT_Done_FreeType(lib);
 
-	return 0;
+	return font;
 }
+

@@ -4,6 +4,8 @@
 #include "String/StringView.hpp"
 #include "Containers/Map.h"
 
+struct Texture;
+
 // Font Definitions
 
 struct FontID
@@ -15,26 +17,31 @@ struct FontID
 
 struct FontCharDescription
 {
-	uint32 uStartTexel;
-	uint32 vStartTexel;
-	uint32 uTexelWidth;
-	uint32 vTexelHeight;
+	// Used for chars like g
+	uint32 characterHeightOffset;
+
+	uint32 uTexelStart;
+	uint32 vTexelStart;
+	uint32 texelWidth;
+	uint32 texelHeight;
 	tchar characterCode;
 };
 
 struct Font
 {
-	Font(StringView fontName, Texture& fontTex);
+	Font(const String& fontName);
 	~Font();
 
 	Map<tchar, FontCharDescription> fontCharacterMap;
-	Texture& fontTexture;
-	String fontName;
+	Texture* fontTexture = nullptr;
+	String name;
+	// Height applied to the y offset of the text when encountering newlines
+	uint32 newlineHeightOffset = 0;
 	FontID id;
 };
 
 // Import ttf
-FontID ImportTTFont(const Path& path);
+Font* ImportTTFont(const Path& path);
 
 // Get Cached Font
 Font& GetCachedFont(FontID id);

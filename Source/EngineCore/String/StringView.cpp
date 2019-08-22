@@ -1,6 +1,7 @@
 #include "StringView.hpp"
 #include "Assertion.h"
 #include "CStringUtilities.hpp"
+#include "FNV-1a.h"
 
 StringView::StringView(const tchar* str)
 	: string(str),
@@ -126,4 +127,9 @@ tchar StringView::operator[](uint32 index) const
 const tchar* StringView::operator*() const
 {
 	return string;
+}
+
+uint32 GetHash(const StringView& str)
+{
+	return fnv(str.string, str.stringLen);
 }

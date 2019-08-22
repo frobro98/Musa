@@ -33,4 +33,6 @@ public:
 private:
 	const tchar* string;
 	uint32 stringLen;
+
+	friend uint32 GetHash(const StringView& str);
 };
