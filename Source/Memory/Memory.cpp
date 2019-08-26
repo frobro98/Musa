@@ -5,10 +5,10 @@
 
 #include <stdio.h>
 
-#include "InternalMem.h"
+#include "Internal/InternalMem.h"
 #include "DynamicBlockHeap.h"
 #include "FixedBlockHeap.h"
-#include "InternalBlock.h"
+#include "Internal/InternalBlock.h"
 #include "MemoryUtilities.h"
 #include "Assertion.h"
 
