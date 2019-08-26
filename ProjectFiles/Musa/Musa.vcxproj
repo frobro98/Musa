@@ -180,7 +180,7 @@
     <PostBuildEvent>
       <Command>rem copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
 rem echo         Copied nvtt.dll! 
-copy "$(SolutionDir)ThirdParty\lib\ispc\x64\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
+copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
 echo         Copied ispc_texcomp.dll!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -208,7 +208,7 @@ echo         Copied ispc_texcomp.dll!</Command>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
 echo         Copied nvtt.dll! 
-copy "$(SolutionDir)ThirdParty\lib\ispc\x64\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
+copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
 echo         Copied ispc_texcomp.dll!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
