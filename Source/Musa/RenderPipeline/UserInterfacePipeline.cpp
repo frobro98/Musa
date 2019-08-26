@@ -82,9 +82,9 @@ void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text
 	desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
 	desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
 	desc.rasterizerDesc = RasterDesc();
-	desc.blendingDescs[0] = BlendDesc();// <ColorMask::RGB, BlendOperation::Add, >()
+	desc.blendingDescs[0] = BlendDesc();
 	desc.blendingDescs[1] = BlendDesc();
-	desc.blendingDescs[2] = BlendDesc();
+	desc.blendingDescs[2] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
 	desc.vertexInputs = GetVertexInput<PrimitiveVertex>();

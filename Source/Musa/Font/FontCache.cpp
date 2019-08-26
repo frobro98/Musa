@@ -93,7 +93,7 @@ Font* ImportTTFont(const Path& path)
 	{
 		tchar c = (tchar)i;
 
-		uint32 glyphIndex = FT_Get_Char_Index(face, i);
+		uint32 glyphIndex = FT_Get_Char_Index(face, c);
 		if (glyphIndex != 0)
 		{
 			FT_Load_Glyph(face, glyphIndex, FT_LOAD_DEFAULT);
@@ -125,7 +125,7 @@ Font* ImportTTFont(const Path& path)
 			desc.uTexelStart = bitmapWidthOffset;
 			desc.vTexelStart = bitmapHeightOffset;
 			desc.texelWidth = glyphWidth;
-			desc.texelHeight = glyphWidth;
+			desc.texelHeight = glyphHeight;
 			desc.characterHeightOffset = acenderInPixels - glyph->bitmap_top;
 
 			font->fontCharacterMap.Add(c, desc);
@@ -145,7 +145,7 @@ Font* ImportTTFont(const Path& path)
 					bitmap[totalArrayPos + 0] = bitmapVal; // red
 					bitmap[totalArrayPos + 1] = bitmapVal; // green
 					bitmap[totalArrayPos + 2] = bitmapVal; // blue
-					bitmap[totalArrayPos + 3] = 255; // Alpha; TODO - put sdf information in this...
+					bitmap[totalArrayPos + 3] = bitmapVal; // Alpha; TODO - put sdf information in this...
 				}
 				--bitmapY;
 			}

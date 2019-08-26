@@ -471,7 +471,7 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 
 	RenderBatchedPrimitives(renderer, view);
 
-	RenderTextOnScreen(renderer, view, "Hello World");
+	RenderTextOnScreen(renderer, view, "It works! Fuck yea, baby!");
 	
 	TransitionTargetsToRead(renderer, targets);
 

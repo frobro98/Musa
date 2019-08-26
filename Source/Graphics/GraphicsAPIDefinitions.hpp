@@ -94,6 +94,18 @@ enum class BlendFactor : uint8
 {
 	Zero,
 	One,
+	SrcColor,
+	OneMinusSrcColor,
+	DstColor,
+	OneMinusDstColor,
+	SrcAlpha,
+	OneMinusSrcAlpha,
+	DstAlpha,
+	OneMinusDstAlpha,
+	ConstColor,
+	OneMinusConstColor,
+	ConstAlpha,
+	OneMinusConstAlpha
 };
 
 inline ColorMask operator|(ColorMask e0, ColorMask e1)
