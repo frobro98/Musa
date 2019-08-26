@@ -192,6 +192,9 @@
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp">
       <Filter>Source\Fonts</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.cpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp">
       <Filter>Source\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.hpp">
+      <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

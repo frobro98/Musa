@@ -28,6 +28,7 @@
 #include "Scene/ScreenView.hpp"
 
 #include "RenderPipeline/BatchPrimitives.hpp"
+#include "RenderPipeline/UserInterfacePipeline.hpp"
 
 // class LightUniformBufferPool
 // {
@@ -469,6 +470,8 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 	RenderGBufferPass(renderer, scene, view);
 
 	RenderBatchedPrimitives(renderer, view);
+
+	RenderTextOnScreen(renderer, view, "Hello World");
 	
 	TransitionTargetsToRead(renderer, targets);
 

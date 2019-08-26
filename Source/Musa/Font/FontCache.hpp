@@ -12,8 +12,18 @@ struct FontID
 {
 	FontID(const StringView& fontName);
 
+	friend bool operator==(const FontID& id0, const FontID& id1)
+	{
+		return id0.id == id1.id;
+	}
+
 	const uint32 id;
 };
+
+inline uint32 GetHash(FontID id)
+{
+	return id.id;
+}
 
 struct FontCharDescription
 {
@@ -44,5 +54,5 @@ struct Font
 Font* ImportTTFont(const Path& path);
 
 // Get Cached Font
-Font& GetCachedFont(FontID id);
+Font* GetLoadedFont(FontID id);
 

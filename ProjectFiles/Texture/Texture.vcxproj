@@ -72,7 +72,7 @@ copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\ThirdParty\lib\ispc\x64;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\ThirdParty\lib\ispc;</AdditionalLibraryDirectories>
       <AdditionalDependencies>ispc_texcomp64.lib;jpeg64-d.lib;libpngd64.lib;zlibd64.lib;File_d.lib;Graphics_d.lib;Thread_d.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
@@ -101,7 +101,7 @@ copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\ThirdParty\lib\ispc\x64;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\ThirdParty\lib\ispc;</AdditionalLibraryDirectories>
       <AdditionalDependencies>ispc_texcomp64.lib;jpeg64.lib;libpng64.lib;zlib64.lib;File.lib;Graphics.lib;Thread.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>

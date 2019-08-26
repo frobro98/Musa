@@ -5,6 +5,7 @@
 #include "freetype/ft2build.h"
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
+#include FT_ADVANCES_H
 
 #include "Texture/Texture2D/TextureManager.h"
 #include "Texture/Texture2D/Texture.h"
@@ -41,6 +42,8 @@ Font::~Font()
 //////////////////////////////////////////////////////////////////////////
 // Font Caching
 //////////////////////////////////////////////////////////////////////////
+
+Map<FontID, Font*> importedFonts;
 
 static constexpr uint32 ftToPixelSpace(uint32 fontSpaceVal)
 {
@@ -121,8 +124,8 @@ Font* ImportTTFont(const Path& path)
 			desc.characterCode = c;
 			desc.uTexelStart = bitmapWidthOffset;
 			desc.vTexelStart = bitmapHeightOffset;
-			desc.texelWidth = bitmapWidth;
-			desc.texelHeight = bitmapHeight;
+			desc.texelWidth = glyphWidth;
+			desc.texelHeight = glyphWidth;
 			desc.characterHeightOffset = acenderInPixels - glyph->bitmap_top;
 
 			font->fontCharacterMap.Add(c, desc);
@@ -152,6 +155,7 @@ Font* ImportTTFont(const Path& path)
 		}
 	}
 
+	importedFonts.Add(font->id, font);
 
 	MipmapLevel level;
 	level.width = bitmapWidth;
@@ -166,5 +170,11 @@ Font* ImportTTFont(const Path& path)
 	error = FT_Done_FreeType(lib);
 
 	return font;
+}
+
+Font* GetLoadedFont(FontID id)
+{
+	Font** font = importedFonts.Find(id);
+	return font != nullptr ? *font : nullptr;
 }
 
