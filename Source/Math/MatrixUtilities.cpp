@@ -71,10 +71,31 @@ Matrix ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 n
 	return projection;
 }
 
-Matrix Math::Orthographic(float32 aspect, float32 nearPlane, float32 farPlane)
+Matrix ConstructOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
 {
-	UNUSED(aspect, nearPlane, farPlane);
-	return Matrix();
+	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
+	Matrix projection;
+	projection[m0] = 2.f / (right - left);
+	projection[m1] = 0;
+	projection[m2] = 0;
+	projection[m3] = -(right + left) / (right - left);
+
+	projection[m4] = 0;
+	projection[m5] = 2.f / (top - bottom);
+	projection[m6] = 0;
+	projection[m7] = -(top + bottom) / (top - bottom);
+
+	projection[m8] = 0;
+	projection[m9] = 0;
+	projection[m10] = -2.f / (farPlane - nearPlane);
+	projection[m11] = -nearPlane / (farPlane - nearPlane);
+
+	projection[m12] = 0;
+	projection[m13] = 0;
+	projection[m14] = 0;
+	projection[m15] = 1;
+
+	return projection;
 }
 
 }

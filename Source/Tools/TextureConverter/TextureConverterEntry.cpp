@@ -131,7 +131,7 @@ int main(int argc, char* argv[])
 
 	if (generateMipMaps)
 	{
-		uint32 maxGeneratedLevels = GetMaxMipMapLevels(texture.mipLevels[0].width, texture.mipLevels[0].height) - 1;
+		uint32 maxGeneratedLevels = GetMaxMipMapLevels(texture.GetWidth(), texture.GetHeight()) - 1;
 		GenerateMipMapLevels(texture, maxGeneratedLevels, filter);
 
 		Color tint = Color::Green();

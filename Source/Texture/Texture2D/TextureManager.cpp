@@ -130,8 +130,8 @@ void TextureManager::ConfigureNativeTexture(Texture& texture)
 {
 	ResourceBlob textureBlob = ConstructBlobOfMipLevels(texture.mipLevels);
 
-	uint32 width = texture.mipLevels[0].width;
-	uint32 height = texture.mipLevels[0].height;
+	uint32 width = texture.GetWidth();
+	uint32 height = texture.GetHeight();
 	texture.gpuResource = GetGraphicsInterface().CreateInitializedTexture2D(textureBlob, width, height, texture.format, texture.mipLevels.Size(), TextureUsage::SampledResource);
 }
 

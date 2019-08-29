@@ -72,12 +72,14 @@ Font* ImportTTFont(const Path& path)
 	constexpr uint32 bitmapHeight = 1024;
 	constexpr uint32 bitmapChannels = 4;
 	constexpr uint32 sdfScaleFactor = 1;
+	constexpr uint32 paddingX = 5;
+	constexpr uint32 paddingY = 5;
 
 	String fontName = "Ariel";
 	Font* font = new Font(fontName);
 
 	DynamicArray<uint8> bitmap(bitmapWidth*bitmapHeight*bitmapChannels);
-	const uint32 sdfHeight = 48 * sdfScaleFactor; // size 16 font with sdf scale
+	const uint32 sdfHeight = 80 * sdfScaleFactor; // size 16 font with sdf scale
 	error = FT_Set_Char_Size(face, 0, ftToFontSpace(sdfHeight), 96, 96); // Everything it seems to be in 1/64 units, so we are shifting right to mult by 64
 
 	uint32 acenderInPixels = ftToPixelSpace(FT_MulFix(face->ascender, face->size->metrics.y_scale));
@@ -103,7 +105,9 @@ Font* ImportTTFont(const Path& path)
 
 			// Transfer bitmap information to font cache
 
-			uint32 glyphWidth = ftToPixelSpace(glyph->advance.x); // Why do we shift left 6?? Everything it seems to be in 1/64 units, so we are dividing by 64
+			// This is actually how much the draw position should advance, not the width of the glyph
+			uint32 glyphWidth = glyph->bitmap.width;
+			uint32 advance = ftToPixelSpace(glyph->advance.x); // Why do we shift left 6?? Everything it seems to be in 1/64 units, so we are dividing by 64
 			glyphWidth *= sdfScaleFactor;
 			uint32 glyphHeight = glyph->bitmap.rows;
 			glyphHeight *= sdfScaleFactor;
@@ -112,7 +116,7 @@ Font* ImportTTFont(const Path& path)
 			if (bitmapWidthOffset + glyphWidth > bitmapWidth)
 			{
 				bitmapWidthOffset = 0;
-				bitmapHeightOffset += maxCharHeight;
+				bitmapHeightOffset += maxCharHeight + paddingY;
 				maxCharHeight = 0;
 			}
 
@@ -120,13 +124,19 @@ Font* ImportTTFont(const Path& path)
 
 			maxCharHeight = Max(maxCharHeight, glyphHeight);
 
+			float invBitmapWidth = 1.f / bitmapWidth;
+			float invBitmapHeight = 1.f / bitmapHeight;
+
 			FontCharDescription desc = {};
 			desc.characterCode = c;
-			desc.uTexelStart = bitmapWidthOffset;
-			desc.vTexelStart = bitmapHeightOffset;
-			desc.texelWidth = glyphWidth;
-			desc.texelHeight = glyphHeight;
-			desc.characterHeightOffset = acenderInPixels - glyph->bitmap_top;
+			desc.normTextureCoords = Vector2((float)bitmapWidthOffset * invBitmapWidth,  (float)bitmapHeightOffset * invBitmapHeight);
+
+			desc.width = glyphWidth;
+			desc.height = glyphHeight;
+			desc.advance = advance;
+			desc.normCharacterWidth = glyphWidth * invBitmapWidth;
+			desc.normCharacterHeight = glyphHeight * invBitmapHeight;
+			desc.characterHeightOffset = (acenderInPixels - glyph->bitmap_top);
 
 			font->fontCharacterMap.Add(c, desc);
 
@@ -150,7 +160,7 @@ Font* ImportTTFont(const Path& path)
 				--bitmapY;
 			}
 
-			bitmapWidthOffset += glyphWidth;
+			bitmapWidthOffset += glyphWidth + paddingX;
 
 		}
 	}

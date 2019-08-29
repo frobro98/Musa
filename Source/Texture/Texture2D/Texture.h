@@ -17,6 +17,9 @@ struct Texture
 	Texture(uint8 r, uint8 g, uint8 b, uint8 a);
 	~Texture();
 
+	uint32 GetWidth() const;
+	uint32 GetHeight() const;
+
 	String name;
 	DynamicArray<MipmapLevel> mipLevels;
 	NativeTexture* gpuResource = nullptr;

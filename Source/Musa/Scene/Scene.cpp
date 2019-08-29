@@ -146,43 +146,43 @@ void Scene::RenderScene(Viewport& viewport)
 		gbuffersInitialized = true;
 	}
 
-	float xOffset = -100.f;
-	BatchedLineDescription desc[3] = {};
-	desc[0].color = Color32::Red();
-	desc[0].start = Vector3(xOffset, 0, 0);
-	desc[0].end = Vector3(xOffset + 50, 0, 0);
-
-	desc[1].color = Color32::Green();
-	desc[1].start = Vector3(xOffset, 0, 0);
-	desc[1].end = Vector3(xOffset, 50, 0);
-
-	desc[2].color = Color32::Blue();
-	desc[2].start = Vector3(xOffset, 0, 0);
-	desc[2].end = Vector3(xOffset, 0, 50);
-	BatchLinePrimitives(desc, ArraySize(desc));
-
-	BatchedQuadDescription quadDesc = {};
-	quadDesc.color = Color32::Black();
-	quadDesc.position = Vector3(100, 0, 0);
-	quadDesc.width = 10;
-	quadDesc.height = 10;
-	BatchWireQuadPrimitive(quadDesc);
-
-	BatchedTriangleDescription triDesc = {};
-	triDesc.color = Color32::White();
-	triDesc.pos0 = Vector3(-50, -50, 0);
-	triDesc.pos1 = Vector3(50, 50, 0);
-	triDesc.pos2 = Vector3(-40, 70, 0);
-	BatchWireTrianglePrimitive(triDesc);
-
-	BatchedCircleDescription circDesc = {};
-	circDesc.color = Color32::DarkGray();
-	circDesc.numSegments = 32;
-	circDesc.position = Vector3(0, 65, 2);
-	circDesc.radius = 25;
-	circDesc.right = Vector3::RightAxis;
-	circDesc.up = Vector3::UpAxis;
-	BatchWireCirclePrimitive(circDesc);
+// 	float xOffset = -100.f;
+// 	BatchedLineDescription desc[3] = {};
+// 	desc[0].color = Color32::Red();
+// 	desc[0].start = Vector3(xOffset, 0, 0);
+// 	desc[0].end = Vector3(xOffset + 50, 0, 0);
+// 
+// 	desc[1].color = Color32::Green();
+// 	desc[1].start = Vector3(xOffset, 0, 0);
+// 	desc[1].end = Vector3(xOffset, 50, 0);
+// 
+// 	desc[2].color = Color32::Blue();
+// 	desc[2].start = Vector3(xOffset, 0, 0);
+// 	desc[2].end = Vector3(xOffset, 0, 50);
+// 	BatchLinePrimitives(desc, ArraySize(desc));
+// 
+// 	BatchedQuadDescription quadDesc = {};
+// 	quadDesc.color = Color32::Black();
+// 	quadDesc.position = Vector3(100, 0, 0);
+// 	quadDesc.width = 10;
+// 	quadDesc.height = 10;
+// 	BatchWireQuadPrimitive(quadDesc);
+// 
+// 	BatchedTriangleDescription triDesc = {};
+// 	triDesc.color = Color32::White();
+// 	triDesc.pos0 = Vector3(-50, -50, 0);
+// 	triDesc.pos1 = Vector3(50, 50, 0);
+// 	triDesc.pos2 = Vector3(-40, 70, 0);
+// 	BatchWireTrianglePrimitive(triDesc);
+// 
+// 	BatchedCircleDescription circDesc = {};
+// 	circDesc.color = Color32::DarkGray();
+// 	circDesc.numSegments = 32;
+// 	circDesc.position = Vector3(0, 65, 2);
+// 	circDesc.radius = 25;
+// 	circDesc.right = Vector3::RightAxis;
+// 	circDesc.up = Vector3::UpAxis;
+// 	BatchWireCirclePrimitive(circDesc);
 
 	renderer->BeginRenderFrame(viewport.GetNativeViewport());
 	sceneRendering->RenderScene(*renderer, *this, viewport, view->view);

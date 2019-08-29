@@ -365,5 +365,8 @@
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.hpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp">
+      <Filter>Source\Fonts</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

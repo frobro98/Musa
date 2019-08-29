@@ -18,6 +18,11 @@ inline String EngineAssetPath()
 	return EngineRootPath() + "Assets/";
 }
 
+inline String EngineFontPath()
+{
+	return EngineAssetPath() + "Fonts/";
+}
+
 inline String EngineShaderSrcPath()
 {
 	return EngineAssetPath() + "Shaders/";

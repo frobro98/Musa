@@ -480,8 +480,8 @@ uint32 GetMaxMipMapLevels(uint32 width, uint32 height)
 bool GenerateMipMapLevels(Texture& texture, uint32 levelsToGen, MipMapFilter filter)
 {
 	Assert(texture.mipLevels.Size() > 0);
-	uint32 width = texture.mipLevels[0].width;
-	uint32 height = texture.mipLevels[0].height;
+	uint32 width = texture.GetWidth();
+	uint32 height = texture.GetHeight();
 	Assert(levelsToGen < GetMaxMipMapLevels(width, height));
 
 	switch (filter)

@@ -42,7 +42,7 @@ void ShaderPreprocessor::Preprocess(const Path& pathToShader)
 
 const char* ShaderPreprocessor::ErrorString() const
 {
-	return *preprocessError;
+	return preprocessError.IsEmpty() ? "" : *preprocessError;
 }
 
 bool ShaderPreprocessor::Success() const

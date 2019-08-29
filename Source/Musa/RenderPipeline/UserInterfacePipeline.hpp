@@ -6,5 +6,5 @@
 struct View;
 class Renderer;
 
-void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text);
+void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text, float textScale);
 

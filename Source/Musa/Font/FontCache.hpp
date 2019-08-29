@@ -3,6 +3,7 @@
 #include "File/Path.hpp"
 #include "String/StringView.hpp"
 #include "Containers/Map.h"
+#include "Math/Vector2.hpp"
 
 struct Texture;
 
@@ -27,13 +28,17 @@ inline uint32 GetHash(FontID id)
 
 struct FontCharDescription
 {
+	// NOTE: These float values are normalized, then scaled up to be around 1 
+	uint32 width;
+	uint32 height;
+	uint32 advance;	
 	// Used for chars like g
 	uint32 characterHeightOffset;
 
-	uint32 uTexelStart;
-	uint32 vTexelStart;
-	uint32 texelWidth;
-	uint32 texelHeight;
+	Vector2 normTextureCoords;
+	float32 normCharacterWidth;
+	float32 normCharacterHeight;
+
 	tchar characterCode;
 };
 

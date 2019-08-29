@@ -33,6 +33,33 @@ Texture::~Texture()
 	delete gpuResource;
 }
 
+uint32 Texture::GetWidth() const
+{
+	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...
+	if (mipLevels.Size() > 0)
+	{
+		return mipLevels[0].width;
+	}
+	else
+	{
+		return 0;
+	}
+	
+}
+
+uint32 Texture::GetHeight() const
+{
+	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...
+	if (mipLevels.Size() > 0)
+	{
+		return mipLevels[0].height;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 uint32 Texture::TotalSize() const
 {
 	uint32 totalSize = 0;
