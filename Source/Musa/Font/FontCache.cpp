@@ -79,7 +79,7 @@ Font* ImportTTFont(const Path& path)
 	Font* font = new Font(fontName);
 
 	DynamicArray<uint8> bitmap(bitmapWidth*bitmapHeight*bitmapChannels);
-	const uint32 sdfHeight = 80 * sdfScaleFactor; // size 16 font with sdf scale
+	const uint32 sdfHeight = 48 * sdfScaleFactor; // size 16 font with sdf scale
 	error = FT_Set_Char_Size(face, 0, ftToFontSpace(sdfHeight), 96, 96); // Everything it seems to be in 1/64 units, so we are shifting right to mult by 64
 
 	uint32 acenderInPixels = ftToPixelSpace(FT_MulFix(face->ascender, face->size->metrics.y_scale));
@@ -174,6 +174,7 @@ Font* ImportTTFont(const Path& path)
 	t->mipLevels.Add(std::move(level));
 
 	font->fontTexture = t;
+	font->newlineHeightOffset = maxCharHeight;
 
 	GetTextureManager().AddTexture(*t);
 

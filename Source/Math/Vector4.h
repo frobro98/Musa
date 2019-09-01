@@ -3,6 +3,7 @@
 #include "MathDefinitions.h"
 #include "Math/MathConstants.h"
 
+struct Vector2;
 struct Vector3;
 
 struct Vector4
@@ -21,7 +22,8 @@ public:
 
 	Vector4() = default;
 	explicit Vector4(float x, float y, float z, float w = 1.f);
-	explicit Vector4(const Vector3& v);
+	explicit Vector4(const Vector3& v, float32 w = 1.f);
+	explicit Vector4(const Vector2& v, float32 z, float32 w = 1.f);
 
 	float Dot(const Vector4& other) const;
 	Vector4 Cross(const Vector4& other) const;

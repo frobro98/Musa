@@ -1,6 +1,7 @@
 
 #include "Vector4.h"
 #include "Vector3.hpp"
+#include "Vector2.hpp"
 #include "MathUtilities.h"
 #include "Internal/VectorImplementation.h"
 
@@ -15,8 +16,13 @@ Vector4::Vector4(float x_, float y_, float z_, float w_)
 {
 }
 
-Vector4::Vector4(const Vector3& v)
-	: x(v.x), y(v.y), z(v.z), w(1.f)
+Vector4::Vector4(const Vector3& v, float32 w_)
+	: x(v.x), y(v.y), z(v.z), w(w_)
+{
+}
+
+Vector4::Vector4(const Vector2 & v, float32 z_, float32 w_)
+	: x(v.x), y(v.y), z(z_), w(w_)
 {
 }
 

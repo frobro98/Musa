@@ -247,16 +247,21 @@ void InputManager::ProcessMouseMovement()
 		func(positionChangeX, positionChangeY);
 	}
 
-	RECT windowRect;
-	GetWindowRect((HWND)window->GetWindowHandle(), &windowRect);
-	int32 originX = windowRect.left;
-	int32 originY = windowRect.top;
+	extern bool showCursor;
 
-	int32 width = window->GetWidth();
-	int32 height = window->GetHeight();
-	int32 centerX = originX + (width / 2);
-	int32 centerY = originY + (height / 2);
-	SetCursorPos(centerX, centerY);
+	if (!showCursor)
+	{
+		RECT windowRect;
+		GetWindowRect((HWND)window->GetWindowHandle(), &windowRect);
+		int32 originX = windowRect.left;
+		int32 originY = windowRect.top;
+
+		int32 width = window->GetWidth();
+		int32 height = window->GetHeight();
+		int32 centerX = originX + (width / 2);
+		int32 centerY = originY + (height / 2);
+		SetCursorPos(centerX, centerY);
+	}
 
 // 	prevMouseX = currMouseX;
 // 	prevMouseY = currMouseY;

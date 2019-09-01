@@ -6,22 +6,62 @@
 #include "Graphics/ResourceArray.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Shader/ShaderObjects/SimplePrimitiveRendering.hpp"
-#include "Shader/ShaderObjects/FontRendering.hpp"
 #include "Scene/ScreenView.hpp"
 #include "BatchPrimitives.hpp"
 #include "Graphics/UniformBuffers.h"
 #include "Math/MatrixUtilities.hpp"
+#include "Utilities/CoreUtilities.hpp"
 
 static NativeUniformBuffer* viewBuffer = nullptr;
 
-void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text, float textScale)
+struct TextItem
+{
+	String text;
+	Color32 color;
+	Vector2 screenPosition;
+	float32 scale;
+};
+
+DynamicArray<TextItem> screenTextItems;
+
+void AddTextToScreen(const String& text, float32 textScale, const Vector2& screenPosition, const Color32& color)
+{
+	screenTextItems.Add(TextItem{text, color, screenPosition, textScale});
+}
+
+static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)
+{
+	Matrix invScreen = Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);//Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);
+	Matrix invOrtho = Math::ConstructFastInverseOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, .1f, 10000.f);
+	Vector4 worldPos = Vector4(screenPosition, 0,1) * invScreen * invOrtho;
+	return Vector2(worldPos.x, worldPos.y);
+}
+
+static Rect GetTextBoxRect(const TextItem& item, Font& font)
+{
+	Rect ret;
+	const String& text = item.text;
+	for (uint32 i = 0; i < text.Length(); ++i)
+	{
+		tchar character = text[i];
+		const FontCharDescription* charDesc = font.fontCharacterMap.Find(character);
+		ret.width += charDesc->advance;
+		ret.height = Max(ret.height, charDesc->height * item.scale);
+	}
+
+	return ret;
+}
+
+void RenderText(Renderer& renderer, const View& view)
 {
 	if (viewBuffer == nullptr)
 	{
 		viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
 	}
 
-	textScale = 1.f;
+	TextItem& item = screenTextItems[0];
+	String& text = item.text;
+	float32 textScale = item.scale;
 
 	const tchar space = 0x20;
 	FontID id = StringView("Ariel");
@@ -32,8 +72,11 @@ void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text
 	DynamicArray<uint32> stringTris;
 	stringTris.Reserve((text.Length() * 3) * 2);
 
+	Rect textBox = GetTextBoxRect(item, *font);
+
 	uint32 startIndex = 0;
-	Vector2 currentTextPosition(0, 0);
+	Vector2 currentTextPosition = GetStartingWorldFromScreen(view, item.screenPosition);
+	currentTextPosition.y += (font->newlineHeightOffset* textScale - textBox.height);
 	for (uint32 i = 0; i < text.Length(); ++i)
 	{
 		tchar character = text[i];
@@ -57,32 +100,25 @@ void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text
 			const float uNormSize = charDesc->normCharacterWidth;
 			const float vNormSize = charDesc->normCharacterHeight;
 
-// 			BatchedQuadDescription desc = {};
-// 			desc.color = Color32::Black();
-// 			desc.position = Vector3(posX - halfWidth, posY - halfHeight, 0);
-// 			desc.width = charDesc->width * textScale;
-// 			desc.height = charDesc->height * textScale;
-// 			BatchWireQuadPrimitive(desc);
-
 			stringVerts.Add(PrimitiveVertex{
 				Vector3(negX, posY, 0),
 				Vector2(uNormCoord, vNormCoord + vNormSize),
-				Color32::Red()
+				item.color
 				});
 			stringVerts.Add(PrimitiveVertex{
 				Vector3(negX, negY, 0),
 				Vector2(uNormCoord, vNormCoord),
-				Color32::Red()
+				item.color
 				});
 			stringVerts.Add(PrimitiveVertex{
 				Vector3(posX, posY, 0),
 				Vector2(uNormCoord + uNormSize, vNormCoord + vNormSize),
-				Color32::Red()
+				item.color
 				});
 			stringVerts.Add(PrimitiveVertex{
 				Vector3(posX, negY, 0),
 				Vector2(uNormCoord + uNormSize, vNormCoord),
-				Color32::Red()
+				item.color
 				});
 
 			
@@ -113,17 +149,14 @@ void RenderTextOnScreen(Renderer& renderer, const View& view, const String& text
 	desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
 	renderer.SetGraphicsPipeline(desc);
 
-	const float32 halfWidth = view.description.viewport.width * .5f;
-	const float32 halfHeight = view.description.viewport.height * .5f;
-
 	ViewPropertiesBuffer buffer = {};
-	buffer.projectionTransform = Math::ConstructOrthographicMatrix(-halfWidth, halfWidth, -halfHeight, halfHeight, 1.f, 10000.f);
-	buffer.viewTransform = view.transforms.viewMatrix;//Matrix(IDENTITY);
+	buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
+	buffer.viewTransform = Matrix(IDENTITY);
 	buffer.viewPosition = view.description.origin;
 	GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 
 
-	renderer.SetUniformBuffer(*view.viewBuffer, 0);
+	renderer.SetUniformBuffer(*viewBuffer, 0);
 	renderer.SetTexture(*font->fontTexture->gpuResource, *SamplerDesc(), 1);
 
 	renderer.DrawRawIndexed(stringVerts, stringTris, 1);

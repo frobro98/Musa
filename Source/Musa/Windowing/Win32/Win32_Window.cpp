@@ -3,6 +3,9 @@
 #include "Input/InputDefinitions.h"
 #include "Input/InputManager.h"
 
+
+bool showCursor = false;
+static bool f1Pressed = false;
 // Basic Window callback
 LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -52,6 +55,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			{
 				window->Close();
 			}
+			if (vkCode == KeyInput::Key_F1 && !f1Pressed)
+			{
+				showCursor = !showCursor;
+				ShowCursor(showCursor);
+			}
 
 		}break;
 
@@ -66,20 +74,19 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			//altMod = altWasDown;
 
 			Internal::KeyMessageUpReceived(vkCode);
+			if (vkCode == KeyInput::Key_F1 && f1Pressed)
+			{
+				showCursor = !showCursor;
+				ShowCursor(showCursor);
+			}
 		}break;
 
 		case WM_MOUSEMOVE:
 		{
-			Internal::MouseMovementChange();
-			
-			RECT windowRect;
-			GetWindowRect((HWND)window->GetWindowHandle(), &windowRect);
-			int32 originX = windowRect.left;
-			int32 originY = windowRect.top;
-
-			int32 centerX = originX + (window->GetWidth() / 2);
-			int32 centerY = originY + (window->GetHeight() / 2);
-			SetCursorPos(centerX, centerY);
+			if (!showCursor)
+			{
+				Internal::MouseMovementChange();
+			}
 		}break;
 
 		default:
