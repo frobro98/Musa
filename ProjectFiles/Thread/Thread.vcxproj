@@ -67,7 +67,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>EngineCore_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
@@ -96,7 +97,8 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EngineCore.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul

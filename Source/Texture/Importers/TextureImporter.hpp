@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "File/Path.hpp"
+#include "Path/Path.hpp"
 #include "ImageFormats.h"
 
 // Consider making this a suite of functions that load specific kinds of image files

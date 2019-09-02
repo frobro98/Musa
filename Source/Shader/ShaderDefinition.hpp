@@ -3,7 +3,7 @@
 #include <type_traits>
 
 #include "String/String.h"
-#include "File/Path.hpp"
+#include "Path/Path.hpp"
 #include "Shader/ShaderStages.hpp"
 #include "Shader/ShaderStructure.hpp"
 #include "Containers/DynamicArray.hpp"

@@ -1,10 +1,10 @@
 #include "FileUtilities.hpp"
 #include "FileCore/File.h"
 
-DynamicArray<uint8> LoadFileToMemory(const Path& filePath)
+DynamicArray<uint8> LoadFileToMemory(const tchar* filePath)
 {
 	File::Handle handle;
-	File::Result result = File::Open(handle, filePath.GetString(), File::Mode::READ);
+	File::Result result = File::Open(handle, filePath, File::Mode::READ);
 	Assert(result == File::Result::SUCCESS);
 
 	uint32 fileSize;

@@ -3,7 +3,7 @@
 #include "String/String.h"
 #include "DirectoryLocations.h"
 #include "File/FileCore/File.h"
-#include "File/Path.hpp"
+#include "Path/Path.hpp"
 
 static void AddDefinition(const String& macro, const String& macroDef, String& definitions)
 {

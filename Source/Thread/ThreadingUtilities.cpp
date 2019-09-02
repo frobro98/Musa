@@ -64,6 +64,6 @@ uint64 GetCurrentThreadID()
 uint32 GetNumberOfProcessors()
 {
 	uint32 cores = std::thread::hardware_concurrency();
-	Assert(cores > 0);
+//	Assert(cores > 0);
 	return cores;
 }

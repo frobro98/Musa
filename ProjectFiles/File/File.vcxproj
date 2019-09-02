@@ -73,7 +73,8 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
 </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>EngineCore_d.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
@@ -104,7 +105,8 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
 </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>EngineCore.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
@@ -115,14 +117,12 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
     <ClCompile Include="..\..\Source\File\FileCore\File.cpp" />
     <ClCompile Include="..\..\Source\File\FileUtilities.cpp" />
     <ClCompile Include="..\..\Source\File\md5.cpp" />
-    <ClCompile Include="..\..\Source\File\Path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\File\FileCore\DirectoryUtilities.h" />
     <ClInclude Include="..\..\Source\File\FileCore\File.h" />
     <ClInclude Include="..\..\Source\File\FileUtilities.hpp" />
     <ClInclude Include="..\..\Source\File\md5.h" />
-    <ClInclude Include="..\..\Source\File\Path.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

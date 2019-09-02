@@ -116,6 +116,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\HashBasicTypes.h" />
     <ClInclude Include="..\..\Source\EngineCore\Malloc16Align.h" />
     <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Path\Path.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Platform.h" />
     <ClInclude Include="..\..\Source\EngineCore\PlatformDefinitions.h" />
     <ClInclude Include="..\..\Source\EngineCore\Ranges.hpp" />
@@ -146,6 +147,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DirectoryLocations.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Path\Path.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Serialization\DeserializeBase.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Serialization\MemoryDeserializer.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Serialization\MemorySerializer.cpp" />

@@ -28,6 +28,9 @@
     <Filter Include="Source\Utilities">
       <UniqueIdentifier>{a55e51ee-b5d5-46ea-ba2b-cb03ddf0319f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Path">
+      <UniqueIdentifier>{9d629675-64ed-41de-ad8d-045cc63b56c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h">
@@ -156,6 +159,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Color.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Path\Path.hpp">
+      <Filter>Source\Path</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Path\Path.cpp">
+      <Filter>Source\Path</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 
 #include "TextureProcessing.hpp"
 #include "Containers/Map.h"
-#include "File/Path.hpp"
+#include "Path/Path.hpp"
 #include "File/FileUtilities.hpp"
 #include "Importers/JPEGImporter.hpp"
 #include "Importers/TGAImporter.h"
@@ -66,7 +66,7 @@ Texture ProcessImageFile(const Path& filePath, CompressionFormat format)
 {
 	Assert(filePath.DoesFileExist());
 
-	DynamicArray<uint8> textureData = LoadFileToMemory(filePath);
+	DynamicArray<uint8> textureData = LoadFileToMemory(filePath.GetString());
 	String extension = filePath.GetFileExtension();
 	
 	TextureImporter* importer = importerMap[*extension];
