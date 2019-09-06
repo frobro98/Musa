@@ -21,6 +21,8 @@
 #include "Lighting/Light.hpp"
 #include "Math/MatrixUtilities.hpp"
 
+#include "DebugInterface/MetricInterface.hpp"
+
 #include "GameObject/RenderObjectManager.hpp"
 #include "GameObject/RenderObject.hpp"
 #include "Scene/Scene.hpp"
@@ -30,57 +32,7 @@
 #include "RenderPipeline/BatchPrimitives.hpp"
 #include "RenderPipeline/UserInterfacePipeline.hpp"
 
-// class LightUniformBufferPool
-// {
-// public:
-// 
-// 	UniformBuffer* GetBufferFromPool(VulkanCommandBuffer& cmdBuffer)
-// 	{
-// 		UniformBuffer* found = nullptr;
-// 		for (auto& buffer : lightUniformPool)
-// 		{
-// 			if (buffer.fenceCount < cmdBuffer.GetFence()->GetFenceSignaledCount())
-// 			{
-// 				found = buffer.buffer;
-// 				buffer.fenceCount = cmdBuffer.GetFence()->GetFenceSignaledCount();
-// 				break;
-// 			}
-// 		}
-// 
-// 
-// 		if (found == nullptr)
-// 		{
-// 			found = AddBufferToPool(cmdBuffer);
-// 		}
-// 
-// 		return found;
-// 	}
-// 
-// private:
-// 	struct LightUniformBuffer
-// 	{
-// 		uint64 fenceCount = 0;
-// 		UniformBuffer* buffer;
-// 		uint32 pad[1] = { 0 };
-// 	};
-// 
-// 	UniformBuffer* AddBufferToPool(VulkanCommandBuffer& cmdBuffer)
-// 	{
-// 		LightUniformBuffer pooledBuffer = {};
-// 		pooledBuffer.fenceCount = cmdBuffer.GetFence()->GetFenceSignaledCount();
-// 		UniformBuffer* buffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(TransformationUniformBuffer));
-// 		pooledBuffer.buffer = buffer;
-// 		lightUniformPool.Add(pooledBuffer);
-// 
-// 		return buffer;
-// 	}
-// 
-// private:
-// 	DynamicArray<LightUniformBuffer> lightUniformPool;
-// 	VulkanDevice* logicalDevice = nullptr;
-// };
-
-//static LightUniformBufferPool lightUniformPool;
+#include "DebugInterface/MetricInterface.hpp"
 
 static void ConstructScreenGraphicsDescription(const Renderer& renderer, const Scene& scene, GraphicsPipelineDescription& desc)
 {
@@ -227,17 +179,17 @@ void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 
 void SceneRendering::RenderScene(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
-	if (shadowMap.depthTarget == nullptr)
-	{
-		//InitializeShadowMap();
-	}
+// 	if (shadowMap.depthTarget == nullptr)
+// 	{
+// 		//InitializeShadowMap();
+// 	}
 
 	DeferredRender(renderer, scene, viewport, view);
 }
 
 void RenderWithNormalMap(Renderer& renderer, const RenderObject& object, const View& view)
 {
-
+	SCOPED_TIMED_BLOCK(NormalMapRender);
 	// Set Transform Data
 	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
 
@@ -260,6 +212,8 @@ void RenderWithNormalMap(Renderer& renderer, const RenderObject& object, const V
 
 void RenderNormally(Renderer& renderer, const RenderObject& object, const View& view)
 {
+	SCOPED_TIMED_BLOCK(RenderNormally);
+
 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
 
 	// Set Transform Data
@@ -280,6 +234,8 @@ void RenderNormally(Renderer& renderer, const RenderObject& object, const View& 
 
 void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view)
 {
+	SCOPED_TIMED_BLOCK(BaseRenderPass);
+
 	SetViewportAndScissor(renderer, view);
 
 	const DynamicArray<RenderObject*>& renderObjects = GetRenderObjectManager().GetRenderObjects();
@@ -364,6 +320,8 @@ void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const V
 
 void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, const View& view)
 {
+	SCOPED_TIMED_BLOCK(RenderToScreen);
+
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
 
 	SetViewportAndScissor(renderer, view);
@@ -455,6 +413,8 @@ void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, co
 
 void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
+	SCOPED_TIMED_BLOCK(DeferredRender);
+
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
 	
 	TransitionTargetsToWrite(renderer, targets);
@@ -471,11 +431,12 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 
 	RenderBatchedPrimitives(renderer, view);
 
-	extern float fps;
-
-	AddTextToScreen("It works! Fuck yea, baby!", .25f, Vector2(2, 0), Color32::White());
+	BEGIN_TIMED_BLOCK(TextDisplayRender);
+	//AddTextToScreen("It works! Fuck yea, baby!", .25f, Vector2(2, 2), Color32::White());
+	FormatMetricDisplay();
 	RenderText(renderer, view);
-	
+	END_TIMED_BLOCK(TextDisplayRender);
+
 	TransitionTargetsToRead(renderer, targets);
 
 	clearColors = { Color32(0, 0, 0) };

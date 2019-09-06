@@ -11,6 +11,9 @@
 #include "Graphics/UniformBuffers.h"
 #include "Math/MatrixUtilities.hpp"
 #include "Utilities/CoreUtilities.hpp"
+#include "String/String.h"
+
+#include "DebugInterface/MetricInterface.hpp"
 
 static NativeUniformBuffer* viewBuffer = nullptr;
 
@@ -24,7 +27,7 @@ struct TextItem
 
 DynamicArray<TextItem> screenTextItems;
 
-void AddTextToScreen(const String& text, float32 textScale, const Vector2& screenPosition, const Color32& color)
+void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screenPosition, const Color32& color)
 {
 	screenTextItems.Add(TextItem{text, color, screenPosition, textScale});
 }
@@ -37,7 +40,7 @@ static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& scree
 	return Vector2(worldPos.x, worldPos.y);
 }
 
-static Rect GetTextBoxRect(const TextItem& item, Font& font)
+ Rect GetTextBoxRect(const TextItem& item, Font& font)
 {
 	Rect ret;
 	const String& text = item.text;
@@ -57,107 +60,116 @@ void RenderText(Renderer& renderer, const View& view)
 	if (viewBuffer == nullptr)
 	{
 		viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		ViewPropertiesBuffer buffer = {};
+		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
+		buffer.viewTransform = Matrix(IDENTITY);
+		buffer.viewPosition = view.description.origin;
+		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}
-
-	TextItem& item = screenTextItems[0];
-	String& text = item.text;
-	float32 textScale = item.scale;
 
 	const tchar space = 0x20;
 	FontID id = StringView("Ariel");
 	Font* font = GetLoadedFont(id);
 
 	DynamicArray<PrimitiveVertex> stringVerts;
-	stringVerts.Reserve(text.Length() * 4);
+	//stringVerts.Reserve(text.Length() * 4);
 	DynamicArray<uint32> stringTris;
-	stringTris.Reserve((text.Length() * 3) * 2);
-
-	Rect textBox = GetTextBoxRect(item, *font);
+	//stringTris.Reserve((text.Length() * 3) * 2);
 
 	uint32 startIndex = 0;
-	Vector2 currentTextPosition = GetStartingWorldFromScreen(view, item.screenPosition);
-	currentTextPosition.y += (font->newlineHeightOffset* textScale - textBox.height);
-	for (uint32 i = 0; i < text.Length(); ++i)
+
+	BEGIN_TIMED_BLOCK(TextSetup);
+
+	for (const auto& item : screenTextItems)
 	{
-		tchar character = text[i];
-		FontCharDescription* charDesc = font->fontCharacterMap.Find(character);
-		
-		if (charDesc->characterCode != space)
+		const String& text = item.text;
+		float32 textScale = item.scale;
+
+		//Rect textBox = GetTextBoxRect(item, *font);
+
+		Vector2 currentTextPosition = GetStartingWorldFromScreen(view, item.screenPosition);
+		for (uint32 i = 0; i < text.Length(); ++i)
 		{
-			const uint32 texWidth = font->fontTexture->GetWidth();
-			const uint32 texHeight = font->fontTexture->GetHeight();
+			tchar character = text[i];
+			FontCharDescription* charDesc = font->fontCharacterMap.Find(character);
 
-			const float halfWidth = charDesc->width * textScale * .5f;
-			const float halfHeight = charDesc->height * textScale * .5f;
+			if (charDesc->characterCode != space)
+			{
+				const uint32 texWidth = font->fontTexture->GetWidth();
+				const uint32 texHeight = font->fontTexture->GetHeight();
 
-			const float negX = currentTextPosition.x;
-			const float posY = currentTextPosition.y - (charDesc->characterHeightOffset * textScale);
-			const float posX = negX + (charDesc->width * textScale);
-			const float negY = posY - (charDesc->height * textScale);
+				const float halfWidth = charDesc->width * textScale * .5f;
+				const float halfHeight = charDesc->height * textScale * .5f;
 
-			const float uNormCoord = charDesc->normTextureCoords.x;
-			const float vNormCoord = charDesc->normTextureCoords.y;
-			const float uNormSize = charDesc->normCharacterWidth;
-			const float vNormSize = charDesc->normCharacterHeight;
+				const float negX = currentTextPosition.x;
+				const float posY = currentTextPosition.y - (charDesc->characterHeightOffset * textScale);
+				const float posX = negX + (charDesc->width * textScale);
+				const float negY = posY - (charDesc->height * textScale);
 
-			stringVerts.Add(PrimitiveVertex{
-				Vector3(negX, posY, 0),
-				Vector2(uNormCoord, vNormCoord + vNormSize),
-				item.color
-				});
-			stringVerts.Add(PrimitiveVertex{
-				Vector3(negX, negY, 0),
-				Vector2(uNormCoord, vNormCoord),
-				item.color
-				});
-			stringVerts.Add(PrimitiveVertex{
-				Vector3(posX, posY, 0),
-				Vector2(uNormCoord + uNormSize, vNormCoord + vNormSize),
-				item.color
-				});
-			stringVerts.Add(PrimitiveVertex{
-				Vector3(posX, negY, 0),
-				Vector2(uNormCoord + uNormSize, vNormCoord),
-				item.color
-				});
+				const float uNormCoord = charDesc->normTextureCoords.x;
+				const float vNormCoord = charDesc->normTextureCoords.y;
+				const float uNormSize = charDesc->normCharacterWidth;
+				const float vNormSize = charDesc->normCharacterHeight;
 
-			
-			stringTris.Add(startIndex + 0);
-			stringTris.Add(startIndex + 1);
-			stringTris.Add(startIndex + 2);
+				stringVerts.Add(PrimitiveVertex{
+					Vector3(negX, posY, 0),
+					Vector2(uNormCoord, vNormCoord + vNormSize),
+					item.color
+					});
+				stringVerts.Add(PrimitiveVertex{
+					Vector3(negX, negY, 0),
+					Vector2(uNormCoord, vNormCoord),
+					item.color
+					});
+				stringVerts.Add(PrimitiveVertex{
+					Vector3(posX, posY, 0),
+					Vector2(uNormCoord + uNormSize, vNormCoord + vNormSize),
+					item.color
+					});
+				stringVerts.Add(PrimitiveVertex{
+					Vector3(posX, negY, 0),
+					Vector2(uNormCoord + uNormSize, vNormCoord),
+					item.color
+					});
 
-			stringTris.Add(startIndex + 2);
-			stringTris.Add(startIndex + 1);
-			stringTris.Add(startIndex + 3);
-			startIndex += 4;
+
+				stringTris.Add(startIndex + 0);
+				stringTris.Add(startIndex + 1);
+				stringTris.Add(startIndex + 2);
+
+				stringTris.Add(startIndex + 2);
+				stringTris.Add(startIndex + 1);
+				stringTris.Add(startIndex + 3);
+				startIndex += 4;
+			}
+
+			currentTextPosition.x += (charDesc->advance * textScale);
+			// TODO - handle newline character
 		}
-
-		currentTextPosition.x += (charDesc->advance * textScale);
-		// TODO - handle newline character
 	}
+
+	END_TIMED_BLOCK(TextSetup);
 
 	GraphicsPipelineDescription desc = {};
 	renderer.InitializeWithRenderState(desc);
 	desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
 	desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
 	desc.rasterizerDesc = RasterDesc();
-	desc.blendingDescs[0] = BlendDesc();
-	desc.blendingDescs[1] = BlendDesc();
+	desc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
+	desc.blendingDescs[1] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 	desc.blendingDescs[2] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
 	desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
+
+	BEGIN_TIMED_BLOCK(TextRenderSetupCommands);
 	renderer.SetGraphicsPipeline(desc);
-
-	ViewPropertiesBuffer buffer = {};
-	buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
-	buffer.viewTransform = Matrix(IDENTITY);
-	buffer.viewPosition = view.description.origin;
-	GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
-
 
 	renderer.SetUniformBuffer(*viewBuffer, 0);
 	renderer.SetTexture(*font->fontTexture->gpuResource, *SamplerDesc(), 1);
 
 	renderer.DrawRawIndexed(stringVerts, stringTris, 1);
+	END_TIMED_BLOCK(TextRenderSetupCommands);
+
+	screenTextItems.Clear();
 }

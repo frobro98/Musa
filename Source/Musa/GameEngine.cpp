@@ -25,6 +25,8 @@
 #include "Shader/ShaderObjects/UnlitShading.hpp"
 #include "Shader/ShaderObjects/BlinnShading.hpp"
 
+#include "DebugInterface/MetricInterface.hpp"
+
 #include "Font/FontCache.hpp"
 
 #include "GameEngine.hpp"
@@ -104,12 +106,18 @@ void GameEngine::LoadContent()
 
 void GameEngine::EngineFrame()
 {
+	SCOPED_TIMED_BLOCK(EngineFrame);
 	const float tick = .16f;
 	GetInputManager().Update();
 
+	BEGIN_TIMED_BLOCK(Update);
 	world->TickWorld(tick);
 	world->PushToRenderState();
+	END_TIMED_BLOCK(Update);
+
+	BEGIN_TIMED_BLOCK(Render);
 	world->RenderWorld();
+	END_TIMED_BLOCK(Render);
 }
 
 

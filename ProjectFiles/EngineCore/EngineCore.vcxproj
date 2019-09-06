@@ -127,6 +127,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\String\CStringUtilities.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\String\String.h" />
     <ClInclude Include="..\..\Source\EngineCore\String\StringView.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Time\CyclePerformance.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Time\EngineTick.h" />
     <ClInclude Include="..\..\Source\EngineCore\Time\Time.h" />
     <ClInclude Include="..\..\Source\EngineCore\Time\Timer.h" />
@@ -155,6 +156,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\EngineCore\String\CStringUtilities.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\String\String.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\String\StringView.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Time\CyclePerformance.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\EngineTick.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Time.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer.cpp" />

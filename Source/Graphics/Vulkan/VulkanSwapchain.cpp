@@ -69,13 +69,8 @@ void VulkanSwapchain::SubmitFrame()
 		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
 		{ swapchainImageTargets[imageIndex]->image }
 	);
-	VkSemaphore graphicsWait = imageAvailable;
-// 	if (cmdBufferManager.HasValidTransferBuffer())
-// 	{
-// 		logicalDevice->GetCmdBufferManager().SubmitTransferBuffer(false, imageAvailable, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, copyFinished);
-// 		graphicsWait = copyFinished;
-// 	}
-	cmdBufferManager.SubmitGraphicsBuffer(true, graphicsWait, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, renderingFinished);
+
+	cmdBufferManager.SubmitGraphicsBuffer(false, imageAvailable, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, renderingFinished);
 }
 
 void VulkanSwapchain::Present()
@@ -190,10 +185,10 @@ void VulkanSwapchain::CreateSwapchain()
 // 			presentMode = presentModes[i];
 // 			break;
 // 		}
-		if(presentModes[i] == VK_PRESENT_MODE_FIFO_KHR)
-		{
-			presentMode = presentModes[i];
-		}
+// 		if(presentModes[i] == VK_PRESENT_MODE_FIFO_KHR)
+// 		{
+// 			presentMode = presentModes[i];
+// 		}
 	}
 
 	VkSwapchainCreateInfoKHR swapchainInfo = {};

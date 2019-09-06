@@ -162,6 +162,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Path\Path.hpp">
       <Filter>Source\Path</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Time\CyclePerformance.hpp">
+      <Filter>Source\Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -217,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Path\Path.cpp">
       <Filter>Source\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Time\CyclePerformance.cpp">
+      <Filter>Source\Time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
