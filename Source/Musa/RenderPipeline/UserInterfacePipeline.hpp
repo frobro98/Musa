@@ -8,5 +8,6 @@ struct Color32;
 class Renderer;
 
 void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screenPosition, const Color32& color);
+void FormatDebugText();
 void RenderText(Renderer& renderer, const View& view);
 

@@ -14,7 +14,8 @@
 #include "Graphics/Renderer.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "RenderPipeline/BatchPrimitives.hpp"
-#include "DebugInterface/MetricInterface.hpp"
+
+#include "Debugging/MetricInterface.hpp"
 
 
 static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat format)

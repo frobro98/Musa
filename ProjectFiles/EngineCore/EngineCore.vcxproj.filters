@@ -31,6 +31,9 @@
     <Filter Include="Source\Path">
       <UniqueIdentifier>{9d629675-64ed-41de-ad8d-045cc63b56c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Debugging">
+      <UniqueIdentifier>{cd64e0bd-02ec-4343-bae1-e1d2152d3d7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Time\CyclePerformance.hpp">
       <Filter>Source\Time</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Debugging\MetricInterface.hpp">
+      <Filter>Source\Debugging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -223,6 +229,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Time\CyclePerformance.cpp">
       <Filter>Source\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp">
+      <Filter>Source\Debugging</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

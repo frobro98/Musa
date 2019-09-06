@@ -21,7 +21,7 @@
 #include "Lighting/Light.hpp"
 #include "Math/MatrixUtilities.hpp"
 
-#include "DebugInterface/MetricInterface.hpp"
+#include "Debugging/MetricInterface.hpp"
 
 #include "GameObject/RenderObjectManager.hpp"
 #include "GameObject/RenderObject.hpp"
@@ -32,7 +32,7 @@
 #include "RenderPipeline/BatchPrimitives.hpp"
 #include "RenderPipeline/UserInterfacePipeline.hpp"
 
-#include "DebugInterface/MetricInterface.hpp"
+#include "Debugging/MetricInterface.hpp"
 
 static void ConstructScreenGraphicsDescription(const Renderer& renderer, const Scene& scene, GraphicsPipelineDescription& desc)
 {
@@ -432,8 +432,7 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 	RenderBatchedPrimitives(renderer, view);
 
 	BEGIN_TIMED_BLOCK(TextDisplayRender);
-	//AddTextToScreen("It works! Fuck yea, baby!", .25f, Vector2(2, 2), Color32::White());
-	FormatMetricDisplay();
+	FormatDebugText();
 	RenderText(renderer, view);
 	END_TIMED_BLOCK(TextDisplayRender);
 

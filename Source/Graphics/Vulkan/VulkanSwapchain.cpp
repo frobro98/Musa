@@ -12,6 +12,8 @@
 #include "VulkanMemoryManager.hpp"
 #include "VulkanTexture.h"
 
+#include "Debugging/MetricInterface.hpp"
+
 VulkanSwapchain::VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurface)
 	:logicalDevice(device), surface(renderSurface)
 {
@@ -55,6 +57,8 @@ VkResult VulkanSwapchain::GetNextImage()
 
 void VulkanSwapchain::SubmitFrame()
 {
+	BEGIN_TIMED_BLOCK(SubmitFrame);
+
 	VulkanCommandBufferManager& cmdBufferManager = logicalDevice.GetCmdBufferManager();
 	//cmdBufferManager.GetActiveGraphicsBuffer()->EndRenderPass();
 
@@ -71,10 +75,14 @@ void VulkanSwapchain::SubmitFrame()
 	);
 
 	cmdBufferManager.SubmitGraphicsBuffer(false, imageAvailable, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, renderingFinished);
+
+	END_TIMED_BLOCK(SubmitFrame);
 }
 
 void VulkanSwapchain::Present()
 {
+	BEGIN_TIMED_BLOCK(Present);
+
 	VulkanQueue* presentQueue = logicalDevice.GetGraphicsQueue();
 
 	VkPresentInfoKHR presentInfo = {};
@@ -96,6 +104,8 @@ void VulkanSwapchain::Present()
 		// TODO - Log
 		Assert(false);
 	}
+
+	END_TIMED_BLOCK(Present);
 }
 
 RenderTargetDescription VulkanSwapchain::GetSwapchainImageDescription() const

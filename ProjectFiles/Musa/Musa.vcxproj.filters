@@ -49,9 +49,6 @@
     <Filter Include="Source\Fonts">
       <UniqueIdentifier>{90c2ae6f-792a-4c7f-aeed-71961393073a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\DebugInterface">
-      <UniqueIdentifier>{9d1e6028-1f23-49fb-9d16-249b64de8dad}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -197,9 +194,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.cpp">
       <Filter>Source\RenderPipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\DebugInterface\MetricInterface.cpp">
-      <Filter>Source\DebugInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -373,9 +367,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp">
       <Filter>Source\Fonts</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\DebugInterface\MetricInterface.hpp">
-      <Filter>Source\DebugInterface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

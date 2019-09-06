@@ -25,7 +25,7 @@
 #include "Shader/ShaderObjects/UnlitShading.hpp"
 #include "Shader/ShaderObjects/BlinnShading.hpp"
 
-#include "DebugInterface/MetricInterface.hpp"
+#include "Debugging/MetricInterface.hpp"
 
 #include "Font/FontCache.hpp"
 

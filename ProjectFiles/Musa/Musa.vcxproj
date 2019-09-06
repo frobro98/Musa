@@ -15,7 +15,6 @@
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
-    <ClCompile Include="..\..\Source\Musa\DebugInterface\MetricInterface.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Component.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\CameraComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\InputComponent.cpp" />
@@ -66,7 +65,6 @@
     <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
-    <ClInclude Include="..\..\Source\Musa\DebugInterface\MetricInterface.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Component.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp" />
