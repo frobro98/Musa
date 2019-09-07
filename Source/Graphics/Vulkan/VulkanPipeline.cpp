@@ -158,9 +158,9 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	// Depth-stencil info
 	VkPipelineDepthStencilStateCreateInfo depthStencilInfo = {};
 	depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-	depthStencilInfo.depthTestEnable = init.depthStencilTestDesc.depthTestEnabled;
+	depthStencilInfo.depthTestEnable = init.depthStencilTestDesc.depthCompareOp != CompareOperation::None;
 	// TODO - This isn't the greatest. Might be better to check if the depth texture is readonly and if not, and depthtest enabled, set to true!
-	depthStencilInfo.depthWriteEnable = init.depthStencilTestDesc.depthTestEnabled;
+	depthStencilInfo.depthWriteEnable = init.depthStencilTestDesc.depthWriteEnabled;
 	depthStencilInfo.stencilTestEnable = init.depthStencilTestDesc.frontStencilTestEnabled || init.depthStencilTestDesc.backStencilTestEnabled;
 	depthStencilInfo.depthCompareOp = MusaCompareOpToVk(init.depthStencilTestDesc.depthCompareOp);
 

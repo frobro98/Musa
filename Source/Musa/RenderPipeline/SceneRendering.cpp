@@ -431,6 +431,7 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 
 	RenderBatchedPrimitives(renderer, view);
 
+	// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
 	BEGIN_TIMED_BLOCK(TextDisplayRender);
 	FormatDebugText();
 	RenderText(renderer, view);

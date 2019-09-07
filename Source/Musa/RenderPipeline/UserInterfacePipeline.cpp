@@ -178,7 +178,7 @@ void RenderText(Renderer& renderer, const View& view)
 	desc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 	desc.blendingDescs[1] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 	desc.blendingDescs[2] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-	desc.depthStencilTestDesc = DepthTestDesc();
+	desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
 	desc.topology = PrimitiveTopology::TriangleList;
 	desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
 

@@ -13,8 +13,8 @@ struct ShaderResource;
 
 struct DepthStencilTestingDescription
 {
-	bool depthTestEnabled;
 	CompareOperation depthCompareOp;
+	bool depthWriteEnabled;
 	bool frontStencilTestEnabled;
 	StencilOperation frontPassOp;
 	StencilOperation frontFailOp;
@@ -31,8 +31,8 @@ struct DepthStencilTestingDescription
 
 	friend bool operator==(const DepthStencilTestingDescription& lhs, const DepthStencilTestingDescription& rhs)
 	{
-		return lhs.depthTestEnabled == rhs.depthTestEnabled &&
-			lhs.depthCompareOp == rhs.depthCompareOp &&
+		return 	lhs.depthCompareOp == rhs.depthCompareOp &&
+			lhs.depthWriteEnabled == rhs.depthWriteEnabled &&
 			lhs.frontStencilTestEnabled == rhs.frontStencilTestEnabled &&
 			lhs.frontPassOp == rhs.frontPassOp &&
 			lhs.frontFailOp == rhs.frontFailOp &&
@@ -49,8 +49,8 @@ struct DepthStencilTestingDescription
 };
 
 template<
-	bool enableDepthTest = true, 
 	CompareOperation depthOp = CompareOperation::LessThanOrEqual,
+	bool enableDepthWrite = true,
 	bool frontStencilTest = false,
 	StencilOperation frontPass = StencilOperation::Keep,
 	StencilOperation frontFail = StencilOperation::Keep,
@@ -68,8 +68,8 @@ constexpr DepthStencilTestingDescription DepthTestDesc()
 {
 	return DepthStencilTestingDescription
 	{
-		enableDepthTest,
 		depthOp,
+		enableDepthWrite,
 		frontStencilTest,
 		frontPass,
 		frontFail,
