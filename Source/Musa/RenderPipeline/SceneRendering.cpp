@@ -40,6 +40,7 @@ METRIC_STAT(RenderNormally, SceneRender);
 METRIC_STAT(NormalMapRender, SceneRender);
 METRIC_STAT(BaseRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
+METRIC_STAT(TextDisplayRender, SceneRender);
 
 static void ConstructScreenGraphicsDescription(const Renderer& renderer, const Scene& scene, GraphicsPipelineDescription& desc)
 {

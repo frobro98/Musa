@@ -106,6 +106,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Containers\Pair.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Queue.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Containers\Stack.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\StaticArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Debugging\MetricInterface.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.hpp" />
@@ -138,6 +139,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CoreUtilities.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\TemplateUtils.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Version.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Windows\Win32InputDefinitions.h" />

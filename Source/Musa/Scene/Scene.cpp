@@ -17,6 +17,10 @@
 
 #include "Debugging/MetricInterface.hpp"
 
+DECLARE_METRIC_GROUP(SceneFrame);
+METRIC_STAT(BeginRenderFrame, SceneFrame);
+METRIC_STAT(EndRenderFrame, SceneFrame);
+
 
 static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat format)
 {

@@ -5,7 +5,9 @@
 
 #include "Types/Intrinsics.hpp"
 #include "Containers/StaticArray.hpp"
+#include "Containers/DynamicArray.hpp"
 #include "Time/CyclePerformance.hpp"
+#include "Utilities/MacroHelpers.hpp"
 
 enum class MetricType : uint32
 {
@@ -22,14 +24,17 @@ struct MetricEvent
 	const tchar* filename;
 	uint32 lineCount;
 	uint32 hitCount;
+	uint32 metricID;
 	MetricType metricEventType;
+
+	friend bool operator==(const MetricEvent& e0, const MetricEvent& e1) { return e0.metricID == e1.metricID; }
 };
 
 constexpr uint64 MetricTableEntryCount = std::numeric_limits<uint16>::max();
 
 struct MetricTable
 {
-	StaticArray<MetricEvent, MetricTableEntryCount> entries;
+	DynamicArray<MetricEvent> entries;
 	uint32 numEntries = 0;
 };
 
@@ -39,60 +44,14 @@ MetricTable& GetMetricTable();
 
 // TODO - Think of better names for the metric recording interface
 
-// TODO - HitCount isn't actually anything, so that needs to be rectified
-// 	#define _BEGIN_TIMED_BLOCK_INFO_(Info, FileName, LineNum)	\
-// 		do{														\
-// 			Info.cycleCount = GetCycleCount();					\
-// 			Info.filename = FileName;							\
-// 			Info.lineCount = LineNum;							\
-// 			Info.metricEventType = MetricType::BeginTimedMetric;	\
-// 			++Info.hitCount;									\
-// 		}while(false)
-
-// #define _END_TIMED_BLOCK_INFO_(Info)					\
-// 	do{													\
-// 		MetricTable& table = GetMetricTable();			\
-// 		Info.cycleCount = GetCycleCount() - Info.cycleCount;	\
-// 		table.entries[table.numEntries++] = Info;		\
-// 	} while (false)
-
 using MetricID = uint32;
-
-#define _BEGIN_TIMED_BLOCK_(Name, FileName, LineNum)					\
-	do{																	\
-		MetricTable& table = GetMetricTable();							\
-		MetricEvent& metric##Name = table.entries[table.numEntries++];	\
-		metric##Name.cycleCount = GetCycleCount();						\
-		metric##Name.metricName = #Name;								\
-		metric##Name.filename = FileName;								\
-		metric##Name.lineCount = LineNum;								\
-		metric##Name.metricEventType = MetricType::BeginTimedMetric;	\
-		++metric##Name.hitCount;										\
-	} while(false)
-	
-#define _END_TIMED_BLOCK_(Name, FileName, LineNum)		\
-	do{													\
-		MetricTable& table = GetMetricTable();							\
-		MetricEvent& metric##Name = table.entries[table.numEntries++];	\
-		metric##Name.cycleCount = GetCycleCount();						\
-		metric##Name.metricName = #Name;								\
-		metric##Name.filename = FileName;								\
-		metric##Name.lineCount = LineNum;								\
-		metric##Name.metricEventType = MetricType::EndTimedMetric;		\
-	} while(false)
-
-#define BEGIN_TIMED_BLOCK(Name) \
-	_BEGIN_TIMED_BLOCK_(Name, __FILE__, __LINE__)
-
-#define END_TIMED_BLOCK(Name) \
-	_END_TIMED_BLOCK_(Name, __FILE__, __LINE__)
 
 namespace Musa::Internal
 {
 	class MetricGroupCounter
 	{
 	public:
-		static inline uint32 GetNewMetricID() { ++counter; Assertf(counter != 0, "Over ~4 billion metric groups defined!!"); return counter; }
+		static uint32 GetNewMetricID() { ++counter; Assertf(counter != 0, "Over ~4 billion metric groups defined!!"); return counter; }
 
 	private:
 		static uint32 counter;
@@ -101,55 +60,91 @@ namespace Musa::Internal
 	class MetricCounter
 	{
 	public:
-		static inline uint32 GetNewMetricID() { ++counter; Assertf(counter != 0, "Over ~4 billion metrics defined!!"); return counter; }
+		static uint32 GetNewMetricID() { ++counter; Assertf(counter != 0, "Over ~4 billion metrics defined!!"); return counter; }
 
 	private:
 		static uint32 counter;
 	};
 }
 
-#define METRIC_NAME(Name) Metric_##Name
+#define METRIC_NAME(Name) metric_##Name
 #define METRIC_GROUP_NAME(Name) MetricGroup_##Name
 
-#define DECLARE_METRIC_GROUP_STRUCT(Name, Counter)					\
+#define DECLARE_METRIC_GROUP_STRUCT(Name)					\
 	struct MetricGroup_##Name										\
 	{																\
-		static inline uint32 GetGroupID() { return Counter; }		\
+		static inline uint32 GetGroupID() { static const uint32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }			\
 		static inline const char* GetGroupName() { return #Name; }	\
 	}
 
-#define DECLARE_METRIC_STRUCT(Name, GroupName, Counter)		\
+#define DECLARE_METRIC_STRUCT(Name, GroupName)		\
 	struct Metric_##Name									\
 	{														\
 		using MetricGroup = METRIC_GROUP_NAME(GroupName);	\
-		inline const char* GetName() const { return #Name; }\
-		inline uint32 GetID() const { return Counter; }		\
+		inline const char* GetName() { return #Name; }		\
+		inline uint32 GetID() { static uint32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }	\
 	}
 
 #define DECLARE_METRIC_GROUP(Name)															\
-	DECLARE_METRIC_GROUP_STRUCT(Name, Musa::Internal::MetricGroupCounter::GetNewMetricID());
+	DECLARE_METRIC_GROUP_STRUCT(Name);
 
-#define METRIC_STAT(Name, GroupName)														\
-	DECLARE_METRIC_STRUCT(Name, GroupName, Musa::Internal::MetricCounter::GetNewMetricID()); \
-	static MetricID Metric_##Name;
+#define METRIC_STAT(Name, GroupName)															\
+	DECLARE_METRIC_STRUCT(Name, GroupName);	\
+	static Metric_##Name metric_##Name;
+
+#define _BEGIN_TIMED_BLOCK_(Name, id, FileName, LineNum)		\
+	do{															\
+		MetricTable& table = GetMetricTable();					\
+		MetricEvent metric = {};								\
+		metric.metricID = id;									\
+		metric.cycleCount = GetCycleCount();					\
+		metric.metricName = Name;								\
+		metric.filename = FileName;								\
+		metric.lineCount = LineNum;								\
+		metric.metricEventType = MetricType::BeginTimedMetric;	\
+		++metric.hitCount;										\
+		table.entries.Add(metric);								\
+		++table.numEntries;										\
+	} while(false)
+
+#define _END_TIMED_BLOCK_(id)									\
+	do{															\
+		MetricTable& table = GetMetricTable();					\
+		MetricEvent metric = {};								\
+		metric.metricID = id;									\
+		metric.cycleCount = GetCycleCount();					\
+		metric.metricName = nullptr;							\
+		metric.filename = nullptr;								\
+		metric.lineCount = 0;									\
+		metric.metricEventType = MetricType::EndTimedMetric;	\
+		table.entries.Add(metric);								\
+		++table.numEntries;										\
+	} while(false)
+
+#define BEGIN_TIMED_BLOCK(Name) \
+	_BEGIN_TIMED_BLOCK_(#Name, METRIC_NAME(Name).GetID(), __FILE__, __LINE__)
+
+#define END_TIMED_BLOCK(Name) \
+	_END_TIMED_BLOCK_(METRIC_NAME(Name).GetID());
 
 class ScopedTimeMetric
 {
 public:
-	ScopedTimeMetric(MetricID id_, const tchar* filename, uint32 lineNumber)
+	ScopedTimeMetric(const char* name, uint32 id_, const tchar* filename, uint32 lineNumber)
 		: id(id_)
 	{
-		_BEGIN_TIMED_BLOCK_(id, filename, lineNumber);
+		_BEGIN_TIMED_BLOCK_(name, id, filename, lineNumber);
 	}
 
 	~ScopedTimeMetric()
 	{
+		_END_TIMED_BLOCK_(id);
 	}
 
 private:
-	MetricID id;
+	uint32 id;
 };
 
 #define SCOPED_TIMED_BLOCK(Name)	\
-	ScopedTimeMetric timedBlock_##Name(Metric_##Name, __FILE__, __LINE__);
+	ScopedTimeMetric timedBlock_##Name(#Name, metric_##Name.GetID(), __FILE__, __LINE__);
 

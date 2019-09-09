@@ -14,6 +14,10 @@
 
 #include "Debugging/MetricInterface.hpp"
 
+DECLARE_METRIC_GROUP(WindowGraphics);
+METRIC_STAT(SubmitFrame, WindowGraphics);
+METRIC_STAT(Present, WindowGraphics);
+
 VulkanSwapchain::VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurface)
 	:logicalDevice(device), surface(renderSurface)
 {

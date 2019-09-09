@@ -12,8 +12,13 @@
 #include "Math/MatrixUtilities.hpp"
 #include "Utilities/CoreUtilities.hpp"
 #include "String/String.h"
+#include "Containers/Stack.hpp"
 
 #include "Debugging/MetricInterface.hpp"
+
+DECLARE_METRIC_GROUP(TextDisplay);
+METRIC_STAT(TextSetup, TextDisplay);
+METRIC_STAT(TextRenderSetupCommands, TextDisplay);
 
 static NativeUniformBuffer* viewBuffer = nullptr;
 
@@ -38,22 +43,39 @@ void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screen
 
 void FormatDebugText()
 {
+	constexpr uint32 formattedStrLen = 256;
+
 	MetricTable& metricTable = GetMetricTable();
 	Vector2 currentScreenPos(2, 2);
+	Stack<MetricEvent> eventStack(metricTable.numEntries / 2);
+
 	for (uint32 i = 0; i < metricTable.numEntries; ++i)
 	{
 		const MetricEvent& entry = metricTable.entries[i];
-		constexpr uint32 formattedStrLen = 256;
-		tchar formattedString[formattedStrLen];
-		snprintf(formattedString, formattedStrLen,
-			"%s: %5.02fms"
-			//" in %50s: line %4d"
-			, entry.metricName, GetMillisecondsFrom(entry.cycleCount)
-			//, entry.filename, entry.lineCount
-		);
-		AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
+		switch (entry.metricEventType)
+		{
+			case MetricType::BeginTimedMetric:
+			{
+				eventStack.Push(entry);
+			}break;
+			case MetricType::EndTimedMetric:
+			{
+				const MetricEvent& beginEvent = eventStack.Peek();
+				Assert(beginEvent.metricID == entry.metricID);
+				eventStack.Pop();
+				uint64 metricCycles = entry.cycleCount - beginEvent.cycleCount;
+				tchar formattedString[formattedStrLen];
+				snprintf(formattedString, formattedStrLen,
+					"%s: %5.02fms"
+					//" in %50s: line %4d"
+					, entry.metricName, GetMillisecondsFrom(metricCycles)
+					//, entry.filename, entry.lineCount
+				);
+				AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
 
-		currentScreenPos.y += 20;
+				currentScreenPos.y += 20;
+			}break;
+		}
 	}
 
 	metricTable.numEntries = 0;
