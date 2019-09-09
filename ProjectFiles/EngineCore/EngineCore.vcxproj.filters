@@ -171,6 +171,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Debugging\MetricInterface.hpp">
       <Filter>Source\Debugging</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.hpp">
+      <Filter>Source\Debugging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -233,5 +236,6 @@
     <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp">
       <Filter>Source\Debugging</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp" />
   </ItemGroup>
 </Project>

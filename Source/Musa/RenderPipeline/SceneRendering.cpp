@@ -34,6 +34,13 @@
 
 #include "Debugging/MetricInterface.hpp"
 
+DECLARE_METRIC_GROUP(SceneRender);
+METRIC_STAT(DeferredRender, SceneRender);
+METRIC_STAT(RenderNormally, SceneRender);
+METRIC_STAT(NormalMapRender, SceneRender);
+METRIC_STAT(BaseRenderPass, SceneRender);
+METRIC_STAT(RenderToScreen, SceneRender);
+
 static void ConstructScreenGraphicsDescription(const Renderer& renderer, const Scene& scene, GraphicsPipelineDescription& desc)
 {
 	renderer.InitializeWithRenderState(desc);

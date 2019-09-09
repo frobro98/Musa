@@ -108,6 +108,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\StaticArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Debugging\MetricInterface.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\DebugOutput.h" />
     <ClInclude Include="..\..\Source\EngineCore\DirectoryLocations.h" />
     <ClInclude Include="..\..\Source\EngineCore\Extents.hpp" />
@@ -147,6 +148,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DirectoryLocations.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp" />

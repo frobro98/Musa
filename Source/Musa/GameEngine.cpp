@@ -31,6 +31,12 @@
 
 #include "GameEngine.hpp"
 
+DECLARE_METRIC_GROUP(Game);
+
+METRIC_STAT(EngineFrame, Game);
+METRIC_STAT(Update, Game);
+METRIC_STAT(Render, Game);
+
 void GameEngine::RunEngine()
 {
 	int32 width = 1080;
