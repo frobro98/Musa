@@ -15,3 +15,18 @@ MetricTable& GetMetricTable()
 {
 	return metricTable;
 }
+
+void MetricTable::AddMetric(const MetricEvent& event)
+{
+	entries[currentTableIndex].Add(event);
+}
+
+const MetricTable::TableEntries& MetricTable::GetCurrentTable() const
+{
+	// TODO: insert return statement here
+	return entries[currentTableIndex];
+}
+
+void MetricTable::SwapTablesForNewFrame()
+{
+}

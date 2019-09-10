@@ -180,6 +180,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp">
+      <Filter>Source\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
@@ -242,6 +245,8 @@
     <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp">
       <Filter>Source\Debugging</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp">
+      <Filter>Source\Debugging</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

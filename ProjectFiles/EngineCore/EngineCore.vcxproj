@@ -137,6 +137,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Types\ConcurrentTypes.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Types\Intrinsics.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CoreUtilities.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp" />

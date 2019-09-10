@@ -11,4 +11,6 @@
 #define DEBUG
 #endif
 
+#define forceinline __forceinline
+
 #include "Win32InputDefinitions.h"

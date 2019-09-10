@@ -1,15 +1,14 @@
 #include "ProfilerStatistics.hpp"
 #include "MetricInterface.hpp"
+#include "Debugging/MetricInterface.hpp"
 
-struct ProfileMetric
+
+void ProfilerStatistics::MarkBeginningOfFrame()
 {
-	float64 totalMetricTimeMS;
-	const tchar* filename;
-	uint32 lineNumber;
-	uint32 metricHitCount;
-};
+	GetMetricTable().SwapTablesForNewFrame();
+}
 
-void CollectFrameMetrics()
+void ProfilerStatistics::CollectAllFrameMetrics()
 {
-
+	[[maybe_unused]] const MetricTable::TableEntries& entries = GetMetricTable().GetCurrentTable();
 }

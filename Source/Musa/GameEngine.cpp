@@ -26,16 +26,18 @@
 #include "Shader/ShaderObjects/BlinnShading.hpp"
 
 #include "Debugging/MetricInterface.hpp"
+#include "Debugging/ProfilerStatistics.hpp"
 
 #include "Font/FontCache.hpp"
 
 #include "GameEngine.hpp"
 
-DECLARE_METRIC_GROUP(Game);
+DECLARE_METRIC_GROUP(Engine);
 
-METRIC_STAT(EngineFrame, Game);
-METRIC_STAT(Update, Game);
-METRIC_STAT(Render, Game);
+METRIC_STAT(UpdateAndRender, Engine);
+METRIC_STAT(Update, Engine);
+METRIC_STAT(Render, Engine);
+METRIC_STAT(GatherMetrics, Engine);
 
 void GameEngine::RunEngine()
 {
@@ -46,6 +48,8 @@ void GameEngine::RunEngine()
 	GetGraphicsInterface().InitializeGraphics();
 
 	InitializeShaders();
+
+	profilingStats = new ProfilerStatistics;
 
 	Window* window = new Window(width, height);
 	window->Initialize();
@@ -112,7 +116,16 @@ void GameEngine::LoadContent()
 
 void GameEngine::EngineFrame()
 {
-	SCOPED_TIMED_BLOCK(EngineFrame);
+	profilingStats->MarkBeginningOfFrame();
+
+	UpdateAndRenderWorld();
+
+	GatherFrameMetrics();
+}
+
+void GameEngine::UpdateAndRenderWorld()
+{
+	SCOPED_TIMED_BLOCK(UpdateAndRender);
 	const float tick = .16f;
 	GetInputManager().Update();
 
@@ -126,4 +139,8 @@ void GameEngine::EngineFrame()
 	END_TIMED_BLOCK(Render);
 }
 
+void GameEngine::GatherFrameMetrics()
+{
+	SCOPED_TIMED_BLOCK(GatherMetrics);
+}
 

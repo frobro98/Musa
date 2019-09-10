@@ -43,42 +43,40 @@ void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screen
 
 void FormatDebugText()
 {
-	constexpr uint32 formattedStrLen = 256;
-
-	MetricTable& metricTable = GetMetricTable();
-	Vector2 currentScreenPos(2, 2);
-	Stack<MetricEvent> eventStack(metricTable.numEntries / 2);
-
-	for (uint32 i = 0; i < metricTable.numEntries; ++i)
-	{
-		const MetricEvent& entry = metricTable.entries[i];
-		switch (entry.metricEventType)
-		{
-			case MetricType::BeginTimedMetric:
-			{
-				eventStack.Push(entry);
-			}break;
-			case MetricType::EndTimedMetric:
-			{
-				const MetricEvent& beginEvent = eventStack.Peek();
-				Assert(beginEvent.metricID == entry.metricID);
-				eventStack.Pop();
-				uint64 metricCycles = entry.cycleCount - beginEvent.cycleCount;
-				tchar formattedString[formattedStrLen];
-				snprintf(formattedString, formattedStrLen,
-					"%s: %5.02fms"
-					//" in %50s: line %4d"
-					, entry.metricName, GetMillisecondsFrom(metricCycles)
-					//, entry.filename, entry.lineCount
-				);
-				AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
-
-				currentScreenPos.y += 20;
-			}break;
-		}
-	}
-
-	metricTable.numEntries = 0;
+// 	constexpr uint32 formattedStrLen = 256;
+// 
+// 	MetricTable& metricTable = GetMetricTable();
+// 	Vector2 currentScreenPos(2, 2);
+// 	Stack<MetricEvent> eventStack(metricTable.entries.Size() / 2);
+// 
+// 	for (uint32 i = 0; i < metricTable.entries.Size(); ++i)
+// 	{
+// 		const MetricEvent& entry = metricTable.entries[i];
+// 		switch (entry.metricEventType)
+// 		{
+// 			case MetricType::BeginTimedMetric:
+// 			{
+// 				eventStack.Push(entry);
+// 			}break;
+// 			case MetricType::EndTimedMetric:
+// 			{
+// 				const MetricEvent& beginEvent = eventStack.Peek();
+// 				Assert(beginEvent.metricID == entry.metricID);
+// 				eventStack.Pop();
+// 				uint64 metricCycles = entry.cycleCount - beginEvent.cycleCount;
+// 				tchar formattedString[formattedStrLen];
+// 				snprintf(formattedString, formattedStrLen,
+// 					"%s: %5.02fms"
+// 					//" in %50s: line %4d"
+// 					, entry.metricName, GetMillisecondsFrom(metricCycles)
+// 					//, entry.filename, entry.lineCount
+// 				);
+// 				AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
+// 
+// 				currentScreenPos.y += 20;
+// 			}break;
+// 		}
+// 	}
 }
 
 static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)
@@ -116,104 +114,107 @@ void RenderText(Renderer& renderer, const View& view)
 		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}
 
-	const tchar space = 0x20;
-	FontID id = StringView("Ariel");
-	Font* font = GetLoadedFont(id);
-
-	uint32 startIndex = 0;
-
-	BEGIN_TIMED_BLOCK(TextSetup);
-
-	for (const auto& item : screenTextItems)
+	if (!screenTextItems.IsEmpty())
 	{
-		const String& text = item.text;
-		float32 textScale = item.scale;
+		const tchar space = 0x20;
+		FontID id = StringView("Ariel");
+		Font* font = GetLoadedFont(id);
 
-		Vector2 currentTextPosition = GetStartingWorldFromScreen(view, item.screenPosition);
-		for (uint32 i = 0; i < text.Length(); ++i)
+		uint32 startIndex = 0;
+
+		BEGIN_TIMED_BLOCK(TextSetup);
+
+		for (const auto& item : screenTextItems)
 		{
-			tchar character = text[i];
-			FontCharDescription* charDesc = font->fontCharacterMap.Find(character);
+			const String& text = item.text;
+			float32 textScale = item.scale;
 
-			if (charDesc->characterCode != space)
+			Vector2 currentTextPosition = GetStartingWorldFromScreen(view, item.screenPosition);
+			for (uint32 i = 0; i < text.Length(); ++i)
 			{
-				const uint32 texWidth = font->fontTexture->GetWidth();
-				const uint32 texHeight = font->fontTexture->GetHeight();
+				tchar character = text[i];
+				FontCharDescription* charDesc = font->fontCharacterMap.Find(character);
 
-				const float halfWidth = charDesc->width * textScale * .5f;
-				const float halfHeight = charDesc->height * textScale * .5f;
+				if (charDesc->characterCode != space)
+				{
+					const uint32 texWidth = font->fontTexture->GetWidth();
+					const uint32 texHeight = font->fontTexture->GetHeight();
 
-				const float negX = currentTextPosition.x;
-				const float posY = currentTextPosition.y - (charDesc->characterHeightOffset * textScale);
-				const float posX = negX + (charDesc->width * textScale);
-				const float negY = posY - (charDesc->height * textScale);
+					const float halfWidth = charDesc->width * textScale * .5f;
+					const float halfHeight = charDesc->height * textScale * .5f;
 
-				const float uNormCoord = charDesc->normTextureCoords.x;
-				const float vNormCoord = charDesc->normTextureCoords.y;
-				const float uNormSize = charDesc->normCharacterWidth;
-				const float vNormSize = charDesc->normCharacterHeight;
+					const float negX = currentTextPosition.x;
+					const float posY = currentTextPosition.y - (charDesc->characterHeightOffset * textScale);
+					const float posX = negX + (charDesc->width * textScale);
+					const float negY = posY - (charDesc->height * textScale);
 
-				stringVerts.Add(PrimitiveVertex{
-					Vector3(negX, posY, 0),
-					Vector2(uNormCoord, vNormCoord + vNormSize),
-					item.color
-					});
-				stringVerts.Add(PrimitiveVertex{
-					Vector3(negX, negY, 0),
-					Vector2(uNormCoord, vNormCoord),
-					item.color
-					});
-				stringVerts.Add(PrimitiveVertex{
-					Vector3(posX, posY, 0),
-					Vector2(uNormCoord + uNormSize, vNormCoord + vNormSize),
-					item.color
-					});
-				stringVerts.Add(PrimitiveVertex{
-					Vector3(posX, negY, 0),
-					Vector2(uNormCoord + uNormSize, vNormCoord),
-					item.color
-					});
+					const float uNormCoord = charDesc->normTextureCoords.x;
+					const float vNormCoord = charDesc->normTextureCoords.y;
+					const float uNormSize = charDesc->normCharacterWidth;
+					const float vNormSize = charDesc->normCharacterHeight;
+
+					stringVerts.Add(PrimitiveVertex{
+						Vector3(negX, posY, 0),
+						Vector2(uNormCoord, vNormCoord + vNormSize),
+						item.color
+						});
+					stringVerts.Add(PrimitiveVertex{
+						Vector3(negX, negY, 0),
+						Vector2(uNormCoord, vNormCoord),
+						item.color
+						});
+					stringVerts.Add(PrimitiveVertex{
+						Vector3(posX, posY, 0),
+						Vector2(uNormCoord + uNormSize, vNormCoord + vNormSize),
+						item.color
+						});
+					stringVerts.Add(PrimitiveVertex{
+						Vector3(posX, negY, 0),
+						Vector2(uNormCoord + uNormSize, vNormCoord),
+						item.color
+						});
 
 
-				stringTris.Add(startIndex + 0);
-				stringTris.Add(startIndex + 1);
-				stringTris.Add(startIndex + 2);
+					stringTris.Add(startIndex + 0);
+					stringTris.Add(startIndex + 1);
+					stringTris.Add(startIndex + 2);
 
-				stringTris.Add(startIndex + 2);
-				stringTris.Add(startIndex + 1);
-				stringTris.Add(startIndex + 3);
-				startIndex += 4;
+					stringTris.Add(startIndex + 2);
+					stringTris.Add(startIndex + 1);
+					stringTris.Add(startIndex + 3);
+					startIndex += 4;
+				}
+
+				currentTextPosition.x += (charDesc->advance * textScale);
+				// TODO - handle newline character
 			}
-
-			currentTextPosition.x += (charDesc->advance * textScale);
-			// TODO - handle newline character
 		}
+
+		END_TIMED_BLOCK(TextSetup);
+
+		GraphicsPipelineDescription desc = {};
+		renderer.InitializeWithRenderState(desc);
+		desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
+		desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
+		desc.rasterizerDesc = RasterDesc();
+		desc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
+		desc.blendingDescs[1] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
+		desc.blendingDescs[2] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
+		desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
+		desc.topology = PrimitiveTopology::TriangleList;
+		desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
+
+		BEGIN_TIMED_BLOCK(TextRenderSetupCommands);
+		renderer.SetGraphicsPipeline(desc);
+
+		renderer.SetUniformBuffer(*viewBuffer, 0);
+		renderer.SetTexture(*font->fontTexture->gpuResource, *SamplerDesc(), 1);
+
+		renderer.DrawRawIndexed(stringVerts, stringTris, 1);
+		END_TIMED_BLOCK(TextRenderSetupCommands);
+
+		screenTextItems.Clear();
+		stringVerts.Clear();
+		stringTris.Clear();
 	}
-
-	END_TIMED_BLOCK(TextSetup);
-
-	GraphicsPipelineDescription desc = {};
-	renderer.InitializeWithRenderState(desc);
-	desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
-	desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
-	desc.rasterizerDesc = RasterDesc();
-	desc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-	desc.blendingDescs[1] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-	desc.blendingDescs[2] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-	desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
-	desc.topology = PrimitiveTopology::TriangleList;
-	desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
-
-	BEGIN_TIMED_BLOCK(TextRenderSetupCommands);
-	renderer.SetGraphicsPipeline(desc);
-
-	renderer.SetUniformBuffer(*viewBuffer, 0);
-	renderer.SetTexture(*font->fontTexture->gpuResource, *SamplerDesc(), 1);
-
-	renderer.DrawRawIndexed(stringVerts, stringTris, 1);
-	END_TIMED_BLOCK(TextRenderSetupCommands);
-
-	screenTextItems.Clear();
-	stringVerts.Clear();
-	stringTris.Clear();
 }

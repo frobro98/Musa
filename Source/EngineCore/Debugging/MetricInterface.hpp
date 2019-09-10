@@ -12,8 +12,7 @@
 enum class MetricType : uint32
 {
 	BeginTimedMetric,
-	EndTimedMetric,
-	FrameMetric
+	EndTimedMetric
 };
 
 struct MetricEvent
@@ -32,10 +31,20 @@ struct MetricEvent
 
 constexpr uint64 MetricTableEntryCount = std::numeric_limits<uint16>::max();
 
-struct MetricTable
+class MetricTable
 {
-	DynamicArray<MetricEvent> entries;
-	uint32 numEntries = 0;
+public:
+	using TableEntries = DynamicArray<MetricEvent>;
+public:
+	
+	void AddMetric(const MetricEvent& event);
+	const TableEntries& GetCurrentTable() const;
+	void SwapTablesForNewFrame();
+
+private:
+	static constexpr uint32 metricTableCount = 2;
+	TableEntries entries[metricTableCount];
+	uint32 currentTableIndex = 0;
 };
 
 MetricTable& GetMetricTable();
@@ -51,7 +60,7 @@ namespace Musa::Internal
 	class MetricGroupCounter
 	{
 	public:
-		static uint32 GetNewMetricID() { ++counter; Assertf(counter != 0, "Over ~4 billion metric groups defined!!"); return counter; }
+		static uint32 GetNewMetricID() { return counter++; }
 
 	private:
 		static uint32 counter;
@@ -60,7 +69,7 @@ namespace Musa::Internal
 	class MetricCounter
 	{
 	public:
-		static uint32 GetNewMetricID() { ++counter; Assertf(counter != 0, "Over ~4 billion metrics defined!!"); return counter; }
+		static uint32 GetNewMetricID() { return counter++; }
 
 	private:
 		static uint32 counter;
@@ -85,47 +94,46 @@ namespace Musa::Internal
 		inline uint32 GetID() { static uint32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }	\
 	}
 
-#define DECLARE_METRIC_GROUP(Name)															\
+#define DECLARE_METRIC_GROUP(Name)	\
 	DECLARE_METRIC_GROUP_STRUCT(Name);
 
-#define METRIC_STAT(Name, GroupName)															\
+#define METRIC_STAT(Name, GroupName)	\
 	DECLARE_METRIC_STRUCT(Name, GroupName);	\
 	static Metric_##Name metric_##Name;
 
-#define _BEGIN_TIMED_BLOCK_(Name, id, FileName, LineNum)		\
-	do{															\
-		MetricTable& table = GetMetricTable();					\
-		MetricEvent metric = {};								\
-		metric.metricID = id;									\
-		metric.cycleCount = GetCycleCount();					\
-		metric.metricName = Name;								\
-		metric.filename = FileName;								\
-		metric.lineCount = LineNum;								\
-		metric.metricEventType = MetricType::BeginTimedMetric;	\
-		++metric.hitCount;										\
-		table.entries.Add(metric);								\
-		++table.numEntries;										\
-	} while(false)
+forceinline void BeginTimedBlock(const char* name, uint32 id, const char* fileName, uint32 lineNum)
+{
+	MetricTable& table = GetMetricTable();
+	MetricEvent metric = {};
+	metric.metricID = id;
+	metric.cycleCount = GetCycleCount();
+	metric.metricName = name;
+	metric.filename = fileName;
+	metric.lineCount = lineNum;
+	metric.metricEventType = MetricType::BeginTimedMetric;
+	++metric.hitCount;
+	table.AddMetric(metric);
+}
 
-#define _END_TIMED_BLOCK_(id)									\
-	do{															\
-		MetricTable& table = GetMetricTable();					\
-		MetricEvent metric = {};								\
-		metric.metricID = id;									\
-		metric.cycleCount = GetCycleCount();					\
-		metric.metricName = nullptr;							\
-		metric.filename = nullptr;								\
-		metric.lineCount = 0;									\
-		metric.metricEventType = MetricType::EndTimedMetric;	\
-		table.entries.Add(metric);								\
-		++table.numEntries;										\
-	} while(false)
+forceinline void EndTimedBlock(uint32 id)
+{
+	MetricTable& table = GetMetricTable();					
+	MetricEvent metric = {};
+	metric.metricID = id;
+	metric.cycleCount = GetCycleCount();
+	metric.metricName = nullptr;
+	metric.filename = nullptr;
+	metric.lineCount = 0;
+	metric.metricEventType = MetricType::EndTimedMetric;
+	table.AddMetric(metric);
+}
+
 
 #define BEGIN_TIMED_BLOCK(Name) \
-	_BEGIN_TIMED_BLOCK_(#Name, METRIC_NAME(Name).GetID(), __FILE__, __LINE__)
+	BeginTimedBlock(#Name, METRIC_NAME(Name).GetID(), __FILE__, __LINE__)
 
 #define END_TIMED_BLOCK(Name) \
-	_END_TIMED_BLOCK_(METRIC_NAME(Name).GetID());
+	EndTimedBlock(METRIC_NAME(Name).GetID());
 
 class ScopedTimeMetric
 {
@@ -133,12 +141,12 @@ public:
 	ScopedTimeMetric(const char* name, uint32 id_, const tchar* filename, uint32 lineNumber)
 		: id(id_)
 	{
-		_BEGIN_TIMED_BLOCK_(name, id, filename, lineNumber);
+		BeginTimedBlock(name, id, filename, lineNumber);
 	}
 
 	~ScopedTimeMetric()
 	{
-		_END_TIMED_BLOCK_(id);
+		EndTimedBlock(id);
 	}
 
 private:
