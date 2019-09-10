@@ -18,7 +18,6 @@ private:
 	void GatherFrameMetrics();
 
 private:
-	ProfilerStatistics* profilingStats = nullptr;
 	GameWorld* world = nullptr;
 	bool running = false;
 };

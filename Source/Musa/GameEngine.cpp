@@ -49,8 +49,6 @@ void GameEngine::RunEngine()
 
 	InitializeShaders();
 
-	profilingStats = new ProfilerStatistics;
-
 	Window* window = new Window(width, height);
 	window->Initialize();
 	window->SetAsActiveWindow();
@@ -116,8 +114,6 @@ void GameEngine::LoadContent()
 
 void GameEngine::EngineFrame()
 {
-	profilingStats->MarkBeginningOfFrame();
-
 	UpdateAndRenderWorld();
 
 	GatherFrameMetrics();
@@ -141,6 +137,10 @@ void GameEngine::UpdateAndRenderWorld()
 
 void GameEngine::GatherFrameMetrics()
 {
-	SCOPED_TIMED_BLOCK(GatherMetrics);
+	{
+		//SCOPED_TIMED_BLOCK(GatherMetrics);
+		GetProfilingStatistics().CollectAllFrameMetrics();
+	}
+	GetProfilingStatistics().ProfileFrameIncrement();
 }
 

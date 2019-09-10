@@ -15,6 +15,7 @@
 #include "Containers/Stack.hpp"
 
 #include "Debugging/MetricInterface.hpp"
+#include "Debugging/ProfilerStatistics.hpp"
 
 DECLARE_METRIC_GROUP(TextDisplay);
 METRIC_STAT(TextSetup, TextDisplay);
@@ -37,46 +38,27 @@ DynamicArray<uint32> stringTris;
 void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screenPosition, const Color32& color)
 {
 	screenTextItems.Add(TextItem{text, color, screenPosition, textScale});
-	stringVerts.Reserve(stringVerts.Size() + (Strlen(text) * 4));
-	stringTris.Reserve(stringTris.Size() + (Strlen(text) * 6));
 }
 
 void FormatDebugText()
 {
-// 	constexpr uint32 formattedStrLen = 256;
-// 
-// 	MetricTable& metricTable = GetMetricTable();
-// 	Vector2 currentScreenPos(2, 2);
-// 	Stack<MetricEvent> eventStack(metricTable.entries.Size() / 2);
-// 
-// 	for (uint32 i = 0; i < metricTable.entries.Size(); ++i)
-// 	{
-// 		const MetricEvent& entry = metricTable.entries[i];
-// 		switch (entry.metricEventType)
-// 		{
-// 			case MetricType::BeginTimedMetric:
-// 			{
-// 				eventStack.Push(entry);
-// 			}break;
-// 			case MetricType::EndTimedMetric:
-// 			{
-// 				const MetricEvent& beginEvent = eventStack.Peek();
-// 				Assert(beginEvent.metricID == entry.metricID);
-// 				eventStack.Pop();
-// 				uint64 metricCycles = entry.cycleCount - beginEvent.cycleCount;
-// 				tchar formattedString[formattedStrLen];
-// 				snprintf(formattedString, formattedStrLen,
-// 					"%s: %5.02fms"
-// 					//" in %50s: line %4d"
-// 					, entry.metricName, GetMillisecondsFrom(metricCycles)
-// 					//, entry.filename, entry.lineCount
-// 				);
-// 				AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
-// 
-// 				currentScreenPos.y += 20;
-// 			}break;
-// 		}
-// 	}
+	constexpr uint32 formattedStrLen = 256;
+	Vector2 currentScreenPos(2, 2);
+	const ProfiledFrameMark& frame = GetProfilingStatistics().GetPreviousFrame();
+
+	for (auto& frameMetric : frame.frameMetrics)
+	{
+		tchar formattedString[formattedStrLen];
+		snprintf(formattedString, formattedStrLen,
+			"%s: %5.02fms"
+			//" in %50s: line %4d"
+			, frameMetric.metricName, frameMetric.totalMetricTimeMS
+			//, entry.filename, entry.lineCount
+		);
+		AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
+
+		currentScreenPos.y += 20;
+	}
 }
 
 static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)

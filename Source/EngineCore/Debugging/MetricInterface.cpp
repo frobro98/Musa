@@ -29,4 +29,6 @@ const MetricTable::TableEntries& MetricTable::GetCurrentTable() const
 
 void MetricTable::SwapTablesForNewFrame()
 {
+	currentTableIndex = currentTableIndex == 0 ? 1 : 0;
+	entries[currentTableIndex].Clear();
 }
