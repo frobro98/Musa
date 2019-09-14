@@ -41,7 +41,11 @@ WALL_WRN_POP
 	__pragma(warning(disable : 4548))	\
 	(__VA_ARGS__)						\
 	__pragma(warning(pop))
-	
-#define ArraySize(arr) ( ( (sizeof(arr)) / (sizeof(arr[0])) ) )
 
 #include "Types/Intrinsics.hpp"
+
+template <typename T, uint32 N>
+constexpr uint32 ArraySize([[maybe_unused]] const T (&arr)[N])
+{
+	return N;
+}

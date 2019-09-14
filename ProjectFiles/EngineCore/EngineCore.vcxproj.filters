@@ -183,6 +183,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp">
       <Filter>Source\Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\InputDefinitions.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">

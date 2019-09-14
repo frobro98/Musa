@@ -10,7 +10,7 @@
 #include "GameObject/RenderObjectManager.hpp"
 #include "Scene/Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "RenderPipeline/SceneRendering.h"
+#include "RenderPipeline/SceneRenderPipeline.h"
 #include "Graphics/Renderer.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "RenderPipeline/BatchPrimitives.hpp"
@@ -69,7 +69,7 @@ void Scene::InitializeScene()
 
 	gbufferTargets.targetCount = GBufferCount;
 
-	sceneRendering = new SceneRendering;
+	sceneRendering = new SceneRenderPipeline;
 
 	renderer = GetGraphicsInterface().GetRenderContext();
 }

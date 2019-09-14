@@ -4,8 +4,22 @@
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Map.h"
 
+#include "Debugging/MetricInterface.hpp"
+#include "InputDefinitions.hpp"
+
+DECLARE_METRIC_GROUP(Input);
+METRIC_STAT(UpdateInputs, Input);
+METRIC_STAT(ProcessInputMessages, Input);
+METRIC_STAT(ProcessMouse, Input);
+METRIC_STAT(BroadcastInput, Input);
+
 namespace
 {
+struct InputMap
+{
+	bool isKeyDown[Inputs::Max] = {};
+};
+
 struct Input
 {
 	using KeyPressedFunc = std::function<void()>;
@@ -181,6 +195,7 @@ bool InputManager::IsKeyPressed(KeyInput key) const
 
 void InputManager::Update()
 {
+	SCOPED_TIMED_BLOCK(UpdateInputs);
 	Instance().ProcessInputMessages();
 	Instance().BroadcastInputMessages();
 	Instance().ProcessMouseMovement();
@@ -229,6 +244,7 @@ void InputManager::SetMouseAxesFunction(MousePositionFunction&& mouseFunction)
 
 void InputManager::ProcessInputMessages()
 {
+	SCOPED_TIMED_BLOCK(ProcessInputMessages);
 	MSG Message;
 	while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
 	{
@@ -239,6 +255,7 @@ void InputManager::ProcessInputMessages()
 
 void InputManager::ProcessMouseMovement()
 {
+	SCOPED_TIMED_BLOCK(ProcessMouse);
 	const float positionChangeX = Math::DegreesToRadians(currMouseX - prevMouseX);
 	const float positionChangeY = Math::DegreesToRadians(currMouseY - prevMouseY);
 
@@ -247,9 +264,6 @@ void InputManager::ProcessMouseMovement()
 		func(positionChangeX, positionChangeY);
 	}
 
-	extern bool showCursor;
-
-	if (!showCursor)
 	{
 		RECT windowRect;
 		GetWindowRect((HWND)window->GetWindowHandle(), &windowRect);
@@ -269,6 +283,7 @@ void InputManager::ProcessMouseMovement()
 
 void InputManager::BroadcastInputMessages()
 {
+	SCOPED_TIMED_BLOCK(BroadcastInput);
 	for (auto& keyInfoPair : inputMap)
 	{
 		KeyInput key = keyInfoPair.first;

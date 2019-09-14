@@ -1,6 +1,7 @@
 #include "GodCamera.hpp"
 #include "Camera.h"
 #include "Input/Input.hpp"
+#include "Input/InputManager.h"
 
 GodCamera::GodCamera(Camera& cam)
 	: camera(cam)

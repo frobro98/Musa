@@ -55,6 +55,19 @@ public:
 	void RemoveLast(const valueType& elem);
 	void RemoveAll(const valueType& elem);
 
+	template<class Pred>
+	int32 FindFirstIndex(Pred&& pred);
+	int32 FindFirstIndex(const valueType& obj);
+	template<class Pred>
+	int32 FindLastIndex(Pred&& pred);
+	int32 FindLastIndex(const valueType& obj);
+	template<class Pred>
+	valueType* FindFirst(Pred&& pred);
+	valueType* FindFirst(const valueType& obj);
+	template<class Pred>
+	valueType* FindLast(Pred&& pred);
+	valueType* FindLast(const valueType& obj);
+
 	bool TryFindFirstIndex(const valueType& obj, uint32& foundIndex);
 	bool TryFindLastIndex(const valueType& obj, uint32& foundIndex);
 	bool TryFindFirst(const valueType& obj, valueType& foundVal);
@@ -551,6 +564,88 @@ void DynamicArray<Type>::RemoveAll(const valueType& elem)
 			Remove(i);
 		}
 	}
+}
+
+template<class Type>
+template<class Pred>
+inline int32 DynamicArray<Type>::FindFirstIndex(Pred&& pred)
+{
+	int32 foundIndex = -1;
+	for (uint32 i = 0; i < arraySize; ++i)
+	{
+		if (pred(data[i]))
+		{
+			foundIndex = (int32)i;
+		}
+	}
+	return foundIndex;
+}
+
+template<class Type>
+template<class Pred>
+inline int32 DynamicArray<Type>::FindLastIndex(Pred&& pred)
+{
+	int32 foundIndex = -1;
+	for (int32 i = static_cast<int32>(arraySize - 1); i > 0; --i)
+	{
+		if (pred(data[i]))
+		{
+			foundIndex = i;
+		}
+	}
+	return foundIndex;
+}
+
+template<class Type>
+template<class Pred>
+inline Type* DynamicArray<Type>::FindFirst(Pred&& pred)
+{
+	valueType* found = nullptr;
+	int32 foundIndex = FindFirstIndex(std::move(pred));
+	if (foundIndex >= 0)
+	{
+		found = &data[(uint32)foundIndex];
+	}
+
+	return found;
+}
+
+template<class Type>
+template<class Pred>
+inline Type* DynamicArray<Type>::FindLast(Pred&& pred)
+{
+	valueType* found = nullptr;
+	int32 foundIndex = FindLastIndex(std::move(pred));
+	if (foundIndex >= 0)
+	{
+		found = &data[(uint32)foundIndex];
+	}
+
+	return found;
+}
+
+template<class Type>
+inline int32 DynamicArray<Type>::FindFirstIndex(const valueType& obj)
+{
+	return FindFirstIndex(obj, [](const valueType& o0, const valueType& o1) {return o0 == o1; });
+}
+
+template<class Type>
+inline int32 DynamicArray<Type>::FindLastIndex(const valueType& obj)
+{
+	return FindLastIndex(obj, [](const valueType& o0, const valueType& o1) {return o0 == o1; });
+}
+
+template<class Type>
+inline Type* DynamicArray<Type>::FindFirst(const valueType& obj)
+{
+	return FindFirst(obj, [](const valueType& o0, const valueType& o1) {return o0 == o1; });
+}
+
+template<class Type>
+inline Type* DynamicArray<Type>::FindLast(const valueType& obj)
+{
+	return FindLast(obj, [](const valueType& o0, const valueType& o1) {return o0 == o1; });
 }
 
 template<class Type>

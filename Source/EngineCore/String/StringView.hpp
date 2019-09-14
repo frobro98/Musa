@@ -2,6 +2,8 @@
 
 #include "Types/Intrinsics.hpp"
 
+class String;
+
 class StringView
 {
 public:
@@ -29,6 +31,25 @@ public:
 	tchar operator[](uint32 index) const;
 
 	const tchar* operator*() const;
+
+	int32 Compare(const StringView& sv) const;
+	int32 Compare(const String& s) const;
+	int32 Compare(const tchar* cs) const;
+	int32 Compare(const StringView& sv, uint32 compLen) const;
+	int32 Compare(const String& s, uint32 compLen) const;
+	int32 Compare(const tchar* cs, uint32 compLen) const;
+
+	friend bool operator==(const StringView& s0, const StringView& s1);
+	friend bool operator==(const String& s, const StringView& sv);
+	friend bool operator==(const StringView& sv, const String& s);
+	friend bool operator==(const tchar* cs, const StringView& sv);
+	friend bool operator==(const StringView& sv, const tchar* cs);
+
+	friend bool operator!=(const StringView& s0, const StringView& s1);
+	friend bool operator!=(const String& s, const StringView& sv);
+	friend bool operator!=(const StringView& sv, const String& s);
+	friend bool operator!=(const tchar* cs, const StringView& sv);
+	friend bool operator!=(const StringView& sv, const tchar* cs);
 
 private:
 	const tchar* string;

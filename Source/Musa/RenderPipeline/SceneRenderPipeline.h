@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Platform.h"
+// TODO - The UI part of the render pipeline shouldn't really live in the scene rendering part...
+#include "RenderPipeline/UserInterfacePipeline.hpp"
 
 class Renderer;
 class Camera;
@@ -11,7 +13,7 @@ class Renderer;
 struct View;
 struct RenderTargetTextures;
 
-class SceneRendering
+class SceneRenderPipeline
 {
 public:
 
@@ -43,6 +45,8 @@ private:
 // 	ComputeEntity& BuildComputeCommandBuffer(Model& model);
 
 private:
+	// TODO - The UI part of the render pipeline shouldn't really live in the scene rendering part...
+	UserInterfacePipeline uiPipeline;
 	//VulkanRenderState renderingState;
 // 	VulkanComputePipeline* firstPassPipeline = nullptr;
 // 	VulkanComputePipeline* blendingPassPipeline = nullptr;

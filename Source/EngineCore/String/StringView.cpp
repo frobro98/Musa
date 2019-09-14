@@ -1,6 +1,7 @@
 #include "StringView.hpp"
 #include "Assertion.h"
 #include "CStringUtilities.hpp"
+#include "String.h"
 #include "FNV-1a.h"
 
 StringView::StringView(const tchar* str)
@@ -129,7 +130,87 @@ const tchar* StringView::operator*() const
 	return string;
 }
 
+int32 StringView::Compare(const StringView& sv) const
+{
+	return Strcmp(string, sv.string);
+}
+
+int32 StringView::Compare(const String& s) const
+{
+	return Strcmp(string, *s);
+}
+
+int32 StringView::Compare(const tchar* cs) const
+{
+	return Strcmp(string, cs);
+}
+
+int32 StringView::Compare(const StringView& sv, uint32 compLen) const
+{
+	return Strncmp(string, sv.string, compLen);
+}
+
+int32 StringView::Compare(const String& s, uint32 compLen) const
+{
+	return Strncmp(string, *s, compLen);
+}
+
+int32 StringView::Compare(const tchar* cs, uint32 compLen) const
+{
+	return Strncmp(string, cs, compLen);
+}
+
 uint32 GetHash(const StringView& str)
 {
 	return fnv(str.string, str.stringLen);
+}
+
+bool operator==(const StringView& s0, const StringView& s1)
+{
+	return s0.Compare(s1) == 0;
+}
+
+bool operator==(const String& s, const StringView& sv)
+{
+	return sv.Compare(s) == 0;
+}
+
+bool operator==(const StringView& sv, const String& s)
+{
+	return sv.Compare(s) == 0;
+}
+
+bool operator==(const tchar* cs, const StringView& sv)
+{
+	return sv.Compare(cs) == 0;
+}
+
+bool operator==(const StringView& sv, const tchar* cs)
+{
+	return sv.Compare(cs) == 0;
+}
+
+bool operator!=(const StringView& s0, const StringView& s1)
+{
+	return s0.Compare(s1) != 0;
+}
+
+bool operator!=(const String& s, const StringView& sv)
+{
+	return sv.Compare(s) != 0;
+}
+
+bool operator!=(const StringView& sv, const String& s)
+{
+	return sv.Compare(s) != 0;
+}
+
+bool operator!=(const tchar* cs, const StringView& sv)
+{
+	return sv.Compare(cs) != 0;
+}
+
+bool operator!=(const StringView& sv, const tchar* cs)
+{
+	return sv.Compare(cs) != 0;
 }

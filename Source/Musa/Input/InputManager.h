@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
-#include "InputDefinitions.h"
+#include "InputDefinitions.hpp"
 
 class Window;
 class GameObject;

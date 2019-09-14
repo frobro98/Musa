@@ -49,6 +49,9 @@
     <Filter Include="Source\Fonts">
       <UniqueIdentifier>{90c2ae6f-792a-4c7f-aeed-71961393073a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Visualization">
+      <UniqueIdentifier>{6a901748-0db9-47fd-88eb-d12722ca9901}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -129,9 +132,6 @@
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRendering.cpp">
-      <Filter>Source\RenderPipeline</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -195,6 +195,12 @@
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.cpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Visualization\EngineStatView.cpp">
+      <Filter>Source\Visualization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.cpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -208,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\GameEngine.hpp">
       <Filter>Source\EngineEntry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.h">
-      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\InputManager.h">
       <Filter>Source\Input</Filter>
@@ -293,9 +296,6 @@
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp">
       <Filter>Source\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRendering.h">
-      <Filter>Source\RenderPipeline</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -367,6 +367,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp">
       <Filter>Source\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Visualization\EngineStatView.hpp">
+      <Filter>Source\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Visualization\ScreenTextItem.hpp">
+      <Filter>Source\Visualization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.h">
+      <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

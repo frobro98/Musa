@@ -11,7 +11,7 @@ class Viewport;
 class Renderer;
 struct MeshRenderInfo;
 
-class SceneRendering;
+class SceneRenderPipeline;
 
 // TODO - this structure would correspond to a file that records all of the objects in scene
 
@@ -69,7 +69,7 @@ private:
 	Renderer* renderer;
 
 	ScreenView* view = nullptr;
-	SceneRendering* sceneRendering = nullptr;
+	SceneRenderPipeline* sceneRendering = nullptr;
 
 	bool gbuffersInitialized = false;
 };

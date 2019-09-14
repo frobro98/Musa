@@ -8,6 +8,7 @@
 #include "Mesh/MeshManager.h"
 #include "Windowing/Window.h"
 #include "Input/Input.hpp"
+#include "Input/InputManager.h"
 #include "Texture/Texture2D/TextureManager.h"
 #include "DirectoryLocations.h"
 

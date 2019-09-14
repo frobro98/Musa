@@ -1,13 +1,20 @@
 #pragma once
 
 #include "Types/Intrinsics.hpp"
+#include "Visualization/EngineStatView.hpp"
+
 
 struct Vector2;
 struct View;
 struct Color32;
 class Renderer;
 
-void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screenPosition, const Color32& color);
-void FormatDebugText();
-void RenderText(Renderer& renderer, const View& view);
+class UserInterfacePipeline
+{
+public:
+	void RenderScreenText(Renderer& renderer, const View& view);
+
+private:
+	EngineStatView statView;
+};
 

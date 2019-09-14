@@ -16,6 +16,7 @@
 
 #include "Debugging/MetricInterface.hpp"
 #include "Debugging/ProfilerStatistics.hpp"
+#include "Visualization/ScreenTextItem.hpp"
 
 DECLARE_METRIC_GROUP(TextDisplay);
 METRIC_STAT(TextSetup, TextDisplay);
@@ -23,42 +24,13 @@ METRIC_STAT(TextRenderSetupCommands, TextDisplay);
 
 static NativeUniformBuffer* viewBuffer = nullptr;
 
-struct TextItem
-{
-	String text;
-	Color32 color;
-	Vector2 screenPosition;
-	float32 scale;
-};
-
-DynamicArray<TextItem> screenTextItems;
+DynamicArray<ScreenTextItem> screenTextItems;
 DynamicArray<PrimitiveVertex> stringVerts;
 DynamicArray<uint32> stringTris;
 
 void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screenPosition, const Color32& color)
 {
-	screenTextItems.Add(TextItem{text, color, screenPosition, textScale});
-}
-
-void FormatDebugText()
-{
-	constexpr uint32 formattedStrLen = 256;
-	Vector2 currentScreenPos(2, 2);
-	const ProfiledFrameMark& frame = GetProfilingStatistics().GetPreviousFrame();
-
-	for (auto& frameMetric : frame.frameMetrics)
-	{
-		tchar formattedString[formattedStrLen];
-		snprintf(formattedString, formattedStrLen,
-			"%s: %5.02fms"
-			//" in %50s: line %4d"
-			, frameMetric.metricName, frameMetric.totalMetricTimeMS
-			//, entry.filename, entry.lineCount
-		);
-		AddTextToScreen(formattedString, .15f, currentScreenPos, Color32::White());
-
-		currentScreenPos.y += 20;
-	}
+	screenTextItems.Add(ScreenTextItem{text, color, screenPosition, textScale});
 }
 
 static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)
@@ -69,7 +41,7 @@ static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& scree
 	return Vector2(worldPos.x, worldPos.y);
 }
 
- Rect GetTextBoxRect(const TextItem& item, Font& font)
+ Rect GetTextBoxRect(const ScreenTextItem& item, Font& font)
 {
 	Rect ret;
 	const String& text = item.text;
@@ -84,7 +56,7 @@ static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& scree
 	return ret;
 }
 
-void RenderText(Renderer& renderer, const View& view)
+void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & view)
 {
 	if (viewBuffer == nullptr)
 	{
@@ -95,6 +67,12 @@ void RenderText(Renderer& renderer, const View& view)
 		buffer.viewPosition = view.description.origin;
 		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}
+	if (!statView.AreStatsVisible())
+	{
+		statView.ToggleStats();
+	}
+
+	statView.PushStatsToView(screenTextItems);
 
 	if (!screenTextItems.IsEmpty())
 	{

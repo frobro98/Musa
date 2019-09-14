@@ -1,11 +1,9 @@
 #include "EngineCore/Platform.h"
 #include "Windowing/Window.h"
-#include "Input/InputDefinitions.h"
+#include "InputDefinitions.hpp"
 #include "Input/InputManager.h"
 
 
-bool showCursor = false;
-static bool f1Pressed = false;
 // Basic Window callback
 LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -43,10 +41,6 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			uint32 vkCode = static_cast<uint32>(wParam);
 
 			bool repeated = (lParam & 0x40000000) != 0;
-			//printf("%d down -- repeated?: %s\n", vkCode, repeated ? "true" : "false");
-
-			//bool altWasDown = !!(lParam & (1 << 29));
-			//altMod = altWasDown;
 
 			bool isPressed = (lParam & (1 << 31)) == 0;
 			Internal::KeyMessageDownReceived(vkCode, isPressed, repeated);
@@ -55,38 +49,18 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			{
 				window->Close();
 			}
-			if (vkCode == KeyInput::Key_F1 && !f1Pressed)
-			{
-				showCursor = !showCursor;
-				ShowCursor(showCursor);
-			}
-
 		}break;
 
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
 			uint32 vkCode = static_cast<uint32>(wParam);
-
-			//printf("%d up\n", vkCode);
-
-			//bool altWasDown = !!(lParam & (1 << 29));
-			//altMod = altWasDown;
-
 			Internal::KeyMessageUpReceived(vkCode);
-			if (vkCode == KeyInput::Key_F1 && f1Pressed)
-			{
-				showCursor = !showCursor;
-				ShowCursor(showCursor);
-			}
 		}break;
 
 		case WM_MOUSEMOVE:
 		{
-			if (!showCursor)
-			{
-				Internal::MouseMovementChange();
-			}
+			Internal::MouseMovementChange();
 		}break;
 
 		default:

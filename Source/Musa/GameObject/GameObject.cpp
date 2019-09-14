@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Model/Model.h"
 #include "Input/Input.hpp"
+#include "Input/InputManager.h"
 
 #include "Shader/Material.h"
 #include "Model/ModelFactory.h"

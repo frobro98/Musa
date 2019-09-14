@@ -1,5 +1,5 @@
 
-#include "SceneRendering.h"
+#include "SceneRenderPipeline.h"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
@@ -185,7 +185,7 @@ void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 }
 //*/
 
-void SceneRendering::RenderScene(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
+void SceneRenderPipeline::RenderScene(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
 // 	if (shadowMap.depthTarget == nullptr)
 // 	{
@@ -240,7 +240,7 @@ void RenderNormally(Renderer& renderer, const RenderObject& object, const View& 
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
 }
 
-void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view)
+void SceneRenderPipeline::RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view)
 {
 	SCOPED_TIMED_BLOCK(BaseRenderPass);
 
@@ -326,7 +326,7 @@ void SceneRendering::RenderGBufferPass(Renderer& renderer, Scene& scene, const V
 // 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *shadowMap.depthTextureResource->image);
 // }
 
-void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, const View& view)
+void SceneRenderPipeline::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, const View& view)
 {
 	SCOPED_TIMED_BLOCK(RenderToScreen);
 
@@ -419,7 +419,7 @@ void SceneRendering::RenderGBUffersToScreen(Renderer& renderer, Scene& scene, co
 // 	secondaryCmdBuffer.End();
 // }
 
-void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
+void SceneRenderPipeline::DeferredRender(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
@@ -441,8 +441,7 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 
 	// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
 	BEGIN_TIMED_BLOCK(TextDisplayRender);
-	FormatDebugText();
-	RenderText(renderer, view);
+	uiPipeline.RenderScreenText(renderer, view);
 	END_TIMED_BLOCK(TextDisplayRender);
 
 	TransitionTargetsToRead(renderer, targets);
@@ -475,7 +474,7 @@ void SceneRendering::DeferredRender(Renderer& renderer, Scene& scene, const View
 	TransitionTargetsToRead(renderer, backBufferTarget);
 }
 
-void SceneRendering::TransitionTargetsToRead(Renderer& renderer, RenderTargetTextures& targets)
+void SceneRenderPipeline::TransitionTargetsToRead(Renderer& renderer, RenderTargetTextures& targets)
 {
 	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
 	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
@@ -491,7 +490,7 @@ void SceneRendering::TransitionTargetsToRead(Renderer& renderer, RenderTargetTex
 	renderer.TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
-void SceneRendering::TransitionTargetsToWrite(Renderer& renderer, RenderTargetTextures& targets)
+void SceneRenderPipeline::TransitionTargetsToWrite(Renderer& renderer, RenderTargetTextures& targets)
 {
 	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
 	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
@@ -507,7 +506,7 @@ void SceneRendering::TransitionTargetsToWrite(Renderer& renderer, RenderTargetTe
 	renderer.TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
-void SceneRendering::SetViewportAndScissor(Renderer& renderer, const View& view) const
+void SceneRenderPipeline::SetViewportAndScissor(Renderer& renderer, const View& view) const
 {
 	Rect sceneViewport = view.description.viewport;
 	renderer.SetViewport(0, 0, (uint32)sceneViewport.width, (uint32)sceneViewport.height, 0, 1);
