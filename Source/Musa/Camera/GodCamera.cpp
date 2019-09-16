@@ -21,6 +21,57 @@ void GodCamera::Update(float /*tick*/)
 	world = Matrix(TRANS, position);
 }
 
+void GodCamera::InputCallback(const FrameInputs& inputs)
+{
+	for (const auto& action : inputs.actions)
+	{
+		UNUSED(action);
+	}
+
+	float32 changeX = 0, changeY = 0;
+	for (const auto& range : inputs.ranges)
+	{
+		if (range.input->input == Inputs::Mouse_XAxis)
+		{
+			changeX = range.rangeValue;
+		}
+		if (range.input->input == Inputs::Mouse_YAxis)
+		{
+			changeY = range.rangeValue;
+		}
+	}
+
+	CameraLookAtAdjust(changeX, changeY);
+
+	for (const auto& state : inputs.states)
+	{
+		if (state->input == Inputs::Key_W)
+		{
+			MoveCameraForward(1);
+		}
+		else if (state->input == Inputs::Key_S)
+		{
+			MoveCameraForward(-1);
+		}
+		else if (state->input == Inputs::Key_A)
+		{
+			MoveCameraRight(-1);
+		}
+		else if (state->input == Inputs::Key_D)
+		{
+			MoveCameraRight(1);
+		}
+		else if (state->input == Inputs::Key_E)
+		{
+			MoveCameraUp(1);
+		}
+		else if (state->input == Inputs::Key_Q)
+		{
+			MoveCameraUp(-1);
+		}
+	}
+}
+
 void GodCamera::SetupGodInputInput()
 {
 	GetInputManager().RegisterContinuousInput(KeyInput::Key_W, 1, this, &GodCamera::MoveCameraForward);

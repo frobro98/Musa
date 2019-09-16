@@ -15,11 +15,6 @@ METRIC_STAT(BroadcastInput, Input);
 
 namespace
 {
-struct InputMap
-{
-	bool isKeyDown[Inputs::Max] = {};
-};
-
 struct Input
 {
 	using KeyPressedFunc = std::function<void()>;

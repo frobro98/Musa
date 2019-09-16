@@ -1,14 +1,53 @@
 
 #include "Input.hpp"
 #include "Input/InputManager.h"
+#include "Internal/InputInternal.hpp"
+#include "Containers/StaticArray.hpp"
+#include "Utilities/CoreUtilities.hpp"
 
+struct InputState
+{
+	bool endedDown = false;
+	bool previouslyDown = false;
+};
+
+static StaticArray<InputState, Inputs::Max> inputMap;
+// Could theoretically live in a vector for ints and not for floats???
+static uint32 currentMouseX = 0;
+static uint32 currentMouseY = 0;
 
 class InputMan
 {
 public:
-	void Initialize(Window& /*win*/)
+	void Initialize(Window& win)
 	{
+		window = &win;
+		POINT cursorPos;
+		::GetCursorPos(&cursorPos);
+		currMouseX = prevMouseX = (float32)cursorPos.x;
+		currMouseY = prevMouseY = (float32)cursorPos.y;
+	}
 
+	void UpdateInputs()
+	{
+		// Check every key to see if there are any that have either been updated or that are still down
+		// For any that are like this, push a state change or a new value within a range or new action
+
+		// These behaviors of the input will be completely based on the active contexts...
+		// Action will only be registered if a "press" or "release" happens
+		// State will continuously 
+		for (auto& callback : callbacks)
+		{
+			callback(frameInputs);
+		}
+
+		for (uint32 i = 0; i < inputMap.Size(); ++i)
+		{
+			inputMap[i].previouslyDown = inputMap[i].endedDown;
+		}
+
+		frameInputs.actions.Clear();
+		frameInputs.ranges.Clear();
 	}
 
 	void AddContext(const InputContext& context)
@@ -39,16 +78,94 @@ public:
 		callbacks.Add(std::move(callback));
 	}
 
-
-
 	// TODO - Figure out if we want to actually get rid of a callback...
 	//void UnregisterCallback(InputCallback)
 
+	void KeyDownReceived(Inputs::Type key)
+	{
+		for (const auto context : activeContexts)
+		{
+			if (int32 index = context->inputActions.FindFirstIndex([=](const SingleInput& i) {return i.input == key; }); index >= 0)
+			{
+				frameInputs.actions.Add(&context->inputActions[(uint32)index]);
+				break;
+			}
+			if (int32 index = context->inputStates.FindFirstIndex([=](const SingleInput& i) {return i.input == key; }); index >= 0)
+			{
+				frameInputs.states.Add(&context->inputStates[(uint32)index]);
+				break;
+			}
+		}
+	}
+
+	void KeyUpReceived(Inputs::Type key)
+	{
+		const SingleInput** input = frameInputs.states.FindFirst([=](const SingleInput* i) {return i->input == key; });
+		if (input != nullptr)
+		{
+			frameInputs.states.RemoveAll(*input);
+		}
+	}
+
+	void MouseMovementReceived(uint32 mousePosX, uint32 mousePosY)
+	{
+		currMouseX = (float32)mousePosX;
+		currMouseY = (float32)mousePosY;
+		float32 mousePosChangeX = currMouseX - prevMouseX;
+		float32 mousePosChangeY = currMouseY - prevMouseY;
+		for (const auto context : activeContexts)
+		{
+			if (int32 index = context->inputRanges.FindFirstIndex([=](const RangedInput& i) {return i.input.input == Inputs::Mouse_XAxis; }); index >= 0)
+			{
+				ClampInputToRangeAndStore(mousePosChangeX, context->inputRanges[(uint32)index]);
+				break;
+			}
+		}
+		for (const auto context : activeContexts)
+		{
+			if (int32 index = context->inputRanges.FindFirstIndex([=](const RangedInput& i) {return i.input.input == Inputs::Mouse_YAxis; }); index >= 0)
+			{
+				ClampInputToRangeAndStore(mousePosChangeY, context->inputRanges[(uint32)index]);
+				break;
+			}
+		}
+
+		prevMouseX = currMouseX;
+		prevMouseY = currMouseY;
+	}
+
 private:
+	void ClampInputToRangeAndStore(float32 value, const RangedInput& input)
+	{
+		const InputRange& range = input.range;
+		value = Clamp(value, range.minRawRange, range.maxRawRange);
+
+		float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
+		float32 normValue = (lerpT * (range.maxNormalizedRange + range.minNormalizedRange)) - range.minNormalizedRange;
+		InputRangeValue inputValue = {};
+		inputValue.input = &input.input;
+		inputValue.rangeValue = normValue;
+		frameInputs.ranges.Add(inputValue);
+	}
+
+	void MouseMovementInitialize()
+	{
+		POINT cursorPos;
+		::GetCursorPos(&cursorPos);
+		currMouseX = prevMouseX = (float32)cursorPos.x;
+		currMouseY = prevMouseY = (float32)cursorPos.y;
+	}
+
+private:
+	FrameInputs frameInputs;
 	// TODO - These should probably be sets not arrays
 	DynamicArray<InputContext> contexts;
 	DynamicArray<InputCallback> callbacks;
 	DynamicArray<InputContext*> activeContexts;
+
+	Window* window = nullptr;
+	float32 currMouseX = 0, currMouseY = 0;
+	float32 prevMouseX = 0, prevMouseY = 0;
 };
 
 namespace
@@ -56,10 +173,31 @@ namespace
 InputMan inputManager;
 }
 
-InputContext MakeContext(const String& name)
+namespace Internal
+{
+void KeyMessageDownReceived(Inputs::Type key, bool isPressed, bool /*isRepeated*/)
+{
+	Assert(isPressed == true);
+	inputMap[key].endedDown = isPressed;
+	inputManager.KeyDownReceived(key);
+}
+void KeyMessageUpReceived(Inputs::Type key)
+{
+	inputMap[key].endedDown = false;
+	inputManager.KeyUpReceived(key);
+}
+void MouseMovementChange(uint32 mouseX, uint32 mouseY)
+{
+	currentMouseX = mouseX;
+	currentMouseY = mouseY;
+	inputManager.MouseMovementReceived(mouseX, mouseY);
+}
+}
+
+InputContext MakeInputContext(const StringView& name)
 {
 	InputContext context = {};
-	context.contextName = name;
+	context.contextName = String(*name, name.Length());
 	context.nameHash = GetHash(name);
 	return context;
 }
@@ -67,13 +205,18 @@ InputContext MakeContext(const String& name)
 void InitializeInput(Window& win)
 {
 	inputManager.Initialize(win);
+	ZeroMem(inputMap.internalData, sizeof(InputState) * inputMap.Size());
 }
 
-void AddCallback(InputCallback&& callback)
+void InputUpdate()
+{
+	inputManager.UpdateInputs();
+}
+
+void AddInputCallback(InputCallback&& callback)
 {
 	inputManager.RegisterCallback(std::move(callback));
 }
-
 
 void AddInputContext(const InputContext& context)
 {
@@ -104,3 +247,4 @@ InputManager& GetInputManager()
 {
 	return InputManager::Instance();
 }
+

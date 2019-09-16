@@ -95,6 +95,7 @@
     <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h" />
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\InputManager.h" />
+    <ClInclude Include="..\..\Source\Musa\Input\Internal\InputInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\Light.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\PointLight.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\SpotLight.hpp" />

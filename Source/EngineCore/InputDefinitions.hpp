@@ -100,6 +100,7 @@ struct Inputs
 		Key_NumMinus,
 		Key_NumMulti,
 		Key_NumDivide,
+		Key_NumDecimal,
 
 		Key_F1,
 		Key_F2,
@@ -123,52 +124,49 @@ struct Inputs
 		Mouse_Button7,
 		Mouse_Button8,
 
+		Mouse_XAxis,
+		Mouse_YAxis,
+
 		Max,
 
 		_INPUT_ENUM_MAX_ = 0x7FFFFFFF
 	};
-	static_assert(Max == Mouse_Button8 + 1);
-
-	enum Axes
-	{
-		MouseX,
-		MouseY,
-
-		_AXES_ENUM_MAX_ = 0x7FFFFFFF
-	};
+	static_assert(Max == Mouse_YAxis + 1);
 
 	enum State
 	{
 		Shift = 0x1,
 		Control = 0x2,
-		Alt = 0x4
+		Alt = 0x4,
+
+		_INPUT_STATE_MAX_ = 0xFF
 	};
 };
 
 
 // TODO - Remove these operators
-inline KeyboardState operator|=(KeyboardState& flag1, KeyboardState flag2)
-{
-	flag1 = (KeyboardState)((uint32)flag1 | (uint32)flag2);
-	return flag1;
-}
-
-inline KeyStateFlags operator&(KeyStateFlags flag1, KeyStateFlags flag2)
-{
-	return (KeyStateFlags)((uint32)flag1 & (uint32)flag2);
-}
-
-// inline uint32 operator|(KeyStateFlags flag1, KeyStateFlags flag2)
+// inline KeyboardState operator|=(KeyboardState& flag1, KeyboardState flag2)
 // {
-// 	return (uint32)flag1 | (uint32)flag2;
+// 	flag1 = (KeyboardState)((uint32)flag1 | (uint32)flag2);
+// 	return flag1;
 // }
-
-inline KeyStateFlags operator|(KeyStateFlags flag1, KeyStateFlags flag2)
-{
-	return (KeyStateFlags)((uint32)flag1 | (uint32)flag2);
-}
-
-inline bool operator==(uint32 state, KeyInput flag)
-{
-	return state == static_cast<uint32>(flag);
-}
+// 
+// inline KeyStateFlags operator&(KeyStateFlags flag1, KeyStateFlags flag2)
+// {
+// 	return (KeyStateFlags)((uint32)flag1 & (uint32)flag2);
+// }
+// 
+// // inline uint32 operator|(KeyStateFlags flag1, KeyStateFlags flag2)
+// // {
+// // 	return (uint32)flag1 | (uint32)flag2;
+// // }
+// 
+// inline KeyStateFlags operator|(KeyStateFlags flag1, KeyStateFlags flag2)
+// {
+// 	return (KeyStateFlags)((uint32)flag1 | (uint32)flag2);
+// }
+// 
+// inline bool operator==(uint32 state, KeyInput flag)
+// {
+// 	return state == static_cast<uint32>(flag);
+// }

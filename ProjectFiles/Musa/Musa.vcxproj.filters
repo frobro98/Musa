@@ -52,6 +52,9 @@
     <Filter Include="Source\Visualization">
       <UniqueIdentifier>{6a901748-0db9-47fd-88eb-d12722ca9901}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Input\Internal">
+      <UniqueIdentifier>{a1024ee9-037e-4f1b-b431-cd30a3fadbbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.h">
       <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\Internal\InputInternal.hpp">
+      <Filter>Source\Input\Internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

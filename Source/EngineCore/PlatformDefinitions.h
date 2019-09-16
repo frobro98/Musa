@@ -49,3 +49,4 @@ constexpr uint32 ArraySize([[maybe_unused]] const T (&arr)[N])
 {
 	return N;
 }
+

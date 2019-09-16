@@ -2,6 +2,7 @@
 
 #include "GameObject/GameObject.h"
 #include "Math/Vector4.h"
+#include "Input/Input.hpp"
 
 class Camera;
 
@@ -13,6 +14,8 @@ public:
 	virtual void Update(float tick) override;
 
 	inline Camera& GetAssociatedCamera() const { return camera; }
+
+	void InputCallback(const FrameInputs& inputs);
 
 private:
 	void SetupGodInputInput();

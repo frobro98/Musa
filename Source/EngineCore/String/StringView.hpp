@@ -7,7 +7,7 @@ class String;
 class StringView
 {
 public:
-	explicit StringView(const tchar* str);
+	StringView(const tchar* str);
 	explicit StringView(const tchar* str, uint32 len);
 
 	StringView SubStr(uint32 startIndex) const;

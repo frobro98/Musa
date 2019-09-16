@@ -11,8 +11,10 @@ class Window;
 
 struct InputRange
 {
-	Vector2 clampRawRange;
-	Vector2 normalizedRange;
+	float32 minRawRange;
+	float32 maxRawRange;
+	float32 minNormalizedRange;
+	float32 maxNormalizedRange;
 };
 
 struct SingleInput
@@ -27,28 +29,36 @@ struct RangedInput
 	SingleInput input;
 };
 
+struct InputRangeValue
+{
+	const SingleInput* input;
+	float32 rangeValue;
+};
+
 struct InputContext
 {
 	String contextName;
 	DynamicArray<SingleInput> inputActions;
 	DynamicArray<SingleInput> inputStates;
-	DynamicArray<RangedInput> axes;
+	DynamicArray<RangedInput> inputRanges;
 	uint32 nameHash;
 };
 
-InputContext MakeContext(const String& name);
-
 struct FrameInputs
 {
-	DynamicArray<SingleInput*> frameActions;
-	DynamicArray<SingleInput*> frameStates;
-	DynamicArray<RangedInput*> frameAxes;
+	DynamicArray<const SingleInput*> actions;
+	DynamicArray<const SingleInput*> states;
+	DynamicArray<InputRangeValue> ranges;
 };
+
+InputContext MakeInputContext(const StringView& name);
 
 using InputCallback = std::function<void(const FrameInputs&)>;
 
 void InitializeInput(Window& win);
-void AddCallback(InputCallback&& callback);
+void InputUpdate();
+
+void AddInputCallback(InputCallback&& callback);
 void AddInputContext(const InputContext& context);
 void PushInputContext(StringView vs);
 void RemoveInputContext(StringView vs);

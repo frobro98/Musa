@@ -59,6 +59,7 @@ void GameEngine::RunEngine()
 	GetGameObjectManager().Initialize(*world);
 
 	GetInputManager().Initialize(*window);
+	InitializeInput(*window);
 
 	const float32 aspect = (float32)width / (float32)height;
 	const IntRect viewport = { 0, 0, width, height };
@@ -79,7 +80,8 @@ void GameEngine::RunEngine()
 	GetMeshManager().LoadPrimitive(Primitive::Sphere);
 	GetMeshManager().LoadPrimitive(Primitive::Pyramid);
 
-	GetGameObjectManager().CreateAndAdd<GodCamera>(*mainCamera);
+	GodCamera* godCam = GetGameObjectManager().CreateAndAdd<GodCamera>(*mainCamera);
+	AddInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
 
 	LoadContent();
 
@@ -93,8 +95,61 @@ void GameEngine::RunEngine()
 	GetTextureManager().Deinitialize();
 }
 
+static void CreateInputContext()
+{
+	InputContext mainContext = MakeInputContext("Main Context");
+	RangedInput mouseXInput;
+	mouseXInput.range = {
+		-100, 100, -1, 1
+	};
+	mouseXInput.input = {
+		"Mouse X",
+		Inputs::Mouse_XAxis
+	};
+	mainContext.inputRanges.Add(mouseXInput);
+
+	RangedInput mouseYInput;
+	mouseYInput.range = {
+		-100, 100, -1, 1
+	};
+	mouseYInput.input = {
+		"Mouse Y",
+		Inputs::Mouse_YAxis
+	};
+	mainContext.inputRanges.Add(mouseYInput);
+
+	SingleInput input = {
+		"Move Left",
+		Inputs::Key_A
+	};
+	mainContext.inputStates.Add(input);
+
+	input = {
+		"Move Right",
+		Inputs::Key_D
+	};
+	mainContext.inputStates.Add(input);
+
+	input = {
+		"Move Up",
+		Inputs::Key_W
+	};
+	mainContext.inputStates.Add(input);
+
+	input = {
+		"Move Down",
+		Inputs::Key_S
+	};
+	mainContext.inputStates.Add(input);
+
+	AddInputContext(mainContext);
+	PushInputContext("Main Context");
+}
+
 void GameEngine::LoadContent()
 {
+	CreateInputContext();
+
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 
 	Mesh* sphere = GetMeshManager().FindMesh(Mesh::BoxName);
@@ -124,6 +179,7 @@ void GameEngine::UpdateAndRenderWorld()
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
 	const float tick = .16f;
+	InputUpdate();
 	GetInputManager().Update();
 
 	BEGIN_TIMED_BLOCK(Update);
