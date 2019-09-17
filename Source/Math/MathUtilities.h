@@ -37,6 +37,13 @@ namespace Math
 		return ((a >= -epsilon) && (a <= epsilon));
 	}
 
+	// Constexpr vector so this can work
+	template <typename LerpType>
+	inline LerpType Lerp(const LerpType& a, const LerpType& b, float32 t)
+	{
+		return LerpType(a + t * (b - a));
+	}
+
 	inline float Abs(float value)
 	{
 		return fabs(value);

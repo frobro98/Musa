@@ -4,6 +4,8 @@
 #include "Internal/InputInternal.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Utilities/CoreUtilities.hpp"
+#include "Windowing/Window.h"
+#include "Math/MathUtilities.h"
 
 struct InputState
 {
@@ -21,11 +23,24 @@ class InputMan
 public:
 	void Initialize(Window& win)
 	{
-		window = &win;
+		// TODO - Investigate bug with mouse initialization.
+		// Bug consists of mouse moving in between initialization and update, so movement gets fucked up
+		// This bug really only exists because the showing and hiding of the mouse is an incomplete implementation...
 		POINT cursorPos;
 		::GetCursorPos(&cursorPos);
+		::ScreenToClient((HWND)win.GetWindowHandle(), &cursorPos);
 		currMouseX = prevMouseX = (float32)cursorPos.x;
 		currMouseY = prevMouseY = (float32)cursorPos.y;
+		
+		RECT windowRect;
+		GetWindowRect((HWND)win.GetWindowHandle(), &windowRect);
+		int32 originX = windowRect.left;
+		int32 originY = windowRect.top;
+
+		int32 width = win.GetWidth();
+		int32 height = win.GetHeight();
+		centerX = originX + (width / 2);
+		centerY = originY + (height / 2);
 	}
 
 	void UpdateInputs()
@@ -48,6 +63,8 @@ public:
 
 		frameInputs.actions.Clear();
 		frameInputs.ranges.Clear();
+
+		SetCursorPos(centerX, centerY);
 	}
 
 	void AddContext(const InputContext& context)
@@ -130,22 +147,25 @@ public:
 			}
 		}
 
-		prevMouseX = currMouseX;
-		prevMouseY = currMouseY;
+// 		prevMouseX = currMouseX;
+// 		prevMouseY = currMouseY;
 	}
 
 private:
 	void ClampInputToRangeAndStore(float32 value, const RangedInput& input)
 	{
-		const InputRange& range = input.range;
-		value = Clamp(value, range.minRawRange, range.maxRawRange);
+		if (value > 0 || value < 0)
+		{
+			const InputRange& range = input.range;
+			value = Clamp(value, range.minRawRange, range.maxRawRange);
 
-		float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
-		float32 normValue = (lerpT * (range.maxNormalizedRange + range.minNormalizedRange)) - range.minNormalizedRange;
-		InputRangeValue inputValue = {};
-		inputValue.input = &input.input;
-		inputValue.rangeValue = normValue;
-		frameInputs.ranges.Add(inputValue);
+			float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
+			float32 normValue = Math::Lerp(range.minNormalizedRange, range.maxNormalizedRange, lerpT);// (lerpT * (range.maxNormalizedRange - range.minNormalizedRange)) + range.minNormalizedRange;
+			InputRangeValue inputValue = {};
+			inputValue.input = &input.input;
+			inputValue.rangeValue = normValue;
+			frameInputs.ranges.Add(inputValue);
+		}
 	}
 
 	void MouseMovementInitialize()
@@ -163,9 +183,9 @@ private:
 	DynamicArray<InputCallback> callbacks;
 	DynamicArray<InputContext*> activeContexts;
 
-	Window* window = nullptr;
 	float32 currMouseX = 0, currMouseY = 0;
 	float32 prevMouseX = 0, prevMouseY = 0;
+	int32 centerX = 0, centerY = 0;
 };
 
 namespace
@@ -210,6 +230,12 @@ void InitializeInput(Window& win)
 
 void InputUpdate()
 {
+	MSG Message;
+	while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&Message);
+		DispatchMessage(&Message);
+	}
 	inputManager.UpdateInputs();
 }
 

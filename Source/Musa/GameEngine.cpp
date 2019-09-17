@@ -58,7 +58,7 @@ void GameEngine::RunEngine()
 
 	GetGameObjectManager().Initialize(*world);
 
-	GetInputManager().Initialize(*window);
+	//GetInputManager().Initialize(*window);
 	InitializeInput(*window);
 
 	const float32 aspect = (float32)width / (float32)height;
@@ -131,14 +131,25 @@ static void CreateInputContext()
 	mainContext.inputStates.Add(input);
 
 	input = {
-		"Move Up",
+		"Move Forward",
 		Inputs::Key_W
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
-		"Move Down",
+		"Move Backward",
 		Inputs::Key_S
+	};
+
+	input = {
+	"Move Up",
+	Inputs::Key_E
+	};
+	mainContext.inputStates.Add(input);
+
+	input = {
+		"Move Down",
+		Inputs::Key_Q
 	};
 	mainContext.inputStates.Add(input);
 
@@ -180,7 +191,7 @@ void GameEngine::UpdateAndRenderWorld()
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
 	const float tick = .16f;
 	InputUpdate();
-	GetInputManager().Update();
+	//GetInputManager().Update();
 
 	BEGIN_TIMED_BLOCK(Update);
 	world->TickWorld(tick);

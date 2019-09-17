@@ -43,12 +43,11 @@ namespace Math
 		return Math::RadiansToDegrees(Math::Acos(cosAngle));
 	}
 
-	// Constexpr vector so this can work
-	inline void Lerp(Vector4 &out, const Vector4& a, const Vector4& b, const float t)
-	{
-		// out = a + t * (b - a);
-		out = a + t * (b - a);
-	}
+// 	inline void Lerp(Vector4 &out, const Vector4& a, const Vector4& b, const float t)
+// 	{
+// 		// out = a + t * (b - a);
+// 		out = a + t * (b - a);
+// 	}
 
 	inline void LerpArray(Vector4 *out, const Vector4* a, const Vector4* b, const float t, const int numVects)
 	{

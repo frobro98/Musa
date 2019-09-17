@@ -74,16 +74,16 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 
 void GodCamera::SetupGodInputInput()
 {
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_W, 1, this, &GodCamera::MoveCameraForward);
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_S, -1, this, &GodCamera::MoveCameraForward);
-
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_D, 1, this, &GodCamera::MoveCameraRight);
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_A, -1, this, &GodCamera::MoveCameraRight);
-
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_E, 1, this, &GodCamera::MoveCameraUp);
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_Q, -1, this, &GodCamera::MoveCameraUp);
-
-	GetInputManager().RegisterMouseAxes(this, &GodCamera::CameraLookAtAdjust);
+// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_W, 1, this, &GodCamera::MoveCameraForward);
+// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_S, -1, this, &GodCamera::MoveCameraForward);
+// 
+// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_D, 1, this, &GodCamera::MoveCameraRight);
+// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_A, -1, this, &GodCamera::MoveCameraRight);
+// 
+// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_E, 1, this, &GodCamera::MoveCameraUp);
+// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_Q, -1, this, &GodCamera::MoveCameraUp);
+// 
+// 	GetInputManager().RegisterMouseAxes(this, &GodCamera::CameraLookAtAdjust);
 }
 
 void GodCamera::MoveCameraForward(int32 mod)
@@ -96,7 +96,6 @@ void GodCamera::MoveCameraRight(int32 mod)
 {
 	position += camera.GetRight() * (float)mod * 1.5f;
 	cameraLookAt += camera.GetRight() * (float)mod * 1.5f;
-	//printf("Camera Right: (%f, %f, %f)\n", camera.GetRight().x, camera.GetRight().y, camera.GetRight().z);
 }
 
 void GodCamera::MoveCameraUp(int32 mod)
@@ -107,13 +106,16 @@ void GodCamera::MoveCameraUp(int32 mod)
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
-	const float speed = .1f;
-	Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed);
-	Quat quatY(ROT_Y, -changeX * speed);
+	if (changeX != 0 || changeY != 0)
+	{
+		const float speed = .01f;
+		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed);
+		Quat quatY(ROT_Y, -changeX * speed);
 
-	Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
-	newLookAtDir.Normalize();
-	cameraLookAt = position - newLookAtDir;
-	Vector4 up = camera.GetUp() * quatX * quatY;
-	cameraUp = up;
+		Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
+		newLookAtDir.Normalize();
+		cameraLookAt = position - newLookAtDir;
+		Vector4 up = camera.GetUp() * quatX * quatY;
+		cameraUp = up;
+	}
 }
