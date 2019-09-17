@@ -329,10 +329,10 @@ Mesh* MeshManager::LoadBoxPrimitive()
 		/* Position */         /* Normal */          /* Tangent */   /* UV */
 
 	// Back
-	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
-	{Vector3(0.5f, -0.5f, -0.5f),    Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
-	{Vector3(0.5f,  0.5f, -0.5f),    Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
-	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	{Vector3(0.5f, -0.5f, -0.5f),    Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(0.5f,  0.5f, -0.5f),    Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(0.0f,  0.0f, -1.0f),    Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
 
 	// Front
 	{Vector3(-0.5f, -0.5f,  0.5f),   Vector3(0.0f,  0.0f, 1.0f),     Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
@@ -353,16 +353,16 @@ Mesh* MeshManager::LoadBoxPrimitive()
 	 {Vector3(0.5f, -0.5f,  0.5f),    Vector3(1.0f,  0.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
 
 	 // Bottom
-	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
-	{Vector3(0.5f, -0.5f, -0.5f),    Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
-	{Vector3(0.5f, -0.5f,  0.5f),    Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
-	{Vector3(-0.5f, -0.5f,  0.5f),   Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(-0.5f, -0.5f, -0.5f),   Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(0.5f, -0.5f, -0.5f),    Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
+	{Vector3(0.5f, -0.5f,  0.5f),    Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(-0.5f, -0.5f,  0.5f),   Vector3(0.0f, -1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
 
 	// Top
-	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
-	{Vector3(0.5f,  0.5f, -0.5f),    Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
-	{Vector3(0.5f,  0.5f,  0.5f),    Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
-	{Vector3(-0.5f,  0.5f,  0.5f),   Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(-0.5f,  0.5f, -0.5f),   Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 0.0f)},
+	{Vector3(0.5f,  0.5f, -0.5f),    Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 0.0f)},
+	{Vector3(0.5f,  0.5f,  0.5f),    Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(1.0f, 1.0f)},
+	{Vector3(-0.5f,  0.5f,  0.5f),   Vector3(0.0f,  1.0f,  0.0f),   Vector3(0.0f, 0.0f, 0.0f),  Vector2(0.0f, 1.0f)},
 	};
 
 	Face faces[] =

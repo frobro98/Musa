@@ -23,7 +23,7 @@ static StaticArray<InputState, Inputs::Max> inputMap;
 static uint32 currentMouseX = 0;
 static uint32 currentMouseY = 0;
 
-class InputMan
+class InputManager
 {
 public:
 	void Initialize(Window& win)
@@ -209,16 +209,19 @@ private:
 
 namespace
 {
-InputMan inputManager;
+InputManager inputManager;
 }
 
 namespace Internal
 {
-void KeyMessageDownReceived(Inputs::Type key, bool isPressed, bool /*isRepeated*/)
+void KeyMessageDownReceived(Inputs::Type key, bool isPressed, bool isRepeated)
 {
-	Assert(isPressed == true);
-	inputMap[key].endedDown = isPressed;
-	inputManager.KeyDownReceived(key);
+	if (!isRepeated)
+	{
+		Assert(isPressed == true);
+		inputMap[key].endedDown = isPressed;
+		inputManager.KeyDownReceived(key);
+	}
 }
 void KeyMessageUpReceived(Inputs::Type key)
 {

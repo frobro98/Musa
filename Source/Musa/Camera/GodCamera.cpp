@@ -100,7 +100,7 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
 	if (changeX != 0 || changeY != 0)
 	{
-		const float speed = .1f;
+		const float speed = .5f;
 		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed);
 		Quat quatY(ROT_Y, -changeX * speed);
 
