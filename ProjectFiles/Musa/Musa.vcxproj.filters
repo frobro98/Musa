@@ -75,12 +75,6 @@
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp">
-      <Filter>Source\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Windowing\Win32\Win32_Window.cpp">
-      <Filter>Source\Window</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Mesh\MeshManager.cpp">
       <Filter>Source\Mesh</Filter>
     </ClCompile>
@@ -200,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.cpp">
       <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp">
+      <Filter>Source\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
