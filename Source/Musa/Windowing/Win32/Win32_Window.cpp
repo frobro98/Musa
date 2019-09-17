@@ -175,10 +175,28 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			// 			}
 		}break;
 
+		case WM_LBUTTONDOWN:
+		{
+			
+		}break;
+		case WM_LBUTTONUP:
+		{
+
+		}break;
+
+		case WM_RBUTTONDOWN:
+		{
+
+		}break;
+		case WM_RBUTTONUP:
+		{
+
+		}break;
+
 		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 		{
-			uint32 vkCode = static_cast<uint32>(wParam);
+			uint32 vkCode = LOWORD(wParam);
 
 			bool repeated = (lParam & 0x40000000) != 0;
 
@@ -196,10 +214,15 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
-			uint32 vkCode = static_cast<uint32>(wParam);
+			uint32 vkCode = LOWORD(wParam);
 			wParam = MapWparamLeftRightKeys(wParam, lParam);
 			Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
 			Internal::KeyMessageUpReceived(input);
+		}break;
+
+		case WM_CHAR:
+		{
+			
 		}break;
 
 		case WM_MOUSEMOVE:
