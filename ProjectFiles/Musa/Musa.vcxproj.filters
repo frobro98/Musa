@@ -72,9 +72,6 @@
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp">
       <Filter>Source\EngineEntry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Input\InputManager.cpp">
-      <Filter>Source\Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
@@ -217,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\GameEngine.hpp">
       <Filter>Source\EngineEntry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\InputManager.h">
-      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp">
       <Filter>Source\Input</Filter>

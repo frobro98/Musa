@@ -63,6 +63,5 @@ void AddInputContext(const InputContext& context);
 void PushInputContext(StringView vs);
 void RemoveInputContext(StringView vs);
 bool IsInputPressed(Inputs::Type key);
+bool IsInputDown(Inputs::Type key);
 Vector2 GetMousePosition();
-
-InputManager& GetInputManager();

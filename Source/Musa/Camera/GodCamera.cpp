@@ -1,7 +1,6 @@
 #include "GodCamera.hpp"
 #include "Camera.h"
 #include "Input/Input.hpp"
-#include "Input/InputManager.h"
 
 GodCamera::GodCamera(Camera& cam)
 	: camera(cam)
@@ -74,41 +73,34 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 
 void GodCamera::SetupGodInputInput()
 {
-// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_W, 1, this, &GodCamera::MoveCameraForward);
-// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_S, -1, this, &GodCamera::MoveCameraForward);
-// 
-// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_D, 1, this, &GodCamera::MoveCameraRight);
-// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_A, -1, this, &GodCamera::MoveCameraRight);
-// 
-// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_E, 1, this, &GodCamera::MoveCameraUp);
-// 	GetInputManager().RegisterContinuousInput(KeyInput::Key_Q, -1, this, &GodCamera::MoveCameraUp);
-// 
-// 	GetInputManager().RegisterMouseAxes(this, &GodCamera::CameraLookAtAdjust);
 }
 
 void GodCamera::MoveCameraForward(int32 mod)
 {
-	position += camera.GetForward() * (float)-mod * 1.5f;
-	cameraLookAt += camera.GetForward() * (float)-mod * 1.5f;
+	const float32 speed = .5f;
+	position += camera.GetForward() * (float)-mod * speed;
+	cameraLookAt += camera.GetForward() * (float)-mod * speed;
 }
 
 void GodCamera::MoveCameraRight(int32 mod)
 {
-	position += camera.GetRight() * (float)mod * 1.5f;
-	cameraLookAt += camera.GetRight() * (float)mod * 1.5f;
+	const float32 speed = .5f;
+	position += camera.GetRight() * (float)mod * speed;
+	cameraLookAt += camera.GetRight() * (float)mod * speed;
 }
 
 void GodCamera::MoveCameraUp(int32 mod)
 {
-	position += camera.GetUp() * (float)mod * 1.5f;
-	cameraLookAt += camera.GetUp() * (float)mod * 1.5f;
+	const float32 speed = .5f;
+	position += camera.GetUp() * (float)mod * speed;
+	cameraLookAt += camera.GetUp() * (float)mod * speed;
 }
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
 	if (changeX != 0 || changeY != 0)
 	{
-		const float speed = .01f;
+		const float speed = .1f;
 		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed);
 		Quat quatY(ROT_Y, -changeX * speed);
 

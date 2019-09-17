@@ -8,7 +8,6 @@
 #include "Mesh/MeshManager.h"
 #include "Windowing/Window.h"
 #include "Input/Input.hpp"
-#include "Input/InputManager.h"
 #include "Texture/Texture2D/TextureManager.h"
 #include "DirectoryLocations.h"
 
@@ -140,6 +139,7 @@ static void CreateInputContext()
 		"Move Backward",
 		Inputs::Key_S
 	};
+	mainContext.inputStates.Add(input);
 
 	input = {
 	"Move Up",

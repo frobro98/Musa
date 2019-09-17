@@ -16,6 +16,7 @@
 
 #include "Debugging/MetricInterface.hpp"
 #include "Debugging/ProfilerStatistics.hpp"
+#include "Input/Input.hpp"
 #include "Visualization/ScreenTextItem.hpp"
 
 DECLARE_METRIC_GROUP(TextDisplay);
@@ -67,7 +68,7 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 		buffer.viewPosition = view.description.origin;
 		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}
-	if (!statView.AreStatsVisible())
+	if (IsInputPressed(Inputs::Key_F1))
 	{
 		statView.ToggleStats();
 	}

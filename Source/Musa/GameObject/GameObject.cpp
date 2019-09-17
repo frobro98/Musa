@@ -4,7 +4,6 @@
 #include "Graphics.h"
 #include "Model/Model.h"
 #include "Input/Input.hpp"
-#include "Input/InputManager.h"
 
 #include "Shader/Material.h"
 #include "Model/ModelFactory.h"
@@ -202,10 +201,6 @@ void GameObject::SetScale(float scaleX, float scaleY, float scaleZ)
 
 void GameObject::InputSetup()
 {
-	// Move Forward
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_I, 1, this, &GameObject::MoveForward);
-	// Move Backward
-	GetInputManager().RegisterContinuousInput(KeyInput::Key_K, -1, this, &GameObject::MoveForward);
 }
 
 void GameObject::MoveForward(int32 mod)

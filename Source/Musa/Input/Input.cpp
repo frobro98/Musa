@@ -1,6 +1,5 @@
 
 #include "Input.hpp"
-#include "Input/InputManager.h"
 #include "Internal/InputInternal.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Utilities/CoreUtilities.hpp"
@@ -52,6 +51,23 @@ public:
 	void UpdateInputs()
 	{
 		SCOPED_TIMED_BLOCK(UpdateInputs);
+
+		BEGIN_TIMED_BLOCK(InputMapUpdate);
+		for (uint32 i = 0; i < inputMap.Size(); ++i)
+		{
+			inputMap[i].previouslyDown = inputMap[i].endedDown;
+		}
+		END_TIMED_BLOCK(InputMapUpdate);
+
+		BEGIN_TIMED_BLOCK(PumpMessages);
+		MSG Message;
+		while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&Message);
+			DispatchMessage(&Message);
+		}
+		END_TIMED_BLOCK(PumpMessages);
+
 		// Check every key to see if there are any that have either been updated or that are still down
 		// For any that are like this, push a state change or a new value within a range or new action
 
@@ -63,13 +79,6 @@ public:
 		{
 			callback(frameInputs);
 		}
-
-		BEGIN_TIMED_BLOCK(InputMapUpdate);
-		for (uint32 i = 0; i < inputMap.Size(); ++i)
-		{
-			inputMap[i].previouslyDown = inputMap[i].endedDown;
-		}
-		END_TIMED_BLOCK(InputMapUpdate);
 
 		frameInputs.actions.Clear();
 		frameInputs.ranges.Clear();
@@ -240,14 +249,6 @@ void InitializeInput(Window& win)
 
 void InputUpdate()
 {
-	BEGIN_TIMED_BLOCK(PumpMessages);
-	MSG Message;
-	while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
-	{
-		TranslateMessage(&Message);
-		DispatchMessage(&Message);
-	}
-	END_TIMED_BLOCK(PumpMessages);
 	inputManager.UpdateInputs();
 }
 
@@ -271,18 +272,21 @@ void RemoveInputContext(StringView contextName)
 	inputManager.PopActiveContext(contextName);
 }
 
-bool IsInputPressed(Inputs::Type /*key*/)
+bool IsInputPressed(Inputs::Type key)
 {
-	return false;
+	const InputState& state = inputMap[key];
+	return state.endedDown && !state.previouslyDown;
+}
+
+bool IsInputDown(Inputs::Type key)
+{
+	const InputState& state = inputMap[key];
+	return state.endedDown;
 }
 
 Vector2 GetMousePosition()
 {
-	return Vector2();
+	return Vector2((float32)currentMouseX, (float32)currentMouseY);
 }
 
-InputManager& GetInputManager()
-{
-	return InputManager::Instance();
-}
 

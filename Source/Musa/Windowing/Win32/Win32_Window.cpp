@@ -22,6 +22,7 @@ WPARAM MapWparamLeftRightKeys(WPARAM wparam, LPARAM lparam)
 
 Inputs::Type ConvertWin32ToMusaInput(uint32 vkCode)
 {
+	// TODO - this could be cached to be a static array of initialized vk codes
 	switch (vkCode)
 	{
 	case 0x41: return Inputs::Key_A;
