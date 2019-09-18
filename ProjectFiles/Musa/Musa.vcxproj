@@ -115,6 +115,7 @@
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h" />
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\EngineStatView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\ScreenTextItem.hpp" />
     <ClInclude Include="..\..\Source\Musa\Windowing\Window.h" />

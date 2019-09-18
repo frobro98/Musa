@@ -55,6 +55,9 @@
     <Filter Include="Source\Input\Internal">
       <UniqueIdentifier>{a1024ee9-037e-4f1b-b431-cd30a3fadbbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{42e32047-3adf-4782-8094-eceb960b9bd1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\Internal\InputInternal.hpp">
       <Filter>Source\Input\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp">
+      <Filter>Source\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
