@@ -159,6 +159,9 @@
     <ClInclude Include="..\..\Source\Graphics\UniformBuffers.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\BatchCollection.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp">
@@ -271,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanFrameTempAllocation.cpp">
       <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\BatchCollection.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

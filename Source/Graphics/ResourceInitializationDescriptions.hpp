@@ -249,8 +249,8 @@ struct GraphicsPipelineDescription
 	BlendingDescription blendingDescs[GBufferCount];
 	DepthStencilTestingDescription depthStencilTestDesc;
 	VertexInputDescriptionList vertexInputs{};
-	ShaderResource* vertexShader = nullptr;
-	ShaderResource* fragmentShader = nullptr;
+	const ShaderResource* vertexShader = nullptr;
+	const ShaderResource* fragmentShader = nullptr;
 	PrimitiveTopology topology;
 
 	friend bool operator==(const GraphicsPipelineDescription& lhs, const GraphicsPipelineDescription& rhs)

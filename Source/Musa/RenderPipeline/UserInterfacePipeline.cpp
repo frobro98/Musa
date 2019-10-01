@@ -14,6 +14,7 @@
 #include "String/String.h"
 #include "Containers/Stack.hpp"
 
+#include "Graphics/BatchCollection.hpp"
 #include "Debugging/MetricInterface.hpp"
 #include "Debugging/ProfilerStatistics.hpp"
 #include "Input/Input.hpp"
@@ -23,6 +24,7 @@ DECLARE_METRIC_GROUP(TextDisplay);
 METRIC_STAT(TextSetup, TextDisplay);
 METRIC_STAT(TextRenderSetupCommands, TextDisplay);
 
+static BatchCollection collection;
 static NativeUniformBuffer* viewBuffer = nullptr;
 
 DynamicArray<ScreenTextItem> screenTextItems;
@@ -72,6 +74,20 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 	{
 		statView.ToggleStats();
 	}
+
+	constexpr float32 width = 250.f;
+	constexpr float32 consoleRectHalfWidth = width / 2.f;
+	const float32 consoleRectHalfHeight = view.description.viewport.height * .5f;
+	Vector2 topLeft = GetStartingWorldFromScreen(view, Vector2(0, 0));
+	BatchedQuadDescription quadDesc = {};
+	quadDesc.position = Vector3(consoleRectHalfWidth, consoleRectHalfHeight, 0);
+	quadDesc.width = width;
+	quadDesc.height = view.description.viewport.height;
+	collection.BatchQuad(quadDesc);
+
+	renderer.SetUniformBuffer(*viewBuffer, 0);
+	renderer.SetTexture(*(WhiteTexture()->gpuResource), *SamplerDesc(), 1);
+	collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader());
 
 	statView.PushStatsToView(screenTextItems);
 
