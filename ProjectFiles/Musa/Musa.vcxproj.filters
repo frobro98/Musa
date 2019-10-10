@@ -58,6 +58,12 @@
     <Filter Include="Source\UI">
       <UniqueIdentifier>{42e32047-3adf-4782-8094-eceb960b9bd1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{969a4712-9e3e-4c3c-aaca-8488d93d1b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine\Internal">
+      <UniqueIdentifier>{c30359eb-75e2-44e4-8a18-ab52cb7c0c0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -200,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp">
       <Filter>Source\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp">
+      <Filter>Source\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +388,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp">
       <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp">
+      <Filter>Source\Engine\Internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,15 +12,12 @@ public:
 	EngineTick();
 	~EngineTick();
 
-	// Called before all timers are used
-	static void Init();
-
 	void Start();
 	void Lap();
 
-	float GetSeconds() const;
-	float GetMilliseconds() const;
-	float GetMicroseconds() const;
+	float64 GetSeconds() const;
+	float64 GetMilliseconds() const;
+	float64 GetMicroseconds() const;
 
 private:
 	static float CountsPerSec;

@@ -75,19 +75,21 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 		statView.ToggleStats();
 	}
 
-	constexpr float32 width = 250.f;
-	constexpr float32 consoleRectHalfWidth = width / 2.f;
-	const float32 consoleRectHalfHeight = view.description.viewport.height * .5f;
-	Vector2 topLeft = GetStartingWorldFromScreen(view, Vector2(0, 0));
-	BatchedQuadDescription quadDesc = {};
-	quadDesc.position = Vector3(consoleRectHalfWidth, consoleRectHalfHeight, 0);
-	quadDesc.width = width;
-	quadDesc.height = view.description.viewport.height;
-	collection.BatchQuad(quadDesc);
+	if (statView.AreStatsVisible())
+	{
+		constexpr float32 width = 250.f;
+		constexpr float32 consoleRectHalfWidth = width / 2.f;
+		const float32 consoleRectHalfHeight = view.description.viewport.height * .5f;
+		Vector2 topLeft = GetStartingWorldFromScreen(view, Vector2(0, 0));
+		BatchedQuadDescription quadDesc = {};
+		quadDesc.position = Vector3(topLeft.x + consoleRectHalfWidth, topLeft.y - consoleRectHalfHeight, 0);
+		quadDesc.width = width;
+		quadDesc.height = view.description.viewport.height;
+		quadDesc.color = Color32::Black();
+		collection.BatchQuad(quadDesc);
 
-	renderer.SetUniformBuffer(*viewBuffer, 0);
-	renderer.SetTexture(*(WhiteTexture()->gpuResource), *SamplerDesc(), 1);
-	collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader());
+		collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *viewBuffer, *(WhiteTexture()->gpuResource));
+	}
 
 	statView.PushStatsToView(screenTextItems);
 

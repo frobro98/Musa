@@ -237,16 +237,16 @@ void BatchCollection::BatchWireCircle(const BatchedCircleDescription& circleDesc
 	}
 }
 
-void BatchCollection::RenderBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader)
+void BatchCollection::RenderBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture)
 {
-	RenderLineBatches(renderer, vertShader, fragShader);
-	RenderTriangleBatches(renderer, vertShader, fragShader);
+	RenderLineBatches(renderer, vertShader, fragShader, viewBuffer, texture);
+	RenderTriangleBatches(renderer, vertShader, fragShader, viewBuffer, texture);
 
 	batchedLines.Clear();
 	batchedTris.Clear();
 }
 
-void BatchCollection::RenderLineBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader) const
+void BatchCollection::RenderLineBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
 {
 	if (HasLineBatches())
 	{
@@ -263,11 +263,14 @@ void BatchCollection::RenderLineBatches(Renderer& renderer, const ShaderResource
 		pipelineDesc.vertexInputs = GetVertexInput<PrimitiveVertex>();
 		renderer.SetGraphicsPipeline(pipelineDesc);
 
+		renderer.SetUniformBuffer(viewBuffer, 0);
+		renderer.SetTexture(texture, *SamplerDesc(), 1);
+
 		renderer.DrawRaw(batchedLines, 1);
 	}
 }
 
-void BatchCollection::RenderTriangleBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader) const
+void BatchCollection::RenderTriangleBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
 {
 	if (HasTriangleBatches())
 	{
@@ -294,6 +297,9 @@ void BatchCollection::RenderTriangleBatches(Renderer& renderer, const ShaderReso
 		pipelineDesc.rasterizerDesc = RasterDesc<FillMode::Full, CullingMode::None>();
 		pipelineDesc.vertexInputs = GetVertexInput<PrimitiveVertex>();
 		renderer.SetGraphicsPipeline(pipelineDesc);
+
+		renderer.SetUniformBuffer(viewBuffer, 0);
+		renderer.SetTexture(texture, *SamplerDesc(), 1);
 
 		renderer.DrawRaw(totalTriVerts, 1);
 	}

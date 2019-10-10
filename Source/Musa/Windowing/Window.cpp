@@ -196,12 +196,12 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 		{
+			wParam = MapWparamLeftRightKeys(wParam, lParam);
 			uint32 vkCode = LOWORD(wParam);
 
 			bool repeated = (lParam & 0x40000000) != 0;
-
 			bool isPressed = (lParam & (1 << 31)) == 0;
-			wParam = MapWparamLeftRightKeys(wParam, lParam);
+
 			Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
 			Internal::KeyMessageDownReceived(input, isPressed, repeated);
 

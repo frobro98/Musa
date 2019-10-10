@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Time/EngineTick.h"
+
 class GameWorld;
 class ProfilerStatistics;
 
@@ -14,10 +16,11 @@ private:
 	void LoadContent();
 	void EngineFrame();
 	
-	void UpdateAndRenderWorld();
+	void UpdateAndRenderWorld(float32 tick);
 	void GatherFrameMetrics();
 
 private:
+	EngineTick frameTick;
 	GameWorld* world = nullptr;
 	bool running = false;
 };

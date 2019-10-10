@@ -32,6 +32,7 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\MovementSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameEngine.cpp" />
@@ -83,6 +84,8 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameEngine.hpp" />

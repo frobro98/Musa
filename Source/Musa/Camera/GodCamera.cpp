@@ -1,6 +1,7 @@
 #include "GodCamera.hpp"
 #include "Camera.h"
 #include "Input/Input.hpp"
+#include "Engine/FrameData.hpp"
 
 GodCamera::GodCamera(Camera& cam)
 	: camera(cam)
@@ -77,32 +78,39 @@ void GodCamera::SetupGodInputInput()
 
 void GodCamera::MoveCameraForward(int32 mod)
 {
-	const float32 speed = .5f;
-	position += camera.GetForward() * (float)-mod * speed;
-	cameraLookAt += camera.GetForward() * (float)-mod * speed;
+	const float32 tick = Frame::GetTickTimeSeconds();
+	const float32 speed = 25.f;
+	const float32 speedMod = (float32)-mod * speed * tick;
+	position += camera.GetForward() * speedMod;
+	cameraLookAt += camera.GetForward() * speedMod;
 }
 
 void GodCamera::MoveCameraRight(int32 mod)
 {
-	const float32 speed = .5f;
-	position += camera.GetRight() * (float)mod * speed;
-	cameraLookAt += camera.GetRight() * (float)mod * speed;
+	const float32 tick = Frame::GetTickTimeSeconds();
+	const float32 speed = 25.f;
+	const float32 speedMod = (float32)mod * speed * tick;
+	position += camera.GetRight() * speedMod;
+	cameraLookAt += camera.GetRight() * speedMod;
 }
 
 void GodCamera::MoveCameraUp(int32 mod)
 {
-	const float32 speed = .5f;
-	position += camera.GetUp() * (float)mod * speed;
-	cameraLookAt += camera.GetUp() * (float)mod * speed;
+	const float32 tick = Frame::GetTickTimeSeconds();
+	const float32 speed = 25.f;
+	const float32 speedMod = (float32)mod * speed * tick;
+	position += camera.GetUp() * speedMod;
+	cameraLookAt += camera.GetUp() * speedMod;
 }
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
+	const float32 tick = Frame::GetTickTimeSeconds();
 	if (changeX != 0 || changeY != 0)
 	{
-		const float speed = .5f;
-		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed);
-		Quat quatY(ROT_Y, -changeX * speed);
+		const float32 speed = 25.f;
+		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed * tick);
+		Quat quatY(ROT_Y, -changeX * speed * tick);
 
 		Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
 		newLookAtDir.Normalize();

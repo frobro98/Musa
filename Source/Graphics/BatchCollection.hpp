@@ -7,6 +7,8 @@
 
 class Renderer;
 struct ShaderResource;
+struct NativeUniformBuffer;
+struct NativeTexture;
 
 struct BatchedLineDescription
 {
@@ -56,14 +58,14 @@ public:
 	void BatchWireCircle(const BatchedCircleDescription& circleDesc);
 	
 	// TODO - Graphics pipeline will currently be set in this function. There isn't really a way for customization for depthstencil, blending, etc. This would be a good thing to investigate
-	void RenderBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader);
+	void RenderBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture);
 
 	inline bool HasLineBatches() const { return !batchedLines.IsEmpty(); }
 	inline bool HasTriangleBatches() const { return !batchedTris.IsEmpty(); }
 
 private:
-	void RenderLineBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader) const;
-	void RenderTriangleBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader) const;
+	void RenderLineBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
+	void RenderTriangleBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
 
 private:
 	struct PrimitiveTriangle

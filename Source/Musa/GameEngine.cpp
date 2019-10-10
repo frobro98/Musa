@@ -21,6 +21,9 @@
 #include "Model/ModelFactory.h"
 #include "Camera/GodCamera.hpp"
 
+#include "Engine/FrameData.hpp"
+#include "Engine/Internal/FrameDataInternal.hpp"
+
 #include "Shader/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/UnlitShading.hpp"
 #include "Shader/ShaderObjects/BlinnShading.hpp"
@@ -84,6 +87,7 @@ void GameEngine::RunEngine()
 
 	LoadContent();
 
+	frameTick.Start();
 	// TODO - Should have an engine level boolean, so as to not be dependent on the window's state
 	while (window->IsActive())
 	{
@@ -181,17 +185,21 @@ void GameEngine::LoadContent()
 
 void GameEngine::EngineFrame()
 {
-	UpdateAndRenderWorld();
+	frameTick.Lap();
+	const float32 tick = (float32)frameTick.GetSeconds();
+	frameTick.Start();
+
+	Frame::SetFrameStats({ tick });
+
+	UpdateAndRenderWorld(tick);
 
 	GatherFrameMetrics();
 }
 
-void GameEngine::UpdateAndRenderWorld()
+void GameEngine::UpdateAndRenderWorld(float32 tick)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
-	const float tick = .16f;
 	InputUpdate();
-	//GetInputManager().Update();
 
 	BEGIN_TIMED_BLOCK(Update);
 	world->TickWorld(tick);
