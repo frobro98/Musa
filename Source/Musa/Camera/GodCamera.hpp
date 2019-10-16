@@ -30,4 +30,5 @@ private:
 	Vector4 cameraUp;
 	Vector4 cameraLookAt;
 	Camera& camera;
+	float32 moveSpeed = 0.f;
 };

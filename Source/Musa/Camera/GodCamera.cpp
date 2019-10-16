@@ -13,8 +13,11 @@ GodCamera::GodCamera(Camera& cam)
 	SetupGodInputInput();
 }
 
-void GodCamera::Update(float /*tick*/)
+void GodCamera::Update(float tick)
 {
+	constexpr float32 speed = 25.f;
+	moveSpeed = speed * tick;
+	
 	camera.SetOrientationAndPosition(cameraLookAt, position, cameraUp);
 
 	// TODO - This should be done in the SetWorld method...
@@ -78,27 +81,21 @@ void GodCamera::SetupGodInputInput()
 
 void GodCamera::MoveCameraForward(int32 mod)
 {
-	const float32 tick = Frame::GetTickTimeSeconds();
-	const float32 speed = 25.f;
-	const float32 speedMod = (float32)-mod * speed * tick;
+	const float32 speedMod = (float32)-mod * moveSpeed;
 	position += camera.GetForward() * speedMod;
 	cameraLookAt += camera.GetForward() * speedMod;
 }
 
 void GodCamera::MoveCameraRight(int32 mod)
 {
-	const float32 tick = Frame::GetTickTimeSeconds();
-	const float32 speed = 25.f;
-	const float32 speedMod = (float32)mod * speed * tick;
+	const float32 speedMod = (float32)mod * moveSpeed;
 	position += camera.GetRight() * speedMod;
 	cameraLookAt += camera.GetRight() * speedMod;
 }
 
 void GodCamera::MoveCameraUp(int32 mod)
 {
-	const float32 tick = Frame::GetTickTimeSeconds();
-	const float32 speed = 25.f;
-	const float32 speedMod = (float32)mod * speed * tick;
+	const float32 speedMod = (float32)mod * moveSpeed;
 	position += camera.GetUp() * speedMod;
 	cameraLookAt += camera.GetUp() * speedMod;
 }
@@ -108,9 +105,8 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 	const float32 tick = Frame::GetTickTimeSeconds();
 	if (changeX != 0 || changeY != 0)
 	{
-		const float32 speed = 25.f;
-		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * speed * tick);
-		Quat quatY(ROT_Y, -changeX * speed * tick);
+		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * moveSpeed);
+		Quat quatY(ROT_Y, -changeX * moveSpeed);
 
 		Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
 		newLookAtDir.Normalize();
