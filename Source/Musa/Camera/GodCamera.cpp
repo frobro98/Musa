@@ -50,27 +50,27 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 	{
 		if (state->input == Inputs::Key_W)
 		{
-			MoveCameraForward(1);
+			MoveCameraForward();
 		}
 		else if (state->input == Inputs::Key_S)
 		{
-			MoveCameraForward(-1);
+			MoveCameraBackward();
 		}
 		else if (state->input == Inputs::Key_A)
 		{
-			MoveCameraRight(-1);
+			MoveCameraLeft();
 		}
 		else if (state->input == Inputs::Key_D)
 		{
-			MoveCameraRight(1);
+			MoveCameraRight();
 		}
 		else if (state->input == Inputs::Key_E)
 		{
-			MoveCameraUp(1);
+			MoveCameraUp();
 		}
 		else if (state->input == Inputs::Key_Q)
 		{
-			MoveCameraUp(-1);
+			MoveCameraDown();
 		}
 	}
 }
@@ -79,25 +79,42 @@ void GodCamera::SetupGodInputInput()
 {
 }
 
-void GodCamera::MoveCameraForward(int32 mod)
+void GodCamera::MoveCameraForward()
 {
-	const float32 speedMod = (float32)-mod * moveSpeed;
-	position += camera.GetForward() * speedMod;
-	cameraLookAt += camera.GetForward() * speedMod;
+	MoveCameraAlongAxis(camera.GetForward(), false);
 }
 
-void GodCamera::MoveCameraRight(int32 mod)
+void GodCamera::MoveCameraBackward()
 {
-	const float32 speedMod = (float32)mod * moveSpeed;
-	position += camera.GetRight() * speedMod;
-	cameraLookAt += camera.GetRight() * speedMod;
+	MoveCameraAlongAxis(camera.GetForward(), true);
 }
 
-void GodCamera::MoveCameraUp(int32 mod)
+void GodCamera::MoveCameraLeft()
 {
-	const float32 speedMod = (float32)mod * moveSpeed;
-	position += camera.GetUp() * speedMod;
-	cameraLookAt += camera.GetUp() * speedMod;
+	MoveCameraAlongAxis(camera.GetRight(), false);
+}
+
+void GodCamera::MoveCameraRight()
+{
+	MoveCameraAlongAxis(camera.GetRight(), true);
+}
+
+void GodCamera::MoveCameraUp()
+{
+	MoveCameraAlongAxis(camera.GetUp(), true);
+}
+
+void GodCamera::MoveCameraDown()
+{
+	MoveCameraAlongAxis(camera.GetUp(), false);
+}
+
+void GodCamera::MoveCameraAlongAxis(const Vector4& axis, bool positive)
+{
+	const float32 dirMod = positive ? 1.f : -1.f;
+	const float32 speedMod = dirMod * moveSpeed;
+	position += axis * speedMod;
+	cameraLookAt += axis * speedMod;
 }
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)

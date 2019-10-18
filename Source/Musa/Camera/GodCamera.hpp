@@ -20,9 +20,16 @@ public:
 private:
 	void SetupGodInputInput();
 
-	void MoveCameraForward(int32 mod);
-	void MoveCameraRight(int32 mod);
-	void MoveCameraUp(int32 mod);
+	void MoveCameraForward();
+	void MoveCameraBackward();
+
+	void MoveCameraLeft();
+	void MoveCameraRight();
+
+	void MoveCameraUp();
+	void MoveCameraDown();
+
+	void MoveCameraAlongAxis(const Vector4& axis, bool positive);
 
 	void CameraLookAtAdjust(float changeX, float changeY);
 
