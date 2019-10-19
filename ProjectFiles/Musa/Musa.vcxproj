@@ -34,8 +34,9 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp" />
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
-    <ClCompile Include="..\..\Source\Musa\GameEngine.cpp" />
+    <ClCompile Include="..\..\Source\Musa\MusaEngine.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\RenderObject.cpp" />
@@ -86,9 +87,10 @@
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
-    <ClInclude Include="..\..\Source\Musa\GameEngine.hpp" />
+    <ClInclude Include="..\..\Source\Musa\MusaEngine.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h" />
     <ClInclude Include="..\..\Source\Musa\GameObject\RenderObject.hpp" />
@@ -119,6 +121,9 @@
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\GameUIContext.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UIWindow.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\EngineStatView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\ScreenTextItem.hpp" />
     <ClInclude Include="..\..\Source\Musa\Windowing\Window.h" />

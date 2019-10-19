@@ -318,12 +318,11 @@ void FileSerializationTest()
 
 //*/
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "Platform.h"
 #include <cstdio>
 #include <cstdlib>
 
-#include "GameEngine.hpp"
+#include "MusaApp.hpp"
 
 int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	HINSTANCE /*hPrevInstance*/,
@@ -344,9 +343,8 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	//StringTest();
 	//DataStructureTest();
 	//FileSerializationTest();
-
-	GameEngine engine;
-	engine.RunEngine();
+	MusaApp app;
+	app.LaunchApplication();
 
 	return 0;
 }

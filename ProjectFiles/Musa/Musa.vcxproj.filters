@@ -75,9 +75,6 @@
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\GameEngine.cpp">
-      <Filter>Source\EngineEntry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp">
       <Filter>Source\EngineEntry</Filter>
     </ClCompile>
@@ -210,6 +207,12 @@
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\MusaEngine.cpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -220,9 +223,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp">
       <Filter>Source\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\GameEngine.hpp">
-      <Filter>Source\EngineEntry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp">
       <Filter>Source\Input</Filter>
@@ -394,6 +394,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp">
       <Filter>Source\Engine\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\GameUIContext.hpp">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\MusaEngine.hpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UIWindow.hpp">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp">
+      <Filter>Source\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
