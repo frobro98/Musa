@@ -85,7 +85,7 @@ public:
 	void PushActiveContext(StringView contextName)
 	{
 		InputContext* context = contexts.FindFirst([&contextName](const InputContext& c) { return c.contextName == contextName; });
-		if (!context)
+		if (context)
 		{
 			activeContexts.Add(context);
 		}
