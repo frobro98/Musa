@@ -19,12 +19,6 @@ struct InputState
 };
 
 static StaticArray<InputState, Inputs::Max> inputMap;
-// Could theoretically live in a vector for ints and not for floats???
-static uint32 currentMouseX = 0;
-static uint32 currentMouseY = 0;
-// TODO - These will not be needed in the future because of a new technique of showing and hiding the mouse...
-static uint32 centerWindowX = 0;
-static uint32 centerWindowY = 0;
 
 class InputManager
 {
@@ -39,6 +33,19 @@ public:
 		::ScreenToClient((HWND)win.GetWindowHandle(), &cursorPos);
 		currMouseX = prevMouseX = (float32)cursorPos.x;
 		currMouseY = prevMouseY = (float32)cursorPos.y;
+	}
+
+	void SetupCursorReset(Window& win)
+	{
+		RECT windowRect;
+		GetWindowRect((HWND)win.GetWindowHandle(), &windowRect);
+		int32 originX = windowRect.left;
+		int32 originY = windowRect.top;
+
+		uint32 width = (uint32)win.GetWidth();
+		uint32 height = (uint32)win.GetHeight();
+		centerX = originX + (width / 2);
+		centerY = originY + (height / 2);
 	}
 
 	void UpdateInputs()
@@ -75,6 +82,11 @@ public:
 
 		frameInputs.actions.Clear();
 		frameInputs.ranges.Clear();
+	}
+
+	void ResetCursor()
+	{
+		::SetCursorPos(centerX, centerY);
 	}
 
 	void AddContext(const InputContext& context)
@@ -156,10 +168,10 @@ public:
 				break;
 			}
 		}
-
-// 		prevMouseX = currMouseX;
-// 		prevMouseY = currMouseY;
 	}
+
+	inline uint32 GetMouseCursorX() const { return (uint32)currMouseX; }
+	inline uint32 GetMouseCursorY() const { return (uint32)currMouseY; }
 
 private:
 	void ClampInputToRangeAndStore(float32 value, const RangedInput& input)
@@ -195,7 +207,7 @@ private:
 
 	float32 currMouseX = 0, currMouseY = 0;
 	float32 prevMouseX = 0, prevMouseY = 0;
-	int32 centerX = 0, centerY = 0;
+	uint32 centerX = 0, centerY = 0;
 };
 
 namespace
@@ -221,8 +233,6 @@ void KeyMessageUpReceived(Inputs::Type key)
 }
 void MouseMovementChange(uint32 mouseX, uint32 mouseY)
 {
-	currentMouseX = mouseX;
-	currentMouseY = mouseY;
 	inputManager.MouseMovementReceived(mouseX, mouseY);
 }
 }
@@ -237,24 +247,16 @@ InputContext MakeInputContext(const StringView& name)
 
 void InitializeInput(Window& win)
 {
-	RECT windowRect;
-	GetWindowRect((HWND)win.GetWindowHandle(), &windowRect);
-	int32 originX = windowRect.left;
-	int32 originY = windowRect.top;
-
-	int32 width = win.GetWidth();
-	int32 height = win.GetHeight();
-	centerWindowX = originX + (width / 2);
-	centerWindowY = originY + (height / 2);
-
 	inputManager.Initialize(win);
+	inputManager.SetupCursorReset(win);
+
 	ZeroMem(inputMap.internalData, sizeof(InputState) * inputMap.Size());
 }
 
 void InputUpdate()
 {
 	inputManager.UpdateInputs();
-	::SetCursorPos(centerWindowX, centerWindowY);
+	inputManager.ResetCursor();
 }
 
 void AddInputCallback(InputCallback&& callback)
@@ -291,6 +293,8 @@ bool IsInputDown(Inputs::Type key)
 
 Vector2 GetMousePosition()
 {
+	uint32 currentMouseX = inputManager.GetMouseCursorX();
+	uint32 currentMouseY = inputManager.GetMouseCursorY();
 	return Vector2((float32)currentMouseX, (float32)currentMouseY);
 }
 

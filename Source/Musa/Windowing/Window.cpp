@@ -279,7 +279,7 @@ void Window::Initialize()
 	window = CreateWindowEx(exStyle,
 		windowClass.lpszClassName, TEXT("Musa Engine Window"),
 		style,
-		CW_USEDEFAULT, CW_USEDEFAULT,
+		0, 0,
 		width, height,
 		nullptr, nullptr, Instance, nullptr);
 
@@ -289,6 +289,7 @@ void Window::Initialize()
 	}
 
 	SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
 
 	RECT windowRect;
 	GetWindowRect(window, &windowRect);
