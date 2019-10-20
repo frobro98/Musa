@@ -205,7 +205,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
 			Internal::KeyMessageDownReceived(input, isPressed, repeated);
 
-			if (vkCode == (uint32)KeyInput::Key_Escape)
+			if (input == Inputs::Key_Escape)
 			{
 				window->Close();
 			}
@@ -230,7 +230,6 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			int32 cursorX = LOWORD(lParam);
 			int32 cursorY = HIWORD(lParam);
 			Internal::MouseMovementChange(cursorX, cursorY);
-//			Internal::MouseMovementChange(cursor.x, cursor.y);
 		}break;
 
 		default:

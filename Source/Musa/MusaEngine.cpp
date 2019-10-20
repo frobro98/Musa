@@ -50,7 +50,6 @@ MusaEngine::MusaEngine(GameUIContext& context)
 
 void MusaEngine::InitializeGraphics()
 {
-	// TODO - This call needs some sort of type safety for the window handle...
 	GetGraphicsInterface().InitializeGraphics();
 
 	InitializeShaders();
@@ -68,8 +67,8 @@ void MusaEngine::SetupWindowContext(Window& window_)
 void MusaEngine::RunEngine()
 {
 	// TODO - This should be available here, so the width and height should be removed
-	const int32 width = 1080;
-	const int32 height = 720;
+	const int32 width = window->GetWidth();
+	const int32 height = window->GetHeight();
 
 	const float32 aspect = (float32)width / (float32)height;
 	const IntRect viewport = { 0, 0, width, height };

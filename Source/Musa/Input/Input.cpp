@@ -22,6 +22,9 @@ static StaticArray<InputState, Inputs::Max> inputMap;
 // Could theoretically live in a vector for ints and not for floats???
 static uint32 currentMouseX = 0;
 static uint32 currentMouseY = 0;
+// TODO - These will not be needed in the future because of a new technique of showing and hiding the mouse...
+static uint32 centerWindowX = 0;
+static uint32 centerWindowY = 0;
 
 class InputManager
 {
@@ -36,16 +39,6 @@ public:
 		::ScreenToClient((HWND)win.GetWindowHandle(), &cursorPos);
 		currMouseX = prevMouseX = (float32)cursorPos.x;
 		currMouseY = prevMouseY = (float32)cursorPos.y;
-		
-		RECT windowRect;
-		GetWindowRect((HWND)win.GetWindowHandle(), &windowRect);
-		int32 originX = windowRect.left;
-		int32 originY = windowRect.top;
-
-		int32 width = win.GetWidth();
-		int32 height = win.GetHeight();
-		centerX = originX + (width / 2);
-		centerY = originY + (height / 2);
 	}
 
 	void UpdateInputs()
@@ -82,8 +75,6 @@ public:
 
 		frameInputs.actions.Clear();
 		frameInputs.ranges.Clear();
-
-		SetCursorPos(centerX, centerY);
 	}
 
 	void AddContext(const InputContext& context)
@@ -94,7 +85,7 @@ public:
 	void PushActiveContext(StringView contextName)
 	{
 		InputContext* context = contexts.FindFirst([&contextName](const InputContext& c) { return c.contextName == contextName; });
-		if (context)
+		if (!context)
 		{
 			activeContexts.Add(context);
 		}
@@ -246,6 +237,16 @@ InputContext MakeInputContext(const StringView& name)
 
 void InitializeInput(Window& win)
 {
+	RECT windowRect;
+	GetWindowRect((HWND)win.GetWindowHandle(), &windowRect);
+	int32 originX = windowRect.left;
+	int32 originY = windowRect.top;
+
+	int32 width = win.GetWidth();
+	int32 height = win.GetHeight();
+	centerWindowX = originX + (width / 2);
+	centerWindowY = originY + (height / 2);
+
 	inputManager.Initialize(win);
 	ZeroMem(inputMap.internalData, sizeof(InputState) * inputMap.Size());
 }
@@ -253,6 +254,7 @@ void InitializeInput(Window& win)
 void InputUpdate()
 {
 	inputManager.UpdateInputs();
+	::SetCursorPos(centerWindowX, centerWindowY);
 }
 
 void AddInputCallback(InputCallback&& callback)
