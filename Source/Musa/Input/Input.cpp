@@ -35,25 +35,9 @@ public:
 		currMouseY = prevMouseY = (float32)cursorPos.y;
 	}
 
-	void SetupCursorReset(Window& win)
-	{
-		RECT windowRect;
-		GetWindowRect((HWND)win.GetWindowHandle(), &windowRect);
-		int32 originX = windowRect.left;
-		int32 originY = windowRect.top;
-
-		uint32 width = (uint32)win.GetWidth();
-		uint32 height = (uint32)win.GetHeight();
-		centerX = originX + (width / 2);
-		centerY = originY + (height / 2);
-	}
-
 	void UpdateInputs()
 	{
 		SCOPED_TIMED_BLOCK(UpdateInputs);
-
-// 		currMouseX = prevMouseX;
-// 		currMouseY = prevMouseY;
 
 		BEGIN_TIMED_BLOCK(InputMapUpdate);
 		for (uint32 i = 0; i < inputMap.Size(); ++i)
@@ -202,7 +186,6 @@ private:
 
 	float32 currMouseX = 0, currMouseY = 0;
 	float32 prevMouseX = 0, prevMouseY = 0;
-	uint32 centerX = 0, centerY = 0;
 };
 
 namespace
@@ -254,7 +237,6 @@ InputContext MakeInputContext(const StringView& name)
 void InitializeInput(Window& win)
 {
 	inputManager.Initialize(win);
-	inputManager.SetupCursorReset(win);
 
 	ZeroMem(inputMap.internalData, sizeof(InputState) * inputMap.Size());
 
