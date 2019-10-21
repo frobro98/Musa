@@ -227,9 +227,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 		case WM_MOUSEMOVE:
 		{
-			int32 cursorX = LOWORD(lParam);
-			int32 cursorY = HIWORD(lParam);
-			Internal::MouseMovementChange(cursorX, cursorY);
+// 			int32 cursorX = LOWORD(lParam);
+// 			int32 cursorY = HIWORD(lParam);
+			POINT cursor;
+			::GetCursorPos(&cursor);
+			Internal::MouseMovementChange(cursor.x, cursor.y);
 		}break;
 
 		default:

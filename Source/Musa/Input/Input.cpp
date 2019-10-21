@@ -23,14 +23,14 @@ static StaticArray<InputState, Inputs::Max> inputMap;
 class InputManager
 {
 public:
-	void Initialize(Window& win)
+	void Initialize(Window& /*win*/)
 	{
 		// TODO - Investigate bug with mouse initialization.
 		// Bug consists of mouse moving in between initialization and update, so movement gets fucked up
 		// This bug really only exists because the showing and hiding of the mouse is an incomplete implementation...
 		POINT cursorPos;
 		::GetCursorPos(&cursorPos);
-		::ScreenToClient((HWND)win.GetWindowHandle(), &cursorPos);
+		//::ScreenToClient((HWND)win.GetWindowHandle(), &cursorPos);
 		currMouseX = prevMouseX = (float32)cursorPos.x;
 		currMouseY = prevMouseY = (float32)cursorPos.y;
 	}
@@ -51,6 +51,9 @@ public:
 	void UpdateInputs()
 	{
 		SCOPED_TIMED_BLOCK(UpdateInputs);
+
+// 		currMouseX = prevMouseX;
+// 		currMouseY = prevMouseY;
 
 		BEGIN_TIMED_BLOCK(InputMapUpdate);
 		for (uint32 i = 0; i < inputMap.Size(); ++i)
@@ -86,7 +89,7 @@ public:
 
 	void ResetCursor()
 	{
-		::SetCursorPos(centerX, centerY);
+		::SetCursorPos((uint32)prevMouseX, (uint32)prevMouseY);
 	}
 
 	void AddContext(const InputContext& context)
@@ -156,7 +159,7 @@ public:
 		{
 			if (int32 index = context->inputRanges.FindFirstIndex([=](const RangedInput& i) {return i.input.input == Inputs::Mouse_XAxis; }); index >= 0)
 			{
-				ClampInputToRangeAndStore(mousePosChangeX, context->inputRanges[(uint32)index]);
+				ClampInputToRangeAndStore((float32)mousePosChangeX, context->inputRanges[(uint32)index]);
 				break;
 			}
 		}
@@ -164,7 +167,7 @@ public:
 		{
 			if (int32 index = context->inputRanges.FindFirstIndex([=](const RangedInput& i) {return i.input.input == Inputs::Mouse_YAxis; }); index >= 0)
 			{
-				ClampInputToRangeAndStore(mousePosChangeY, context->inputRanges[(uint32)index]);
+				ClampInputToRangeAndStore((float32)mousePosChangeY, context->inputRanges[(uint32)index]);
 				break;
 			}
 		}
@@ -190,14 +193,6 @@ private:
 		}
 	}
 
-	void MouseMovementInitialize()
-	{
-		POINT cursorPos;
-		::GetCursorPos(&cursorPos);
-		currMouseX = prevMouseX = (float32)cursorPos.x;
-		currMouseY = prevMouseY = (float32)cursorPos.y;
-	}
-
 private:
 	FrameInputs frameInputs;
 	// TODO - These should probably be sets not arrays
@@ -213,27 +208,38 @@ private:
 namespace
 {
 InputManager inputManager;
+
+static bool inputInitialized = false;
 }
 
 namespace Internal
 {
 void KeyMessageDownReceived(Inputs::Type key, bool isPressed, bool isRepeated)
 {
-	if (!isRepeated)
+	if (inputInitialized)
 	{
-		Assert(isPressed == true);
-		inputMap[key].endedDown = isPressed;
-		inputManager.KeyDownReceived(key);
+		if (!isRepeated)
+		{
+			Assert(isPressed == true);
+			inputMap[key].endedDown = isPressed;
+			inputManager.KeyDownReceived(key);
+		}
 	}
 }
 void KeyMessageUpReceived(Inputs::Type key)
 {
-	inputMap[key].endedDown = false;
-	inputManager.KeyUpReceived(key);
+	if (inputInitialized)
+	{
+		inputMap[key].endedDown = false;
+		inputManager.KeyUpReceived(key);
+	}
 }
 void MouseMovementChange(uint32 mouseX, uint32 mouseY)
 {
-	inputManager.MouseMovementReceived(mouseX, mouseY);
+	if (inputInitialized)
+	{
+		inputManager.MouseMovementReceived(mouseX, mouseY);
+	}
 }
 }
 
@@ -251,6 +257,8 @@ void InitializeInput(Window& win)
 	inputManager.SetupCursorReset(win);
 
 	ZeroMem(inputMap.internalData, sizeof(InputState) * inputMap.Size());
+
+	inputInitialized = true;
 }
 
 void InputUpdate()
