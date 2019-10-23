@@ -33,6 +33,7 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp" />
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
@@ -87,9 +88,12 @@
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\MusaAppOS.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\MusaAppWindows.hpp" />
     <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\IInputReceiver.hpp" />
     <ClInclude Include="..\..\Source\Musa\MusaEngine.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h" />

@@ -15,7 +15,7 @@ enum class WindowMode : uint32
 class Window
 {
 public:
-	Window(int32 width, int32 height);
+	Window(HINSTANCE instance, uint32 xPos, uint32 yPos, uint32 width, uint32 height);
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;

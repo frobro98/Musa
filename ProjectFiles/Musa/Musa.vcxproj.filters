@@ -213,6 +213,9 @@
     <ClCompile Include="..\..\Source\Musa\MusaEngine.cpp">
       <Filter>Source\EngineEntry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -409,6 +412,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp">
       <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\IInputReceiver.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Engine\MusaAppOS.hpp">
+      <Filter>Source\EngineEntry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Engine\MusaAppWindows.hpp">
+      <Filter>Source\EngineEntry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
