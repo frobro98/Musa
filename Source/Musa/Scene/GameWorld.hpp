@@ -16,11 +16,10 @@ public:
 	// These are just pass throughs right now
 	void TickWorld(float deltaTime);
 	void PushToRenderState();
-	void RenderWorld();
+	void RenderWorld(Viewport& viewport);
 
 	Scene& GetScene();
 
 private:
-	Viewport viewport;
 	Scene* scene;
 };

@@ -2,7 +2,7 @@
 #include "GameWorld.hpp"
 #include "Scene/Scene.hpp"
 #include "ScreenView.hpp"
-#include "Windowing/Window.h"
+#include "Window/Window.h"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
@@ -43,8 +43,7 @@ GraphicsPipelineDescription GetDefaultDescription()
 }
 
 GameWorld::GameWorld(const Window& window)
-	: viewport(window.GetWindowHandle(), window.GetWidth(), window.GetHeight()),
-	scene(new Scene)
+	: scene(new Scene)
 {
 	ScreenView* view = new ScreenView(window.GetWidth(), window.GetHeight());
 	scene->SetView(*view);
@@ -66,7 +65,7 @@ void GameWorld::PushToRenderState()
 	scene->PushStateToGpu();
 }
 
-void GameWorld::RenderWorld()
+void GameWorld::RenderWorld(Viewport& viewport)
 {
 	scene->RenderScene(viewport);
 }

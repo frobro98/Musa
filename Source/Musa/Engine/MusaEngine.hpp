@@ -18,6 +18,8 @@ public:
 
 	void RunEngine();
 
+	void StopEngine();
+
 private:
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene
 	void LoadContent();
@@ -29,8 +31,8 @@ private:
 private:
 	EngineTick frameTick;
 	UniquePtr<GameWorld> world;
+	UniquePtr<Viewport> viewport;
 	GameUIContext* uiContext = nullptr;
-	Window* window = nullptr;
 
 	bool running = false;
 };

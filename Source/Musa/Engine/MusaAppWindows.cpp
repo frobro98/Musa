@@ -2,7 +2,7 @@
 #include "Platform.h"
 #include "MusaAppWindows.hpp"
 #include "InputDefinitions.hpp"
-#include "Windowing/Window.h"
+#include "Window/Window.h"
 #include "Input/Internal/InputInternal.hpp"
 
 WPARAM MapWparamLeftRightKeys(WPARAM wparam, LPARAM lparam)
@@ -149,101 +149,105 @@ Inputs::Type ConvertWin32ToMusaInput(uint32 vkCode)
 // Basic Window callback
 LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT result = 0;
-	Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (message)
+	WindowInputHandler* inputHandler = (WindowInputHandler*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if(inputHandler != nullptr)
 	{
-	case  WM_CLOSE:
-	{
-		window->Close();
-	}break;
+		Window* window = inputHandler->GetWindow();
 
-	case WM_DESTROY:
-	{
-		window->Close();
-	}break;
-
-	case WM_SIZE:
-	{
-		window->Resize();
-		// 			if (hasInitialized)
-		// 			{
-		// 				RECT windowRect = {};
-		// 				GetClientRect(window, &windowRect);
-		// 				Width = windowRect.right - windowRect.left;
-		// 				Height = windowRect.bottom - windowRect.top;
-		// 
-		// 				recreateSwapchain(vulkan);
-		// 			}
-	}break;
-
-	case WM_LBUTTONDOWN:
-	{
-
-	}break;
-	case WM_LBUTTONUP:
-	{
-
-	}break;
-
-	case WM_RBUTTONDOWN:
-	{
-
-	}break;
-	case WM_RBUTTONUP:
-	{
-
-	}break;
-
-	case WM_SYSKEYDOWN:
-	case WM_KEYDOWN:
-	{
-		wParam = MapWparamLeftRightKeys(wParam, lParam);
-		uint32 vkCode = LOWORD(wParam);
-
-		bool repeated = (lParam & 0x40000000) != 0;
-		bool isPressed = (lParam & (1 << 31)) == 0;
-
-		Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-		Internal::KeyMessageDownReceived(input, isPressed, repeated);
-
-		if (input == Inputs::Key_Escape)
+		if (window != nullptr)
 		{
-			window->Close();
+			switch (message)
+			{
+				case  WM_CLOSE:
+				{
+					window->Close();
+				}break;
+
+				case WM_DESTROY:
+				{
+					window->Close();
+				}break;
+
+				case WM_SIZE:
+				{
+					window->Resize();
+				}break;
+
+				case WM_LBUTTONDOWN:
+				{
+
+				}break;
+				case WM_LBUTTONUP:
+				{
+
+				}break;
+
+				case WM_RBUTTONDOWN:
+				{
+
+				}break;
+				case WM_RBUTTONUP:
+				{
+
+				}break;
+
+				case WM_SYSKEYDOWN:
+				case WM_KEYDOWN:
+				{
+					wParam = MapWparamLeftRightKeys(wParam, lParam);
+					uint32 vkCode = LOWORD(wParam);
+
+					bool repeated = (lParam & 0x40000000) != 0;
+					bool isPressed = (lParam & (1 << 31)) == 0;
+
+					Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
+					Internal::KeyMessageDownReceived(input, isPressed, repeated);
+
+					inputHandler->HandleKeyDown(input, repeated);
+
+					if (input == Inputs::Key_Escape)
+					{
+						window->Close();
+					}
+				}break;
+
+				case WM_SYSKEYUP:
+				case WM_KEYUP:
+				{
+					uint32 vkCode = LOWORD(wParam);
+					wParam = MapWparamLeftRightKeys(wParam, lParam);
+					Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
+					Internal::KeyMessageUpReceived(input);
+
+					inputHandler->HandleKeyUp(input);
+				}break;
+
+				case WM_CHAR:
+				{
+					//inputHandler->HandleKeyChar();
+				}break;
+
+				case WM_MOUSEMOVE:
+				{
+					POINT cursor;
+					::GetCursorPos(&cursor);
+					Internal::MouseMovementChange(cursor.x, cursor.y);
+					inputHandler->HandleMouseMove(cursor.x, cursor.y);
+				}break;
+
+				default:
+				{
+				} break;
+			}
 		}
-	}break;
-
-	case WM_SYSKEYUP:
-	case WM_KEYUP:
-	{
-		uint32 vkCode = LOWORD(wParam);
-		wParam = MapWparamLeftRightKeys(wParam, lParam);
-		Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-		Internal::KeyMessageUpReceived(input);
-	}break;
-
-	case WM_CHAR:
-	{
-
-	}break;
-
-	case WM_MOUSEMOVE:
-	{
-		// 			int32 cursorX = LOWORD(lParam);
-		// 			int32 cursorY = HIWORD(lParam);
-		POINT cursor;
-		::GetCursorPos(&cursor);
-		Internal::MouseMovementChange(cursor.x, cursor.y);
-	}break;
-
-	default:
-	{
-		result = DefWindowProc(hwnd, message, wParam, lParam);
-	} break;
 	}
 
-	return result;
+	return DefWindowProc(hwnd, message, wParam, lParam);;
 }
+
+//////////////////////////////////////////////////////////////////////////
+// MusaAppWindows
+//////////////////////////////////////////////////////////////////////////
 
 MusaAppWindows::MusaAppWindows()
 {
@@ -269,5 +273,5 @@ MusaAppWindows::~MusaAppWindows()
 
 Window* MusaAppWindows::CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height)
 {
-	return new Window(instance, xPos, yPos, width, height);
+	return new Window(instance, *inputHandler, xPos, yPos, width, height);
 }

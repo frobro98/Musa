@@ -33,16 +33,19 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Engine\MusaEngine.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp" />
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
-    <ClCompile Include="..\..\Source\Musa\MusaEngine.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\RenderObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\RenderObjectManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\GameInput.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\WindowInputHandler.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\SpotLight.cpp" />
@@ -60,7 +63,7 @@
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp" />
     <ClCompile Include="..\..\Source\Musa\Visualization\EngineStatView.cpp" />
-    <ClCompile Include="..\..\Source\Musa\Windowing\Window.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h" />
@@ -90,18 +93,21 @@
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\MusaAppOS.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\MusaAppWindows.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\MusaEngine.hpp" />
     <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\GameInput.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\IInputReceiver.hpp" />
-    <ClInclude Include="..\..\Source\Musa\MusaEngine.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h" />
     <ClInclude Include="..\..\Source\Musa\GameObject\RenderObject.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\RenderObjectManager.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h" />
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\InputEvent.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\Internal\InputInternal.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\WindowInputHandler.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\Light.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\PointLight.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\SpotLight.hpp" />
@@ -130,7 +136,7 @@
     <ClInclude Include="..\..\Source\Musa\UI\UIWindow.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\EngineStatView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\ScreenTextItem.hpp" />
-    <ClInclude Include="..\..\Source\Musa\Windowing\Window.h" />
+    <ClInclude Include="..\..\Source\Musa\Window\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

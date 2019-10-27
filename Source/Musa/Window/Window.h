@@ -3,7 +3,7 @@
 #include "PlatformDefinitions.h"
 #include "Graphics.h"
 
-struct GLFWwindow;
+class WindowInputHandler;
 
 enum class WindowMode : uint32
 {
@@ -15,12 +15,10 @@ enum class WindowMode : uint32
 class Window
 {
 public:
-	Window(HINSTANCE instance, uint32 xPos, uint32 yPos, uint32 width, uint32 height);
+	Window(HINSTANCE instance, WindowInputHandler& inputHandler, uint32 xPos, uint32 yPos, uint32 width, uint32 height);
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
-
-	void Initialize();
 
 	void SetWindowMode(WindowMode mode);
 	int32 GetWidth() const;

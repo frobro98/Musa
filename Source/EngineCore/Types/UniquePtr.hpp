@@ -20,6 +20,8 @@ public:
 	OwnedType& operator*() const;
 	OwnedType* operator->() const;
 
+	operator bool() const;
+
 	OwnedType* Get() const;
 	void Reset(OwnedType* newPtr);
 	void Release();
@@ -76,6 +78,12 @@ template<typename OwnedType>
 inline OwnedType* UniquePtr<OwnedType>::operator->() const
 {
 	return ptr;
+}
+
+template<typename OwnedType>
+inline UniquePtr<OwnedType>::operator bool() const
+{
+	return ptr != nullptr;
 }
 
 template<typename OwnedType>

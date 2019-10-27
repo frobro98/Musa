@@ -6,7 +6,7 @@
 #include "Types/Intrinsics.hpp"
 #include "Math/Vector4.h"
 #include "Mesh/MeshManager.h"
-#include "Windowing/Window.h"
+#include "Window/Window.h"
 #include "Input/Input.hpp"
 #include "Texture/Texture2D/TextureManager.h"
 #include "DirectoryLocations.h"
@@ -55,26 +55,28 @@ void MusaEngine::InitializeGraphics()
 	InitializeShaders();
 }
 
-void MusaEngine::SetupWindowContext(Window& window_)
+void MusaEngine::SetupWindowContext(Window& window)
 {
-	window = &window_;
-	world = MakeUnique<GameWorld>(*window);
+	world = MakeUnique<GameWorld>(window);
+	viewport = MakeUnique<Viewport>(window.GetWindowHandle(), window.GetWidth(), window.GetHeight());
+
 	GetGameObjectManager().Initialize(*world);
 
-	InitializeInput(*window);
+	InitializeInput(window);
 }
 
 void MusaEngine::RunEngine()
 {
+	running = true;
 	// TODO - This should be available here, so the width and height should be removed
-	const int32 width = window->GetWidth();
-	const int32 height = window->GetHeight();
+	const int32 width = viewport->GetWidth();
+	const int32 height = viewport->GetHeight();
 
 	const float32 aspect = (float32)width / (float32)height;
-	const IntRect viewport = { 0, 0, width, height };
+	const IntRect viewportDim = { 0, 0, width, height };
 
 	Camera* mainCamera = new Camera;
-	mainCamera->SetViewport(viewport);
+	mainCamera->SetViewport(viewportDim);
 	mainCamera->SetPerspective(60.f, aspect, .1f, 10000.f);
 	mainCamera->SetOrientationAndPosition(Vector4(0, 0, 0), Vector4(0, 0, 155.f), Vector4(0, 1, 0));
 
@@ -96,13 +98,18 @@ void MusaEngine::RunEngine()
 
 	frameTick.Start();
 	// TODO - Should have an engine level boolean, so as to not be dependent on the window's state
-	while (window->IsActive())
+	while (running)
 	{
 		EngineFrame();
 	}
 
 	world.Release();
 	GetTextureManager().Deinitialize();
+}
+
+void MusaEngine::StopEngine()
+{
+	running = false;
 }
 
 static void CreateInputContext()
@@ -214,7 +221,7 @@ void MusaEngine::UpdateAndRenderWorld(float32 tick)
 	END_TIMED_BLOCK(Update);
 
 	BEGIN_TIMED_BLOCK(Render);
-	world->RenderWorld();
+	world->RenderWorld(*viewport);
 	END_TIMED_BLOCK(Render);
 }
 

@@ -3,7 +3,7 @@
 #include "Internal/InputInternal.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Utilities/CoreUtilities.hpp"
-#include "Windowing/Window.h"
+#include "Window/Window.h"
 #include "Math/MathUtilities.h"
 #include "Debugging/MetricInterface.hpp"
 

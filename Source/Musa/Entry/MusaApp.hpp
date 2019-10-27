@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Types/UniquePtr.hpp"
-#include "MusaEngine.hpp"
+#include "Engine/MusaEngine.hpp"
 #include "Engine/MusaAppOS.hpp"
-#include "Windowing/Window.h"
+#include "Window/Window.h"
 #include "UI/GameUIContext.hpp"
 
 class MusaApp
@@ -16,11 +16,9 @@ public:
 	inline GameUIContext& GetUIContext() const { return *uiContext; }
 
 private:
-
-
-private:
 	UniquePtr<MusaEngine> gameEngine;
 	UniquePtr<GameUIContext> uiContext;
+	UniquePtr<WindowInputHandler> inputHandler;
 	UniquePtr<Window> appWindow;
 	MusaAppOS* osApp;
 };
