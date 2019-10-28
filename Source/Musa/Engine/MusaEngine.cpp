@@ -46,6 +46,7 @@ METRIC_STAT(GatherMetrics, Engine);
 MusaEngine::MusaEngine(GameUIContext& context)
 	: uiContext(&context)
 {
+	gameInput = MakeUnique<GameInput>(*this);
 }
 
 void MusaEngine::InitializeGraphics()

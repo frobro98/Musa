@@ -7,6 +7,7 @@
 class Window;
 class ProfilerStatistics;
 class GameUIContext;
+class GameInput;
 
 class MusaEngine final
 {
@@ -20,6 +21,8 @@ public:
 
 	void StopEngine();
 
+	inline GameInput& GetGameInput() { return *gameInput; }
+
 private:
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene
 	void LoadContent();
@@ -32,6 +35,7 @@ private:
 	EngineTick frameTick;
 	UniquePtr<GameWorld> world;
 	UniquePtr<Viewport> viewport;
+	UniquePtr<GameInput> gameInput;
 	GameUIContext* uiContext = nullptr;
 
 	bool running = false;

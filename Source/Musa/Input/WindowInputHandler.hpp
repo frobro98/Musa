@@ -1,15 +1,15 @@
 #pragma once
 
 #include "Input/Input.hpp"
+#include "Input/GameInput.hpp"
 #include "Containers/DynamicArray.hpp"
 
 class IInputReceiver;
-class MusaApp;
 
 class WindowInputHandler final
 {
 public:
-	WindowInputHandler(MusaApp& app);
+	WindowInputHandler(GameInput& input);
 	void HandleKeyUp(Inputs::Type input);
 	void HandleKeyDown(Inputs::Type input, bool isRepeated);
 	void HandleKeyChar(tchar c, bool isRepeated);
@@ -23,6 +23,6 @@ public:
 
 private:
 	DynamicArray<IInputReceiver*> inputReceivers;
-	MusaApp& application;
+	GameInput& gameInput;
 	Window* window;
 };

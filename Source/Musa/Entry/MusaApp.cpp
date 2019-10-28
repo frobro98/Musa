@@ -5,7 +5,7 @@ MusaApp::MusaApp()
 {
 	uiContext = MakeUnique<GameUIContext>();
 	gameEngine = MakeUnique<MusaEngine>(*uiContext);
-	inputHandler = MakeUnique<WindowInputHandler>(*this);
+	inputHandler = MakeUnique<WindowInputHandler>(gameEngine->GetGameInput());
 	osApp = new MusaAppWindows();
 	// TODO - figure out if which level the input handler should live on...
 	osApp->SetInputHandler(inputHandler.Get());

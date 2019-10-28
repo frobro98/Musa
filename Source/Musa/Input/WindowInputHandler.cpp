@@ -1,8 +1,9 @@
 
 #include "WindowInputHandler.hpp"
+#include "GameInput.hpp"
 
-WindowInputHandler::WindowInputHandler(MusaApp& app)
-	: application(app)
+WindowInputHandler::WindowInputHandler(GameInput& input)
+	: gameInput(input)
 {
 }
 
@@ -11,9 +12,9 @@ void WindowInputHandler::HandleKeyUp(Inputs::Type input)
 	UNUSED(input);
 }
 
-void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool /*isRepeated*/)
+void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool isRepeated)
 {
-	UNUSED(input);
+	gameInput.OnKeyDown(input, isRepeated);
 }
 
 void WindowInputHandler::HandleKeyChar(tchar c, bool /*isRepeated*/)

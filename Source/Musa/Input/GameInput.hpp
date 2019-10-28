@@ -2,6 +2,7 @@
 
 #include "Input/IInputReceiver.hpp"
 
+class MusaEngine;
 
 struct GameInputSettings
 {
@@ -13,7 +14,7 @@ struct GameInputSettings
 class GameInput : public IInputReceiver
 {
 public:
-	GameInput();
+	GameInput(MusaEngine& engine);
 
 	inline GameInputSettings GetInputSettings() const { return inputSettings; }
 
@@ -23,5 +24,6 @@ public:
 	virtual void OnMouseMove(uint32 mouseX, uint32 mouseY) override;
 
 private:
+	MusaEngine& musaEngine;
 	GameInputSettings inputSettings;
 };

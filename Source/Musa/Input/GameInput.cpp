@@ -1,4 +1,10 @@
 #include "GameInput.hpp"
+#include "Engine/MusaEngine.hpp"
+
+GameInput::GameInput(MusaEngine& engine)
+	: musaEngine(engine)
+{
+}
 
 void GameInput::OnKeyUp(Inputs::Type input)
 {
@@ -7,6 +13,10 @@ void GameInput::OnKeyUp(Inputs::Type input)
 
 void GameInput::OnKeyDown(Inputs::Type input, bool isRepeated)
 {
+	if (input == Inputs::Key_Escape)
+	{
+		musaEngine.StopEngine();
+	}
 	UNUSED(input, isRepeated);
 }
 
