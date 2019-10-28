@@ -9,7 +9,7 @@ WindowInputHandler::WindowInputHandler(GameInput& input)
 
 void WindowInputHandler::HandleKeyUp(Inputs::Type input)
 {
-	UNUSED(input);
+	gameInput.OnKeyUp(input);
 }
 
 void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool isRepeated)
@@ -17,14 +17,14 @@ void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool isRepeated)
 	gameInput.OnKeyDown(input, isRepeated);
 }
 
-void WindowInputHandler::HandleKeyChar(tchar c, bool /*isRepeated*/)
+void WindowInputHandler::HandleKeyChar(tchar c, bool isRepeated)
 {
-	UNUSED(c);
+	gameInput.OnChar(c, isRepeated);
 }
 
 void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 {
-	UNUSED(mouseY, mouseX);
+	gameInput.OnMouseMove(mouseX, mouseY);
 }
 
 void WindowInputHandler::AddWindowInput(IInputReceiver* receiver)
