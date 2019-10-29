@@ -5,10 +5,8 @@ MusaApp::MusaApp()
 {
 	uiContext = MakeUnique<GameUIContext>();
 	gameEngine = MakeUnique<MusaEngine>(*uiContext);
-	inputHandler = MakeUnique<WindowInputHandler>(gameEngine->GetGameInput());
-	osApp = new MusaAppWindows();
-	// TODO - figure out if which level the input handler should live on...
-	osApp->SetInputHandler(inputHandler.Get());
+	auto inputHandler = MakeUnique<WindowInputHandler>(*this, gameEngine->GetGameInput());
+	osApp = new MusaAppWindows(std::move(inputHandler));
 }
 
 void MusaApp::LaunchApplication()
@@ -17,7 +15,7 @@ void MusaApp::LaunchApplication()
 	const int32 height = 720;
 
 	appWindow = osApp->CreateGameWindow(0, 0, width, height);
-	inputHandler->SetCurrentWindow(*appWindow);
+	osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
 
 	gameEngine->InitializeGraphics();
 	gameEngine->SetupWindowContext(*appWindow);

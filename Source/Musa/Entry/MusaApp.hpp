@@ -18,7 +18,6 @@ public:
 private:
 	UniquePtr<MusaEngine> gameEngine;
 	UniquePtr<GameUIContext> uiContext;
-	UniquePtr<WindowInputHandler> inputHandler;
 	UniquePtr<Window> appWindow;
 	MusaAppOS* osApp;
 };

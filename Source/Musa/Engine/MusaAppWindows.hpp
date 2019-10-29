@@ -5,7 +5,7 @@
 class MusaAppWindows final : public MusaAppOS
 {
 public:
-	MusaAppWindows();
+	MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler);
 	~MusaAppWindows();
 
 	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) override;

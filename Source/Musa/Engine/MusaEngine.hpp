@@ -3,6 +3,7 @@
 #include "Time/EngineTick.h"
 #include "Types/UniquePtr.hpp"
 #include "Scene/GameWorld.hpp"
+#include "Math/IntVector2.hpp"
 
 class Window;
 class ProfilerStatistics;
@@ -22,6 +23,7 @@ public:
 	void StopEngine();
 
 	inline GameInput& GetGameInput() { return *gameInput; }
+	inline IntVector2 GetViewDimensions() const { return IntVector2(viewport->GetWidth(), viewport->GetHeight()); }
 
 private:
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene

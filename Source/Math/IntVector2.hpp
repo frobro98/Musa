@@ -21,6 +21,7 @@ struct IntVector2
 	IntVector2& operator+=(const IntVector2& other);
 	IntVector2& operator-=(const IntVector2& other);
 	IntVector2& operator*=(int32 scalar);
+	IntVector2& operator/=(int32 scalar);
 
 	friend IntVector2 operator+(const IntVector2& v0, const IntVector2& v1)
 	{
@@ -47,6 +48,20 @@ struct IntVector2
 	{
 		IntVector2 ret(v);
 		ret *= scalar;
+		return ret;
+	}
+
+	friend IntVector2 operator/(const IntVector2& v, int32 scalar)
+	{
+		IntVector2 ret(v);
+		ret /= scalar;
+		return ret;
+	}
+
+	friend IntVector2 operator/(int32 scalar, const IntVector2& v)
+	{
+		IntVector2 ret(v);
+		ret /= scalar;
 		return ret;
 	}
 

@@ -49,3 +49,10 @@ IntVector2& IntVector2::operator*=(int32 scalar)
 	return *this;
 }
 
+IntVector2& IntVector2::operator/=(int32 scalar)
+{
+	x /= scalar;
+	y /= scalar;
+	return *this;
+}
+

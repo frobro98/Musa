@@ -146,6 +146,20 @@ Inputs::Type ConvertWin32ToMusaInput(uint32 vkCode)
 	}
 }
 
+Inputs::Type GetMouseType(WPARAM wParam)
+{
+	switch (wParam)
+	{
+		case MK_LBUTTON: return Inputs::Mouse_LeftButton;
+		case MK_RBUTTON: return Inputs::Mouse_RightButton;
+		case MK_MBUTTON: return Inputs::Mouse_MiddleButton;
+		case MK_XBUTTON1: return Inputs::Mouse_Button4;
+		case MK_XBUTTON2: return Inputs::Mouse_Button5;
+		default:
+			return Inputs::_INPUT_ENUM_MAX_;
+	}
+}
+
 // Basic Window callback
 LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -158,6 +172,12 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		{
 			switch (message)
 			{
+				case WM_ACTIVATEAPP:
+				{
+					bool activated = wParam;
+					inputHandler->OnActivationChanged(activated);
+				}break;
+
 				case  WM_CLOSE:
 				{
 					window->Close();
@@ -174,21 +194,19 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				}break;
 
 				case WM_LBUTTONDOWN:
-				{
-
-				}break;
-				case WM_LBUTTONUP:
-				{
-
-				}break;
-
 				case WM_RBUTTONDOWN:
+				case WM_MBUTTONDOWN:
 				{
-
+					Inputs::Type mouseButton = GetMouseType(wParam);
+					inputHandler->HandleMouseDown(mouseButton);
 				}break;
-				case WM_RBUTTONUP:
-				{
 
+				case WM_LBUTTONUP:
+				case WM_RBUTTONUP:
+				case WM_MBUTTONUP:
+				{
+					Inputs::Type mouseButton = GetMouseType(wParam);
+					inputHandler->HandleMouseUp(mouseButton);
 				}break;
 
 				case WM_SYSKEYDOWN:
@@ -205,10 +223,6 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 					inputHandler->HandleKeyDown(input, repeated);
 
-					if (input == Inputs::Key_Escape)
-					{
-						window->Close();
-					}
 				}break;
 
 				case WM_SYSKEYUP:
@@ -249,7 +263,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 // MusaAppWindows
 //////////////////////////////////////////////////////////////////////////
 
-MusaAppWindows::MusaAppWindows()
+MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
+	: MusaAppOS(std::move(inputHandler))
 {
 	instance = (HINSTANCE)GetModuleHandle(nullptr);
 
