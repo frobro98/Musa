@@ -174,6 +174,9 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			{
 				case WM_ACTIVATEAPP:
 				{
+					// Deactivating the app allows for the mouse to move freely again. This is done because the app isn't "active"
+					// Because of this, most of the input behavior won't happen, like setting the position to be the middle of the screen 
+					// or whatever every frame. This is the main thing that's prevented the mouse from moving outside of the engine....
 					bool activated = wParam;
 					inputHandler->OnActivationChanged(activated);
 				}break;
