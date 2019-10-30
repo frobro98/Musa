@@ -18,7 +18,8 @@ public:
 	void HandleKeyChar(tchar c, bool isRepeated);
 	void HandleMouseMove(uint32 mouseX, uint32 mouseY);
 
-	void OnActivationChanged(bool activated);
+	void HandleWindowClose();
+	void HandleActivationChanged(bool activated);
 
 	void AddWindowInput(IInputReceiver* receiver);
 	void RemoveWindowInput(IInputReceiver* receiver);

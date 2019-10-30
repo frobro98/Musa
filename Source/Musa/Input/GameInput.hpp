@@ -36,6 +36,8 @@ public:
 	virtual IInputReceiver* GetChildInput() const override { return nullptr; }
 	virtual IInputReceiver* GetSiblingInput() const override { return nullptr; }
 
+	void OnWindowClose();
+
 	void LockCusorToView(bool shouldLock);
 	void ShowCursor(bool shouldShow);
 

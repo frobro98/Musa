@@ -3,7 +3,12 @@
 #include "MusaAppWindows.hpp"
 #include "InputDefinitions.hpp"
 #include "Window/Window.h"
+#include "Debugging/MetricInterface.hpp"
 #include "Input/Internal/InputInternal.hpp"
+
+DECLARE_METRIC_GROUP(WindowsInput);
+METRIC_STAT(PumpMessages, WindowsInput);
+
 
 WPARAM MapWparamLeftRightKeys(WPARAM wparam, LPARAM lparam)
 {
@@ -177,12 +182,14 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 					// Deactivating the app allows for the mouse to move freely again. This is done because the app isn't "active"
 					// Because of this, most of the input behavior won't happen, like setting the position to be the middle of the screen 
 					// or whatever every frame. This is the main thing that's prevented the mouse from moving outside of the engine....
+
 					bool activated = wParam;
-					inputHandler->OnActivationChanged(activated);
+					inputHandler->HandleActivationChanged(activated);
 				}break;
 
 				case  WM_CLOSE:
 				{
+					inputHandler->HandleWindowClose();
 					window->Close();
 				}break;
 
@@ -285,11 +292,18 @@ MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
 	}
 }
 
-MusaAppWindows::~MusaAppWindows()
-{
-}
-
 Window* MusaAppWindows::CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height)
 {
 	return new Window(instance, *inputHandler, xPos, yPos, width, height);
+}
+
+void MusaAppWindows::ProcessInputEvents()
+{
+	SCOPED_TIMED_BLOCK(PumpMessages);
+	MSG Message;
+	while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&Message);
+		DispatchMessage(&Message);
+	}
 }

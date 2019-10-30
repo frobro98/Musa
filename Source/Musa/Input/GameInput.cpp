@@ -53,6 +53,11 @@ void GameInput::OnActivationChanged(bool activated)
 	UNUSED(activated);
 }
 
+void GameInput::OnWindowClose()
+{
+	musaEngine.StopEngine();
+}
+
 void GameInput::LockCusorToView(bool shouldLock)
 {
 	inputSettings.lockCursorToGame = shouldLock;

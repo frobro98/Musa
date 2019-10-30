@@ -41,7 +41,7 @@ DECLARE_METRIC_GROUP(Engine);
 METRIC_STAT(UpdateAndRender, Engine);
 METRIC_STAT(Update, Engine);
 METRIC_STAT(Render, Engine);
-METRIC_STAT(GatherMetrics, Engine);
+//METRIC_STAT(GatherMetrics, Engine);
 
 MusaEngine::MusaEngine(GameUIContext& context)
 	: uiContext(&context)
@@ -63,12 +63,11 @@ void MusaEngine::SetupWindowContext(Window& window)
 
 	GetGameObjectManager().Initialize(*world);
 
-	InitializeInput(window);
+	InitializeInput();
 }
 
-void MusaEngine::RunEngine()
+void MusaEngine::InitializeSceneView()
 {
-	running = true;
 	// TODO - This should be available here, so the width and height should be removed
 	const int32 width = viewport->GetWidth();
 	const int32 height = viewport->GetHeight();
@@ -84,28 +83,25 @@ void MusaEngine::RunEngine()
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
 
-	GetTextureManager().AddTexture(*WhiteTexture());
-	GetTextureManager().AddTexture(*BlackTexture());
-
-	GetMeshManager().LoadPrimitive(Primitive::Box);
-	GetMeshManager().LoadPrimitive(Primitive::Plane);
-	GetMeshManager().LoadPrimitive(Primitive::Sphere);
-	GetMeshManager().LoadPrimitive(Primitive::Pyramid);
-
 	GodCamera* godCam = GetGameObjectManager().CreateAndAdd<GodCamera>(*mainCamera);
 	AddInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
+}
+
+void MusaEngine::RunEngine()
+{
+	running = true;
+
 
 	LoadContent();
 
-	frameTick.Start();
-	// TODO - Should have an engine level boolean, so as to not be dependent on the window's state
-	while (running)
-	{
-		EngineFrame();
-	}
 
 	world.Release();
 	GetTextureManager().Deinitialize();
+}
+
+void MusaEngine::StartEngine()
+{
+	running = true;
 }
 
 void MusaEngine::StopEngine()
@@ -178,6 +174,15 @@ static void CreateInputContext()
 
 void MusaEngine::LoadContent()
 {
+	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
+	GetTextureManager().AddTexture(*WhiteTexture());
+	GetTextureManager().AddTexture(*BlackTexture());
+
+	GetMeshManager().LoadPrimitive(Primitive::Box);
+	GetMeshManager().LoadPrimitive(Primitive::Plane);
+	GetMeshManager().LoadPrimitive(Primitive::Sphere);
+	GetMeshManager().LoadPrimitive(Primitive::Pyramid);
+
 	CreateInputContext();
 
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
@@ -198,23 +203,9 @@ void MusaEngine::LoadContent()
 	world->GetScene().AddLightToScene(*light);
 }
 
-void MusaEngine::EngineFrame()
-{
-	frameTick.Lap();
-	const float32 tick = (float32)frameTick.GetSeconds();
-	frameTick.Start();
-
-	Frame::SetFrameStats({ tick });
-
-	UpdateAndRenderWorld(tick);
-
-	GatherFrameMetrics();
-}
-
 void MusaEngine::UpdateAndRenderWorld(float32 tick)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
-	InputUpdate();
 
 	BEGIN_TIMED_BLOCK(Update);
 	world->TickWorld(tick);

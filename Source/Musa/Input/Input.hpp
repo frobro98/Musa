@@ -4,7 +4,7 @@
 #include "String/StringView.hpp"
 #include "Containers/Map.h"
 #include "InputDefinitions.hpp"
-#include "Math/Vector2.hpp"
+#include "Math/IntVector2.hpp"
 
 class InputManager;
 class Window;
@@ -55,7 +55,7 @@ InputContext MakeInputContext(const StringView& name);
 
 using InputCallback = std::function<void(const FrameInputs&)>;
 
-void InitializeInput(Window& win);
+void InitializeInput();
 void InputUpdate();
 
 void AddInputCallback(InputCallback&& callback);
@@ -64,4 +64,4 @@ void PushInputContext(StringView vs);
 void RemoveInputContext(StringView vs);
 bool IsInputPressed(Inputs::Type key);
 bool IsInputDown(Inputs::Type key);
-Vector2 GetMousePosition();
+IntVector2 GetMousePosition();

@@ -14,6 +14,7 @@ public:
 	virtual ~MusaAppOS() = default;
 
 	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) = 0;
+	virtual void ProcessInputEvents() = 0;
 
 	inline WindowInputHandler* GetInputHandler() { Assert(inputHandler); return inputHandler.Get(); }
 

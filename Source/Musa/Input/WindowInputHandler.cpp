@@ -1,6 +1,7 @@
 
 #include "WindowInputHandler.hpp"
 #include "GameInput.hpp"
+#include "Window/Window.h"
 
 WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
 	: gameInput(input),
@@ -68,7 +69,16 @@ void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 	gameInput.OnMouseMove(mouseX, mouseY);
 }
 
-void WindowInputHandler::OnActivationChanged(bool activated)
+void WindowInputHandler::HandleWindowClose()
+{
+	if (window)
+	{
+		window->Close();
+		gameInput.OnWindowClose();
+	}
+}
+
+void WindowInputHandler::HandleActivationChanged(bool activated)
 {
 	for (auto& receiver : inputReceivers)
 	{
