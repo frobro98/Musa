@@ -1,18 +1,19 @@
 #pragma once
 
 #include "InputDefinitions.hpp"
+#include "Input/InputEvents.hpp"
 
 class IInputReceiver
 {
 public:
-	virtual void OnMouseMove(uint32 mouseX, uint32 mouseY) = 0;
-	virtual void OnMouseDown(Inputs::Type input) = 0;
-	virtual void OnMouseUp(Inputs::Type input) = 0;
-	virtual void OnKeyDown(Inputs::Type input, bool isRepeated) = 0;
-	virtual void OnKeyUp(Inputs::Type input) = 0;
-	virtual void OnChar(tchar c, bool isRepeated) = 0;
-	virtual void OnFocusReceived() = 0;
-	virtual void OnFocusLost() = 0;
+	virtual InputEvents OnMouseMove(uint32 mouseX, uint32 mouseY) = 0;
+	virtual InputEvents OnMouseDown(Inputs::Type input) = 0;
+	virtual InputEvents OnMouseUp(Inputs::Type input) = 0;
+	virtual InputEvents OnKeyDown(Inputs::Type input, bool isRepeated) = 0;
+	virtual InputEvents OnKeyUp(Inputs::Type input) = 0;
+	virtual InputEvents OnChar(tchar c, bool isRepeated) = 0;
+	virtual InputEvents OnFocusReceived() = 0;
+	virtual InputEvents OnFocusLost() = 0;
 
 	virtual void OnActivationChanged(bool activated) = 0;
 

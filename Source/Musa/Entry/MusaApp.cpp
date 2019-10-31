@@ -25,6 +25,27 @@ void MusaApp::LaunchApplication()
 	// TODO - Shutdown stuff for the application...
 }
 
+void MusaApp::LockCursor()
+{
+	IntVector2 position = appWindow->GetPosition();
+	IntRect rect = {};
+	rect.x = position.x;
+	rect.y = position.y;
+	rect.width = appWindow->GetWidth();
+	rect.height = appWindow->GetHeight();
+	osApp->LockCursorToRect(rect);
+}
+
+void MusaApp::UnlockCursor()
+{
+	osApp->UnlockCursorFromRect();
+}
+
+void MusaApp::SetMousePosition(const IntVector2& mousePos)
+{
+	osApp->SetMousePosition(mousePos);
+}
+
 void MusaApp::InitializeOSInput()
 {
 	InitializeInput();

@@ -16,6 +16,11 @@ public:
 
 	inline GameUIContext& GetUIContext() const { return *uiContext; }
 
+	void LockCursor();
+	void UnlockCursor();
+
+	void SetMousePosition(const IntVector2& mousePos);
+
 private:
 	void InitializeOSInput();
 	void InitializeApplicationWindow();

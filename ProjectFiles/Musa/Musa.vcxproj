@@ -105,7 +105,8 @@
     <ClInclude Include="..\..\Source\Musa\GameObject\RenderObjectManager.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h" />
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
-    <ClInclude Include="..\..\Source\Musa\Input\InputEvent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\InputEvents.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\InputSettings.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\Internal\InputInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\WindowInputHandler.hpp" />
     <ClInclude Include="..\..\Source\Musa\Lighting\Light.hpp" />

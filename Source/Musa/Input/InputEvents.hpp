@@ -1,7 +1,9 @@
 #pragma once
 
-struct InputEvent
+// Describes the input state as it is after some form of input is handled
+struct InputEvents
 {
+	bool containsEvents;
 	// Purpose for this is to communicate from UI and Game up to the input processing
 	// Will be used for setting input captures\
 

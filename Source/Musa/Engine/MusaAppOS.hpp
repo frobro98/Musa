@@ -3,9 +3,11 @@
 #include "Types/Intrinsics.hpp"
 #include "Types/UniquePtr.hpp"
 #include "Input/WindowInputHandler.hpp"
+#include "Math/Rect.hpp"
 
 class MusaApp;
 class Window;
+struct IntVector2;
 
 class MusaAppOS
 {
@@ -14,6 +16,11 @@ public:
 	virtual ~MusaAppOS() = default;
 
 	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) = 0;
+	
+	virtual void SetMousePosition(const IntVector2& mousePos) = 0;
+	virtual void LockCursorToRect(const IntRect& rect) = 0;
+	virtual void UnlockCursorFromRect() = 0;
+
 	virtual void ProcessInputEvents() = 0;
 
 	inline WindowInputHandler* GetInputHandler() { Assert(inputHandler); return inputHandler.Get(); }

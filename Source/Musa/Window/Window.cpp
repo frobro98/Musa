@@ -6,6 +6,7 @@
 
 Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler, uint32 xPos, uint32 yPos, uint32 w, uint32 h)
 	: window(nullptr),
+	position(xPos, yPos),
 	width(w),
 	height(h),
 	isShown(false)
@@ -152,21 +153,6 @@ void Window::SetAsActiveWindow()
 bool Window::IsActive() const
 {
 	return isActive;
-}
-
-void Window::SwapBuffers()
-{
-	
-}
-
-int32 Window::GetWidth() const
-{
-	return width;
-}
-
-int32 Window::GetHeight() const
-{
-	return height;
 }
 
 void* Window::GetWindowHandle() const

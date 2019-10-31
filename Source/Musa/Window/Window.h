@@ -2,6 +2,7 @@
 
 #include "PlatformDefinitions.h"
 #include "Graphics.h"
+#include "Math/IntVector2.hpp"
 
 class WindowInputHandler;
 
@@ -21,23 +22,24 @@ public:
 	Window& operator=(const Window&) = delete;
 
 	void SetWindowMode(WindowMode mode);
-	int32 GetWidth() const;
-	int32 GetHeight() const;
 	void* GetWindowHandle() const;
 
 	void Show();
 	void Hide();
 	bool IsActive() const;
-	void SwapBuffers();
 
 	void SetAsActiveWindow();
 	void Close();
 	void Resize();
 
+	inline IntVector2 GetPosition() const { return position; }
+	inline int32 GetWidth() const { return width; }
+	inline int32 GetHeight() const { return height; }
+
 private:
 	WINDOWPLACEMENT previousPlacement;
 	HWND window;
-
+	IntVector2 position;
 	int32 width;
 	int32 height;
 	WindowMode windowMode;

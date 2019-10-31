@@ -437,7 +437,10 @@
     <ClInclude Include="..\..\Source\Musa\Input\GameInput.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\InputEvent.hpp">
+    <ClInclude Include="..\..\Source\Musa\Input\InputSettings.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputEvents.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
   </ItemGroup>

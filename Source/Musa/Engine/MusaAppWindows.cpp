@@ -297,6 +297,26 @@ Window* MusaAppWindows::CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width,
 	return new Window(instance, *inputHandler, xPos, yPos, width, height);
 }
 
+void MusaAppWindows::SetMousePosition(const IntVector2& mousePos)
+{
+	::SetCursorPos(mousePos.x, mousePos.y);
+}
+
+void MusaAppWindows::LockCursorToRect(const IntRect& rect)
+{
+	RECT r = {};
+	r.left = rect.x;
+	r.top = rect.y;
+	r.right = rect.x + rect.width;
+	r.bottom = rect.y + rect.height;
+	::ClipCursor(&r);
+}
+
+void MusaAppWindows::UnlockCursorFromRect()
+{
+	::ClipCursor(nullptr);
+}
+
 void MusaAppWindows::ProcessInputEvents()
 {
 	SCOPED_TIMED_BLOCK(PumpMessages);
