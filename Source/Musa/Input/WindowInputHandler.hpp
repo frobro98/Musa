@@ -28,6 +28,9 @@ public:
 	inline Window* GetWindow() { return window; }
 
 private:
+	void HandleInputEvents(const InputEvents& events);
+
+private:
 	DynamicArray<IInputReceiver*> inputReceivers;
 	GameInput& gameInput;
 	MusaApp& application;

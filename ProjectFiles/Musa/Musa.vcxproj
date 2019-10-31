@@ -45,6 +45,7 @@
     <ClCompile Include="..\..\Source\Musa\GameObject\RenderObjectManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\GameInput.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\WindowInputHandler.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp" />

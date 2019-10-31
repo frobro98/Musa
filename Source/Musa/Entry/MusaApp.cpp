@@ -41,6 +41,11 @@ void MusaApp::UnlockCursor()
 	osApp->UnlockCursorFromRect();
 }
 
+void MusaApp::ShowCursor(bool showCursor)
+{
+	osApp->ShowCursor(showCursor);
+}
+
 void MusaApp::SetMousePosition(const IntVector2& mousePos)
 {
 	osApp->SetMousePosition(mousePos);

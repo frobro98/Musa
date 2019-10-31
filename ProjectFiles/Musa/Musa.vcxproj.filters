@@ -225,6 +225,9 @@
     <ClCompile Include="..\..\Source\Musa\Input\GameInput.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">

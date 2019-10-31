@@ -42,5 +42,6 @@ public:
 private:
 	InputSettings inputSettings;
 	MusaEngine& musaEngine;
+	IntVector2 hiddenMousePosition;
 	bool inputSettingsDirty;
 };

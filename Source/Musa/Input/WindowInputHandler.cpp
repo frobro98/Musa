@@ -1,6 +1,7 @@
 
 #include "WindowInputHandler.hpp"
 #include "GameInput.hpp"
+#include "InputEvents.hpp"
 #include "Window/Window.h"
 
 WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
@@ -96,4 +97,12 @@ void WindowInputHandler::AddWindowInput(IInputReceiver* receiver)
 void WindowInputHandler::RemoveWindowInput(IInputReceiver* receiver)
 {
 	inputReceivers.RemoveAll(receiver);
+}
+
+void WindowInputHandler::HandleInputEvents(const InputEvents& events)
+{
+	if (events.ContainsEvents())
+	{
+
+	}
 }

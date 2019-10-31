@@ -18,7 +18,7 @@ public:
 
 	void LockCursor();
 	void UnlockCursor();
-
+	void ShowCursor(bool showCursor);
 	void SetMousePosition(const IntVector2& mousePos);
 
 private:

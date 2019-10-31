@@ -297,6 +297,11 @@ Window* MusaAppWindows::CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width,
 	return new Window(instance, *inputHandler, xPos, yPos, width, height);
 }
 
+void MusaAppWindows::ShowCursor(bool showCursor)
+{
+	::ShowCursor(showCursor);
+}
+
 void MusaAppWindows::SetMousePosition(const IntVector2& mousePos)
 {
 	::SetCursorPos(mousePos.x, mousePos.y);

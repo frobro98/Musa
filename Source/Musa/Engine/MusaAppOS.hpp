@@ -17,6 +17,7 @@ public:
 
 	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) = 0;
 	
+	virtual void ShowCursor(bool showCursor) = 0;
 	virtual void SetMousePosition(const IntVector2& mousePos) = 0;
 	virtual void LockCursorToRect(const IntRect& rect) = 0;
 	virtual void UnlockCursorFromRect() = 0;
