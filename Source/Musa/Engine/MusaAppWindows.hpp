@@ -11,11 +11,14 @@ public:
 
 	virtual void ShowCursor(bool showCursor) override;
 	virtual void SetMousePosition(const IntVector2& mousePos) override;
+	virtual IntVector2 GetMousePosition() const override;
 	virtual void LockCursorToRect(const IntRect& rect) override;
 	virtual void UnlockCursorFromRect() override;
 
 
 	virtual void ProcessInputEvents() override;
+
+	void PostProcessInputEvents();
 
 private:
 	HINSTANCE instance;

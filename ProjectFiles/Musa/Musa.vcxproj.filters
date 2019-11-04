@@ -228,6 +228,9 @@
     <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\PlayerInputContext.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -444,6 +447,12 @@
       <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\InputEvents.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\PlayerInputContext.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
   </ItemGroup>

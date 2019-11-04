@@ -3,6 +3,7 @@
 #include "GameInput.hpp"
 #include "InputEvents.hpp"
 #include "Window/Window.h"
+#include "Entry/MusaApp.hpp"
 
 WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
 	: gameInput(input),
@@ -12,62 +13,103 @@ WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
 
 void WindowInputHandler::HandleKeyUp(Inputs::Type input)
 {
-	for (auto& receiver : inputReceivers)
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver) 
 	{
-		receiver->OnKeyUp(input);
-	}
+		Assert(receiver);
+		return receiver->OnKeyUp(input);
+	});
 
-	gameInput.OnKeyUp(input);
+	if (!events.IsInputHandled())
+	{
+		gameInput.OnKeyUp(input);
+	}
 }
 
 void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool isRepeated)
 {
-	for (auto& receiver : inputReceivers)
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
-		receiver->OnKeyDown(input, isRepeated);
-	}
+		Assert(receiver);
+		return receiver->OnKeyDown(input, isRepeated);
+	});
 
-	gameInput.OnKeyDown(input, isRepeated);
+	if (!events.IsInputHandled())
+	{
+		gameInput.OnKeyDown(input, isRepeated);
+	}
 }
 
 void WindowInputHandler::HandleMouseDown(Inputs::Type mouseButton)
 {
-	for (auto& receiver : inputReceivers)
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
-		receiver->OnMouseDown(mouseButton);
-	}
+		Assert(receiver);
+		return receiver->OnMouseDown(mouseButton);
+	});
 
-	gameInput.OnMouseDown(mouseButton);
+	if (!events.IsInputHandled())
+	{
+		gameInput.OnMouseDown(mouseButton);
+	}
 }
 
 void WindowInputHandler::HandleMouseUp(Inputs::Type mouseButton)
 {
-	for (auto& receiver : inputReceivers)
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
-		receiver->OnMouseUp(mouseButton);
-	}
+		Assert(receiver);
+		return receiver->OnMouseUp(mouseButton);
+	});
 
-	gameInput.OnMouseUp(mouseButton);
+	if (!events.IsInputHandled())
+	{
+		gameInput.OnMouseUp(mouseButton);
+	}
 }
 
 void WindowInputHandler::HandleKeyChar(tchar c, bool isRepeated)
 {
-	for (auto& receiver : inputReceivers)
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
-		receiver->OnChar(c, isRepeated);
-	}
+		Assert(receiver);
+		return receiver->OnChar(c, isRepeated);
+	});
 
-	gameInput.OnChar(c, isRepeated);
+	if (!events.IsInputHandled())
+	{
+		gameInput.OnChar(c, isRepeated);
+	}
 }
 
 void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 {
-	for (auto& receiver : inputReceivers)
+	IntVector2 mouseMovePos = IntVector2(mouseX, mouseY);
+	currentMousePos = mouseMovePos;
+	
+	if (currentMousePos != prevMousePos)
 	{
-		receiver->OnMouseMove(mouseX, mouseY);
-	}
+		InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
+		{
+			Assert(receiver);
+			return receiver->OnMouseMove(mouseMovePos, prevMousePos);
+		});
 
-	gameInput.OnMouseMove(mouseX, mouseY);
+		if (!events.IsInputHandled())
+		{
+			events = gameInput.OnMouseMove(mouseMovePos, prevMousePos);
+			HandleInputEvents(events);
+		}
+
+		prevMousePos = mouseMovePos;
+	}
+}
+
+void WindowInputHandler::HandleWindowResized(uint32 newWidth, uint32 newHeight)
+{
+	if (window)
+	{
+		window->Resize(newWidth, newHeight);
+	}
 }
 
 void WindowInputHandler::HandleWindowClose()
@@ -81,12 +123,21 @@ void WindowInputHandler::HandleWindowClose()
 
 void WindowInputHandler::HandleActivationChanged(bool activated)
 {
+	// TODO - Finish having the same processing as the other handle inputs
 	for (auto& receiver : inputReceivers)
 	{
 		receiver->OnActivationChanged(activated);
 	}
 
 	gameInput.OnActivationChanged(activated);
+}
+
+void WindowInputHandler::SetInputFocusToGame()
+{
+}
+
+void WindowInputHandler::PostUpdateInput()
+{
 }
 
 void WindowInputHandler::AddWindowInput(IInputReceiver* receiver)
@@ -103,6 +154,10 @@ void WindowInputHandler::HandleInputEvents(const InputEvents& events)
 {
 	if (events.ContainsEvents())
 	{
-
+		std::optional<IntVector2> mousePos = events.GetChangedMousePosition();
+		if (mousePos)
+		{
+			application.SetMousePosition(mousePos.value());
+		}
 	}
 }

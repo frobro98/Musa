@@ -183,9 +183,6 @@
     <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp">
       <Filter>Source\Types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\InputDefinitions.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Types\Optional.h">
       <Filter>Source\Types</Filter>
     </ClInclude>

@@ -62,8 +62,6 @@ void MusaEngine::SetupWindowContext(Window& window)
 	viewport = MakeUnique<Viewport>(window.GetWindowHandle(), window.GetWidth(), window.GetHeight());
 
 	GetGameObjectManager().Initialize(*world);
-
-	InitializeInput();
 }
 
 void MusaEngine::InitializeSceneView()
@@ -84,7 +82,7 @@ void MusaEngine::InitializeSceneView()
 	GetCameraManager().SetActiveCamera("Main Camera");
 
 	GodCamera* godCam = GetGameObjectManager().CreateAndAdd<GodCamera>(*mainCamera);
-	AddInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
+	gameInput->RegisterInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
 }
 
 void MusaEngine::RunEngine()
@@ -109,9 +107,9 @@ void MusaEngine::StopEngine()
 	running = false;
 }
 
-static void CreateInputContext()
+static void CreateInputContext(GameInput& gameInput)
 {
-	InputContext mainContext = MakeInputContext("Main Context");
+	PlayerInputContext mainContext = MakeInputContext("Main Context");
 	RangedInput mouseXInput;
 	mouseXInput.range = {
 		-100, 100, -1, 1
@@ -168,8 +166,8 @@ static void CreateInputContext()
 	};
 	mainContext.inputStates.Add(input);
 
-	AddInputContext(mainContext);
-	PushInputContext("Main Context");
+	gameInput.AddInputContext(mainContext);
+	gameInput.PushInputContext("Main Context");
 }
 
 void MusaEngine::LoadContent()
@@ -183,7 +181,7 @@ void MusaEngine::LoadContent()
 	GetMeshManager().LoadPrimitive(Primitive::Sphere);
 	GetMeshManager().LoadPrimitive(Primitive::Pyramid);
 
-	CreateInputContext();
+	CreateInputContext(*gameInput);
 
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 

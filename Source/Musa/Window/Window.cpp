@@ -1,6 +1,6 @@
 #include "EngineCore/Platform.h"
 #include "Window.h"
-#include "InputDefinitions.hpp"
+#include "Input/InputDefinitions.hpp"
 #include "Input/Internal/InputInternal.hpp"
 
 
@@ -33,22 +33,22 @@ Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler, uint32 xPos
 
 	RECT windowRect;
 	GetWindowRect(window, &windowRect);
-	int32 originX = windowRect.left;
-	int32 originY = windowRect.top;
 
 	Show();
-	ShowCursor(FALSE);
+//	ShowCursor(FALSE);
 
-	RECT cursorRect = {};
-	cursorRect.left = originX;
-	cursorRect.top = originY;
-	cursorRect.right = width;
-	cursorRect.bottom = height;
-	ClipCursor(&cursorRect);
-
-	int32 centerX = originX + (width / 2);
-	int32 centerY = originY + (height / 2);
-	SetCursorPos(centerX, centerY);
+// 	int32 originX = windowRect.left;
+// 	int32 originY = windowRect.top;
+// 	RECT cursorRect = {};
+// 	cursorRect.left = originX;
+// 	cursorRect.top = originY;
+// 	cursorRect.right = width;
+// 	cursorRect.bottom = height;
+// 	ClipCursor(&cursorRect);
+// 
+// 	int32 centerX = originX + (width / 2);
+// 	int32 centerY = originY + (height / 2);
+// 	SetCursorPos(centerX, centerY);
 
 	isActive = true;
 
@@ -76,9 +76,9 @@ void Window::Close()
 	}
 }
 
-void Window::Resize()
+void Window::Resize(uint32 w, uint32 h)
 {
-
+	UNUSED(w, h);
 }
 
 void Window::Show()

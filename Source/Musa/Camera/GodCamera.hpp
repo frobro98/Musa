@@ -5,6 +5,7 @@
 #include "Input/Input.hpp"
 
 class Camera;
+struct FrameInputs;
 
 class GodCamera : public GameObject
 {

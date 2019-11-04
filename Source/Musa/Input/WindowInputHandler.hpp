@@ -6,6 +6,7 @@
 
 class IInputReceiver;
 class MusaApp;
+class Window;
 
 class WindowInputHandler final
 {
@@ -18,8 +19,13 @@ public:
 	void HandleKeyChar(tchar c, bool isRepeated);
 	void HandleMouseMove(uint32 mouseX, uint32 mouseY);
 
+	void HandleWindowResized(uint32 newWidth, uint32 newHeight);
 	void HandleWindowClose();
 	void HandleActivationChanged(bool activated);
+
+	void SetInputFocusToGame();
+
+	void PostUpdateInput();
 
 	void AddWindowInput(IInputReceiver* receiver);
 	void RemoveWindowInput(IInputReceiver* receiver);
@@ -28,9 +34,24 @@ public:
 	inline Window* GetWindow() { return window; }
 
 private:
+	template <typename Func>
+	InputEvents ProcessInputReceivers(Func&& receiverFunc)
+	{
+		InputEvents events;
+		for(int32 i = (int32)inputReceivers.Size() - 1; i >= 0 && !events.IsInputHandled(); --i)
+		{
+			events = receiverFunc(inputReceivers[i]);
+			HandleInputEvents(events);
+		}
+
+		return events;
+	}
+
 	void HandleInputEvents(const InputEvents& events);
 
 private:
+	IntVector2 currentMousePos;
+	IntVector2 prevMousePos;
 	DynamicArray<IInputReceiver*> inputReceivers;
 	GameInput& gameInput;
 	MusaApp& application;

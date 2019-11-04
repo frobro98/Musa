@@ -46,6 +46,7 @@
     <ClCompile Include="..\..\Source\Musa\Input\GameInput.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\PlayerInputContext.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\WindowInputHandler.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp" />
@@ -106,6 +107,8 @@
     <ClInclude Include="..\..\Source\Musa\GameObject\RenderObjectManager.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h" />
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\PlayerInputContext.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\InputEvents.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\InputSettings.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\Internal\InputInternal.hpp" />

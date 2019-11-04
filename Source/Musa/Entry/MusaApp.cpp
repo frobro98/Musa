@@ -2,6 +2,7 @@
 #include "Engine/MusaAppWindows.hpp"
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
+#include "Input/Internal/InputInternal.hpp"
 
 MusaApp::MusaApp()
 {
@@ -51,9 +52,14 @@ void MusaApp::SetMousePosition(const IntVector2& mousePos)
 	osApp->SetMousePosition(mousePos);
 }
 
+IntVector2 MusaApp::GetMousePosition() const
+{
+	return osApp->GetMousePosition();
+}
+
 void MusaApp::InitializeOSInput()
 {
-	InitializeInput();
+	Input::InitializeInput(*this);
 
 	auto inputHandler = MakeUnique<WindowInputHandler>(*this, gameEngine->GetGameInput());
 	osApp = new MusaAppWindows(std::move(inputHandler));
@@ -77,6 +83,8 @@ void MusaApp::SetupGameEngine()
 
 	gameEngine->LoadContent();
 
+	
+
 	gameEngine->StartEngine();
 
 	frameTick.Start();
@@ -88,10 +96,12 @@ void MusaApp::ApplicationUpdate()
 	const float32 tick = (float32)frameTick.GetSeconds();
 	frameTick.Start();
 
-	// Process input
-	osApp->ProcessInputEvents();
-
 	Frame::SetFrameStats({ tick });
+
+	// Process input
+	Internal::UpdateInputMap();
+	osApp->ProcessInputEvents();
+	osApp->PostProcessInputEvents();
 
 	gameEngine->UpdateAndRenderWorld(tick);
 

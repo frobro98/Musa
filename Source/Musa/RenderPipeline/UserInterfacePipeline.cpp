@@ -70,7 +70,7 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 		buffer.viewPosition = view.description.origin;
 		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}
-	if (IsInputPressed(Inputs::Key_F1))
+	if (Input::IsPressed(Inputs::Key_F1))
 	{
 		statView.ToggleStats();
 	}

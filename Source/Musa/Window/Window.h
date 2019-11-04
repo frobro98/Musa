@@ -30,7 +30,7 @@ public:
 
 	void SetAsActiveWindow();
 	void Close();
-	void Resize();
+	void Resize(uint32 width, uint32 height);
 
 	inline IntVector2 GetPosition() const { return position; }
 	inline int32 GetWidth() const { return width; }

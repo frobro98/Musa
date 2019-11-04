@@ -6,7 +6,7 @@
 class IInputReceiver
 {
 public:
-	virtual InputEvents OnMouseMove(uint32 mouseX, uint32 mouseY) = 0;
+	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos) = 0;
 	virtual InputEvents OnMouseDown(Inputs::Type input) = 0;
 	virtual InputEvents OnMouseUp(Inputs::Type input) = 0;
 	virtual InputEvents OnKeyDown(Inputs::Type input, bool isRepeated) = 0;

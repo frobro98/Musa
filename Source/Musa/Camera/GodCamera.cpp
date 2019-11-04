@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "Input/Input.hpp"
 #include "Engine/FrameData.hpp"
+#include "Input/GameInput.hpp"
 
 GodCamera::GodCamera(Camera& cam)
 	: camera(cam)
@@ -34,11 +35,11 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 	float32 changeX = 0, changeY = 0;
 	for (const auto& range : inputs.ranges)
 	{
-		if (range.input->input == Inputs::Mouse_XAxis)
+		if (range.input->type == Inputs::Mouse_XAxis)
 		{
 			changeX = range.rangeValue;
 		}
-		if (range.input->input == Inputs::Mouse_YAxis)
+		if (range.input->type == Inputs::Mouse_YAxis)
 		{
 			changeY = range.rangeValue;
 		}
@@ -48,27 +49,27 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 
 	for (const auto& state : inputs.states)
 	{
-		if (state->input == Inputs::Key_W)
+		if (state->type == Inputs::Key_W)
 		{
 			MoveCameraForward();
 		}
-		else if (state->input == Inputs::Key_S)
+		else if (state->type == Inputs::Key_S)
 		{
 			MoveCameraBackward();
 		}
-		else if (state->input == Inputs::Key_A)
+		else if (state->type == Inputs::Key_A)
 		{
 			MoveCameraLeft();
 		}
-		else if (state->input == Inputs::Key_D)
+		else if (state->type == Inputs::Key_D)
 		{
 			MoveCameraRight();
 		}
-		else if (state->input == Inputs::Key_E)
+		else if (state->type == Inputs::Key_E)
 		{
 			MoveCameraUp();
 		}
-		else if (state->input == Inputs::Key_Q)
+		else if (state->type == Inputs::Key_Q)
 		{
 			MoveCameraDown();
 		}

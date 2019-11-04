@@ -19,10 +19,13 @@ public:
 	
 	virtual void ShowCursor(bool showCursor) = 0;
 	virtual void SetMousePosition(const IntVector2& mousePos) = 0;
+	virtual IntVector2 GetMousePosition() const = 0;
 	virtual void LockCursorToRect(const IntRect& rect) = 0;
 	virtual void UnlockCursorFromRect() = 0;
 
 	virtual void ProcessInputEvents() = 0;
+
+	void PostProcessInputEvents();
 
 	inline WindowInputHandler* GetInputHandler() { Assert(inputHandler); return inputHandler.Get(); }
 

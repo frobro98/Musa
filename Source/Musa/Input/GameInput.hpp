@@ -2,14 +2,31 @@
 
 #include "Input/IInputReceiver.hpp"
 #include "Input/InputSettings.hpp"
+#include "Input/PlayerInputContext.hpp"
 
 class MusaEngine;
 class MusaApp;
+
+struct FrameInputs
+{
+	void Clear()
+	{
+		actions.Clear();
+		ranges.Clear();
+	}
+
+	DynamicArray<const SingleInput*> actions;
+	DynamicArray<const SingleInput*> states;
+	DynamicArray<InputRangeValue> ranges;
+};
 
 // TODO - Consider renaming this class. Possibilities are EngineInput or MusaInput
 // TODO - Might not make sense to have the game input object conform to the input receiver. It might not need to know what happens when 
 class GameInput final : public IInputReceiver
 {
+public:
+	using InputCallback = std::function<void(const FrameInputs&)>;
+
 public:
 	GameInput(MusaEngine& engine);
 
@@ -20,7 +37,7 @@ public:
 	virtual InputEvents OnKeyDown(Inputs::Type input, bool isRepeated) override;
 	virtual InputEvents OnMouseUp(Inputs::Type input);
 	virtual InputEvents OnMouseDown(Inputs::Type input);
-	virtual InputEvents OnMouseMove(uint32 mouseX, uint32 mouseY) override;
+	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos) override;
 	
 	// These focus callbacks will refresh settings or disable settings depending on what settings exist
 	virtual InputEvents OnFocusReceived() override;
@@ -31,17 +48,34 @@ public:
 	virtual IInputReceiver* GetParentInput() const override { return nullptr; }
 	virtual IInputReceiver* GetChildInput() const override { return nullptr; }
 	virtual IInputReceiver* GetSiblingInput() const override { return nullptr; }
-	
-	void SyncApplicationInput(MusaApp& app);
 
 	void OnWindowClose();
 
 	void LockCusorToView(bool shouldLock);
 	void ShowCursor(bool shouldShow);
 
+	// Game Input side of things
+	void ProcessGameInputs();
+
+	void RegisterInputCallback(InputCallback&& callback);
+	void AddInputContext(const PlayerInputContext& context);
+	void RemoveInputContext(StringView contextName);
+	void PushInputContext(StringView contextName);
+	void PopInputContext(StringView contextName);
+
 private:
+	void ClampInputToRangeAndStore(float32 value, const RangedInput& input);
+
+private:
+	FrameInputs contextInputs;
+
+	DynamicArray<InputCallback> callbacks;
+	DynamicArray<PlayerInputContext> contexts;
+	DynamicArray<uint32> activeContextIndices;
+
 	InputSettings inputSettings;
 	MusaEngine& musaEngine;
+	IntVector2 mouseFrameMovement;
 	IntVector2 hiddenMousePosition;
 	bool inputSettingsDirty;
 };

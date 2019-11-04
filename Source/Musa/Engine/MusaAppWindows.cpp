@@ -1,10 +1,10 @@
 
 #include "Platform.h"
 #include "MusaAppWindows.hpp"
-#include "InputDefinitions.hpp"
 #include "Window/Window.h"
 #include "Debugging/MetricInterface.hpp"
 #include "Input/Internal/InputInternal.hpp"
+#include "Input/InputDefinitions.hpp"
 
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
@@ -171,98 +171,98 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 	WindowInputHandler* inputHandler = (WindowInputHandler*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if(inputHandler != nullptr)
 	{
-		Window* window = inputHandler->GetWindow();
-
-		if (window != nullptr)
+		switch (message)
 		{
-			switch (message)
+			case WM_ACTIVATEAPP:
 			{
-				case WM_ACTIVATEAPP:
-				{
-					// Deactivating the app allows for the mouse to move freely again. This is done because the app isn't "active"
-					// Because of this, most of the input behavior won't happen, like setting the position to be the middle of the screen 
-					// or whatever every frame. This is the main thing that's prevented the mouse from moving outside of the engine....
+				// Deactivating the app allows for the mouse to move freely again. This is done because the app isn't "active"
+				// Because of this, most of the input behavior won't happen, like setting the position to be the middle of the screen 
+				// or whatever every frame. This is the main thing that's prevented the mouse from moving outside of the engine....
 
-					bool activated = wParam;
-					inputHandler->HandleActivationChanged(activated);
-				}break;
+				bool activated = wParam;
+				inputHandler->HandleActivationChanged(activated);
+			}break;
 
-				case  WM_CLOSE:
-				{
-					inputHandler->HandleWindowClose();
-					window->Close();
-				}break;
+			case  WM_CLOSE:
+			{
+				inputHandler->HandleWindowClose();
+			}break;
 
-				case WM_DESTROY:
-				{
-					window->Close();
-				}break;
+			case WM_DESTROY:
+			{
+			}break;
 
-				case WM_SIZE:
-				{
-					window->Resize();
-				}break;
+			case WM_SIZE:
+			{
+				uint32 width = LOWORD(lParam);
+				uint32 height = HIWORD(lParam);
+				inputHandler->HandleWindowResized(width, height);
+			}break;
 
-				case WM_LBUTTONDOWN:
-				case WM_RBUTTONDOWN:
-				case WM_MBUTTONDOWN:
-				{
-					Inputs::Type mouseButton = GetMouseType(wParam);
-					inputHandler->HandleMouseDown(mouseButton);
-				}break;
-
-				case WM_LBUTTONUP:
-				case WM_RBUTTONUP:
-				case WM_MBUTTONUP:
-				{
-					Inputs::Type mouseButton = GetMouseType(wParam);
-					inputHandler->HandleMouseUp(mouseButton);
-				}break;
-
-				case WM_SYSKEYDOWN:
-				case WM_KEYDOWN:
-				{
-					wParam = MapWparamLeftRightKeys(wParam, lParam);
-					uint32 vkCode = LOWORD(wParam);
-
-					bool repeated = (lParam & 0x40000000) != 0;
-					bool isPressed = (lParam & (1 << 31)) == 0;
-
-					Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-					Internal::KeyMessageDownReceived(input, isPressed, repeated);
-
-					inputHandler->HandleKeyDown(input, repeated);
-
-				}break;
-
-				case WM_SYSKEYUP:
-				case WM_KEYUP:
-				{
-					uint32 vkCode = LOWORD(wParam);
-					wParam = MapWparamLeftRightKeys(wParam, lParam);
-					Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-					Internal::KeyMessageUpReceived(input);
-
-					inputHandler->HandleKeyUp(input);
-				}break;
-
-				case WM_CHAR:
-				{
-					//inputHandler->HandleKeyChar();
-				}break;
-
-				case WM_MOUSEMOVE:
-				{
-					POINT cursor;
-					::GetCursorPos(&cursor);
-					Internal::MouseMovementChange(cursor.x, cursor.y);
-					inputHandler->HandleMouseMove(cursor.x, cursor.y);
-				}break;
-
-				default:
-				{
-				} break;
+			case WM_SETCURSOR:
+			{
+				// If the DefWindowProc processes this, it doesn't update the cursor for some reason
+				return 0;
 			}
+
+			case WM_LBUTTONDOWN:
+			case WM_RBUTTONDOWN:
+			case WM_MBUTTONDOWN:
+			{
+				Inputs::Type mouseButton = GetMouseType(wParam);
+				inputHandler->HandleMouseDown(mouseButton);
+			}break;
+
+			case WM_LBUTTONUP:
+			case WM_RBUTTONUP:
+			case WM_MBUTTONUP:
+			{
+				Inputs::Type mouseButton = GetMouseType(wParam);
+				inputHandler->HandleMouseUp(mouseButton);
+			}break;
+
+			case WM_SYSKEYDOWN:
+			case WM_KEYDOWN:
+			{
+				wParam = MapWparamLeftRightKeys(wParam, lParam);
+				uint32 vkCode = LOWORD(wParam);
+
+				bool repeated = (lParam & 0x40000000) != 0;
+				bool isPressed = (lParam & (1 << 31)) == 0;
+
+				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
+				Internal::KeyMessageDownReceived(input, isPressed, repeated);
+
+				inputHandler->HandleKeyDown(input, repeated);
+
+			}break;
+
+			case WM_SYSKEYUP:
+			case WM_KEYUP:
+			{
+				uint32 vkCode = LOWORD(wParam);
+				wParam = MapWparamLeftRightKeys(wParam, lParam);
+				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
+				Internal::KeyMessageUpReceived(input);
+
+				inputHandler->HandleKeyUp(input);
+			}break;
+
+			case WM_CHAR:
+			{
+				//inputHandler->HandleKeyChar();
+			}break;
+
+			case WM_MOUSEMOVE:
+			{
+				POINT cursor;
+				::GetCursorPos(&cursor);
+				inputHandler->HandleMouseMove(cursor.x, cursor.y);
+			}break;
+
+			default:
+			{
+			} break;
 		}
 	}
 
@@ -307,6 +307,14 @@ void MusaAppWindows::SetMousePosition(const IntVector2& mousePos)
 	::SetCursorPos(mousePos.x, mousePos.y);
 }
 
+IntVector2 MusaAppWindows::GetMousePosition() const
+{
+	POINT cursorPos;
+	::GetCursorPos(&cursorPos);
+
+	return IntVector2(cursorPos.x, cursorPos.y);
+}
+
 void MusaAppWindows::LockCursorToRect(const IntRect& rect)
 {
 	RECT r = {};
@@ -332,3 +340,4 @@ void MusaAppWindows::ProcessInputEvents()
 		DispatchMessage(&Message);
 	}
 }
+

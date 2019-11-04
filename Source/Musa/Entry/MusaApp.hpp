@@ -20,6 +20,7 @@ public:
 	void UnlockCursor();
 	void ShowCursor(bool showCursor);
 	void SetMousePosition(const IntVector2& mousePos);
+	IntVector2 GetMousePosition() const;
 
 private:
 	void InitializeOSInput();
