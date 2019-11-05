@@ -58,19 +58,19 @@ public:
 	void RemoveLast(const valueType& elem);
 	void RemoveAll(const valueType& elem);
 
+	template<class Pred>
+	int32 FindFirstIndexUsing(Pred&& pred);
+	template<class Pred>
+	int32 FindLastIndexUsing(Pred&& pred);
+	template<class Pred>
+	valueType* FindFirstUsing(Pred&& pred);
+	template<class Pred>
+	valueType* FindLastUsing(Pred&& pred);
+
 	int32 FindFirstIndex(const valueType& obj);
 	int32 FindLastIndex(const valueType& obj);
 	valueType* FindFirst(const valueType& obj);
 	valueType* FindLast(const valueType& obj);
-
-	template<class Pred>
-	std::enable_if_t<std::is_function_v<Pred>, int32> FindFirstIndex(Pred&& pred);
-	template<class Pred>
-	std::enable_if_t<std::is_function_v<Pred>, int32> FindLastIndex(Pred&& pred);
-	template<class Pred>
-	std::enable_if_t<std::is_function_v<Pred>, valueType*> FindFirst(Pred&& pred);
-	template<class Pred>
-	std::enable_if_t<std::is_function_v<Pred>, valueType*> FindLast(Pred&& pred);
 
 	bool TryFindFirstIndex(const valueType& obj, uint32& foundIndex);
 	bool TryFindLastIndex(const valueType& obj, uint32& foundIndex);
@@ -584,7 +584,7 @@ void DynamicArray<Type>::RemoveAll(const valueType& elem)
 
 template<class Type>
 template<class Pred>
-inline std::enable_if_t<std::is_function_v<Pred>, int32> DynamicArray<Type>::FindFirstIndex(Pred&& pred)
+inline int32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred)
 {
 	int32 foundIndex = -1;
 	for (uint32 i = 0; i < arraySize; ++i)
@@ -599,7 +599,7 @@ inline std::enable_if_t<std::is_function_v<Pred>, int32> DynamicArray<Type>::Fin
 
 template<class Type>
 template<class Pred>
-inline std::enable_if_t<std::is_function_v<Pred>, int32> DynamicArray<Type>::FindLastIndex(Pred&& pred)
+inline int32 DynamicArray<Type>::FindLastIndexUsing(Pred&& pred)
 {
 	int32 foundIndex = -1;
 	for (int32 i = static_cast<int32>(arraySize - 1); i > 0; --i)
@@ -614,10 +614,10 @@ inline std::enable_if_t<std::is_function_v<Pred>, int32> DynamicArray<Type>::Fin
 
 template<class Type>
 template<class Pred>
-inline std::enable_if_t<std::is_function_v<Pred>, Type*> DynamicArray<Type>::FindFirst(Pred&& pred)
+inline Type* DynamicArray<Type>::FindFirstUsing(Pred&& pred)
 {
 	valueType* found = nullptr;
-	int32 foundIndex = FindFirstIndex(std::move(pred));
+	int32 foundIndex = FindFirstIndexUsing(std::move(pred));
 	if (foundIndex >= 0)
 	{
 		found = &data[(uint32)foundIndex];
@@ -628,7 +628,7 @@ inline std::enable_if_t<std::is_function_v<Pred>, Type*> DynamicArray<Type>::Fin
 
 template<class Type>
 template<class Pred>
-inline std::enable_if_t<std::is_function_v<Pred>, Type*> DynamicArray<Type>::FindLast(Pred&& pred)
+inline Type* DynamicArray<Type>::FindLastUsing(Pred&& pred)
 {
 	valueType* found = nullptr;
 	int32 foundIndex = FindLastIndex(std::move(pred));
@@ -643,25 +643,25 @@ inline std::enable_if_t<std::is_function_v<Pred>, Type*> DynamicArray<Type>::Fin
 template<class Type>
 inline int32 DynamicArray<Type>::FindFirstIndex(const valueType& obj)
 {
-	return FindFirstIndex([&](const valueType& o) {return obj == o; });
+	return FindFirstIndexUsing([&](const valueType& o) {return obj == o; });
 }
 
 template<class Type>
 inline int32 DynamicArray<Type>::FindLastIndex(const valueType& obj)
 {
-	return FindLastIndex([&](const valueType& o) {return obj == o; });
+	return FindLastIndexUsing([&](const valueType& o) {return obj == o; });
 }
 
 template<class Type>
 inline Type* DynamicArray<Type>::FindFirst(const valueType& obj)
 {
-	return FindFirst([&](const valueType& o) {return o == obj; });
+	return FindFirstUsing([&](const valueType& o) {return o == obj; });
 }
 
 template<class Type>
 inline Type* DynamicArray<Type>::FindLast(const valueType& obj)
 {
-	return FindLast([&](const valueType& o) {return obj == o; });
+	return FindLastUsing([&](const valueType& o) {return obj == o; });
 }
 
 template<class Type>

@@ -17,3 +17,8 @@ void InputEvents::LockCursor(bool lock)
 	containsEvents = true;
 	lockCursor = lock;
 }
+
+void InputEvents::ShowCursor(bool show)
+{
+	showCursor = show;
+}

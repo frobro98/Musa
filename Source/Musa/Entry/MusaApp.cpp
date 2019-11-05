@@ -83,7 +83,7 @@ void MusaApp::SetupGameEngine()
 
 	gameEngine->LoadContent();
 
-	
+	osApp->GetInputHandler()->SetInputFocusToGame();
 
 	gameEngine->StartEngine();
 
