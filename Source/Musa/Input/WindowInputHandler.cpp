@@ -105,7 +105,7 @@ void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 			HandleInputEvents(events);
 		}
 
-		prevMousePos = mouseMovePos;
+		//prevMousePos = mouseMovePos;
 	}
 }
 
@@ -165,6 +165,8 @@ void WindowInputHandler::HandleInputEvents(const InputEvents& events)
 		std::optional<IntVector2> mousePos = events.GetChangedMousePosition();
 		if (mousePos)
 		{
+			currentMousePos = *mousePos;
+			prevMousePos = currentMousePos;
 			application.SetMousePosition(mousePos.value());
 		}
 

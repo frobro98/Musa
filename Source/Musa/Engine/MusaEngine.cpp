@@ -182,6 +182,8 @@ void MusaEngine::LoadContent()
 	GetMeshManager().LoadPrimitive(Primitive::Pyramid);
 
 	CreateInputContext(*gameInput);
+	gameInput->LockCusorToView(true);
+	gameInput->ShowCursor(false);
 
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 

@@ -113,6 +113,7 @@ InputEvents GameInput::OnFocusReceived()
 	{
 		IntVector2 center = musaEngine.GetViewDimensions() / 2;
 		hiddenMousePosition = center;
+		events.ChangeMousePosition(hiddenMousePosition);
 	}
 
 	return events;
@@ -143,7 +144,7 @@ void GameInput::LockCusorToView(bool shouldLock)
 void GameInput::ShowCursor(bool shouldShow)
 {
 	inputSettings.cursorShown = shouldShow;
-	inputSettings.limitMousePos = shouldShow;
+	inputSettings.limitMousePos = !shouldShow;
 
 	inputSettingsDirty = true;
 }

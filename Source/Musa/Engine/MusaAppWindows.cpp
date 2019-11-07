@@ -253,6 +253,15 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				//inputHandler->HandleKeyChar();
 			}break;
 
+			// According to multiple sources, this kind of mouse movement message when the mouse is hiddedn because:
+			//   1) It has more resolution for mouse movement
+			//   2) It essentially only has delta information
+			// Because of these reasons, I will be using this every time the mouse is hidden on Windows
+			case WM_INPUT:
+			{
+
+			}break;
+
 			case WM_MOUSEMOVE:
 			{
 				POINT cursor;

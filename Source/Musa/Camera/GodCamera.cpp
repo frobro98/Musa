@@ -3,6 +3,7 @@
 #include "Input/Input.hpp"
 #include "Engine/FrameData.hpp"
 #include "Input/GameInput.hpp"
+#include "DebugOutput.h"
 
 GodCamera::GodCamera(Camera& cam)
 	: camera(cam)
@@ -120,6 +121,7 @@ void GodCamera::MoveCameraAlongAxis(const Vector4& axis, bool positive)
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
+	Debug::Printf("Mouse X: %f, Mouse Y: %f\n", changeX, -changeY);
 	const float32 tick = Frame::GetTickTimeSeconds();
 	if (changeX != 0 || changeY != 0)
 	{
