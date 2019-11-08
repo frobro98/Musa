@@ -259,7 +259,21 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			// Because of these reasons, I will be using this every time the mouse is hidden on Windows
 			case WM_INPUT:
 			{
+				UINT size;
+				::GetRawInputData((HRAWINPUT)lParam, RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER));
 
+				DynamicArray<uint8> riData(size);
+				if (::GetRawInputData((HRAWINPUT)lParam, RID_INPUT, riData.GetData(), &size, sizeof(RAWINPUTHEADER)) == size)
+				{
+					const RAWINPUT* rawInput = reinterpret_cast<RAWINPUT*>(riData.GetData());
+
+					if (rawInput->header.dwType == RIM_TYPEMOUSE)
+					{
+						const uint32 deltaX = rawInput->data.mouse.lLastX;
+						const uint32 deltaY = rawInput->data.mouse.lLastY;
+						inputHandler->HandleRawMouseMove(deltaX, deltaY);
+					}
+				}
 			}break;
 
 			case WM_MOUSEMOVE:
@@ -304,6 +318,22 @@ MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
 Window* MusaAppWindows::CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height)
 {
 	return new Window(instance, *inputHandler, xPos, yPos, width, height);
+}
+
+void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
+{
+	DWORD riFlags = enabled ? 0 : RIDEV_REMOVE;
+	HWND wnd = enabled ? reinterpret_cast<HWND>(window.GetWindowHandle()) : nullptr;
+
+	constexpr uint32 riMouseUsage = 2;
+	RAWINPUTDEVICE riDev = {};
+	riDev.dwFlags = riFlags;
+	riDev.hwndTarget = wnd;
+	riDev.usUsage = riMouseUsage;
+	riDev.usUsagePage = 1;
+
+	BOOL registered = ::RegisterRawInputDevices(&riDev, 1, sizeof(RAWINPUTDEVICE));
+	Assert(registered);
 }
 
 void MusaAppWindows::ShowCursor(bool showCursor)

@@ -15,6 +15,7 @@ public:
 	void LaunchApplication();
 
 	inline GameUIContext& GetUIContext() const { return *uiContext; }
+	inline MusaAppOS& GetOSApp() const { return *osApp; }
 
 	void LockCursor();
 	void UnlockCursor();

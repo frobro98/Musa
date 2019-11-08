@@ -18,6 +18,7 @@ public:
 	void HandleMouseUp(Inputs::Type mouseButton);
 	void HandleKeyChar(tchar c, bool isRepeated);
 	void HandleMouseMove(uint32 mouseX, uint32 mouseY);
+	void HandleRawMouseMove(uint32 mouseX, uint32 mouseY);
 
 	void HandleWindowResized(uint32 newWidth, uint32 newHeight);
 	void HandleWindowClose();

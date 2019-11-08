@@ -109,6 +109,14 @@ void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 	}
 }
 
+void WindowInputHandler::HandleRawMouseMove(uint32 deltaX, uint32 deltaY)
+{
+	// NOTE - Currently, I don't care about mouse cursor position, however, I may in the future. Keep this in mind when passing this info down
+
+	// TODO - Decide whether to handle this behavior differently than mouse movement. The only thing that changes is the delta being given and 
+	// not calculated by current and previous mouse position
+}
+
 void WindowInputHandler::HandleWindowResized(uint32 newWidth, uint32 newHeight)
 {
 	if (window)
@@ -189,6 +197,7 @@ void WindowInputHandler::HandleInputEvents(const InputEvents& events)
 		if (showCursor)
 		{
 			application.ShowCursor(*showCursor);
+			application.GetOSApp().SetRawMouseInput(*showCursor, *window);
 		}
 	}
 }

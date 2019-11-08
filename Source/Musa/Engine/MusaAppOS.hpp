@@ -17,6 +17,8 @@ public:
 
 	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) = 0;
 	
+	virtual void SetRawMouseInput(bool enabled, const Window& window) = 0;
+
 	virtual void ShowCursor(bool showCursor) = 0;
 	virtual void SetMousePosition(const IntVector2& mousePos) = 0;
 	virtual IntVector2 GetMousePosition() const = 0;
