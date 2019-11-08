@@ -22,11 +22,25 @@ InputEvents GameInput::OnKeyUp(Inputs::Type input)
 
 InputEvents GameInput::OnKeyDown(Inputs::Type input, bool isRepeated)
 {
+	InputEvents events = {};
+
 	UNUSED(isRepeated);
 	// TODO - This needs to be in a better place and also count for non-"shipping" builds
 	if (input == Inputs::Key_Escape)
 	{
 		musaEngine.StopEngine();
+	}
+	else if (input == Inputs::Key_J)
+	{
+		events.LockCursor(false);
+		events.ShowCursor(true);
+		inputSettings.limitMousePos = false;
+	}
+	else if (input == Inputs::Key_I)
+	{
+		events.LockCursor(true);
+		events.ShowCursor(false);
+		inputSettings.limitMousePos = true;
 	}
 	else
 	{
@@ -46,7 +60,7 @@ InputEvents GameInput::OnKeyDown(Inputs::Type input, bool isRepeated)
 		}
 	}
 
-	return InputEvents{};
+	return events;
 }
 
 InputEvents GameInput::OnChar(tchar c, bool isRepeated)
