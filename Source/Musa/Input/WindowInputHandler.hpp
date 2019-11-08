@@ -18,7 +18,7 @@ public:
 	void HandleMouseUp(Inputs::Type mouseButton);
 	void HandleKeyChar(tchar c, bool isRepeated);
 	void HandleMouseMove(uint32 mouseX, uint32 mouseY);
-	void HandleRawMouseMove(uint32 mouseX, uint32 mouseY);
+	void HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 deltaX, int32 deltaY);
 
 	void HandleWindowResized(uint32 newWidth, uint32 newHeight);
 	void HandleWindowClose();
@@ -57,4 +57,5 @@ private:
 	GameInput& gameInput;
 	MusaApp& application;
 	Window* window;
+	bool rawInputTurnedOn = false;
 };

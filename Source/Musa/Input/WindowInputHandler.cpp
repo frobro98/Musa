@@ -88,33 +88,55 @@ void WindowInputHandler::HandleKeyChar(tchar c, bool isRepeated)
 
 void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 {
-	IntVector2 mouseMovePos = IntVector2(mouseX, mouseY);
+	if (!rawInputTurnedOn)
+	{
+		IntVector2 mouseMovePos = IntVector2(mouseX, mouseY);
+		currentMousePos = mouseMovePos;
+		IntVector2 delta = currentMousePos - prevMousePos;
+
+		if (currentMousePos != prevMousePos)
+		{
+			InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
+			{
+				Assert(receiver);
+				return receiver->OnMouseMove(mouseMovePos, prevMousePos, delta);
+			});
+
+			if (!events.IsInputHandled())
+			{
+				events = gameInput.OnMouseMove(mouseMovePos, prevMousePos, delta);
+				HandleInputEvents(events);
+			}
+
+			prevMousePos = mouseMovePos;
+		}
+	}
+}
+
+void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 deltaX, int32 deltaY)
+{
+	// NOTE - Currently, I don't care about mouse cursor position, however, I may in the future. Keep this in mind when passing this info down
+
+	IntVector2 delta(deltaX, deltaY);
+	IntVector2 mouseMovePos(mouseX, mouseY);
 	currentMousePos = mouseMovePos;
-	
+
 	if (currentMousePos != prevMousePos)
 	{
 		InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 		{
 			Assert(receiver);
-			return receiver->OnMouseMove(mouseMovePos, prevMousePos);
+			return receiver->OnMouseMove(mouseMovePos, prevMousePos, delta);
 		});
 
 		if (!events.IsInputHandled())
 		{
-			events = gameInput.OnMouseMove(mouseMovePos, prevMousePos);
+			events = gameInput.OnMouseMove(mouseMovePos, prevMousePos, delta);
 			HandleInputEvents(events);
 		}
 
-		//prevMousePos = mouseMovePos;
+		prevMousePos = mouseMovePos;
 	}
-}
-
-void WindowInputHandler::HandleRawMouseMove(uint32 deltaX, uint32 deltaY)
-{
-	// NOTE - Currently, I don't care about mouse cursor position, however, I may in the future. Keep this in mind when passing this info down
-
-	// TODO - Decide whether to handle this behavior differently than mouse movement. The only thing that changes is the delta being given and 
-	// not calculated by current and previous mouse position
 }
 
 void WindowInputHandler::HandleWindowResized(uint32 newWidth, uint32 newHeight)
@@ -196,8 +218,9 @@ void WindowInputHandler::HandleInputEvents(const InputEvents& events)
 		std::optional<bool> showCursor = events.GetShowCursor();
 		if (showCursor)
 		{
+			rawInputTurnedOn = !showCursor.value();
 			application.ShowCursor(*showCursor);
-			application.GetOSApp().SetRawMouseInput(*showCursor, *window);
+			application.GetOSApp().SetRawMouseInput(rawInputTurnedOn, *window);
 		}
 	}
 }

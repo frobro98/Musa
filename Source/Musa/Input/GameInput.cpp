@@ -67,16 +67,14 @@ InputEvents GameInput::OnMouseDown(Inputs::Type input)
 	return InputEvents{};
 }
 
-InputEvents GameInput::OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos)
+InputEvents GameInput::OnMouseMove(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& delta)
 {
-	IntVector2 diffPos = currentMousePos - prevMousePos;
-
 	for (auto contextIndex : activeContextIndices)
 	{
 		PlayerInputContext& context = contexts[contextIndex];
 		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& ri) { return ri.input.type == Inputs::Mouse_XAxis; }); index >= 0)
 		{
-			mouseFrameMovement.x += diffPos.x;
+			mouseFrameMovement.x += delta.x;
 			break;
 		}
 	}
@@ -86,7 +84,7 @@ InputEvents GameInput::OnMouseMove(const IntVector2& currentMousePos, const IntV
 		PlayerInputContext& context = contexts[contextIndex];
 		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& ri) { return ri.input.type == Inputs::Mouse_YAxis; }); index >= 0)
 		{
-			mouseFrameMovement.y += diffPos.y;
+			mouseFrameMovement.y += delta.y;
 			break;
 		}
 	}

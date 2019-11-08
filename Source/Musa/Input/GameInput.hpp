@@ -37,7 +37,7 @@ public:
 	virtual InputEvents OnKeyDown(Inputs::Type input, bool isRepeated) override;
 	virtual InputEvents OnMouseUp(Inputs::Type input);
 	virtual InputEvents OnMouseDown(Inputs::Type input);
-	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos) override;
+	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 	
 	// These focus callbacks will refresh settings or disable settings depending on what settings exist
 	virtual InputEvents OnFocusReceived() override;

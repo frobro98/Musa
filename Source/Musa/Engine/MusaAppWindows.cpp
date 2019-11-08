@@ -269,9 +269,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 					if (rawInput->header.dwType == RIM_TYPEMOUSE)
 					{
-						const uint32 deltaX = rawInput->data.mouse.lLastX;
-						const uint32 deltaY = rawInput->data.mouse.lLastY;
-						inputHandler->HandleRawMouseMove(deltaX, deltaY);
+						POINT cursorPos;
+						::GetCursorPos(&cursorPos);
+						const int32 deltaX = rawInput->data.mouse.lLastX;
+						const int32 deltaY = rawInput->data.mouse.lLastY;
+						inputHandler->HandleRawMouseMove(cursorPos.x, cursorPos.y, deltaX, deltaY);
 					}
 				}
 			}break;
