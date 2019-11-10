@@ -455,5 +455,8 @@
     <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\Internal\ControllerInputUtilities.hpp">
+      <Filter>Source\Input\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

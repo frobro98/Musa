@@ -11,14 +11,14 @@ GodCamera::GodCamera(Camera& cam)
 	position = camera.GetPosition();
 	cameraLookAt = camera.GetLookAt();
 	cameraUp = camera.GetUp();
-
-	SetupGodInputInput();
 }
 
 void GodCamera::Update(float tick)
 {
-	constexpr float32 speed = 25.f;
+	constexpr float32 speed = 50.f;
+	constexpr float32 look = 5.f;
 	moveSpeed = speed * tick;
+	lookSpeed = look * tick;
 	
 	camera.SetOrientationAndPosition(cameraLookAt, position, cameraUp);
 
@@ -30,19 +30,58 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 {
 	for (const auto& action : inputs.actions)
 	{
-		UNUSED(action);
+		Debug::Printf("%s\n", *action->inputName);
 	}
 
 	float32 changeX = 0, changeY = 0;
 	for (const auto& range : inputs.ranges)
 	{
-		if (range.input->type == Inputs::Mouse_XAxis)
+		if (range.input->type == Inputs::Mouse_XAxis ||
+			range.input->type == Inputs::Gamepad_RightStick_XAxis)
 		{
-			changeX = range.rangeValue;
+			changeX += range.rangeValue;
 		}
-		if (range.input->type == Inputs::Mouse_YAxis)
+		if (range.input->type == Inputs::Mouse_YAxis ||
+			range.input->type == Inputs::Gamepad_RightStick_YAxis)
 		{
-			changeY = range.rangeValue;
+			changeY += range.rangeValue;
+		}
+		if (range.input->type == Inputs::Gamepad_LeftStick_XAxis)
+		{
+			if (range.rangeValue > 0.f)
+			{
+				MoveCameraRight();
+			}
+			else if (range.rangeValue < 0.f)
+			{
+				MoveCameraLeft();
+			}
+		}
+		else if (range.input->type == Inputs::Gamepad_LeftStick_YAxis)
+		{
+			if (range.rangeValue > 0.f)
+			{
+				MoveCameraForward();
+			}
+			else if (range.rangeValue < 0.f)
+			{
+				MoveCameraBackward();
+			}
+		}
+
+		if (range.input->type == Inputs::Gamepad_LeftTrigger)
+		{
+			if (range.rangeValue > 0)
+			{
+				MoveCameraDown();
+			}
+		}
+		else if (range.input->type == Inputs::Gamepad_RightTrigger)
+		{
+			if (range.rangeValue > 0)
+			{
+				MoveCameraUp();
+			}
 		}
 	}
 
@@ -75,10 +114,6 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 			MoveCameraDown();
 		}
 	}
-}
-
-void GodCamera::SetupGodInputInput()
-{
 }
 
 void GodCamera::MoveCameraForward()
@@ -121,12 +156,12 @@ void GodCamera::MoveCameraAlongAxis(const Vector4& axis, bool positive)
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
-	Debug::Printf("Mouse X: %f, Mouse Y: %f\n", changeX, -changeY);
+	//Debug::Printf("Mouse X: %f, Mouse Y: %f\n", changeX, -changeY);
 	const float32 tick = Frame::GetTickTimeSeconds();
 	if (changeX != 0 || changeY != 0)
 	{
-		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * moveSpeed);
-		Quat quatY(ROT_Y, -changeX * moveSpeed);
+		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * lookSpeed);
+		Quat quatY(ROT_Y, -changeX * lookSpeed);
 
 		Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
 		newLookAtDir.Normalize();

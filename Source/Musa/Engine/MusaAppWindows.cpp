@@ -1,10 +1,14 @@
 
 #include "Platform.h"
+#include <xinput.h>
+
 #include "MusaAppWindows.hpp"
 #include "Window/Window.h"
 #include "Debugging/MetricInterface.hpp"
 #include "Input/Internal/InputInternal.hpp"
 #include "Input/InputDefinitions.hpp"
+#include "Input/Internal/ControllerInputUtilities.hpp"
+#include "Math/MathUtilities.h"
 
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
@@ -228,11 +232,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				uint32 vkCode = LOWORD(wParam);
 
 				bool repeated = (lParam & 0x40000000) != 0;
-				bool isPressed = (lParam & (1 << 31)) == 0;
 
 				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-				Internal::KeyMessageDownReceived(input, isPressed, repeated);
-
 				inputHandler->HandleKeyDown(input, repeated);
 
 			}break;
@@ -243,7 +244,6 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				uint32 vkCode = LOWORD(wParam);
 				wParam = MapWparamLeftRightKeys(wParam, lParam);
 				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-				Internal::KeyMessageUpReceived(input);
 
 				inputHandler->HandleKeyUp(input);
 			}break;
@@ -292,6 +292,112 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+static const Inputs::Type ControllerButtons[] = {
+	Inputs::Gamepad_DPadUp,
+	Inputs::Gamepad_DPadDown,
+	Inputs::Gamepad_DPadLeft,
+	Inputs::Gamepad_DPadRight,
+	Inputs::Gamepad_StartButton,
+	Inputs::Gamepad_SelectButton,
+	Inputs::Gamepad_LeftShoulder,
+	Inputs::Gamepad_RightShoulder,
+	Inputs::Gamepad_AButton,
+	Inputs::Gamepad_BButton,
+	Inputs::Gamepad_XButton,
+	Inputs::Gamepad_YButton,
+};
+
+void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, uint32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
+{
+	// Deadzone checking
+	if (//state.leftStick.x != xinputGamepad.sThumbLX ||
+		Math::Abs(xinputGamepad.sThumbLX) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+	{
+		float32 normLX = NormalizeStickValue(xinputGamepad.sThumbLX);
+		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftStick_XAxis, normLX);
+		state.leftStick.x = xinputGamepad.sThumbLX;
+	}
+
+	if (//state.leftStick.y != xinputGamepad.sThumbLY ||
+		Math::Abs(xinputGamepad.sThumbLY) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
+	{
+		float32 normLY = NormalizeStickValue(xinputGamepad.sThumbLY);
+		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftStick_YAxis, normLY);
+		state.leftStick.y = xinputGamepad.sThumbLY;
+	}
+
+	if (//state.rightStick.x != xinputGamepad.sThumbRX ||
+		Math::Abs(xinputGamepad.sThumbRX) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+	{
+		float32 normRX = NormalizeStickValue(xinputGamepad.sThumbRX);
+		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightStick_XAxis, normRX);
+		state.rightStick.x = xinputGamepad.sThumbRX;
+	}
+
+	if (//state.rightStick.y != xinputGamepad.sThumbRY ||
+		Math::Abs(xinputGamepad.sThumbRY) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
+	{
+		float32 normRY = NormalizeStickValue(xinputGamepad.sThumbRY);
+		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightStick_YAxis, normRY);
+		state.rightStick.y = xinputGamepad.sThumbRY;
+	}
+
+	// Triggers for axis analog
+	if (Math::Abs(xinputGamepad.bLeftTrigger) > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+	{
+		float32 normLeftTrigger = NormalizeTriggerValue(xinputGamepad.bLeftTrigger);
+		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftTrigger, normLeftTrigger);
+	}
+	if (Math::Abs(xinputGamepad.bRightTrigger) > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+	{
+		float32 normRightTrigger = NormalizeTriggerValue(xinputGamepad.bRightTrigger);
+		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightTrigger, normRightTrigger);
+	}
+}
+
+void ProcessControllerButtons(WindowInputHandler& inputHandler, uint32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
+{
+	StaticArray<bool, MaxSupportedControllerButtons> currentButtonState;
+	currentButtonState[0] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0;
+	currentButtonState[1] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0;
+	currentButtonState[2] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0;
+	currentButtonState[3] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0;
+	currentButtonState[4] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_START) != 0;
+	currentButtonState[5] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_BACK) != 0;
+	currentButtonState[6] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) != 0;
+	currentButtonState[7] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0;
+	currentButtonState[8] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_A) != 0;
+	currentButtonState[9] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_B) != 0;
+	currentButtonState[10] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
+	currentButtonState[11] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_Y) != 0;
+
+	for (uint32 i = 0; i < MaxSupportedControllerButtons; ++i)
+	{
+		if (currentButtonState[i] != state.buttonStates[i])
+		{
+			if (currentButtonState[i])
+			{
+				inputHandler.HandleControllerButtonDown(controllerIndex, ControllerButtons[i]);
+			}
+			else
+			{
+				inputHandler.HandleControllerButtonUp(controllerIndex, ControllerButtons[i]);
+			}
+		}
+		else
+		{
+			if (currentButtonState[i])
+			{
+				inputHandler.HandleControllerButtonDown(controllerIndex, ControllerButtons[i]);
+			}
+		}
+
+		state.buttonStates[i] = currentButtonState[i];
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -369,6 +475,36 @@ void MusaAppWindows::LockCursorToRect(const IntRect& rect)
 void MusaAppWindows::UnlockCursorFromRect()
 {
 	::ClipCursor(nullptr);
+}
+
+void MusaAppWindows::ProcessNativeGamepad()
+{
+	// NOTE - I could check if controllers are actually connected? Don't really know what that gets me though
+
+	// NOTE - This amount of controllers might not be supported on other platforms. Might need to know this info
+	constexpr uint32 MaxControllersSupported = 1;//XUSER_MAX_COUNT;
+	for (uint32 i = 0; i < MaxControllersSupported; ++i)
+	{
+		XINPUT_STATE state = {};
+		if (XInputGetState(i, &state) == ERROR_SUCCESS)
+		{
+			controllers.activeControllers[i] = true;
+
+			WindowsGamepadState& musaGamepad = controllers.controllerStates[i];
+			const XINPUT_GAMEPAD& gamepad = state.Gamepad;
+
+			// Stick processing
+			ProcessAnalogControllerInputs(*inputHandler, i, gamepad, musaGamepad);
+
+			// Button processing
+			ProcessControllerButtons(*inputHandler, i, gamepad, musaGamepad);
+		}
+		else
+		{
+			// Controller not connected...
+			controllers.activeControllers[i] = false;
+		}
+	}
 }
 
 void MusaAppWindows::ProcessInputEvents()

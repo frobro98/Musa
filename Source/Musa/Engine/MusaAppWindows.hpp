@@ -1,6 +1,28 @@
 #pragma once
 
 #include "Engine/MusaAppOS.hpp"
+#include "Containers/StaticArray.hpp"
+
+// TODO - Move this into a more input centric place...
+constexpr uint32 MaxSupportedControllers = 4;
+constexpr uint32 MaxSupportedControllerButtons = 12;
+
+struct WindowsGamepadState
+{
+	// Store controller information unnormalized
+	IntVector2 leftStick;
+	IntVector2 rightStick;
+	uint8 leftTrigger;
+	uint8 rightTrigger;
+
+	StaticArray<bool, MaxSupportedControllerButtons> buttonStates;
+};
+
+struct WindowsGamepadCollection
+{
+	StaticArray<WindowsGamepadState, MaxSupportedControllers> controllerStates;
+	StaticArray<bool, MaxSupportedControllers> activeControllers;
+};
 
 class MusaAppWindows final : public MusaAppOS
 {
@@ -17,11 +39,14 @@ public:
 	virtual void LockCursorToRect(const IntRect& rect) override;
 	virtual void UnlockCursorFromRect() override;
 
+	virtual void ProcessNativeGamepad() override;
 
 	virtual void ProcessInputEvents() override;
 
-	void PostProcessInputEvents();
+private:
+	//void ProcessAnalogControllerInputs(const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state);
 
 private:
+	WindowsGamepadCollection controllers;
 	HINSTANCE instance;
 };

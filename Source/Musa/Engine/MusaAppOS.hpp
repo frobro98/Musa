@@ -25,6 +25,8 @@ public:
 	virtual void LockCursorToRect(const IntRect& rect) = 0;
 	virtual void UnlockCursorFromRect() = 0;
 
+	virtual void ProcessNativeGamepad() = 0;
+
 	virtual void ProcessInputEvents() = 0;
 
 	void PostProcessInputEvents();

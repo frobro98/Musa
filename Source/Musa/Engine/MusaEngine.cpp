@@ -109,10 +109,11 @@ void MusaEngine::StopEngine()
 
 static void CreateInputContext(GameInput& gameInput)
 {
-	PlayerInputContext mainContext = MakeInputContext("Main Context");
+	PlayerInputContext mainContext = MakeInputContext("Keyboard Context");
+	PlayerInputContext gamepadContext = MakeInputContext("Gamepad Context");
 	RangedInput mouseXInput;
 	mouseXInput.range = {
-		-100, 100, -1, 1
+		-1, 1, -1, 1
 	};
 	mouseXInput.input = {
 		"Mouse X",
@@ -122,7 +123,7 @@ static void CreateInputContext(GameInput& gameInput)
 
 	RangedInput mouseYInput;
 	mouseYInput.range = {
-		-100, 100, -1, 1
+		-1, 1, -1, 1
 	};
 	mouseYInput.input = {
 		"Mouse Y",
@@ -166,8 +167,85 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	mainContext.inputStates.Add(input);
 
+	input = {
+		"Space",
+		Inputs::Key_Space
+	};
+	mainContext.inputActions.Add(input);
+
+
+	// Controller support
+
+	RangedInput leftXInput;
+	leftXInput.range = {
+		-100, 100, -1, 1
+	};
+	leftXInput.input = {
+		"Leftstick X",
+		Inputs::Gamepad_LeftStick_XAxis
+	};
+	gamepadContext.inputRanges.Add(leftXInput);
+
+	RangedInput leftYInput;
+	leftYInput.range = {
+		-100, 100, -1, 1
+	};
+	leftYInput.input = {
+		"Leftstick Y",
+		Inputs::Gamepad_LeftStick_YAxis
+	};
+	gamepadContext.inputRanges.Add(leftYInput);
+
+	RangedInput rightXInput;
+	rightXInput.range = {
+		-100, 100, -1, 1
+	};
+	rightXInput.input = {
+		"Rightstick X",
+		Inputs::Gamepad_RightStick_XAxis
+	};
+	gamepadContext.inputRanges.Add(rightXInput);
+
+	RangedInput rightYInput;
+	rightYInput.range = {
+		-100, 100, -1, 1
+	};
+	rightYInput.input = {
+		"Rightstick Y",
+		Inputs::Gamepad_RightStick_YAxis
+	};
+	gamepadContext.inputRanges.Add(rightYInput);
+
+	RangedInput leftTriggerInput = {};
+	leftTriggerInput.range = {
+		0, 1, 0, 1
+	};
+	leftTriggerInput.input = {
+		"Left Trigger",
+		Inputs::Gamepad_LeftTrigger
+	};
+	gamepadContext.inputRanges.Add(leftTriggerInput);
+
+	RangedInput rightTriggerInput = {};
+	rightTriggerInput.range = {
+		0, 1, 0, 1
+	};
+	rightTriggerInput.input = {
+		"Right Trigger",
+		Inputs::Gamepad_RightTrigger
+	};
+	gamepadContext.inputRanges.Add(rightTriggerInput);
+
+	input = {
+	"Gamepad A",
+	Inputs::Gamepad_AButton
+	};
+	gamepadContext.inputActions.Add(input);
+
 	gameInput.AddInputContext(mainContext);
-	gameInput.PushInputContext("Main Context");
+	gameInput.AddInputContext(gamepadContext);
+	gameInput.PushInputContext("Keyboard Context");
+	gameInput.PushInputContext("Gamepad Context");
 }
 
 void MusaEngine::LoadContent()

@@ -115,6 +115,7 @@ struct Inputs
 		Key_F11,
 		Key_F12,
 
+		// Mouse Input
 		Mouse_LeftButton,
 		Mouse_RightButton,
 		Mouse_MiddleButton,
@@ -127,17 +128,42 @@ struct Inputs
 		Mouse_XAxis,
 		Mouse_YAxis,
 
+		// Gamepad Input
+		Gamepad_AButton,
+		Gamepad_BButton,
+		Gamepad_XButton,
+		Gamepad_YButton,
+		
+		Gamepad_StartButton,
+		Gamepad_SelectButton,
+
+		Gamepad_DPadUp,
+		Gamepad_DPadDown,
+		Gamepad_DPadLeft,
+		Gamepad_DPadRight,
+
+		Gamepad_LeftShoulder,
+		Gamepad_RightShoulder,
+		Gamepad_LeftTrigger,
+		Gamepad_RightTrigger,
+
+		Gamepad_LeftStick_XAxis,
+		Gamepad_LeftStick_YAxis,
+		Gamepad_RightStick_XAxis,
+		Gamepad_RightStick_YAxis,
+		
 		Max,
 
 		_INPUT_ENUM_MAX_ = 0x7FFFFFFF
 	};
-	static_assert(Max == Mouse_YAxis + 1);
+	static_assert(Max == Gamepad_RightStick_YAxis + 1);
 
 	enum State
 	{
 		Shift = 0x1,
 		Control = 0x2,
 		Alt = 0x4,
+		Command = 0x8,
 
 		_INPUT_STATE_MAX_ = 0xFF
 	};

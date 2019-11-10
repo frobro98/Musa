@@ -19,6 +19,9 @@ public:
 	void HandleKeyChar(tchar c, bool isRepeated);
 	void HandleMouseMove(uint32 mouseX, uint32 mouseY);
 	void HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 deltaX, int32 deltaY);
+	void HandleControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogType, float32 analogValue);
+	void HandleControllerButtonDown(uint32 controllerIndex, Inputs::Type analogType);
+	void HandleControllerButtonUp(uint32 controllerIndex, Inputs::Type analogType);
 
 	void HandleWindowResized(uint32 newWidth, uint32 newHeight);
 	void HandleWindowClose();

@@ -6,6 +6,7 @@
 class IInputReceiver
 {
 public:
+	virtual InputEvents OnControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogInput, float32 analogValue) = 0;
 	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) = 0;
 	virtual InputEvents OnMouseDown(Inputs::Type input) = 0;
 	virtual InputEvents OnMouseUp(Inputs::Type input) = 0;

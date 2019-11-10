@@ -101,6 +101,7 @@ void MusaApp::ApplicationUpdate()
 	// Process input
 	Internal::UpdateInputMap();
 	osApp->ProcessInputEvents();
+	osApp->ProcessNativeGamepad();
 	osApp->PostProcessInputEvents();
 
 	gameEngine->UpdateAndRenderWorld(tick);

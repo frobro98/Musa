@@ -26,34 +26,46 @@ InputEvents GameInput::OnKeyDown(Inputs::Type input, bool isRepeated)
 
 	UNUSED(isRepeated);
 	// TODO - This needs to be in a better place and also count for non-"shipping" builds
-	if (input == Inputs::Key_Escape)
+	if (input == Inputs::Key_Escape ||
+		input == Inputs::Gamepad_StartButton)
 	{
+		events = InputEvents(Handled);
 		musaEngine.StopEngine();
+		return events;
 	}
-	else if (input == Inputs::Key_J)
+	if (input == Inputs::Key_J)
 	{
+		events = InputEvents(Handled);
 		events.LockCursor(false);
 		events.ShowCursor(true);
 		inputSettings.limitMousePos = false;
 	}
-	else if (input == Inputs::Key_I)
+	if (input == Inputs::Key_I)
 	{
+		events = InputEvents(Handled);
 		events.LockCursor(true);
 		events.ShowCursor(false);
 		inputSettings.limitMousePos = true;
 	}
-	else
+	
+
 	{
 		for (auto index : activeContextIndices)
 		{
 			PlayerInputContext& context = contexts[index];
 			if (int32 actionIndex = context.inputActions.FindFirstIndexUsing([=](const SingleInput& i) {return i.type == input; }); actionIndex >= 0)
 			{
-				contextInputs.actions.AddUnique(&context.inputActions[(uint32)actionIndex]);
-				break;
+				// TODO - This is sort of a hack to get at this information maybe. I'm not too sure if it is or not. If it is, input pressing might need to be done at a higher level?
+				if (Input::IsPressed(input))
+				{
+					events = InputEvents(Handled);
+					contextInputs.actions.AddUnique(&context.inputActions[(uint32)actionIndex]);
+					break;
+				}
 			}
 			if (int32 stateIndex = context.inputStates.FindFirstIndexUsing([=](const SingleInput& i) {return i.type == input; }); stateIndex >= 0)
 			{
+				events = InputEvents(Handled);
 				contextInputs.states.AddUnique(&context.inputStates[(uint32)stateIndex]);
 				break;
 			}
@@ -77,6 +89,7 @@ InputEvents GameInput::OnMouseUp(Inputs::Type input)
 
 InputEvents GameInput::OnMouseDown(Inputs::Type input)
 {
+	// TODO - This is where captures/focus come into play
 	UNUSED(input);
 	return InputEvents{};
 }
@@ -110,6 +123,32 @@ InputEvents GameInput::OnMouseMove(const IntVector2& /*currentMousePos*/, const 
 	}
 
 	return events;
+}
+
+InputEvents GameInput::OnControllerAnalogChange(uint32 /*controllerIndex*/, Inputs::Type analogInput, float32 analogValue)
+{
+	if (analogInput == Inputs::Gamepad_RightStick_YAxis)
+	{
+		analogValue = -analogValue;
+	}
+
+	for (const auto contextIndex : activeContextIndices)
+	{
+		PlayerInputContext& context = contexts[contextIndex];
+		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) { return i.input.type == analogInput; }); index >= 0)
+		{
+			const RangedInput& rangedInput = context.inputRanges[(uint32)index];
+			
+			InputRangeValue value = {};
+			value.input = &rangedInput.input;
+			value.rangeValue = analogValue;
+			contextInputs.ranges.Add(value);
+
+			break;
+		}
+	}
+
+	return InputEvents(Handled);
 }
 
 InputEvents GameInput::OnFocusReceived()
@@ -229,18 +268,40 @@ void GameInput::PopInputContext(StringView contextName)
 	activeContextIndices.RemoveAll((uint32)index);
 }
 
-void GameInput::ClampInputToRangeAndStore(float32 value, const RangedInput & input)
+void GameInput::ClampInputToRangeAndStore(float32 value, const RangedInput& input)
 {
-	if (value > 0 || value < 0)
-	{
-		const InputRange& range = input.range;
-		value = Clamp(value, range.minRawRange, range.maxRawRange);
+	const InputRange& range = input.range;
+	value = Clamp(value, range.minRawRange, range.maxRawRange);
 
-		float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
-		float32 normValue = Math::Lerp(range.minNormalizedRange, range.maxNormalizedRange, lerpT);// (lerpT * (range.maxNormalizedRange - range.minNormalizedRange)) + range.minNormalizedRange;
-		InputRangeValue inputValue = {};
-		inputValue.input = &input.input;
-		inputValue.rangeValue = normValue;
-		contextInputs.ranges.Add(inputValue);
+	float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
+	float32 normValue = Math::Lerp(range.minNormalizedRange, range.maxNormalizedRange, lerpT);// (lerpT * (range.maxNormalizedRange - range.minNormalizedRange)) + range.minNormalizedRange;
+	InputRangeValue inputValue = {};
+	inputValue.input = &input.input;
+	inputValue.rangeValue = normValue;
+	contextInputs.ranges.Add(inputValue);
+}
+
+// TODO - This function should be expanded to be a utility
+void GameInput::NormalizeValueToRangeAndStore(float32 normValue, const RangedInput& input)
+{
+	Assert(normValue >= 0.f && normValue <= 1.f);
+	float32 retVal;
+	const InputRange& range = input.range;
+	if (Math::IsZero(normValue))
+	{
+		retVal = range.minRawRange;
 	}
+	else
+	{
+		constexpr float32 oldMin = 0;
+		constexpr float32 oldMax = 1;
+		constexpr float32 oldRange = oldMax - oldMin;
+		const float32 newRange = range.maxRawRange - range.minRawRange;
+		retVal = (((normValue - oldMin) * newRange) / oldRange) + range.minRawRange;
+	}
+
+	InputRangeValue inputValue = {};
+	inputValue.input = &input.input;
+	inputValue.rangeValue = retVal;
+	contextInputs.ranges.Add(inputValue);
 }

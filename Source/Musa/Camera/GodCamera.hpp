@@ -19,8 +19,6 @@ public:
 	void InputCallback(const FrameInputs& inputs);
 
 private:
-	void SetupGodInputInput();
-
 	void MoveCameraForward();
 	void MoveCameraBackward();
 
@@ -39,4 +37,5 @@ private:
 	Vector4 cameraLookAt;
 	Camera& camera;
 	float32 moveSpeed = 0.f;
+	float32 lookSpeed = 0.f;
 };

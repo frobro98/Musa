@@ -72,10 +72,10 @@ struct StaticArray
 		uint32 index;
 	};
 
-	friend Iterator begin(StaticArray& arr) { return Iterator(arr, 0); }
-	friend ConstIterator begin(const StaticArray& arr) { return ConstIterator(arr, 0); }
-	friend Iterator end(StaticArray& arr) { return Iterator(arr, size); }
-	friend ConstIterator end(const StaticArray& arr) { return ConstIterator(arr, size); }
+	friend Iterator begin(StaticArray& arr) { return Iterator(arr.internalData, 0); }
+	friend ConstIterator begin(const StaticArray& arr) { return ConstIterator(arr.internalData, 0); }
+	friend Iterator end(StaticArray& arr) { return Iterator(arr.internalData, size); }
+	friend ConstIterator end(const StaticArray& arr) { return ConstIterator(arr.internalData, size); }
 
 	ValueType internalData[size];
 };

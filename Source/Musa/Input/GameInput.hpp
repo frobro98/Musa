@@ -38,6 +38,8 @@ public:
 	virtual InputEvents OnMouseUp(Inputs::Type input);
 	virtual InputEvents OnMouseDown(Inputs::Type input);
 	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
+
+	virtual InputEvents OnControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogInput, float32 analogValue) override;
 	
 	// These focus callbacks will refresh settings or disable settings depending on what settings exist
 	virtual InputEvents OnFocusReceived() override;
@@ -65,6 +67,7 @@ public:
 
 private:
 	void ClampInputToRangeAndStore(float32 value, const RangedInput& input);
+	void NormalizeValueToRangeAndStore(float32 value, const RangedInput& input);
 
 private:
 	FrameInputs contextInputs;
@@ -76,6 +79,8 @@ private:
 	InputSettings inputSettings;
 	MusaEngine& musaEngine;
 	IntVector2 mouseFrameMovement;
+	IntVector2 controllerLeftStick;
+	IntVector2 controllerRightStick;
 	IntVector2 hiddenMousePosition;
 	bool inputSettingsDirty;
 };

@@ -1,5 +1,6 @@
 
 #include "WindowInputHandler.hpp"
+#include "Internal/InputInternal.hpp"
 #include "GameInput.hpp"
 #include "InputEvents.hpp"
 #include "Window/Window.h"
@@ -13,6 +14,8 @@ WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
 
 void WindowInputHandler::HandleKeyUp(Inputs::Type input)
 {
+	Internal::KeyMessageUpReceived(input);
+
 	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver) 
 	{
 		Assert(receiver);
@@ -28,6 +31,8 @@ void WindowInputHandler::HandleKeyUp(Inputs::Type input)
 
 void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool isRepeated)
 {
+	Internal::KeyMessageDownReceived(input, true, isRepeated);
+
 	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
 		Assert(receiver);
@@ -43,6 +48,8 @@ void WindowInputHandler::HandleKeyDown(Inputs::Type input, bool isRepeated)
 
 void WindowInputHandler::HandleMouseDown(Inputs::Type mouseButton)
 {
+	Internal::KeyMessageDownReceived(mouseButton, true, false);
+
 	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
 		Assert(receiver);
@@ -58,6 +65,8 @@ void WindowInputHandler::HandleMouseDown(Inputs::Type mouseButton)
 
 void WindowInputHandler::HandleMouseUp(Inputs::Type mouseButton)
 {
+	Internal::KeyMessageUpReceived(mouseButton);
+
 	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 	{
 		Assert(receiver);
@@ -136,6 +145,57 @@ void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 
 		}
 
 		prevMousePos = mouseMovePos;
+	}
+}
+
+void WindowInputHandler::HandleControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogType, float32 analogValue)
+{
+	Assert(analogType >= Inputs::Gamepad_LeftTrigger && Inputs::Gamepad_RightStick_YAxis);
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
+	{
+		Assert(receiver);
+		return receiver->OnControllerAnalogChange(controllerIndex, analogType, analogValue);
+	});
+
+	if (!events.IsInputHandled())
+	{
+		events = gameInput.OnControllerAnalogChange(controllerIndex, analogType, analogValue);
+		HandleInputEvents(events);
+	}
+
+}
+
+void WindowInputHandler::HandleControllerButtonDown(uint32 /*controllerIndex*/, Inputs::Type analogType)
+{
+	Internal::KeyMessageDownReceived(analogType, true, false);
+
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
+	{
+		Assert(receiver);
+		return receiver->OnKeyDown(analogType, false);
+	});
+
+	if (!events.IsInputHandled())
+	{
+		events = gameInput.OnKeyDown(analogType, false);
+		HandleInputEvents(events);
+	}
+}
+
+void WindowInputHandler::HandleControllerButtonUp(uint32 /*controllerIndex*/, Inputs::Type analogType)
+{
+	Internal::KeyMessageUpReceived(analogType);
+
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
+	{
+		Assert(receiver);
+		return receiver->OnKeyUp(analogType);
+	});
+
+	if (!events.IsInputHandled())
+	{
+		events = gameInput.OnKeyUp(analogType);
+		HandleInputEvents(events);
 	}
 }
 
