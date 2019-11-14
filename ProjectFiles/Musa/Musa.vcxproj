@@ -139,7 +139,6 @@
     <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\GameUIContext.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp" />
-    <ClInclude Include="..\..\Source\Musa\UI\UIWindow.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\EngineStatView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\ScreenTextItem.hpp" />
     <ClInclude Include="..\..\Source\Musa\Window\Window.h" />

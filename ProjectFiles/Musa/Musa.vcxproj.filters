@@ -413,9 +413,6 @@
     <ClInclude Include="..\..\Source\Musa\UI\GameUIContext.hpp">
       <Filter>Source\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\UI\UIWindow.hpp">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp">
       <Filter>Source\UI</Filter>
     </ClInclude>
