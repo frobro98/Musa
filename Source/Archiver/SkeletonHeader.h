@@ -23,6 +23,6 @@ struct SingleBoneData
 
 struct BonePoseData
 {
-	Matrix inversePoseMatrix;
+	Matrix4 inversePoseMatrix;
 };
 

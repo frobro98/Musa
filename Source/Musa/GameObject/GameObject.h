@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Math/Vector4.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix4.h"
 #include "Mesh/Mesh.h"
 #include "Model/Model.h"
 
@@ -49,14 +49,14 @@ public:
 
 	void SetDebugColor(Color32 color);
 
-	void SetWorld(const Matrix& newWorld);
-	Matrix GetWorld() const;
+	void SetWorld(const Matrix4& newWorld);
+	Matrix4 GetWorld() const;
 protected:
 	virtual void TransformDebugVolume();
 
 protected:
 	// TODO - implement own version of unique_ptr
-	Matrix world;
+	Matrix4 world;
 
 	Vector4 position;
 	float32 rotX;

@@ -39,8 +39,8 @@ void TransformSystem::ProcessTransform(TransformWork& work)
 	TransformComponent* transform = work.transform;
 	if (transform->IsDirty())
 	{
-		Matrix translation(TRANS, transform->GetPosition());
-		Matrix scale(SCALE, transform->GetScale());
+		Matrix4 translation(TRANS, transform->GetPosition());
+		Matrix4 scale(SCALE, transform->GetScale());
 		transform->SetLocalTransform(scale * transform->GetRotation() * translation);
 		transform->SetWorldTransform(transform->GetLocalTransform() /** parentTransform*/);
 		

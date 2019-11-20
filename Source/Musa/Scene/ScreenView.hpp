@@ -2,7 +2,7 @@
 
 #include "Containers/DynamicArray.hpp"
 #include "Math/Vector4.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix4.h"
 #include "Math/Rect.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 
@@ -21,8 +21,8 @@ struct ViewDescription
 
 struct ViewTransforms
 {
-	Matrix viewMatrix;
-	Matrix projectionMatrix;
+	Matrix4 viewMatrix;
+	Matrix4 projectionMatrix;
 };
 
 // TODO - The view should be produced by the main Viewport somehow

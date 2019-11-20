@@ -10,8 +10,8 @@ struct CameraComponent : public Musa::Component
 
 	CameraComponent();
 
-	Matrix projection;
-	Matrix view;
+	Matrix4 projection;
+	Matrix4 view;
 
 	Vector4 right;
 	Vector4 up = Vector4(0, 1, 0);

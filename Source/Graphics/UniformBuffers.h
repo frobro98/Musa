@@ -9,33 +9,33 @@ constexpr uint32 MaxBones = 120;
 
 struct TransformationUniformBuffer
 {
-	Matrix model;
+	Matrix4 model;
 };
 
 struct ViewPropertiesBuffer
 {
-	Matrix viewTransform;
-	Matrix projectionTransform;
+	Matrix4 viewTransform;
+	Matrix4 projectionTransform;
 	Vector4 viewPosition;
 };
 
 struct PoseInverseUniformBuffer
 {
-	Matrix inverses[MaxBones];
+	Matrix4 inverses[MaxBones];
 
 	PoseInverseUniformBuffer()
 	{
-		Memset(inverses, 0, sizeof(Matrix) * MaxBones);
+		Memset(inverses, 0, sizeof(Matrix4) * MaxBones);
 	}
 };
 
 struct BoneDeltasUniformBuffer
 {
-	Matrix deltaTransforms[MaxBones];
+	Matrix4 deltaTransforms[MaxBones];
 
 	BoneDeltasUniformBuffer()
 	{
-		Memset(deltaTransforms, 0, sizeof(Matrix) * MaxBones);
+		Memset(deltaTransforms, 0, sizeof(Matrix4) * MaxBones);
 	}
 };
 
@@ -49,8 +49,8 @@ struct LightProperties
 	Vector4 position;
 	Vector4 direction;
 	Color32 color;
-	Matrix lightViewTransform;
-	Matrix lightProjection;//lightSpaceTransform;
+	Matrix4 lightViewTransform;
+	Matrix4 lightProjection;//lightSpaceTransform;
 };
 
 struct KeyframeConstanceUniformBuffer

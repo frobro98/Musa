@@ -12,7 +12,7 @@ struct TextureCube;
 struct ShaderResource;
 struct MaterialRenderInfo;
 class ShaderProgram;
-class Matrix;
+class Matrix4;
 
 class Material
 {

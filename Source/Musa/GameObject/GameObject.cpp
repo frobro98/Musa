@@ -156,9 +156,9 @@ void GameObject::ToggleDebugColor()
 
 void GameObject::Update([[maybe_unused]] float tick)
 {
-	Matrix Trans(TRANS, position);
+	Matrix4 Trans(TRANS, position);
 	Quat Rot(ROT_XYZ, rotX, rotY, rotZ);
-	Matrix Scale(SCALE, scale);
+	Matrix4 Scale(SCALE, scale);
 
 	//world * GetParent()->world
 	world = Scale * Rot * Trans;
@@ -233,12 +233,12 @@ void GameObject::SetDebugColor(Color32 color)
 	debugVolume->GetMaterial()->SetColor(color);
 }
 
-void GameObject::SetWorld(const Matrix& newWorld)
+void GameObject::SetWorld(const Matrix4& newWorld)
 {
 	world = newWorld;
 }
 
-Matrix GameObject::GetWorld() const
+Matrix4 GameObject::GetWorld() const
 {
 	return world;
 }
@@ -247,6 +247,6 @@ void GameObject::TransformDebugVolume()
 {
 	SphereBounds boundingSphere = model->GetMesh()->GetCollitionInfo();
 	float radius = boundingSphere.radius * 2;
-	Matrix local = Matrix(SCALE, radius, radius, radius) * Matrix(TRANS, boundingSphere.position);
+	Matrix4 local = Matrix4(SCALE, radius, radius, radius) * Matrix4(TRANS, boundingSphere.position);
 	debugVolume->SetWorld(local * world);
 }

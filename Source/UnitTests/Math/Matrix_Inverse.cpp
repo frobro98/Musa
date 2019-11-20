@@ -14,16 +14,16 @@
 
 TEST( Matrix_inverse, matix_tests )
 {
-	Matrix Rx(ROT_X, 0.23f);
-	Matrix Ry(ROT_Y, -1.23f);
-	Matrix T( TRANS, 3.4f, 2.9f, -9.0f);
+	Matrix4 Rx(ROT_X, 0.23f);
+	Matrix4 Ry(ROT_Y, -1.23f);
+	Matrix4 T( TRANS, 3.4f, 2.9f, -9.0f);
 
-	Matrix M = Rx*Ry * T;
-	Matrix N(M);
+	Matrix4 M = Rx*Ry * T;
+	Matrix4 N(M);
 
 	M.Inverse();
 
-	Matrix C;
+	Matrix4 C;
 	C = N * M;
 
 	// verify C is identity
@@ -35,17 +35,17 @@ TEST( Matrix_inverse, matix_tests )
 
 TEST( Matrix_getinverse, matix_tests )
 {
-	Matrix Rx(ROT_X, 0.23f);
-	Matrix Ry(ROT_Y, -1.23f);
-	Matrix S( SCALE, 4.0f, 5.0f, 2.0f);
-	Matrix T( TRANS, -2.3f, 7.9f, 9.03f);
+	Matrix4 Rx(ROT_X, 0.23f);
+	Matrix4 Ry(ROT_Y, -1.23f);
+	Matrix4 S( SCALE, 4.0f, 5.0f, 2.0f);
+	Matrix4 T( TRANS, -2.3f, 7.9f, 9.03f);
 
-	Matrix M = S*T*Rx*Ry*S;
-	Matrix N;
+	Matrix4 M = S*T*Rx*Ry*S;
+	Matrix4 N;
 
 	N = M.GetInverse();
 
-	Matrix C;
+	Matrix4 C;
 	C = N * M;
 
 	// verify C is identity

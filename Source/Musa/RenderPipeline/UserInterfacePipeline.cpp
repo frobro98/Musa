@@ -38,8 +38,8 @@ void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screen
 
 static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)
 {
-	Matrix invScreen = Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);//Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);
-	Matrix invOrtho = Math::ConstructFastInverseOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, .1f, 10000.f);
+	Matrix4 invScreen = Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);//Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);
+	Matrix4 invOrtho = Math::ConstructFastInverseOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, .1f, 10000.f);
 	Vector4 worldPos = Vector4(screenPosition, 0,1) * invScreen * invOrtho;
 	return Vector2(worldPos.x, worldPos.y);
 }
@@ -66,7 +66,7 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 		viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
 		ViewPropertiesBuffer buffer = {};
 		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
-		buffer.viewTransform = Matrix(IDENTITY);
+		buffer.viewTransform = Matrix4(IDENTITY);
 		buffer.viewPosition = view.description.origin;
 		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}

@@ -2,14 +2,14 @@
 
 #include "EngineCore/Extents.hpp"
 #include "Math/Vector4.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix4.h"
 
 struct SphereBounds;
 
 class ViewFrustum
 {
 	ViewFrustum(
-		const Matrix& viewMatrix,
+		const Matrix4& viewMatrix,
 		const Vector4& origin,  
 		const Extents2D& nearExtents,
 		const Extents2D& farExtents,

@@ -14,7 +14,7 @@
 
 TEST( Matrix_default_constructor, matix_tests )
 {
-	Matrix M;
+	Matrix4 M;
 
 	CHECK( M[m0] == 0.0f );
 	CHECK( M[m1] == 0.0f );
@@ -58,7 +58,7 @@ TEST( Matrix_vector_constructor, matix_tests )
 	CHECK( V3.z == -2.0f );
 	CHECK( V3.w == 5.0f );
 
-	Matrix M(V0,V1,V2,V3);
+	Matrix4 M(V0,V1,V2,V3);
 
 	CHECK( M[m0] == 1.0f );
 	CHECK( M[m1] == 2.0f );
@@ -102,9 +102,9 @@ TEST( Matrix_copy_constructor, matix_tests )
 	CHECK( V3.z == -2.0f );
 	CHECK( V3.w == 5.0f );
 
-	Matrix M(V0,V1,V2,V3);
+	Matrix4 M(V0,V1,V2,V3);
 
-	Matrix N( M );
+	Matrix4 N( M );
 
 	CHECK( N[m0] == 1.0f );
 	CHECK( N[m1] == 2.0f );
@@ -148,10 +148,10 @@ TEST( Destructor_constuctor, matrix_tests )
 	Vector4 V2(-4.0f,-2.0f,-1.0f,-4.0f);
 	Vector4 V3(9.0f,-7.0f,-2.0f,5.0f);
 
-	Matrix M(V0,V1,V2,V3);
+	Matrix4 M(V0,V1,V2,V3);
 
-	Matrix *pM = &M;
-	pM->~Matrix();
+	Matrix4 *pM = &M;
+	pM->~Matrix4();
 	CHECK(1);
 }
 
@@ -159,7 +159,7 @@ TEST( MatrixRotAxisAngle, matrix_tests )
 {
 	// Axis and Angle Type Constructor:
 	Vector4  v11( 2.0f, 53.0f, 24.0f);
-	Matrix m54( ROT_AXIS_ANGLE, v11, Math::PiOver3 );
+	Matrix4 m54( ROT_AXIS_ANGLE, v11, Math::PiOver3 );
 			
 	// => Vector  v11( 2.0f, 53.0f, 24.0f); \n"););
 	// => Matrix m54(ROT_AXIS_ANGLE, v11, MATH_PI3 );\n"););
@@ -186,7 +186,7 @@ TEST( MatrixRotOrient, matrix_tests )
 	// Orientation Type Constructor:
 	Vector4  v15( 2.0f, 53.0f, 24.0f);
 	Vector4  v16( 0.0f, -24.0f, 53.0f);
-	Matrix m56(ROT_ORIENT, v15, v16 );
+	Matrix4 m56(ROT_ORIENT, v15, v16 );
 
 	CHECK( eq(m56[m0],-0.9994f, Math::InternalTolerence) );
 	CHECK( eq(m56[m1], 0.0313f, Math::InternalTolerence) );
@@ -211,7 +211,7 @@ TEST( MatrixRotInverseOrient, matrix_tests)
 	// Orientation Type Constructor:
 	Vector4  v17( 2.0f, 53.0f, 24.0f);
 	Vector4  v18( 0.0f, -24.0f, 53.0f);
-	Matrix m57(ROT_INVERSE_ORIENT, v17, v18 );
+	Matrix4 m57(ROT_INVERSE_ORIENT, v17, v18 );
 
 	CHECK( eq(m57[m0],-0.9994f, Math::InternalTolerence) );
 	CHECK( eq(m57[m1], 0.0000f, Math::InternalTolerence) );
@@ -234,10 +234,10 @@ TEST( MatrixRotInverseOrient, matrix_tests)
 TEST( MatrixQuaternion, matrix_tests)
 {
 	// Quaternion Type Constructor:
-	Matrix Rxyz1(ROT_XYZ, Math::PiOver3, Math::FivePiOver8, Math::PiOver4);
+	Matrix4 Rxyz1(ROT_XYZ, Math::PiOver3, Math::FivePiOver8, Math::PiOver4);
 
 	Quat	Qxyz1(Rxyz1);
-	Matrix Mxyz1( Qxyz1 );
+	Matrix4 Mxyz1( Qxyz1 );
 
 	CHECK( eq(Mxyz1[m0],-0.2705f, Math::InternalTolerence) );
 	CHECK( eq(Mxyz1[m1],-0.2705f, Math::InternalTolerence) );

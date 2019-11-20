@@ -2,7 +2,7 @@
 #include "MathEngine.h"
 #include "EngineCore/Assertion.h"
 
-Matrix::Matrix()
+Matrix4::Matrix4()
 	: _m0(0.f), _m1(0.f), _m2(0.f), _m3(0.f),
 	  _m4(0.f), _m5(0.f), _m6(0.f), _m7(0.f),
 	  _m8(0.f), _m9(0.f), _m10(0.f), _m11(0.f),
@@ -10,62 +10,62 @@ Matrix::Matrix()
 {
 }
 
-Matrix::Matrix(const Vector4 & row0, const Vector4 & row1, const Vector4 & row2, const Vector4 & row3)
+Matrix4::Matrix4(const Vector4 & row0, const Vector4 & row1, const Vector4 & row2, const Vector4 & row3)
 	: v0(row0), v1(row1), v2(row2), v3(row3)
 {
 }
 
-Matrix::Matrix(MatrixSpecialType specialEnum)
+Matrix4::Matrix4(MatrixSpecialType specialEnum)
 {
 	Set(specialEnum);
 }
 
-Matrix::Matrix(MatrixTransType transEnum, const Vector4 & transVec)
+Matrix4::Matrix4(MatrixTransType transEnum, const Vector4 & transVec)
 {
 	Set(transEnum, transVec);
 }
 
-Matrix::Matrix(MatrixTransType transEnum, float x, float y, float z)
+Matrix4::Matrix4(MatrixTransType transEnum, float x, float y, float z)
 {
 	Set(transEnum, x, y, z);
 }
 
-Matrix::Matrix(RotType rotationEnum, float angle)
+Matrix4::Matrix4(RotType rotationEnum, float angle)
 {
 	Set(rotationEnum, angle);
 }
 
-Matrix::Matrix(Rot3AxisType type, float xAngleRad, float yAngleRad, float zAngleRad)
+Matrix4::Matrix4(Rot3AxisType type, float xAngleRad, float yAngleRad, float zAngleRad)
 {
 	Set(type, xAngleRad, yAngleRad, zAngleRad);
 }
 
-Matrix::Matrix(RotAxisAngleType type, const Vector4& vect, float angleRads)
+Matrix4::Matrix4(RotAxisAngleType type, const Vector4& vect, float angleRads)
 {
 	Set(type, vect, angleRads);
 }
 
-Matrix::Matrix(RotOrientType type, const Vector4& dof, const Vector4& up)
+Matrix4::Matrix4(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
 	Set(type, dof, up);
 }
 
-Matrix::Matrix(MatrixScaleType scaleEnum, const Vector4& scaleVec)
+Matrix4::Matrix4(MatrixScaleType scaleEnum, const Vector4& scaleVec)
 {
 	Set(scaleEnum, scaleVec);
 }
 
-Matrix::Matrix(MatrixScaleType scaleEnum, float sx, float sy, float sz)
+Matrix4::Matrix4(MatrixScaleType scaleEnum, float sx, float sy, float sz)
 {
 	Set(scaleEnum, sx, sy, sz);
 }
 
-Matrix::Matrix(const Quat& q)
+Matrix4::Matrix4(const Quat& q)
 {
 	Set(q);
 }
 
-Matrix::Matrix(const Matrix& other)
+Matrix4::Matrix4(const Matrix4& other)
 {
 	_m0 = other._m0;
 	_m1 = other._m1;
@@ -85,7 +85,7 @@ Matrix::Matrix(const Matrix& other)
 	_m15 = other._m15;
 }
 
-Matrix::Matrix(Matrix&& other) noexcept
+Matrix4::Matrix4(Matrix4&& other) noexcept
 	: v0(std::move(other.v0)),
 	  v1(std::move(other.v1)),
 	  v2(std::move(other.v2)),
@@ -93,11 +93,7 @@ Matrix::Matrix(Matrix&& other) noexcept
 {
 }
 
-Matrix::~Matrix()
-{
-}
-
-Matrix& Matrix::operator=(const Matrix& m)
+Matrix4& Matrix4::operator=(const Matrix4& m)
 {
 	if (this != &m)
 	{
@@ -122,7 +118,7 @@ Matrix& Matrix::operator=(const Matrix& m)
 	return *this;
 }
 
-Matrix& Matrix::operator=(Matrix&& m) noexcept
+Matrix4& Matrix4::operator=(Matrix4&& m) noexcept
 {
 	if (this != &m)
 	{
@@ -135,7 +131,7 @@ Matrix& Matrix::operator=(Matrix&& m) noexcept
 	return *this;
 }
 
-void Matrix::Set(MatrixTransType /*transEnum*/, const Vector4& transVec)
+void Matrix4::Set(MatrixTransType /*transEnum*/, const Vector4& transVec)
 {
 	v0 = Vector4(1.f, 0.f, 0.f, 0.f);
 	v1 = Vector4(0.f, 1.f, 0.f, 0.f);
@@ -143,7 +139,7 @@ void Matrix::Set(MatrixTransType /*transEnum*/, const Vector4& transVec)
 	v3 = Vector4(transVec.x, transVec.y, transVec.z, 1.f);
 }
 
-void Matrix::Set(MatrixTransType /*transEnum*/, float x, float y, float z)
+void Matrix4::Set(MatrixTransType /*transEnum*/, float x, float y, float z)
 {
 	v0 = Vector4(1.f, 0.f, 0.f, 0.f);
 	v1 = Vector4(0.f, 1.f, 0.f, 0.f);
@@ -151,7 +147,7 @@ void Matrix::Set(MatrixTransType /*transEnum*/, float x, float y, float z)
 	v3 = Vector4(x, y, z, 1.f);
 }
 
-void Matrix::Set(RotType rotationEnum, float angle)
+void Matrix4::Set(RotType rotationEnum, float angle)
 {
 	switch (rotationEnum)
 	{
@@ -228,7 +224,7 @@ void Matrix::Set(RotType rotationEnum, float angle)
 	}
 }
 
-void Matrix::Set(Rot3AxisType, float xRad, float yRad, float zRad)
+void Matrix4::Set(Rot3AxisType, float xRad, float yRad, float zRad)
 {
 	Quat qX(ROT_X, xRad);
 	Quat qY(ROT_Y, yRad);
@@ -237,13 +233,13 @@ void Matrix::Set(Rot3AxisType, float xRad, float yRad, float zRad)
 	Set(qX*qY*qZ);
 }
 
-void Matrix::Set(RotAxisAngleType type, const Vector4& vect, float angleRads)
+void Matrix4::Set(RotAxisAngleType type, const Vector4& vect, float angleRads)
 {
 	Quat q(type, vect, angleRads);
 	Set(q);
 }
 
-void Matrix::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
+void Matrix4::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
 	switch (type)
 	{
@@ -300,7 +296,7 @@ void Matrix::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
 	}
 }
 
-void Matrix::Set(const Quat& q)
+void Matrix4::Set(const Quat& q)
 {
 	_m0 = 1.f - 2.f * (q.y * q.y + q.z * q.z);
 	_m1 =		2.f * (q.x * q.y + q.w * q.z);
@@ -323,7 +319,7 @@ void Matrix::Set(const Quat& q)
 	_m15 = 1.f;
 }
 
-void Matrix::Set(MatrixScaleType /*scaleEnum*/, const Vector4& scaleVec)
+void Matrix4::Set(MatrixScaleType /*scaleEnum*/, const Vector4& scaleVec)
 {
 	v0 = Vector4(scaleVec.x, 0.f, 0.f, 0.f);
 	v1 = Vector4(0.f, scaleVec.y, 0.f, 0.f);
@@ -331,7 +327,7 @@ void Matrix::Set(MatrixScaleType /*scaleEnum*/, const Vector4& scaleVec)
 	v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 }
 
-void Matrix::Set(MatrixScaleType /*scaleEnum*/, float sx, float sy, float sz)
+void Matrix4::Set(MatrixScaleType /*scaleEnum*/, float sx, float sy, float sz)
 {
 	v0 = Vector4(sx, 0.f, 0.f, 0.f);
 	v1 = Vector4(0.f, sy, 0.f, 0.f);
@@ -339,7 +335,7 @@ void Matrix::Set(MatrixScaleType /*scaleEnum*/, float sx, float sy, float sz)
 	v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 }
 
-void Matrix::Set(MatrixSpecialType specialEnum)
+void Matrix4::Set(MatrixSpecialType specialEnum)
 {
 	switch (specialEnum)
 	{
@@ -364,7 +360,7 @@ void Matrix::Set(MatrixSpecialType specialEnum)
 	}
 }
 
-void Matrix::Set(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3)
+void Matrix4::Set(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3)
 {
 	v0 = row0;
 	v1 = row1;
@@ -372,7 +368,7 @@ void Matrix::Set(const Vector4& row0, const Vector4& row1, const Vector4& row2, 
 	v3 = row3;
 }
 
-void Matrix::Set(MatrixRowType rowEnum, const Vector4& rowVec)
+void Matrix4::Set(MatrixRowType rowEnum, const Vector4& rowVec)
 {
 	switch (rowEnum)
 	{
@@ -397,7 +393,7 @@ void Matrix::Set(MatrixRowType rowEnum, const Vector4& rowVec)
 	}
 }
 
-void Matrix::Set(const Vector4 &axis, float angle)
+void Matrix4::Set(const Vector4 &axis, float angle)
 {
 	// angle
 	// axis;
@@ -460,7 +456,7 @@ void Matrix::Set(const Vector4 &axis, float angle)
 	v3 = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-Vector4 Matrix::Get(MatrixRowType rowEnum) const
+Vector4 Matrix4::Get(MatrixRowType rowEnum) const
 {
 	switch (rowEnum)
 	{
@@ -486,7 +482,7 @@ Vector4 Matrix::Get(MatrixRowType rowEnum) const
 	return Vector4();
 }
 
-float Matrix::Determinant() const
+float Matrix4::Determinant() const
 {
 	const float a = _m9*_m15 - _m11*_m13;
 	const float b = _m8*_m14 -_m10*_m12;
@@ -509,7 +505,7 @@ float Matrix::Determinant() const
 	return _m0*det00 - _m1*det01 + _m2*det02 - _m3*det03;
 }
 
-void Matrix::Inverse()
+void Matrix4::Inverse()
 {
 	float detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
@@ -581,7 +577,7 @@ void Matrix::Inverse()
 	}
 }
 
-Matrix Matrix::GetInverse() const
+Matrix4 Matrix4::GetInverse() const
 {
 	float detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
@@ -624,7 +620,7 @@ Matrix Matrix::GetInverse() const
 		float v3z = _m12*(m2Xm5 - m1Xm6)      - m2Xm4*_m13    + m0Xm6*_m13  + _m14*(m1Xm4 - m0Xm5);
 		float v3w = _m8*(m1Xm6 - m2Xm5)       + _m9*(m2Xm4    - m0Xm6)      - _m1*m4Xm10 + _m0*m5Xm10;
 
-		Matrix m;
+		Matrix4 m;
 		m.v0 = Vector4(
 			v0x * detScalar,
 			v0y * detScalar,
@@ -653,10 +649,10 @@ Matrix Matrix::GetInverse() const
 		return m;
 	}
 
-	return Matrix();
+	return Matrix4();
 }
 
-void Matrix::Transpose()
+void Matrix4::Transpose()
 {
 	float tmp = _m1;
 	_m1 = _m4;
@@ -684,9 +680,9 @@ void Matrix::Transpose()
 	_m6 = tmp;
 }
 
-Matrix Matrix::GetTranspose() const
+Matrix4 Matrix4::GetTranspose() const
 {
-	Matrix m(*this);
+	Matrix4 m(*this);
 
 	float tmp = m._m1;
 	m._m1 = m._m4;
@@ -716,7 +712,7 @@ Matrix Matrix::GetTranspose() const
 	return m;
 }
 
-bool Matrix::IsIdentity(float epsilon) const
+bool Matrix4::IsIdentity(float epsilon) const
 {
 	return Math::IsEqual(_m0, 1.f, epsilon) && Math::IsEqual(_m1, 0.f, epsilon) && 
 		   Math::IsEqual(_m2, 0.f, epsilon) && Math::IsEqual(_m3, 0.f, epsilon) &&
@@ -728,7 +724,7 @@ bool Matrix::IsIdentity(float epsilon) const
 		   Math::IsEqual(_m14, 0.f, epsilon) && Math::IsEqual(_m15, 1.f, epsilon);
 }
 
-bool Matrix::IsEqual(const Matrix& m) const
+bool Matrix4::IsEqual(const Matrix4& m) const
 {
 	return v0.IsEqual(m.v0) &&
 		v1.IsEqual(m.v1) &&
@@ -736,32 +732,32 @@ bool Matrix::IsEqual(const Matrix& m) const
 		v3.IsEqual(m.v3);
 }
 
-Matrix Matrix::operator+(const Matrix& m) const
+Matrix4 Matrix4::operator+(const Matrix4& m) const
 {
-	Matrix ret(*this);
+	Matrix4 ret(*this);
 	ret += m;
 	return ret;
 }
 
-Matrix Matrix::operator-(const Matrix& m) const
+Matrix4 Matrix4::operator-(const Matrix4& m) const
 {
-	Matrix ret(*this);
+	Matrix4 ret(*this);
 	return ret -= m;
 }
 
-Matrix Matrix::operator*(const Matrix& m) const
+Matrix4 Matrix4::operator*(const Matrix4& m) const
 {
-	Matrix ret(*this);
+	Matrix4 ret(*this);
 	return ret *= m;
 }
 
-Matrix Matrix::operator*(float s) const
+Matrix4 Matrix4::operator*(float s) const
 {
-	Matrix m(*this);
+	Matrix4 m(*this);
 	return m *= s;
 }
 
-Matrix& Matrix::operator+=(const Matrix& m)
+Matrix4& Matrix4::operator+=(const Matrix4& m)
 {
 	_m0 += m._m0;
 	_m1 += m._m1;
@@ -783,7 +779,7 @@ Matrix& Matrix::operator+=(const Matrix& m)
 	return *this;
 }
 
-Matrix& Matrix::operator-=(const Matrix& m)
+Matrix4& Matrix4::operator-=(const Matrix4& m)
 {
 	_m0 -= m._m0;
 	_m1 -= m._m1;
@@ -805,7 +801,7 @@ Matrix& Matrix::operator-=(const Matrix& m)
 	return *this;
 }
 
-Matrix& Matrix::operator*=(const Matrix& m)
+Matrix4& Matrix4::operator*=(const Matrix4& m)
 {
 	v0 = Vector4(
 		_m0*m._m0 + _m1*m._m4 + _m2*m._m8 + _m3*m._m12,
@@ -838,7 +834,7 @@ Matrix& Matrix::operator*=(const Matrix& m)
 	return *this;
 }
 
-Matrix& Matrix::operator*=(float s)
+Matrix4& Matrix4::operator*=(float s)
 {
 	_m0 *= s;
 	_m1 *= s;
@@ -860,9 +856,9 @@ Matrix& Matrix::operator*=(float s)
 	return *this;
 }
 
-Matrix Matrix::operator+() const
+Matrix4 Matrix4::operator+() const
 {
-	return Matrix(
+	return Matrix4(
 		Vector4(+v0.x, +v0.y, +v0.z, +v0.w),
 		Vector4(+v1.x, +v1.y, +v1.z, +v1.w),
 		Vector4(+v2.x, +v2.y, +v2.z, +v2.w),
@@ -870,9 +866,9 @@ Matrix Matrix::operator+() const
 	);
 }
 
-Matrix Matrix::operator-() const
+Matrix4 Matrix4::operator-() const
 {
-	return Matrix(
+	return Matrix4(
 		Vector4(-v0.x, -v0.y, -v0.z, -v0.w),
 		Vector4(-v1.x, -v1.y, -v1.z, -v1.w), 
 		Vector4(-v2.x, -v2.y, -v2.z, -v2.w),
@@ -880,339 +876,339 @@ Matrix Matrix::operator-() const
 	);
 }
 
-float & Matrix::m0()
+float & Matrix4::m0()
 {
 	return _m0;
 }
 
-float & Matrix::m1()
+float & Matrix4::m1()
 {
 	return _m1;
 }
 
-float & Matrix::m2()
+float & Matrix4::m2()
 {
 	return _m2;
 }
 
-float & Matrix::m3()
+float & Matrix4::m3()
 {
 	return _m3;
 }
 
-float & Matrix::m4()
+float & Matrix4::m4()
 {
 	return _m4;
 }
 
-float & Matrix::m5()
+float & Matrix4::m5()
 {
 	return _m5;
 }
 
-float & Matrix::m6()
+float & Matrix4::m6()
 {
 	return _m6;
 }
 
-float & Matrix::m7()
+float & Matrix4::m7()
 {
 	return _m7;
 }
 
-float & Matrix::m8()
+float & Matrix4::m8()
 {
 	return _m8;
 }
 
-float & Matrix::m9()
+float & Matrix4::m9()
 {
 	return _m9;
 }
 
-float & Matrix::m10()
+float & Matrix4::m10()
 {
 	return _m10;
 }
 
-float & Matrix::m11()
+float & Matrix4::m11()
 {
 	return _m11;
 }
 
-float & Matrix::m12()
+float & Matrix4::m12()
 {
 	return _m12;
 }
 
-float & Matrix::m13()
+float & Matrix4::m13()
 {
 	return _m13;
 }
 
-float & Matrix::m14()
+float & Matrix4::m14()
 {
 	return _m14;
 }
 
-float & Matrix::m15()
+float & Matrix4::m15()
 {
 	return _m15;
 }
 
-const float & Matrix::m0() const
+const float & Matrix4::m0() const
 {
 	return _m0;
 }
 
-const float & Matrix::m1() const
+const float & Matrix4::m1() const
 {
 	return _m1;
 }
 
-const float & Matrix::m2() const
+const float & Matrix4::m2() const
 {
 	return _m2;
 }
 
-const float & Matrix::m3() const
+const float & Matrix4::m3() const
 {
 	return _m3;
 }
 
-const float & Matrix::m4() const
+const float & Matrix4::m4() const
 {
 	return _m4;
 }
 
-const float & Matrix::m5() const
+const float & Matrix4::m5() const
 {
 	return _m5;
 }
 
-const float & Matrix::m6() const
+const float & Matrix4::m6() const
 {
 	return _m6;
 }
 
-const float & Matrix::m7() const
+const float & Matrix4::m7() const
 {
 	return _m7;
 }
 
-const float & Matrix::m8() const
+const float & Matrix4::m8() const
 {
 	return _m8;
 }
 
-const float & Matrix::m9() const
+const float & Matrix4::m9() const
 {
 	return _m9;
 }
 
-const float & Matrix::m10() const
+const float & Matrix4::m10() const
 {
 	return _m10;
 }
 
-const float & Matrix::m11() const
+const float & Matrix4::m11() const
 {
 	return _m11;
 }
 
-const float & Matrix::m12() const
+const float & Matrix4::m12() const
 {
 	return _m12;
 }
 
-const float & Matrix::m13() const
+const float & Matrix4::m13() const
 {
 	return _m13;
 }
 
-const float & Matrix::m14() const
+const float & Matrix4::m14() const
 {
 	return _m14;
 }
 
-const float & Matrix::m15() const
+const float & Matrix4::m15() const
 {
 	return _m15;
 }
 
-float & Matrix::operator[](m0_enum)
+float & Matrix4::operator[](m0_enum)
 {
 	return _m0;
 }
 
-float & Matrix::operator[](m1_enum)
+float & Matrix4::operator[](m1_enum)
 {
 	return _m1;
 }
 
-float & Matrix::operator[](m2_enum)
+float & Matrix4::operator[](m2_enum)
 {
 	return _m2;
 }
 
-float & Matrix::operator[](m3_enum)
+float & Matrix4::operator[](m3_enum)
 {
 	return _m3;
 }
 
-float & Matrix::operator[](m4_enum)
+float & Matrix4::operator[](m4_enum)
 {
 	return _m4;
 }
 
-float & Matrix::operator[](m5_enum)
+float & Matrix4::operator[](m5_enum)
 {
 	return _m5;
 }
 
-float & Matrix::operator[](m6_enum)
+float & Matrix4::operator[](m6_enum)
 {
 	return _m6;
 }
 
-float & Matrix::operator[](m7_enum)
+float & Matrix4::operator[](m7_enum)
 {
 	return _m7;
 }
 
-float & Matrix::operator[](m8_enum)
+float & Matrix4::operator[](m8_enum)
 {
 	return _m8;
 }
 
-float & Matrix::operator[](m9_enum)
+float & Matrix4::operator[](m9_enum)
 {
 	return _m9;
 }
 
-float & Matrix::operator[](m10_enum)
+float & Matrix4::operator[](m10_enum)
 {
 	return _m10;
 }
 
-float & Matrix::operator[](m11_enum)
+float & Matrix4::operator[](m11_enum)
 {
 	return _m11;
 }
 
-float & Matrix::operator[](m12_enum)
+float & Matrix4::operator[](m12_enum)
 {
 	return _m12;
 }
 
-float & Matrix::operator[](m13_enum)
+float & Matrix4::operator[](m13_enum)
 {
 	return _m13;
 }
 
-float & Matrix::operator[](m14_enum)
+float & Matrix4::operator[](m14_enum)
 {
 	return _m14;
 }
 
-float & Matrix::operator[](m15_enum)
+float & Matrix4::operator[](m15_enum)
 {
 	return _m15;
 }
 
-const float & Matrix::operator[](m0_enum) const
+const float & Matrix4::operator[](m0_enum) const
 {
 	return _m0;
 }
 
-const float & Matrix::operator[](m1_enum) const
+const float & Matrix4::operator[](m1_enum) const
 {
 	return _m1;
 }
 
-const float & Matrix::operator[](m2_enum) const
+const float & Matrix4::operator[](m2_enum) const
 {
 	return _m2;
 }
 
-const float & Matrix::operator[](m3_enum) const
+const float & Matrix4::operator[](m3_enum) const
 {
 	return _m3;
 }
 
-const float & Matrix::operator[](m4_enum) const
+const float & Matrix4::operator[](m4_enum) const
 {
 	return _m4;
 }
 
-const float & Matrix::operator[](m5_enum) const
+const float & Matrix4::operator[](m5_enum) const
 {
 	return _m5;
 }
 
-const float & Matrix::operator[](m6_enum) const
+const float & Matrix4::operator[](m6_enum) const
 {
 	return _m6;
 }
 
-const float & Matrix::operator[](m7_enum) const
+const float & Matrix4::operator[](m7_enum) const
 {
 	return _m7;
 }
 
-const float & Matrix::operator[](m8_enum) const
+const float & Matrix4::operator[](m8_enum) const
 {
 	return _m8;
 }
 
-const float & Matrix::operator[](m9_enum) const
+const float & Matrix4::operator[](m9_enum) const
 {
 	return _m9;
 }
 
-const float & Matrix::operator[](m10_enum) const
+const float & Matrix4::operator[](m10_enum) const
 {
 	return _m10;
 }
 
-const float & Matrix::operator[](m11_enum) const
+const float & Matrix4::operator[](m11_enum) const
 {
 	return _m11;
 }
 
-const float & Matrix::operator[](m12_enum) const
+const float & Matrix4::operator[](m12_enum) const
 {
 	return _m12;
 }
 
-const float & Matrix::operator[](m13_enum) const
+const float & Matrix4::operator[](m13_enum) const
 {
 	return _m13;
 }
 
-const float & Matrix::operator[](m14_enum) const
+const float & Matrix4::operator[](m14_enum) const
 {
 	return _m14;
 }
 
-const float & Matrix::operator[](m15_enum) const
+const float & Matrix4::operator[](m15_enum) const
 {
 	return _m15;
 }
 
-Vector4 operator*(const Vector4& v, const Matrix& m)
+Vector4 operator*(const Vector4& v, const Matrix4& m)
 {
 	Vector4 ret(v);
 	return ret *= m;
 }
 
-Matrix operator*(float s, const Matrix& m)
+Matrix4 operator*(float s, const Matrix4& m)
 {
-	Matrix ret(m);
+	Matrix4 ret(m);
 	return ret *= s;
 }
 
-Vector4 & operator*=(Vector4& v, const Matrix& m)
+Vector4 & operator*=(Vector4& v, const Matrix4& m)
 {
 	v = Vector4(
 		v.x * m.m0() + v.y * m.m4() + v.z * m.m8()  + v.w * m.m12(),

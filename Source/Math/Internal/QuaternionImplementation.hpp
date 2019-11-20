@@ -2,7 +2,7 @@
 
 struct Quat;
 struct Vector4;
-class Matrix;
+class Matrix4;
 
 namespace Internal
 {
@@ -10,7 +10,7 @@ namespace Internal
 float QuaternionDotQuaternion(const Quat& q0, const Quat& q1);
 void  QuaternionNormalize(Quat& q);
 void  QuaternionInverse(Quat& q);
-void  QuaternionSetMatrix(Quat& q, const Matrix& m);
+void  QuaternionSetMatrix(Quat& q, const Matrix4& m);
 float QuaternionMagnitude(const Quat& q);
 float QuaternionMagnitudeSqr(const Quat& q);
 float QuaternionMagnitudeInverse(const Quat& q);

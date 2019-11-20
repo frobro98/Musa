@@ -85,7 +85,7 @@ struct BoneData
 
 struct PoseData
 {
-	Matrix invPoseMat{ IDENTITY };
+	Matrix4 invPoseMat{ IDENTITY };
 	uint32 index = 0;
 	std::string boneName = "";
 };
@@ -431,9 +431,9 @@ void ChunkAnimationData(const std::vector<AnimationClip>& clips)
 //////////////////////////////////////////////////////////////////////////
 // Skinning!
 
-static Matrix FbxMatToMusaMat(const FbxAMatrix& fbxMat)
+static Matrix4 FbxMatToMusaMat(const FbxAMatrix& fbxMat)
 {
-	Matrix mat;
+	Matrix4 mat;
 	mat.Set(ROW_0, Vector4{ static_cast<float>(fbxMat[0][0]), static_cast<float>(fbxMat[0][1]), static_cast<float>(fbxMat[0][2]), static_cast<float>(fbxMat[0][3]) });
 	mat.Set(ROW_1, Vector4{ static_cast<float>(fbxMat[1][0]), static_cast<float>(fbxMat[1][1]), static_cast<float>(fbxMat[1][2]), static_cast<float>(fbxMat[1][3]) });
 	mat.Set(ROW_2, Vector4{ static_cast<float>(fbxMat[2][0]), static_cast<float>(fbxMat[2][1]), static_cast<float>(fbxMat[2][2]), static_cast<float>(fbxMat[2][3]) });
@@ -488,10 +488,10 @@ std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, c
 			clusterTransform = cluster->GetTransformMatrix(clusterTransform);
 			linkTransform = cluster->GetTransformLinkMatrix(linkTransform).Inverse();
 
-			Matrix clusterMat = FbxMatToMusaMat(clusterTransform);
-			Matrix linkMat = FbxMatToMusaMat(linkTransform);
+			Matrix4 clusterMat = FbxMatToMusaMat(clusterTransform);
+			Matrix4 linkMat = FbxMatToMusaMat(linkTransform);
 
-			Matrix poseInv = clusterMat * linkMat;
+			Matrix4 poseInv = clusterMat * linkMat;
 
 			PoseData pose = {};
 			pose.boneName = boneIter->name;

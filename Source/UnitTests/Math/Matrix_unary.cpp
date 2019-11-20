@@ -19,7 +19,7 @@ TEST(Matrix_UnaryPlus, matix_tests)
 	Vector4 V2(22.0f, 21.0f, 20.0f, 19.0f);
 	Vector4 V3(18.0f, 17.0f, 16.0f, 15.0f);
 
-	Matrix A(V0, V1, V2, V3);
+	Matrix4 A(V0, V1, V2, V3);
 
 	CHECK(A[m0] == 30.0f);
 	CHECK(A[m1] == 29.0f);
@@ -65,7 +65,7 @@ TEST( unary_equal_Plus, matrix_tests )
 	Vector4 V2(22.0f,21.0f,20.0f,19.0f);
 	Vector4 V3(18.0f,17.0f,16.0f,15.0f);
 
-	Matrix A(V0,V1,V2,V3);
+	Matrix4 A(V0,V1,V2,V3);
 
 	CHECK( A[m0] == 30.0f );
 	CHECK( A[m1] == 29.0f );
@@ -89,7 +89,7 @@ TEST( unary_equal_Plus, matrix_tests )
 	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
 	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
-	Matrix B(V4,V5,V6,V7);
+	Matrix4 B(V4,V5,V6,V7);
 
 	CHECK( B[m0] == 20.0f );
 	CHECK( B[m1] == 21.0f );
@@ -153,7 +153,7 @@ TEST( Matrix_UnaryMinus, matix_tests )
 	Vector4 V2(22.0f,21.0f,20.0f,19.0f);
 	Vector4 V3(18.0f,17.0f,16.0f,15.0f);
 
-	Matrix A(V0,V1,V2,V3);
+	Matrix4 A(V0,V1,V2,V3);
 
 	CHECK( A[m0] == 30.0f );
 	CHECK( A[m1] == 29.0f );
@@ -201,7 +201,7 @@ TEST( unary_equal_Minus, Matrix_tests )
 	Vector4 V2(22.0f,21.0f,20.0f,19.0f);
 	Vector4 V3(18.0f,17.0f,16.0f,15.0f);
 
-	Matrix A(V0,V1,V2,V3);
+	Matrix4 A(V0,V1,V2,V3);
 
 	CHECK( A[m0] == 30.0f );
 	CHECK( A[m1] == 29.0f );
@@ -225,7 +225,7 @@ TEST( unary_equal_Minus, Matrix_tests )
 	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
 	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
-	Matrix B(V4,V5,V6,V7);
+	Matrix4 B(V4,V5,V6,V7);
 
 	CHECK( B[m0] == 20.0f );
 	CHECK( B[m1] == 21.0f );

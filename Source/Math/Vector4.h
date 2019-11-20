@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MathDefinitions.h"
+#include "Types/Intrinsics.hpp"
 #include "Math/MathConstants.h"
 
 struct Vector2;

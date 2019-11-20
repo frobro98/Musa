@@ -12,9 +12,6 @@
     <ClInclude Include="..\..\Source\Math\MathEngine.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math\Matrix.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Math\MathDefinitions.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -63,6 +60,15 @@
     <ClInclude Include="..\..\Source\Math\IntVector2.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Matrix2.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Matrix3.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Math\Matrix4.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Math\Internal\VectorImplementation.cpp">
@@ -72,9 +78,6 @@
       <Filter>Source\Internal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Math\Matrix.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Math\Quat.cpp">
@@ -90,6 +93,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Math\IntVector2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\Matrix4.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

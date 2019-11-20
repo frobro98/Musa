@@ -23,7 +23,7 @@ TEST( QuatFunctions, QuatFunctionsTests )
 
 TEST(getConjugate, QuatFunctionsTests)
 {
-	Matrix	mm2, mm3;
+	Matrix4	mm2, mm3;
 	Quat	q1, q2, q3, qtmp;
 	Vector4	v1, v2, v3, v4;
 
@@ -53,9 +53,9 @@ TEST(getConjugate, QuatFunctionsTests)
 
 	// Matrix to Quat
 	//m2.Set(ROT_XYZ,Math::2PiOver3,Math::3PiOver8,Math::3PiOver4);
-	Matrix mx(ROT_X, Math::TwoPiOver3);
-	Matrix my(ROT_Y, Math::ThreePiOver8);
-	Matrix mz(ROT_Z, Math::ThreePiOver4);
+	Matrix4 mx(ROT_X, Math::TwoPiOver3);
+	Matrix4 my(ROT_Y, Math::ThreePiOver8);
+	Matrix4 mz(ROT_Z, Math::ThreePiOver4);
 
 	mm2 = mx * my * mz;
 
@@ -119,7 +119,7 @@ TEST( QuatConjugateInPlace, QuatFunctionsTests )
 TEST( QuatConjugateByValue, QuatFunctionsTests )
 {
 	Quat q1,q2,qtmp;
-	Matrix mm2, mm3;
+	Matrix4 mm2, mm3;
 	
 	// Conjugate by value
 	// q1.Set(ROT_XYZ,Math::2PiOver3,Math::3PiOver8,Math::3PiOver4);
@@ -146,9 +146,9 @@ TEST( QuatConjugateByValue, QuatFunctionsTests )
 	// Matrix to Quat
 	//m2.Set(ROT_XYZ,Math::2PiOver3,Math::3PiOver8,Math::3PiOver4);
 
-	Matrix mx(ROT_X, Math::TwoPiOver3);
-	Matrix my(ROT_Y, Math::ThreePiOver8);
-	Matrix mz(ROT_Z, Math::ThreePiOver4);
+	Matrix4 mx(ROT_X, Math::TwoPiOver3);
+	Matrix4 my(ROT_Y, Math::ThreePiOver8);
+	Matrix4 mz(ROT_Z, Math::ThreePiOver4);
 
 	mm2 = mx * my * mz;
  
@@ -208,11 +208,11 @@ TEST( QuatTransposeToDest, QuatFunctionsTests )
 	CHECK( eq(q2.w,0.6036f,Math::InternalTolerence) );
 
 	// Matrix to Quat
-	Matrix mm2, mm3;
+	Matrix4 mm2, mm3;
 	//mm2.Set(ROT_XYZ,Math::2PiOver3,Math::3PiOver8,Math::3PiOver4);
-	Matrix mx(ROT_X, Math::TwoPiOver3);
-	Matrix my(ROT_Y, Math::ThreePiOver8);
-	Matrix mz(ROT_Z, Math::ThreePiOver4);
+	Matrix4 mx(ROT_X, Math::TwoPiOver3);
+	Matrix4 my(ROT_Y, Math::ThreePiOver8);
+	Matrix4 mz(ROT_Z, Math::ThreePiOver4);
 
 	mm2 = mx * my * mz;
 
@@ -286,7 +286,7 @@ TEST( QuatTransposeByValue, QuatFunctionsTests )
 {
 	// "transpose by value
 	Quat q1,q2,q3,qtmp;
-	Matrix mm1,mm2,mm3;
+	Matrix4 mm1,mm2,mm3;
 	//q1.Set(ROT_XYZ,Math::2PiOver3,Math::3PiOver8,Math::3PiOver4);
 	Quat qx(ROT_X, Math::TwoPiOver3);
 	Quat qy(ROT_Y, Math::ThreePiOver8);
@@ -311,9 +311,9 @@ TEST( QuatTransposeByValue, QuatFunctionsTests )
 
 	// Matrix to Quat
 	//m2.Set(ROT_XYZ,Math::2PiOver3,Math::3PiOver8,Math::3PiOver4);
-	Matrix mx(ROT_X, Math::TwoPiOver3);
-	Matrix my(ROT_Y, Math::ThreePiOver8);
-	Matrix mz(ROT_Z, Math::ThreePiOver4);
+	Matrix4 mx(ROT_X, Math::TwoPiOver3);
+	Matrix4 my(ROT_Y, Math::ThreePiOver8);
+	Matrix4 mz(ROT_Z, Math::ThreePiOver4);
 
 	mm2 = mx * my * mz;
 
@@ -618,12 +618,12 @@ TEST( QuatLqcvq_Lqvqc_1, QuatFunctionsTests )
 	// Lqcvq() and Lqvqc() operator
 	
 	//Matrix Mxyz(ROT_XYZ,Math::PiOver3,Math::3PiOver4,Math::PiOver2);
-	Matrix mx(ROT_X,Math::PiOver3);
-	Matrix my(ROT_Y,Math::ThreePiOver4);
-	Matrix mz(ROT_Z,Math::PiOver2);
-	Matrix Mxyz = mx*my*mz;
+	Matrix4 mx(ROT_X,Math::PiOver3);
+	Matrix4 my(ROT_Y,Math::ThreePiOver4);
+	Matrix4 mz(ROT_Z,Math::PiOver2);
+	Matrix4 Mxyz = mx*my*mz;
 
-	Matrix MTxyz(Mxyz.GetTranspose());
+	Matrix4 MTxyz(Mxyz.GetTranspose());
 	//Quat   Qxyz(ROT_XYZ,Math::PiOver3,Math::3PiOver4,Math::PiOver2);
 	Quat qx(ROT_X,Math::PiOver3);
 	Quat qy(ROT_Y,Math::ThreePiOver4);
@@ -739,13 +739,13 @@ TEST( dot_Test, QuatFunctionsTests )
 TEST( Assignment_Matrix_Test, QuatFunctionsTests )
 {
 	Quat q1;
-	Matrix A(ROT_XYZ, 0.34f, -2.3f, 1.2f);
+	Matrix4 A(ROT_XYZ, 0.34f, -2.3f, 1.2f);
 	
 	Quat q2(A);
 
 	q1 = A;
 
-	Matrix B(q1);
+	Matrix4 B(q1);
 
 	CHECK( eq(A[m0], B[m0], Math::InternalTolerence));
 	CHECK( eq(A[m1], B[m1], Math::InternalTolerence));

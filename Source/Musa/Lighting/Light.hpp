@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject/GameObject.h"
-#include "Math/Matrix.h"
+#include "Math/Matrix4.h"
 #include "Graphics/UniformBuffers.h"
 
 class VulkanDevice;
@@ -28,7 +28,7 @@ public:
 	{
 		return Vector4(-worldLight[m2], -worldLight[m6], -worldLight[m10]);
 	}
-	inline const Matrix& GetWorldLightTransform() const
+	inline const Matrix4& GetWorldLightTransform() const
 	{
 		return worldLight;
 	}
@@ -38,6 +38,6 @@ public:
 	Color lightColor;
 
 protected:
-	Matrix worldLight;
+	Matrix4 worldLight;
 	NativeUniformBuffer* lightInformationBuffer = nullptr;
 };

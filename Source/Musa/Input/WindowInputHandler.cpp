@@ -126,6 +126,7 @@ void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 
 {
 	// NOTE - Currently, I don't care about mouse cursor position, however, I may in the future. Keep this in mind when passing this info down
 
+	// TODO - Input mouse movement is a little slow. Investigate this...
 	IntVector2 delta(deltaX, deltaY);
 	IntVector2 mouseMovePos(mouseX, mouseY);
 	currentMousePos = mouseMovePos;

@@ -23,7 +23,7 @@ void GodCamera::Update(float tick)
 	camera.SetOrientationAndPosition(cameraLookAt, position, cameraUp);
 
 	// TODO - This should be done in the SetWorld method...
-	world = Matrix(TRANS, position);
+	world = Matrix4(TRANS, position);
 }
 
 void GodCamera::InputCallback(const FrameInputs& inputs)

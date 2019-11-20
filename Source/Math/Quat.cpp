@@ -88,12 +88,12 @@ Quat::Quat(const Vector4& v, float angle)
 	Set(v, angle);
 }
 
-Quat::Quat(const Matrix & mat)
+Quat::Quat(const Matrix4 & mat)
 {
 	Set(mat);
 }
 
-Quat& Quat::operator=(const Matrix& m)
+Quat& Quat::operator=(const Matrix4& m)
 {
 	Set(m);
 	return *this;
@@ -107,7 +107,7 @@ void Quat::Set(float x_, float y_, float z_, float w_)
 	w = w_;
 }
 
-void Quat::Set(const Matrix& mat)
+void Quat::Set(const Matrix4& mat)
 {
 	Internal::QuaternionSetMatrix(*this, mat);
 }
@@ -198,7 +198,7 @@ void Quat::Set(RotAxisAngleType, const Vector4& axis, float angleRad)
 
 void Quat::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
 {
-	Matrix m(type, dof, up);
+	Matrix4 m(type, dof, up);
 	Set(m);
 }
 
@@ -269,14 +269,14 @@ Quat Quat::GetConjugate() const
 
 void Quat::Transpose()
 {
-	Matrix m(*this);
+	Matrix4 m(*this);
 	m.Transpose();
 	Set(m);
 }
 
 Quat Quat::GetTranspose() const
 {
-	Matrix m(*this);
+	Matrix4 m(*this);
 	m.Transpose();
 	return Quat(m);
 }
@@ -423,30 +423,30 @@ Quat Quat::operator/(const Quat& q) const
 	return quat;
 }
 
-Matrix& operator*=(Matrix& m, const Quat& q)
+Matrix4& operator*=(Matrix4& m, const Quat& q)
 {
-	Matrix mq(q);
+	Matrix4 mq(q);
 	m *= mq;
 	return m;
 }
 
-Quat& operator*=(Quat& q, const Matrix& m)
+Quat& operator*=(Quat& q, const Matrix4& m)
 {
 	Quat mQ(m);
 	q *= mQ;
 	return q;
 }
 
-Matrix operator*(const Matrix& m, const Quat& q)
+Matrix4 operator*(const Matrix4& m, const Quat& q)
 {
-	Matrix mq(q);
-	return Matrix(m * mq);
+	Matrix4 mq(q);
+	return Matrix4(m * mq);
 }
 
-Matrix operator*(const Quat& q, const Matrix& m)
+Matrix4 operator*(const Quat& q, const Matrix4& m)
 {
-	Matrix mq(q);
-	return Matrix(mq * m);
+	Matrix4 mq(q);
+	return Matrix4(mq * m);
 }
 
 Vector4& operator*=(Vector4& v, const Quat& q)

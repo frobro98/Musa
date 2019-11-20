@@ -15,7 +15,7 @@
 TEST( Matrix_Identity, matrix_tests )
 {
 
-	Matrix A(IDENTITY);
+	Matrix4 A(IDENTITY);
 
 	CHECK( A[m0] == 1.0f );
 	CHECK( A[m1] == 0.0f );
@@ -38,7 +38,7 @@ TEST( Matrix_Identity, matrix_tests )
 TEST( Matrix_Zero, matrix_tests )
 {
 
-	Matrix A(ZERO);
+	Matrix4 A(ZERO);
 
 	CHECK( A[m0] == 0.0f );
 	CHECK( A[m1] == 0.0f );
@@ -61,7 +61,7 @@ TEST( Matrix_Zero, matrix_tests )
 TEST( Matrix_Trans, matrix_tests )
 {
 
-	Matrix A(TRANS, 2.0f, 3.0f, 4.0f);
+	Matrix4 A(TRANS, 2.0f, 3.0f, 4.0f);
 
 	CHECK( A[m0] == 1.0f );
 	CHECK( A[m1] == 0.0f );
@@ -84,7 +84,7 @@ TEST( Matrix_Trans, matrix_tests )
 TEST(Matrix_Trans_Vect, matrix_tests)
 {
 	Vector4 vTrans(2.0f, 3.0f, 4.0f);
-	Matrix A(TRANS, vTrans);
+	Matrix4 A(TRANS, vTrans);
 
 	CHECK( A[m0] == 1.0f );
 	CHECK( A[m1] == 0.0f );
@@ -107,7 +107,7 @@ TEST(Matrix_Trans_Vect, matrix_tests)
 TEST( Matrix_SCALE, matrix_tests )
 {
 
-	Matrix A(SCALE, 2.0f, 3.0f, 4.0f);
+	Matrix4 A(SCALE, 2.0f, 3.0f, 4.0f);
 
 	CHECK( A[m0] == 2.0f );
 	CHECK( A[m1] == 0.0f );
@@ -130,7 +130,7 @@ TEST( Matrix_SCALE, matrix_tests )
 TEST(Matrix_SCALE_Vect, matrix_tests)
 {
 	Vector4 vScale(2.0f, 3.0f, 4.0f);
-	Matrix A(SCALE, vScale);
+	Matrix4 A(SCALE, vScale);
 
 	CHECK( A[m0] == 2.0f );
 	CHECK( A[m1] == 0.0f );
@@ -153,7 +153,7 @@ TEST(Matrix_SCALE_Vect, matrix_tests)
 TEST( RotX, matrix_tests )
 {
 	// Rot_X Type Constructor:
-	Matrix Rx(ROT_X, 1.0471975512f );	
+	Matrix4 Rx(ROT_X, 1.0471975512f );	
 
 	CHECK( Rx[m0] ==  1.0f );
 	CHECK( Rx[m1] ==  0.0f );
@@ -176,7 +176,7 @@ TEST( RotX, matrix_tests )
 
 TEST( RotY, matrix_tests )
 {
-	Matrix Ry(ROT_Y,  1.0471975512f );	
+	Matrix4 Ry(ROT_Y,  1.0471975512f );	
 
 	CHECK( eq(Ry[m0],0.5f,  Math::InternalTolerence) );
 	CHECK( Ry[m1] ==  0.0f );
@@ -198,7 +198,7 @@ TEST( RotY, matrix_tests )
 
 TEST( RotZ, matrix_tests )
 {
-	Matrix Rz(ROT_Z, 1.0471975512f);	
+	Matrix4 Rz(ROT_Z, 1.0471975512f);	
 
 	CHECK( eq(Rz[m0],0.5f,   Math::InternalTolerence) );
 	CHECK( eq(Rz[m1],0.866f,Math::InternalTolerence) );
@@ -220,9 +220,9 @@ TEST( RotZ, matrix_tests )
 
 TEST( RotXYZ_Constructor, matrix_tests )
 {
-	Matrix Rx;
-	Matrix Ry;
-	Matrix Rz;
+	Matrix4 Rx;
+	Matrix4 Ry;
+	Matrix4 Rz;
 
 	// Rot_X Type Constructor:
 	Rx.Set(	ROT_X, Math::PiOver3);
@@ -282,11 +282,11 @@ TEST( RotXYZ_Constructor, matrix_tests )
 	CHECK( Rz[m14] == 0.0f );
 	CHECK( Rz[m15] == 1.0f );
 
-	Matrix Rxyz;
+	Matrix4 Rxyz;
 
 	Rxyz = Rx * Ry * Rz;
 
-	Matrix mTmp(ROT_XYZ, Math::PiOver3,Math::SevenPiOver8, Math::PiOver2);
+	Matrix4 mTmp(ROT_XYZ, Math::PiOver3,Math::SevenPiOver8, Math::PiOver2);
 
 	CHECK( eq( Rxyz[m0], mTmp[m0], Math::InternalTolerence) );
 	CHECK( eq( Rxyz[m1], mTmp[m1], Math::InternalTolerence) );
@@ -313,7 +313,7 @@ TEST( isEqual_false , matrix_tests )
 	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
 	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
-	Matrix A(V0,V1,V2,V3);
+	Matrix4 A(V0,V1,V2,V3);
 
 	CHECK( A[m0] == 1.0f );
 	CHECK( A[m1] == 2.0f );
@@ -337,7 +337,7 @@ TEST( isEqual_false , matrix_tests )
 	Vector4 V6(28.0f,29.0f,30.0f,31.0f);
 	Vector4 V7(32.0f,33.0f,34.0f,35.0f);
 
-	Matrix B(V4,V5,V6,V7);
+	Matrix4 B(V4,V5,V6,V7);
 
 	CHECK( B[m0] == 20.0f );
 	CHECK( B[m1] == 21.0f );
@@ -368,7 +368,7 @@ TEST(isEqual_true, matrix_tests)
 	Vector4 V2(9.0f, 10.0f, 11.0f, 12.0f);
 	Vector4 V3(13.0f, 14.0f, 15.0f, 16.0f);
 
-	Matrix A(V0, V1, V2, V3);
+	Matrix4 A(V0, V1, V2, V3);
 
 	CHECK(A[m0] == 1.0f);
 	CHECK(A[m1] == 2.0f);
@@ -392,7 +392,7 @@ TEST(isEqual_true, matrix_tests)
 	Vector4 V6(9.0f, 10.0f, 11.0f, 12.0f);
 	Vector4 V7(13.0f, 14.0f, 15.0f, 16.0f);
 
-	Matrix B(V4, V5, V6, V7);
+	Matrix4 B(V4, V5, V6, V7);
 
 	CHECK(B[m0] == 1.0f);
 	CHECK(B[m1] == 2.0f);
@@ -423,7 +423,7 @@ TEST( isIdentity_false , matrix_tests )
 	Vector4 V2(9.0f,10.0f,11.0f,12.0f);
 	Vector4 V3(13.0f,14.0f,15.0f,16.0f);
 
-	Matrix A(V0,V1,V2,V3);
+	Matrix4 A(V0,V1,V2,V3);
 
 	CHECK( A[m0] == 1.0f );
 	CHECK( A[m1] == 2.0f );
@@ -454,7 +454,7 @@ TEST( isIdentity_true , matrix_tests )
 	Vector4 V2(0.0f,0.0f,1.0f,0.0f);
 	Vector4 V3(0.0f,0.0f,0.0f,1.0f);
 
-	Matrix A(V0,V1,V2,V3);
+	Matrix4 A(V0,V1,V2,V3);
 
 	CHECK( A[m0] == 1.0f );
 	CHECK( A[m1] == 0.0f );

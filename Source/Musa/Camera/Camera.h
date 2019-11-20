@@ -39,8 +39,8 @@ public:
 	IntRect GetCameraViewport() const;
 
 private:
-	Matrix projection;
-	Matrix view;
+	Matrix4 projection;
+	Matrix4 view;
 
 	// view matrix
 	Vector4 viewRight;

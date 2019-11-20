@@ -1,29 +1,29 @@
 #pragma once
 
-#include "Vector4.h"
+#include "Math/Vector4.h"
+#include "Math/MathDefinitions.h"
 
-class Matrix
+class Matrix4
 {
 public:
-	Matrix();
-	explicit Matrix(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
-	explicit Matrix(MatrixSpecialType specialEnum);
-	explicit Matrix(MatrixTransType transEnum, const Vector4& transVec);
-	explicit Matrix(MatrixTransType transEnum, float x, float y, float z);
-	explicit Matrix(RotType rotationEnum, float angle);
-	explicit Matrix(Rot3AxisType multiAxisEnum, float xAngleRad, float yAngleRad, float zAngleRad);
-	explicit Matrix(RotAxisAngleType axisEnum, const Vector4& vect, float angleRads);
-	explicit Matrix(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
-	explicit Matrix(MatrixScaleType scaleEnum, const Vector4& scaleVec);
-	explicit Matrix(MatrixScaleType scaleEnum, float sx, float sy, float sz);
-	Matrix(const struct Quat& q);
+	Matrix4();
+	explicit Matrix4(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
+	explicit Matrix4(MatrixSpecialType specialEnum);
+	explicit Matrix4(MatrixTransType transEnum, const Vector4& transVec);
+	explicit Matrix4(MatrixTransType transEnum, float x, float y, float z);
+	explicit Matrix4(RotType rotationEnum, float angle);
+	explicit Matrix4(Rot3AxisType multiAxisEnum, float xAngleRad, float yAngleRad, float zAngleRad);
+	explicit Matrix4(RotAxisAngleType axisEnum, const Vector4& vect, float angleRads);
+	explicit Matrix4(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
+	explicit Matrix4(MatrixScaleType scaleEnum, const Vector4& scaleVec);
+	explicit Matrix4(MatrixScaleType scaleEnum, float sx, float sy, float sz);
+	Matrix4(const struct Quat& q);
 
-	Matrix(const Matrix& other);
-	Matrix(Matrix&& other) noexcept;
-	~Matrix();
+	Matrix4(const Matrix4& other);
+	Matrix4(Matrix4&& other) noexcept;
 
-	Matrix& operator=(const Matrix& m);
-	Matrix& operator=(Matrix&& m) noexcept;
+	Matrix4& operator=(const Matrix4& m);
+	Matrix4& operator=(Matrix4&& m) noexcept;
 
 	// Setting specific matrix types
 	void Set(MatrixTransType transEnum, const Vector4& transVec);
@@ -51,33 +51,33 @@ public:
 
 	// Inverse
 	void Inverse();
-	Matrix GetInverse() const;
+	Matrix4 GetInverse() const;
 
 	// Transpose
 	void Transpose();
-	Matrix GetTranspose() const;
+	Matrix4 GetTranspose() const;
 
 	bool IsIdentity(float epsilon = Math::InternalTolerence) const;
-	bool IsEqual(const Matrix& m) const;
+	bool IsEqual(const Matrix4& m) const;
 
 	// Math operators
-	Matrix operator+(const Matrix& m) const;
-	Matrix operator-(const Matrix& m) const;
-	Matrix operator*(const Matrix& m) const;
-	Matrix operator*(float s) const;
+	Matrix4 operator+(const Matrix4& m) const;
+	Matrix4 operator-(const Matrix4& m) const;
+	Matrix4 operator*(const Matrix4& m) const;
+	Matrix4 operator*(float s) const;
 
-	Matrix& operator+=(const Matrix& m);
-	Matrix& operator-=(const Matrix& m);
-	Matrix& operator*=(const Matrix& m);
-	Matrix& operator*=(float s);
+	Matrix4& operator+=(const Matrix4& m);
+	Matrix4& operator-=(const Matrix4& m);
+	Matrix4& operator*=(const Matrix4& m);
+	Matrix4& operator*=(float s);
 
-	friend Vector4 operator*(const Vector4& v, const Matrix& m);
-	friend Matrix operator*(float s, const Matrix& m);
-	friend Vector4& operator*=(Vector4& v, const Matrix& m);
+	friend Vector4 operator*(const Vector4& v, const Matrix4& m);
+	friend Matrix4 operator*(float s, const Matrix4& m);
+	friend Vector4& operator*=(Vector4& v, const Matrix4& m);
 
 	// Unary operators
-	Matrix operator+() const;
-	Matrix operator-() const;
+	Matrix4 operator+() const;
+	Matrix4 operator-() const;
 
 
 	// Mutable individual getters

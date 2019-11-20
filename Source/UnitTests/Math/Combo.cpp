@@ -159,7 +159,7 @@ TEST( VectorCrossAddSubMatrixMult, combo_tests )
 	CHECK( B.z == 12.0f );
 	CHECK( B.w == 13.0f );
 
-	Matrix M(A,B,C,D);
+	Matrix4 M(A,B,C,D);
 
 	A = B * M;
 
@@ -207,7 +207,7 @@ TEST( VectorCrossAddSubMatrixMultCross, combo_tests )
 	CHECK( B.z == 12.0f );
 	CHECK( B.w == 13.0f );
 
-	Matrix M(A,B,C,D);
+	Matrix4 M(A,B,C,D);
 
 	A = Vector4(1.0f, 0.0f, 4.0f,1.0f).Cross(B * M);
 
@@ -300,10 +300,10 @@ TEST(ComboRex, combo_tests)
 	Vector4 v6(90.0f, 100.0f, 110.0f, 120.0f);
 	Vector4 v7(130.0f, 140.0f, 150.0f, 160.0f);
 
-	Matrix A(v0, v1, v2, v3);
-	Matrix B(v4, v5, v6, v7);
-	Matrix C;
-	Matrix D;
+	Matrix4 A(v0, v1, v2, v3);
+	Matrix4 B(v4, v5, v6, v7);
+	Matrix4 C;
+	Matrix4 D;
 
 	CHECK((A[m0] == 1.0f));
 	CHECK((A[m1] == 2.0f));
@@ -340,7 +340,7 @@ TEST(ComboRex, combo_tests)
 	CHECK((B[m15] == 160.0f));
 
 	Quat	Q1;
-	Matrix	M1;
+	Matrix4	M1;
 
 	Q1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
 	M1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
@@ -377,10 +377,10 @@ TEST(ComboRex2, combo_tests)
 	Vector4 v6(90.0f, 100.0f, 110.0f, 120.0f);
 	Vector4 v7(130.0f, 140.0f, 150.0f, 160.0f);
 
-	Matrix A(v0, v1, v2, v3);
-	Matrix B(v4, v5, v6, v7);
-	Matrix C;
-	Matrix D;
+	Matrix4 A(v0, v1, v2, v3);
+	Matrix4 B(v4, v5, v6, v7);
+	Matrix4 C;
+	Matrix4 D;
 
 	CHECK((A[m0] == 1.0f));
 	CHECK((A[m1] == 2.0f));
@@ -417,7 +417,7 @@ TEST(ComboRex2, combo_tests)
 	CHECK((B[m15] == 160.0f));
 
 	Quat	Q1;
-	Matrix	M1;
+	Matrix4	M1;
 
 	Q1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);
 	M1.Set(ROT_AXIS_ANGLE, Vector4(3, -4, 7), -Math::TwoPiOver3);

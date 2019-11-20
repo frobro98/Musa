@@ -3,7 +3,7 @@
 #include "Math/BoundsVolumes.hpp"
 
 ViewFrustum::ViewFrustum(
-	const Matrix& viewMatrix,
+	const Matrix4& viewMatrix,
 	const Vector4& origin,
 	const Extents2D& nearExtents,
 	const Extents2D& farExtents,

@@ -3,5 +3,8 @@
 
 namespace UI
 {
+void Context::Update()
+{
 
+}
 }

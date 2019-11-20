@@ -43,24 +43,24 @@ Vector4 TransformComponent::GetScale() const
 	return scale;
 }
 
-void TransformComponent::SetWorldTransform(const Matrix& mat)
+void TransformComponent::SetWorldTransform(const Matrix4& mat)
 {
 	worldTransform = mat;
 	TransformChanged();
 }
 
-void TransformComponent::SetLocalTransform(const Matrix& mat)
+void TransformComponent::SetLocalTransform(const Matrix4& mat)
 {
 	localTransform = mat;
 	TransformChanged();
 }
 
-Matrix TransformComponent::GetWorldTransform() const
+Matrix4 TransformComponent::GetWorldTransform() const
 {
 	return worldTransform;
 }
 
-Matrix TransformComponent::GetLocalTransform() const
+Matrix4 TransformComponent::GetLocalTransform() const
 {
 	return localTransform;
 }

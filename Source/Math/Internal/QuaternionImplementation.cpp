@@ -1,7 +1,7 @@
 
 #include "Quat.h"
 #include "Vector4.h"
-#include "Matrix.h"
+#include "Matrix4.h"
 #include "MathUtilities.h"
 #include "QuaternionImplementation.hpp"
 
@@ -20,7 +20,7 @@ using VectorRegister = __m128;
 #else
 
 // TODO - Determine if more set functions need to live here as well
-void  QuaternionSetMatrix(Quat& q, const Matrix& mat)
+void  QuaternionSetMatrix(Quat& q, const Matrix4& mat)
 {
 	float tr = mat[m0] + mat[m5] + mat[m10];
 	float s;

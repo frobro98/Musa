@@ -391,7 +391,7 @@ TEST(Quat_QuatTimesMatrix, QuatAddSubMultDivTests)
 	Quat q1, q2;
 	Quat out1, out2;
 	// Quat * Matrix 
-	Matrix mxyz, mx, my, mz, mtmp;
+	Matrix4 mxyz, mx, my, mz, mtmp;
 	Quat qxyz, qx, qy, qz, qtmp, qxy;
 
 	mx.Set(ROT_X, Math::PiOver3);
@@ -471,7 +471,7 @@ TEST(Quat_QuatTimesEqualMatrix, QuatAddSubMultDivTests)
 	Quat q1, q2;
 	Quat out1, out2;
 	// Quat * Matrix 
-	Matrix mxyz, mx, my, mz, mtmp;
+	Matrix4 mxyz, mx, my, mz, mtmp;
 	Quat qxyz, qx, qy, qz, qtmp, qxy;
 	// Quat *= Matrix
 	//mxyz.Set(ROT_XYZ, MATH_PI3, MATH_7PI8, MATH_PI2);
@@ -553,7 +553,7 @@ TEST(Quat_MatrixTimesQuat, QuatAddSubMultDivTests)
 	Quat q1, q2;
 	Quat out1, out2;
 	// Quat * Matrix 
-	Matrix mxyz, mx, my, mz, mtmp;
+	Matrix4 mxyz, mx, my, mz, mtmp;
 	Quat qxyz, qx, qy, qz, qtmp, qxy;
 
 	mx.Set(ROT_X, Math::PiOver3);
@@ -750,7 +750,7 @@ TEST(Quat_EqualOperator, QuatAddSubMultDivTests)
 TEST(Quat_VectorTimesQuat, QuatAddSubMultDivTests)
 {
 	Quat	q1;
-	Matrix	m1;
+	Matrix4	m1;
 	Vector4	v1(1.0f, 2.0f, 3.0f);
 	Vector4	v2, v3;
 
@@ -769,7 +769,7 @@ TEST(Quat_VectorTimesQuat, QuatAddSubMultDivTests)
 TEST(Quat_VectorTimesEqualQuat, QuatAddSubMultDivTests)
 {
 	Quat	q1;
-	Matrix	m1;
+	Matrix4	m1;
 	Vector4	v1(1.0f, 2.0f, 3.0f);
 	Vector4	v2,v3;
 
@@ -791,7 +791,7 @@ TEST(Quat_VectorTimesEqualQuat, QuatAddSubMultDivTests)
 TEST(Quat_VectorTimesQuat2, QuatAddSubMultDivTests)
 {
 	Quat	q1;
-	Matrix	m1;
+	Matrix4	m1;
 	Vector4	v1(1.0f, 2.0f, 3.0f);
 	Vector4	v2, v3;
 
@@ -813,7 +813,7 @@ TEST(Quat_VectorTimesQuat2, QuatAddSubMultDivTests)
 TEST(Quat_VectorTimesEqualQuat2, QuatAddSubMultDivTests)
 {
 	Quat	q1;
-	Matrix	m1;
+	Matrix4	m1;
 	Vector4	v1(1.0f, 2.0f, 3.0f);
 	Vector4	v2, v3;
 

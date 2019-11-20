@@ -14,7 +14,7 @@
 
 TEST(Matrix_Accessor_set, matix_tests)
 {
-	Matrix M;
+	Matrix4 M;
 
 	CHECK(M.m0() == 0.0f);
 	CHECK(M.m1() == 0.0f);
@@ -68,7 +68,7 @@ TEST(Matrix_Accessor_set, matix_tests)
 	CHECK(M.m15() == 5.0f);
 }
 
-float constTestAccessor(const Matrix &t)
+float constTestAccessor(const Matrix4 &t)
 {
 	return (t.m0() + t.m1() + t.m2() + t.m3()
 		+ t.m4() + t.m5() + t.m6() + t.m7()
@@ -79,7 +79,7 @@ float constTestAccessor(const Matrix &t)
 
 TEST(Get_Accessors_const, Matrix_tests)
 {
-	Matrix M;
+	Matrix4 M;
 	M.m0() = 1.0f;
 	M.m1() = 2.0f;
 	M.m2() = 3.0f;
@@ -126,7 +126,7 @@ TEST(Matrix_Accessor_get, matix_tests)
 	Vector4 V2(-4.0f, -2.0f, -1.0f, -4.0f);
 	Vector4 V3(9.0f, -7.0f, -2.0f, 5.0f);
 
-	Matrix M(V0, V1, V2, V3);
+	Matrix4 M(V0, V1, V2, V3);
 
 	CHECK(M.m0() == 1.0f);
 	CHECK(M.m1() == 2.0f);

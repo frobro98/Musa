@@ -14,7 +14,7 @@ Model::Model(Mesh* modelMesh, Material* mat)
 	: mesh(modelMesh),
 	material(mat)
 {
-	Memset(boneMats, 0, sizeof(Matrix) * MaxBones);
+	Memset(boneMats, 0, sizeof(Matrix4) * MaxBones);
 	SetupMeshRenderInfo();
 }
 
@@ -34,7 +34,7 @@ void Model::SetupMeshRenderInfo()
 	renderInfo->meshMaterial = &material->GetMaterialRenderInfo();
 }
 
-void Model::SetWorld(const Matrix& worldMat)
+void Model::SetWorld(const Matrix4& worldMat)
 {
 	world = worldMat;
 }
@@ -77,7 +77,7 @@ void Model::SetActiveSkeleton(SkeletonInstance& skel)
 	skeleton = &skel;
 }
 
-const Matrix* Model::GetBoneMats() const
+const Matrix4* Model::GetBoneMats() const
 {
 	return boneMats;
 }

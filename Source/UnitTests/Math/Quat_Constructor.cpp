@@ -71,10 +71,10 @@ TEST( Quat_Vect_Component_Real_Component_Constructor, QuatConstructorTests )
 TEST( Quat_From_Matrix_Constructor, QuatConstructorTests )
 {
 	// Quaternion from a Matrix Constructor
-	Matrix m40;
-	Matrix Rx(ROT_X,Math::PiOver2);
-	Matrix Ry(ROT_Y,-Math::PiOver3);
-	Matrix Rz(ROT_Z,-Math::SevenPiOver8);
+	Matrix4 m40;
+	Matrix4 Rx(ROT_X,Math::PiOver2);
+	Matrix4 Ry(ROT_Y,-Math::PiOver3);
+	Matrix4 Rz(ROT_Z,-Math::SevenPiOver8);
 
 	m40 = Rx*Ry*Rz;
 
@@ -85,7 +85,7 @@ TEST( Quat_From_Matrix_Constructor, QuatConstructorTests )
 	CHECK( eq(0.5316f,q14.z,Math::InternalTolerence) );
 	CHECK( eq(-0.4662f,q14.w,Math::InternalTolerence) );
 
-	Matrix M3;
+	Matrix4 M3;
 	M3.Set(q14);
 
 	CHECK( eq(m40[m0],M3[m0],Math::InternalTolerence) );
@@ -116,7 +116,7 @@ TEST( Quat_IDENTITY_Constructor, QuatConstructorTests )
 	CHECK( (q2.z == 0.0f) );
 	CHECK( (q2.w == 1.0f) );
 
-	Matrix 	M2;
+	Matrix4 	M2;
 	M2.Set(IDENTITY);
 	Quat qtmp;
 	qtmp.Set( M2 );
@@ -125,7 +125,7 @@ TEST( Quat_IDENTITY_Constructor, QuatConstructorTests )
 	CHECK( eq(q2.z,qtmp.z,Math::InternalTolerence) );
 	CHECK( eq(q2.w,qtmp.w,Math::InternalTolerence) );
 	
-	Matrix M3;
+	Matrix4 M3;
 	M3.Set(q2);
 	CHECK( eq(M2[m0],M3[m0],Math::InternalTolerence) );
 	CHECK( eq(M2[m1],M3[m1],Math::InternalTolerence) );
@@ -191,7 +191,7 @@ TEST( Quat_X_PI2_Constructor, QuatConstructorTests )
 	Quat q4(ROT_X, Math::PiOver2);
 
 	// Matrix to Quaternion
-	Matrix M2;
+	Matrix4 M2;
 	M2.Set(ROT_X, Math::PiOver2);
 
 	Quat qtmp;
@@ -202,7 +202,7 @@ TEST( Quat_X_PI2_Constructor, QuatConstructorTests )
 	CHECK( eq(q4.w,qtmp.w,Math::InternalTolerence) );
 
 	// Quaternion to Matrix
-	Matrix M3;
+	Matrix4 M3;
 	M3.Set(q4);
 	CHECK( eq(M2[m0],M3[m0],Math::InternalTolerence) );
 	CHECK( eq(M2[m1],M3[m1],Math::InternalTolerence) );
@@ -228,7 +228,7 @@ TEST( Quat_X_PI_Constructor, QuatConstructorTests )
 	Quat q5(ROT_X, Math::Pi);
 
 	// Matrix to Quaternion
-	Matrix M2, M3;
+	Matrix4 M2, M3;
 	Quat qtmp;
 	M2.Set(ROT_X, Math::Pi);
 	qtmp.Set( M2 );
@@ -266,7 +266,7 @@ TEST( Quat_Y_PI2_Constructor, QuatConstructorTests )
 	Quat q6(ROT_Y, Math::PiOver2);
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_Y, Math::PiOver2);
 	qtmp.Set( M2 );
@@ -302,7 +302,7 @@ TEST( Quat_Y_PI_Constructor, QuatConstructorTests )
 	Quat q7(ROT_Y, Math::Pi);
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_Y, Math::Pi);
 	qtmp.Set( M2 );
@@ -338,7 +338,7 @@ TEST( Quat_Z_PI2_Constructor, QuatConstructorTests )
 	Quat q8(ROT_Z, Math::PiOver2);
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_Z, Math::PiOver2);
 	qtmp.Set( M2 );
@@ -375,7 +375,7 @@ TEST( Quat_Z_PI_Constructor, QuatConstructorTests )
 	Quat q9(ROT_Z,Math::Pi);
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_Z,Math::Pi);
 	qtmp.Set( M2 );
@@ -411,7 +411,7 @@ TEST( Quat_X_Constructor, QuatConstructorTests )
 	Quat Qx(ROT_X, Math::PiOver3);	
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_X, Math::PiOver3);
 	qtmp.Set( M2 );
@@ -448,7 +448,7 @@ TEST( Quat_Y_Constructor, QuatConstructorTests )
 
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_Y, Math::PiOver3);
 	qtmp.Set( M2 );
@@ -484,7 +484,7 @@ TEST( Quat_Z_Constructor, QuatConstructorTests )
 	Quat Qz(ROT_Z, Math::PiOver3);
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 	M2.Set(ROT_Z, Math::PiOver3);
 	qtmp.Set( M2 );
@@ -524,11 +524,11 @@ TEST( Quat_XY_Constructor, QuatConstructorTests )
 	Qxy = Qx * Qy;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mx(ROT_X, Math::PiOver3);
-	Matrix My(ROT_Y, Math::PiOver4);
+	Matrix4 Mx(ROT_X, Math::PiOver3);
+	Matrix4 My(ROT_Y, Math::PiOver4);
 	M2 = Mx * My;
 
 	qtmp.Set( M2 );
@@ -568,10 +568,10 @@ TEST( Quat_XZ_Constructor, QuatConstructorTests )
 	Qxz = Qx * Qz;
 
 	// Matrix to Quaternion
-	Matrix M2, M3;
+	Matrix4 M2, M3;
 	Quat qtmp;
-	Matrix Mx(ROT_X, Math::PiOver3);
-	Matrix Mz(ROT_Z, Math::PiOver4);
+	Matrix4 Mx(ROT_X, Math::PiOver3);
+	Matrix4 Mz(ROT_Z, Math::PiOver4);
 	M2 = Mx * Mz;
 
 	qtmp.Set( M2 );
@@ -609,11 +609,11 @@ TEST( Quat_YX_Constructor, QuatConstructorTests )
 	Quat Qyx = Qy * Qx;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix My(ROT_Y, Math::PiOver3);
-	Matrix Mx(ROT_X, Math::PiOver4);
+	Matrix4 My(ROT_Y, Math::PiOver3);
+	Matrix4 Mx(ROT_X, Math::PiOver4);
 	M2 = My * Mx;
 
 	qtmp.Set( M2 );
@@ -651,11 +651,11 @@ TEST( Quat_YZ_Constructor, QuatConstructorTests )
 	Quat Qyz = Qy * Qz;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix My(ROT_Y, Math::PiOver3);
-	Matrix Mz(ROT_Z, Math::PiOver4);	
+	Matrix4 My(ROT_Y, Math::PiOver3);
+	Matrix4 Mz(ROT_Z, Math::PiOver4);	
 	M2 = My * Mz;
 
 	qtmp.Set( M2 );
@@ -693,11 +693,11 @@ TEST( Quat_ZX_Constructor, QuatConstructorTests )
 	Quat Qzx =Qz * Qx;
 
 	 // Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mz(ROT_Z, Math::PiOver3);
-	Matrix Mx(ROT_X, Math::PiOver4);	
+	Matrix4 Mz(ROT_Z, Math::PiOver3);
+	Matrix4 Mx(ROT_X, Math::PiOver4);	
 	M2 = Mz * Mx;
 
 	qtmp.Set( M2 );
@@ -735,11 +735,11 @@ TEST( Quat_ZY_Constructor, QuatConstructorTests )
 	Quat Qzy =Qz * Qy;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mz(ROT_Z, Math::PiOver3);
-	Matrix My(ROT_Y, Math::PiOver4);	
+	Matrix4 Mz(ROT_Z, Math::PiOver3);
+	Matrix4 My(ROT_Y, Math::PiOver4);	
 	M2 = Mz * My;
 
 	qtmp.Set( M2 );
@@ -778,12 +778,12 @@ TEST( Quat_XYZ_Constructor, QuatConstructorTests )
 	Quat Qxyz = Qx * Qy * Qz;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mx(ROT_X, Math::PiOver3);
-	Matrix My(ROT_Y,  Math::FivePiOver8);
-	Matrix Mz(ROT_Z,  Math::PiOver4 );
+	Matrix4 Mx(ROT_X, Math::PiOver3);
+	Matrix4 My(ROT_Y,  Math::FivePiOver8);
+	Matrix4 Mz(ROT_Z,  Math::PiOver4 );
 	M2 = Mx * My * Mz;
 
 	qtmp.Set( M2 );
@@ -822,12 +822,12 @@ TEST( Quat_XZY_Constructor, QuatConstructorTests )
 	Quat Qxzy = Qx * Qz * Qy;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mx(ROT_X, Math::PiOver3);
-	Matrix Mz(ROT_Z,  Math::FivePiOver8);
-	Matrix My(ROT_Y,  Math::PiOver4 );
+	Matrix4 Mx(ROT_X, Math::PiOver3);
+	Matrix4 Mz(ROT_Z,  Math::FivePiOver8);
+	Matrix4 My(ROT_Y,  Math::PiOver4 );
 	M2 = Mx * Mz * My;
 
 	qtmp.Set( M2 );
@@ -866,12 +866,12 @@ TEST( Quat_YXZ_Constructor, QuatConstructorTests )
 	Quat Qyxz = Qy * Qx * Qz;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix My(ROT_Y, Math::PiOver3);
-	Matrix Mx(ROT_X,  Math::FivePiOver8);
-	Matrix Mz(ROT_Z,  Math::PiOver4 );
+	Matrix4 My(ROT_Y, Math::PiOver3);
+	Matrix4 Mx(ROT_X,  Math::FivePiOver8);
+	Matrix4 Mz(ROT_Z,  Math::PiOver4 );
 	M2 = My * Mx * Mz;
 
 	qtmp.Set( M2 );
@@ -911,12 +911,12 @@ TEST( Quat_YZX_Constructor, QuatConstructorTests )
 	Quat Qyzx = Qy * Qz * Qx;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix My(ROT_Y, Math::PiOver3);
-	Matrix Mz(ROT_Z,  Math::FivePiOver8);
-	Matrix Mx(ROT_X,  Math::PiOver4 );
+	Matrix4 My(ROT_Y, Math::PiOver3);
+	Matrix4 Mz(ROT_Z,  Math::FivePiOver8);
+	Matrix4 Mx(ROT_X,  Math::PiOver4 );
 	M2 = My * Mz * Mx;
 
 	qtmp.Set( M2 );
@@ -955,12 +955,12 @@ TEST( Quat_ZXY_Constructor, QuatConstructorTests )
 	Quat Qzxy = Qz * Qx * Qy;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mz(ROT_Z, Math::PiOver3);
-	Matrix Mx(ROT_X,  Math::FivePiOver8);
-	Matrix My(ROT_Y,  Math::PiOver4 );
+	Matrix4 Mz(ROT_Z, Math::PiOver3);
+	Matrix4 Mx(ROT_X,  Math::FivePiOver8);
+	Matrix4 My(ROT_Y,  Math::PiOver4 );
 	M2 = Mz * Mx * My;
 
 	qtmp.Set( M2 );
@@ -999,12 +999,12 @@ TEST( Quat_ZYX_Constructor, QuatConstructorTests )
 	Quat Qzyx = Qz * Qy * Qx;
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
-	Matrix Mz(ROT_Z, Math::PiOver3);
-	Matrix My(ROT_Y,  Math::FivePiOver8);
-	Matrix Mx(ROT_X,  Math::PiOver4 );
+	Matrix4 Mz(ROT_Z, Math::PiOver3);
+	Matrix4 My(ROT_Y,  Math::FivePiOver8);
+	Matrix4 Mx(ROT_X,  Math::PiOver4 );
 	M2 = Mz * My * Mx;
 
 	qtmp.Set( M2 );
@@ -1041,7 +1041,7 @@ TEST( Quat_AXIS_ANGLE_Constructor, QuatConstructorTests )
 	Quat Qa1(ROT_AXIS_ANGLE, v11, Math::PiOver3 );
 
 	// Matrix to Quaternion
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
 	M2.Set(ROT_AXIS_ANGLE, v11, Math::PiOver3 );
@@ -1081,7 +1081,7 @@ TEST( Quat_ROT_ORIENT_Constructor, QuatConstructorTests )
 	Vector4  v16( 0.0f, -24.0f, 53.0f);
 	Quat q56(ROT_ORIENT, v15, v16 );
 
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
 	M2.Set(ROT_ORIENT, v15, v16 );
@@ -1119,7 +1119,7 @@ TEST( Quat_ROT_INVERSE_ORIENT_Constructor, QuatConstructorTests )
 	Vector4  v18( 0.0f, -24.0f, 53.0f);
 	Quat q57(ROT_INVERSE_ORIENT, v17, v18 );
 
-	Matrix M2,M3;
+	Matrix4 M2,M3;
 	Quat qtmp;
 
 	M2.Set(ROT_INVERSE_ORIENT, v17, v18 );

@@ -27,7 +27,7 @@ TEST(Vect_mult_matrix, vector_tests)
 	Vector4 V2(-4.0f, -2.0f, -1.0f, -4.0f);
 	Vector4 V3(9.0f, -7.0f, -2.0f, 5.0f);
 
-	Matrix M(V0, V1, V2, V3);
+	Matrix4 M(V0, V1, V2, V3);
 
 	CHECK(M[m0] == 1.0f);
 	CHECK(M[m1] == 2.0f);
@@ -91,7 +91,7 @@ TEST(Vect_multEqual_matrix, vector_tests)
 	Vector4 V2(-4.0f, -2.0f, -1.0f, -4.0f);
 	Vector4 V3(9.0f, -7.0f, -2.0f, 5.0f);
 
-	Matrix M(V0, V1, V2, V3);
+	Matrix4 M(V0, V1, V2, V3);
 
 	CHECK(M[m0] == 1.0f);
 	CHECK(M[m1] == 2.0f);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Matrix.h"
+#include "Matrix4.h"
 
 
 //------------------------------------------------------------------------
@@ -32,13 +32,13 @@ struct Quat final
 	explicit Quat(RotOrientType, const Vector4& dof, const Vector4& up);
 	explicit Quat(const Vector4& v, float angle);
 	explicit Quat(MatrixSpecialType);
-	explicit Quat(const Matrix& mat);
+	explicit Quat(const Matrix4& mat);
 
-	Quat& operator=(const Matrix& m);
+	Quat& operator=(const Matrix4& m);
 
 	// Accessors
 	void Set(float x, float y, float z, float w);
-	void Set(const Matrix& mat);
+	void Set(const Matrix4& mat);
 	void Set(const Vector4& vect, float real);
 	void Set(MatrixSpecialType);
 	void Set(RotType, float radAngle);
@@ -93,10 +93,10 @@ struct Quat final
 	Quat operator*(const Quat& q) const;
 	Quat operator/(const Quat& q) const;
 
-	friend Matrix& operator*=(Matrix& m, const Quat& q);
-	friend Quat& operator*=(Quat& q, const Matrix& m_);
-	friend Matrix operator*(const Matrix& m, const Quat& q);
-	friend Matrix operator*(const Quat& q, const Matrix& m_);
+	friend Matrix4& operator*=(Matrix4& m, const Quat& q);
+	friend Quat& operator*=(Quat& q, const Matrix4& m_);
+	friend Matrix4 operator*(const Matrix4& m, const Quat& q);
+	friend Matrix4 operator*(const Quat& q, const Matrix4& m_);
 
 	friend Vector4& operator*=(Vector4& v, const Quat& q);
 	friend Vector4 operator*(const Vector4& v, const Quat& q);

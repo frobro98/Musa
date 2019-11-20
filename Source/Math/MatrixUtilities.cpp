@@ -4,7 +4,7 @@
 
 namespace Math
 {
-Matrix ConstructViewMatrix(const Vector4& position, const Vector4& lookAt, const Vector4& up)
+Matrix4 ConstructViewMatrix(const Vector4& position, const Vector4& lookAt, const Vector4& up)
 {
 	Vector4 viewForward = position - lookAt;
 	viewForward.Normalize();
@@ -17,9 +17,9 @@ Matrix ConstructViewMatrix(const Vector4& position, const Vector4& lookAt, const
 
 	return ConstructViewMatrix(position, viewForward, viewRight, viewUp);
 }
-Matrix ConstructViewMatrix(const Vector4& position, const Vector4& forward, const Vector4& right, const Vector4& up)
+Matrix4 ConstructViewMatrix(const Vector4& position, const Vector4& forward, const Vector4& right, const Vector4& up)
 {
-	Matrix view;
+	Matrix4 view;
 	view[m0] = right.x;
 	view[m1] = up.x;
 	view[m2] = forward.x;
@@ -43,7 +43,7 @@ Matrix ConstructViewMatrix(const Vector4& position, const Vector4& forward, cons
 	return view;
 }
 
-Matrix ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 nearPlane, float32 farPlane)
 {
 	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
 
@@ -52,7 +52,7 @@ Matrix ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 n
 	float32 doubleNearPlane = 2.f * nearPlane;
 	float32 planeDifference = farPlane - nearPlane;
 
-	Matrix projection;
+	Matrix4 projection;
 	projection[m0] = doubleNearPlane / nearWidth;//1.f / (aspect * tanHalfFOV);
 	projection[m1] = 0;
 	projection[m2] = 0;
@@ -78,17 +78,17 @@ Matrix ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 n
 	return projection;
 }
 
-Matrix ConstructOrthographicMatrix(float32 width, float32 height, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructOrthographicMatrix(float32 width, float32 height, float32 nearPlane, float32 farPlane)
 {
 	const float32 halfWidth = width * .5f;
 	const float32 halfHeight = height * .5f;
 	return ConstructOrthographicMatrix(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
 }
 
-Matrix ConstructOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
 {
 	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
-	Matrix projection;
+	Matrix4 projection;
 	projection[m0] = 2.f / (right - left);
 	projection[m1] = 0;
 	projection[m2] = 0;
@@ -109,17 +109,17 @@ Matrix ConstructOrthographicMatrix(float32 left, float32 right, float32 bottom, 
 	projection[m14] = 0;
 	projection[m15] = 1;
 
-	Assert((projection * ConstructFastInverseOrthographicMatrix(left, right, bottom, top, nearPlane, farPlane)).IsEqual(Matrix(IDENTITY)));
+	Assert((projection * ConstructFastInverseOrthographicMatrix(left, right, bottom, top, nearPlane, farPlane)).IsEqual(Matrix4(IDENTITY)));
 
 	return projection;
 }
 
-Matrix ConstructScreenTransformMatrix(float32 screenWidth, float32 screenHeight, float32 worldDepth)
+Matrix4 ConstructScreenTransformMatrix(float32 screenWidth, float32 screenHeight, float32 worldDepth)
 {
 	float32 halfScreenWidth = screenWidth * .5f;
 	float32 halfScreeHeight = screenHeight * .5f;
 	float32 halfDepth = worldDepth * .5f;
-	Matrix projection;
+	Matrix4 projection;
 	projection[m0] = halfScreenWidth;
 	projection[m1] = 0;
 	projection[m2] = 0;
@@ -140,7 +140,7 @@ Matrix ConstructScreenTransformMatrix(float32 screenWidth, float32 screenHeight,
 	projection[m14] = halfDepth;
 	projection[m15] = 1;
 
-	Assert((projection * ConstructFastInverseScreenMatrix(screenWidth, screenHeight, worldDepth)).IsEqual(Matrix(IDENTITY)));
+	Assert((projection * ConstructFastInverseScreenMatrix(screenWidth, screenHeight, worldDepth)).IsEqual(Matrix4(IDENTITY)));
 
 	return projection;
 }
@@ -178,16 +178,16 @@ Matrix ConstructScreenTransformMatrix(float32 screenWidth, float32 screenHeight,
 // 	return projection;
 // }
 
-Matrix ConstructFastInverseOrthographicMatrix(float32 width, float32 height, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructFastInverseOrthographicMatrix(float32 width, float32 height, float32 nearPlane, float32 farPlane)
 {
 	const float32 halfWidth = width * .5f;
 	const float32 halfHeight = height * .5f;
 	return ConstructFastInverseOrthographicMatrix(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
 }
 
-Matrix ConstructFastInverseOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructFastInverseOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
 {
-	Matrix projection;
+	Matrix4 projection;
 	projection[m0] = (right - left) * .5f;
 	projection[m1] = 0;
 	projection[m2] = 0;
@@ -212,9 +212,9 @@ Matrix ConstructFastInverseOrthographicMatrix(float32 left, float32 right, float
 	return projection;
 }
 
-Matrix ConstructFastInverseScreenMatrix(float32 screenWidth, float32 screenHeight, float32 worldDepth)
+Matrix4 ConstructFastInverseScreenMatrix(float32 screenWidth, float32 screenHeight, float32 worldDepth)
 {
-	Matrix projection;
+	Matrix4 projection;
 	projection[m0] = 2.f / screenWidth;
 	projection[m1] = 0;
 	projection[m2] = 0;
