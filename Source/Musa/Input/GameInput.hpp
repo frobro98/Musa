@@ -47,9 +47,8 @@ public:
 
 	virtual void OnActivationChanged(bool activated) override;
 
-	virtual IInputReceiver* GetParentInput() const override { return nullptr; }
-	virtual IInputReceiver* GetChildInput() const override { return nullptr; }
-	virtual IInputReceiver* GetSiblingInput() const override { return nullptr; }
+// 	virtual IInputReceiver* GetParentInput() const override { return nullptr; }
+// 	virtual IInputReceiver* GetChildInput() const override { return nullptr; }
 
 	void OnWindowClose();
 

@@ -4,7 +4,7 @@
 #include "Engine/MusaEngine.hpp"
 #include "Engine/MusaAppOS.hpp"
 #include "Window/Window.h"
-#include "UI/GameUIContext.hpp"
+#include "UI/UIContext.hpp"
 #include "Time/EngineTick.h"
 
 class MusaApp
@@ -14,7 +14,7 @@ public:
 
 	void LaunchApplication();
 
-	inline GameUIContext& GetUIContext() const { return *uiContext; }
+	inline UI::Context& GetUIContext() const { return *uiContext; }
 	inline MusaAppOS& GetOSApp() const { return *osApp; }
 
 	void LockCursor();
@@ -33,7 +33,7 @@ private:
 private:
 	EngineTick frameTick;
 	UniquePtr<MusaEngine> gameEngine;
-	UniquePtr<GameUIContext> uiContext;
+	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
 	MusaAppOS* osApp;
 };

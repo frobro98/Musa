@@ -6,13 +6,16 @@
 
 class Window;
 class ProfilerStatistics;
-class GameUIContext;
+namespace UI
+{
+class Context;
+}
 class GameInput;
 
 class MusaEngine final
 {
 public:
-	MusaEngine(GameUIContext& context);
+	MusaEngine(UI::Context& context);
 
 	void InitializeGraphics();
 	void SetupWindowContext(Window& window);
@@ -38,7 +41,7 @@ private:
 	UniquePtr<GameWorld> world;
 	UniquePtr<Viewport> viewport;
 	UniquePtr<GameInput> gameInput;
-	GameUIContext* uiContext = nullptr;
+	UI::Context* uiContext = nullptr;
 
 	bool running = false;
 };

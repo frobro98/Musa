@@ -4,11 +4,14 @@
 
 struct UIWidget;
 
-class GameUIContext
+namespace UI
+{
+
+class Context
 {
 public:
 	// Either needs to take in the input handler or whoever "adds" UI must also add it to the input handling
-	GameUIContext() = default;
+	Context() = default;
 
 	// Adds widget tree to the context
 	void AddWidget(UIWidget& widget);
@@ -21,3 +24,4 @@ private:
 	DynamicArray<UIWidget*> widgets;
 };
 
+}

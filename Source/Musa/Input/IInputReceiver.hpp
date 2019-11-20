@@ -18,8 +18,5 @@ public:
 
 	virtual void OnActivationChanged(bool activated) = 0;
 
-	// TODO - I'm not sure what the hierarchy in the input system. It makes sense to have input hierarchy in general, but it might be too close to the input system....
-	virtual IInputReceiver* GetParentInput() const = 0;
-	virtual IInputReceiver* GetChildInput() const = 0;
-	virtual IInputReceiver* GetSiblingInput() const = 0;
+	// These functions aren't actually going to be needed because the input system will only contain the current UI path
 };

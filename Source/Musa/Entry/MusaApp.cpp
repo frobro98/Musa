@@ -6,7 +6,7 @@
 
 MusaApp::MusaApp()
 {
-	uiContext = MakeUnique<GameUIContext>();
+	uiContext = MakeUnique<UI::Context>();
 	gameEngine = MakeUnique<MusaEngine>(*uiContext);
 }
 

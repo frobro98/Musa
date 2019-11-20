@@ -31,8 +31,9 @@ public:
 
 	void PostUpdateInput();
 
-	void AddWindowInput(IInputReceiver* receiver);
-	void RemoveWindowInput(IInputReceiver* receiver);
+	// TODO - Does input stream correctly describe behavior of essentially an input path?
+	void AddInputStream(DynamicArray<IInputReceiver*>&& newInputStream);
+	void ClearInputStream();
 
 	inline void SetCurrentWindow(Window& win) { window = &win; }
 	inline Window* GetWindow() { return window; }

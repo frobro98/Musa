@@ -238,14 +238,14 @@ void WindowInputHandler::PostUpdateInput()
 	gameInput.ProcessGameInputs();
 }
 
-void WindowInputHandler::AddWindowInput(IInputReceiver* receiver)
+void WindowInputHandler::AddInputStream(DynamicArray<IInputReceiver *>&& newInputStream)
 {
-	inputReceivers.Add(receiver);
+	inputReceivers = std::move(newInputStream);
 }
 
-void WindowInputHandler::RemoveWindowInput(IInputReceiver* receiver)
+void WindowInputHandler::ClearInputStream()
 {
-	inputReceivers.RemoveAll(receiver);
+	inputReceivers.Clear();
 }
 
 void WindowInputHandler::HandleInputEvents(const InputEvents& events)

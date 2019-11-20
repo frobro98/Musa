@@ -231,6 +231,9 @@
     <ClCompile Include="..\..\Source\Musa\Input\PlayerInputContext.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\UIContext.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -410,9 +413,6 @@
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp">
       <Filter>Source\Engine\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\UI\GameUIContext.hpp">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp">
       <Filter>Source\UI</Filter>
     </ClInclude>
@@ -454,6 +454,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\Internal\ControllerInputUtilities.hpp">
       <Filter>Source\Input\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UIContext.hpp">
+      <Filter>Source\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
