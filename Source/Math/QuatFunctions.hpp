@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Quat.h"
-#include "MathUtilities.h"
+#include "Quat.hpp"
+#include "MathUtilities.hpp"
 
 //----------------------------------------------------------------------------- 
 // Mutates result to be a slerp between the source and target by the

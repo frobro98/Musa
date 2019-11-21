@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Math/Vector4.h"
-#include "Math/MathDefinitions.h"
+#include "Math/Vector4.hpp"
+#include "Math/MathDefinitions.hpp"
 
 class Matrix4
 {

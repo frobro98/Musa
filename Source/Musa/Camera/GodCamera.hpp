@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject/GameObject.h"
-#include "Math/Vector4.h"
+#include "Math/Vector4.hpp"
 #include "Input/Input.hpp"
 
 class Camera;

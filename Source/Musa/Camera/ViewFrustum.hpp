@@ -1,8 +1,8 @@
 #pragma once
 
 #include "EngineCore/Extents.hpp"
-#include "Math/Vector4.h"
-#include "Math/Matrix4.h"
+#include "Math/Vector4.hpp"
+#include "Math/Matrix4.hpp"
 
 struct SphereBounds;
 

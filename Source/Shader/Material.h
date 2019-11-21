@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
-#include "Math/MathEngine.h"
+#include "Math/MathEngine.hpp"
 #include "Graphics.h"
 #include "Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"

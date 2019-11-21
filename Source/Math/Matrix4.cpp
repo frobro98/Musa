@@ -1,6 +1,9 @@
 
-#include "MathEngine.h"
-#include "EngineCore/Assertion.h"
+#include "Matrix4.hpp"
+#include "Vector4.hpp"
+#include "Quat.hpp"
+#include "MathUtilities.hpp"
+#include "Assertion.h"
 
 Matrix4::Matrix4()
 	: _m0(0.f), _m1(0.f), _m2(0.f), _m3(0.f),

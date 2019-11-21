@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Math/Vector4.h"
-#include "Math/Matrix4.h"
+#include "Math/Vector4.hpp"
+#include "Math/Matrix4.hpp"
 #include "Mesh/Mesh.h"
 #include "Model/Model.h"
 

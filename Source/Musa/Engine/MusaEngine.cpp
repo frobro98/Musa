@@ -4,7 +4,7 @@
 #include "Camera/CameraManager.h"
 #include "Math/Rect.hpp"
 #include "Types/Intrinsics.hpp"
-#include "Math/Vector4.h"
+#include "Math/Vector4.hpp"
 #include "Mesh/MeshManager.h"
 #include "Window/Window.h"
 #include "Input/Input.hpp"

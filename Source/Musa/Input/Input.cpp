@@ -4,7 +4,7 @@
 #include "Containers/StaticArray.hpp"
 #include "Utilities/CoreUtilities.hpp"
 #include "Window/Window.h"
-#include "Math/MathUtilities.h"
+#include "Math/MathUtilities.hpp"
 #include "Debugging/MetricInterface.hpp"
 
 #include "Entry/MusaApp.hpp"

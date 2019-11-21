@@ -2,7 +2,7 @@
 #include "Engine/MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
 #include "Utilities/CoreUtilities.hpp"
-#include "Math/MathUtilities.h"
+#include "Math/MathUtilities.hpp"
 
 GameInput::GameInput(MusaEngine& engine)
 	: musaEngine(engine)

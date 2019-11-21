@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MathConstants.h"
+#include "MathConstants.hpp"
 
 namespace Math
 {

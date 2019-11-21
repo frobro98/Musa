@@ -2,7 +2,7 @@
 #include "MipmapGeneration.hpp"
 #include "FastFourierTransform.hpp"
 #include "Texture2D/Texture.h"
-#include "Math/MathUtilities.h"
+#include "Math/MathUtilities.hpp"
 #include "Color.hpp"
 #include "Texture2D/TextureUtilities.hpp"
 

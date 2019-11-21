@@ -1,9 +1,9 @@
 #pragma once
 
 #include "ECS/Component.hpp"
-#include "Math/Vector4.h"
-#include "Math/Quat.h"
-#include "Math/Matrix4.h"
+#include "Math/Vector4.hpp"
+#include "Math/Quat.hpp"
+#include "Math/Matrix4.hpp"
 
 struct TransformComponent : public Musa::Component
 {

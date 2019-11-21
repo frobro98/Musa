@@ -1,8 +1,8 @@
 
-#include "Vector4.h"
+#include "Vector4.hpp"
 #include "Vector3.hpp"
 #include "Vector2.hpp"
-#include "MathUtilities.h"
+#include "MathUtilities.hpp"
 #include "Internal/VectorImplementation.h"
 
 const Vector4 Vector4::RightAxis(1, 0, 0);

@@ -1,8 +1,8 @@
 
-#include "Quat.h"
-#include "Vector4.h"
-#include "Matrix4.h"
-#include "MathUtilities.h"
+#include "Quat.hpp"
+#include "Vector4.hpp"
+#include "Matrix4.hpp"
+#include "MathUtilities.hpp"
 #include "QuaternionImplementation.hpp"
 
 #include "PlatformDefinitions.h"

@@ -1,4 +1,4 @@
 #pragma once
 
-#include "Matrix4.h"
-#include "MathUtilities.h"
+#include "Matrix4.hpp"
+#include "MathUtilities.hpp"

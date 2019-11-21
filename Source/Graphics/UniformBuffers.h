@@ -2,7 +2,7 @@
 
 #include "Platform.h"
 #include "MemoryUtilities.h"
-#include "Math/MathEngine.h"
+#include "Math/MathEngine.hpp"
 #include "Color.hpp"
 
 constexpr uint32 MaxBones = 120;

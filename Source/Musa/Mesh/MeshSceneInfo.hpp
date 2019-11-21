@@ -3,7 +3,7 @@
 // TODO - Rename the file to match the name of the struct
 
 #include "Math/BoundsVolumes.hpp"
-#include "Math/Matrix4.h"
+#include "Math/Matrix4.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 struct MaterialRenderInfo;

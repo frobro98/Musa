@@ -2,7 +2,7 @@
 #include "Renderer.hpp"
 #include "ResourceArray.hpp"
 #include "ResourceInitializationDescriptions.hpp"
-#include "Math/MathUtilities.h"
+#include "Math/MathUtilities.hpp"
 
 
 void BatchCollection::BatchLine(const BatchedLineDescription& lineDesc)

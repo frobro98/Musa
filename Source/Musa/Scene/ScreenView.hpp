@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "Math/Vector4.h"
-#include "Math/Matrix4.h"
+#include "Math/Vector4.hpp"
+#include "Math/Matrix4.hpp"
 #include "Math/Rect.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 

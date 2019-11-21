@@ -1,7 +1,7 @@
 
 #include "MeshUtilities.hpp"
 #include "Mesh/GeometryPrimitives.h"
-#include "Math/MathEngine.h"
+#include "Math/Vector3.hpp"
 
 void GenerateMeshTangents(DynamicArray<Vertex>& verts, const DynamicArray<Face>& faces)
 {

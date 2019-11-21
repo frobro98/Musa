@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types/Intrinsics.hpp"
-#include "Math/MathConstants.h"
+#include "Math/MathConstants.hpp"
 
 struct Vector3;
 struct Vector4;

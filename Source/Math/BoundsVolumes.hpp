@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/Vector4.h"
+#include "Math/Vector4.hpp"
 
 struct BoxBounds
 {

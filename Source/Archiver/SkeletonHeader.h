@@ -3,7 +3,7 @@
 // TODO - Move this file out of the Archiver project
 
 #include "Platform.h"
-#include "Math/MathEngine.h"
+#include "Math/Matrix4.hpp"
 
 constexpr const uint32 BoneNameLength = 64;
 

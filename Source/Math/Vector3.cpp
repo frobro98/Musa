@@ -1,7 +1,7 @@
 #include "Vector3.hpp"
 #include "Vector2.hpp"
-#include "Vector4.h"
-#include "Math/MathUtilities.h"
+#include "Vector4.hpp"
+#include "Math/MathUtilities.hpp"
 #include "Internal/VectorImplementation.h"
 
 const Vector3 Vector3::RightAxis(1, 0, 0);

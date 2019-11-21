@@ -1,10 +1,10 @@
 
 #include "VectorImplementation.h"
 #include "Assertion.h"
-#include "Vector4.h"
+#include "Vector4.hpp"
 #include "Vector2.hpp"
 #include "Vector3.hpp"
-#include "MathUtilities.h"
+#include "MathUtilities.hpp"
 
 #include "PlatformDefinitions.h"
 // Includes to handle SIMD register types

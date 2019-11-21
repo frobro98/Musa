@@ -1,6 +1,8 @@
 
 #include "EngineCore/Assertion.h"
-#include "MathEngine.h"
+#include "Quat.hpp"
+#include "Vector4.hpp"
+#include "MathUtilities.hpp"
 #include "Internal/QuaternionImplementation.hpp"
 
 Quat::Quat(float x_, float y_, float z_, float w_)
