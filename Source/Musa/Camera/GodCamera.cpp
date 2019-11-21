@@ -36,49 +36,46 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 	float32 changeX = 0, changeY = 0;
 	for (const auto& range : inputs.ranges)
 	{
-		if (range.input->type == Inputs::Mouse_XAxis ||
-			range.input->type == Inputs::Gamepad_RightStick_XAxis)
+		if (Math::IsNonZero(range.rangeValue))
 		{
-			changeX += range.rangeValue;
-		}
-		if (range.input->type == Inputs::Mouse_YAxis ||
-			range.input->type == Inputs::Gamepad_RightStick_YAxis)
-		{
-			changeY += range.rangeValue;
-		}
-		if (range.input->type == Inputs::Gamepad_LeftStick_XAxis)
-		{
-			if (range.rangeValue > 0.f)
+			if (range.input->type == Inputs::Mouse_XAxis ||
+				range.input->type == Inputs::Gamepad_RightStick_XAxis)
 			{
-				MoveCameraRight();
+				changeX += range.rangeValue;
 			}
-			else if (range.rangeValue < 0.f)
+			if (range.input->type == Inputs::Mouse_YAxis ||
+				range.input->type == Inputs::Gamepad_RightStick_YAxis)
 			{
-				MoveCameraLeft();
+				changeY += range.rangeValue;
 			}
-		}
-		else if (range.input->type == Inputs::Gamepad_LeftStick_YAxis)
-		{
-			if (range.rangeValue > 0.f)
+			if (range.input->type == Inputs::Gamepad_LeftStick_XAxis)
 			{
-				MoveCameraForward();
+				if (range.rangeValue > 0.f)
+				{
+					MoveCameraRight();
+				}
+				else if (range.rangeValue < 0.f)
+				{
+					MoveCameraLeft();
+				}
 			}
-			else if (range.rangeValue < 0.f)
+			else if (range.input->type == Inputs::Gamepad_LeftStick_YAxis)
 			{
-				MoveCameraBackward();
+				if (range.rangeValue > 0.f)
+				{
+					MoveCameraForward();
+				}
+				else if (range.rangeValue < 0.f)
+				{
+					MoveCameraBackward();
+				}
 			}
-		}
 
-		if (range.input->type == Inputs::Gamepad_LeftTrigger)
-		{
-			if (range.rangeValue > 0)
+			if (range.input->type == Inputs::Gamepad_LeftTrigger)
 			{
 				MoveCameraDown();
 			}
-		}
-		else if (range.input->type == Inputs::Gamepad_RightTrigger)
-		{
-			if (range.rangeValue > 0)
+			else if (range.input->type == Inputs::Gamepad_RightTrigger)
 			{
 				MoveCameraUp();
 			}

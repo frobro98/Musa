@@ -113,7 +113,7 @@ static void CreateInputContext(GameInput& gameInput)
 	PlayerInputContext gamepadContext = MakeInputContext("Gamepad Context");
 	RangedInput mouseXInput;
 	mouseXInput.range = {
-		-1, 1, -1, 1
+		-10, 10, -1, 1
 	};
 	mouseXInput.input = {
 		"Mouse X",
@@ -123,7 +123,7 @@ static void CreateInputContext(GameInput& gameInput)
 
 	RangedInput mouseYInput;
 	mouseYInput.range = {
-		-1, 1, -1, 1
+		-10, 10, -1, 1
 	};
 	mouseYInput.input = {
 		"Mouse Y",
