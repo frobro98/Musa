@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "MathConstants.hpp"
 
 namespace Math
@@ -82,6 +84,11 @@ namespace Math
 	inline float Atan(float radAngle)
 	{
 		return atanf(radAngle);
+	}
+
+	inline float Atan2(float32 y, float32 x)
+	{
+		return atan2f(y, x);
 	}
 
 	inline float Sinc(float x)

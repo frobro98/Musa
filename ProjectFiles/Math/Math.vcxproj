@@ -170,6 +170,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Math\MatrixUtilities.hpp" />
     <ClInclude Include="..\..\Source\Math\Plane.hpp" />
     <ClInclude Include="..\..\Source\Math\Quat.hpp" />
+    <ClInclude Include="..\..\Source\Math\Quat2.hpp" />
     <ClInclude Include="..\..\Source\Math\QuatFunctions.hpp" />
     <ClInclude Include="..\..\Source\Math\Rect.hpp" />
     <ClInclude Include="..\..\Source\Math\Vector2.hpp" />
@@ -181,9 +182,11 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Math\Internal\QuaternionImplementation.cpp" />
     <ClCompile Include="..\..\Source\Math\Internal\VectorImplementation.cpp" />
     <ClCompile Include="..\..\Source\Math\IntVector2.cpp" />
+    <ClCompile Include="..\..\Source\Math\Matrix2.cpp" />
     <ClCompile Include="..\..\Source\Math\Matrix4.cpp" />
     <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp" />
     <ClCompile Include="..\..\Source\Math\Quat.cpp" />
+    <ClCompile Include="..\..\Source\Math\Quat2.cpp" />
     <ClCompile Include="..\..\Source\Math\Vector2.cpp" />
     <ClCompile Include="..\..\Source\Math\Vector3.cpp" />
     <ClCompile Include="..\..\Source\Math\Vector4.cpp" />

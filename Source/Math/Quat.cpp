@@ -5,30 +5,15 @@
 #include "MathUtilities.hpp"
 #include "Internal/QuaternionImplementation.hpp"
 
+const Quat Quat::Identity = Quat(0, 0, 0, 1);
+const Quat Quat::Zero = Quat(0, 0, 0, 0);
+
 Quat::Quat(float x_, float y_, float z_, float w_)
 	: x(x_),
 	y(y_),
 	z(z_),
 	w(w_)
 {
-}
-
-Quat::Quat(MatrixSpecialType type)
-{
-	if (type == IDENTITY)
-	{
-		x = 0.f;
-		y = 0.f;
-		z = 0.f;
-		w = 1.f;
-	}
-	else if(type == ZERO)
-	{
-		x = 0.f;
-		y = 0.f;
-		z = 0.f;
-		w = 0.f;
-	}
 }
 
 Quat::Quat(RotType type, float radAngle)
@@ -95,11 +80,11 @@ Quat::Quat(const Matrix4 & mat)
 	Set(mat);
 }
 
-Quat& Quat::operator=(const Matrix4& m)
-{
-	Set(m);
-	return *this;
-}
+// Quat& Quat::operator=(const Matrix4& m)
+// {
+// 	Set(m);
+// 	return *this;
+// }
 
 void Quat::Set(float x_, float y_, float z_, float w_)
 {

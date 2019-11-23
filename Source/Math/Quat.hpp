@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------
 // 
 //  This class contains functions and data structure for a 4-dimensional
-//  Quaternions.  The quaternions are internally stored interms of the
+//  Quaternions.  The quaternions are internally stored in terms of the
 //  imaginary components (x,y,z) and the real components (real).
 // 
 //  In the Math library, quaternions can be thought of as "rotational"
@@ -18,6 +18,10 @@
 
 struct Quat final
 {
+	static const Quat Identity;
+	static const Quat Zero;
+
+public:
 	float x = 0;
 	float y = 0;
 	float z = 0;
@@ -30,10 +34,9 @@ struct Quat final
 	explicit Quat(RotAxisAngleType, const Vector4& axis, float angleRad);
 	explicit Quat(RotOrientType, const Vector4& dof, const Vector4& up);
 	explicit Quat(const Vector4& v, float angle);
-	explicit Quat(MatrixSpecialType);
 	explicit Quat(const Matrix4& mat);
 
-	Quat& operator=(const Matrix4& m);
+	//Quat& operator=(const Matrix4& m);
 
 	// Accessors
 	void Set(float x, float y, float z, float w);

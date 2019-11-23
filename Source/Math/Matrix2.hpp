@@ -1,49 +1,40 @@
 #pragma once
 
 #include "Math/Vector2.hpp"
-#include "Math/MathDefinitions.h"
+#include "Math/MathDefinitions.hpp"
+
+struct Quat2;
 
 class Matrix2
 {
 public:
+	static const Matrix2 Identity;
+	static const Matrix2 Zero;
+
+public:
 	Matrix2();
 	explicit Matrix2(const Vector2& row0, const Vector2& row1);
-	explicit Matrix2(MatrixSpecialType specialEnum);
-	explicit Matrix2(MatrixTransType transEnum, const Vector4& transVec);
-	explicit Matrix2(MatrixTransType transEnum, float x, float y, float z);
-	explicit Matrix2(RotType rotationEnum, float angle);
-	explicit Matrix2(Rot3AxisType multiAxisEnum, float xAngleRad, float yAngleRad, float zAngleRad);
-	explicit Matrix2(RotAxisAngleType axisEnum, const Vector4& vect, float angleRads);
-	explicit Matrix2(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
-	explicit Matrix2(MatrixScaleType scaleEnum, const Vector4& scaleVec);
-	explicit Matrix2(MatrixScaleType scaleEnum, float sx, float sy, float sz);
-	Matrix2(const struct Quat& q);
+	explicit Matrix2(float angle);
+	//explicit Matrix2(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
+	explicit Matrix2(MatrixScaleType, float32 uniformScale);
+	explicit Matrix2(MatrixScaleType, const Vector2& scaleVec);
+	explicit Matrix2(MatrixScaleType, float sx, float sy);
+	Matrix2(const Quat2& q);
 
 	Matrix2(const Matrix2& other);
 	Matrix2(Matrix2&& other) noexcept;
-	~Matrix2();
 
 	Matrix2& operator=(const Matrix2& m);
 	Matrix2& operator=(Matrix2&& m) noexcept;
 
 	// Setting specific matrix types
-	void Set(MatrixTransType transEnum, const Vector4& transVec);
-	void Set(MatrixTransType transEnum, float x, float y, float z);
-	void Set(RotType rotationEnum, float angle);
-	void Set(Rot3AxisType axisEnum, float xRad, float yRad, float zRad);
-	void Set(RotAxisAngleType axisEnum, const Vector4& vect, float angleRads);
-	void Set(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
-	void Set(const struct Quat& q);
-	void Set(MatrixScaleType scaleEnum, const Vector4& scaleVec);
-	void Set(MatrixScaleType scaleEnum, float sx, float sy, float sz);
-	void Set(MatrixSpecialType specialEnum);
-	void Set(const Vector4 &axis, float angle);
-
-	// Setting matrix
-	void Set(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
-	void Set(MatrixRowType rowEnum, const Vector4& rowVec);
-	// Get row of matrix
-	Vector4 Get(MatrixRowType rowEnum) const;
+	void Set(float angle);
+	//void Set(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
+	void Set(const Quat2& q);
+	void Set(MatrixScaleType scaleEnum, float32 scale);
+	void Set(MatrixScaleType scaleEnum, const Vector2& scaleVec);
+	void Set(MatrixScaleType scaleEnum, float32 sx, float32 sy);
+	void Set(const Vector2& row0, const Vector2& row1);
 
 	// Matrix operations
 

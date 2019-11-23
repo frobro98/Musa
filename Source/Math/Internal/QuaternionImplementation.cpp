@@ -88,7 +88,7 @@ float QuaternionMagnitude(const Quat& q)
 
 float QuaternionMagnitudeSqr(const Quat& q)
 {
-	return q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
+	return QuaternionDotQuaternion(q, q);
 }
 
 float QuaternionMagnitudeInverse(const Quat& q)
