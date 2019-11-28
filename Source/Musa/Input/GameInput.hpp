@@ -38,6 +38,8 @@ public:
 	virtual InputEvents OnMouseUp(Inputs::Type input);
 	virtual InputEvents OnMouseDown(Inputs::Type input);
 	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
+	virtual InputEvents OnMouseEnter(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
+	virtual InputEvents OnMouseExit(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 
 	virtual InputEvents OnControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogInput, float32 analogValue) override;
 	

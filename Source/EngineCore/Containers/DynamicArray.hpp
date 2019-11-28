@@ -82,7 +82,8 @@ public:
 	void Resize(uint32 newSize);
 	void Clear();
 	bool IsEmpty() const;
-	bool Contains(const Type& obj) const;
+	template <typename CompareType>
+	bool Contains(const CompareType& obj) const;
 
 	template <typename Pred>
 	void Sort(const Pred& predicate);
@@ -793,7 +794,8 @@ uint32 DynamicArray<Type>::Emplace(Args... args)
 }
 
 template<class Type>
-bool DynamicArray<Type>::Contains(const Type& obj) const
+template<typename CompareType>
+bool DynamicArray<Type>::Contains(const CompareType& obj) const
 {
 	bool found = false;
 	for (uint32 i = 0; i < arraySize; ++i)

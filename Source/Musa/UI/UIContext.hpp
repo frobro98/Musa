@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-
-struct UIWidget;
+#include "UI/UIPath.hpp"
 
 namespace UI
 {
+struct Widget;
 
 class Context
 {
@@ -14,14 +14,17 @@ public:
 	Context() = default;
 
 	// Adds widget tree to the context
-	void AddWidget(UIWidget& widget);
+	void AddWidget(Widget& widget);
 
 	// Updates all of the UI within the tree. Probably pushes all of the info to the render side of things as well...
 	void Update();
 
+	// Returns a ui tree path to the widget under
+	Path GetUIPathAt(uint32 screenPosX, uint32 screenPosY) const;
+
 private:
 	// Tree of widgets
-	DynamicArray<UIWidget*> widgets;
+	DynamicArray<Widget*> widgets;
 };
 
 }

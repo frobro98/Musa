@@ -125,6 +125,16 @@ InputEvents GameInput::OnMouseMove(const IntVector2& /*currentMousePos*/, const 
 	return events;
 }
 
+InputEvents GameInput::OnMouseEnter(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/)
+{
+	return InputEvents();
+}
+
+InputEvents GameInput::OnMouseExit(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/)
+{
+	return InputEvents();
+}
+
 InputEvents GameInput::OnControllerAnalogChange(uint32 /*controllerIndex*/, Inputs::Type analogInput, float32 analogValue)
 {
 	if (analogInput == Inputs::Gamepad_RightStick_YAxis)
