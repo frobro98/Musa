@@ -4,9 +4,12 @@
 #include "Engine/Internal/FrameDataInternal.hpp"
 #include "Input/Internal/InputInternal.hpp"
 
+constexpr int32 width = 1080;
+constexpr int32 height = 720;
+
 MusaApp::MusaApp()
 {
-	uiContext = MakeUnique<UI::Context>();
+	uiContext = MakeUnique<UI::Context>(width, height);
 	gameEngine = MakeUnique<MusaEngine>(*uiContext);
 }
 
@@ -67,12 +70,12 @@ void MusaApp::InitializeOSInput()
 
 void MusaApp::InitializeApplicationWindow()
 {
-	const int32 width = 1080;
-	const int32 height = 720;
-
 	Assert(osApp);
 	appWindow = osApp->CreateGameWindow(0, 0, width, height);
+	Assert(appWindow);
+
 	osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
+	uiContext->SetWindow(*appWindow);
 }
 
 void MusaApp::SetupGameEngine()

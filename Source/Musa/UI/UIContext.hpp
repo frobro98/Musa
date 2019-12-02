@@ -3,6 +3,8 @@
 #include "Containers/DynamicArray.hpp"
 #include "UI/UIPath.hpp"
 
+class Window;
+
 namespace UI
 {
 struct Widget;
@@ -11,7 +13,16 @@ class Context
 {
 public:
 	// Either needs to take in the input handler or whoever "adds" UI must also add it to the input handling
-	Context() = default;
+	Context(uint32 screenDimensionX, uint32 screenDimensionY);
+
+	inline void SetNewDimensions(uint32 screenX, uint32 screenY)
+	{
+		screenWidth = screenX;
+		screenHeight = screenY;
+	}
+
+	inline void SetWindow(Window& win) { window = &win; }
+	inline Window* GetWindow() const { return window; }
 
 	// Adds widget tree to the context
 	void AddWidget(Widget& widget);
@@ -25,6 +36,9 @@ public:
 private:
 	// Tree of widgets
 	DynamicArray<Widget*> widgets;
+	Window* window = nullptr;
+	uint32 screenWidth;
+	uint32 screenHeight;
 };
 
 }
