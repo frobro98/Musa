@@ -287,7 +287,10 @@ void MusaEngine::UpdateAndRenderWorld(float32 tick)
 
 	BEGIN_TIMED_BLOCK(Update);
 	world->TickWorld(tick);
+	uiContext->Update();
+
 	world->PushToRenderState();
+	uiContext->PrepareUIForRender();
 	END_TIMED_BLOCK(Update);
 
 	BEGIN_TIMED_BLOCK(Render);

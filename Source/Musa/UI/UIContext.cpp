@@ -1,6 +1,7 @@
 
 #include "UIContext.hpp"
 #include "Input/Input.hpp"
+#include "UIWidget.hpp"
 
 namespace UI
 {
@@ -16,9 +17,17 @@ void Context::AddWidget(Widget& widget)
 
 void Context::Update()
 {
-	if (Input::IsPressed(Inputs::Key_F1))
+	for (auto& element : widgets)
 	{
+		element->Update(Vector2::Zero, Vector2::One);
+	}
+}
 
+void Context::PrepareUIForRender()
+{
+	for (auto& element : widgets)
+	{
+		element->PrepareRender();
 	}
 }
 
