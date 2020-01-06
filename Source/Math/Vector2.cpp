@@ -90,6 +90,12 @@ Vector2& Vector2::operator-=(const Vector2& other)
 	return *this;
 }
 
+Vector2& Vector2::operator*=(const Vector2& other)
+{
+	Internal::VectorMultiTo(*this, other);
+	return *this;
+}
+
 Vector2 Vector2::operator+(const Vector2& other) const
 {
 	Vector2 v(*this);
@@ -100,6 +106,13 @@ Vector2 Vector2::operator-(const Vector2 & other) const
 {
 	Vector2 v(*this);
 	return v -= other;
+}
+
+Vector2 Vector2::operator*(const Vector2 & other) const
+{
+	Vector2 v(*this);
+	v *= other;
+	return v;
 }
 
 Vector2& Vector2::operator*=(float32 s)

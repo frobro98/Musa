@@ -35,6 +35,7 @@ float VectorAngleBetweenVectors(const Vector4& v0, const Vector4& v1);
 // Vector Math
 void VectorAddTo(Vector2& v0, const Vector2& v1);
 void VectorSubTo(Vector2& v0, const Vector2& v1);
+void VectorMultiTo(Vector2& v0, const Vector2& v1);
 void VectorMultiTo(Vector2& v0, float s);
 void VectorDivTo(Vector2& v0, float s);
 

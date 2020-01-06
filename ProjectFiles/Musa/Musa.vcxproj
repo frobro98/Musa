@@ -67,6 +67,7 @@
     <ClCompile Include="..\..\Source\Musa\UI\UIArea.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIContext.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIPath.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\UIWidget.cpp" />
     <ClCompile Include="..\..\Source\Musa\Visualization\EngineStatView.cpp" />
     <ClCompile Include="..\..\Source\Musa\Window\Window.cpp" />
   </ItemGroup>

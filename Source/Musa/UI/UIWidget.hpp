@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Containers/DynamicArray.hpp"
 #include "Input/IInputReceiver.hpp"
 #include "Math/Vector2.hpp"
@@ -7,9 +9,12 @@
 
 namespace UI
 {
+
+// TODO - Figure out a way to represent gpu side data!!
+
 // A widget is just a general term for whatever will exist in UI.
 // It could be some sort of interactable widget like a button or it could be something that is only used for layout. 
-class Widget : public IInputReceiver
+struct Widget : public IInputReceiver
 {
 public:
 	Widget() = default;
@@ -32,21 +37,35 @@ public:
 
 	virtual void OnActivationChanged(bool /*activated*/) {}
 
-	inline void SetUIParent(Widget* parentUI) { parent = parentUI; }
-	inline Widget* GetUIParent() const { return parent; }
+	// Widget public interface
+	
+	// Updates widget hierarchy
+	void Update(const Vector2& parentPosition, const Vector2& parentScale);
+	// Prepares widget hierarchy for render;
+	void PrepareRender();
 
-private:
+public:
+	DynamicArray<Widget*> children;
 
 	Widget* parent = nullptr;
 
-	// UI needs some sort of transform for rendering
-	Matrix2 scaleRot;
 	// UI needs position information relative to the parent
-	Vector2 translation;
+	Vector2 relativePosition;
+	// UI needs some sort of transform for rendering
+	Vector2 relativeScale; // Also represents the dimensions...???
 
-	// UI needs dimension information (width and height)
-	Vector2 widgetDimensions;
 	// UI needs an anchor point and pivot point
+	Vector2 pivot;
 
+	// Actual transforms within view space
+	Vector2 absolutePosition;
+	Vector2 absoluteScale;
+
+private:
+	void UpdateAbsoluteTransform(const Vector2& parentPosition, const Vector2& parentScale);
+
+private:
+	virtual void UpdateInternal() = 0;
+	virtual void PrepareRenderInternal() = 0;
 };
 }

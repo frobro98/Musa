@@ -167,6 +167,12 @@ void VectorSubTo(Vector2& v0, const Vector2& v1)
 	v0.y -= v1.y;
 }
 
+void VectorMultiTo(Vector2& v0, const Vector2& v1)
+{
+	v0.x *= v1.x;
+	v0.y *= v1.y;
+}
+
 void VectorMultiTo(Vector2& v0, float s)
 {
 	v0.x *= s;

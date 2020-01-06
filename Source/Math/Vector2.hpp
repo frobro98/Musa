@@ -42,9 +42,11 @@ public:
 	// Arithmetic operators
 	Vector2& operator+=(const Vector2& other);
 	Vector2& operator-=(const Vector2& other);
+	Vector2& operator*=(const Vector2& other);
 
 	Vector2 operator+(const Vector2& other) const;
 	Vector2 operator-(const Vector2& other) const;
+	Vector2 operator*(const Vector2& other) const;
 
 	Vector2& operator*=(float32 s);
 	Vector2 operator*(float32 s) const;

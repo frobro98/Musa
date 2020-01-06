@@ -240,6 +240,9 @@
     <ClCompile Include="..\..\Source\Musa\UI\UIArea.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\UIWidget.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">

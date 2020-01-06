@@ -2,20 +2,18 @@
 
 #include "Containers/DynamicArray.hpp"
 #include "UI/UIWidget.hpp"
+#include "Math/Rect.hpp"
 
 namespace UI
 {
 // Describes a specific region of the UI interface
 class Area : public Widget
 {
-public:
-	
-	// Adds widget at lowest z order value
-	void AddWidget(Widget& w);
-	void AddWidgetAt(Widget& w, uint32 zOrder = 0);
-	void RemoveWidgetAt(int32 zOrder);
+
 
 private:
+	virtual void UpdateInternal() override;
+
 	struct WidgetAndOrder
 	{
 		Widget* widget;
@@ -24,9 +22,14 @@ private:
 
 private:
 	// Dimensions
+	
+	// TODO - Should dimensions start at top left corner?
+	//Rect rect;
 
-	// Children
-	DynamicArray<WidgetAndOrder> children;
+	// TODO - Should origin be in center of screen (view space) ?
+	Vector2 origin;
+	float32 width;
+	float32 height;
 
 };
 }
