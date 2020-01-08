@@ -7,6 +7,7 @@ class Window;
 
 namespace UI
 {
+
 struct Widget;
 
 class Context
@@ -26,6 +27,7 @@ public:
 
 	// Adds widget tree to the context
 	void AddWidget(Widget& widget);
+	void RemoveWidget(Widget& widget);
 
 	// Updates all of the UI within the tree. Probably pushes all of the info to the render side of things as well...
 	void Update();

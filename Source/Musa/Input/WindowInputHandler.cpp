@@ -241,6 +241,7 @@ void WindowInputHandler::PostUpdateInput()
 
 void WindowInputHandler::AddInputStream(DynamicArray<IInputReceiver *>&& newInputStream)
 {
+	// NOTE - An input stream currently is representing a path of input within the UI tree
 	inputReceivers = std::move(newInputStream);
 }
 

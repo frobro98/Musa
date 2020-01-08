@@ -12,7 +12,19 @@ Context::Context(uint32 screenDimensionX, uint32 screenDimensionY)
 }
 void Context::AddWidget(Widget& widget)
 {
-	UNUSED(widget);
+	widgets.AddUnique(&widget);
+}
+
+void Context::RemoveWidget(Widget & widget)
+{
+	for (uint32 i = 0; i < widgets.Size(); ++i)
+	{
+		if (widgets[i] == &widget)
+		{
+			widgets.Remove(i);
+			break;
+		}
+	}
 }
 
 void Context::Update()
