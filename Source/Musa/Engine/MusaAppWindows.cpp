@@ -155,17 +155,25 @@ Inputs::Type ConvertWin32ToMusaInput(uint32 vkCode)
 	}
 }
 
-Inputs::Type GetMouseType(WPARAM wParam)
+inline Inputs::Type GetMouseType(UINT message, WPARAM wParam)
 {
-	switch (wParam)
+	switch (message)
 	{
-		case MK_LBUTTON: return Inputs::Mouse_LeftButton;
-		case MK_RBUTTON: return Inputs::Mouse_RightButton;
-		case MK_MBUTTON: return Inputs::Mouse_MiddleButton;
-		case MK_XBUTTON1: return Inputs::Mouse_Button4;
-		case MK_XBUTTON2: return Inputs::Mouse_Button5;
-		default:
-			return Inputs::_INPUT_ENUM_MAX_;
+	case WM_LBUTTONDOWN: return Inputs::Mouse_LeftButton;
+	case WM_RBUTTONDOWN: return Inputs::Mouse_RightButton;
+	case WM_MBUTTONDOWN: return Inputs::Mouse_MiddleButton;
+	case WM_LBUTTONUP: return Inputs::Mouse_LeftButton;
+	case WM_RBUTTONUP: return Inputs::Mouse_RightButton;
+	case WM_MBUTTONUP: return Inputs::Mouse_MiddleButton;
+
+	case WM_XBUTTONDOWN:
+	case WM_XBUTTONUP:
+	{
+		return (HIWORD(wParam) & XBUTTON1) ? Inputs::Mouse_Button4 : Inputs::Mouse_Button5;
+	}
+
+	default:
+		return Inputs::_INPUT_ENUM_MAX_;
 	}
 }
 
@@ -212,16 +220,18 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_LBUTTONDOWN:
 			case WM_RBUTTONDOWN:
 			case WM_MBUTTONDOWN:
+			case WM_XBUTTONDOWN:
 			{
-				Inputs::Type mouseButton = GetMouseType(wParam);
+				Inputs::Type mouseButton = GetMouseType(message, wParam);
 				inputHandler->HandleMouseDown(mouseButton);
 			}break;
 
 			case WM_LBUTTONUP:
 			case WM_RBUTTONUP:
 			case WM_MBUTTONUP:
+			case WM_XBUTTONUP:
 			{
-				Inputs::Type mouseButton = GetMouseType(wParam);
+				Inputs::Type mouseButton = GetMouseType(message, wParam);
 				inputHandler->HandleMouseUp(mouseButton);
 			}break;
 
