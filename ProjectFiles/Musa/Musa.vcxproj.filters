@@ -249,6 +249,15 @@
     <ClCompile Include="..\..\Source\Musa\UI\UI.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\UIButton.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\UIText.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\UITextInput.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -484,6 +493,18 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\UIInternal.hpp">
       <Filter>Source\UI\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UIButton.hpp">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UIText.hpp">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UIImage.hpp">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\UITextInput.hpp">
+      <Filter>Source\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

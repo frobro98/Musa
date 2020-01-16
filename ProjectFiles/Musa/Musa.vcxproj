@@ -66,8 +66,11 @@
     <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UI.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIArea.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\UIButton.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIContext.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIPath.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\UIText.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\UITextInput.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIWidget.cpp" />
     <ClCompile Include="..\..\Source\Musa\Visualization\EngineStatView.cpp" />
     <ClCompile Include="..\..\Source\Musa\Window\Window.cpp" />
@@ -144,9 +147,13 @@
     <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIArea.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UIButton.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIContext.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UIImage.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIPath.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UIText.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UITextInput.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\EngineStatView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Visualization\ScreenTextItem.hpp" />

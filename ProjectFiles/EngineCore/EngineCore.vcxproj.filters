@@ -186,6 +186,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Types\Optional.h">
       <Filter>Source\Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\ListPair.hpp">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">

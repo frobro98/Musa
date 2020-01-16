@@ -102,6 +102,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Color.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\DynamicArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\List.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Containers\ListPair.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Map.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Pair.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Queue.h" />
