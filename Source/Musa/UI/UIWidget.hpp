@@ -42,7 +42,7 @@ public:
 	// Updates widget hierarchy
 	void Update(const Vector2& parentPosition, const Vector2& parentScale);
 	// Prepares widget hierarchy for render;
-	void PrepareRender();
+	void PrepareForRender();
 
 public:
 	DynamicArray<Widget*> children;
@@ -65,7 +65,34 @@ private:
 	void UpdateAbsoluteTransform(const Vector2& parentPosition, const Vector2& parentScale);
 
 private:
+	// This function exists to allow widgets to execute behavior that's specific to them
+	// Currently, there isn't any reason to have it be more complicated
 	virtual void UpdateInternal() = 0;
-	virtual void PrepareRenderInternal() = 0;
+	
+	/* Ideas for how to handle UI rendering:
+			1) Widget locally has render elements (quads, vertex descriptions, etc.).
+			   These elements are then given to some sort of rendering batch system upon 
+			   render/prepare render? Then once the tree has been fully traversed, the 
+			   render system draws the primitives
+
+			   ***This idea might not make much sense because it relies on the widget knowing 
+			   about its own rendering and then an extra copy of data (not necessarily a huge deal...)
+
+			2) Upon calling PrepareForRenderInternal, the widget gets passed a batch of UI primitives.
+			   In the render preparation, the widget must describe its own geometry using the batch of 
+			   primitives and once the tree has been fully traversed, the render system renders them.
+
+			   ***This solution is better than the first solution because the widget doesn't store anything
+			   related to its rendering. It constructs it on the fly. 
+			   However, it could be argued that this
+			   solution breaks the current Musa paradigm of separating the cpu and gpu data. 
+			   It could also be viewed that it doesn't do this at all. The gpu data doesn't really 
+			   "exist" in this solution, and the cpu data in every system in Musa that uses rendering 
+			   gets "pushed" to the gpu. For some other systems, the gpu data just lives in their own 
+			   encapsulated structure that receives the cpu data. UI primitives are more simplistic (quads), 
+			   but the way they are rendered is much more complex, so having specific gpu data stores that 
+			   understand the nuances of how a widget should be rendered is super overkill
+	*/
+	virtual void PrepareForRenderInternal() = 0;
 };
 }

@@ -12,7 +12,7 @@ class Text : public Widget
 	Text(FontID fontID);
 
 	virtual void UpdateInternal() override;
-	virtual void PrepareRenderInternal() override;
+	virtual void PrepareForRenderInternal() override;
 
 	inline void SetText(StringView sv)
 	{

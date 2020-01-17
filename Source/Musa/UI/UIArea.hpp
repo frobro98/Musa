@@ -13,7 +13,7 @@ public:
 
 private:
 	virtual void UpdateInternal() override;
-	virtual void PrepareRenderInternal() override;
+	virtual void PrepareForRenderInternal() override;
 
 private:
 

@@ -1,14 +1,18 @@
 
 #include "UIText.hpp"
 
-UI::Text::Text(FontID /*fontID*/)
+namespace UI
+{
+Text::Text(FontID fontID)
+	: font(GetLoadedFont(fontID))
 {
 }
 
-void UI::Text::UpdateInternal()
+void Text::UpdateInternal()
 {
 }
 
-void UI::Text::PrepareRenderInternal()
+void Text::PrepareForRenderInternal()
 {
+}
 }

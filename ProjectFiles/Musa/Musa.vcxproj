@@ -68,6 +68,7 @@
     <ClCompile Include="..\..\Source\Musa\UI\UIArea.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIButton.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIContext.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\UIImage.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIPath.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIText.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UITextInput.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="..\..\Source\Musa\UI\UIImage.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIPath.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\UIProgressBar.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIText.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UITextInput.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIWidget.hpp" />

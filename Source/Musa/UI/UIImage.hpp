@@ -11,7 +11,7 @@ namespace UI
 struct Image : public Widget
 {
 	virtual void UpdateInternal() override;
-	virtual void PrepareRenderInternal() override;
+	virtual void PrepareForRenderInternal() override;
 
 	Color color = Color::White();
 	// Texture...???

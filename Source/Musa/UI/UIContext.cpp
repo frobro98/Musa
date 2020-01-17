@@ -39,7 +39,7 @@ void Context::PrepareUIForRender()
 {
 	for (auto& element : widgets)
 	{
-		element->PrepareRender();
+		element->PrepareForRender();
 	}
 }
 

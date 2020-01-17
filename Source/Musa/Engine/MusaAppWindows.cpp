@@ -260,7 +260,13 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			case WM_CHAR:
 			{
-				//inputHandler->HandleKeyChar();
+				// TODO - Support Unicode characters!
+				char c = (tchar)wParam;
+
+				// 30th bit containing the prev state of the character...
+				bool repeated = (lParam & 0x40000000) != 0;
+				
+				inputHandler->HandleKeyChar(c, repeated);
 			}break;
 
 			// According to multiple sources, this kind of mouse movement message when the mouse is hiddedn because:
@@ -301,7 +307,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		}
 	}
 
-	return DefWindowProc(hwnd, message, wParam, lParam);;
+	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
 //////////////////////////////////////////////////////////////////////////
