@@ -4,7 +4,7 @@
 
 namespace UI
 {
-InputEvents TextInput::OnChar(tchar character, bool isRepeated)
+InputEvents TextInput::OnChar(tchar /*character*/, bool /*isRepeated*/)
 {
 	return InputEvents();
 }
