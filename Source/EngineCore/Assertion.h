@@ -18,14 +18,9 @@ namespace Debug
 			return boolExpr;
 		}
 	}
-
-	inline void AssertionFailed(const tchar* expr, const tchar* file, int32 line, const tchar* desc)
-	{
-		UNUSED(expr, file, line, desc);
-		DebugBreak();
-	}
-
-	inline void AssertionFailedWithDescription(const tchar* expr, const tchar* file, int32 line, const tchar* desc, ...)
+	
+	template<typename... Args>
+	inline void AssertionFailed(const tchar* expr, const tchar* file, int32 line, const tchar* desc, [[maybe_unused]] Args... args)
 	{
 		UNUSED(expr, file, line, desc);
 		DebugBreak();
@@ -42,10 +37,10 @@ namespace Debug
 
 #define Assert(x) AssertStr(x, "")
 
-#define Assertf(x, str, ...)																\
+#define Assertf(x, str, ...)													\
 		do																		\
 		{																		\
 			if(!Debug::Internal::internalExpressionCheck(x))					\
-				Debug::AssertionFailedWithDescription(#x, __FILE__, __LINE__, str, ##__VA_ARGS__);		\
+				Debug::AssertionFailed(#x, __FILE__, __LINE__, str, ##__VA_ARGS__);		\
 			__assume(x);														\
 		} while(false)

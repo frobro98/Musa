@@ -4,7 +4,12 @@
 
 namespace UI
 {
-
+void TextInput::UpdateInternal()
+{
+}
+void TextInput::PrepareForRenderInternal()
+{
+}
 }
 
 

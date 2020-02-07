@@ -23,6 +23,7 @@
 DECLARE_METRIC_GROUP(TextDisplay);
 METRIC_STAT(TextSetup, TextDisplay);
 METRIC_STAT(TextRenderSetupCommands, TextDisplay);
+METRIC_STAT(TextFormatting, TextDisplay);
 
 static BatchCollection collection;
 static NativeUniformBuffer* viewBuffer = nullptr;
@@ -91,7 +92,9 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 		collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *viewBuffer, *(WhiteTexture()->gpuResource));
 	}
 
+	BEGIN_TIMED_BLOCK(TextFormatting);
 	statView.PushStatsToView(screenTextItems);
+	END_TIMED_BLOCK(TextFormatting);
 
 	if (!screenTextItems.IsEmpty())
 	{

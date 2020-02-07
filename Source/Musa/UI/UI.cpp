@@ -5,11 +5,10 @@
 
 namespace UI
 {
-
-static Context* context = nullptr;
-
 namespace Internal
 {
+static Context* context = nullptr;
+
 void SetMusaUI(Context& uiContext)
 {
 	context = &uiContext;
@@ -18,12 +17,12 @@ void SetMusaUI(Context& uiContext)
 
 void AddWidgetToView(Widget& widget)
 {
-	context->AddWidget(widget);
+	Internal::context->AddWidget(widget);
 }
 
 void RemoveWidgetFromView(Widget& widget)
 {
-	context->RemoveWidget(widget);
+	Internal::context->RemoveWidget(widget);
 }
 
 }

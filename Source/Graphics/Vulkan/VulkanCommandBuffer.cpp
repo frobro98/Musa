@@ -10,6 +10,8 @@
 
 #include "Assertion.h"
 
+#include "fmt/format.h"
+
 
 VulkanCommandBuffer::VulkanCommandBuffer(const VulkanDevice& device, VulkanCommandBufferManager& manager)
 	:logicalDevice(&device),
@@ -578,7 +580,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::FindOrCreateGraphicsBuffer()
 	{
 		found = CreateGraphicsCommandBuffer();
 		graphicsCommandBuffers.Add(found);
-		printf("# graphics command buffers: %d\n", graphicsCommandBuffers.Size());
+		fmt::print("# graphics command buffers: {}\n", graphicsCommandBuffers.Size());
 	}
 
 	return found;
@@ -601,7 +603,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::FindOrCreateTransferBuffer()
 	{
 		found = CreateTransferCommandBuffer();
 		transferCommandBuffers.Add(found);
-		printf("# transfer command buffers: %d\n", transferCommandBuffers.Size());
+		fmt::print("# transfer command buffers: {}\n", transferCommandBuffers.Size());
 	}
 
 	return found;

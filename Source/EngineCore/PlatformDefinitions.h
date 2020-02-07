@@ -23,8 +23,6 @@
 	__pragma(warning( pop ))
 
 WALL_WRN_PUSH
-#include <cstdio>
-#include <cstdlib>
 
 #include <new>
 #include <memory>

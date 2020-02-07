@@ -1,4 +1,6 @@
 
+#include "fmt/format.h"
+
 #include "Platform.h"
 #include "ResourceBlob.hpp"
 #include "VulkanGraphicsInterface.hpp"
@@ -43,29 +45,29 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
 
 	if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT)
 	{
-		printf("WARNING: ");
-		printf("@[%s]: %s\n", layerPrefix, msg);
+		fmt::print("WARNING: ");
+		fmt::print("@[{}]: {}\n", layerPrefix, msg);
 	}
 	if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT)
 	{
-		printf("PERFORMANCE: ");
-		printf("@[%s]: %s\n", layerPrefix, msg);
+		fmt::print("PERFORMANCE: ");
+		fmt::print("@[{}]: {}\n", layerPrefix, msg);
 	}
 	if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT)
 	{
-		printf("ERROR: ");
-		printf("@[%s]: %s\n", layerPrefix, msg);
+		fmt::print("ERROR: ");
+		fmt::print("@[{}]: {}\n", layerPrefix, msg);
 	}
 	if (flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT)
 	{
-		printf("DEBUG: ");
-		printf("@[%s]: %s\n", layerPrefix, msg);
+		fmt::print("DEBUG: ");
+		fmt::print("@[{}]: {}\n", layerPrefix, msg);
 	}
 
 	if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT)
 	{
-		printf("INFO: ");
-		printf("@[%s]: %s\n", layerPrefix, msg);
+		fmt::print("INFO: ");
+		fmt::print("@[{}]: {}\n", layerPrefix, msg);
 	}
 
 #endif // _DEBUG

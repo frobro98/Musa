@@ -3,6 +3,8 @@
 #include "Platform.h"
 #include "Containers/DynamicArray.hpp"
 
+#include "fmt/format.h"
+
 class SerializeBase;
 class DeserializeBase;
 
@@ -50,12 +52,22 @@ public:
 	String GetLowerCase() const;
 	void ToLowerCase();
 
-
 	int32 Compare(const String& str) const;
 	int32 Compare(const tchar* str) const;
 	int32 Compare(const String& str, uint32 numToCompare) const;
 	int32 Compare(const tchar* str, uint32 numToCompare) const;
 
+public:
+	// TODO - Determine whether this makes sense to have in the class or have it as a function somewhere else
+	template<typename... StrArgs>
+	static String Format(const tchar* formatStr, StrArgs... args)
+	{
+		fmt::memory_buffer buf;
+		fmt::format_to(buf, formatStr, args...);
+		return String(buf.data(), (uint32)buf.size());
+	}
+
+public:
 	tchar operator[](uint32 index) const;
 	const tchar* operator*() const;
 

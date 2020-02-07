@@ -13,6 +13,8 @@ WALL_WRN_POP
 #include "Assertion.h"
 #include "Path/Path.hpp"
 
+#include "fmt/format.h"
+
 namespace
 {
 
@@ -282,7 +284,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 	if (!shader.parse(&resources, 110, true, messages))
 	{
 		const char* errors = shader.getInfoLog();
-		printf("%s\n", errors);
+		fmt::print("{}\n", errors);
 		// Log the errors....
 		Assert(false);
 	}
@@ -293,7 +295,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 		if (!program.link(messages))
 		{
 			const char* errors = program.getInfoLog();
-			printf("%s\n", errors);
+			fmt::print("{}\n", errors);
 		}
 		else
 		{

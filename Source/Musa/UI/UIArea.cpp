@@ -3,5 +3,10 @@
 
 namespace UI
 {
-
+void Area::UpdateInternal()
+{
+}
+void Area::PrepareForRenderInternal()
+{
+}
 }
