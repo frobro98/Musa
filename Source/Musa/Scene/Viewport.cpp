@@ -9,8 +9,3 @@ Viewport::Viewport(void* windowHandle, uint32 width, uint32 height)
 {
 	graphicsViewport = GetGraphicsInterface().CreateViewport(windowHandle, viewWidth, viewHeight);
 }
-
-Viewport::~Viewport()
-{
-	delete graphicsViewport;
-}

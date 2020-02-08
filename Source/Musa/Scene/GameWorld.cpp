@@ -10,19 +10,20 @@ void InitializeRenderTarget(GraphicsPipelineDescription& init)
 {
 	RenderTargetDescription desc = {};
 	
-	desc.colorDescs[0].format = ImageFormat::RGBA_8u;
-	desc.colorDescs[0].load = LoadOperation::Clear;
-	desc.colorDescs[0].store = StoreOperation::Store;
-	desc.colorDescs[0].stencilLoad = LoadOperation::DontCare;
-	desc.colorDescs[0].sampleCount = 1;
+	desc.colorAttachments[0].format = ImageFormat::RGBA_8u;
+	desc.colorAttachments[0].load = LoadOperation::Clear;
+	desc.colorAttachments[0].store = StoreOperation::Store;
+	desc.colorAttachments[0].stencilLoad = LoadOperation::DontCare;
+	desc.colorAttachments[0].sampleCount = 1;
 
-	desc.depthDesc.format = ImageFormat::DS_32f_8u;
-	desc.depthDesc.load = LoadOperation::Clear;
-	desc.depthDesc.store = StoreOperation::Store;
-	desc.depthDesc.stencilLoad = LoadOperation::DontCare;
-	desc.depthDesc.stencilStore = StoreOperation::DontCare;
+	desc.depthAttachment.format = ImageFormat::DS_32f_8u;
+	desc.depthAttachment.load = LoadOperation::Clear;
+	desc.depthAttachment.store = StoreOperation::Store;
+	desc.depthAttachment.stencilLoad = LoadOperation::DontCare;
+	desc.depthAttachment.stencilStore = StoreOperation::DontCare;
 
-	desc.targetCount = 1;
+	desc.hasDepth = true;
+	desc.numColorAttachments = 1;
 
 	init.renderTargets = desc;
 }

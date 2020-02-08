@@ -22,6 +22,7 @@
 #include "VulkanSampler.hpp"
 #include "VulkanRenderer.hpp"
 #include "VulkanTexture.h"
+#include "VulkanDescriptorLayoutManager.h"
 
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_LUNARG_standard_validation"
@@ -95,15 +96,7 @@ static void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& b
 	logicalDevice.GetStagingBufferManager().ReleaseStagingBuffer(*cmdBuffer, *stagingBuffer);
 }
 
-
-
-VulkanGraphicsInterface::~VulkanGraphicsInterface()
-{
-	delete logicalDevice;
-	// TODO - add clean up for vulkan classes
-	vkDestroyDebugReportCallbackEXT(instance, debugReportHandle, nullptr);
-	vkDestroyInstance(instance, nullptr);
-}
+//////////////////////////////////////////////////////////////////////////
 
 void VulkanGraphicsInterface::InitializeGraphics()
 {
@@ -114,10 +107,22 @@ void VulkanGraphicsInterface::InitializeGraphics()
 
 	renderContext = new VulkanRenderer(*logicalDevice);
 
-	GetShaderManager().logicalDevice = logicalDevice;
+	GetShaderManager().logicalDevice = logicalDevice.Get();
 }
 
-NativeTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
+void VulkanGraphicsInterface::DeinitializeGraphics()
+{
+	GetDescriptorLayoutManager().Deinitialize();
+	GetShaderManager().Deinitialize();
+
+	renderContext.Reset();
+	logicalDevice.Reset();
+	// TODO - add clean up for vulkan classes
+	vkDestroyDebugReportCallbackEXT(instance, debugReportHandle, nullptr);
+	vkDestroyInstance(instance, nullptr);
+}
+
+UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(
 	uint32 width, 
 	uint32 height, 
 	ImageFormat textureFormat, 
@@ -150,7 +155,7 @@ NativeTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
 	return new VulkanTexture(*logicalDevice, *image);
 }
 
-NativeTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
+UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateInitializedTexture2D(
 	const ResourceBlob& textureBlob, 
 	uint32 width, uint32 height, 
 	ImageFormat textureFormat, 
@@ -197,22 +202,22 @@ NativeSampler* VulkanGraphicsInterface::CreateTextureSampler(const SamplerDescri
 	return new VulkanSampler(*logicalDevice, params);
 }
 
-NativeViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
+UniquePtr<NativeViewport> VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
 {
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
-NativeVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
+UniquePtr<NativeVertexBuffer> VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
 {
 	return new VulkanVertexBuffer(*logicalDevice, vertices);
 }
 
-NativeIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
+UniquePtr<NativeIndexBuffer> VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
 {
 	return new VulkanIndexBuffer(*logicalDevice, faces);
 }
 
-NativeUniformBuffer* VulkanGraphicsInterface::CreateUniformBuffer(uint32 bufferSize) const
+UniquePtr<NativeUniformBuffer> VulkanGraphicsInterface::CreateUniformBuffer(uint32 bufferSize) const
 {
 	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
 }
@@ -230,7 +235,7 @@ void* VulkanGraphicsInterface::GetGraphicsDevice()
 
 Renderer* VulkanGraphicsInterface::GetRenderContext()
 {
-	return renderContext;
+	return renderContext.Get();
 }
 
 void VulkanGraphicsInterface::CreateInstance()

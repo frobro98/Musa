@@ -106,10 +106,10 @@ void Material::SetShadingModel(ShadingModel model)
 void Material::ConfigureMaterialInfo()
 {
 	materialRendering->baseColor = diffuseColor;
-	materialRendering->baseTexture = texture0 ? texture0->gpuResource : nullptr;
+	materialRendering->baseTexture = texture0 ? texture0->gpuResource.Get() : nullptr;
 	materialRendering->vertexShader = vertexShader;
 	materialRendering->fragmentShader = fragmentShader;
-	materialRendering->normalMap = normalMap ? normalMap->gpuResource : nullptr;
+	materialRendering->normalMap = normalMap ? normalMap->gpuResource.Get() : nullptr;
 	materialRendering->shadingModel = shadingModel;
 	materialRendering->materialProperties = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 }

@@ -22,12 +22,11 @@ Model::~Model()
 {
 	material = nullptr;
 	mesh = nullptr;
-	delete renderInfo;
 }
 
 void Model::SetupMeshRenderInfo()
 {
-	renderInfo = new MeshRenderInfo;
+	renderInfo = MakeUnique<MeshRenderInfo>();
 	renderInfo->vertexBuffer = &mesh->GetVertexBuffer();
 	renderInfo->indexBuffer = &mesh->GetIndexBuffer();
 	renderInfo->transformBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(TransformationUniformBuffer));

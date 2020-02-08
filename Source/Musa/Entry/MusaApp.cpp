@@ -27,6 +27,8 @@ void MusaApp::LaunchApplication()
 	}
 
 	// TODO - Shutdown stuff for the application...
+	TearDownGameEngine();
+	
 }
 
 void MusaApp::LockCursor()
@@ -72,7 +74,7 @@ void MusaApp::InitializeApplicationWindow()
 {
 	Assert(osApp);
 	appWindow = osApp->CreateGameWindow(0, 0, width, height);
-	Assert(appWindow);
+	Assert(appWindow.IsValid());
 
 	osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
 	uiContext->SetWindow(*appWindow);
@@ -80,17 +82,21 @@ void MusaApp::InitializeApplicationWindow()
 
 void MusaApp::SetupGameEngine()
 {
-	gameEngine->InitializeGraphics();
-	gameEngine->SetupWindowContext(*appWindow);
-	gameEngine->InitializeSceneView();
+	gameEngine->StartupEngine(*appWindow);
 
 	gameEngine->LoadContent();
 
 	osApp->GetInputHandler()->SetInputFocusToGame();
 
-	gameEngine->StartEngine();
+	gameEngine->StartRunningEngine();
 
 	frameTick.Start();
+}
+
+void MusaApp::TearDownGameEngine()
+{
+	gameEngine->UnloadContent();
+	gameEngine->ShutdownEngine();
 }
 
 void MusaApp::ApplicationUpdate()
@@ -107,7 +113,7 @@ void MusaApp::ApplicationUpdate()
 	osApp->ProcessNativeGamepad();
 	osApp->PostProcessInputEvents();
 
-	gameEngine->UpdateAndRenderWorld(tick);
+	gameEngine->UpdateAndRender(tick);
 
 	gameEngine->GatherFrameMetrics();
 }

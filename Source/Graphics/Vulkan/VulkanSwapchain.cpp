@@ -75,7 +75,7 @@ void VulkanSwapchain::SubmitFrame()
 	ImageLayoutTransition(
 		*cmdBufferManager.GetActiveGraphicsBuffer(), range,
 		VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-		{ swapchainImageTargets[imageIndex]->image }
+		{ swapchainImageTargets[imageIndex]->image.Get() }
 	);
 
 	cmdBufferManager.SubmitGraphicsBuffer(false, imageAvailable, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, renderingFinished);
@@ -250,10 +250,10 @@ void VulkanSwapchain::CacheSwapchainImages()
 
 void VulkanSwapchain::InitializeRenderTargets()
 {
-	targetDescription.targetCount = 1;
+	targetDescription.numColorAttachments = 1;
 	targetDescription.targetExtents = { (float32)swapchainExtent.width, (float32)swapchainExtent.height };
 
-	ColorDescription& colorDesc = targetDescription.colorDescs[0];
+	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
 	colorDesc.format = ImageFormat::RGBA_8norm;
 	colorDesc.load = LoadOperation::Clear;
 	colorDesc.store = StoreOperation::Store;

@@ -1,11 +1,12 @@
 #pragma once
 
+#include "Types/UniquePtr.hpp"
 #include "Vulkan/VulkanAbstractions.h"
 
 struct VulkanTexture : public NativeTexture
 {
 	VkImageView imageView = VK_NULL_HANDLE;
-	VulkanImage* image = nullptr;
+	UniquePtr<VulkanImage> image;
 	const VulkanDevice& logicalDevice;
 
 	VulkanTexture(VulkanDevice& device, VulkanImage& allocedImage);
@@ -18,10 +19,9 @@ struct VulkanTexture : public NativeTexture
 
 	VulkanTexture(VulkanTexture&& other) noexcept
 		: imageView(other.imageView),
-		image(other.image),
+		image(std::move(other.image)),
 		logicalDevice(other.logicalDevice)
 	{
-		other.image = nullptr;
 		other.imageView = VK_NULL_HANDLE;
 	}
 
@@ -29,10 +29,9 @@ struct VulkanTexture : public NativeTexture
 	{
 		if (&other != this && other.image->Initialized())
 		{
-			image = other.image;
+			image = std::move(other.image);
 			imageView = other.imageView;
 
-			other.image = nullptr;
 			other.imageView = VK_NULL_HANDLE;
 		}
 

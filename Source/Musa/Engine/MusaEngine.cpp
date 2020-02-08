@@ -3,10 +3,8 @@
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
 #include "Math/Rect.hpp"
-#include "Types/Intrinsics.hpp"
 #include "Math/Vector4.hpp"
 #include "Mesh/MeshManager.h"
-#include "Window/Window.h"
 #include "Input/Input.hpp"
 #include "Texture/Texture2D/TextureManager.h"
 #include "DirectoryLocations.h"
@@ -31,6 +29,8 @@
 #include "Debugging/MetricInterface.hpp"
 #include "Debugging/ProfilerStatistics.hpp"
 
+#include "RenderPipeline/UserInterfacePipeline.hpp"
+
 #include "Font/FontCache.hpp"
 
 #include "MusaEngine.hpp"
@@ -47,6 +47,22 @@ MusaEngine::MusaEngine(UI::Context& context)
 	: uiContext(&context)
 {
 	gameInput = MakeUnique<GameInput>(*this);
+}
+
+void MusaEngine::StartupEngine(Window& window)
+{
+	InitializeGraphics();
+	SetupWindowContext(window);
+	InitializeSceneView();
+}
+
+void MusaEngine::ShutdownEngine()
+{
+	gameInput.Reset();
+	world.Reset();
+	viewport.Reset();
+
+	GetGraphicsInterface().DeinitializeGraphics();
 }
 
 void MusaEngine::InitializeGraphics()
@@ -85,24 +101,12 @@ void MusaEngine::InitializeSceneView()
 	gameInput->RegisterInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
 }
 
-void MusaEngine::RunEngine()
-{
-	running = true;
-
-
-	LoadContent();
-
-
-	world.Release();
-	GetTextureManager().Deinitialize();
-}
-
-void MusaEngine::StartEngine()
+void MusaEngine::StartRunningEngine()
 {
 	running = true;
 }
 
-void MusaEngine::StopEngine()
+void MusaEngine::StopRunningEngine()
 {
 	running = false;
 }
@@ -254,10 +258,7 @@ void MusaEngine::LoadContent()
 	GetTextureManager().AddTexture(*WhiteTexture());
 	GetTextureManager().AddTexture(*BlackTexture());
 
-	GetMeshManager().LoadPrimitive(Primitive::Box);
-	GetMeshManager().LoadPrimitive(Primitive::Plane);
-	GetMeshManager().LoadPrimitive(Primitive::Sphere);
-	GetMeshManager().LoadPrimitive(Primitive::Pyramid);
+	GetMeshManager().Initialize();
 
 	CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
@@ -281,7 +282,13 @@ void MusaEngine::LoadContent()
 	world->GetScene().AddLightToScene(*light);
 }
 
-void MusaEngine::UpdateAndRenderWorld(float32 tick)
+void MusaEngine::UnloadContent()
+{
+	GetMeshManager().Deinitialize();
+	GetTextureManager().Deinitialize();
+}
+
+void MusaEngine::UpdateAndRender(float32 tick)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
 
@@ -294,7 +301,7 @@ void MusaEngine::UpdateAndRenderWorld(float32 tick)
 	END_TIMED_BLOCK(Update);
 
 	BEGIN_TIMED_BLOCK(Render);
-	world->RenderWorld(*viewport);
+	RenderFrame();
 	END_TIMED_BLOCK(Render);
 }
 
@@ -305,5 +312,13 @@ void MusaEngine::GatherFrameMetrics()
 		GetProfilingStatistics().CollectAllFrameMetrics();
 	}
 	GetProfilingStatistics().ProfileFrameIncrement();
+}
+
+void MusaEngine::RenderFrame()
+{
+	world->RenderWorld(*viewport);
+	RenderUI(*uiContext);
+
+	// Need a way to compose everything to the backbuffer
 }
 

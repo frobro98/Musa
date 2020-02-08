@@ -21,14 +21,14 @@ VulkanFramebuffer::~VulkanFramebuffer()
 
 void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures, VulkanRenderPass* renderPass_)
 {
-	Assert(targetDesc.targetCount == renderTextures.targetCount);
+	Assert(targetDesc.numColorAttachments == renderTextures.numColorTargets);
 	nativeTargets = renderTextures;
 
-	uint32 targetCount = targetDesc.hasDepth ? nativeTargets.targetCount + 1 : nativeTargets.targetCount;
+	uint32 targetCount = targetDesc.hasDepth ? nativeTargets.numColorTargets + 1 : nativeTargets.numColorTargets;
 	extents = { (uint32)targetDesc.targetExtents.width, (uint32)targetDesc.targetExtents.height };
 
 	viewAttachments.Resize(targetCount);
-	for (uint32 i = 0; i < nativeTargets.targetCount; ++i)
+	for (uint32 i = 0; i < nativeTargets.numColorTargets; ++i)
 	{
 		const VulkanTexture* colorTex = static_cast<const VulkanTexture*>(renderTextures.colorTargets[i]);
 		viewAttachments[i] = colorTex->image->CreateView();
@@ -40,7 +40,7 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 	if (targetDesc.hasDepth)
 	{
 		const VulkanTexture* depthTex = static_cast<const VulkanTexture*>(renderTextures.depthTarget);
-		viewAttachments[renderTextures.targetCount] = depthTex->image->CreateView();
+		viewAttachments[renderTextures.numColorTargets] = depthTex->image->CreateView();
 		// TODO - Initialize extents in a better place. Possibly in the structure that is passed in?? (RenderTargetDescription)
 		extents.width = Min(extents.width, depthTex->image->width);
 		extents.height = Min(extents.height, depthTex->image->height);
@@ -74,12 +74,12 @@ bool VulkanFramebuffer::ContainsRT(const VulkanTexture& texture)
 
 bool VulkanFramebuffer::ContainsRTs(const RenderTargetTextures& renderTextures)
 {
-	if (nativeTargets.targetCount == renderTextures.targetCount)
+	if (nativeTargets.numColorTargets == renderTextures.numColorTargets)
 	{
 		if (nativeTargets.depthTarget == renderTextures.depthTarget)
 		{
 			bool result = true;
-			uint32 targetCount = nativeTargets.targetCount;
+			uint32 targetCount = nativeTargets.numColorTargets;
 			for (uint32 i = 0; i < targetCount; ++i)
 			{
 				result &= nativeTargets.colorTargets[i] == renderTextures.colorTargets[i];

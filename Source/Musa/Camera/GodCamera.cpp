@@ -4,6 +4,7 @@
 #include "Engine/FrameData.hpp"
 #include "Input/GameInput.hpp"
 #include "DebugOutput.h"
+#include "Math/MathUtilities.hpp"
 
 GodCamera::GodCamera(Camera& cam)
 	: camera(cam)
@@ -155,15 +156,19 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
 	//Debug::Printf("Mouse X: %f, Mouse Y: %f\n", changeX, -changeY);
 	const float32 tick = Frame::GetTickTimeSeconds();
-	if (changeX != 0 || changeY != 0)
+	if ((Math::IsZero(changeX) && Math::IsNonZero(changeY)) ||
+		(Math::IsZero(changeY) && Math::IsNonZero(changeX)))
 	{
-		Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * lookSpeed);
-		Quat quatY(ROT_Y, -changeX * lookSpeed);
+		if (changeX != 0 || changeY != 0)
+		{
+			Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * lookSpeed);
+			Quat quatY(ROT_Y, -changeX * lookSpeed);
 
-		Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
-		newLookAtDir.Normalize();
-		cameraLookAt = position - newLookAtDir;
-		Vector4 up = camera.GetUp() * quatX * quatY;
-		cameraUp = up;
+			Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
+			newLookAtDir.Normalize();
+			cameraLookAt = position - newLookAtDir;
+			Vector4 up = camera.GetUp() * quatX * quatY;
+			cameraUp = up;
+		}
 	}
 }

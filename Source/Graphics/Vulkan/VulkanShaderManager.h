@@ -14,14 +14,14 @@ class VulkanShaderManager
 public:
 	static constexpr const char* DefaultShader = "_default-shader";
 
-	VulkanShaderManager() = default;
-	~VulkanShaderManager();
-
 	//VulkanShader* CreateShader(const tchar* shaderFile, ShaderStage stage);
 	ShaderResource* CreateShader(const ShaderCompiledOutput& compiledOutput);
 	//VulkanShader* CreateShader(const ShaderCompiledOutput& compiledOutput, ShaderStage stage);
 	//VulkanShader* FindShader(const char* shaderName);
 
+	// TODO - This doesn't make much sense, but because this currently is statically stored, this needs to be here...
+	// TODO - Have the VulkanShaderManager not be vulkan specific and be stored somewhere easily accessible (not static!)
+	void Deinitialize();
 
 private:
 	// This is because it needs a device. This needs to move or change because this isn't good

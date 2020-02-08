@@ -2,6 +2,7 @@
 
 // TODO - Rename the file to match the name of the struct
 
+#include "Types/UniquePtr.hpp"
 #include "Math/BoundsVolumes.hpp"
 #include "Math/Matrix4.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
@@ -11,16 +12,9 @@ struct MaterialRenderInfo;
 // TODO - There needs to be different ones for this and for animated meshes!
 struct MeshRenderInfo 
 {
-	~MeshRenderInfo()
-	{
-		delete vertexBuffer;
-		delete indexBuffer;
-		delete transformBuffer;
-	}
-
 	SphereBounds bounds;
 	MaterialRenderInfo* meshMaterial = nullptr;
 	NativeVertexBuffer* vertexBuffer = nullptr;
 	NativeIndexBuffer* indexBuffer = nullptr;
-	NativeUniformBuffer* transformBuffer = nullptr;
+	UniquePtr<NativeUniformBuffer> transformBuffer;
 };

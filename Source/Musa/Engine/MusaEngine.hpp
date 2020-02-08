@@ -17,15 +17,12 @@ class MusaEngine final
 public:
 	MusaEngine(UI::Context& context);
 
-	void InitializeGraphics();
-	void SetupWindowContext(Window& window);
+	void StartupEngine(Window& window);
+	void ShutdownEngine();
 
-	void InitializeSceneView();
+	void StartRunningEngine();
+	void StopRunningEngine();
 
-	void RunEngine();
-
-	void StartEngine();
-	void StopEngine();
 
 	inline bool ShouldRun() const { return running; }
 	inline GameInput& GetGameInput() { return *gameInput; }
@@ -33,9 +30,17 @@ public:
 
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene
 	void LoadContent();
+	void UnloadContent();
 	
-	void UpdateAndRenderWorld(float32 tick);
+	void UpdateAndRender(float32 tick);
 	void GatherFrameMetrics();
+
+private:
+	void InitializeGraphics();
+	void SetupWindowContext(Window& window);
+	void InitializeSceneView();
+
+	void RenderFrame();
 
 private:
 	UniquePtr<GameWorld> world;

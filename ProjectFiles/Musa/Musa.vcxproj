@@ -57,6 +57,7 @@
     <ClCompile Include="..\..\Source\Musa\Model\Model.cpp" />
     <ClCompile Include="..\..\Source\Musa\Model\ModelFactory.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.cpp" />
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp" />
@@ -137,6 +138,8 @@
     <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\FrameRenderTargets.hpp" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.h" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp" />

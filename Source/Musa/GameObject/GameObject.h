@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Types/UniquePtr.hpp"
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 #include "Mesh/Mesh.h"
 #include "Model/Model.h"
+#include "Color.hpp"
 
 class ShaderProgram;
 
@@ -15,10 +17,10 @@ class GameObject
 public:
 	GameObject();
 	virtual ~GameObject() = default;
-	GameObject(const GameObject& go);
+	//GameObject(const GameObject& go);
 	GameObject(GameObject&& go) noexcept;
 
-	GameObject& operator=(const GameObject& go);
+	//GameObject& operator=(const GameObject& go);
 	GameObject& operator=(GameObject&& go) noexcept;
 
 	void AssociateScene(class Scene& scene);
@@ -64,11 +66,10 @@ protected:
 	float32 rotZ;
 	Vector4 scale;
 
-	std::unique_ptr<Model> model;
+	UniquePtr<Model> model;
 	Model* debugVolume = nullptr;
 	Scene* scene = nullptr;
+	
 	bool debugShown = false;
-
 	bool shouldRender = true;
-	bool pad[2] = { false, false };
 };

@@ -1,14 +1,15 @@
 #pragma once
 
+#include "Types/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 #include "Math/Rect.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class Camera;
 struct ShaderResource;
-struct NativeUniformBuffer;
 
 struct ViewDescription
 {
@@ -30,7 +31,7 @@ struct View
 {
 	ViewDescription description;
 	ViewTransforms transforms;
-	NativeUniformBuffer* viewBuffer = nullptr;
+	UniquePtr<NativeUniformBuffer> viewBuffer;
 };
 
 // TODO - Determine if this and the Viewport class are similar and try and consolidate if they are

@@ -496,7 +496,15 @@ Mesh* MeshManager::LoadPyramidPrimitive()
 	return mesh;
 }
 
-MeshManager::~MeshManager()
+void MeshManager::Initialize()
+{
+	LoadPrimitive(Primitive::Box);
+	LoadPrimitive(Primitive::Plane);
+	LoadPrimitive(Primitive::Sphere);
+	LoadPrimitive(Primitive::Pyramid);
+}
+
+void MeshManager::Deinitialize()
 {
 	MeshNode* current = head;
 	while (current != nullptr)
@@ -505,6 +513,7 @@ MeshManager::~MeshManager()
 		if (node != nullptr)
 		{
 			current->next = current->next->next;
+
 			delete node->mesh;
 			delete node;
 		}

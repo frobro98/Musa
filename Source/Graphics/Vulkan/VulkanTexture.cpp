@@ -12,5 +12,4 @@ VulkanTexture::VulkanTexture(VulkanDevice& device, VulkanImage& allocedImage)
 VulkanTexture::~VulkanTexture()
 {
 	vkDestroyImageView(logicalDevice.GetNativeHandle(), imageView, nullptr);
-	delete image;
 }

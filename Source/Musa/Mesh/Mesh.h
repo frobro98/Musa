@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Platform.h"
-#include "Graphics.h"
+#include "Types/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Math/BoundsVolumes.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Mesh/GeometryPrimitives.h"
 
 struct NativeVertexBuffer;
 struct NativeIndexBuffer;
@@ -36,8 +37,8 @@ private:
 	DynamicArray<Face> faces;
 	DynamicArray<VertexBoneWeights> skinWeights;
 
-	NativeVertexBuffer* vertexBuffer;
-	NativeIndexBuffer* indexBuffer;
+	UniquePtr<NativeVertexBuffer> vertexBuffer;
+	UniquePtr<NativeIndexBuffer> indexBuffer;
 
 	SphereBounds boundingSphere;
 };

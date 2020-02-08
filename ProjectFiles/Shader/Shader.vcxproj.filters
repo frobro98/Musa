@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.cpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.cpp">
+      <Filter>Source\ShaderObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Shader\Material.h">
@@ -138,6 +141,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.hpp">
+      <Filter>Source\ShaderObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -277,9 +283,6 @@
     <None Include="..\..\Assets\Shaders\Provided\TransformationVert.shad">
       <Filter>ShaderSource\NewSource</Filter>
     </None>
-    <None Include="..\..\Assets\Shaders\Provided\Screen.shad">
-      <Filter>ShaderSource\NewSource</Filter>
-    </None>
     <None Include="..\..\Assets\Shaders\Provided\Common\LightingCommon.hshad">
       <Filter>ShaderSource\NewSource\Common</Filter>
     </None>
@@ -303,6 +306,9 @@
     </None>
     <None Include="..\..\Assets\Shaders\Provided\Common\UniformBufferCommon.hshad">
       <Filter>ShaderSource\NewSource\Common</Filter>
+    </None>
+    <None Include="..\..\Assets\Shaders\Provided\DeferredLightingRender.shad">
+      <Filter>ShaderSource\NewSource</Filter>
     </None>
   </ItemGroup>
 </Project>

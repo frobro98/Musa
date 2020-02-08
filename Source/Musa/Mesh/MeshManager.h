@@ -15,8 +15,9 @@ enum class Primitive
 class MeshManager
 {
 public:
-	MeshManager() = default;
-	~MeshManager();
+
+	void Initialize();
+	void Deinitialize();
 
 	Mesh* LoadPrimitive(Primitive primitiveMesh);
 	Mesh* LoadFrustumForCamera(class Camera* camera);

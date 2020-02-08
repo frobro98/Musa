@@ -31,7 +31,7 @@ public:
 
 	void PostProcessInputEvents();
 
-	inline WindowInputHandler* GetInputHandler() { Assert(inputHandler); return inputHandler.Get(); }
+	inline WindowInputHandler* GetInputHandler() { Assert(inputHandler.IsValid()); return inputHandler.Get(); }
 
 protected:
 	UniquePtr<WindowInputHandler> inputHandler;

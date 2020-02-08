@@ -1,23 +1,12 @@
 
-#if VERT_SHADER
-
-layout(location = 0) out vec2 texCoords;
-
-void main() 
-{
-	texCoords = vec2((gl_VertexIndex << 1) & 2, gl_VertexIndex & 2);
-	gl_Position = vec4(texCoords * 2.0f - 1.0f, 0.0f, 1.0f);
-}
-
-#elif FRAG_SHADER
+#if FRAG_SHADER
 
 #define VIEW_BOUND 3
 #include "Common/UniformBufferCommon.hshad"
 #include "Common/LightingCommon.hshad"
 
 layout(location = 0) in vec2 texCoords;
-
-layout(location = 0) out vec4 outColor;
+layout(location = 0) out vec4 pixelLightColor;
 
 layout(binding = 0) uniform sampler2D positionGBuffer;
 layout(binding = 1) uniform sampler2D normalGBuffer;
@@ -55,7 +44,7 @@ void main()
 		}
 	}
 
-	outColor = vec4(col, 1.0);
+	pixelLightColor = vec4(col, 1.0);
 }
 
 #endif

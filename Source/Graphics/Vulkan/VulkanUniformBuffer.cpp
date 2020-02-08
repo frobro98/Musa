@@ -3,17 +3,6 @@
 #include "VulkanMemoryManager.hpp"
 #include "VulkanBufferAllocation.hpp"
 
-
-// VulkanUniformBuffer::~VulkanUniformBuffer()
-// {
-// 	if (mappedData != nullptr)
-// 	{
-// 		VulkanMemory::UnmapMemory(uniformBuffer->allocatedMemory);
-// 		mappedData = nullptr;
-// 	}
-// 	VulkanMemory::DeallocateBuffer(uniformBuffer);
-// }
-
 VulkanUniformBuffer::VulkanUniformBuffer(const VulkanDevice & device, uint32 bufferSize)
 	: logicalDevice(device)
 {

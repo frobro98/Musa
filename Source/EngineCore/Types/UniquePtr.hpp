@@ -20,11 +20,14 @@ public:
 	OwnedType& operator*() const;
 	OwnedType* operator->() const;
 
-	operator bool() const;
+	bool IsValid() const;
 
-	OwnedType* Get() const;
-	void Reset(OwnedType* newPtr);
-	void Release();
+	[[nodiscard]] OwnedType* Get() const;
+	[[nodiscard]] OwnedType* Release();
+	void Reset(OwnedType* newPtr = nullptr);
+
+private:
+	void ReleaseOwnedPtr();
 
 private:
 	OwnedType* ptr = nullptr;
@@ -45,7 +48,7 @@ inline UniquePtr<OwnedType>::UniquePtr(OwnedType* owningPtr)
 template<typename OwnedType>
 inline UniquePtr<OwnedType>::~UniquePtr()
 {
-	Release();
+	ReleaseOwnedPtr();
 }
 
 template<typename OwnedType>
@@ -60,7 +63,7 @@ inline UniquePtr<OwnedType>& UniquePtr<OwnedType>::operator=(UniquePtr&& other)
 {
 	if (this != &other)
 	{
-		Release();
+		ReleaseOwnedPtr();
 		ptr = other.ptr;
 		other.ptr = nullptr;
 	}
@@ -81,7 +84,7 @@ inline OwnedType* UniquePtr<OwnedType>::operator->() const
 }
 
 template<typename OwnedType>
-inline UniquePtr<OwnedType>::operator bool() const
+inline bool UniquePtr<OwnedType>::IsValid() const
 {
 	return ptr != nullptr;
 }
@@ -95,14 +98,22 @@ inline OwnedType* UniquePtr<OwnedType>::Get() const
 template<typename OwnedType>
 inline void UniquePtr<OwnedType>::Reset(OwnedType* newPtr)
 {
-	Release();
+	ReleaseOwnedPtr();
 	ptr = newPtr;
 }
 
 template<typename OwnedType>
-inline void UniquePtr<OwnedType>::Release()
+inline void UniquePtr<OwnedType>::ReleaseOwnedPtr()
 {
 	delete ptr;
 	ptr = nullptr;
+}
+
+template<typename OwnedType>
+inline OwnedType* UniquePtr<OwnedType>::Release()
+{
+	OwnedType* p = ptr;
+	ptr = nullptr;
+	return p;
 }
 

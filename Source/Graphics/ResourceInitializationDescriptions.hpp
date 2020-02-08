@@ -257,7 +257,7 @@ struct GraphicsPipelineDescription
 	{
 		if (lhs.renderTargets == rhs.renderTargets)
 		{
-			uint32 targetCount = lhs.renderTargets.targetCount;
+			uint32 targetCount = lhs.renderTargets.numColorAttachments;
 			bool result = true;
 			for (uint32 i = 0; i < targetCount; ++i)
 			{

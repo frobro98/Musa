@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Color.hpp"
+#include "Types/UniquePtr.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
-struct NativeUniformBuffer;
-struct NativeTexture;
 class Material;
 struct ShaderResource;
 
 struct MaterialRenderInfo
 {
 	Color32 baseColor = Color32::White();
-	NativeUniformBuffer* materialProperties;
+	UniquePtr<NativeUniformBuffer> materialProperties;
 	NativeTexture* baseTexture = nullptr;
 	NativeTexture* normalMap = nullptr;
 	ShaderResource* vertexShader = nullptr;

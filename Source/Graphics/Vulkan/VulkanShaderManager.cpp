@@ -14,7 +14,7 @@ ShaderResource* VulkanShaderManager::CreateShader(const ShaderCompiledOutput& co
 	return shader;
 }
 
-VulkanShaderManager::~VulkanShaderManager()
+void VulkanShaderManager::Deinitialize()
 {
 	for (auto shader : shaders)
 	{

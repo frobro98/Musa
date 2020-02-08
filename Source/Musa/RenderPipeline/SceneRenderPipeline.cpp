@@ -7,7 +7,7 @@
 #include "Mesh/MeshSceneInfo.hpp"
 #include "Mesh/Mesh.h"
 #include "Shader/Material.h"
-//#include "Animation/Skeleton/SkeletonInstance.h"
+#include "Shader/ShaderObjects/ScreenRendering.hpp"
 
 #include "Archiver/SkeletonHeader.h"
 
@@ -42,7 +42,7 @@ METRIC_STAT(BaseRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
 METRIC_STAT(TextDisplayRender, SceneRender);
 
-static void ConstructScreenGraphicsDescription(const Renderer& renderer, const Scene& scene, GraphicsPipelineDescription& desc)
+static void ConstructScreenGraphicsDescription(const Renderer& renderer, GraphicsPipelineDescription& desc)
 {
 	renderer.InitializeWithRenderState(desc);
 	desc.vertexInputs = {};
@@ -50,8 +50,8 @@ static void ConstructScreenGraphicsDescription(const Renderer& renderer, const S
 	desc.blendingDescs[0] = BlendDesc();
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
-	desc.vertexShader = scene.GetScreenView().GetScreenVertexShader();
-	desc.fragmentShader = scene.GetScreenView().GetScreenFragmentShader();
+	desc.vertexShader = &GetShader<ScreenRenderVert>()->GetNativeShader();
+	desc.fragmentShader = &GetShader<ScreenRenderFrag>()->GetNativeShader();
 }
 
 static void ConstructPipelineDescription(const RenderTargetDescription& targetDesc, GraphicsPipelineDescription& desc)
@@ -59,7 +59,7 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 	desc.renderTargets = targetDesc;
 	desc.vertexInputs = GetVertexInput<Vertex>();
 	desc.rasterizerDesc = RasterDesc();
-	for (uint32 i = 0; i < desc.renderTargets.targetCount; ++i)
+	for (uint32 i = 0; i < desc.renderTargets.numColorAttachments; ++i)
 	{
 		desc.blendingDescs[i] = BlendDesc();
 	}
@@ -125,10 +125,10 @@ constexpr uint32 ShadowMapHeight = 1024;
 RenderTargetDescription GetShadowMapTargetDescription()
 {
 	RenderTargetDescription targetDesc = {};
-	targetDesc.targetCount = 0;
+	targetDesc.numColorAttachments = 0;
 	targetDesc.targetExtents = { static_cast<float32>(ShadowMapWidth), static_cast<float32>(ShadowMapHeight) };
 
-	DepthStencilDescription& depthDesc = targetDesc.depthDesc;
+	RenderTargetAttachment& depthDesc = targetDesc.depthAttachment;
 	depthDesc.format = ImageFormat::DS_32f_8u;
 	depthDesc.load = LoadOperation::Clear;
 	depthDesc.store = StoreOperation::Store;
@@ -187,11 +187,6 @@ void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 
 void SceneRenderPipeline::RenderScene(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view)
 {
-// 	if (shadowMap.depthTarget == nullptr)
-// 	{
-// 		//InitializeShadowMap();
-// 	}
-
 	DeferredRender(renderer, scene, viewport, view);
 }
 
@@ -335,13 +330,13 @@ void SceneRenderPipeline::RenderGBUffersToScreen(Renderer& renderer, Scene& scen
 	SetViewportAndScissor(renderer, view);
 
 	GraphicsPipelineDescription desc = {};
-	ConstructScreenGraphicsDescription(renderer, scene, desc);
+	ConstructScreenGraphicsDescription(renderer, desc);
 	renderer.SetGraphicsPipeline(desc);
 
 	Light* light = scene.GetLights()[0];
 	LightDescription lightDesc = light->GetLightDescription();
 
-	for (uint32 i = 0; i < targets.targetCount; ++i)
+	for (uint32 i = 0; i < targets.numColorTargets; ++i)
 	{
 		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i);
 	}
@@ -426,7 +421,7 @@ void SceneRenderPipeline::DeferredRender(Renderer& renderer, Scene& scene, const
 	RenderTargetTextures& targets = scene.GetGBufferTargets();
 	
 	TransitionTargetsToWrite(renderer, targets);
-	DynamicArray<Color32> clearColors(targets.targetCount);
+	DynamicArray<Color32> clearColors(targets.numColorTargets);
 	clearColors[0] = Color32(0, 0, 0);
 	clearColors[1] = Color32(0, 0, 0);
 	for (uint32 i = 2; i < clearColors.Size(); ++i)
@@ -450,14 +445,14 @@ void SceneRenderPipeline::DeferredRender(Renderer& renderer, Scene& scene, const
 	NativeTexture* backBuffer = renderer.GetBackBuffer();
 	RenderTargetTextures backBufferTarget = {};
 	backBufferTarget.colorTargets[0] = backBuffer;
-	backBufferTarget.targetCount = 1;
+	backBufferTarget.numColorTargets = 1;
 
 	RenderTargetDescription targetDescription = {};
-	targetDescription.targetCount = 1;
+	targetDescription.numColorAttachments = 1;
 	targetDescription.targetExtents = { (float32)viewport.GetWidth(), (float32)viewport.GetHeight() };
 	targetDescription.hasDepth = false;
 
-	ColorDescription& colorDesc = targetDescription.colorDescs[0];
+	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
 	colorDesc.format = ImageFormat::RGBA_8norm;
 	colorDesc.load = LoadOperation::Clear;
 	colorDesc.store = StoreOperation::Store;
@@ -476,10 +471,10 @@ void SceneRenderPipeline::DeferredRender(Renderer& renderer, Scene& scene, const
 
 void SceneRenderPipeline::TransitionTargetsToRead(Renderer& renderer, RenderTargetTextures& targets)
 {
-	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
+	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
 	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
 	uint32 i;
-	for (i = 0; i < targets.targetCount; ++i)
+	for (i = 0; i < targets.numColorTargets; ++i)
 	{
 		gbufferTargets[i] = targets.colorTargets[i];
 	}
@@ -492,10 +487,10 @@ void SceneRenderPipeline::TransitionTargetsToRead(Renderer& renderer, RenderTarg
 
 void SceneRenderPipeline::TransitionTargetsToWrite(Renderer& renderer, RenderTargetTextures& targets)
 {
-	uint32 targetCount = targets.depthTarget ? targets.targetCount + 1 : targets.targetCount;
+	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
 	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
 	uint32 i;
-	for (i = 0; i < targets.targetCount; ++i)
+	for (i = 0; i < targets.numColorTargets; ++i)
 	{
 		gbufferTargets[i] = targets.colorTargets[i];
 	}

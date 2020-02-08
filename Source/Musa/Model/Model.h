@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Platform.h"
-#include "Graphics.h"
-#include "Graphics/UniformBuffers.h"
+#include "Types/UniquePtr.hpp"
 #include "Malloc16Align.h"
 #include "Containers/DynamicArray.hpp"
+#include "Mesh/MeshSceneInfo.hpp"
 
 class Mesh;
 class Matrix4;
@@ -13,7 +13,6 @@ class Scene;
 class SkeletonBone;
 class SkeletonInstance;
 struct BonePoseData;
-struct MeshRenderInfo;
 
 class Model
 {
@@ -42,14 +41,15 @@ private:
 	void SetupMeshRenderInfo();
 
 private:
+	static constexpr uint32 MaxBones = 120;
+
 	Matrix4 boneMats[MaxBones];
 	Matrix4 world;
 	DynamicArray<BonePoseData> poseData;
 	SkeletonInstance* skeleton = nullptr;
 	Mesh* mesh;
 	Material* material;
-	MeshRenderInfo* renderInfo = nullptr;
+	UniquePtr<MeshRenderInfo> renderInfo;
 	Scene* scene = nullptr;
 	bool active = true;
-	bool pad[31] = {};
 };

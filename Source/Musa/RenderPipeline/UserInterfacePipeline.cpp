@@ -20,12 +20,41 @@
 #include "Input/Input.hpp"
 #include "Visualization/ScreenTextItem.hpp"
 
+
+#include "Types/UniquePtr.hpp"
+#include "UI/UIContext.hpp"
+
 DECLARE_METRIC_GROUP(TextDisplay);
 METRIC_STAT(TextSetup, TextDisplay);
 METRIC_STAT(TextRenderSetupCommands, TextDisplay);
 METRIC_STAT(TextFormatting, TextDisplay);
 
+void RenderUI(UI::Context& ui)
+{
+	[[maybe_unused]] Renderer* renderer = GetGraphicsInterface().GetRenderContext();
+
+	// Determine if UI needs to render
+
+	// If rendering, set up
+	{
+		// Need to have some sort of primitive store that gets populated with all of the information per ui widget
+
+		ui.PrepareUIForRender();
+
+		// With the render primitives and data stored in some way, need to actually set up rendering
+
+		// Set framebuffer to be the one that is used for UI
+
+		// Render to that framebuffer
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+
 static BatchCollection collection;
+// TODO - Leak but this shouldn't be global anyways....
 static NativeUniformBuffer* viewBuffer = nullptr;
 
 DynamicArray<ScreenTextItem> screenTextItems;
@@ -64,7 +93,8 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 {
 	if (viewBuffer == nullptr)
 	{
-		viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		viewBuffer = buff.Release();
 		ViewPropertiesBuffer buffer = {};
 		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
 		buffer.viewTransform = Matrix4(IDENTITY);
@@ -200,3 +230,4 @@ void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & v
 		stringTris.Clear();
 	}
 }
+

@@ -283,6 +283,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 	EShMessages messages = static_cast<EShMessages>(EShMsgVulkanRules | EShMsgSpvRules | EShMsgDefault);
 	if (!shader.parse(&resources, 110, true, messages))
 	{
+		fmt::print("Error(s) in {}\n", pathToFile);
 		const char* errors = shader.getInfoLog();
 		fmt::print("{}\n", errors);
 		// Log the errors....

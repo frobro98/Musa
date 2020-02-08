@@ -9,6 +9,13 @@ struct View;
 struct Color32;
 class Renderer;
 
+namespace UI
+{
+class Context;
+}
+
+void RenderUI(UI::Context& ui);
+
 class UserInterfacePipeline
 {
 public:
@@ -17,4 +24,6 @@ public:
 private:
 	EngineStatView statView;
 };
+
+
 

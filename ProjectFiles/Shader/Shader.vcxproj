@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\Source\Shader\ShaderCompiler.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderDefinition.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\BlinnShading.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\NormalMapping.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\PhongShading.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="..\..\Source\Shader\ShaderDefinition.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderExternal.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\BlinnShading.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\NormalMapping.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\PhongShading.hpp" />
@@ -74,6 +76,7 @@
     <None Include="..\..\Assets\Shaders\Provided\constantColorGBuffer.vert" />
     <None Include="..\..\Assets\Shaders\Provided\default.frag" />
     <None Include="..\..\Assets\Shaders\Provided\default.vert" />
+    <None Include="..\..\Assets\Shaders\Provided\DeferredLightingRender.shad" />
     <None Include="..\..\Assets\Shaders\Provided\gbuffer.frag" />
     <None Include="..\..\Assets\Shaders\Provided\gbuffer.vert" />
     <None Include="..\..\Assets\Shaders\Provided\gbufferNormalMap.frag" />
@@ -92,7 +95,6 @@
     <None Include="..\..\Assets\Shaders\Provided\phongMultiTex.frag" />
     <None Include="..\..\Assets\Shaders\Provided\phongMultiTex.vert" />
     <None Include="..\..\Assets\Shaders\Provided\processLocalTransforms.comp" />
-    <None Include="..\..\Assets\Shaders\Provided\Screen.shad" />
     <None Include="..\..\Assets\Shaders\Provided\screenRender.frag" />
     <None Include="..\..\Assets\Shaders\Provided\ScreenRender.shad" />
     <None Include="..\..\Assets\Shaders\Provided\screenRender.vert" />

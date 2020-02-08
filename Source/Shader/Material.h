@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
+#include "Types/UniquePtr.hpp"
 #include "Math/MathEngine.hpp"
 #include "Graphics.h"
 #include "Color.hpp"
@@ -21,7 +22,6 @@ public:
 	Material(ShaderResource& vertShader, ShaderResource& fragShader, const char* textureName, const Color32& color);
 	Material(ShaderResource& vertShader, ShaderResource& fragShader, const Texture* tex, const Color32& color);
 	/*Material(const tchar* vertexShader, const tchar* fragmentShader, const char* textureName, const Color32& color);*/
-	~Material() = default;
 
 	void EnableWireframe();
 	void DisableWireframe();
@@ -57,7 +57,7 @@ private:
 // 	float32 roughness = 0.f;
 // 	float32 metallic = 0.f;
 
-	MaterialRenderInfo* materialRendering = new MaterialRenderInfo;
+	UniquePtr<MaterialRenderInfo> materialRendering = new MaterialRenderInfo;
 	ShaderResource* vertexShader;
 	ShaderResource* fragmentShader;
 	const Texture* texture0;

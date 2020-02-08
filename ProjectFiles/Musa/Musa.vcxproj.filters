@@ -261,6 +261,9 @@
     <ClCompile Include="..\..\Source\Musa\UI\UIImage.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.cpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -511,6 +514,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\UIProgressBar.hpp">
       <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\FrameRenderTargets.hpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp">
+      <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

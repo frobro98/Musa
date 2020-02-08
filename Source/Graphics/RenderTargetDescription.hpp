@@ -10,7 +10,7 @@
 
 constexpr uint32 GBufferCount = 3;
 
-struct ColorDescription
+struct RenderTargetAttachment
 {
 	ImageFormat format;
 	LoadOperation load;
@@ -19,27 +19,7 @@ struct ColorDescription
 	StoreOperation stencilStore;
 	uint32 sampleCount;
 
-	friend bool operator==(const ColorDescription& lhs, const ColorDescription& rhs)
-	{
-		return lhs.format == rhs.format &&
-			lhs.load == rhs.load &&
-			lhs.stencilLoad == rhs.stencilLoad &&
-			lhs.store == rhs.store &&
-			lhs.stencilStore == rhs.stencilStore &&
-			lhs.sampleCount == rhs.sampleCount;
-	}
-};
-
-struct DepthStencilDescription
-{
-	ImageFormat format;
-	LoadOperation load;
-	LoadOperation stencilLoad;
-	StoreOperation store;
-	StoreOperation stencilStore;
-	uint32 sampleCount;
-
-	friend bool operator==(const DepthStencilDescription& lhs, const DepthStencilDescription& rhs)
+	friend bool operator==(const RenderTargetAttachment& lhs, const RenderTargetAttachment& rhs)
 	{
 		return lhs.format == rhs.format &&
 			lhs.load == rhs.load &&
@@ -52,23 +32,22 @@ struct DepthStencilDescription
 
 struct RenderTargetDescription
 {
-	ColorDescription colorDescs[GBufferCount];
-	DepthStencilDescription depthDesc;
+	RenderTargetAttachment colorAttachments[GBufferCount];
+	RenderTargetAttachment depthAttachment;
 	Extents2D targetExtents;
-	// TODO - Rename this so that it is more clear how many COLOR targets there are...
-	uint32 targetCount = 0;
+	uint32 numColorAttachments = 0;
 	bool hasDepth = true;
 
 	friend bool operator==(const RenderTargetDescription& lhs, const RenderTargetDescription& rhs)
 	{
-		bool result = lhs.targetCount == rhs.targetCount &&
-			lhs.depthDesc == rhs.depthDesc;
+		bool result = lhs.numColorAttachments == rhs.numColorAttachments &&
+			lhs.depthAttachment == rhs.depthAttachment;
 		if (result)
 		{
-			uint32 targetCount = lhs.targetCount;
-			for (uint32 i = 0; i < targetCount; ++i)
+			uint32 numColorAttachments = lhs.numColorAttachments;
+			for (uint32 i = 0; i < numColorAttachments; ++i)
 			{
-				result &= lhs.colorDescs[i] == rhs.colorDescs[i];
+				result &= lhs.colorAttachments[i] == rhs.colorAttachments[i];
 			}
 
 			return result;
@@ -83,21 +62,21 @@ struct RenderTargetTextures
 {
 	const NativeTexture* colorTargets[GBufferCount];
 	const NativeTexture* depthTarget;
-	uint32 targetCount;
+	uint32 numColorTargets;
 };
 
 inline uint32 GetHash(const RenderTargetDescription& desc)
 {
 	struct HashableTargetDescription
 	{
-		ColorDescription colorDescs[GBufferCount];
-		DepthStencilDescription depthDesc;
+		RenderTargetAttachment colorDescs[GBufferCount];
+		RenderTargetAttachment depthDesc;
 		uint32 targetCount;
 	} hashDesc;
 
-	Memcpy(hashDesc.colorDescs, sizeof(hashDesc.colorDescs), desc.colorDescs, sizeof(desc.colorDescs));
-	Memcpy(&hashDesc.depthDesc, sizeof(hashDesc.depthDesc), &desc.depthDesc, sizeof(desc.depthDesc));
-	hashDesc.targetCount = desc.targetCount;
+	Memcpy(hashDesc.colorDescs, sizeof(hashDesc.colorDescs), desc.colorAttachments, sizeof(desc.colorAttachments));
+	Memcpy(&hashDesc.depthDesc, sizeof(hashDesc.depthDesc), &desc.depthAttachment, sizeof(desc.depthAttachment));
+	hashDesc.targetCount = desc.numColorAttachments;
 
 	return fnv(&hashDesc, sizeof(HashableTargetDescription));
 }

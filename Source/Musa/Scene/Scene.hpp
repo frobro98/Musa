@@ -47,13 +47,17 @@ public:
 	inline Light** GetLights() { return lights; }
 	
 private:
-	void SetupRenderView();
 	void CreateGBuffer();
 
 private:
 	// TODO - GBuffer per scene doesn't really make any sense, but because there's only a single scene, it's aight for now
 	RenderTargetDescription gbufferTargets{};
 	RenderTargetTextures gbufferTextures{};
+
+	UniquePtr<NativeTexture> posTexture;
+	UniquePtr<NativeTexture> normalTexture;
+	UniquePtr<NativeTexture> diffuseTexture;
+	UniquePtr<NativeTexture> depthTexture;
 
 	//PCSTree<GameObject> sceneGraph;
 	DynamicArray<GameObject*> activeGameObjects;

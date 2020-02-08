@@ -1,13 +1,14 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
+#include "Types/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "String/String.h"
 #include "ImageFormats.h"
 #include "Texture2D/MipmapLevel.hpp"
 #include "TextureSampleSettings.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 
-struct NativeTexture;
 class SerializeBase;
 class DeserializeBase;
 
@@ -15,14 +16,13 @@ struct Texture
 {
 	Texture() = default;
 	Texture(uint8 r, uint8 g, uint8 b, uint8 a);
-	~Texture();
 
 	uint32 GetWidth() const;
 	uint32 GetHeight() const;
 
 	String name;
 	DynamicArray<MipmapLevel> mipLevels;
-	NativeTexture* gpuResource = nullptr;
+	UniquePtr<NativeTexture> gpuResource;
 	ImageFormat format = ImageFormat::Invalid;
 	TextureFilter filter = TextureFilter::Linear;
 	TextureAddress addrMode = TextureAddress::Repeat;

@@ -6,14 +6,14 @@
 
 VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTargetDescription& targets)
 // TODO - There isn't necessarily a depth attachment. Assuming there is, but needs to change later...
-	: attachments(targets.hasDepth ? targets.targetCount + 1 : targets.targetCount),
+	: attachments(targets.hasDepth ? targets.numColorAttachments + 1 : targets.numColorAttachments),
 	logicalDevice(&device)
 {
 
-	DynamicArray<VkAttachmentReference> attachmentRefs(targets.targetCount);
+	DynamicArray<VkAttachmentReference> attachmentRefs(targets.numColorAttachments);
 	for (uint32 i = 0; i < attachmentRefs.Size(); ++i)
 	{
-		const ColorDescription& colorDescription = targets.colorDescs[i];
+		const RenderTargetAttachment& colorDescription = targets.colorAttachments[i];
 		VkAttachmentDescription colorAttachment = {};
 		colorAttachment.initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		colorAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -36,7 +36,7 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	VkAttachmentReference depthAttachmentRef = {};
 	if(targets.hasDepth)
 	{
-		const DepthStencilDescription& depthDescription = targets.depthDesc;
+		const RenderTargetAttachment& depthDescription = targets.depthAttachment;
 		VkAttachmentDescription depthAttachment = {};
 		depthAttachment.initialLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 		depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;

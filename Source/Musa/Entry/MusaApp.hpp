@@ -27,6 +27,7 @@ private:
 	void InitializeOSInput();
 	void InitializeApplicationWindow();
 	void SetupGameEngine();
+	void TearDownGameEngine();
 
 	void ApplicationUpdate();
 

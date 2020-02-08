@@ -39,5 +39,5 @@ public:
 
 protected:
 	Matrix4 worldLight;
-	NativeUniformBuffer* lightInformationBuffer = nullptr;
+	UniquePtr<NativeUniformBuffer> lightInformationBuffer;
 };

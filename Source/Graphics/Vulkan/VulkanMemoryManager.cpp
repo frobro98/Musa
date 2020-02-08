@@ -132,10 +132,10 @@ VulkanBuffer* VulkanMemoryManager::AllocateBuffer(
 	return buffer;
 }
 
-void VulkanMemoryManager::DeallocateBuffer(VulkanBuffer& buffer)
+void VulkanMemoryManager::DeallocateBuffer(VulkanBuffer& /*buffer*/)
 {
 	// TODO - There needs to be some sort of free list that this gets added to
-	delete &buffer;
+	//delete &buffer;
 }
 
 void VulkanMemoryManager::FreePendingAllocations()

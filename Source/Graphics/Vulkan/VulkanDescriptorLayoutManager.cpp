@@ -1,14 +1,6 @@
 #include "VulkanDescriptorLayoutManager.h"
 #include "VulkanDescriptorSet.h"
 
-VulkanDescriptorLayoutManager::~VulkanDescriptorLayoutManager()
-{
-	for (uint32 i = 0; i < layouts.Size(); ++i)
-	{
-		delete layouts[i];
-	}
-}
-
 VulkanDescriptorSetLayout* VulkanDescriptorLayoutManager::CreateSetLayout()
 {
 	VulkanDescriptorSetLayout* layout = new VulkanDescriptorSetLayout(*logicalDevice);
@@ -16,13 +8,16 @@ VulkanDescriptorSetLayout* VulkanDescriptorLayoutManager::CreateSetLayout()
 	return layout;
 }
 
-VulkanDescriptorLayoutManager& VulkanDescriptorLayoutManager::Instance()
+void VulkanDescriptorLayoutManager::Deinitialize()
 {
-	static VulkanDescriptorLayoutManager manager;
-	return manager;
+	for (uint32 i = 0; i < layouts.Size(); ++i)
+	{
+		delete layouts[i];
+	}
 }
 
 VulkanDescriptorLayoutManager& GetDescriptorLayoutManager()
 {
-	return VulkanDescriptorLayoutManager::Instance();
+	static VulkanDescriptorLayoutManager manager;
+	return manager;
 }

@@ -28,11 +28,6 @@ Texture::Texture(uint8 r, uint8 g, uint8 b, uint8 a)
 	format = ImageFormat::BGRA_8norm;
 }
 
-Texture::~Texture()
-{
-	delete gpuResource;
-}
-
 uint32 Texture::GetWidth() const
 {
 	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...

@@ -11,11 +11,11 @@ class VulkanDescriptorLayoutManager
 {
 public:
 	VulkanDescriptorLayoutManager() = default;
-	~VulkanDescriptorLayoutManager();
 
 	VulkanDescriptorSetLayout* CreateSetLayout();
 
-	static VulkanDescriptorLayoutManager& Instance();
+	// TODO - This class needs to be removed so that I don't hVe to do shit like this!
+	void Deinitialize();
 
 private:
 	friend class VulkanDevice;

@@ -23,16 +23,16 @@ GameObject::GameObject()
 
 }
 
-GameObject::GameObject(const GameObject& go)
-	: world(go.world), 
-	position(go.position),
-	rotX(go.rotX),
-	rotY(go.rotY),
-	rotZ(go.rotZ),
-	scale(go.scale),
-	model(std::make_unique<Model>(*go.model))
-{
-}
+// GameObject::GameObject(const GameObject& go)
+// 	: world(go.world), 
+// 	position(go.position),
+// 	rotX(go.rotX),
+// 	rotY(go.rotY),
+// 	rotZ(go.rotZ),
+// 	scale(go.scale),
+// 	model(MakeUnique<Model>(*go.model))
+// {
+// }
 
 GameObject::GameObject(GameObject&& go) noexcept
 	: world(std::move(go.world)),
@@ -44,23 +44,23 @@ GameObject::GameObject(GameObject&& go) noexcept
 {
 }
 
-GameObject& GameObject::operator=(const GameObject& go)
-{
-	if (this != &go)
-	{
-		world = go.world;
-		model = std::make_unique<Model>(*go.model);
-
-		position = go.position;
-		rotX = go.rotX;
-		rotY = go.rotY;
-		rotZ = go.rotZ;
-		scale = go.scale;
-
-	}
-
-	return *this;
-}
+// GameObject& GameObject::operator=(const GameObject& go)
+// {
+// 	if (this != &go)
+// 	{
+// 		world = go.world;
+// 		model = MakeUnique<Model>(*go.model);
+// 
+// 		position = go.position;
+// 		rotX = go.rotX;
+// 		rotY = go.rotY;
+// 		rotZ = go.rotZ;
+// 		scale = go.scale;
+// 
+// 	}
+// 
+// 	return *this;
+// }
 
 GameObject& GameObject::operator=(GameObject&& go) noexcept
 {
@@ -86,12 +86,12 @@ void GameObject::AssociateScene(Scene& scene_)
 
 void GameObject::SetModel(Model* m)
 {
-	if (model)
+	if (model.IsValid())
 	{
 		GetRenderObjectManager().UnregisterGameObject(*this);
 	}
 
-	model.reset(m);
+	model.Reset(m);
 
 	GetRenderObjectManager().RegisterGameObject(*this, model->GetRenderInfo());
 }
@@ -162,7 +162,7 @@ void GameObject::Update([[maybe_unused]] float tick)
 	//world * GetParent()->world
 	world = Scale * Rot * Trans;
 
-	if (model != nullptr)
+	if (model.IsValid())
 	{
 		model->SetWorld(world);
 	}
@@ -227,7 +227,7 @@ SphereBounds GameObject::GetCollisionInfo() const
 
 void GameObject::SetDebugColor(Color32 color)
 {
-	Assert(model);
+	Assert(model.IsValid());
 	Assert(debugVolume);
 	debugVolume->GetMaterial()->SetColor(color);
 }

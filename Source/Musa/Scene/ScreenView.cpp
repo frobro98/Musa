@@ -49,7 +49,7 @@ void ScreenView::AssociateCameraWithView(const Camera& camera)
 	view.description.fieldOfView = camera.GetFov();
 	view.description.aspectRatio = camera.GetAspectRatio();
 
-	if (view.viewBuffer == nullptr)
+	if (!view.viewBuffer.IsValid())
 	{
 		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
 	}

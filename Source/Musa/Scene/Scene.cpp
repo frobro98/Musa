@@ -22,7 +22,7 @@ METRIC_STAT(BeginRenderFrame, SceneFrame);
 METRIC_STAT(EndRenderFrame, SceneFrame);
 
 
-static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat format)
+static void BuildGBufferDescription(RenderTargetAttachment& gbufferDesc, ImageFormat format)
 {
 	gbufferDesc.format = format;
 	gbufferDesc.load = LoadOperation::Clear;
@@ -32,7 +32,7 @@ static void BuildGBufferDescription(ColorDescription& gbufferDesc, ImageFormat f
 	gbufferDesc.sampleCount = 1;
 }
 
-static void BuildGBufferDepth(DepthStencilDescription& depthDesc)
+static void BuildGBufferDepth(RenderTargetAttachment& depthDesc)
 {
 	depthDesc.format = ImageFormat::DS_32f_8u;
 	depthDesc.load = LoadOperation::Clear;
@@ -52,22 +52,16 @@ Scene::~Scene()
 	{
 		delete go;
 	}
-
-	for (auto tex : gbufferTextures.colorTargets)
-	{
-		delete tex;
-	}
-	delete gbufferTextures.depthTarget;
 }
 
 void Scene::InitializeScene()
 {
-	BuildGBufferDescription(gbufferTargets.colorDescs[0], ImageFormat::RGBA_16f);
-	BuildGBufferDescription(gbufferTargets.colorDescs[1], ImageFormat::RGBA_16f);
-	BuildGBufferDescription(gbufferTargets.colorDescs[2], ImageFormat::RGBA_8norm);
-	BuildGBufferDepth(gbufferTargets.depthDesc);
+	BuildGBufferDescription(gbufferTargets.colorAttachments[0], ImageFormat::RGBA_16f);
+	BuildGBufferDescription(gbufferTargets.colorAttachments[1], ImageFormat::RGBA_16f);
+	BuildGBufferDescription(gbufferTargets.colorAttachments[2], ImageFormat::RGBA_8norm);
+	BuildGBufferDepth(gbufferTargets.depthAttachment);
 
-	gbufferTargets.targetCount = GBufferCount;
+	gbufferTargets.numColorAttachments = GBufferCount;
 
 	sceneRendering = new SceneRenderPipeline;
 
@@ -172,22 +166,34 @@ void Scene::SetView(ScreenView& view_)
 
 void Scene::CreateGBuffer()
 {
-	gbufferTextures.targetCount = GBufferCount;
+	gbufferTextures.numColorTargets = GBufferCount;
 
-	for (uint32 i = 0; i < GBufferCount; ++i)
-	{
-		ColorDescription& desc = gbufferTargets.colorDescs[i];
-		NativeTexture* target = GetGraphicsInterface().CreateEmptyTexture2D(
-			view->GetScreenWidth(), view->GetScreenHeight(), 
-			desc.format, 1, TextureUsage::RenderTarget
-		);
-		gbufferTextures.colorTargets[i] = target;
-	}
-
-	NativeTexture* depthTarget = GetGraphicsInterface().CreateEmptyTexture2D(
+	RenderTargetAttachment* desc = &gbufferTargets.colorAttachments[0];
+	posTexture = GetGraphicsInterface().CreateEmptyTexture2D(
 		view->GetScreenWidth(), view->GetScreenHeight(),
-		gbufferTargets.depthDesc.format, 1, 
+		desc->format, 1, TextureUsage::RenderTarget
+	);
+
+	desc = &gbufferTargets.colorAttachments[1];
+	normalTexture = GetGraphicsInterface().CreateEmptyTexture2D(
+		view->GetScreenWidth(), view->GetScreenHeight(),
+		desc->format, 1, TextureUsage::RenderTarget
+	);
+
+	desc = &gbufferTargets.colorAttachments[2];
+	diffuseTexture = GetGraphicsInterface().CreateEmptyTexture2D(
+		view->GetScreenWidth(), view->GetScreenHeight(),
+		desc->format, 1, TextureUsage::RenderTarget
+	);
+	
+	depthTexture = GetGraphicsInterface().CreateEmptyTexture2D(
+		view->GetScreenWidth(), view->GetScreenHeight(),
+		gbufferTargets.depthAttachment.format, 1, 
 		TextureUsage::DepthStencilTarget
 	);
-	gbufferTextures.depthTarget = depthTarget;
+
+	gbufferTextures.colorTargets[0] = posTexture.Get();
+	gbufferTextures.colorTargets[1] = normalTexture.Get();
+	gbufferTextures.colorTargets[2] = diffuseTexture.Get();
+	gbufferTextures.depthTarget = depthTexture.Get();
 }
