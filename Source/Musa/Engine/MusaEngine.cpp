@@ -253,8 +253,8 @@ static void CreateInputContext(GameInput& gameInput)
 void MusaEngine::LoadContent()
 {
 	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
-	//GetTextureManager().AddTexture(*WhiteTexture());
-	//GetTextureManager().AddTexture(*BlackTexture());
+	GetTextureManager().AddTexture(*WhiteTexture());
+	GetTextureManager().AddTexture(*BlackTexture());
 
 	GetMeshManager().Initialize();
 
