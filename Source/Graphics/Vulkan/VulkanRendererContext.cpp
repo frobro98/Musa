@@ -70,7 +70,7 @@ void VulkanRendererContext::SetScissor(uint32 offsetX, uint32 offsetY, uint32 wi
 	updateViewState = true;
 }
 
-void VulkanRendererContext::SetRenderTarget(const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors)
+void VulkanRendererContext::SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors)
 {
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	currentTarget = targetDescription;

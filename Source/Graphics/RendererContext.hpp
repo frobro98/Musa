@@ -6,7 +6,7 @@
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 struct RenderTargetDescription;
-struct RenderTargetTextures;
+struct NativeRenderTargets;
 struct GraphicsPipelineDescription;
 struct ResourceArray;
 
@@ -22,7 +22,7 @@ public:
 
 	virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height, float minDepth, float maxDepth) = 0;
 	virtual void SetScissor(uint32 offsetX, uint32 offsetY, uint32 width, uint32 height) = 0;
-	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors) = 0;
+	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors) = 0;
 	virtual void SetVertexBuffer(const NativeVertexBuffer& vertexBuffer) = 0;
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) = 0;
 	virtual void SetGlobalUniform(const void* uniformData, uint32 dataSize) = 0;

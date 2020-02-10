@@ -15,7 +15,7 @@ class VulkanDescriptorSet;
 class WriteDescriptorSet;
 
 struct RenderTargetDescription;
-struct RenderTargetTextures;
+struct NativeRenderTargets;
 struct GraphicsPipelineDescription;
 struct VulkanBuffer;
 struct VulkanTexture;
@@ -30,7 +30,7 @@ public:
 	VulkanRenderState(VulkanDevice& device);
 
 	// Changes the framebuffer being rendered to, while ending and beginning a new renderpass
-	void SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
+	void SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
 	void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDescription);
 	void BindState(VulkanCommandBuffer& cmdBuffer);
 

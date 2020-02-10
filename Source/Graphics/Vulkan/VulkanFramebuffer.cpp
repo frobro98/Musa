@@ -19,7 +19,7 @@ VulkanFramebuffer::~VulkanFramebuffer()
 	vkDestroyFramebuffer(logicalDevice->GetNativeHandle(), frameBuffer, nullptr);
 }
 
-void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures, VulkanRenderPass* renderPass_)
+void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_)
 {
 	Assert(targetDesc.numColorAttachments == renderTextures.numColorTargets);
 	nativeTargets = renderTextures;
@@ -72,7 +72,7 @@ bool VulkanFramebuffer::ContainsRT(const VulkanTexture& texture)
 	return nativeTargets.depthTarget == &texture;
 }
 
-bool VulkanFramebuffer::ContainsRTs(const RenderTargetTextures& renderTextures)
+bool VulkanFramebuffer::ContainsRTs(const NativeRenderTargets& renderTextures)
 {
 	if (nativeTargets.numColorTargets == renderTextures.numColorTargets)
 	{

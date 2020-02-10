@@ -18,7 +18,7 @@ VulkanRenderState::VulkanRenderState(VulkanDevice& device)
 {
 }
 
-void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const RenderTargetTextures& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
+void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
 {
 	if (cmdBuffer.IsInRenderPass())
 	{

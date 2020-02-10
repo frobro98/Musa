@@ -12,7 +12,7 @@ class Viewport;
 class RendererContext;
 class RenderObjectManager;
 struct View;
-struct RenderTargetTextures;
+struct NativeRenderTargets;
 
 class SceneRenderPipeline
 {
@@ -31,8 +31,8 @@ private:
 	//void RenderShadowPass(Renderer& renderer, Scene& scene);
 	void RenderGBUffersToScreen(RendererContext& renderer, Scene& scene, const View& view);
 
-	void TransitionTargetsToRead(RendererContext& renderer, RenderTargetTextures& targets);
-	void TransitionTargetsToWrite(RendererContext& renderer, RenderTargetTextures& targets);
+	void TransitionTargetsToRead(RendererContext& renderer, NativeRenderTargets& targets);
+	void TransitionTargetsToWrite(RendererContext& renderer, NativeRenderTargets& targets);
 
 	// TODO - This should become a helper function...
 	void SetViewportAndScissor(RendererContext& renderer, const View& view) const;

@@ -157,8 +157,8 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
 	//Debug::Printf("Mouse X: %f, Mouse Y: %f\n", changeX, -changeY);
 	const float32 tick = Frame::GetTickTimeSeconds();
-	if ((Math::IsZero(changeX) && Math::IsNonZero(changeY)) ||
-		(Math::IsZero(changeY) && Math::IsNonZero(changeX)))
+// 	if ((Math::IsZero(changeX) && Math::IsNonZero(changeY)) ||
+// 		(Math::IsZero(changeY) && Math::IsNonZero(changeX)))
 	{
 		if (changeX != 0 || changeY != 0)
 		{

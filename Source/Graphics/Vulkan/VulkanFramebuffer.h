@@ -9,7 +9,7 @@ class VulkanDevice;
 class VulkanRenderPass;
 struct VulkanTexture;
 struct RenderTargetDescription;
-struct RenderTargetTextures;
+struct NativeRenderTargets;
 struct VulkanTexture;
 
 class VulkanFramebuffer
@@ -20,10 +20,10 @@ public:
 	VulkanFramebuffer(const VulkanFramebuffer&) = delete;
 	VulkanFramebuffer& operator=(const VulkanFramebuffer&) = delete;
 
-	void Initialize(const RenderTargetDescription& targetDesc, const RenderTargetTextures& renderTextures, VulkanRenderPass* renderPass_);
+	void Initialize(const RenderTargetDescription& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_);
 
 	bool ContainsRT(const VulkanTexture& texture);
-	bool ContainsRTs(const RenderTargetTextures& renderTextures);
+	bool ContainsRTs(const NativeRenderTargets& renderTextures);
 
 	uint32 GetAttachmentCount() const { return viewAttachments.Size(); }
 	bool HasDepthAttachment() const { return nativeTargets.depthTarget != nullptr; }
@@ -34,7 +34,7 @@ public:
 	inline uint32 GetHeight() const { return extents.height; }
 
 private:
-	RenderTargetTextures nativeTargets{};
+	NativeRenderTargets nativeTargets{};
 	DynamicArray<VkImageView> viewAttachments;
 	VkFramebuffer frameBuffer = VK_NULL_HANDLE;
 	VkExtent2D extents;

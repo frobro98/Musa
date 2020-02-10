@@ -109,6 +109,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\RenderTargetData.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceArray.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceInitializationDescriptions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp" />

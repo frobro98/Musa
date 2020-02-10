@@ -326,7 +326,7 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RendererContext& renderer, Scen
 {
 	SCOPED_TIMED_BLOCK(RenderToScreen);
 
-	RenderTargetTextures& targets = scene.GetGBufferTargets();
+	NativeRenderTargets& targets = scene.GetGBufferTargets();
 
 	SetViewportAndScissor(renderer, view);
 
@@ -419,7 +419,7 @@ void SceneRenderPipeline::DeferredRender(RendererContext& renderer, Scene& scene
 {
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
-	RenderTargetTextures& targets = scene.GetGBufferTargets();
+	NativeRenderTargets& targets = scene.GetGBufferTargets();
 	
 	TransitionTargetsToWrite(renderer, targets);
 	DynamicArray<Color32> clearColors(targets.numColorTargets);
@@ -444,7 +444,7 @@ void SceneRenderPipeline::DeferredRender(RendererContext& renderer, Scene& scene
 
 	clearColors = { Color32(0, 0, 0) };
 	NativeTexture* backBuffer = renderer.GetBackBuffer();
-	RenderTargetTextures backBufferTarget = {};
+	NativeRenderTargets backBufferTarget = {};
 	backBufferTarget.colorTargets[0] = backBuffer;
 	backBufferTarget.numColorTargets = 1;
 
@@ -470,7 +470,7 @@ void SceneRenderPipeline::DeferredRender(RendererContext& renderer, Scene& scene
 	TransitionTargetsToRead(renderer, backBufferTarget);
 }
 
-void SceneRenderPipeline::TransitionTargetsToRead(RendererContext& renderer, RenderTargetTextures& targets)
+void SceneRenderPipeline::TransitionTargetsToRead(RendererContext& renderer, NativeRenderTargets& targets)
 {
 	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
 	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
@@ -486,7 +486,7 @@ void SceneRenderPipeline::TransitionTargetsToRead(RendererContext& renderer, Ren
 	renderer.TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
-void SceneRenderPipeline::TransitionTargetsToWrite(RendererContext& renderer, RenderTargetTextures& targets)
+void SceneRenderPipeline::TransitionTargetsToWrite(RendererContext& renderer, NativeRenderTargets& targets)
 {
 	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
 	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);

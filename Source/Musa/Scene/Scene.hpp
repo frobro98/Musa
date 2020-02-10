@@ -41,7 +41,7 @@ public:
 	void SetView(ScreenView& view);
 
 	inline RenderTargetDescription GetGBufferDescription() const { return gbufferTargets; }
-	RenderTargetTextures& GetGBufferTargets() { return gbufferTextures; }
+	NativeRenderTargets& GetGBufferTargets() { return gbufferTextures; }
 	inline const DynamicArray<MeshRenderInfo*> GetRenderInfo() const { return renderingInfo; }
 	inline const ScreenView& GetScreenView() const { return *view; }
 	inline Light** GetLights() { return lights; }
@@ -52,7 +52,7 @@ private:
 private:
 	// TODO - GBuffer per scene doesn't really make any sense, but because there's only a single scene, it's aight for now
 	RenderTargetDescription gbufferTargets{};
-	RenderTargetTextures gbufferTextures{};
+	NativeRenderTargets gbufferTextures{};
 
 	UniquePtr<NativeTexture> posTexture;
 	UniquePtr<NativeTexture> normalTexture;

@@ -58,7 +58,7 @@ struct RenderTargetDescription
 };
 
 // Allocated textures associated with a render texture
-struct RenderTargetTextures
+struct NativeRenderTargets
 {
 	const NativeTexture* colorTargets[GBufferCount];
 	const NativeTexture* depthTarget;

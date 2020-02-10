@@ -19,5 +19,6 @@ struct SceneRenderTargets
 struct FrameRenderTargets
 {
 	GBuffer gbuffer;
-	UniquePtr<NativeTexture> userInterfaceTexture;
+	SceneRenderTargets sceneTargets;
+	UniquePtr<NativeTexture> userInterfaceTarget;
 };

@@ -33,13 +33,13 @@ public:
 	[[nodiscard]] VulkanPipeline* FindOrCreatePipeline(const GraphicsPipelineDescription& desc);
 	[[nodiscard]] VulkanRenderPass* FindOrCreateRenderPass(const RenderTargetDescription& desc);
 	// TODO - This isn't entirely correct, because a framebuffer could have the same attachment information, but not have the same render textures
-	[[nodiscard]] VulkanFramebuffer* FindOrCreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs);
+	[[nodiscard]] VulkanFramebuffer* FindOrCreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs);
 
 	[[nodiscard]] VkSampler FindOrCreateSampler(const SamplerDescription& params);
 private:
 	VulkanPipeline* CreatePipeline(const GraphicsPipelineDescription& desc);
 	VulkanRenderPass* CreateRenderPass(const RenderTargetDescription& desc);
-	VulkanFramebuffer* CreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs);
+	VulkanFramebuffer* CreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs);
 	VulkanPipelineLayout* ConfigurePipelineLayout(const GraphicsPipelineDescription& desc);
 private:
 	using SimilarFramebuffers = DynamicArray<VulkanFramebuffer*>;

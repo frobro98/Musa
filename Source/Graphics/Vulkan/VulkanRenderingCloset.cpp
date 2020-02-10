@@ -63,7 +63,7 @@ VulkanRenderPass* VulkanRenderingCloset::FindOrCreateRenderPass(const RenderTarg
 	return renderPass;
 }
 
-VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs)
+VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs)
 {
 	SimilarFramebuffers* frameBuffers = framebufferStore.Find(desc);
 	VulkanFramebuffer* framebuffer = nullptr;
@@ -128,7 +128,7 @@ VulkanRenderPass* VulkanRenderingCloset::CreateRenderPass(const RenderTargetDesc
 	return renderPass;
 }
 
-VulkanFramebuffer* VulkanRenderingCloset::CreateFramebuffer(const RenderTargetDescription& desc, const RenderTargetTextures& correspondingRTs)
+VulkanFramebuffer* VulkanRenderingCloset::CreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs)
 {
 	VulkanRenderPass* renderPass = FindOrCreateRenderPass(desc);
 	VulkanFramebuffer* framebuffer = new VulkanFramebuffer(logicalDevice);
