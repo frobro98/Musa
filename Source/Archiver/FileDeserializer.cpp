@@ -5,6 +5,10 @@ FileDeserializer::FileDeserializer(const Path& filePath)
 {
 	auto result = File::Open(handle, filePath.GetString(), File::Mode::READ);
 	Assert(result == File::Result::SUCCESS);
+	if (result != File::Result::SUCCESS)
+	{
+
+	}
 	CacheFile();
 }
 

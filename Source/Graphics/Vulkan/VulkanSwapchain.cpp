@@ -223,7 +223,8 @@ void VulkanSwapchain::CreateSwapchain()
 	swapchainInfo.clipped = VK_TRUE;
 	swapchainInfo.oldSwapchain = swapchainHandle;
 
-	CHECK_VK(vkCreateSwapchainKHR(logicalDevice.GetNativeHandle(), &swapchainInfo, nullptr, &swapchainHandle));
+	[[maybe_unused]] VkResult result = vkCreateSwapchainKHR(logicalDevice.GetNativeHandle(), &swapchainInfo, nullptr, &swapchainHandle);
+	CHECK_VK(result);
 }
 
 void VulkanSwapchain::CacheSwapchainImages()
@@ -277,6 +278,8 @@ void VulkanSwapchain::InitializeSwapchainSyncronization()
 	VkSemaphoreCreateInfo semaphoreInfo = {};
 	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
-	CHECK_VK(vkCreateSemaphore(logicalDevice.GetNativeHandle(), &semaphoreInfo, nullptr, &imageAvailable));
-	CHECK_VK(vkCreateSemaphore(logicalDevice.GetNativeHandle(), &semaphoreInfo, nullptr, &renderingFinished));
+	VkResult result = vkCreateSemaphore(logicalDevice.GetNativeHandle(), &semaphoreInfo, nullptr, &imageAvailable);
+	CHECK_VK(result);
+	result = vkCreateSemaphore(logicalDevice.GetNativeHandle(), &semaphoreInfo, nullptr, &renderingFinished);
+	CHECK_VK(result);
 }

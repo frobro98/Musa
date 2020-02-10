@@ -7,7 +7,8 @@ VulkanFence::VulkanFence(const VulkanDevice& device, VulkanFenceManager& manager
 {
 	VkFenceCreateInfo createInfo = {};
 	createInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-	CHECK_VK(vkCreateFence(logicalDevice->GetNativeHandle(), &createInfo, nullptr, &fenceHandle));
+	[[maybe_unused]] VkResult result = vkCreateFence(logicalDevice->GetNativeHandle(), &createInfo, nullptr, &fenceHandle);
+	CHECK_VK(result);
 }
 
 VulkanFence::~VulkanFence()

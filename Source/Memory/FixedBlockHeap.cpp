@@ -44,6 +44,7 @@ void * FixedBlockHeap::MallocInternal(uint64 inSize, uint32 /*align*/, const cha
 	}
 #else
 	Assert(inSize == sizeOfBlock);
+	UNUSED(inSize);
 #endif
 	// Update heap information
 	mInfo.CurrNumAlloc += 1;

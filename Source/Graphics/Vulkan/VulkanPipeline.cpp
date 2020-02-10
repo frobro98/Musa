@@ -30,7 +30,8 @@ VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicAr
 	layoutInfo.setLayoutCount = layoutHandles.Size();
 	layoutInfo.pSetLayouts = layoutHandles.GetData();
 
-	CHECK_VK(vkCreatePipelineLayout(logicalDevice->GetNativeHandle(), &layoutInfo, nullptr, &pipelineLayout));
+	[[maybe_unused]] VkResult result = vkCreatePipelineLayout(logicalDevice->GetNativeHandle(), &layoutInfo, nullptr, &pipelineLayout);
+	CHECK_VK(result);
 }
 
 VulkanPipelineLayout::~VulkanPipelineLayout()
@@ -229,7 +230,8 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 	pipelineInfo.basePipelineIndex = -1;
 
-	CHECK_VK(vkCreateGraphicsPipelines(logicalDevice->GetNativeHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline));
+	[[maybe_unused]] VkResult result = vkCreateGraphicsPipelines(logicalDevice->GetNativeHandle(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline);
+	CHECK_VK(result);
 
 	writeDescriptorSet.SetupWriteDescriptors(*layout->GetDescriptorSetLayouts()[0]);
 }

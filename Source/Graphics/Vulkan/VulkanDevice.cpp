@@ -34,9 +34,11 @@ VulkanDevice::~VulkanDevice()
 void VulkanDevice::Initialize(VkInstance inst)
 {
 	uint32 physicalDeviceCount = 0;
-	CHECK_VK(vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, nullptr));
+	VkResult result = vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, nullptr);
+	CHECK_VK(result);
 	DynamicArray<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
-	CHECK_VK(vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, physicalDevices.GetData()));
+	result = vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, physicalDevices.GetData());
+	CHECK_VK(result);
 
 	uint32 graphicsFamilyIndex = std::numeric_limits<uint32>::max();
 	uint32 transferFamilyIndex = std::numeric_limits<uint32>::max();

@@ -43,7 +43,8 @@ VulkanDescriptorPool::VulkanDescriptorPool(VulkanDevice& device)
 	poolInfo.maxSets = 1000;//logicalDevice->GetDeviceLimits().maxBoundDescriptorSets;
 	// TODO - Figure out what this flag specifically does
 	poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
-	CHECK_VK(vkCreateDescriptorPool(logicalDevice.GetNativeHandle(), &poolInfo, nullptr, &descriptorPool));
+	[[maybe_unused]] VkResult result = vkCreateDescriptorPool(logicalDevice.GetNativeHandle(), &poolInfo, nullptr, &descriptorPool);
+	CHECK_VK(result);
 }
 
 VulkanDescriptorPool::~VulkanDescriptorPool()
@@ -62,7 +63,8 @@ VulkanDescriptorSet* VulkanDescriptorPool::AllocateDescriptorSet(VulkanDescripto
 	allocInfo.pSetLayouts = layouts;
 
 	VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
-	CHECK_VK(vkAllocateDescriptorSets(logicalDevice.GetNativeHandle(), &allocInfo, &descriptorSet));
+	[[maybe_unused]] VkResult result = vkAllocateDescriptorSets(logicalDevice.GetNativeHandle(), &allocInfo, &descriptorSet);
+	CHECK_VK(result);
 
 	return new VulkanDescriptorSet(logicalDevice, logicalDevice.GetFenceManager().CreateFence(), descriptorSet, setLayout);
 }

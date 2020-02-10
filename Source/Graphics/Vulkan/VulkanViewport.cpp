@@ -18,7 +18,8 @@ VulkanViewport::~VulkanViewport()
 
 void VulkanViewport::AcquireBackBuffer()
 {
-	VkResult result = swapchain->GetNextImage();
+	// TODO - Remove [[maybe_unused]] from Musa because they honestly shouldn't be here unless specified
+	[[maybe_unused]] VkResult result = swapchain->GetNextImage();
 	Assert(result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR);
 	backBufferTexture = &swapchain->GetSwapchainTarget();
 	Assert(backBufferTexture);

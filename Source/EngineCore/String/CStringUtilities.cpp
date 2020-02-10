@@ -36,6 +36,8 @@ tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src)
 
 tchar* Strcat(tchar* dest, uint32 sizeDest, const tchar* src, uint32 sizeSrc) noexcept
 {
+	// TODO - Actually use the sizeSrc and sizeDest parameters. Should be used...
+	UNUSED(sizeSrc, sizeDest);
 	uint32 destStrLen = Strlen(dest);
 	Assert(sizeDest >= sizeSrc + 1);
 	Assert(destStrLen <= (sizeDest - sizeSrc) + 1);
@@ -222,6 +224,8 @@ int32 Strncmp(const tchar* str1, const tchar* str2, uint32 count) noexcept
 	uint32 len2 = Strlen(str2);
 	uint32 minLen = std::min(len1, len2);
 	Assert(count <= minLen);
+	// TODO - Use minLen? Need to think about this a little
+	UNUSED(minLen);
 	for (uint32 i = 0; i < count; ++i, ++str1, ++str2)
 	{
 		if (*str1 != *str2)

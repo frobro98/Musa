@@ -54,8 +54,8 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 	framebufferInfo.width = extents.width;
 	framebufferInfo.height = extents.height;
 	framebufferInfo.layers = 1;
-
-	CHECK_VK(vkCreateFramebuffer(logicalDevice->GetNativeHandle(), &framebufferInfo, nullptr, &frameBuffer));
+	[[maybe_unused]] VkResult result = vkCreateFramebuffer(logicalDevice->GetNativeHandle(), &framebufferInfo, nullptr, &frameBuffer);
+	CHECK_VK(result);
 
 	renderPass = renderPass_;
 }

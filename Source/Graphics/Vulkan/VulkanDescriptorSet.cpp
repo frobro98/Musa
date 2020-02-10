@@ -46,8 +46,8 @@ void VulkanDescriptorSetLayout::BindLayout()
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 	layoutInfo.bindingCount = bindings.Size();
 	layoutInfo.pBindings = bindings.GetData();
-
-	CHECK_VK(vkCreateDescriptorSetLayout(logicalDevice.GetNativeHandle(), &layoutInfo, nullptr, &descriptorSetLayout));
+	[[maybe_unused]] VkResult result = vkCreateDescriptorSetLayout(logicalDevice.GetNativeHandle(), &layoutInfo, nullptr, &descriptorSetLayout);
+	CHECK_VK(result);
 }
 
 DynamicArray<VkDescriptorSetLayoutBinding> VulkanDescriptorSetLayout::GetLayoutBindings() const

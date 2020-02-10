@@ -456,7 +456,7 @@ void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
 	riDev.usUsage = riMouseUsage;
 	riDev.usUsagePage = 1;
 
-	BOOL registered = ::RegisterRawInputDevices(&riDev, 1, sizeof(RAWINPUTDEVICE));
+	[[maybe_unused]] BOOL registered = ::RegisterRawInputDevices(&riDev, 1, sizeof(RAWINPUTDEVICE));
 	Assert(registered);
 }
 

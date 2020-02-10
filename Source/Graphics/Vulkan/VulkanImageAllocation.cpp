@@ -16,7 +16,8 @@ ImageGraphicsAllocation::ImageGraphicsAllocation(
 	image(img),
 	usageFlags(usage)
 {
-	CHECK_VK(vkBindImageMemory(device.GetNativeHandle(), image, graphicsMemory, 0));
+	[[maybe_unused]] VkResult result = vkBindImageMemory(device.GetNativeHandle(), image, graphicsMemory, 0);
+	CHECK_VK(result);
 }
 
 ImageMemory* ImageGraphicsAllocation::CreateMemoryRange(uint32 actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)

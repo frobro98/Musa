@@ -106,7 +106,8 @@ VulkanStagingBuffer* VulkanStagingBufferManager::CreateFreshBuffer(VkDeviceSize 
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 	VkBuffer bufferHandle = VK_NULL_HANDLE;
-	CHECK_VK(vkCreateBuffer(logicalDevice.GetNativeHandle(), &bufferInfo, nullptr, &bufferHandle));
+	[[maybe_unused]] VkResult result = vkCreateBuffer(logicalDevice.GetNativeHandle(), &bufferInfo, nullptr, &bufferHandle);
+	CHECK_VK(result);
 
 	VulkanStagingBuffer* stagingBuffer = new VulkanStagingBuffer(bufferHandle, size);
 
@@ -126,8 +127,10 @@ void VulkanStagingBufferManager::AllocateMemoryFor(VulkanStagingBuffer& buffer)
 	allocInfo.allocationSize = memoryRequirements.size;
 	allocInfo.memoryTypeIndex = QueryMemoryType(logicalDevice, memoryRequirements.memoryTypeBits, memoryFlags);
 	
-	CHECK_VK(vkAllocateMemory(logicalDevice.GetNativeHandle(), &allocInfo, nullptr, &buffer.backingAllocation));
-	CHECK_VK(vkBindBufferMemory(logicalDevice.GetNativeHandle(), buffer.stagingHandle, buffer.backingAllocation, 0));
-
-	CHECK_VK(vkMapMemory(logicalDevice.GetNativeHandle(), buffer.backingAllocation, 0, buffer.stagingSize, 0, &buffer.mappedData));
+	VkResult result = vkAllocateMemory(logicalDevice.GetNativeHandle(), &allocInfo, nullptr, &buffer.backingAllocation);
+	CHECK_VK(result);
+	result = vkBindBufferMemory(logicalDevice.GetNativeHandle(), buffer.stagingHandle, buffer.backingAllocation, 0);
+	CHECK_VK(result);
+	result = vkMapMemory(logicalDevice.GetNativeHandle(), buffer.backingAllocation, 0, buffer.stagingSize, 0, &buffer.mappedData);
+	CHECK_VK(result);
 }

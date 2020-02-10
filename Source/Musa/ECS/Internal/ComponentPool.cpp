@@ -34,7 +34,7 @@ ComponentPool* GetComponentPool(ComponentType type)
 
 void ComponentPool::DestroyComponent(Component* component)
 {
-	bool removed = componentPool.TryRemoveElement(component);
+	[[maybe_unused]] bool removed = componentPool.TryRemoveElement(component);
 	Assert(removed);
 	delete &component;
 }
@@ -51,7 +51,7 @@ uint32 ComponentPool::FindIndexOf(Component& component)
 {
 	Assert(componentPool.Contains(&component));
 	uint32 index;
-	bool result = componentPool.TryFindFirstIndex(&component, index);
+	[[maybe_unused]] bool result = componentPool.TryFindFirstIndex(&component, index);
 	Assert(result);
 	return index;
 }

@@ -10,13 +10,15 @@ VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle
 	width(w), height(h)
 {
 	instance = inst;
+	// TODO - REmove Windows specific calls and casts
 	HINSTANCE hInstance = reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr));
 	HWND hWnd = reinterpret_cast<HWND>(handle);
 	VkWin32SurfaceCreateInfoKHR surfaceInfo = Vk::SurfaceInfo(hInstance, hWnd);
 
 	VkPhysicalDevice gpu = logicalDevice->GetPhysicalDevice();
 
-	CHECK_VK(vkCreateWin32SurfaceKHR(instance, &surfaceInfo, nullptr, &surfaceHandle));
+	VkResult result = vkCreateWin32SurfaceKHR(instance, &surfaceInfo, nullptr, &surfaceHandle);
+	CHECK_VK(result);
 
 	VkBool32 presentationSupported = VK_FALSE;
 	vkGetPhysicalDeviceSurfaceSupportKHR(gpu, logicalDevice->GetGraphicsQueue()->GetFamilyIndex(), surfaceHandle, &presentationSupported);
@@ -24,17 +26,22 @@ VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle
 
 	// Get present modes
 	uint32 presentModeCount;
-	CHECK_VK(vkGetPhysicalDeviceSurfacePresentModesKHR(gpu, surfaceHandle, &presentModeCount, nullptr));
+	result = vkGetPhysicalDeviceSurfacePresentModesKHR(gpu, surfaceHandle, &presentModeCount, nullptr);
+	CHECK_VK(result);
 	presentModes.Resize(presentModeCount);
-	CHECK_VK(vkGetPhysicalDeviceSurfacePresentModesKHR(gpu, surfaceHandle, &presentModeCount, presentModes.GetData()));
+	result = vkGetPhysicalDeviceSurfacePresentModesKHR(gpu, surfaceHandle, &presentModeCount, presentModes.GetData());
+	CHECK_VK(result);
 
 	// Get formats
 	uint32 formatCount = 0;
-	CHECK_VK(vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, nullptr));
+	result = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, nullptr);
+	CHECK_VK(result);
  	surfaceFormats.Resize(formatCount);
- 	CHECK_VK(vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, surfaceFormats.GetData()));
+	result = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, surfaceFormats.GetData());
+ 	CHECK_VK(result);
 
-	CHECK_VK(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gpu, surfaceHandle, &surfaceCapabilities));
+	result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gpu, surfaceHandle, &surfaceCapabilities);
+	CHECK_VK(result);
 }
 
 VulkanSurface::~VulkanSurface()

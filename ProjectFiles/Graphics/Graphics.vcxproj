@@ -109,7 +109,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
-    <ClInclude Include="..\..\Source\Graphics\RenderTargetData.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\RenderTarget.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceArray.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceInitializationDescriptions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp" />
@@ -161,6 +161,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\BatchCollection.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\RenderTarget.cpp" />
     <ClCompile Include="..\..\Source\Graphics\ResourceBlob.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanAbstractions.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanBufferAllocation.cpp" />

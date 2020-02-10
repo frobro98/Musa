@@ -27,6 +27,7 @@ namespace Debug
 	}
 }
 
+#ifdef _DEBUG
 #define AssertStr(x, str)														\
 		do																		\
 		{																		\
@@ -35,7 +36,7 @@ namespace Debug
 																				\
 		}while(false)
 
-#define Assert(x) AssertStr(x, "")
+#define Assert(x) AssertStr(x, #x)
 
 #define Assertf(x, str, ...)													\
 		do																		\
@@ -44,3 +45,16 @@ namespace Debug
 				Debug::AssertionFailed(#x, __FILE__, __LINE__, str, ##__VA_ARGS__);		\
 			__assume(x);														\
 		} while(false)
+
+#define AssertFunc(func, str)											\
+		do																\
+		{																\
+			if(!(func)())												\
+				Debug::AssertionFailed(#func, __FILE__, __LINE__, str);	\
+		} while (false)
+#else
+#define AssertStr(x, str)
+#define Assert(x)
+#define Assertf(x, str, ...)
+#define AssertFunc(func, str)
+#endif

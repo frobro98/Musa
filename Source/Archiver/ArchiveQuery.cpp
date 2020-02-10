@@ -1,6 +1,5 @@
 
 #include <stdio.h>
-#include <assert.h>
 
 #include "ArchiveQuery.h"
 #include "ChunkHeader.h"

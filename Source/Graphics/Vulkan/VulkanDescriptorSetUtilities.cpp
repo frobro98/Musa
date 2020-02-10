@@ -53,6 +53,8 @@ void WriteDescriptorSet::SetupWriteDescriptors(const VulkanDescriptorSetLayout& 
 
 void WriteDescriptorSet::SetBuffer(VkDescriptorType type, const VulkanBuffer& buffer, uint32 bindIndex)
 {
+	// TODO - Consider why type is being passed in and if it should be used within the function other than an assert
+	UNUSED(type);
 	for (auto& writeDescriptor : writeDescriptors)
 	{
 		if (writeDescriptor.bufferDescriptor && writeDescriptor.bufferDescriptor->bindingIndex == bindIndex)
@@ -71,6 +73,8 @@ void WriteDescriptorSet::SetBuffer(VkDescriptorType type, const VulkanBuffer& bu
 
 void WriteDescriptorSet::SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex)
 {
+	// TODO - Consider why type is being passed in and if it should be used within the function other than an assert
+	UNUSED(type);
 	for (auto& writeDescriptor : writeDescriptors)
 	{
 		if (writeDescriptor.imageDescriptor && writeDescriptor.imageDescriptor->bindingIndex == bindIndex)

@@ -12,7 +12,10 @@ struct Extents2D
 		return lhs.width == rhs.width && lhs.height == rhs.height;
 	}
 
-
+	friend bool operator!=(const Extents2D& lhs, const Extents2D& rhs)
+	{
+		return lhs.width != rhs.width && lhs.height != rhs.height;
+	}
 };
 
 struct Extents3D

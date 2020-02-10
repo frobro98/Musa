@@ -30,7 +30,8 @@ void VulkanCommandBuffer::Initialize(VkCommandBufferLevel cmdBufferLevel, VkComm
 	cmdAllocInfo.commandPool = cmdPool;
 	cmdAllocInfo.level = cmdBufferLevel;
 
-	CHECK_VK(vkAllocateCommandBuffers(logicalDevice->GetNativeHandle(), &cmdAllocInfo, &commandBuffer));
+	[[maybe_unused]] VkResult result = vkAllocateCommandBuffers(logicalDevice->GetNativeHandle(), &cmdAllocInfo, &commandBuffer);
+	CHECK_VK(result);
 
 	state = CommandBufferState::Initialized;
 
@@ -65,7 +66,8 @@ void VulkanCommandBuffer::Begin(VkCommandBufferUsageFlags cbUsageFlags, const Vk
 	beginInfo.flags = cbUsageFlags;
 	// TODO - If command buffer usage flags are specific values, parts of the inheritance info must be valid. Therefore, these values must be checked...
 	beginInfo.pInheritanceInfo = pInheritanceInfo;
-	CHECK_VK(vkBeginCommandBuffer(commandBuffer, &beginInfo));
+	[[maybe_unused]] VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
+	CHECK_VK(result);
 	state = CommandBufferState::Began;
 }
 
@@ -122,7 +124,8 @@ void VulkanCommandBuffer::EndRenderPass()
 void VulkanCommandBuffer::End()
 {
 	Assert(state == CommandBufferState::Began);
-	CHECK_VK(vkEndCommandBuffer(commandBuffer));
+	[[maybe_unused]] VkResult result = vkEndCommandBuffer(commandBuffer);
+	CHECK_VK(result);
 	state = CommandBufferState::PendingSubmit;
 }
 
@@ -363,6 +366,10 @@ void VulkanCommandBuffer::Submit(
 
 	VkResult result = vkQueueSubmit(queue.GetNativeHandle(), 1, &submitInfo, fence->GetNativeHandle());
 	CHECK_VK(result);
+	if (result != VK_SUCCESS)
+	{
+
+	}
 
 	state = CommandBufferState::Submitted;
 }
@@ -400,7 +407,8 @@ void VulkanCommandBufferManager::Initialize()
 	// TODO - Find out if there are any flags for creating command pools
 	cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-	CHECK_VK(vkCreateCommandPool(logicalDevice.GetNativeHandle(), &cmdPoolInfo, nullptr, &graphicsCmdPool));
+	VkResult result = vkCreateCommandPool(logicalDevice.GetNativeHandle(), &cmdPoolInfo, nullptr, &graphicsCmdPool);
+	CHECK_VK(result);
 
 	cmdPoolInfo = {};
 	cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -408,7 +416,8 @@ void VulkanCommandBufferManager::Initialize()
 	// TODO - Find out if there are any flags for creating command pools
 	cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-	CHECK_VK(vkCreateCommandPool(logicalDevice.GetNativeHandle(), &cmdPoolInfo, nullptr, &transferCmdPool));
+	result = vkCreateCommandPool(logicalDevice.GetNativeHandle(), &cmdPoolInfo, nullptr, &transferCmdPool);
+	CHECK_VK(result);
 
 }
 
@@ -511,8 +520,8 @@ void VulkanCommandBufferManager::AllocateMissingCommandBuffers(uint32 remainingC
 	cmdAllocInfo.commandBufferCount = remainingCmdBufs;
 	cmdAllocInfo.commandPool = graphicsCmdPool;
 	cmdAllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
-
-	CHECK_VK(vkAllocateCommandBuffers(logicalDevice.GetNativeHandle(), &cmdAllocInfo, buffers.GetData()));
+	[[maybe_unused]] VkResult result = vkAllocateCommandBuffers(logicalDevice.GetNativeHandle(), &cmdAllocInfo, buffers.GetData());
+	CHECK_VK(result);
 
 	for (uint32 i = 0; i < remainingCmdBufs; ++i)
 	{

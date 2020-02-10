@@ -31,7 +31,8 @@ void VulkanComputePipeline::Initialize(const VulkanPipelineLayout* layout, Vulka
 	pipelineCreateInfo.layout = layout->GetNativeHandle();
 	pipelineCreateInfo.stage = stage;
 
-	CHECK_VK(vkCreateComputePipelines(logicalDevice.GetNativeHandle(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &pipeline));
+	[[maybe_unused]] VkResult result = vkCreateComputePipelines(logicalDevice.GetNativeHandle(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &pipeline);
+	CHECK_VK(result);
 }
 
 void VulkanComputePipeline::Bind(VulkanCommandBuffer* cmdBuffer) const

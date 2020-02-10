@@ -97,8 +97,8 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
 	VkRenderPassCreateInfo renderPassInfo = Vk::RenderPassInfo(attachments.GetData(), attachments.Size(), &subpass, 1, dependencies, ArraySize(dependencies));
-
-	CHECK_VK(vkCreateRenderPass(logicalDevice->GetNativeHandle(), &renderPassInfo, nullptr, &renderPass));
+	[[maybe_unused]] VkResult result = vkCreateRenderPass(logicalDevice->GetNativeHandle(), &renderPassInfo, nullptr, &renderPass);
+	CHECK_VK(result);
 }
 
 VulkanRenderPass::~VulkanRenderPass()

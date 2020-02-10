@@ -11,7 +11,8 @@ ShaderResource::ShaderResource(const VulkanDevice& device, const VulkanByteCode&
 	shaderCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 	shaderCreateInfo.codeSize = code.SizeInBytes();
 	shaderCreateInfo.pCode = code.GetData();
-	CHECK_VK(vkCreateShaderModule(logicalDevice.GetNativeHandle(), &shaderCreateInfo, nullptr, &nativeShader));
+	[[maybe_unused]] VkResult result = vkCreateShaderModule(logicalDevice.GetNativeHandle(), &shaderCreateInfo, nullptr, &nativeShader);
+	CHECK_VK(result);
 
 	for (const auto& constantIndexPair : bindings)
 	{

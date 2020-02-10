@@ -147,7 +147,8 @@ GraphicsMemoryAllocation<Suballoc>::GraphicsMemoryAllocation(
 	URange range = { 0, size };
 	freeAllocationBlocks.Add(range);
 
-	CHECK_VK(vkAllocateMemory(device.GetNativeHandle(), &allocInfo, nullptr, &graphicsMemory));
+	[[maybe_unused]] VkResult result = vkAllocateMemory(device.GetNativeHandle(), &allocInfo, nullptr, &graphicsMemory);
+	CHECK_VK(result);
 }
 
 template<class Suballoc>
@@ -202,7 +203,8 @@ inline void GraphicsMemoryAllocation<Suballoc>::LockForWrite(VkDeviceSize size, 
 	Assert(CanBeMapped());
 	Assert(!IsMapped());
 	allocationMutex.lock();
-	CHECK_VK(vkMapMemory(logicalDevice.GetNativeHandle(), graphicsMemory, offset, size, 0, &mappedData));
+	[[maybe_unused]] VkResult result = vkMapMemory(logicalDevice.GetNativeHandle(), graphicsMemory, offset, size, 0, &mappedData);
+	CHECK_VK(result);
 }
 
 template<class Suballoc>
