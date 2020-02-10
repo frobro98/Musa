@@ -11,7 +11,7 @@
 #include "Scene/Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "RenderPipeline/SceneRenderPipeline.h"
-#include "Graphics/RendererContext.hpp"
+#include "Graphics/RenderContext.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "RenderPipeline/BatchPrimitives.hpp"
 

@@ -264,6 +264,9 @@
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.cpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.cpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">

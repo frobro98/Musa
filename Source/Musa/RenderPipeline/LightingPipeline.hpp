@@ -6,6 +6,6 @@
 struct GBuffer;
 struct SceneRenderTargets;
 struct View;
-class RendererContext;
+class RenderContext;
 
-void RenderLights(RendererContext& renderer, const DynamicArray<Light>& lights, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view);
+void RenderLights(RenderContext& renderer, const DynamicArray<Light>& lights, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view);

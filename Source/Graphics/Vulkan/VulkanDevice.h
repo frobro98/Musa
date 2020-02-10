@@ -4,7 +4,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/ResourceLockPtr.hpp"
 
-class RendererContext;
+class RenderContext;
 class Window;
 class VulkanQueue;
 class VulkanCommandBufferManager;

@@ -1,4 +1,4 @@
-#include "VulkanRendererContext.hpp"
+#include "VulkanRenderContext.hpp"
 #include "VulkanRenderState.hpp"
 #include "EngineCore/Assertion.h"
 #include "VulkanCommandBuffer.h"
@@ -18,7 +18,7 @@
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/ResourceArray.hpp"
 
-VulkanRendererContext::VulkanRendererContext(VulkanDevice& device)
+VulkanRenderContext::VulkanRenderContext(VulkanDevice& device)
 	: logicalDevice(device),
 	currentRenderState(device)
 {
@@ -26,7 +26,7 @@ VulkanRendererContext::VulkanRendererContext(VulkanDevice& device)
 	frameTempAlloc[1] = new VulkanFrameTempAllocation(logicalDevice);
 }
 
-void VulkanRendererContext::BeginRenderFrame(NativeViewport& renderViewport)
+void VulkanRenderContext::BeginRenderFrame(NativeViewport& renderViewport)
 {
 	VulkanViewport* vp = static_cast<VulkanViewport*>(&renderViewport);
 	vp->AcquireBackBuffer();
@@ -39,19 +39,19 @@ void VulkanRendererContext::BeginRenderFrame(NativeViewport& renderViewport)
 	currentFrameTempAlloc->ClearSuballocations();
 }
 
-void VulkanRendererContext::EndRenderFrame(NativeViewport& renderViewport)
+void VulkanRenderContext::EndRenderFrame(NativeViewport& renderViewport)
 {
 	VulkanViewport* vp = static_cast<VulkanViewport*>(&renderViewport);
 	vp->SubmitFrame();
 	vp->PresentFrame();
 }
 
-void VulkanRendererContext::InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const
+void VulkanRenderContext::InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const
 {
 	pipelineDesc.renderTargets = currentTarget;
 }
 
-void VulkanRendererContext::SetViewport(uint32 x, uint32 y, uint32 width, uint32 height, float minDepth, float maxDepth)
+void VulkanRenderContext::SetViewport(uint32 x, uint32 y, uint32 width, uint32 height, float minDepth, float maxDepth)
 {
 	viewport.x = (float32)x;
 	viewport.y = (float32)y;
@@ -62,7 +62,7 @@ void VulkanRendererContext::SetViewport(uint32 x, uint32 y, uint32 width, uint32
 	updateViewState = true;
 }
 
-void VulkanRendererContext::SetScissor(uint32 offsetX, uint32 offsetY, uint32 width, uint32 height)
+void VulkanRenderContext::SetScissor(uint32 offsetX, uint32 offsetY, uint32 width, uint32 height)
 {
 	// TODO - This doesn't necessarily mean that the scissor will be in effect. There could be a way to optimize this call with reusing something like th viewport
 	scissorRect.offset = { (int32)offsetX, (int32)offsetY };
@@ -70,44 +70,44 @@ void VulkanRendererContext::SetScissor(uint32 offsetX, uint32 offsetY, uint32 wi
 	updateViewState = true;
 }
 
-void VulkanRendererContext::SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors)
+void VulkanRenderContext::SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors)
 {
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	currentTarget = targetDescription;
 	currentRenderState.SetFramebufferTarget(cmdBuffer, targetDescription, renderTextures, clearColors);
 }
 
-void VulkanRendererContext::SetVertexBuffer(const NativeVertexBuffer& vertexBuffer)
+void VulkanRenderContext::SetVertexBuffer(const NativeVertexBuffer& vertexBuffer)
 {
 	const VulkanVertexBuffer* vb = static_cast<const VulkanVertexBuffer*>(&vertexBuffer);
 	vertexBuffersAndOffsets.vertexBuffers.Add(vb);
 	vertexBuffersAndOffsets.vertexBufferOffsets.Add(vb->GetBuffer().memory->alignedOffset);
 }
 
-void VulkanRendererContext::SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc)
+void VulkanRenderContext::SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc)
 {
 	currentRenderState.SetGraphicsPipeline(pipelineDesc);
 }
 
-void VulkanRendererContext::SetGlobalUniform(const void* uniformData, uint32 dataSize)
+void VulkanRenderContext::SetGlobalUniform(const void* uniformData, uint32 dataSize)
 {
 	UNUSED(uniformData, dataSize);
 }
 
-void VulkanRendererContext::SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex)
+void VulkanRenderContext::SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex)
 {
 	const VulkanUniformBuffer* ub = static_cast<const VulkanUniformBuffer*>(&uniformBuffer);
 	currentRenderState.SetUniformBuffer(ub->GetBuffer(), bufferIndex);
 }
 
-void VulkanRendererContext::SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex)
+void VulkanRenderContext::SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex)
 {
 	const VulkanTexture* tex = static_cast<const VulkanTexture*>(&texture);
 	const VulkanSampler* samp = static_cast<const VulkanSampler*>(&sampler);
 	currentRenderState.SetTexture(*tex, *samp, textureIndex);
 }
 
-void VulkanRendererContext::Draw(uint32 vertexCount, uint32 instanceCount)
+void VulkanRenderContext::Draw(uint32 vertexCount, uint32 instanceCount)
 {
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	if(updateViewState)
@@ -131,7 +131,7 @@ void VulkanRendererContext::Draw(uint32 vertexCount, uint32 instanceCount)
 	cmdBuffer.Draw(vertexCount, instanceCount, 0, 0);
 }
 
-void VulkanRendererContext::DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount)
+void VulkanRenderContext::DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount)
 {
 	const VulkanIndexBuffer* ib = static_cast<const VulkanIndexBuffer*>(&indexBuffer);
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
@@ -158,7 +158,7 @@ void VulkanRendererContext::DrawIndexed(const NativeIndexBuffer& indexBuffer, ui
 	cmdBuffer.DrawIndexed(indexCount, instanceCount, 0, 0, 0);
 }
 
-void VulkanRendererContext::DrawRaw(const ResourceArray& rawVerts, uint32 instanceCount)
+void VulkanRenderContext::DrawRaw(const ResourceArray& rawVerts, uint32 instanceCount)
 {
 	constexpr uint32 bufferAlignment = 4;
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
@@ -178,7 +178,7 @@ void VulkanRendererContext::DrawRaw(const ResourceArray& rawVerts, uint32 instan
 	cmdBuffer.Draw(rawVerts.elementCount, instanceCount, 0, 0);
 }
 
-void VulkanRendererContext::DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, uint32 instanceCount)
+void VulkanRenderContext::DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, uint32 instanceCount)
 {
 	constexpr uint32 bufferAlignment = 4;
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
@@ -203,19 +203,19 @@ void VulkanRendererContext::DrawRawIndexed(const ResourceArray& rawVerts, const 
 	cmdBuffer.DrawIndexed(rawIndices.elementCount, instanceCount, 0, 0, 0);
 }
 
-NativeTexture* VulkanRendererContext::GetBackBuffer() const
+NativeTexture* VulkanRenderContext::GetBackBuffer() const
 {
 	return backBuffer;
 }
 
-void VulkanRendererContext::UpdateViewState(VulkanCommandBuffer& cmdBuffer)
+void VulkanRenderContext::UpdateViewState(VulkanCommandBuffer& cmdBuffer)
 {
 	updateViewState = false;
 	cmdBuffer.SetViewport(0, 1, &viewport);
 	cmdBuffer.SetScissor(0, 1, &scissorRect);
 }
 
-void VulkanRendererContext::TransitionToWriteState(const NativeTexture** textures, uint32 textureCount)
+void VulkanRenderContext::TransitionToWriteState(const NativeTexture** textures, uint32 textureCount)
 {
 	Assert(textureCount > 0);
 	Assert(textures != nullptr);
@@ -280,7 +280,7 @@ void VulkanRendererContext::TransitionToWriteState(const NativeTexture** texture
 	}
 }
 
-void VulkanRendererContext::TransitionToReadState(const NativeTexture** textures, uint32 textureCount)
+void VulkanRenderContext::TransitionToReadState(const NativeTexture** textures, uint32 textureCount)
 {
 	Assert(textureCount > 0);
 	Assert(textures != nullptr);

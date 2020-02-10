@@ -3,7 +3,7 @@
 class Model;
 class Mesh;
 class Material;
-class RendererContext;
+class RenderContext;
 
 class ModelFactory
 {
@@ -18,6 +18,6 @@ private:
 	static ModelFactory& Instance();
 
 private:
-	RendererContext* renderer;
+	RenderContext* renderer;
 
 };

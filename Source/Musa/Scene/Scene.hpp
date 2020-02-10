@@ -8,7 +8,7 @@
 class Light;
 class ScreenView;
 class Viewport;
-class RendererContext;
+class RenderContext;
 class RenderObjectManager;
 struct MeshRenderInfo;
 
@@ -70,7 +70,7 @@ private:
 	// a hard limit on what lights affect what geometry
 	Light* lights[3] = { nullptr, nullptr, nullptr };
 
-	RendererContext* renderer;
+	RenderContext* renderer;
 
 	ScreenView* view = nullptr;
 	SceneRenderPipeline* sceneRendering = nullptr;

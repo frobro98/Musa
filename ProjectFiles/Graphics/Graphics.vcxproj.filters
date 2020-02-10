@@ -156,14 +156,14 @@
     <ClInclude Include="..\..\Source\Graphics\BatchCollection.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\RendererContext.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRendererContext.hpp">
-      <Filter>Source\Vulkan</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\RenderTarget.hpp">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderContext.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderContext.hpp">
+      <Filter>Source\Vulkan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -278,11 +278,11 @@
     <ClCompile Include="..\..\Source\Graphics\BatchCollection.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRendererContext.cpp">
-      <Filter>Source\Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\RenderTarget.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderContext.cpp">
+      <Filter>Source\Vulkan</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

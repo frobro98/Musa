@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Graphics/RendererContext.hpp"
+#include "Graphics/RenderContext.hpp"
 #include "Vulkan/VulkanRenderState.hpp"
 
 struct GraphicsPipelineDescription;
 class VulkanVertexBuffer;
 struct VulkanFrameTempAllocation;
 
-class VulkanRendererContext : public RendererContext
+class VulkanRenderContext : public RenderContext
 {
 public:
-	VulkanRendererContext(VulkanDevice& device);
+	VulkanRenderContext(VulkanDevice& device);
 
 	virtual void BeginRenderFrame(NativeViewport& viewport) override;
 	virtual void EndRenderFrame(NativeViewport& renderViewport) override;

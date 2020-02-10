@@ -10,7 +10,7 @@
 struct Vertex;
 struct Face;
 class ResourceBlob;
-class RendererContext;
+class RenderContext;
 struct SamplerDescription;
 
 class GraphicsInterface
@@ -38,7 +38,7 @@ public:
 	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) = 0;
 
 	[[nodiscard]] virtual void* GetGraphicsDevice() = 0;
-	[[nodiscard]] virtual RendererContext* GetRenderContext() = 0;
+	[[nodiscard]] virtual RenderContext* GetRenderContext() = 0;
 };
 
 GraphicsInterface& GetGraphicsInterface();

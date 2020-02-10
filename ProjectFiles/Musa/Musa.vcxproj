@@ -57,6 +57,7 @@
     <ClCompile Include="..\..\Source\Musa\Model\Model.cpp" />
     <ClCompile Include="..\..\Source\Musa\Model\ModelFactory.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.cpp" />
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.cpp" />

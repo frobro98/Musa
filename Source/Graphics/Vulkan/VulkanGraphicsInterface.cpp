@@ -20,7 +20,7 @@
 #include "VulkanIndexBuffer.h"
 #include "VulkanUniformBuffer.h"
 #include "VulkanSampler.hpp"
-#include "VulkanRendererContext.hpp"
+#include "VulkanRenderContext.hpp"
 #include "VulkanTexture.h"
 #include "VulkanDescriptorLayoutManager.h"
 
@@ -105,7 +105,7 @@ void VulkanGraphicsInterface::InitializeGraphics()
 	logicalDevice = new VulkanDevice();
 	logicalDevice->Initialize(instance);
 
-	renderContext = new VulkanRendererContext(*logicalDevice);
+	renderContext = new VulkanRenderContext(*logicalDevice);
 
 	GetShaderManager().logicalDevice = logicalDevice.Get();
 }
@@ -233,7 +233,7 @@ void* VulkanGraphicsInterface::GetGraphicsDevice()
 	return logicalDevice->GetNativeHandle();
 }
 
-RendererContext* VulkanGraphicsInterface::GetRenderContext()
+RenderContext* VulkanGraphicsInterface::GetRenderContext()
 {
 	return renderContext.Get();
 }
