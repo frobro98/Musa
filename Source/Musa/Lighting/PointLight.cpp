@@ -2,7 +2,7 @@
 
 LightDescription PointLight::GetLightDescription()
 {
-	worldLight = world.GetInverse();
+	worldLight = worldTransform.GetInverse();
 
 	LightDescription info;
 	info.position = position;

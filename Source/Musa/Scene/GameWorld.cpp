@@ -5,6 +5,7 @@
 #include "Window/Window.h"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
+#include "Camera/CameraManager.h"
 
 void InitializeRenderTarget(GraphicsPipelineDescription& init)
 {
@@ -44,10 +45,12 @@ GraphicsPipelineDescription GetDefaultDescription()
 }
 
 GameWorld::GameWorld(const Window& window)
-	: scene(new Scene)
+	: gameObjectManager(MakeUnique<GameObjectManager>(*this)),
+	renderObjectManager(MakeUnique<RenderObjectManager>()),
+	screenView(MakeUnique<ScreenView>(window.GetWidth(), window.GetHeight())),
+	scene(new Scene)
 {
-	ScreenView* view = new ScreenView(window.GetWidth(), window.GetHeight());
-	scene->SetView(*view);
+	scene->SetView(*screenView);
 	scene->InitializeScene();
 }
 
@@ -63,12 +66,24 @@ void GameWorld::TickWorld(float deltaTime)
 
 void GameWorld::PushToRenderState()
 {
-	scene->PushStateToGpu();
+	Camera* mainCamera = GetCameraManager().GetActiveCamera();
+	screenView->AssociateCameraWithView(*mainCamera);
+	renderObjectManager->SequenciallyPull();
 }
 
 void GameWorld::RenderWorld(Viewport& viewport)
 {
-	scene->RenderScene(viewport);
+	scene->RenderScene(*renderObjectManager, viewport);
+}
+
+void GameWorld::RegisterRenderInfo(const GameObject& go, MeshRenderInfo& renderInfo)
+{
+	renderObjectManager->RegisterGameObject(go, renderInfo);
+}
+
+void GameWorld::UnregisterRenderInfo(const GameObject& go)
+{
+	renderObjectManager->UnregisterGameObject(go);
 }
 
 Scene& GameWorld::GetScene()

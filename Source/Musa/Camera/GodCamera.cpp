@@ -6,12 +6,13 @@
 #include "DebugOutput.h"
 #include "Math/MathUtilities.hpp"
 
-GodCamera::GodCamera(Camera& cam)
-	: camera(cam)
+GodCamera::GodCamera(GameWorld& world, Camera& cam)
+	: GameObject(world),
+	camera(&cam)
 {
-	position = camera.GetPosition();
-	cameraLookAt = camera.GetLookAt();
-	cameraUp = camera.GetUp();
+	position = camera->GetPosition();
+	cameraLookAt = camera->GetLookAt();
+	cameraUp = camera->GetUp();
 }
 
 void GodCamera::Update(float tick)
@@ -21,10 +22,10 @@ void GodCamera::Update(float tick)
 	moveSpeed = speed * tick;
 	lookSpeed = look * tick;
 	
-	camera.SetOrientationAndPosition(cameraLookAt, position, cameraUp);
+	camera->SetOrientationAndPosition(cameraLookAt, position, cameraUp);
 
 	// TODO - This should be done in the SetWorld method...
-	world = Matrix4(TRANS, position);
+	worldTransform = Matrix4(TRANS, position);
 }
 
 void GodCamera::InputCallback(const FrameInputs& inputs)
@@ -116,32 +117,32 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 
 void GodCamera::MoveCameraForward()
 {
-	MoveCameraAlongAxis(camera.GetForward(), false);
+	MoveCameraAlongAxis(camera->GetForward(), false);
 }
 
 void GodCamera::MoveCameraBackward()
 {
-	MoveCameraAlongAxis(camera.GetForward(), true);
+	MoveCameraAlongAxis(camera->GetForward(), true);
 }
 
 void GodCamera::MoveCameraLeft()
 {
-	MoveCameraAlongAxis(camera.GetRight(), false);
+	MoveCameraAlongAxis(camera->GetRight(), false);
 }
 
 void GodCamera::MoveCameraRight()
 {
-	MoveCameraAlongAxis(camera.GetRight(), true);
+	MoveCameraAlongAxis(camera->GetRight(), true);
 }
 
 void GodCamera::MoveCameraUp()
 {
-	MoveCameraAlongAxis(camera.GetUp(), true);
+	MoveCameraAlongAxis(camera->GetUp(), true);
 }
 
 void GodCamera::MoveCameraDown()
 {
-	MoveCameraAlongAxis(camera.GetUp(), false);
+	MoveCameraAlongAxis(camera->GetUp(), false);
 }
 
 void GodCamera::MoveCameraAlongAxis(const Vector4& axis, bool positive)
@@ -161,13 +162,13 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 	{
 		if (changeX != 0 || changeY != 0)
 		{
-			Quat quatX(ROT_AXIS_ANGLE, camera.GetRight(), -changeY * lookSpeed);
+			Quat quatX(ROT_AXIS_ANGLE, camera->GetRight(), -changeY * lookSpeed);
 			Quat quatY(ROT_Y, -changeX * lookSpeed);
 
-			Vector4 newLookAtDir = camera.GetForward() * quatX * quatY;
+			Vector4 newLookAtDir = camera->GetForward() * quatX * quatY;
 			newLookAtDir.Normalize();
 			cameraLookAt = position - newLookAtDir;
-			Vector4 up = camera.GetUp() * quatX * quatY;
+			Vector4 up = camera->GetUp() * quatX * quatY;
 			cameraUp = up;
 		}
 	}

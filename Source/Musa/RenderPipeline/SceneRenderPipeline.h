@@ -4,12 +4,13 @@
 // TODO - The UI part of the render pipeline shouldn't really live in the scene rendering part...
 #include "RenderPipeline/UserInterfacePipeline.hpp"
 
-class Renderer;
+class RendererContext;
 class Camera;
 class Model;
 class Scene;
 class Viewport;
-class Renderer;
+class RendererContext;
+class RenderObjectManager;
 struct View;
 struct RenderTargetTextures;
 
@@ -17,23 +18,24 @@ class SceneRenderPipeline
 {
 public:
 
-	void RenderScene(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view);
+	void RenderScene(RendererContext& renderer, Scene& scene, RenderObjectManager& renderManager, const Viewport& viewport, const View& view);
 
 private:
 // 	uint32 DetermineJobCount() const;
 // 	void SecondaryGBufferPass_Job(VulkanCommandBuffer& secondaryCmdBuffer, const View& view, VkFramebuffer framebufferHandle, VkRenderPass renderpassHandle, uint32 startRenderIndex, uint32 endRenderIndex) const;
 
 	//void ForwardRender(Scene& scene, const View& view);
-	void DeferredRender(Renderer& renderer, Scene& scene, const Viewport& viewport, const View& view);
+	void DeferredRender(RendererContext& renderer, Scene& scene, RenderObjectManager& renderManager, const Viewport& viewport, const View& view);
 
-	void RenderGBufferPass(Renderer& renderer, Scene& scene, const View& view);
+	void RenderGBufferPass(RendererContext& renderer, Scene& scene, RenderObjectManager& renderManager, const View& view);
 	//void RenderShadowPass(Renderer& renderer, Scene& scene);
-	void RenderGBUffersToScreen(Renderer& renderer, Scene& scene, const View& view);
+	void RenderGBUffersToScreen(RendererContext& renderer, Scene& scene, const View& view);
 
-	void TransitionTargetsToRead(Renderer& renderer, RenderTargetTextures& targets);
-	void TransitionTargetsToWrite(Renderer& renderer, RenderTargetTextures& targets);
+	void TransitionTargetsToRead(RendererContext& renderer, RenderTargetTextures& targets);
+	void TransitionTargetsToWrite(RendererContext& renderer, RenderTargetTextures& targets);
 
-	void SetViewportAndScissor(Renderer& renderer, const View& view) const;
+	// TODO - This should become a helper function...
+	void SetViewportAndScissor(RendererContext& renderer, const View& view) const;
 
 	// These functions are waaaaayyyy too low level for rendering in the SceneRendering class
 	// They need to be moved outta here

@@ -7,7 +7,7 @@
 struct Vector2;
 struct View;
 struct Color32;
-class Renderer;
+class RendererContext;
 
 namespace UI
 {
@@ -19,7 +19,7 @@ void RenderUI(UI::Context& ui);
 class UserInterfacePipeline
 {
 public:
-	void RenderScreenText(Renderer& renderer, const View& view);
+	void RenderScreenText(RendererContext& renderer, const View& view);
 
 private:
 	EngineStatView statView;

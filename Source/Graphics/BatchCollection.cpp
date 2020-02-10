@@ -1,5 +1,5 @@
 #include "BatchCollection.hpp"
-#include "Renderer.hpp"
+#include "RendererContext.hpp"
 #include "ResourceArray.hpp"
 #include "ResourceInitializationDescriptions.hpp"
 #include "Math/MathUtilities.hpp"
@@ -237,7 +237,7 @@ void BatchCollection::BatchWireCircle(const BatchedCircleDescription& circleDesc
 	}
 }
 
-void BatchCollection::RenderBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture)
+void BatchCollection::RenderBatches(RendererContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture)
 {
 	RenderLineBatches(renderer, vertShader, fragShader, viewBuffer, texture);
 	RenderTriangleBatches(renderer, vertShader, fragShader, viewBuffer, texture);
@@ -246,7 +246,7 @@ void BatchCollection::RenderBatches(Renderer& renderer, const ShaderResource& ve
 	batchedTris.Clear();
 }
 
-void BatchCollection::RenderLineBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
+void BatchCollection::RenderLineBatches(RendererContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
 {
 	if (HasLineBatches())
 	{
@@ -270,7 +270,7 @@ void BatchCollection::RenderLineBatches(Renderer& renderer, const ShaderResource
 	}
 }
 
-void BatchCollection::RenderTriangleBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
+void BatchCollection::RenderTriangleBatches(RendererContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
 {
 	if (HasTriangleBatches())
 	{

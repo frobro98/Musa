@@ -2,7 +2,7 @@
 #include "Mesh/GeometryPrimitives.h"
 #include "Font/FontCache.hpp"
 #include "Texture/Texture2D/Texture.h"
-#include "Graphics/Renderer.hpp"
+#include "Graphics/RendererContext.hpp"
 #include "Graphics/ResourceArray.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Shader/ShaderObjects/SimplePrimitiveRendering.hpp"
@@ -31,7 +31,7 @@ METRIC_STAT(TextFormatting, TextDisplay);
 
 void RenderUI(UI::Context& ui)
 {
-	[[maybe_unused]] Renderer* renderer = GetGraphicsInterface().GetRenderContext();
+	[[maybe_unused]] RendererContext* renderer = GetGraphicsInterface().GetRenderContext();
 
 	// Determine if UI needs to render
 
@@ -89,7 +89,7 @@ static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& scree
 	return ret;
 }
 
-void UserInterfacePipeline::RenderScreenText(Renderer & renderer, const View & view)
+void UserInterfacePipeline::RenderScreenText(RendererContext & renderer, const View & view)
 {
 	if (viewBuffer == nullptr)
 	{

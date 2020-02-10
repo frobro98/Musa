@@ -521,5 +521,8 @@
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.hpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

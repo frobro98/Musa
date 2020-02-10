@@ -7,7 +7,7 @@
 #include "Model/Model.h"
 #include "Color.hpp"
 
-class ShaderProgram;
+class GameWorld;
 
 enum class KeyInput;
 enum class KeyboardState;
@@ -15,15 +15,13 @@ enum class KeyboardState;
 class GameObject
 {
 public:
-	GameObject();
+	GameObject(GameWorld& gameWorld);
 	virtual ~GameObject() = default;
 	//GameObject(const GameObject& go);
 	GameObject(GameObject&& go) noexcept;
 
 	//GameObject& operator=(const GameObject& go);
 	GameObject& operator=(GameObject&& go) noexcept;
-
-	void AssociateScene(class Scene& scene);
 
 	virtual void SetupInputs() {}
 
@@ -58,7 +56,7 @@ protected:
 
 protected:
 	// TODO - implement own version of unique_ptr
-	Matrix4 world;
+	Matrix4 worldTransform;
 
 	Vector4 position;
 	float32 rotX;
@@ -66,9 +64,9 @@ protected:
 	float32 rotZ;
 	Vector4 scale;
 
+	GameWorld* world;
 	UniquePtr<Model> model;
 	Model* debugVolume = nullptr;
-	Scene* scene = nullptr;
 	
 	bool debugShown = false;
 	bool shouldRender = true;

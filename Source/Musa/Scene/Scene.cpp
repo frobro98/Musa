@@ -11,7 +11,7 @@
 #include "Scene/Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "RenderPipeline/SceneRenderPipeline.h"
-#include "Graphics/Renderer.hpp"
+#include "Graphics/RendererContext.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "RenderPipeline/BatchPrimitives.hpp"
 
@@ -130,15 +130,7 @@ void Scene::Tick(float deltaTime)
 	}
 }
 
-void Scene::PushStateToGpu()
-{
-	Camera* cam = GetCameraManager().GetActiveCamera();
-	view->AssociateCameraWithView(*cam);
-
-	GetRenderObjectManager().SequenciallyPull();
-}
-
-void Scene::RenderScene(Viewport& viewport)
+void Scene::RenderScene(RenderObjectManager& renderManager, Viewport& viewport)
 {
 	if (!gbuffersInitialized)
 	{
@@ -150,7 +142,7 @@ void Scene::RenderScene(Viewport& viewport)
 	renderer->BeginRenderFrame(viewport.GetNativeViewport());
 	END_TIMED_BLOCK(BeginRenderFrame);
 
-	sceneRendering->RenderScene(*renderer, *this, viewport, view->view);
+	sceneRendering->RenderScene(*renderer, *this, renderManager, viewport, view->view);
 
 	BEGIN_TIMED_BLOCK(EndRenderFrame);
 	renderer->EndRenderFrame(viewport.GetNativeViewport());

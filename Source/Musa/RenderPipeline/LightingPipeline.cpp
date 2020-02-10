@@ -1,13 +1,13 @@
 
 #include "LightingPipeline.hpp"
 #include "FrameRenderTargets.hpp"
-#include "Graphics/Renderer.hpp"
+#include "Graphics/RendererContext.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Shader/ShaderObjects/DeferredLightingShading.hpp"
 
-static void SetupLightRender(Renderer& renderer, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture)
+static void SetupLightRender(RendererContext& renderer, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture)
 {
 	UNUSED(sceneColorTexture);
 //	renderer.SetRenderTarget();
@@ -28,7 +28,7 @@ static void SetupLightRender(Renderer& renderer, const GBuffer& gbuffer, const S
 	renderer.SetTexture(*gbuffer.diffuseTexture, *SamplerDesc(), 2);
 }
 
-static void RenderLight(Renderer& renderer, const Light& light, const GBuffer& gbuffer, const View& view)
+static void RenderLight(RendererContext& renderer, const Light& light, const GBuffer& gbuffer, const View& view)
 {
 	UNUSED(light, gbuffer);
 	// Set viewport
@@ -39,7 +39,7 @@ static void RenderLight(Renderer& renderer, const Light& light, const GBuffer& g
 
 }
 
-void RenderLights(Renderer& renderer, const DynamicArray<Light*>& lights, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
+void RenderLights(RendererContext& renderer, const DynamicArray<Light*>& lights, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
 {
 	if (lights.Size() > 0)
 	{

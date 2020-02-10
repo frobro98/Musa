@@ -76,8 +76,6 @@ void MusaEngine::SetupWindowContext(Window& window)
 {
 	world = MakeUnique<GameWorld>(window);
 	viewport = MakeUnique<Viewport>(window.GetWindowHandle(), window.GetWidth(), window.GetHeight());
-
-	GetGameObjectManager().Initialize(*world);
 }
 
 void MusaEngine::InitializeSceneView()
@@ -97,7 +95,7 @@ void MusaEngine::InitializeSceneView()
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
 
-	GodCamera* godCam = GetGameObjectManager().CreateAndAdd<GodCamera>(*mainCamera);
+	GodCamera* godCam = world->CreateGameObject<GodCamera>(*mainCamera);
 	gameInput->RegisterInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
 }
 
@@ -255,8 +253,8 @@ static void CreateInputContext(GameInput& gameInput)
 void MusaEngine::LoadContent()
 {
 	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
-	GetTextureManager().AddTexture(*WhiteTexture());
-	GetTextureManager().AddTexture(*BlackTexture());
+	//GetTextureManager().AddTexture(*WhiteTexture());
+	//GetTextureManager().AddTexture(*BlackTexture());
 
 	GetMeshManager().Initialize();
 
@@ -271,12 +269,12 @@ void MusaEngine::LoadContent()
 	ShaderResource& vertShader = GetShader<UnlitVert>()->GetNativeShader();
 	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
-	GameObject* go = GetGameObjectManager().CreateAndAdd<GameObject>();
+	GameObject* go = world->CreateGameObject<GameObject>();
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...
-	Light* light = GetGameObjectManager().CreateAndAdd<SpotLight>();
+	Light* light = world->CreateGameObject<SpotLight>();
 	light->SetPos(Vector4(100, 100, 100));
 	light->SetRotation(-40.f, 45.f, 0.f);
 	world->GetScene().AddLightToScene(*light);

@@ -9,7 +9,7 @@ constexpr float32 MaxOuterRad = MaxInnerRad + .001f;
 
 LightDescription SpotLight::GetLightDescription()
 {
-	worldLight = world.GetInverse();
+	worldLight = worldTransform.GetInverse();
 
 	const float32 innerRad = Math::DegreesToRadians(innerAngleDegrees);
 	const float32 outerRad = Math::DegreesToRadians(outerAngleDegrees);

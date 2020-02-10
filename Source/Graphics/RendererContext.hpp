@@ -10,10 +10,10 @@ struct RenderTargetTextures;
 struct GraphicsPipelineDescription;
 struct ResourceArray;
 
-class Renderer
+class RendererContext
 {
 public:
-	virtual ~Renderer() = default;
+	virtual ~RendererContext() = default;
 
 	virtual void BeginRenderFrame(NativeViewport& viewport) = 0;
 	virtual void EndRenderFrame(NativeViewport& renderViewport) = 0;

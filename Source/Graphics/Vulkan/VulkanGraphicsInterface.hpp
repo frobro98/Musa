@@ -2,7 +2,7 @@
 
 #include "vulkan/vulkan.h"
 #include "GraphicsInterface.hpp"
-#include "Graphics/Renderer.hpp"
+#include "Graphics/RendererContext.hpp"
 #include "VulkanDevice.h"
 
 
@@ -25,7 +25,7 @@ public:
 	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) override;
 
 	virtual void* GetGraphicsDevice() override;
-	virtual Renderer* GetRenderContext() override;
+	virtual RendererContext* GetRenderContext() override;
 
 private:
 	void CreateInstance();
@@ -34,6 +34,6 @@ private:
 	VkDebugReportCallbackEXT debugReportHandle = VK_NULL_HANDLE;
 	VkInstance instance = VK_NULL_HANDLE;
 
-	UniquePtr<Renderer> renderContext;
+	UniquePtr<RendererContext> renderContext;
 	UniquePtr<VulkanDevice> logicalDevice;
 };

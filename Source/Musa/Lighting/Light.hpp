@@ -20,7 +20,7 @@ struct LightDescription
 class Light : public GameObject
 {
 public:
-	Light();
+	Light(GameWorld& world);
 
 	virtual LightDescription GetLightDescription() = 0;
 

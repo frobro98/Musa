@@ -5,7 +5,7 @@
 #include "Scene/Scene.hpp"
 
 
-void GameObjectManager::Initialize(GameWorld& world_)
+GameObjectManager::GameObjectManager(GameWorld& world_)
 {
 	world = &world_;
 }
@@ -13,7 +13,6 @@ void GameObjectManager::Initialize(GameWorld& world_)
 void GameObjectManager::Add(GameObject* go)
 {
 	world->GetScene().AddGameObjectToScene(*go);
-	go->AssociateScene(world->GetScene());
 }
 
 void GameObjectManager::Remove(GameObject* go)
@@ -22,13 +21,3 @@ void GameObjectManager::Remove(GameObject* go)
 	delete go;
 }
 
-GameObjectManager& GameObjectManager::Instance()
-{
-	static GameObjectManager gomInstance;
-	return gomInstance;
-}
-
-GameObjectManager& GetGameObjectManager()
-{
-	return GameObjectManager::Instance();
-}

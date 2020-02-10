@@ -8,7 +8,8 @@
 class Light;
 class ScreenView;
 class Viewport;
-class Renderer;
+class RendererContext;
+class RenderObjectManager;
 struct MeshRenderInfo;
 
 class SceneRenderPipeline;
@@ -35,8 +36,7 @@ public:
 	void RemoveLightFromScene(Light& light);
 
 	void Tick(float deltaTime);
-	void PushStateToGpu();
-	void RenderScene(Viewport& viewport);
+	void RenderScene(RenderObjectManager& renderManager, Viewport& viewport);
 	
 	void SetView(ScreenView& view);
 
@@ -70,7 +70,7 @@ private:
 	// a hard limit on what lights affect what geometry
 	Light* lights[3] = { nullptr, nullptr, nullptr };
 
-	Renderer* renderer;
+	RendererContext* renderer;
 
 	ScreenView* view = nullptr;
 	SceneRenderPipeline* sceneRendering = nullptr;

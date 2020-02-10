@@ -6,6 +6,8 @@ class SpotLight : public Light
 {
 public:
 
+	SpotLight(GameWorld& world) : Light(world) {}
+
 	virtual LightDescription GetLightDescription() override;
 
 	float32 innerAngleDegrees;

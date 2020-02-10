@@ -10,11 +10,11 @@ struct FrameInputs;
 class GodCamera : public GameObject
 {
 public:
-	GodCamera(Camera& cam);
+	GodCamera(GameWorld& world, Camera& cam);
 
 	virtual void Update(float tick) override;
 
-	inline Camera& GetAssociatedCamera() const { return camera; }
+	inline Camera& GetAssociatedCamera() const { return *camera; }
 
 	void InputCallback(const FrameInputs& inputs);
 
@@ -35,7 +35,7 @@ private:
 private:
 	Vector4 cameraUp;
 	Vector4 cameraLookAt;
-	Camera& camera;
+	Camera* camera;
 	float32 moveSpeed = 0.f;
 	float32 lookSpeed = 0.f;
 };

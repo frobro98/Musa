@@ -9,8 +9,6 @@
 struct NativeVertexBuffer;
 struct NativeIndexBuffer;
 
-class ShaderProgram;
-
 class Mesh
 {
 public:

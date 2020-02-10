@@ -3,36 +3,23 @@
 #include "Camera.h"
 #include "EngineCore/String/CStringUtilities.hpp"
 
-void CameraManager::AddCamera(Camera * camera, const char * cameraName)
+void CameraManager::AddCamera(Camera* camera, const char* cameraName)
 {
-	CameraNode node;
-	node.cameraName = cameraName;
-	node.camera = camera;
-	cameras.Add(node);
+	cameras.Add(String(cameraName), camera);
 }
 
 void CameraManager::RemoveCamera(const char* cameraName)
 {
-	for (uint32 i = 0; i < cameras.Size(); ++i)
-	{
-		if (Strcmp(cameras[i].cameraName, cameraName) == 0)
-		{
-			cameras.Remove(i);
-			break;
-		}
-	}
+	cameras.Remove(cameraName);
 }
 
 Camera* CameraManager::FindCamera(const char * cameraName)
 {
-	for (const auto& camera : cameras)
+	Camera* cam = nullptr;
+	if (cameras.TryFind(cameraName, cam))
 	{
-		if (Strcmp(cameraName, camera.cameraName) == 0)
-		{
-			return camera.camera;
-		}
+		return cam;
 	}
-
 	return nullptr;
 }
 
@@ -52,15 +39,11 @@ void CameraManager::Resize(int width, int height, float aspectRatio)
 {
 	for (auto& camera : cameras)
 	{
-		Camera& cam = *camera.camera;
+		Camera& cam = *camera.second;
 		IntRect viewport = { 0, 0, width, height };
 		cam.SetViewport(viewport);
 		cam.SetAspectRatio(aspectRatio);
 	}
-}
-
-CameraManager::~CameraManager()
-{
 }
 
 CameraManager& GetCameraManager()

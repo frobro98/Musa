@@ -1,5 +1,5 @@
 #include "BatchPrimitives.hpp"
-#include "Graphics/Renderer.hpp"
+#include "Graphics/RendererContext.hpp"
 #include "Shader/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/SimplePrimitiveRendering.hpp"
 #include "Scene/ScreenView.hpp"
@@ -49,7 +49,7 @@ void BatchWireCirclePrimitive(const BatchedCircleDescription & circleDesc)
 	collection.BatchWireCircle(circleDesc);
 }
 
-void RenderBatchedPrimitives(Renderer& renderer, const View& view)
+void RenderBatchedPrimitives(RendererContext& renderer, const View& view)
 {
 	collection.RenderBatches(renderer, 
 		GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *view.viewBuffer, *(WhiteTexture()->gpuResource));

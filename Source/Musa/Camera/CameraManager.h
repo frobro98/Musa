@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Containers/DynamicArray.hpp"
+#include "Containers/Map.h"
 
 class Camera;
 
@@ -20,16 +20,13 @@ public:
 
 private:
 
-	CameraManager() = default;
-	~CameraManager();
-
 	struct CameraNode
 	{
 		const char* cameraName = nullptr;
 		Camera* camera = nullptr;
 	};
 
-	DynamicArray<CameraNode> cameras;
+	Map<String, Camera*> cameras;
 	Camera* activeCamera = nullptr;
 };
 

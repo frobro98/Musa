@@ -7,7 +7,7 @@ class GameWorld;
 class GameObjectManager final
 {
 public:
-	void Initialize(GameWorld& world);
+	GameObjectManager(GameWorld& world);
 
 	//template<class GOType, typename = std::is_base_of_v<GameObject, GOType>>
 	template<class GOType, typename... Args>
@@ -20,12 +20,7 @@ public:
 	void Add(GameObject* go);
 	void Remove(GameObject* go);
 
-	static GameObjectManager& Instance();
-
 private:
-	GameObjectManager() = default;
-
-
 	GameObjectManager(const GameObjectManager&) = delete;
 	GameObjectManager& operator=(const GameObjectManager&) = delete;
 
@@ -33,4 +28,3 @@ private:
 	GameWorld* world = nullptr;
 };
 
-GameObjectManager& GetGameObjectManager();

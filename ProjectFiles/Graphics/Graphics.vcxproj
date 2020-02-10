@@ -112,7 +112,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\ResourceArray.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceInitializationDescriptions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPIDefinitions.hpp" />
-    <ClInclude Include="..\..\Source\Graphics\Renderer.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\RendererContext.hpp" />
     <ClInclude Include="..\..\Source\Graphics\RenderTargetDescription.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceBlob.hpp" />
     <ClInclude Include="..\..\Source\Graphics\ResourceLockPtr.hpp" />
@@ -140,7 +140,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanMemoryManager.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanPipeline.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanQueue.h" />
-    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderer.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRendererContext.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderingCloset.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.hpp" />
@@ -180,7 +180,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanMemoryManager.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanPipeline.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanQueue.cpp" />
-    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderer.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRendererContext.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderingCloset.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.cpp" />

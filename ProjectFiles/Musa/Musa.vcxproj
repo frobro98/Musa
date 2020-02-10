@@ -138,6 +138,7 @@
     <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\FrameRenderTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.h" />

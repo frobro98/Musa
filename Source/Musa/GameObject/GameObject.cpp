@@ -9,16 +9,18 @@
 
 #include "Archiver/SkeletonHeader.h"
 
+#include "Scene/GameWorld.hpp"
 #include "RenderObjectManager.hpp"
 
 
-GameObject::GameObject()
-	: world(IDENTITY),
+GameObject::GameObject(GameWorld& gameWorld)
+	: worldTransform(IDENTITY),
 	position(),
 	rotX(0.f),
 	rotY(0.f),
 	rotZ(0.f),
-	scale(1, 1, 1)
+	scale(1, 1, 1),
+	world(&gameWorld)
 {
 
 }
@@ -35,11 +37,12 @@ GameObject::GameObject()
 // }
 
 GameObject::GameObject(GameObject&& go) noexcept
-	: world(std::move(go.world)),
+	: worldTransform(std::move(go.worldTransform)),
 	position(go.position),
 	rotX(go.rotX),
 	rotY(go.rotY),
 	rotZ(go.rotZ),
+	world(go.world),
 	model(std::move(go.model))
 {
 }
@@ -66,7 +69,7 @@ GameObject& GameObject::operator=(GameObject&& go) noexcept
 {
 	if (this != &go)
 	{
-		world = std::move(go.world);
+		worldTransform = std::move(go.worldTransform);
 		model = std::move(go.model);
 
 		position = go.position;
@@ -79,21 +82,16 @@ GameObject& GameObject::operator=(GameObject&& go) noexcept
 	return *this;
 }
 
-void GameObject::AssociateScene(Scene& scene_)
-{
-	scene = &scene_;
-}
-
 void GameObject::SetModel(Model* m)
 {
 	if (model.IsValid())
 	{
-		GetRenderObjectManager().UnregisterGameObject(*this);
+		world->UnregisterRenderInfo(*this);
 	}
 
 	model.Reset(m);
 
-	GetRenderObjectManager().RegisterGameObject(*this, model->GetRenderInfo());
+	world->RegisterRenderInfo(*this, model->GetRenderInfo());
 }
 
 void GameObject::ShowDebugVolume(bool show)
@@ -160,11 +158,11 @@ void GameObject::Update([[maybe_unused]] float tick)
 	Matrix4 Scale(SCALE, scale);
 
 	//world * GetParent()->world
-	world = Scale * Rot * Trans;
+	worldTransform = Scale * Rot * Trans;
 
 	if (model.IsValid())
 	{
-		model->SetWorld(world);
+		model->SetWorld(worldTransform);
 	}
 	if (debugVolume != nullptr)
 	{
@@ -220,7 +218,7 @@ SphereBounds GameObject::GetCollisionInfo() const
 	SphereBounds boundingSphere = model->GetMesh()->GetCollitionInfo();
 	float radius = boundingSphere.radius;
 	//Matrix local = Matrix(SCALE, radius, radius, radius) * Matrix(TRANS, info.boundingSphere.cntr);
-	boundingSphere.position = boundingSphere.position * /*local **/ world;
+	boundingSphere.position = boundingSphere.position * /*local **/ worldTransform;
 	boundingSphere.radius = radius * scale.x;
 	return boundingSphere;
 }
@@ -234,12 +232,12 @@ void GameObject::SetDebugColor(Color32 color)
 
 void GameObject::SetWorld(const Matrix4& newWorld)
 {
-	world = newWorld;
+	worldTransform = newWorld;
 }
 
 Matrix4 GameObject::GetWorld() const
 {
-	return world;
+	return worldTransform;
 }
 
 void GameObject::TransformDebugVolume()
@@ -247,5 +245,5 @@ void GameObject::TransformDebugVolume()
 	SphereBounds boundingSphere = model->GetMesh()->GetCollitionInfo();
 	float radius = boundingSphere.radius * 2;
 	Matrix4 local = Matrix4(SCALE, radius, radius, radius) * Matrix4(TRANS, boundingSphere.position);
-	debugVolume->SetWorld(local * world);
+	debugVolume->SetWorld(local * worldTransform);
 }

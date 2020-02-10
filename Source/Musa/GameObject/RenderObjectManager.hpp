@@ -22,4 +22,3 @@ private:
 	DynamicArray<RenderObject*> renderObjects;
 };
 
-RenderObjectManager& GetRenderObjectManager();

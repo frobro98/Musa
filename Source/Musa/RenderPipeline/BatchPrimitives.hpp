@@ -19,5 +19,5 @@ void BatchWireCirclePrimitive(const BatchedCircleDescription& circleDesc);
 
 
 // Render current batch of primitives
-void RenderBatchedPrimitives(class Renderer& renderer, const View& view);
+void RenderBatchedPrimitives(class RendererContext& renderer, const View& view);
 

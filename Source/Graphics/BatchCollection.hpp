@@ -5,7 +5,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Mesh/GeometryPrimitives.h"
 
-class Renderer;
+class RendererContext;
 struct ShaderResource;
 struct NativeUniformBuffer;
 struct NativeTexture;
@@ -58,14 +58,14 @@ public:
 	void BatchWireCircle(const BatchedCircleDescription& circleDesc);
 	
 	// TODO - Graphics pipeline will currently be set in this function. There isn't really a way for customization for depthstencil, blending, etc. This would be a good thing to investigate
-	void RenderBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture);
+	void RenderBatches(RendererContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture);
 
 	inline bool HasLineBatches() const { return !batchedLines.IsEmpty(); }
 	inline bool HasTriangleBatches() const { return !batchedTris.IsEmpty(); }
 
 private:
-	void RenderLineBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
-	void RenderTriangleBatches(Renderer& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
+	void RenderLineBatches(RendererContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
+	void RenderTriangleBatches(RendererContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
 
 private:
 	struct PrimitiveTriangle
