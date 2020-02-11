@@ -1,9 +1,8 @@
 #pragma once
 
-#include "RenderPipeline/FrameRenderTargets.hpp"
-
+struct View;
 struct FrameRenderTargets;
 
-void DeferredRender(const FrameRenderTargets&);
+void DeferredRender(const FrameRenderTargets& frameTargets, const View& view);
 
 

@@ -1,6 +1,7 @@
 
 #include "LightingPipeline.hpp"
-#include "FrameRenderTargets.hpp"
+#include "Scene/GBufferTargets.hpp"
+#include "Scene/SceneRenderTargets.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
@@ -23,9 +24,9 @@ static void SetupLightRender(RenderContext& renderer, const GBuffer& gbuffer, co
 	pipelineDesc.fragmentShader = &GetShader<DeferredLightingVert>()->GetNativeShader();
 	renderer.SetGraphicsPipeline(pipelineDesc);
 
-	renderer.SetTexture(*gbuffer.positionTexture, *SamplerDesc(), 0);
-	renderer.SetTexture(*gbuffer.normalTexture, *SamplerDesc(), 1);
-	renderer.SetTexture(*gbuffer.diffuseTexture, *SamplerDesc(), 2);
+	renderer.SetTexture(*gbuffer.positionTexture->nativeTarget, *SamplerDesc(), 0);
+	renderer.SetTexture(*gbuffer.normalTexture->nativeTarget, *SamplerDesc(), 1);
+	renderer.SetTexture(*gbuffer.diffuseTexture->nativeTarget, *SamplerDesc(), 2);
 }
 
 static void RenderLight(RenderContext& renderer, const Light& light, const GBuffer& gbuffer, const View& view)

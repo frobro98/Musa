@@ -103,6 +103,7 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\MusaAppOS.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\MusaAppWindows.hpp" />
@@ -140,13 +141,14 @@
     <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.hpp" />
-    <ClInclude Include="..\..\Source\Musa\RenderPipeline\FrameRenderTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.h" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\GBufferTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Scene.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Scene\SceneRenderTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h" />
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />

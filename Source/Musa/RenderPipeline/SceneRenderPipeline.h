@@ -13,8 +13,10 @@ class RenderContext;
 class RenderObjectManager;
 struct View;
 struct NativeRenderTargets;
+struct GBuffer;
+struct SceneRenderTargets;
 
-void RenderSceneDeferred(RenderContext& );
+void RenderSceneDeferred(RenderContext& renderContext, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view);
 
 class SceneRenderPipeline
 {
@@ -32,9 +34,6 @@ private:
 	void RenderGBufferPass(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const View& view);
 	//void RenderShadowPass(Renderer& renderer, Scene& scene);
 	void RenderGBUffersToScreen(RenderContext& renderer, Scene& scene, const View& view);
-
-	void TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targets);
-	void TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targets);
 
 	// TODO - This should become a helper function...
 	void SetViewportAndScissor(RenderContext& renderer, const View& view) const;

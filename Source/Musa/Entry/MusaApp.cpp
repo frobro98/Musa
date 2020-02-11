@@ -3,6 +3,8 @@
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
 #include "Input/Internal/InputInternal.hpp"
+#include "Shader/ShaderDefinition.hpp"
+#include "Graphics/GraphicsInterface.hpp"
 
 constexpr int32 width = 1080;
 constexpr int32 height = 720;
@@ -18,6 +20,9 @@ void MusaApp::LaunchApplication()
 	InitializeOSInput();
 	InitializeApplicationWindow();
 
+	GetGraphicsInterface().InitializeGraphics();
+	InitializeShaders();
+
 	SetupGameEngine();
 
 	// TODO - Should have an engine level boolean, so as to not be dependent on the window's state
@@ -28,6 +33,8 @@ void MusaApp::LaunchApplication()
 
 	// TODO - Shutdown stuff for the application...
 	TearDownGameEngine();
+
+	GetGraphicsInterface().DeinitializeGraphics();
 	
 }
 
@@ -97,6 +104,7 @@ void MusaApp::TearDownGameEngine()
 {
 	gameEngine->UnloadContent();
 	gameEngine->ShutdownEngine();
+	gameEngine.Reset();
 }
 
 void MusaApp::ApplicationUpdate()

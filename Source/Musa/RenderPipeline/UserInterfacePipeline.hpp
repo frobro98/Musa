@@ -14,7 +14,7 @@ namespace UI
 class Context;
 }
 
-void RenderUI(UI::Context& ui);
+void RenderUI(RenderContext& renderer, UI::Context& ui);
 
 class UserInterfacePipeline
 {

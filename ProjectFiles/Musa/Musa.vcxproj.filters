@@ -518,14 +518,20 @@
     <ClInclude Include="..\..\Source\Musa\UI\UIProgressBar.hpp">
       <Filter>Source\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\RenderPipeline\FrameRenderTargets.hpp">
-      <Filter>Source\RenderPipeline</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.hpp">
       <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\GBufferTargets.hpp">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Scene\SceneRenderTargets.hpp">
+      <Filter>Source\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

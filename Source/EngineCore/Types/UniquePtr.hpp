@@ -21,6 +21,7 @@ public:
 	OwnedType* operator->() const;
 
 	bool IsValid() const;
+	operator bool() const;
 
 	[[nodiscard]] OwnedType* Get() const;
 	[[nodiscard]] OwnedType* Release();
@@ -85,6 +86,12 @@ inline OwnedType* UniquePtr<OwnedType>::operator->() const
 
 template<typename OwnedType>
 inline bool UniquePtr<OwnedType>::IsValid() const
+{
+	return ptr != nullptr;
+}
+
+template<typename OwnedType>
+UniquePtr<OwnedType>::operator bool() const
 {
 	return ptr != nullptr;
 }

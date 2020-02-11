@@ -11,7 +11,8 @@
 struct RenderTarget
 {
 	UniquePtr<NativeTexture> nativeTarget;
-	Extents2D dimensions;
+	uint32 width;
+	uint32 height;
 	uint32 sampleCount;
 	ImageFormat format;
 	LoadOperation load;

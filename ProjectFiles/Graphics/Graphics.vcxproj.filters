@@ -165,6 +165,9 @@
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderContext.hpp">
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderContextUtilities.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderContext.cpp">
       <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\RenderContextUtilities.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,6 +4,8 @@
 #include "Scene/GameWorld.hpp"
 #include "Math/IntVector2.hpp"
 
+#include "Engine/FrameRenderTargets.hpp"
+
 class Window;
 class ProfilerStatistics;
 namespace UI
@@ -36,13 +38,13 @@ public:
 	void GatherFrameMetrics();
 
 private:
-	void InitializeGraphics();
 	void SetupWindowContext(Window& window);
 	void InitializeSceneView();
 
 	void RenderFrame();
 
 private:
+	FrameRenderTargets engineTargets;
 	UniquePtr<GameWorld> world;
 	UniquePtr<Viewport> viewport;
 	UniquePtr<GameInput> gameInput;

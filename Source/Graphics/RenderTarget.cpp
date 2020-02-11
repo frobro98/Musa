@@ -6,10 +6,13 @@ RenderTargetDescription CreateRenderTargetDescription(const DynamicArray<RenderT
 	// TODO - Check can be made in a more compile time way
 	Assert(colorTargets.Size() <= GBufferCount);
 	AssertFunc([&] {
-		Extents2D targetExtents = colorTargets[0]->dimensions;
+		uint32 width = colorTargets[0]->width;
+		uint32 height = colorTargets[0]->height;
 		for (uint32 i = 1; i < colorTargets.Size(); ++i)
 		{
-			if (targetExtents != colorTargets[i]->dimensions)
+			RenderTarget* rt = colorTargets[i];
+			if (width != rt->width || 
+				height != rt->height)
 				return false;
 		}
 		return true;
@@ -49,10 +52,13 @@ NativeRenderTargets CreateNativeRenderTargets(const DynamicArray<RenderTarget*>&
 	// TODO - Check can be made in a more compile time way
 	Assert(colorTargets.Size() <= GBufferCount);
 	AssertFunc([&] {
-		Extents2D targetExtents = colorTargets[0]->dimensions;
+		uint32 width = colorTargets[0]->width;
+		uint32 height = colorTargets[0]->height;
 		for (uint32 i = 1; i < colorTargets.Size(); ++i)
 		{
-			if (targetExtents != colorTargets[i]->dimensions)
+			RenderTarget* rt = colorTargets[i];
+			if (width != rt->width ||
+				height != rt->height)
 				return false;
 		}
 		return true;

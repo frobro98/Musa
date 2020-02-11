@@ -21,6 +21,7 @@
 
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
+#include "Graphics/RenderContextUtilities.hpp"
 
 #include "Shader/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/UnlitShading.hpp"
@@ -43,6 +44,66 @@ METRIC_STAT(Update, Engine);
 METRIC_STAT(Render, Engine);
 //METRIC_STAT(GatherMetrics, Engine);
 
+static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
+{
+	if (!gbuffer.positionTexture)
+	{
+		gbuffer.positionTexture = CreateRenderTarget(
+			ImageFormat::RGBA_16f,
+			width, height,
+			LoadOperation::Clear, StoreOperation::Store,
+			LoadOperation::DontCare, StoreOperation::DontCare
+		);
+	}
+	if (!gbuffer.normalTexture)
+	{
+		gbuffer.normalTexture = CreateRenderTarget(
+			ImageFormat::RGBA_16f,
+			width, height,
+			LoadOperation::Clear, StoreOperation::Store,
+			LoadOperation::DontCare, StoreOperation::DontCare
+		);
+	}
+	if (!gbuffer.diffuseTexture)
+	{
+		gbuffer.diffuseTexture = CreateRenderTarget(
+			ImageFormat::RGBA_8norm,
+			width, height,
+			LoadOperation::Clear, StoreOperation::Store,
+			LoadOperation::DontCare, StoreOperation::DontCare
+		);
+	}
+}
+
+static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, uint32 width, uint32 height)
+{
+	if (sceneTargets.sceneColorTexture)
+	{
+		sceneTargets.sceneColorTexture = CreateRenderTarget(
+			ImageFormat::RGBA_8norm,
+			width, height,
+			LoadOperation::Clear, StoreOperation::Store,
+			LoadOperation::DontCare, StoreOperation::DontCare
+		);
+	}
+	if (sceneTargets.depthTexture)
+	{
+		sceneTargets.depthTexture = CreateRenderTarget(
+			ImageFormat::DS_32f_8u,
+			width, height,
+			LoadOperation::Clear, StoreOperation::Store,
+			LoadOperation::DontCare, StoreOperation::DontCare
+		);
+	}
+}
+
+static void InitializeFrameRenderTargets(FrameRenderTargets& renderTargets, const Viewport& viewport)
+{
+	uint32 width = viewport.GetWidth(), height = viewport.GetHeight();
+	InitializeGBuffer(renderTargets.gbuffer, width, height);
+	InitializeSceneTargets(renderTargets.sceneTargets, width, height);
+}
+
 MusaEngine::MusaEngine(UI::Context& context)
 	: uiContext(&context)
 {
@@ -51,7 +112,6 @@ MusaEngine::MusaEngine(UI::Context& context)
 
 void MusaEngine::StartupEngine(Window& window)
 {
-	InitializeGraphics();
 	SetupWindowContext(window);
 	InitializeSceneView();
 }
@@ -61,15 +121,6 @@ void MusaEngine::ShutdownEngine()
 	gameInput.Reset();
 	world.Reset();
 	viewport.Reset();
-
-	GetGraphicsInterface().DeinitializeGraphics();
-}
-
-void MusaEngine::InitializeGraphics()
-{
-	GetGraphicsInterface().InitializeGraphics();
-
-	InitializeShaders();
 }
 
 void MusaEngine::SetupWindowContext(Window& window)
@@ -314,8 +365,9 @@ void MusaEngine::GatherFrameMetrics()
 
 void MusaEngine::RenderFrame()
 {
+	InitializeFrameRenderTargets(engineTargets, *viewport);
 	world->RenderWorld(*viewport);
-	RenderUI(*uiContext);
+	//RenderUI(*uiContext);
 
 	// Need a way to compose everything to the backbuffer
 }

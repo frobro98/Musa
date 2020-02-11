@@ -8,4 +8,4 @@ struct SceneRenderTargets;
 struct View;
 class RenderContext;
 
-void RenderLights(RenderContext& renderer, const DynamicArray<Light>& lights, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view);
+void RenderLights(RenderContext& renderer, const DynamicArray<Light*>& lights, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view);

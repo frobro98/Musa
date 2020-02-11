@@ -1,0 +1,13 @@
+#pragma once
+
+#include "Types/UniquePtr.hpp"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Scene/GBufferTargets.hpp"
+#include "Scene/SceneRenderTargets.hpp"
+
+struct FrameRenderTargets
+{
+	GBuffer gbuffer;
+	SceneRenderTargets sceneTargets;
+	UniquePtr<RenderTarget> userInterfaceTarget;
+};

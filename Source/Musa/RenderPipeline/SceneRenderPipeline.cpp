@@ -1,5 +1,9 @@
 
 #include "SceneRenderPipeline.h"
+#include "LightingPipeline.hpp"
+
+#include "Scene/GBufferTargets.hpp"
+#include "Scene/SceneRenderTargets.hpp"
 
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
@@ -32,6 +36,7 @@
 #include "BatchPrimitives.hpp"
 #include "UserInterfacePipeline.hpp"
 #include "LightingPipeline.hpp"
+#include "Graphics/RenderContextUtilities.hpp"
 
 #include "Debugging/MetricInterface.hpp"
 
@@ -42,6 +47,20 @@ METRIC_STAT(NormalMapRender, SceneRender);
 METRIC_STAT(BaseRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
 METRIC_STAT(TextDisplayRender, SceneRender);
+
+void RenderSceneDeferred(RenderContext& renderContext, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
+{
+	// Render to gbuffer
+
+	// Do any special rendering for the scene here as well
+
+	// Render lighting 
+	DynamicArray<Light*> lights;
+	RenderLights(renderContext, lights, gbuffer, sceneColorTexture, view);
+
+	// Compose lit and unlit onto scene color target
+
+}
 
 static void ConstructScreenGraphicsDescription(const RenderContext& renderer, GraphicsPipelineDescription& desc)
 {
@@ -468,38 +487,6 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	RenderGBUffersToScreen(renderer, scene, view);
 
 	TransitionTargetsToRead(renderer, backBufferTarget);
-}
-
-void SceneRenderPipeline::TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targets)
-{
-	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
-	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
-	uint32 i;
-	for (i = 0; i < targets.numColorTargets; ++i)
-	{
-		gbufferTargets[i] = targets.colorTargets[i];
-	}
-	if (targets.depthTarget)
-	{
-		gbufferTargets[i] = targets.depthTarget;
-	}
-	renderer.TransitionToReadState(gbufferTargets.GetData(), gbufferTargets.Size());
-}
-
-void SceneRenderPipeline::TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targets)
-{
-	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
-	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
-	uint32 i;
-	for (i = 0; i < targets.numColorTargets; ++i)
-	{
-		gbufferTargets[i] = targets.colorTargets[i];
-	}
-	if (targets.depthTarget)
-	{
-		gbufferTargets[i] = targets.depthTarget;
-	}
-	renderer.TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
 void SceneRenderPipeline::SetViewportAndScissor(RenderContext& renderer, const View& view) const
@@ -955,3 +942,4 @@ ComputeEntity& SceneRendering::BuildComputeCommandBuffer(Model& model)
 	return *entity;
 }
 //*/
+
