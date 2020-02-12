@@ -4,6 +4,7 @@
 
 #include "Types/UniquePtr.hpp"
 #include "Graphics/RenderTarget.hpp"
+#include "Graphics/GraphicsResourceFlags.hpp"
 
 class RenderContext;
 struct NativeRenderTargets;
@@ -15,6 +16,7 @@ UniquePtr<RenderTarget> CreateRenderTarget(
 	ImageFormat format, 
 	uint32 width, uint32 height,
 	LoadOperation loadOp, StoreOperation storeOp,
-	LoadOperation stencilLoadOp, StoreOperation stencilStoreOp
+	LoadOperation stencilLoadOp, StoreOperation stencilStoreOp,
+	TextureUsage::Type usage
 );
 

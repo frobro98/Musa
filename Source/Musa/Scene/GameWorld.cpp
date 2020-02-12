@@ -6,6 +6,7 @@
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Camera/CameraManager.h"
+#include "Engine/FrameRenderTargets.hpp"
 
 void InitializeRenderTarget(GraphicsPipelineDescription& init)
 {
@@ -71,9 +72,9 @@ void GameWorld::PushToRenderState()
 	renderObjectManager->SequenciallyPull();
 }
 
-void GameWorld::RenderWorld(Viewport& viewport)
+void GameWorld::RenderWorld(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, Viewport& viewport)
 {
-	scene->RenderScene(*renderObjectManager, viewport);
+	scene->RenderScene(gbuffer, sceneTargets, *renderObjectManager, viewport);
 }
 
 void GameWorld::RegisterRenderInfo(const GameObject& go, MeshRenderInfo& renderInfo)

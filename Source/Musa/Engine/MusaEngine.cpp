@@ -52,7 +52,8 @@ static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
 			ImageFormat::RGBA_16f,
 			width, height,
 			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare
+			LoadOperation::DontCare, StoreOperation::DontCare,
+			TextureUsage::RenderTarget
 		);
 	}
 	if (!gbuffer.normalTexture)
@@ -61,7 +62,8 @@ static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
 			ImageFormat::RGBA_16f,
 			width, height,
 			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare
+			LoadOperation::DontCare, StoreOperation::DontCare,
+			TextureUsage::RenderTarget
 		);
 	}
 	if (!gbuffer.diffuseTexture)
@@ -70,29 +72,32 @@ static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
 			ImageFormat::RGBA_8norm,
 			width, height,
 			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare
+			LoadOperation::DontCare, StoreOperation::DontCare,
+			TextureUsage::RenderTarget
 		);
 	}
 }
 
 static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, uint32 width, uint32 height)
 {
-	if (sceneTargets.sceneColorTexture)
+	if (!sceneTargets.sceneColorTexture)
 	{
 		sceneTargets.sceneColorTexture = CreateRenderTarget(
 			ImageFormat::RGBA_8norm,
 			width, height,
 			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare
+			LoadOperation::DontCare, StoreOperation::DontCare,
+			TextureUsage::RenderTarget
 		);
 	}
-	if (sceneTargets.depthTexture)
+	if (!sceneTargets.depthTexture)
 	{
 		sceneTargets.depthTexture = CreateRenderTarget(
 			ImageFormat::DS_32f_8u,
 			width, height,
 			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare
+			LoadOperation::DontCare, StoreOperation::DontCare,
+			TextureUsage::DepthStencilTarget
 		);
 	}
 }
@@ -366,7 +371,8 @@ void MusaEngine::GatherFrameMetrics()
 void MusaEngine::RenderFrame()
 {
 	InitializeFrameRenderTargets(engineTargets, *viewport);
-	world->RenderWorld(*viewport);
+
+	world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *viewport);
 	//RenderUI(*uiContext);
 
 	// Need a way to compose everything to the backbuffer

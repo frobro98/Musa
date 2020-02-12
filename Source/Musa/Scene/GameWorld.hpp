@@ -11,6 +11,8 @@
 class Scene;
 class Window;
 struct MeshRenderInfo;
+struct GBuffer;
+struct SceneRenderTargets;
 
 // This will contain the main scene that exists, as well as the physics
 class GameWorld final
@@ -22,7 +24,7 @@ public:
 	// These are just pass throughs right now
 	void TickWorld(float deltaTime);
 	void PushToRenderState();
-	void RenderWorld(Viewport& viewport);
+	void RenderWorld(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, Viewport& viewport);
 
 
 	// TODO - These functions are sort of hacky because I don't have a high level way of creating game objects yet. Working on it...

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-//#include "PCSTree/PCSTree.h"
 #include "GameObject/GameObject.h"
 #include "Graphics/RenderTargetDescription.hpp"
 
@@ -11,6 +10,8 @@ class Viewport;
 class RenderContext;
 class RenderObjectManager;
 struct MeshRenderInfo;
+struct GBuffer;
+struct SceneRenderTargets;
 
 class SceneRenderPipeline;
 
@@ -36,28 +37,14 @@ public:
 	void RemoveLightFromScene(Light& light);
 
 	void Tick(float deltaTime);
-	void RenderScene(RenderObjectManager& renderManager, Viewport& viewport);
+	void RenderScene(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, Viewport& viewport);
 	
 	void SetView(ScreenView& view);
 
-	inline RenderTargetDescription GetGBufferDescription() const { return gbufferTargets; }
-	NativeRenderTargets& GetGBufferTargets() { return gbufferTextures; }
-	inline const DynamicArray<MeshRenderInfo*> GetRenderInfo() const { return renderingInfo; }
 	inline const ScreenView& GetScreenView() const { return *view; }
 	inline Light** GetLights() { return lights; }
-	
-private:
-	void CreateGBuffer();
 
 private:
-	// TODO - GBuffer per scene doesn't really make any sense, but because there's only a single scene, it's aight for now
-	RenderTargetDescription gbufferTargets{};
-	NativeRenderTargets gbufferTextures{};
-
-	UniquePtr<NativeTexture> posTexture;
-	UniquePtr<NativeTexture> normalTexture;
-	UniquePtr<NativeTexture> diffuseTexture;
-	UniquePtr<NativeTexture> depthTexture;
 
 	//PCSTree<GameObject> sceneGraph;
 	DynamicArray<GameObject*> activeGameObjects;

@@ -1,10 +1,9 @@
 
 #include "RenderTarget.hpp"
 
-RenderTargetDescription CreateRenderTargetDescription(const DynamicArray<RenderTarget*>& colorTargets, const RenderTarget * depthTarget)
+RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget * depthTarget)
 {
 	// TODO - Check can be made in a more compile time way
-	Assert(colorTargets.Size() <= GBufferCount);
 	AssertFunc([&] {
 		uint32 width = colorTargets[0]->width;
 		uint32 height = colorTargets[0]->height;
@@ -21,6 +20,7 @@ RenderTargetDescription CreateRenderTargetDescription(const DynamicArray<RenderT
 	RenderTargetDescription desc = {};
 	uint32 numColorTargets = colorTargets.Size();
 	desc.numColorAttachments = numColorTargets;
+	desc.targetExtents = { (float32)colorTargets[0]->width,(float32)colorTargets[0]->height };
 	for (uint32 i = 0; i < numColorTargets; ++i)
 	{
 		RenderTarget* colorTarget = colorTargets[i];
@@ -43,14 +43,14 @@ RenderTargetDescription CreateRenderTargetDescription(const DynamicArray<RenderT
 		desc.depthAttachment.stencilStore = depthTarget->stencilStore;
 		desc.depthAttachment.sampleCount = depthTarget->sampleCount;
 	}
+	
 
 	return desc;
 }
 
-NativeRenderTargets CreateNativeRenderTargets(const DynamicArray<RenderTarget*>& colorTargets, const RenderTarget * depthTarget)
+NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget * depthTarget)
 {
 	// TODO - Check can be made in a more compile time way
-	Assert(colorTargets.Size() <= GBufferCount);
 	AssertFunc([&] {
 		uint32 width = colorTargets[0]->width;
 		uint32 height = colorTargets[0]->height;

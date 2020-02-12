@@ -15,6 +15,7 @@ struct View;
 struct NativeRenderTargets;
 struct GBuffer;
 struct SceneRenderTargets;
+struct RenderTargetDescription;
 
 void RenderSceneDeferred(RenderContext& renderContext, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view);
 
@@ -22,18 +23,18 @@ class SceneRenderPipeline
 {
 public:
 
-	void RenderScene(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const Viewport& viewport, const View& view);
+	void RenderScene(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, const Viewport& viewport, const View& view);
 
 private:
 // 	uint32 DetermineJobCount() const;
 // 	void SecondaryGBufferPass_Job(VulkanCommandBuffer& secondaryCmdBuffer, const View& view, VkFramebuffer framebufferHandle, VkRenderPass renderpassHandle, uint32 startRenderIndex, uint32 endRenderIndex) const;
 
 	//void ForwardRender(Scene& scene, const View& view);
-	void DeferredRender(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const Viewport& viewport, const View& view);
+	void DeferredRender(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, const Viewport& viewport, const View& view);
 
-	void RenderGBufferPass(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const View& view);
+	void RenderGBufferPass(RenderContext& renderer, const RenderTargetDescription& gbufferDesc, RenderObjectManager& renderManager, const View& view);
 	//void RenderShadowPass(Renderer& renderer, Scene& scene);
-	void RenderGBUffersToScreen(RenderContext& renderer, Scene& scene, const View& view);
+	void RenderGBUffersToScreen(RenderContext& renderer, Scene& scene, const NativeRenderTargets& targets, const View& view);
 
 	// TODO - This should become a helper function...
 	void SetViewportAndScissor(RenderContext& renderer, const View& view) const;

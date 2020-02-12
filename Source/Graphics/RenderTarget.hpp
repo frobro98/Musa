@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types/UniquePtr.hpp"
-#include "Containers/DynamicArray.hpp"
+#include "Containers/FixedArray.hpp"
 // TODO - This file needs to live in the Graphics library
 #include "Texture/ImageFormats.h"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
@@ -21,5 +21,5 @@ struct RenderTarget
 	StoreOperation stencilStore;
 };
 
-RenderTargetDescription CreateRenderTargetDescription(const DynamicArray<RenderTarget*>& colorTargets, const RenderTarget* depthTarget);
-NativeRenderTargets CreateNativeRenderTargets(const DynamicArray<RenderTarget*>& colorTargets, const RenderTarget* depthTarget);
+RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget* depthTarget);
+NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget* depthTarget);

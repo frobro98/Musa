@@ -36,7 +36,7 @@ void TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targ
 	renderer.TransitionToWriteState(gbufferTargets.GetData(), gbufferTargets.Size());
 }
 
-UniquePtr<RenderTarget> CreateRenderTarget(ImageFormat format, uint32 width, uint32 height, LoadOperation loadOp, StoreOperation storeOp, LoadOperation stencilLoadOp, StoreOperation stencilStoreOp)
+UniquePtr<RenderTarget> CreateRenderTarget(ImageFormat format, uint32 width, uint32 height, LoadOperation loadOp, StoreOperation storeOp, LoadOperation stencilLoadOp, StoreOperation stencilStoreOp, TextureUsage::Type usage)
 {
 	UniquePtr<RenderTarget> rt = MakeUnique<RenderTarget>();
 
@@ -49,7 +49,7 @@ UniquePtr<RenderTarget> CreateRenderTarget(ImageFormat format, uint32 width, uin
 	rt->stencilStore = stencilStoreOp;
 	rt->sampleCount = 1;
 
-	rt->nativeTarget = GetGraphicsInterface().CreateEmptyTexture2D(width, height, format, 1, TextureUsage::RenderTarget);
+	rt->nativeTarget = GetGraphicsInterface().CreateEmptyTexture2D(width, height, format, 1, usage);
 
 	return rt;
 }

@@ -205,9 +205,9 @@ void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 }
 //*/
 
-void SceneRenderPipeline::RenderScene(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
+void SceneRenderPipeline::RenderScene(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
 {
-	DeferredRender(renderer, scene, renderManager, viewport, view);
+	DeferredRender(renderer, scene, gbuffer, sceneTargets, renderManager, viewport, view);
 }
 
 void RenderWithNormalMap(RenderContext& renderer, const RenderObject& object, const View& view)
@@ -255,7 +255,7 @@ void RenderNormally(RenderContext& renderer, const RenderObject& object, const V
 	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
 }
 
-void SceneRenderPipeline::RenderGBufferPass(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const View& view)
+void SceneRenderPipeline::RenderGBufferPass(RenderContext& renderer, const RenderTargetDescription& gbufferDesc, RenderObjectManager& renderManager, const View& view)
 {
 	SCOPED_TIMED_BLOCK(BaseRenderPass);
 
@@ -268,7 +268,7 @@ void SceneRenderPipeline::RenderGBufferPass(RenderContext& renderer, Scene& scen
 		MaterialRenderInfo* matInfo = info->gpuRenderInfo->meshMaterial;
 
 		GraphicsPipelineDescription pipelineDesc;
-		ConstructPipelineDescription(scene.GetGBufferDescription(), pipelineDesc);
+		ConstructPipelineDescription(gbufferDesc, pipelineDesc);
 		pipelineDesc.vertexShader = matInfo->vertexShader;
 		pipelineDesc.fragmentShader = matInfo->fragmentShader;
 		renderer.SetGraphicsPipeline(pipelineDesc);
@@ -341,11 +341,9 @@ void SceneRenderPipeline::RenderGBufferPass(RenderContext& renderer, Scene& scen
 // 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *shadowMap.depthTextureResource->image);
 // }
 
-void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene& scene, const View& view)
+void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene& scene, const NativeRenderTargets& targets, const View& view)
 {
 	SCOPED_TIMED_BLOCK(RenderToScreen);
-
-	NativeRenderTargets& targets = scene.GetGBufferTargets();
 
 	SetViewportAndScissor(renderer, view);
 
@@ -434,11 +432,19 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene&
 // 	secondaryCmdBuffer.End();
 // }
 
-void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
+using RenderTargetList = FixedArray<RenderTarget*, GBufferCount + 1>;
+
+void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
 {
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
-	NativeRenderTargets& targets = scene.GetGBufferTargets();
+	RenderTargetList colorTargets;
+	colorTargets.Add(gbuffer.positionTexture.Get());
+	colorTargets.Add(gbuffer.normalTexture.Get());
+	colorTargets.Add(gbuffer.diffuseTexture.Get());
+	
+	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get());
+	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
 	
 	TransitionTargetsToWrite(renderer, targets);
 	DynamicArray<Color32> clearColors(targets.numColorTargets);
@@ -448,9 +454,9 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	{
 		clearColors[i] = Color32(.7f, .7f, .8f);
 	}
-	renderer.SetRenderTarget(scene.GetGBufferDescription(), targets, clearColors);
+	renderer.SetRenderTarget(gbufferDesc, targets, clearColors);
 
-	RenderGBufferPass(renderer, scene, renderManager, view);
+	RenderGBufferPass(renderer, gbufferDesc, renderManager, view);
 
 	RenderBatchedPrimitives(renderer, view);
 
@@ -484,7 +490,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 
 	renderer.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
 
-	RenderGBUffersToScreen(renderer, scene, view);
+	RenderGBUffersToScreen(renderer, scene, targets, view);
 
 	TransitionTargetsToRead(renderer, backBufferTarget);
 }
