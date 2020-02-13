@@ -19,7 +19,7 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTar
 
 	RenderTargetDescription desc = {};
 	uint32 numColorTargets = colorTargets.Size();
-	desc.numColorAttachments = numColorTargets;
+	desc.colorAttachments.Resize(numColorTargets);
 	desc.targetExtents = { (float32)colorTargets[0]->width,(float32)colorTargets[0]->height };
 	for (uint32 i = 0; i < numColorTargets; ++i)
 	{

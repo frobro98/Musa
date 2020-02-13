@@ -6,11 +6,11 @@
 
 VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTargetDescription& targets)
 // TODO - There isn't necessarily a depth attachment. Assuming there is, but needs to change later...
-	: attachments(targets.hasDepth ? targets.numColorAttachments + 1 : targets.numColorAttachments),
+	: attachments(targets.hasDepth ? targets.colorAttachments.Size() + 1 : targets.colorAttachments.Size()),
 	logicalDevice(&device)
 {
 
-	DynamicArray<VkAttachmentReference> attachmentRefs(targets.numColorAttachments);
+	DynamicArray<VkAttachmentReference> attachmentRefs(targets.colorAttachments.Size());
 	for (uint32 i = 0; i < attachmentRefs.Size(); ++i)
 	{
 		const RenderTargetAttachment& colorDescription = targets.colorAttachments[i];

@@ -251,7 +251,7 @@ void VulkanSwapchain::CacheSwapchainImages()
 
 void VulkanSwapchain::InitializeRenderTargets()
 {
-	targetDescription.numColorAttachments = 1;
+	targetDescription.colorAttachments.Resize(1);
 	targetDescription.targetExtents = { (float32)swapchainExtent.width, (float32)swapchainExtent.height };
 
 	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];

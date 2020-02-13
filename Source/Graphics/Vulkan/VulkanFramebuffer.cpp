@@ -21,7 +21,7 @@ VulkanFramebuffer::~VulkanFramebuffer()
 
 void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_)
 {
-	Assert(targetDesc.numColorAttachments == renderTextures.numColorTargets);
+	Assert(targetDesc.colorAttachments.Size() == renderTextures.numColorTargets);
 	nativeTargets = renderTextures;
 
 	uint32 targetCount = targetDesc.hasDepth ? nativeTargets.numColorTargets + 1 : nativeTargets.numColorTargets;

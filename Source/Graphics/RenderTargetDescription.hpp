@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types/Intrinsics.hpp"
+#include "Containers/FixedArray.hpp"
 #include "Extents.hpp"
 #include "FNV-1a.h"
 #include "MemoryUtilities.h"
@@ -32,20 +33,18 @@ struct RenderTargetAttachment
 
 struct RenderTargetDescription
 {
-	RenderTargetAttachment colorAttachments[GBufferCount];
+	FixedArray<RenderTargetAttachment, GBufferCount> colorAttachments;
 	RenderTargetAttachment depthAttachment;
 	Extents2D targetExtents;
-	uint32 numColorAttachments = 0;
 	bool hasDepth = true;
 
 	friend bool operator==(const RenderTargetDescription& lhs, const RenderTargetDescription& rhs)
 	{
-		bool result = lhs.numColorAttachments == rhs.numColorAttachments &&
+		bool result = lhs.colorAttachments.Size() == rhs.colorAttachments.Size() &&
 			lhs.depthAttachment == rhs.depthAttachment;
 		if (result)
 		{
-			uint32 numColorAttachments = lhs.numColorAttachments;
-			for (uint32 i = 0; i < numColorAttachments; ++i)
+			for (uint32 i = 0; i < lhs.colorAttachments.Size(); ++i)
 			{
 				result &= lhs.colorAttachments[i] == rhs.colorAttachments[i];
 			}
@@ -69,14 +68,12 @@ inline uint32 GetHash(const RenderTargetDescription& desc)
 {
 	struct HashableTargetDescription
 	{
-		RenderTargetAttachment colorDescs[GBufferCount];
+		FixedArray<RenderTargetAttachment, GBufferCount> colorDescs;
 		RenderTargetAttachment depthDesc;
-		uint32 targetCount;
 	} hashDesc;
-
-	Memcpy(hashDesc.colorDescs, sizeof(hashDesc.colorDescs), desc.colorAttachments, sizeof(desc.colorAttachments));
+	hashDesc.colorDescs.Resize(desc.colorAttachments.Size());
+	Memcpy(hashDesc.colorDescs.GetData(), sizeof(hashDesc.colorDescs), desc.colorAttachments.GetData(), sizeof(desc.colorAttachments));
 	Memcpy(&hashDesc.depthDesc, sizeof(hashDesc.depthDesc), &desc.depthAttachment, sizeof(desc.depthAttachment));
-	hashDesc.targetCount = desc.numColorAttachments;
 
 	return fnv(&hashDesc, sizeof(HashableTargetDescription));
 }

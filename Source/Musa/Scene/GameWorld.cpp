@@ -11,6 +11,7 @@
 void InitializeRenderTarget(GraphicsPipelineDescription& init)
 {
 	RenderTargetDescription desc = {};
+	desc.colorAttachments.Resize(1);
 	
 	desc.colorAttachments[0].format = ImageFormat::RGBA_8u;
 	desc.colorAttachments[0].load = LoadOperation::Clear;
@@ -25,7 +26,6 @@ void InitializeRenderTarget(GraphicsPipelineDescription& init)
 	desc.depthAttachment.stencilStore = StoreOperation::DontCare;
 
 	desc.hasDepth = true;
-	desc.numColorAttachments = 1;
 
 	init.renderTargets = desc;
 }

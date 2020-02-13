@@ -79,7 +79,7 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 	desc.renderTargets = targetDesc;
 	desc.vertexInputs = GetVertexInput<Vertex>();
 	desc.rasterizerDesc = RasterDesc();
-	for (uint32 i = 0; i < desc.renderTargets.numColorAttachments; ++i)
+	for (uint32 i = 0; i < desc.renderTargets.colorAttachments.Size(); ++i)
 	{
 		desc.blendingDescs[i] = BlendDesc();
 	}
@@ -145,7 +145,6 @@ constexpr uint32 ShadowMapHeight = 1024;
 RenderTargetDescription GetShadowMapTargetDescription()
 {
 	RenderTargetDescription targetDesc = {};
-	targetDesc.numColorAttachments = 0;
 	targetDesc.targetExtents = { static_cast<float32>(ShadowMapWidth), static_cast<float32>(ShadowMapHeight) };
 
 	RenderTargetAttachment& depthDesc = targetDesc.depthAttachment;
@@ -474,7 +473,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	backBufferTarget.numColorTargets = 1;
 
 	RenderTargetDescription targetDescription = {};
-	targetDescription.numColorAttachments = 1;
+	targetDescription.colorAttachments.Resize(1);
 	targetDescription.targetExtents = { (float32)viewport.GetWidth(), (float32)viewport.GetHeight() };
 	targetDescription.hasDepth = false;
 

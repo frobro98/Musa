@@ -166,7 +166,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	depthStencilInfo.depthCompareOp = MusaCompareOpToVk(init.depthStencilTestDesc.depthCompareOp);
 
 	// Blending states
-	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(init.renderTargets.numColorAttachments);
+	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(init.renderTargets.colorAttachments.Size());
 	for (uint32 i = 0; i < colorBlendAttachments.Size(); ++i)
 	{
 		BlendingDescription& desc = init.blendingDescs[i];

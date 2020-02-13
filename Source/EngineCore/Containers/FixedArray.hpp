@@ -12,6 +12,9 @@ public:
 	using referenceType = ElemType&;
 	using pointerType = ElemType*;
 public:
+	FixedArray() = default;
+	FixedArray(uint32 startSize);
+
 	template<typename AddType>
 	void Add(AddType&& elem);
 	void RemoveAt(uint32 index, uint32 count = 1);
@@ -19,12 +22,15 @@ public:
 	template<typename AddType>
 	[[nodiscard]] bool TryAdd(AddType&& elem);
 
+	void Resize(uint32 newSize);
+
 	[[nodiscard]] bool IsEmpty() const;
 
 	[[nodiscard]] uint32 Size() const;
 	[[nodiscard]] constexpr uint32 Capacity() const;
 
-	[[nodiscard]] ElemType* GetData() const;
+	[[nodiscard]] ElemType* GetData();
+	[[nodiscard]] const ElemType* GetData() const;
 
 	// TODO - Find? Sort? Contains?
 
@@ -77,12 +83,31 @@ inline bool FixedArray<ElemType, capacity>::TryAdd(AddType&& elem)
 }
 
 template<typename ElemType, uint32 capacity>
+inline FixedArray<ElemType, capacity>::FixedArray(uint32 startSize)
+	: size(startSize)
+{
+	Assert(startSize <= capacity);
+}
+
+template<typename ElemType, uint32 capacity>
 inline void FixedArray<ElemType, capacity>::RemoveAt(uint32 index, uint32 count)
 {
 	Assert(index + count < size);
 	Destroy(index, count);
 	MoveBackAt(index, count);
 	size -= count;
+}
+
+template<typename ElemType, uint32 capacity>
+inline void FixedArray<ElemType, capacity>::Resize(uint32 newSize)
+{
+	Assert(newSize <= capacity);
+	if (size > newSize)
+	{
+		uint32 destroyCount = newSize - size;
+		Destroy(newSize, destroyCount);
+	}
+	size = newSize;
 }
 
 template<typename ElemType, uint32 capacity>
@@ -104,7 +129,13 @@ inline constexpr uint32 FixedArray<ElemType, capacity>::Capacity() const
 }
 
 template<typename ElemType, uint32 capacity>
-inline ElemType* FixedArray<ElemType, capacity>::GetData() const
+inline ElemType* FixedArray<ElemType, capacity>::GetData()
+{
+	return data;
+}
+
+template<typename ElemType, uint32 capacity>
+inline const ElemType * FixedArray<ElemType, capacity>::GetData() const
 {
 	return data;
 }
@@ -112,12 +143,14 @@ inline ElemType* FixedArray<ElemType, capacity>::GetData() const
 template<typename ElemType, uint32 capacity>
 inline ElemType& FixedArray<ElemType, capacity>::operator[](uint32 index)
 {
+	Assert(index < size);
 	return data[index];
 }
 
 template<typename ElemType, uint32 capacity>
 inline const ElemType& FixedArray<ElemType, capacity>::operator[](uint32 index) const
 {
+	Assert(index < size);
 	return data[index];
 }
 
@@ -125,7 +158,7 @@ template<typename ElemType, uint32 capacity>
 inline void FixedArray<ElemType, capacity>::Destroy(uint32 index, uint32 count)
 {
 	Assert(index + count < size);
-	DestroyRange(data[index], data[index + count]);
+	DestroyRange(&data[index], &data[index + count]);
 	MoveBackAt(index, count);
 }
 
