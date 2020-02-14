@@ -292,6 +292,7 @@ void BatchCollection::RenderTriangleBatches(RenderContext& renderer, const Shade
 		pipelineDesc.blendingDescs[0] = BlendDesc();
 		pipelineDesc.blendingDescs[1] = BlendDesc();
 		pipelineDesc.blendingDescs[2] = BlendDesc();
+		pipelineDesc.blendingDescs[3] = BlendDesc();
 		pipelineDesc.topology = PrimitiveTopology::TriangleList;
 		pipelineDesc.depthStencilTestDesc = DepthTestDesc();
 		pipelineDesc.rasterizerDesc = RasterDesc<FillMode::Full, CullingMode::None>();

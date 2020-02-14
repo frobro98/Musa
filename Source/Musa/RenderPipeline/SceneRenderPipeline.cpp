@@ -479,7 +479,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	targetDescription.hasDepth = false;
 
 	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-	colorDesc.format = ImageFormat::RGBA_8norm;
+	colorDesc.format = ImageFormat::BGRA_8norm;
 	colorDesc.load = LoadOperation::Clear;
 	colorDesc.store = StoreOperation::Store;
 	colorDesc.stencilLoad = LoadOperation::DontCare;
