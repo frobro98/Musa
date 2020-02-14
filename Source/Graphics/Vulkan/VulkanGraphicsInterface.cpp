@@ -25,13 +25,20 @@
 #include "VulkanDescriptorLayoutManager.h"
 
 constexpr const tchar* validationLayers[] = {
-	"VK_LAYER_LUNARG_core_validation"
+	"VK_LAYER_GOOGLE_threading",
+	"VK_LAYER_LUNARG_parameter_validation",
+	"VK_LAYER_LUNARG_object_tracker",
+	"VK_LAYER_LUNARG_image",
+	"VK_LAYER_LUNARG_core_validation",
+	"VK_LAYER_LUNARG_swapchain",
+	"VK_LAYER_GOOGLE_unique_objects"
 };
 
 constexpr const tchar* instanceExtensions[] = {
 	VK_KHR_SURFACE_EXTENSION_NAME,
 	VK_PLATFORM_SURFACE_EXTENSION,
-	VK_EXT_DEBUG_REPORT_EXTENSION_NAME
+	VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
+	"VK_EXT_debug_utils"
 };
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
