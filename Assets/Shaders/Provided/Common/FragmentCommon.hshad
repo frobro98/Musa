@@ -33,9 +33,10 @@ layout(location = 2) in vec2 TexCoords;
 layout(location = 3) in vec3 Tangent;
 
 #if USE_GBUFFER
-layout(location = 0) out vec4 position;
-layout(location = 1) out vec4 normal;
-layout(location = 2) out vec4 diffuseAlbedo;
+layout(location = 0) out vec4 outColor;
+layout(location = 1) out vec4 position;
+layout(location = 2) out vec4 normal;
+layout(location = 3) out vec4 diffuseAlbedo;
 #endif
 
 vec4 CalculateGBufferNormal()

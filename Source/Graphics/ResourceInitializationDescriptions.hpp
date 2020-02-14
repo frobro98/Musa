@@ -246,7 +246,7 @@ struct GraphicsPipelineDescription
 	RenderTargetDescription renderTargets;
 	// Pipeline Information --> API implementation dependent apparently
 	RasterizerDescription rasterizerDesc;
-	BlendingDescription blendingDescs[GBufferCount];
+	BlendingDescription blendingDescs[MaxColorTargetCount];
 	DepthStencilTestingDescription depthStencilTestDesc;
 	VertexInputDescriptionList vertexInputs{};
 	const ShaderResource* vertexShader = nullptr;

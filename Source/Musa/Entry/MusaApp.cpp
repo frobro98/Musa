@@ -34,6 +34,7 @@ void MusaApp::LaunchApplication()
 	// TODO - Shutdown stuff for the application...
 	TearDownGameEngine();
 
+	// TODO - image views are trying to be destroyed when still in use by command buffer in flight...
 	GetGraphicsInterface().DeinitializeGraphics();
 	
 }

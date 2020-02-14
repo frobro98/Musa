@@ -353,9 +353,9 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene&
 	Light* light = scene.GetLights()[0];
 	LightDescription lightDesc = light->GetLightDescription();
 
-	for (uint32 i = 0; i < targets.colorTargets.Size(); ++i)
+	for (uint32 i = 1; i < targets.colorTargets.Size(); ++i)
 	{
-		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i);
+		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i - 1);
 	}
 
 	LightProperties properties = {};
@@ -438,7 +438,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
 	RenderTargetList colorTargets;
-	//colorTargets.Add(sceneTargets.sceneColorTexture);
+	colorTargets.Add(sceneTargets.sceneColorTexture.Get());
 	colorTargets.Add(gbuffer.positionTexture.Get());
 	colorTargets.Add(gbuffer.normalTexture.Get());
 	colorTargets.Add(gbuffer.diffuseTexture.Get());
@@ -450,7 +450,8 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	DynamicArray<Color32> clearColors(targets.colorTargets.Size());
 	clearColors[0] = Color32(0, 0, 0);
 	clearColors[1] = Color32(0, 0, 0);
-	for (uint32 i = 2; i < clearColors.Size(); ++i)
+	clearColors[2] = Color32(0, 0, 0);
+	for (uint32 i = 3; i < clearColors.Size(); ++i)
 	{
 		clearColors[i] = Color32(.7f, .7f, .8f);
 	}
