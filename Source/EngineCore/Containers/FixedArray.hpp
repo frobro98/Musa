@@ -56,6 +56,55 @@ private:
 
 	void MoveBackAt(uint32 index, uint32 count);
 
+public:
+	class Iterator final
+	{
+	public:
+		Iterator(FixedArray<ElemType, capacity>& arr)
+			: arrData(arr.GetData()),
+			size(arr.Size())
+		{
+		}
+
+		Iterator(nullptr_t)
+			: arrData(nullptr),
+			size(0)
+		{
+		}
+
+		Iterator& operator++()
+		{
+			if (index < size)
+			{
+				++index;
+			}
+			else
+			{
+				arrData = nullptr;
+			}
+			return *this;
+		}
+
+		bool operator!=(const Iterator& other)
+		{
+			return arrData != other.arrData;
+		}
+
+		ElemType& operator*()
+		{
+			return arrData[index];
+		}
+
+	private:
+		ElemType* arrData;
+		const uint32 size;
+		uint32 index = 0;
+	};
+
+private:
+	friend Iterator begin(FixedArray<ElemType, capacity>& arr) { return Iterator(arr); }
+	friend Iterator end(FixedArray<ElemType, capacity>&) { return Iterator(nullptr); }
+
 private:
 	ElemType data[capacity] = {};
 	uint32 size = 0;

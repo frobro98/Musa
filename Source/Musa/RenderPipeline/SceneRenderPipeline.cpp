@@ -353,7 +353,7 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene&
 	Light* light = scene.GetLights()[0];
 	LightDescription lightDesc = light->GetLightDescription();
 
-	for (uint32 i = 0; i < targets.numColorTargets; ++i)
+	for (uint32 i = 0; i < targets.colorTargets.Size(); ++i)
 	{
 		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i);
 	}
@@ -438,6 +438,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
 	RenderTargetList colorTargets;
+	//colorTargets.Add(sceneTargets.sceneColorTexture);
 	colorTargets.Add(gbuffer.positionTexture.Get());
 	colorTargets.Add(gbuffer.normalTexture.Get());
 	colorTargets.Add(gbuffer.diffuseTexture.Get());
@@ -446,7 +447,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
 	
 	TransitionTargetsToWrite(renderer, targets);
-	DynamicArray<Color32> clearColors(targets.numColorTargets);
+	DynamicArray<Color32> clearColors(targets.colorTargets.Size());
 	clearColors[0] = Color32(0, 0, 0);
 	clearColors[1] = Color32(0, 0, 0);
 	for (uint32 i = 2; i < clearColors.Size(); ++i)
@@ -469,8 +470,7 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	clearColors = { Color32(0, 0, 0) };
 	NativeTexture* backBuffer = renderer.GetBackBuffer();
 	NativeRenderTargets backBufferTarget = {};
-	backBufferTarget.colorTargets[0] = backBuffer;
-	backBufferTarget.numColorTargets = 1;
+	backBufferTarget.colorTargets.Add(backBuffer);
 
 	RenderTargetDescription targetDescription = {};
 	targetDescription.colorAttachments.Resize(1);

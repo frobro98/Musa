@@ -1,7 +1,7 @@
 
 #include "RenderTarget.hpp"
 
-RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget * depthTarget)
+RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget)
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
@@ -48,7 +48,7 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTar
 	return desc;
 }
 
-NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget * depthTarget)
+NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget * depthTarget)
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
@@ -66,7 +66,7 @@ NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, GB
 
 	NativeRenderTargets targets = {};
 	uint32 numColorTargets = colorTargets.Size();
-	targets.numColorTargets = numColorTargets;
+	targets.colorTargets.Resize(numColorTargets);
 	for (uint32 i = 0; i < numColorTargets; ++i)
 	{
 		targets.colorTargets[i] = colorTargets[i]->nativeTarget.Get();

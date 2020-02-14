@@ -25,7 +25,7 @@
 #include "VulkanDescriptorLayoutManager.h"
 
 constexpr const tchar* validationLayers[] = {
-	"VK_LAYER_LUNARG_standard_validation"
+	"VK_LAYER_LUNARG_core_validation"
 };
 
 constexpr const tchar* instanceExtensions[] = {
@@ -247,10 +247,16 @@ void VulkanGraphicsInterface::CreateInstance()
 		VK_DEBUG_REPORT_ERROR_BIT_EXT |
 		VK_DEBUG_REPORT_DEBUG_BIT_EXT;
 
+	uint32 layerCount;
+	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+	DynamicArray<VkLayerProperties> availableLayers(layerCount);
+	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.GetData());
+
 	VkDebugReportCallbackCreateInfoEXT debugInfo = Vk::DebugReportCallbackInfo(VulkanDebugCallback, debugFlags, this);
 	VkInstanceCreateInfo instanceInfo = Vk::InstanceInfo(validationLayers, ArraySize(validationLayers),
 		instanceExtensions, ArraySize(instanceExtensions), &debugInfo);
-	vkCreateInstance(&instanceInfo, nullptr, &instance);
+	VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
+	CHECK_VK(result);
 
 	// Trying to get around warnings
 #ifdef _DEBUG
@@ -260,5 +266,6 @@ void VulkanGraphicsInterface::CreateInstance()
 	vkDestroyDebugReportCallbackEXT = reinterpret_cast<vk_destroy_debug_report>(destroyDebugFunc);
 #endif
 
-	vkCreateDebugReportCallbackEXT(instance, &debugInfo, nullptr, &debugReportHandle);
+	result = vkCreateDebugReportCallbackEXT(instance, &debugInfo, nullptr, &debugReportHandle);
+	CHECK_VK(result);
 }

@@ -6,10 +6,10 @@
 
 void TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targets)
 {
-	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
-	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
+	uint32 totalTargetCount = targets.depthTarget ? targets.colorTargets.Size() + 1 : targets.colorTargets.Size();
+	DynamicArray<const NativeTexture*> gbufferTargets(totalTargetCount);
 	uint32 i;
-	for (i = 0; i < targets.numColorTargets; ++i)
+	for (i = 0; i < targets.colorTargets.Size(); ++i)
 	{
 		gbufferTargets[i] = targets.colorTargets[i];
 	}
@@ -22,10 +22,10 @@ void TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targe
 
 void TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targets)
 {
-	uint32 targetCount = targets.depthTarget ? targets.numColorTargets + 1 : targets.numColorTargets;
-	DynamicArray<const NativeTexture*> gbufferTargets(targetCount);
+	uint32 totalTargetCount = targets.depthTarget ? targets.colorTargets.Size() + 1 : targets.colorTargets.Size();
+	DynamicArray<const NativeTexture*> gbufferTargets(totalTargetCount);
 	uint32 i;
-	for (i = 0; i < targets.numColorTargets; ++i)
+	for (i = 0; i < targets.colorTargets.Size(); ++i)
 	{
 		gbufferTargets[i] = targets.colorTargets[i];
 	}

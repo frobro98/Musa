@@ -21,5 +21,5 @@ struct RenderTarget
 	StoreOperation stencilStore;
 };
 
-RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget* depthTarget);
-NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, GBufferCount + 1>& colorTargets, const RenderTarget* depthTarget);
+RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget);
+NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget);

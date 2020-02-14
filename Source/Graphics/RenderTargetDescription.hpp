@@ -10,6 +10,7 @@
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 constexpr uint32 GBufferCount = 3;
+constexpr uint32 MaxColorTargetCount = 4;
 
 struct RenderTargetAttachment
 {
@@ -33,7 +34,7 @@ struct RenderTargetAttachment
 
 struct RenderTargetDescription
 {
-	FixedArray<RenderTargetAttachment, GBufferCount> colorAttachments;
+	FixedArray<RenderTargetAttachment, MaxColorTargetCount> colorAttachments;
 	RenderTargetAttachment depthAttachment;
 	Extents2D targetExtents;
 	bool hasDepth = true;
@@ -59,16 +60,15 @@ struct RenderTargetDescription
 // Allocated textures associated with a render texture
 struct NativeRenderTargets
 {
-	const NativeTexture* colorTargets[GBufferCount];
+	FixedArray<const NativeTexture*, MaxColorTargetCount> colorTargets;
 	const NativeTexture* depthTarget;
-	uint32 numColorTargets;
 };
 
 inline uint32 GetHash(const RenderTargetDescription& desc)
 {
 	struct HashableTargetDescription
 	{
-		FixedArray<RenderTargetAttachment, GBufferCount> colorDescs;
+		FixedArray<RenderTargetAttachment, MaxColorTargetCount> colorDescs;
 		RenderTargetAttachment depthDesc;
 	} hashDesc;
 	hashDesc.colorDescs.Resize(desc.colorAttachments.Size());
