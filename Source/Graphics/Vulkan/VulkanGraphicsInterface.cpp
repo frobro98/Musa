@@ -37,8 +37,7 @@ constexpr const tchar* validationLayers[] = {
 constexpr const tchar* instanceExtensions[] = {
 	VK_KHR_SURFACE_EXTENSION_NAME,
 	VK_PLATFORM_SURFACE_EXTENSION,
-	VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
-	"VK_EXT_debug_utils"
+	VK_EXT_DEBUG_REPORT_EXTENSION_NAME
 };
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
@@ -262,7 +261,7 @@ void VulkanGraphicsInterface::CreateInstance()
 	VkDebugReportCallbackCreateInfoEXT debugInfo = Vk::DebugReportCallbackInfo(VulkanDebugCallback, debugFlags, this);
 	VkInstanceCreateInfo instanceInfo = Vk::InstanceInfo(validationLayers, ArraySize(validationLayers),
 		instanceExtensions, ArraySize(instanceExtensions), &debugInfo);
-	VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
+	[[maybe_unused]] VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
 	CHECK_VK(result);
 
 	// Trying to get around warnings
@@ -271,8 +270,8 @@ void VulkanGraphicsInterface::CreateInstance()
 	void* destroyDebugFunc = vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
 	vkCreateDebugReportCallbackEXT = reinterpret_cast<vk_create_debug_report>(createDebugFunc);
 	vkDestroyDebugReportCallbackEXT = reinterpret_cast<vk_destroy_debug_report>(destroyDebugFunc);
-#endif
 
 	result = vkCreateDebugReportCallbackEXT(instance, &debugInfo, nullptr, &debugReportHandle);
 	CHECK_VK(result);
+#endif
 }

@@ -1,7 +1,7 @@
 
 #include "RenderTarget.hpp"
 
-RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget)
+RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget, RenderTargetAccess depthAccess)
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
@@ -42,6 +42,11 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTar
 		desc.depthAttachment.stencilLoad = depthTarget->stencilLoad;
 		desc.depthAttachment.stencilStore = depthTarget->stencilStore;
 		desc.depthAttachment.sampleCount = depthTarget->sampleCount;
+		desc.depthAttachment.access = depthAccess;
+	}
+	else
+	{
+		desc.hasDepth = false;
 	}
 	
 

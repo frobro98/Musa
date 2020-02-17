@@ -72,9 +72,9 @@ void GameWorld::PushToRenderState()
 	renderObjectManager->SequenciallyPull();
 }
 
-void GameWorld::RenderWorld(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, Viewport& viewport)
+void GameWorld::RenderWorld(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, Viewport& viewport)
 {
-	scene->RenderScene(gbuffer, sceneTargets, *renderObjectManager, viewport);
+	scene->RenderScene(gbuffer, sceneTargets, uiTarget, *renderObjectManager, viewport);
 }
 
 void GameWorld::RegisterRenderInfo(const GameObject& go, MeshRenderInfo& renderInfo)

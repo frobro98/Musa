@@ -12,6 +12,13 @@
 constexpr uint32 GBufferCount = 3;
 constexpr uint32 MaxColorTargetCount = 4;
 
+enum class RenderTargetAccess : uint32
+{
+	None,
+	Read,
+	Write
+};
+
 struct RenderTargetAttachment
 {
 	ImageFormat format;
@@ -20,6 +27,7 @@ struct RenderTargetAttachment
 	StoreOperation store;
 	StoreOperation stencilStore;
 	uint32 sampleCount;
+	RenderTargetAccess access;
 
 	friend bool operator==(const RenderTargetAttachment& lhs, const RenderTargetAttachment& rhs)
 	{

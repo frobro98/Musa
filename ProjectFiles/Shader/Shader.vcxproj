@@ -67,6 +67,7 @@
     <None Include="..\..\Assets\Shaders\Provided\colorSkinning.vert" />
     <None Include="..\..\Assets\Shaders\Provided\Common\FragmentCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\LightingCommon.hshad" />
+    <None Include="..\..\Assets\Shaders\Provided\Common\ScreenHelpers.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\UniformBufferCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\VertexCommon.hshad" />
     <None Include="..\..\Assets\Shaders\Provided\Common\VulkanCommon.hshad" />

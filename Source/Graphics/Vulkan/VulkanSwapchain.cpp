@@ -191,28 +191,28 @@ void VulkanSwapchain::CreateSwapchain()
 
 	// Set up presentation mode
 	VkPresentModeKHR presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
-	for (uint32 i = 0; i < presentModes.Size(); ++i)
-	{
-		// Only checking against the mode with lowest latency and still has V-Sync
-		//if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR)
-		//{
-		//	presentMode = presentModes[i];
-		//	break;
-		//}
-		//if(presentModes[i] == VK_PRESENT_MODE_FIFO_KHR)
-		//{
-		//	presentMode = presentModes[i];
-		//}
-		if (presentModes[i] == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
-		{
-			presentMode = presentModes[i];
-		}
-		else if (presentModes[i] == VK_PRESENT_MODE_IMMEDIATE_KHR)
-		{
-			presentMode = presentModes[i];
-			break;
-		}
-	}
+// 	for (uint32 i = 0; i < presentModes.Size(); ++i)
+// 	{
+// 		// Only checking against the mode with lowest latency and still has V-Sync
+// 		//if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR)
+// 		//{
+// 		//	presentMode = presentModes[i];
+// 		//	break;
+// 		//}
+// 		//if(presentModes[i] == VK_PRESENT_MODE_FIFO_KHR)
+// 		//{
+// 		//	presentMode = presentModes[i];
+// 		//}
+// 		if (presentModes[i] == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
+// 		{
+// 			presentMode = presentModes[i];
+// 		}
+// 		else if (presentModes[i] == VK_PRESENT_MODE_IMMEDIATE_KHR)
+// 		{
+// 			presentMode = presentModes[i];
+// 			break;
+// 		}
+// 	}
 
 	VkSwapchainCreateInfoKHR swapchainInfo = {};
 	swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;

@@ -102,11 +102,26 @@ static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, uint32 widt
 	}
 }
 
+static void InitializeUITarget(UniquePtr<RenderTarget>& uiTarget, uint32 width, uint32 height)
+{
+	if (!uiTarget)
+	{
+		uiTarget = CreateRenderTarget(
+			ImageFormat::RGBA_8norm,
+			width, height,
+			LoadOperation::Clear, StoreOperation::Store,
+			LoadOperation::DontCare, StoreOperation::DontCare,
+			TextureUsage::RenderTarget
+		);
+	}
+}
+
 static void InitializeFrameRenderTargets(FrameRenderTargets& renderTargets, const Viewport& viewport)
 {
 	uint32 width = viewport.GetWidth(), height = viewport.GetHeight();
 	InitializeGBuffer(renderTargets.gbuffer, width, height);
 	InitializeSceneTargets(renderTargets.sceneTargets, width, height);
+	InitializeUITarget(renderTargets.userInterfaceTarget, width, height);
 }
 
 MusaEngine::MusaEngine(UI::Context& context)
@@ -329,11 +344,11 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
-	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...
-	Light* light = world->CreateGameObject<SpotLight>();
-	light->SetPos(Vector4(100, 100, 100));
-	light->SetRotation(-40.f, 45.f, 0.f);
-	world->GetScene().AddLightToScene(*light);
+// 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...
+// 	Light* light = world->CreateGameObject<SpotLight>();
+// 	light->SetPos(Vector4(100, 100, 100));
+// 	light->SetRotation(-40.f, 45.f, 0.f);
+// 	world->GetScene().AddLightToScene(*light);
 }
 
 void MusaEngine::UnloadContent()
@@ -372,7 +387,7 @@ void MusaEngine::RenderFrame()
 {
 	InitializeFrameRenderTargets(engineTargets, *viewport);
 
-	world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *viewport);
+	world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *engineTargets.userInterfaceTarget, *viewport);
 	//RenderUI(*uiContext);
 
 	// Need a way to compose everything to the backbuffer

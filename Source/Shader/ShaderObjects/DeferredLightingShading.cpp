@@ -2,7 +2,7 @@
 #include "DeferredLightingShading.hpp"
 
 DEFINE_VERTEX_SHADER(DeferredLightingVert,
-	"Provided/ScreenRender.shad", "main",
+	"Provided/DeferredLightingRender.shad", "main",
 	InitializeCompiledShader);
 
 DEFINE_FRAGMENT_SHADER(DeferredLightingFrag,

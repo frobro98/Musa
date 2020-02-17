@@ -310,5 +310,8 @@
     <None Include="..\..\Assets\Shaders\Provided\DeferredLightingRender.shad">
       <Filter>ShaderSource\NewSource</Filter>
     </None>
+    <None Include="..\..\Assets\Shaders\Provided\Common\ScreenHelpers.hshad">
+      <Filter>ShaderSource\NewSource\Common</Filter>
+    </None>
   </ItemGroup>
 </Project>

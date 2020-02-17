@@ -1,5 +1,18 @@
 
-#if FRAG_SHADER
+#if VERT_SHADER
+
+// TODO - Should be in its own vertex shader file honestly...
+#include "Common/ScreenHelpers.hshad"
+
+layout(location = 0) out vec2 texCoords;
+
+void main() 
+{
+	texCoords = GetScreenTextureCoords(gl_VertexIndex);
+	gl_Position = TextureCoordsToClipSpace(texCoords);
+}
+
+#elif FRAG_SHADER
 
 #define VIEW_BOUND 3
 #include "Common/UniformBufferCommon.hshad"

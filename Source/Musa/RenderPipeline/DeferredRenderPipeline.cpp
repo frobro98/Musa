@@ -6,10 +6,10 @@
 #include "Engine/FrameRenderTargets.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
-void DeferredRender(const FrameRenderTargets& frameTargets, const View& view)
+void DeferredRender(const FrameRenderTargets& frameTargets, Scene& scene, const View& view)
 {
 	RenderContext* renderContext = GetGraphicsInterface().GetRenderContext();
 	Assert(renderContext);
-	RenderSceneDeferred(*renderContext, frameTargets.gbuffer, frameTargets.sceneTargets, view);
+	RenderSceneDeferred(*renderContext, scene, frameTargets.gbuffer, frameTargets.sceneTargets, view);
 }
 

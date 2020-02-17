@@ -91,34 +91,14 @@ void Scene::RemoveMeshInfoFromScene(MeshRenderInfo& obj)
 
 void Scene::AddLightToScene(Light& light)
 {
-	bool emptySlotFound = false;
-	for (uint32 i = 0; i < ArraySize(lights); ++i)
-	{
-		if (lights[i] == nullptr)
-		{
-			lights[i] = &light;
-			emptySlotFound = true;
-			break;
-		}
-	}
-
-	Assert(emptySlotFound);
+	Assert(lights.HasRoom());
+	lights.Add(&light);
 }
 
 void Scene::RemoveLightFromScene(Light& light)
 {
-	bool lightFound = false;
-	for (uint32 i = 0; i < ArraySize(lights); ++i)
-	{
-		if (lights[i] == &light)
-		{
-			lights[i] = nullptr;
-			lightFound = true;
-			break;
-		}
-	}
-
-	Assert(lightFound);
+	Light* lightPtr = &light;
+	lights.Remove(lightPtr);
 }
 
 void Scene::Tick(float deltaTime)
@@ -129,13 +109,13 @@ void Scene::Tick(float deltaTime)
 	}
 }
 
-void Scene::RenderScene(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, Viewport& viewport)
+void Scene::RenderScene(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, RenderObjectManager& renderManager, Viewport& viewport)
 {
 	BEGIN_TIMED_BLOCK(BeginRenderFrame);
 	renderer->BeginRenderFrame(viewport.GetNativeViewport());
 	END_TIMED_BLOCK(BeginRenderFrame);
 
-	sceneRendering->RenderScene(*renderer, *this, gbuffer, sceneTargets, renderManager, viewport, view->view);
+	sceneRendering->RenderScene(*renderer, *this, gbuffer, sceneTargets, uiTarget, renderManager, viewport, view->view);
 
 	BEGIN_TIMED_BLOCK(EndRenderFrame);
 	renderer->EndRenderFrame(viewport.GetNativeViewport());

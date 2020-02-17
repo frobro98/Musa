@@ -255,8 +255,6 @@ void BatchCollection::RenderLineBatches(RenderContext& renderer, const ShaderRes
 		pipelineDesc.vertexShader = &vertShader;
 		pipelineDesc.fragmentShader = &fragShader;
 		pipelineDesc.blendingDescs[0] = BlendDesc();
-		pipelineDesc.blendingDescs[1] = BlendDesc();
-		pipelineDesc.blendingDescs[2] = BlendDesc();
 		pipelineDesc.topology = PrimitiveTopology::TriangleList;
 		pipelineDesc.depthStencilTestDesc = DepthTestDesc();
 		pipelineDesc.rasterizerDesc = RasterDesc<FillMode::Full, CullingMode::None>();
@@ -290,11 +288,8 @@ void BatchCollection::RenderTriangleBatches(RenderContext& renderer, const Shade
 		pipelineDesc.vertexShader = &vertShader;
 		pipelineDesc.fragmentShader = &fragShader;
 		pipelineDesc.blendingDescs[0] = BlendDesc();
-		pipelineDesc.blendingDescs[1] = BlendDesc();
-		pipelineDesc.blendingDescs[2] = BlendDesc();
-		pipelineDesc.blendingDescs[3] = BlendDesc();
 		pipelineDesc.topology = PrimitiveTopology::TriangleList;
-		pipelineDesc.depthStencilTestDesc = DepthTestDesc();
+		pipelineDesc.depthStencilTestDesc = DepthTestDesc<CompareOperation::None, false>();
 		pipelineDesc.rasterizerDesc = RasterDesc<FillMode::Full, CullingMode::None>();
 		pipelineDesc.vertexInputs = GetVertexInput<PrimitiveVertex>();
 		renderer.SetGraphicsPipeline(pipelineDesc);

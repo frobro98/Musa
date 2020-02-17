@@ -48,15 +48,15 @@ METRIC_STAT(BaseRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
 METRIC_STAT(TextDisplayRender, SceneRender);
 
-void RenderSceneDeferred(RenderContext& renderContext, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
+void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
 {
 	// Render to gbuffer
 
 	// Do any special rendering for the scene here as well
 
 	// Render lighting 
-	DynamicArray<Light*> lights;
-	RenderLights(renderContext, lights, gbuffer, sceneColorTexture, view);
+	//DynamicArray<Light*> lights;
+	RenderLights(renderContext, scene, gbuffer, sceneColorTexture, view);
 
 	// Compose lit and unlit onto scene color target
 
@@ -67,7 +67,7 @@ static void ConstructScreenGraphicsDescription(const RenderContext& renderer, Gr
 	renderer.InitializeWithRenderState(desc);
 	desc.vertexInputs = {};
 	desc.rasterizerDesc = {1.25f, 1.75f, FillMode::Full, CullingMode::Front};
-	desc.blendingDescs[0] = BlendDesc();
+	desc.blendingDescs[0] = BlendDesc<ColorMask::RGBA, BlendOperation::Add, BlendFactor::One, BlendFactor::One, BlendOperation::Add, BlendFactor::One, BlendFactor::One>();
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
 	desc.vertexShader = &GetShader<ScreenRenderVert>()->GetNativeShader();
@@ -87,15 +87,15 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 	desc.topology = PrimitiveTopology::TriangleList;
 }
 
-struct ShadowMapTextures
-{
-	NativeTexture* depthTarget = nullptr;
-	NativeTexture* depthTextureResource = nullptr;
-};
-static ShadowMapTextures shadowMap;
-
-constexpr uint32 ShadowMapWidth = 1024;
-constexpr uint32 ShadowMapHeight = 1024;
+// struct ShadowMapTextures
+// {
+// 	NativeTexture* depthTarget = nullptr;
+// 	NativeTexture* depthTextureResource = nullptr;
+// };
+// static ShadowMapTextures shadowMap;
+// 
+// constexpr uint32 ShadowMapWidth = 1024;
+// constexpr uint32 ShadowMapHeight = 1024;
 //VulkanShader* shadowVertShader = nullptr;
 
 // static void InitializeShadowMap()
@@ -142,21 +142,21 @@ constexpr uint32 ShadowMapHeight = 1024;
 // // 	shadowVertShader->SetDescriptorInformation(*descriptorSetLayout);
 // }
 
-RenderTargetDescription GetShadowMapTargetDescription()
-{
-	RenderTargetDescription targetDesc = {};
-	targetDesc.targetExtents = { static_cast<float32>(ShadowMapWidth), static_cast<float32>(ShadowMapHeight) };
-
-	RenderTargetAttachment& depthDesc = targetDesc.depthAttachment;
-	depthDesc.format = ImageFormat::DS_32f_8u;
-	depthDesc.load = LoadOperation::Clear;
-	depthDesc.store = StoreOperation::Store;
-	depthDesc.stencilLoad = LoadOperation::DontCare;
-	depthDesc.stencilStore = StoreOperation::DontCare;
-	depthDesc.sampleCount = 1;
-
-	return targetDesc;
-}
+// RenderTargetDescription GetShadowMapTargetDescription()
+// {
+// 	RenderTargetDescription targetDesc = {};
+// 	targetDesc.targetExtents = { static_cast<float32>(ShadowMapWidth), static_cast<float32>(ShadowMapHeight) };
+// 
+// 	RenderTargetAttachment& depthDesc = targetDesc.depthAttachment;
+// 	depthDesc.format = ImageFormat::DS_32f_8u;
+// 	depthDesc.load = LoadOperation::Clear;
+// 	depthDesc.store = StoreOperation::Store;
+// 	depthDesc.stencilLoad = LoadOperation::DontCare;
+// 	depthDesc.stencilStore = StoreOperation::DontCare;
+// 	depthDesc.sampleCount = 1;
+// 
+// 	return targetDesc;
+// }
 
 /*
 // TODO - This should essentially be only the essential objects in the scene
@@ -204,9 +204,9 @@ void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 }
 //*/
 
-void SceneRenderPipeline::RenderScene(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
+void SceneRenderPipeline::RenderScene(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
 {
-	DeferredRender(renderer, scene, gbuffer, sceneTargets, renderManager, viewport, view);
+	DeferredRender(renderer, scene, gbuffer, sceneTargets, uiTarget, renderManager, viewport, view);
 }
 
 void RenderWithNormalMap(RenderContext& renderer, const RenderObject& object, const View& view)
@@ -340,7 +340,7 @@ void SceneRenderPipeline::RenderGBufferPass(RenderContext& renderer, const Rende
 // 	ImageLayoutTransition(cmdBuffer, range, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, *shadowMap.depthTextureResource->image);
 // }
 
-void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene& scene, const NativeRenderTargets& targets, const View& view)
+void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, const SceneRenderTargets& sceneTargets, RenderTarget& userInterfaceTarget, const View& view)
 {
 	SCOPED_TIMED_BLOCK(RenderToScreen);
 
@@ -350,25 +350,9 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene&
 	ConstructScreenGraphicsDescription(renderer, desc);
 	renderer.SetGraphicsPipeline(desc);
 
-	Light* light = scene.GetLights()[0];
-	LightDescription lightDesc = light->GetLightDescription();
+	renderer.SetTexture(*sceneTargets.sceneColorTexture->nativeTarget, *SamplerDesc(), 0);
+	renderer.SetTexture(*userInterfaceTarget.nativeTarget, *SamplerDesc(), 1);
 
-	for (uint32 i = 1; i < targets.colorTargets.Size(); ++i)
-	{
-		renderer.SetTexture(*targets.colorTargets[i], *SamplerDesc(), i - 1);
-	}
-
-	LightProperties properties = {};
-	properties.direction = -light->GetDirection();
-	properties.position = lightDesc.position;
-	properties.lightViewTransform = Math::ConstructViewMatrix(light->GetPosition(), Vector4::Zero, Vector4::UpAxis);
-	properties.lightProjection = Math::ConstructPerspectiveMatrix(90.f, (float)ShadowMapWidth / (float)ShadowMapHeight, .1f, 1000.);
-
-	GetGraphicsInterface().PushBufferData(light->GetLightBuffer(), &properties);
-
-	renderer.SetUniformBuffer(*view.viewBuffer, 3);
-
-	renderer.SetUniformBuffer(light->GetLightBuffer(), 4);
 
 	renderer.Draw(3, 1);
 }
@@ -433,7 +417,7 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, Scene&
 
 using RenderTargetList = FixedArray<RenderTarget*, GBufferCount + 1>;
 
-void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
+void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, RenderObjectManager& renderManager, const Viewport& viewport, const View& view)
 {
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
@@ -443,56 +427,102 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 	colorTargets.Add(gbuffer.normalTexture.Get());
 	colorTargets.Add(gbuffer.diffuseTexture.Get());
 	
-	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get());
+	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get(), RenderTargetAccess::Write);
 	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
-	
-	TransitionTargetsToWrite(renderer, targets);
+
 	DynamicArray<Color32> clearColors(targets.colorTargets.Size());
-	clearColors[0] = Color32(0, 0, 0);
+	clearColors[0] = Color32(.7f, .7f, .8f);
 	clearColors[1] = Color32(0, 0, 0);
 	clearColors[2] = Color32(0, 0, 0);
-	for (uint32 i = 3; i < clearColors.Size(); ++i)
+	clearColors[3] = Color32(.7f, .7f, .8f);
+	
+	// GBuffer Pass
 	{
-		clearColors[i] = Color32(.7f, .7f, .8f);
+		TransitionTargetsToWrite(renderer, targets);
+
+		renderer.SetRenderTarget(gbufferDesc, targets, clearColors);
+
+		RenderGBufferPass(renderer, gbufferDesc, renderManager, view);
+
+		// TODO - This is sort of gross. I need to make the depth read only, but doing it this way is awful...
+		targets.colorTargets.Resize(0);
+		TransitionTargetsToRead(renderer, targets);
 	}
-	renderer.SetRenderTarget(gbufferDesc, targets, clearColors);
 
-	RenderGBufferPass(renderer, gbufferDesc, renderManager, view);
+	// Render Lighting
+	{
+		RenderTargetList sceneColorTarget;
+		sceneColorTarget.Add(sceneTargets.sceneColorTexture.Get());
+		RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTargets.depthTexture.Get(), RenderTargetAccess::Read);
+		NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTargets.depthTexture.Get());
 
-	RenderBatchedPrimitives(renderer, view);
+		targetDescription.colorAttachments[0].load = LoadOperation::Load;
+		const NativeTexture* depth = sceneRenderTargets.depthTarget;
+		sceneRenderTargets.depthTarget = nullptr;
 
-	// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
-	BEGIN_TIMED_BLOCK(TextDisplayRender);
-	uiPipeline.RenderScreenText(renderer, view);
-	END_TIMED_BLOCK(TextDisplayRender);
+		TransitionTargetsToWrite(renderer, sceneRenderTargets);
 
-	TransitionTargetsToRead(renderer, targets);
+		sceneRenderTargets.depthTarget = depth;
 
-	clearColors = { Color32(0, 0, 0) };
-	NativeTexture* backBuffer = renderer.GetBackBuffer();
-	NativeRenderTargets backBufferTarget = {};
-	backBufferTarget.colorTargets.Add(backBuffer);
+		renderer.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
 
-	RenderTargetDescription targetDescription = {};
-	targetDescription.colorAttachments.Resize(1);
-	targetDescription.targetExtents = { (float32)viewport.GetWidth(), (float32)viewport.GetHeight() };
-	targetDescription.hasDepth = false;
+		RenderLights(renderer, scene, gbuffer, sceneTargets, view);
 
-	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-	colorDesc.format = ImageFormat::BGRA_8norm;
-	colorDesc.load = LoadOperation::Clear;
-	colorDesc.store = StoreOperation::Store;
-	colorDesc.stencilLoad = LoadOperation::DontCare;
-	colorDesc.stencilStore = StoreOperation::DontCare;
-	colorDesc.sampleCount = 1;
+		TransitionTargetsToRead(renderer, sceneRenderTargets);
+	}
 
-	TransitionTargetsToWrite(renderer, backBufferTarget);
+	// UI Render
+	{
+		RenderTargetList uiColorTarget;
+		uiColorTarget.Add(&uiTarget);
+		RenderTargetDescription targetDescription = CreateRenderTargetDescription(uiColorTarget, nullptr, RenderTargetAccess::None);
+		NativeRenderTargets uiRenderTarget = CreateNativeRenderTargets(uiColorTarget, nullptr);
 
-	renderer.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+		TransitionTargetsToWrite(renderer, uiRenderTarget);
 
-	RenderGBUffersToScreen(renderer, scene, targets, view);
+		clearColors = { Color32(0, 0, 0, 0) };
+		renderer.SetRenderTarget(targetDescription, uiRenderTarget, clearColors);
 
-	TransitionTargetsToRead(renderer, backBufferTarget);
+		RenderBatchedPrimitives(renderer, view);
+
+		// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
+		BEGIN_TIMED_BLOCK(TextDisplayRender);
+		uiPipeline.RenderScreenText(renderer, view);
+		END_TIMED_BLOCK(TextDisplayRender);
+
+		TransitionTargetsToRead(renderer, uiRenderTarget);
+	}
+
+	// Render to back buffer
+	{
+		clearColors = { Color32(0, 0, 0) };
+		NativeTexture* backBuffer = renderer.GetBackBuffer();
+		NativeRenderTargets backBufferTarget = {};
+		backBufferTarget.colorTargets.Add(backBuffer);
+
+		RenderTargetDescription targetDescription = {};
+		targetDescription.colorAttachments.Resize(1);
+		targetDescription.targetExtents = { (float32)viewport.GetWidth(), (float32)viewport.GetHeight() };
+		targetDescription.hasDepth = false;
+
+		RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
+		colorDesc.format = ImageFormat::BGRA_8norm;
+		colorDesc.load = LoadOperation::Clear;
+		colorDesc.store = StoreOperation::Store;
+		colorDesc.stencilLoad = LoadOperation::DontCare;
+		colorDesc.stencilStore = StoreOperation::DontCare;
+		colorDesc.sampleCount = 1;
+
+		TransitionTargetsToWrite(renderer, backBufferTarget);
+
+		// Set target to back buffer
+		renderer.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+
+		// Render sceneColor and UI to back buffer
+		RenderGBUffersToScreen(renderer, sceneTargets, uiTarget, view);
+
+		TransitionTargetsToRead(renderer, backBufferTarget);
+	}
 }
 
 void SceneRenderPipeline::SetViewportAndScissor(RenderContext& renderer, const View& view) const

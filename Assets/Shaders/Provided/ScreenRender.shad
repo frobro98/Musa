@@ -1,61 +1,31 @@
 
 #if VERT_SHADER
 
+#include "Common/ScreenHelpers.hshad"
+
 layout(location = 0) out vec2 texCoords;
 
 void main() 
 {
-	texCoords = vec2((gl_VertexIndex << 1) & 2, gl_VertexIndex & 2);
-	gl_Position = vec4(texCoords * 2.0f - 1.0f, 0.0f, 1.0f);
+	texCoords = GetScreenTextureCoords(gl_VertexIndex);
+	gl_Position = TextureCoordsToClipSpace(texCoords);
 }
 
 #elif FRAG_SHADER
-
-#define VIEW_BOUND 3
-#include "Common/UniformBufferCommon.hshad"
-#include "Common/LightingCommon.hshad"
 
 layout(location = 0) in vec2 texCoords;
 
 layout(location = 0) out vec4 outColor;
 
-layout(binding = 0) uniform sampler2D positionGBuffer;
-layout(binding = 1) uniform sampler2D normalGBuffer;
-layout(binding = 2) uniform sampler2D albedoGBuffer;
-//layout(binding = 3) uniform sampler2D shadowMapTexture;
-
-layout(binding = 4) uniform LightDescriptions
-{
-	Light lights;
-};
+layout(binding = 0) uniform sampler2D sceneColorTexture;
+layout(binding = 1) uniform sampler2D userInterfaceTexture;
 
 void main()
 {
-	vec4 fragPosSample = texture(positionGBuffer, texCoords);
-	vec3 position = fragPosSample.xyz;
-	uint shadingModel = uint(fragPosSample.w);
-
-	vec3 normal = texture(normalGBuffer, texCoords).rgb;
-	vec4 albedo = texture(albedoGBuffer, texCoords);
-
-	vec3 col = albedo.rgb;
-	if(length(normal) > 0)
-	{
-		if(shadingModel == PHONG)
-		{
-			col = PhongModel(lights, viewPosition.xyz, position, normal, albedo);
-		}
-		else if(shadingModel == BLINN)
-		{
-			col = BlinnModel(lights, viewPosition.xyz, position, normal, albedo);
-		}
-		else if(shadingModel == TOON)
-		{
-			col = ToonShadingModel(lights, position, normal, albedo);
-		}
-	}
-
-	outColor = vec4(col, 1.0);
+	// TODO - This operation represents a blend operation. This should be done by actually blending and not through a shader potentially
+	vec4 sceneColor = texture(sceneColorTexture, texCoords);
+	vec4 uiColor = texture(userInterfaceTexture, texCoords);
+	outColor = sceneColor * (1 - uiColor.a) + uiColor;
 }
 
 #endif

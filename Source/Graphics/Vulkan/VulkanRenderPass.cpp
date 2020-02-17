@@ -38,8 +38,9 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	{
 		const RenderTargetAttachment& depthDescription = targets.depthAttachment;
 		VkAttachmentDescription depthAttachment = {};
-		depthAttachment.initialLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-		depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		VkImageLayout depthLayout = depthDescription.access == RenderTargetAccess::Read ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+		depthAttachment.initialLayout = depthLayout;
+		depthAttachment.finalLayout = depthLayout;
 
 		depthAttachment.format = MusaFormatToVkFormat(depthDescription.format);
 		depthAttachment.samples = static_cast<VkSampleCountFlagBits>(depthDescription.sampleCount);

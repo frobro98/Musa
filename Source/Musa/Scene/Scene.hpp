@@ -12,6 +12,7 @@ class RenderObjectManager;
 struct MeshRenderInfo;
 struct GBuffer;
 struct SceneRenderTargets;
+struct RenderTarget;
 
 class SceneRenderPipeline;
 
@@ -23,6 +24,7 @@ class SceneRenderPipeline;
 // There will be a corresponding Scene-like class that exists solely for holding rendering information
 class Scene
 {
+	static constexpr uint32 MaxLights = 3;
 public:
 	~Scene();
 
@@ -37,12 +39,12 @@ public:
 	void RemoveLightFromScene(Light& light);
 
 	void Tick(float deltaTime);
-	void RenderScene(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderObjectManager& renderManager, Viewport& viewport);
+	void RenderScene(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, RenderObjectManager& renderManager, Viewport& viewport);
 	
 	void SetView(ScreenView& view);
 
 	inline const ScreenView& GetScreenView() const { return *view; }
-	inline Light** GetLights() { return lights; }
+	inline FixedArray<Light*, MaxLights>& GetLights() { return lights; }
 
 private:
 
@@ -55,7 +57,7 @@ private:
 	// Only allowing 3 lights per scene at the moment. This is because
 	// the engine will become fully deferred, so there won't really be 
 	// a hard limit on what lights affect what geometry
-	Light* lights[3] = { nullptr, nullptr, nullptr };
+	FixedArray<Light*, MaxLights> lights;
 
 	RenderContext* renderer;
 
