@@ -25,6 +25,18 @@ namespace Debug
 		UNUSED(expr, file, line, desc);
 		DebugBreak();
 	}
+
+	template <typename Ref>
+	inline bool RefIsNotNull(Ref& ref)
+	{
+		return &ref != nullptr;
+	}
+
+	template <typename Ref, typename... RefArgs>
+	inline bool RefIsNotNull(Ref& ref, RefArgs&&... args)
+	{
+		return &ref != nullptr && RefIsNotNull(args...);
+	}
 }
 
 #ifdef _DEBUG
@@ -52,9 +64,13 @@ namespace Debug
 			if(!(func)())												\
 				Debug::AssertionFailed(#func, __FILE__, __LINE__, str);	\
 		} while (false)
+
+#define REF_CHECK(...) Assert(Debug::RefIsNotNull(__VA_ARGS__))
+
 #else
 #define AssertStr(x, str)
 #define Assert(x)
 #define Assertf(x, str, ...)
 #define AssertFunc(func, str)
+#define REF_CHECK(...)
 #endif

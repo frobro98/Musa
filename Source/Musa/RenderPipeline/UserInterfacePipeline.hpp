@@ -7,6 +7,7 @@
 struct Vector2;
 struct View;
 struct Color32;
+struct RenderTarget;
 class RenderContext;
 
 namespace UI
@@ -14,16 +15,11 @@ namespace UI
 class Context;
 }
 
-void RenderUI(RenderContext& renderer, UI::Context& ui);
-
-class UserInterfacePipeline
+namespace DeferredRender
 {
-public:
-	void RenderScreenText(RenderContext& renderer, const View& view);
+void RenderUI(RenderContext& renderer, UI::Context& ui, EngineStatView& statView, const RenderTarget& sceneColorTarget, const RenderTarget& uiRenderTarget);
+}
 
-private:
-	EngineStatView statView;
-};
 
 
 

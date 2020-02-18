@@ -4,6 +4,9 @@ struct View;
 struct FrameRenderTargets;
 class Scene;
 
-void DeferredRender(const FrameRenderTargets& frameTargets, Scene& scene, const View& view);
+namespace DeferredRender
+{
+void Render(const FrameRenderTargets& frameTargets, Scene& scene, const View& view);
+}
 
 

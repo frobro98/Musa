@@ -44,29 +44,61 @@ DECLARE_METRIC_GROUP(SceneRender);
 METRIC_STAT(DeferredRender, SceneRender);
 METRIC_STAT(RenderNormally, SceneRender);
 METRIC_STAT(NormalMapRender, SceneRender);
-METRIC_STAT(BaseRenderPass, SceneRender);
+METRIC_STAT(GBufferRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
 METRIC_STAT(TextDisplayRender, SceneRender);
 
-void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
+
+static void RenderWithNormalMap(RenderContext& renderer, const RenderObject& object, const View& view)
 {
-	// Render to gbuffer
+	SCOPED_TIMED_BLOCK(NormalMapRender);
+	// Set Transform Data
+	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
 
-	// Do any special rendering for the scene here as well
+	// Set View information
+	renderer.SetUniformBuffer(*view.viewBuffer, 1);
 
-	// Render lighting 
-	//DynamicArray<Light*> lights;
-	RenderLights(renderContext, scene, gbuffer, sceneColorTexture, view);
+	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
+	if (matInfo->baseTexture != nullptr)
+	{
+		// Set Texture Data
+		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
+	}
 
-	// Compose lit and unlit onto scene color target
+	// Set Material Data
+	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
 
+	// Set Normal Map
+	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
+}
+
+static void RenderNormally(RenderContext& renderer, const RenderObject& object, const View& view)
+{
+	SCOPED_TIMED_BLOCK(RenderNormally);
+
+	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
+
+	// Set Transform Data
+	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
+
+	// Set View information
+	renderer.SetUniformBuffer(*view.viewBuffer, 1);
+
+	if (matInfo->baseTexture != nullptr)
+	{
+		// Set Texture Data
+		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
+	}
+
+	// Set Material Data
+	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
 }
 
 static void ConstructScreenGraphicsDescription(const RenderContext& renderer, GraphicsPipelineDescription& desc)
 {
 	renderer.InitializeWithRenderState(desc);
 	desc.vertexInputs = {};
-	desc.rasterizerDesc = {1.25f, 1.75f, FillMode::Full, CullingMode::Front};
+	desc.rasterizerDesc = { 1.25f, 1.75f, FillMode::Full, CullingMode::Front };
 	desc.blendingDescs[0] = BlendDesc<ColorMask::RGBA, BlendOperation::Add, BlendFactor::One, BlendFactor::One, BlendOperation::Add, BlendFactor::One, BlendFactor::One>();
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
@@ -85,6 +117,105 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 	}
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
+}
+
+using RenderTargetList = FixedArray<RenderTarget*, MaxColorTargetCount>;
+
+namespace DeferredRender
+{
+void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTextures, const RenderObjectManager& renderManager, const View& view)
+{
+	SCOPED_TIMED_BLOCK(DeferredRender);
+
+	// TODO - Should clear color be floating around or should it live with the render target?
+	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
+	clearColors[0] = Color32(.7f, .7f, .8f);
+	clearColors[1] = Color32(0, 0, 0);
+	clearColors[2] = Color32(0, 0, 0);
+	clearColors[3] = Color32(.7f, .7f, .8f);
+
+	// Render to gbuffer
+	{
+		// Begin GBuffer pass
+		RenderTargetList colorTargets;
+		colorTargets.Add(sceneTextures.sceneColorTexture.Get());
+		colorTargets.Add(gbuffer.positionTexture.Get());
+		colorTargets.Add(gbuffer.normalTexture.Get());
+		colorTargets.Add(gbuffer.diffuseTexture.Get());
+
+		RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTextures.depthTexture.Get(), RenderTargetAccess::Write);
+		NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTextures.depthTexture.Get());
+
+		// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
+		TransitionTargetsToWrite(renderContext, targets);
+
+		renderContext.SetRenderTarget(gbufferDesc, targets, clearColors);
+		{
+			SCOPED_TIMED_BLOCK(GBufferRenderPass);
+
+			// TODO - This should be a pipeline helper function
+			uint32 viewWidth = (uint32)view.description.viewport.width;
+			uint32 viewHeight = (uint32)view.description.viewport.height;
+			renderContext.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
+			renderContext.SetScissor(0, 0, viewWidth, viewHeight);
+
+			const DynamicArray<RenderObject*>& renderObjects = renderManager.GetRenderObjects();
+
+			for (auto& info : renderObjects)
+			{
+				MaterialRenderInfo* matInfo = info->gpuRenderInfo->meshMaterial;
+
+				GraphicsPipelineDescription pipelineDesc;
+				ConstructPipelineDescription(gbufferDesc, pipelineDesc);
+				pipelineDesc.vertexShader = matInfo->vertexShader;
+				pipelineDesc.fragmentShader = matInfo->fragmentShader;
+				renderContext.SetGraphicsPipeline(pipelineDesc);
+
+				if (matInfo->normalMap != nullptr)
+				{
+					RenderWithNormalMap(renderContext, *info, view);
+				}
+				else
+				{
+					RenderNormally(renderContext, *info, view);
+				}
+
+				renderContext.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
+				renderContext.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
+			}
+		}
+
+		// TODO - This is sort of gross. I need to make the depth read only, but doing it this way is awful...
+		targets.colorTargets.Resize(0);
+		TransitionTargetsToRead(renderContext, targets);
+	}
+
+	// Do any special rendering for the scene here as well
+
+	// Render lighting
+	{
+		RenderTargetList sceneColorTarget;
+		sceneColorTarget.Add(sceneTextures.sceneColorTexture.Get());
+		RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTextures.depthTexture.Get(), RenderTargetAccess::Read);
+		NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTextures.depthTexture.Get());
+
+		// TODO - Fix whatever this is...
+		targetDescription.colorAttachments[0].load = LoadOperation::Load;
+		const NativeTexture* depth = sceneRenderTargets.depthTarget;
+		sceneRenderTargets.depthTarget = nullptr;
+
+		TransitionTargetsToWrite(renderContext, sceneRenderTargets);
+
+		sceneRenderTargets.depthTarget = depth;
+
+		renderContext.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
+
+		DeferredRender::RenderLights(renderContext, scene, gbuffer, view);
+
+		TransitionTargetsToRead(renderContext, sceneRenderTargets);
+	}
+	// Post Processing on Scene Color(?????)
+}
 }
 
 // struct ShadowMapTextures
@@ -209,54 +340,9 @@ void SceneRenderPipeline::RenderScene(RenderContext& renderer, Scene& scene, con
 	DeferredRender(renderer, scene, gbuffer, sceneTargets, uiTarget, renderManager, viewport, view);
 }
 
-void RenderWithNormalMap(RenderContext& renderer, const RenderObject& object, const View& view)
-{
-	SCOPED_TIMED_BLOCK(NormalMapRender);
-	// Set Transform Data
-	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
-
-	// Set View information
-	renderer.SetUniformBuffer(*view.viewBuffer, 1);
-
-	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
-	if (matInfo->baseTexture != nullptr)
-	{
-		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
-	}
-
-	// Set Material Data
-	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
-
-	// Set Normal Map
-	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
-}
-
-void RenderNormally(RenderContext& renderer, const RenderObject& object, const View& view)
-{
-	SCOPED_TIMED_BLOCK(RenderNormally);
-
-	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
-
-	// Set Transform Data
-	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
-
-	// Set View information
-	renderer.SetUniformBuffer(*view.viewBuffer, 1);
-
-	if (matInfo->baseTexture != nullptr)
-	{
-		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
-	}
-
-	// Set Material Data
-	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
-}
-
 void SceneRenderPipeline::RenderGBufferPass(RenderContext& renderer, const RenderTargetDescription& gbufferDesc, RenderObjectManager& renderManager, const View& view)
 {
-	SCOPED_TIMED_BLOCK(BaseRenderPass);
+	SCOPED_TIMED_BLOCK(GBufferRenderPass);
 
 	SetViewportAndScissor(renderer, view);
 
@@ -352,7 +438,6 @@ void SceneRenderPipeline::RenderGBUffersToScreen(RenderContext& renderer, const 
 
 	renderer.SetTexture(*sceneTargets.sceneColorTexture->nativeTarget, *SamplerDesc(), 0);
 	renderer.SetTexture(*userInterfaceTarget.nativeTarget, *SamplerDesc(), 1);
-
 
 	renderer.Draw(3, 1);
 }
@@ -466,7 +551,9 @@ void SceneRenderPipeline::DeferredRender(RenderContext& renderer, Scene& scene, 
 
 		renderer.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
 
-		RenderLights(renderer, scene, gbuffer, sceneTargets, view);
+		DeferredRender::RenderLights(renderer, scene, gbuffer, sceneTargets, view);
+
+		RenderBatchedPrimitives(renderer, view);
 
 		TransitionTargetsToRead(renderer, sceneRenderTargets);
 	}

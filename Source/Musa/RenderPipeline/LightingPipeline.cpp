@@ -14,9 +14,8 @@
 constexpr uint32 ShadowMapWidth = 1024;
 constexpr uint32 ShadowMapHeight = 1024;
 
-static void SetupLightRender(RenderContext& renderer, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture)
+static void SetupLightRender(RenderContext& renderer, const GBuffer& gbuffer)
 {
-	UNUSED(sceneColorTexture);
 //	renderer.SetRenderTarget();
 
 	GraphicsPipelineDescription pipelineDesc = {};
@@ -51,12 +50,14 @@ static void RenderLight(RenderContext& renderer, Light& light, const View& view)
 	renderer.Draw(3, 1);
 }
 
-void RenderLights(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneColorTexture, const View& view)
+namespace DeferredRender
+{
+void RenderLights(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const View& view)
 {
 	auto& lights = scene.GetLights();
 	if (lights.Size() > 0)
 	{
-		SetupLightRender(renderer, gbuffer, sceneColorTexture);
+		SetupLightRender(renderer, gbuffer);
 
 		uint32 viewWidth = (uint32)view.description.viewport.width;
 		uint32 viewHeight = (uint32)view.description.viewport.height;
@@ -69,4 +70,5 @@ void RenderLights(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer,
 			RenderLight(renderer, *light, view);
 		}
 	}
+}
 }
