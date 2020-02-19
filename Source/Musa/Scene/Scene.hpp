@@ -14,8 +14,6 @@ struct GBuffer;
 struct SceneRenderTargets;
 struct RenderTarget;
 
-class SceneRenderPipeline;
-
 // TODO - this structure would correspond to a file that records all of the objects in scene
 
 // A Scene contains a hierarchy of game objects/entities.
@@ -28,8 +26,6 @@ class Scene
 public:
 	~Scene();
 
-	void InitializeScene();
-
 	void AddGameObjectToScene(GameObject& object);
 	void RemoveGameObjectFromScene(GameObject& object);
 	void AddMeshInfoToScene(MeshRenderInfo& obj);
@@ -39,11 +35,7 @@ public:
 	void RemoveLightFromScene(Light& light);
 
 	void Tick(float deltaTime);
-	void RenderScene(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, RenderObjectManager& renderManager, Viewport& viewport);
-	
-	void SetView(ScreenView& view);
 
-	inline const ScreenView& GetScreenView() const { return *view; }
 	inline FixedArray<Light*, MaxLights>& GetLights() { return lights; }
 
 private:
@@ -58,11 +50,4 @@ private:
 	// the engine will become fully deferred, so there won't really be 
 	// a hard limit on what lights affect what geometry
 	FixedArray<Light*, MaxLights> lights;
-
-	RenderContext* renderer;
-
-	ScreenView* view = nullptr;
-	SceneRenderPipeline* sceneRendering = nullptr;
-
-	bool gbuffersInitialized = false;
 };

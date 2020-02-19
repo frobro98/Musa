@@ -43,11 +43,6 @@ DynamicArray<ScreenTextItem> screenTextItems;
 DynamicArray<PrimitiveVertex> stringVerts;
 DynamicArray<uint32> stringTris;
 
-static void AddTextToScreen(const tchar* text, float32 textScale, const Vector2& screenPosition, const Color32& color)
-{
-	screenTextItems.Add(ScreenTextItem{ text, color, screenPosition, textScale });
-}
-
 static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)
 {
 	Matrix4 invScreen = Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);//Math::ConstructFastInverseScreenMatrix(view.description.viewport.width, view.description.viewport.height);
@@ -56,22 +51,24 @@ static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& scree
 	return Vector2(worldPos.x, worldPos.y);
 }
 
-static Rect GetTextBoxRect(const ScreenTextItem& item, Font& font)
-{
-	Rect ret;
-	const String& text = item.text;
-	for (uint32 i = 0; i < text.Length(); ++i)
-	{
-		tchar character = text[i];
-		const FontCharDescription* charDesc = font.fontCharacterMap.Find(character);
-		ret.width += charDesc->advance;
-		ret.height = Max(ret.height, charDesc->height * item.scale);
-	}
+// static Rect GetTextBoxRect(const ScreenTextItem& item, Font& font)
+// {
+// 	Rect ret;
+// 	const String& text = item.text;
+// 	for (uint32 i = 0; i < text.Length(); ++i)
+// 	{
+// 		tchar character = text[i];
+// 		const FontCharDescription* charDesc = font.fontCharacterMap.Find(character);
+// 		ret.width += charDesc->advance;
+// 		ret.height = Max(ret.height, charDesc->height * item.scale);
+// 	}
+// 
+// 	return ret;
+// }
 
-	return ret;
-}
+EngineStatView statView;
 
-static void RenderScreenText(RenderContext& renderer, EngineStatView& statView, const View& view)
+static void RenderScreenText(RenderContext& renderer, const View& view)
 {
 	if (viewBuffer == nullptr)
 	{
@@ -223,15 +220,15 @@ namespace DeferredRender
 
 using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 
-void RenderUI(RenderContext& renderContext, UI::Context& ui, EngineStatView& statView, const RenderTarget& sceneColorTarget, const RenderTarget& uiRenderTarget, const View& view)
+void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget& sceneColorTarget, const RenderTarget& uiTarget, const View& view)
 {
-	REF_CHECK(renderContext, ui, uiRenderTarget);
+	REF_CHECK(renderContext, ui, uiTarget);
 
 	DynamicArray<Color32> clearColors;
 	// UI Render
 	{
 		RenderTargetList uiColorTarget;
-		uiColorTarget.Add(&uiRenderTarget);
+		uiColorTarget.Add(&uiTarget);
 		RenderTargetDescription targetDescription = CreateRenderTargetDescription(uiColorTarget, nullptr, RenderTargetAccess::None);
 		NativeRenderTargets uiRenderTarget = CreateNativeRenderTargets(uiColorTarget, nullptr);
 
@@ -242,7 +239,7 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, EngineStatView& sta
 
 		// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
 		BEGIN_TIMED_BLOCK(TextDisplayRender);
-		RenderScreenText(renderContext, statView, view);
+		RenderScreenText(renderContext, view);
 		END_TIMED_BLOCK(TextDisplayRender);
 
 		TransitionTargetsToRead(renderContext, uiRenderTarget);
@@ -295,7 +292,7 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, EngineStatView& sta
 			renderContext.SetGraphicsPipeline(desc);
 
 			renderContext.SetTexture(*sceneColorTarget.nativeTarget, *SamplerDesc(), 0);
-			renderContext.SetTexture(*uiRenderTarget.nativeTarget, *SamplerDesc(), 1);
+			renderContext.SetTexture(*uiTarget.nativeTarget, *SamplerDesc(), 1);
 
 			renderContext.Draw(3, 1);
 		}

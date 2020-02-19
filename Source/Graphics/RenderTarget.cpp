@@ -1,7 +1,7 @@
 
 #include "RenderTarget.hpp"
 
-RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget, RenderTargetAccess depthAccess)
+RenderTargetDescription CreateRenderTargetDescription(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget, RenderTargetAccess depthAccess)
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
@@ -9,7 +9,7 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTar
 		uint32 height = colorTargets[0]->height;
 		for (uint32 i = 1; i < colorTargets.Size(); ++i)
 		{
-			RenderTarget* rt = colorTargets[i];
+			const RenderTarget* rt = colorTargets[i];
 			if (width != rt->width || 
 				height != rt->height)
 				return false;
@@ -23,7 +23,7 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTar
 	desc.targetExtents = { (float32)colorTargets[0]->width,(float32)colorTargets[0]->height };
 	for (uint32 i = 0; i < numColorTargets; ++i)
 	{
-		RenderTarget* colorTarget = colorTargets[i];
+		const RenderTarget* colorTarget = colorTargets[i];
 		RenderTargetAttachment& attachment = desc.colorAttachments[i];
 		attachment.format = colorTarget->format;
 		attachment.load = colorTarget->load;
@@ -53,7 +53,7 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<RenderTar
 	return desc;
 }
 
-NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget * depthTarget)
+NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget * depthTarget)
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
@@ -61,7 +61,7 @@ NativeRenderTargets CreateNativeRenderTargets(const FixedArray<RenderTarget*, Ma
 		uint32 height = colorTargets[0]->height;
 		for (uint32 i = 1; i < colorTargets.Size(); ++i)
 		{
-			RenderTarget* rt = colorTargets[i];
+			const RenderTarget* rt = colorTargets[i];
 			if (width != rt->width ||
 				height != rt->height)
 				return false;

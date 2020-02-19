@@ -49,15 +49,8 @@ GameWorld::GameWorld(const Window& window)
 	: gameObjectManager(MakeUnique<GameObjectManager>(*this)),
 	renderObjectManager(MakeUnique<RenderObjectManager>()),
 	screenView(MakeUnique<ScreenView>(window.GetWidth(), window.GetHeight())),
-	scene(new Scene)
+	scene(MakeUnique<Scene>())
 {
-	scene->SetView(*screenView);
-	scene->InitializeScene();
-}
-
-GameWorld::~GameWorld()
-{
-	delete scene;
 }
 
 void GameWorld::TickWorld(float deltaTime)
@@ -70,11 +63,6 @@ void GameWorld::PushToRenderState()
 	Camera* mainCamera = GetCameraManager().GetActiveCamera();
 	screenView->AssociateCameraWithView(*mainCamera);
 	renderObjectManager->SequenciallyPull();
-}
-
-void GameWorld::RenderWorld(const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, RenderTarget& uiTarget, Viewport& viewport)
-{
-	scene->RenderScene(gbuffer, sceneTargets, uiTarget, *renderObjectManager, viewport);
 }
 
 void GameWorld::RegisterRenderInfo(const GameObject& go, MeshRenderInfo& renderInfo)

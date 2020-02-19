@@ -17,7 +17,7 @@ class Context;
 
 namespace DeferredRender
 {
-void RenderUI(RenderContext& renderer, UI::Context& ui, EngineStatView& statView, const RenderTarget& sceneColorTarget, const RenderTarget& uiRenderTarget);
+void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget& sceneColorTarget, const RenderTarget& uiTarget, const View& view);
 }
 
 

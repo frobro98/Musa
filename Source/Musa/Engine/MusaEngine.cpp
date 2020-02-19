@@ -22,6 +22,7 @@
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
 #include "Graphics/RenderContextUtilities.hpp"
+#include "Graphics/RenderContext.hpp"
 
 #include "Shader/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/UnlitShading.hpp"
@@ -31,6 +32,7 @@
 #include "Debugging/ProfilerStatistics.hpp"
 
 #include "RenderPipeline/UserInterfacePipeline.hpp"
+#include "RenderPipeline/DeferredRenderPipeline.hpp"
 
 #include "Font/FontCache.hpp"
 
@@ -38,11 +40,15 @@
 #include "Entry/MusaApp.hpp"
 
 DECLARE_METRIC_GROUP(Engine);
+DECLARE_METRIC_GROUP(FrameRender);
 
 METRIC_STAT(UpdateAndRender, Engine);
 METRIC_STAT(Update, Engine);
 METRIC_STAT(Render, Engine);
 //METRIC_STAT(GatherMetrics, Engine);
+
+METRIC_STAT(BeginRenderFrame, FrameRender)
+METRIC_STAT(EndRenderFrame, FrameRender)
 
 static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
 {
@@ -387,9 +393,23 @@ void MusaEngine::RenderFrame()
 {
 	InitializeFrameRenderTargets(engineTargets, *viewport);
 
-	world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *engineTargets.userInterfaceTarget, *viewport);
-	//RenderUI(*uiContext);
+	RenderContext& context = *GetGraphicsInterface().GetRenderContext();
+	ScreenView& screenView = world->GetView();
+	RenderObjectManager& renderManager = world->GetRenderManager();
+
+	BEGIN_TIMED_BLOCK(BeginRenderFrame);
+	context.BeginRenderFrame(viewport->GetNativeViewport());
+	END_TIMED_BLOCK(BeginRenderFrame);
+
+	//world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *engineTargets.userInterfaceTarget, *viewport);
+	DeferredRender::Render(engineTargets, world->GetScene(), renderManager, screenView.view);
+	DeferredRender::RenderUI(context, *uiContext, *engineTargets.sceneTargets.sceneColorTexture, *engineTargets.userInterfaceTarget, screenView.view);
 
 	// Need a way to compose everything to the backbuffer
+	DeferredRender::ComposeBackbuffer(context, *engineTargets.sceneTargets.sceneColorTexture, *engineTargets.userInterfaceTarget, screenView.view);
+
+	BEGIN_TIMED_BLOCK(EndRenderFrame);
+	context.EndRenderFrame(viewport->GetNativeViewport());
+	END_TIMED_BLOCK(EndRenderFrame);
 }
 
