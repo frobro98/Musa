@@ -1,6 +1,5 @@
 
 #include "GameObject.h"
-#include "Graphics.h"
 #include "Model/Model.h"
 #include "Input/Input.hpp"
 

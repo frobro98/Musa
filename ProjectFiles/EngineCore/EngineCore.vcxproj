@@ -122,6 +122,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Stack.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\StaticArray.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\CoreFlags.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Debugging\MetricInterface.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\DebugOutput.h" />

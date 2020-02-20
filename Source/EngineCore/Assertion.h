@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Platform.h"
+#include "CoreFlags.hpp"
 
 namespace Debug
 {
@@ -39,7 +40,7 @@ namespace Debug
 	}
 }
 
-#ifdef _DEBUG
+#ifdef M_DEBUG
 #define AssertStr(x, str)														\
 		do																		\
 		{																		\

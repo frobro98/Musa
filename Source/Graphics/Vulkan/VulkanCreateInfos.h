@@ -25,13 +25,13 @@ namespace Vk
 		const VkPhysicalDeviceFeatures& deviceFeatures
 	);
 
-//#ifdef _DEBUG
+//#if M_DEBUG
 	VkDebugReportCallbackCreateInfoEXT DebugReportCallbackInfo(
 		PFN_vkDebugReportCallbackEXT debugFunc,
 		VkDebugReportFlagsEXT debugFlags,
 		void* userData = 0
 	);
-//#endif // _DEBUG
+//#endif // M_DEBUG
 
 #ifdef _WIN32
 	VkWin32SurfaceCreateInfoKHR SurfaceInfo(HINSTANCE hInstance, HWND hWnd);

@@ -3,7 +3,8 @@
 
 
 #include "Platform.h"
-#include "EngineCore/Assertion.h"
+#include "Assertion.h"
+#include "CoreFlags.hpp"
 
 WALL_WRN_PUSH
 #include <vulkan/vulkan.h>
@@ -15,7 +16,7 @@ WALL_WRN_POP
 #define VK_CREATE_DEBUG_REPORT(funcName) VkResult (VKAPI_PTR *funcName)(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback)
 typedef VK_CREATE_DEBUG_REPORT(vk_create_debug_report);
 static vk_create_debug_report vkCreateDebugReportCallbackEXT_ = nullptr;
-#ifdef _DEBUG
+#if M_DEBUG
 #define vkCreateDebugReportCallbackEXT vkCreateDebugReportCallbackEXT_
 #else
 #define vkCreateDebugReportCallbackEXT 
@@ -25,7 +26,7 @@ static vk_create_debug_report vkCreateDebugReportCallbackEXT_ = nullptr;
 #define VK_DESTROY_DEBUG_REPORT(funcName) VkResult (VKAPI_PTR *funcName)(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator)
 typedef VK_DESTROY_DEBUG_REPORT(vk_destroy_debug_report);
 static vk_destroy_debug_report vkDestroyDebugReportCallbackEXT_ = nullptr;
-#ifdef _DEBUG
+#if M_DEBUG
 #define vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallbackEXT_
 #else
 #define vkDestroyDebugReportCallbackEXT 

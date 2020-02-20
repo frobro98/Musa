@@ -2,7 +2,8 @@
 #include "VulkanCreateInfos.h"
 #include "VulkanDevice.h"
 #include "VulkanUtilities.h"
-#include "EngineCore/Assertion.h"
+#include "Assertion.h"
+#include "CoreFlags.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 
 
@@ -12,7 +13,7 @@ namespace Vk
 	{
 		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-#ifdef _DEBUG
+#if M_DEBUG
 		createInfo.pNext = additionalData;
 #endif
 		createInfo.enabledLayerCount = numLayers;
@@ -44,7 +45,7 @@ namespace Vk
 		return deviceInfo;
 	}
 
-//#ifdef _DEBUG
+//#if M_DEBUG
 	VkDebugReportCallbackCreateInfoEXT DebugReportCallbackInfo(PFN_vkDebugReportCallbackEXT debugFunc, VkDebugReportFlagsEXT debugFlags, void * userData)
 	{
 		VkDebugReportCallbackCreateInfoEXT createInfo = {};

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "Graphics.h"
+#include "VulkanDefinitions.h"
 
 class VulkanDevice;
 class VulkanCommandBuffer;

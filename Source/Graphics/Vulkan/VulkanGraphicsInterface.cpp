@@ -48,7 +48,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
 	void* userData)
 {
 	UNUSED(flags, objType, srcObj, location, msgCode, layerPrefix, msg, userData);
-#ifdef _DEBUG
+#if M_DEBUG
 
 	if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT)
 	{
@@ -77,7 +77,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
 		fmt::print("@[{}]: {}\n", layerPrefix, msg);
 	}
 
-#endif // _DEBUG
+#endif // M_DEBUG
 
 	return false;
 }
@@ -265,7 +265,7 @@ void VulkanGraphicsInterface::CreateInstance()
 	CHECK_VK(result);
 
 	// Trying to get around warnings
-#ifdef _DEBUG
+#if M_DEBUG
 	void* createDebugFunc = vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
 	void* destroyDebugFunc = vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
 	vkCreateDebugReportCallbackEXT = reinterpret_cast<vk_create_debug_report>(createDebugFunc);
