@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Graphics.h"
 #include "EngineCore/Types/Intrinsics.hpp"
 #include "VertexInputDescription.hpp"
 #include "EngineCore/FNV-1a.h"

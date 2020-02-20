@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics.h"
+
 #include "String/String.h"
 #include "Containers/DynamicArray.hpp"
 #include "Shader/ShaderStages.hpp"

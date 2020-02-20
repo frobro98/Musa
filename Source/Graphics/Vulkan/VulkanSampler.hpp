@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Graphics.h"
+#include "VulkanDefinitions.h"
+
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 
 class VulkanDevice;

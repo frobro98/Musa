@@ -51,9 +51,6 @@
     <ClInclude Include="..\..\Source\EngineCore\FNV-1a.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Graphics.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\HashBasicTypes.h">
       <Filter>Source</Filter>
     </ClInclude>

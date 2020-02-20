@@ -1,8 +1,9 @@
 #pragma once
 
+#include "VulkanDefinitions.h"
+
 #include "Containers/DynamicArray.hpp"
 #include "Shader/ShaderStages.hpp"
-#include "Graphics.h"
 
 // TODO - Loading shaders will be more than just loading the file. It will be compilation at runtime, reflection over source, etc.
 DynamicArray<uint8> LoadSPVShader(const tchar* shaderFile);

@@ -1,5 +1,6 @@
 
 #include "VulkanMemoryManager.hpp"
+#include "VulkanAbstractions.h"
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanImageAllocation.hpp"
 #include "VulkanDevice.h"

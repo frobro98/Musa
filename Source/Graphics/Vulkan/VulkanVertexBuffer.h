@@ -26,22 +26,22 @@ private:
 };
 
 // TODO - this is the exact same class as VulkanVertexBuffer. Needs to be better...
-class VulkanWeightsBuffer
-{
-public:
-	VulkanWeightsBuffer(VulkanDevice& device, const DynamicArray<VertexBoneWeights>& weights);
-	~VulkanWeightsBuffer();
-
-	VulkanWeightsBuffer(const VulkanWeightsBuffer&) = delete;
-	VulkanWeightsBuffer& operator=(const VulkanWeightsBuffer&) = delete;
-
-	bool IsValid() const { return weightsBuffer != nullptr; }
-	void Bind(VulkanCommandBuffer* cmdBuffer) const;
-
-	inline VulkanBuffer& GetBuffer() { return *weightsBuffer; }
-
-private:
-	VulkanDevice& logicalDevice;
-	VulkanBuffer* weightsBuffer;
-
-};
+// class VulkanWeightsBuffer
+// {
+// public:
+// 	VulkanWeightsBuffer(VulkanDevice& device, const DynamicArray<VertexBoneWeights>& weights);
+// 	~VulkanWeightsBuffer();
+// 
+// 	VulkanWeightsBuffer(const VulkanWeightsBuffer&) = delete;
+// 	VulkanWeightsBuffer& operator=(const VulkanWeightsBuffer&) = delete;
+// 
+// 	bool IsValid() const { return weightsBuffer != nullptr; }
+// 	void Bind(VulkanCommandBuffer* cmdBuffer) const;
+// 
+// 	inline VulkanBuffer& GetBuffer() { return *weightsBuffer; }
+// 
+// private:
+// 	VulkanDevice& logicalDevice;
+// 	VulkanBuffer* weightsBuffer;
+// 
+// };

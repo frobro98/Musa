@@ -102,6 +102,7 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />

@@ -5,7 +5,6 @@
 #include "Importers/TextureCompression.h"
 #include "MemoryUtilities.h"
 #include "String/String.h"
-#include "Graphics.h"
 #include "Serialization/MemoryDeserializer.hpp"
 #include "Archiver/FileDeserializer.hpp"
 #include "Graphics/GraphicsInterface.hpp"

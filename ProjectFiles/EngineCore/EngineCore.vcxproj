@@ -128,7 +128,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\DirectoryLocations.h" />
     <ClInclude Include="..\..\Source\EngineCore\Extents.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\FNV-1a.h" />
-    <ClInclude Include="..\..\Source\EngineCore\Graphics.h" />
     <ClInclude Include="..\..\Source\EngineCore\GUID\Guid.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\HashBasicTypes.h" />
     <ClInclude Include="..\..\Source\EngineCore\Malloc16Align.h" />

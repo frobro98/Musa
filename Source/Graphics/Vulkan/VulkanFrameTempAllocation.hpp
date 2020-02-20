@@ -4,6 +4,8 @@
 #include "MemoryUtilities.h"
 #include "VulkanDevice.h"
 
+struct VulkanBuffer;
+
 constexpr uint32 AllocationSizeBytes = MegabytesAsBytes(1);
 
 struct TempAlloc

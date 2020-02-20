@@ -533,5 +533,8 @@
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRenderTargets.hpp">
       <Filter>Source\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

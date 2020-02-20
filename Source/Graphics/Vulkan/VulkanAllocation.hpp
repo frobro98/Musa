@@ -2,7 +2,7 @@
 
 #include <mutex>
 
-#include "Graphics.h"
+#include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
 #include "Ranges.hpp"
 #include "Graphics/Vulkan/VulkanDevice.h"

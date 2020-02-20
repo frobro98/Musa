@@ -109,6 +109,66 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 
 using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 
+static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, const RenderObjectManager& renderManager, const View& view)
+{
+	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
+	clearColors[0] = Color32(.7f, .7f, .8f);
+	clearColors[1] = Color32(0, 0, 0);
+	clearColors[2] = Color32(0, 0, 0);
+	clearColors[3] = Color32(.7f, .7f, .8f);
+
+	// Begin GBuffer pass
+	RenderTargetList colorTargets;
+	colorTargets.Add(sceneTargets.sceneColorTexture.Get());
+	colorTargets.Add(gbuffer.positionTexture.Get());
+	colorTargets.Add(gbuffer.normalTexture.Get());
+	colorTargets.Add(gbuffer.diffuseTexture.Get());
+
+	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get(), RenderTargetAccess::Write);
+	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
+
+	// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
+	TransitionTargetsToWrite(context, targets);
+
+	context.SetRenderTarget(gbufferDesc, targets, clearColors);
+	{
+		SCOPED_TIMED_BLOCK(GBufferRenderPass);
+
+		// TODO - This should be a pipeline helper function
+		uint32 viewWidth = (uint32)view.description.viewport.width;
+		uint32 viewHeight = (uint32)view.description.viewport.height;
+		context.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
+		context.SetScissor(0, 0, viewWidth, viewHeight);
+
+		const DynamicArray<RenderObject*>& renderObjects = renderManager.GetRenderObjects();
+
+		for (auto& info : renderObjects)
+		{
+			MaterialRenderInfo* matInfo = info->gpuRenderInfo->meshMaterial;
+
+			GraphicsPipelineDescription pipelineDesc;
+			ConstructPipelineDescription(gbufferDesc, pipelineDesc);
+			pipelineDesc.vertexShader = matInfo->vertexShader;
+			pipelineDesc.fragmentShader = matInfo->fragmentShader;
+			context.SetGraphicsPipeline(pipelineDesc);
+
+			if (matInfo->normalMap != nullptr)
+			{
+				RenderWithNormalMap(context, *info, view);
+			}
+			else
+			{
+				RenderNormally(context, *info, view);
+			}
+
+			context.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
+			context.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
+		}
+	}
+
+	TransitionTargetsToRead(context, targets);
+}
+
 namespace DeferredRender
 {
 void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTextures, const RenderObjectManager& renderManager, const View& view)
@@ -123,60 +183,7 @@ void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuff
 	clearColors[3] = Color32(.7f, .7f, .8f);
 
 	// Render to gbuffer
-	{
-		// Begin GBuffer pass
-		RenderTargetList colorTargets;
-		colorTargets.Add(sceneTextures.sceneColorTexture.Get());
-		colorTargets.Add(gbuffer.positionTexture.Get());
-		colorTargets.Add(gbuffer.normalTexture.Get());
-		colorTargets.Add(gbuffer.diffuseTexture.Get());
-
-		RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTextures.depthTexture.Get(), RenderTargetAccess::Write);
-		NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTextures.depthTexture.Get());
-
-		// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
-		TransitionTargetsToWrite(renderContext, targets);
-
-		renderContext.SetRenderTarget(gbufferDesc, targets, clearColors);
-		{
-			SCOPED_TIMED_BLOCK(GBufferRenderPass);
-
-			// TODO - This should be a pipeline helper function
-			uint32 viewWidth = (uint32)view.description.viewport.width;
-			uint32 viewHeight = (uint32)view.description.viewport.height;
-			renderContext.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
-			renderContext.SetScissor(0, 0, viewWidth, viewHeight);
-
-			const DynamicArray<RenderObject*>& renderObjects = renderManager.GetRenderObjects();
-
-			for (auto& info : renderObjects)
-			{
-				MaterialRenderInfo* matInfo = info->gpuRenderInfo->meshMaterial;
-
-				GraphicsPipelineDescription pipelineDesc;
-				ConstructPipelineDescription(gbufferDesc, pipelineDesc);
-				pipelineDesc.vertexShader = matInfo->vertexShader;
-				pipelineDesc.fragmentShader = matInfo->fragmentShader;
-				renderContext.SetGraphicsPipeline(pipelineDesc);
-
-				if (matInfo->normalMap != nullptr)
-				{
-					RenderWithNormalMap(renderContext, *info, view);
-				}
-				else
-				{
-					RenderNormally(renderContext, *info, view);
-				}
-
-				renderContext.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
-				renderContext.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
-			}
-		}
-
-		// TODO - This is sort of gross. I need to make the depth read only, but doing it this way is awful...
-		targets.colorTargets.Resize(0);
-		TransitionTargetsToRead(renderContext, targets);
-	}
+	GBufferRenderPass(renderContext, gbuffer, sceneTextures, renderManager, view);
 
 	// Do any special rendering for the scene here as well
 

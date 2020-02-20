@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Graphics.h"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "VulkanDefinitions.h"
 
 class VulkanSwapchain;
 class VulkanSurface;

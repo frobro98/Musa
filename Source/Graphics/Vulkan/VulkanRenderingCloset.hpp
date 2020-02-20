@@ -15,6 +15,7 @@
 #include "Containers/Map.h"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "VulkanDefinitions.h"
 
 class VulkanDevice;
 class VulkanPipeline;
@@ -28,7 +29,6 @@ public:
 	VulkanRenderingCloset(const VulkanDevice& device);
 	~VulkanRenderingCloset();
 
-	void SetupSwapchainFramebuffers(const RenderTargetDescription& desc, const DynamicArray<VkImage>& swapchainImages);
 
 	[[nodiscard]] VulkanPipeline* FindOrCreatePipeline(const GraphicsPipelineDescription& desc);
 	[[nodiscard]] VulkanRenderPass* FindOrCreateRenderPass(const RenderTargetDescription& desc);

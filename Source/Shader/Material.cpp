@@ -1,5 +1,4 @@
 #include "Material.h"
-#include "Graphics.h"
 #include "Texture2D/TextureManager.h"
 #include "Texture2D/Texture.h"
 #include "ShaderObjects/UnlitShading.hpp"

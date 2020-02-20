@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Graphics.h"
+#include "Graphics/Vulkan/VulkanDefinitions.h"
+
 #include "Containers/DynamicArray.hpp"
 #include "Shader/ShaderStructure.hpp"
 

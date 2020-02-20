@@ -6,7 +6,7 @@
 #include "EngineCore/Assertion.h"
 
 WALL_WRN_PUSH
-#include "vulkan/vulkan.h"
+#include <vulkan/vulkan.h>
 WALL_WRN_POP
 
 #define CHECK_VK(expression) Assert(expression == VK_SUCCESS)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics.h"
+#include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
 #include "EngineCore/Extents.hpp"
 #include "Graphics/RenderTargetDescription.hpp"

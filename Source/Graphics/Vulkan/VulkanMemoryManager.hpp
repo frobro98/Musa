@@ -1,12 +1,15 @@
 #pragma once
 
-#include "Graphics.h"
+#include "VulkanDefinitions.h"
+#include "VulkanBufferAllocation.hpp"
 #include "Containers/DynamicArray.hpp"
 
 class VulkanDevice;
 class GraphicsAllocation;
 struct BufferGraphicsAllocation;
 struct ImageGraphicsAllocation;
+struct VulkanBuffer;
+struct VulkanImage;
 
 class VulkanMemoryManager
 {

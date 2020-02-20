@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Graphics.h"
 #include "VulkanAbstractions.h"
 
 class VulkanStorageBuffer

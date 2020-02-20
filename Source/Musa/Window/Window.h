@@ -1,7 +1,6 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
-#include "Graphics.h"
 #include "Math/IntVector2.hpp"
 
 class WindowInputHandler;

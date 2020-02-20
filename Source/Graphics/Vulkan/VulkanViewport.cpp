@@ -1,3 +1,4 @@
+#include "VulkanDefinitions.h"
 #include "VulkanViewport.hpp"
 #include "VulkanSurface.h"
 #include "VulkanSwapchain.h"

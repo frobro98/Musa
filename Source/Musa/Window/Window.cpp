@@ -1,4 +1,5 @@
 #include "EngineCore/Platform.h"
+#include "Assertion.h"
 #include "Window.h"
 #include "Input/InputDefinitions.hpp"
 #include "Input/Internal/InputInternal.hpp"

@@ -3,7 +3,6 @@
 #include "PlatformDefinitions.h"
 #include "Types/UniquePtr.hpp"
 #include "Math/MathEngine.hpp"
-#include "Graphics.h"
 #include "Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Shader/MaterialRenderInfo.hpp"

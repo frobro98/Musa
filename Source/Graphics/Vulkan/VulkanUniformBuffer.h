@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Graphics.h"
 #include "VulkanAbstractions.h"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
