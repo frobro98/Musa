@@ -169,6 +169,32 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 	TransitionTargetsToRead(context, targets);
 }
 
+static void LightingRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, const Scene& scene, const View& view)
+{
+	// TODO - Should clear color be floating around or should it live with the render target?
+	DynamicArray<Color32> clearColors = { Color32(.7f, .7f, .8f) }; // TODO - SHould be using FixedArray here instead of DynamicArray
+
+	RenderTargetList sceneColorTarget;
+	sceneColorTarget.Add(sceneTargets.sceneColorTexture.Get());
+	RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTargets.depthTexture.Get(), RenderTargetAccess::Read);
+	NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTargets.depthTexture.Get());
+
+	// TODO - Fix whatever this is...
+	targetDescription.colorAttachments[0].load = LoadOperation::Load;
+	const NativeTexture* depth = sceneRenderTargets.depthTarget;
+	sceneRenderTargets.depthTarget = nullptr;
+
+	TransitionTargetsToWrite(context, sceneRenderTargets);
+
+	sceneRenderTargets.depthTarget = depth;
+
+	context.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
+
+	DeferredRender::RenderLights(context, scene, gbuffer, view);
+
+	TransitionTargetsToRead(context, sceneRenderTargets);
+}
+
 namespace DeferredRender
 {
 void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTextures, const RenderObjectManager& renderManager, const View& view)
@@ -188,27 +214,8 @@ void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuff
 	// Do any special rendering for the scene here as well
 
 	// Render lighting
-	{
-		RenderTargetList sceneColorTarget;
-		sceneColorTarget.Add(sceneTextures.sceneColorTexture.Get());
-		RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTextures.depthTexture.Get(), RenderTargetAccess::Read);
-		NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTextures.depthTexture.Get());
+	LightingRenderPass(renderContext, gbuffer, sceneTextures, scene, view);
 
-		// TODO - Fix whatever this is...
-		targetDescription.colorAttachments[0].load = LoadOperation::Load;
-		const NativeTexture* depth = sceneRenderTargets.depthTarget;
-		sceneRenderTargets.depthTarget = nullptr;
-
-		TransitionTargetsToWrite(renderContext, sceneRenderTargets);
-
-		sceneRenderTargets.depthTarget = depth;
-
-		renderContext.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
-
-		DeferredRender::RenderLights(renderContext, scene, gbuffer, view);
-
-		TransitionTargetsToRead(renderContext, sceneRenderTargets);
-	}
 	// Post Processing on Scene Color(?????)
 }
 }

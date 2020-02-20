@@ -104,9 +104,55 @@ public:
 		uint32 index = 0;
 	};
 
+	class ConstIterator final
+	{
+	public:
+		ConstIterator(const FixedArray<ElemType, capacity>& arr)
+			: arrData(arr.GetData()),
+			size(arr.Size())
+		{
+		}
+
+		ConstIterator(nullptr_t)
+			: arrData(nullptr),
+			size(0)
+		{
+		}
+
+		ConstIterator& operator++()
+		{
+			if (index < size - 1)
+			{
+				++index;
+			}
+			else
+			{
+				arrData = nullptr;
+			}
+			return *this;
+		}
+
+		bool operator!=(const ConstIterator& other)
+		{
+			return arrData != other.arrData;
+		}
+
+		const ElemType& operator*()
+		{
+			return arrData[index];
+		}
+
+	private:
+		const ElemType* arrData;
+		const uint32 size;
+		uint32 index = 0;
+	};
+
 private:
 	friend Iterator begin(FixedArray<ElemType, capacity>& arr) { return Iterator(arr); }
+	friend ConstIterator begin(const FixedArray<ElemType, capacity>& arr) { return ConstIterator(arr); }
 	friend Iterator end(FixedArray<ElemType, capacity>&) { return Iterator(nullptr); }
+	friend ConstIterator end(const FixedArray<ElemType, capacity>&) { return ConstIterator(nullptr); }
 
 private:
 	ElemType data[capacity] = {};

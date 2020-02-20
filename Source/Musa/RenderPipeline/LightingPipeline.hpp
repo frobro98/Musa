@@ -9,5 +9,5 @@ class RenderContext;
 
 namespace DeferredRender
 {
-void RenderLights(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const View& view);
+void RenderLights(RenderContext& renderer, const Scene& scene, const GBuffer& gbuffer, const View& view);
 }

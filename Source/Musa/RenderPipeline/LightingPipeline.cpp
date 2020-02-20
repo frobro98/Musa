@@ -52,7 +52,7 @@ static void RenderLight(RenderContext& renderer, Light& light, const View& view)
 
 namespace DeferredRender
 {
-void RenderLights(RenderContext& renderer, Scene& scene, const GBuffer& gbuffer, const View& view)
+void RenderLights(RenderContext& renderer, const Scene& scene, const GBuffer& gbuffer, const View& view)
 {
 	auto& lights = scene.GetLights();
 	if (lights.Size() > 0)

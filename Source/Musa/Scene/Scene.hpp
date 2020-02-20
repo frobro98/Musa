@@ -36,7 +36,7 @@ public:
 
 	void Tick(float deltaTime);
 
-	inline FixedArray<Light*, MaxLights>& GetLights() { return lights; }
+	inline const FixedArray<Light*, MaxLights>& GetLights() const { return lights; }
 
 private:
 
