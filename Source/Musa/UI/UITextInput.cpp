@@ -4,6 +4,10 @@
 
 namespace UI
 {
+TextInput::TextInput(Widget* parent)
+	: Widget(parent)
+{
+}
 InputEvents TextInput::OnChar(tchar /*character*/, bool /*isRepeated*/)
 {
 	return InputEvents();

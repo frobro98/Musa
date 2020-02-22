@@ -3,6 +3,10 @@
 
 namespace UI
 {
+Image::Image(Widget* parent)
+	: Widget(parent)
+{
+}
 void Image::UpdateInternal()
 {
 }
