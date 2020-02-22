@@ -25,6 +25,8 @@ public:
 	[[nodiscard]] bool TryAdd(AddType&& elem);
 
 	void Resize(uint32 newSize);
+	void Clear();
+
 
 	[[nodiscard]] bool IsEmpty() const;
 	[[nodiscard]] bool HasRoom() const;
@@ -218,6 +220,13 @@ inline void FixedArray<ElemType, capacity>::Resize(uint32 newSize)
 		Destroy(newSize, destroyCount);
 	}
 	size = newSize;
+}
+
+template<typename ElemType, uint32 capacity>
+inline void FixedArray<ElemType, capacity>::Clear()
+{
+	Destroy(0, size);
+	size = 0;
 }
 
 template<typename ElemType, uint32 capacity>

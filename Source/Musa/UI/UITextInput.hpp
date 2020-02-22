@@ -7,6 +7,9 @@ namespace UI
 {
 struct TextInput : public Widget
 {
+	TextInput() = default;
+	TextInput(Widget* parent);
+
 	virtual InputEvents OnChar(tchar character, bool isRepeated) override;
 
 	String inputText;

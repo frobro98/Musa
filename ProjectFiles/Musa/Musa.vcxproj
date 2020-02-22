@@ -66,6 +66,7 @@
     <ClCompile Include="..\..\Source\Musa\Scene\ScreenView.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\ViewUtilties.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\DebugUI\UIConsole.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UI.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIArea.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIButton.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h" />
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\DebugUI\UIConsole.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIArea.hpp" />

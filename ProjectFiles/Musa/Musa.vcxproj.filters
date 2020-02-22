@@ -67,6 +67,9 @@
     <Filter Include="Source\UI\Internal">
       <UniqueIdentifier>{f2489d94-584d-4b8c-9b9d-99c356eeb3ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\UI\DebugUI">
+      <UniqueIdentifier>{0caab997-e4e7-4e77-9364-7ead77c2f821}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -266,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.cpp">
       <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\DebugUI\UIConsole.cpp">
+      <Filter>Source\UI\DebugUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -533,8 +539,11 @@
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRenderTargets.hpp">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp">
+	<ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp">
       <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\DebugUI\UIConsole.hpp">
+      <Filter>Source\UI\DebugUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

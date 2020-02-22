@@ -10,6 +10,9 @@ namespace UI
 {
 struct Image : public Widget
 {
+	Image() = default;
+	Image(Widget* parent);
+
 	virtual void UpdateInternal() override;
 	virtual void PrepareForRenderInternal() override;
 
