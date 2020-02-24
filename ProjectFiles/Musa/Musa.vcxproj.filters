@@ -539,11 +539,14 @@
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRenderTargets.hpp">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-	<ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp">
+    <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp">
       <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\DebugUI\UIConsole.hpp">
       <Filter>Source\UI\DebugUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\UI\WidgetBatchElemements.hpp">
+      <Filter>Source\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

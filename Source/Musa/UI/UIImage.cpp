@@ -10,7 +10,8 @@ Image::Image(Widget* parent)
 void Image::UpdateInternal()
 {
 }
-void Image::PrepareForRenderInternal()
+void Image::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
+	UNUSED(widgetElements);
 }
 }

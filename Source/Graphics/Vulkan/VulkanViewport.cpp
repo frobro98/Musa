@@ -6,6 +6,8 @@
 VulkanViewport::VulkanViewport(VulkanDevice& device, VkInstance instance, void* windowHandle, uint32 viewWidth, uint32 viewHeight)
 	: logicalDevice(device)
 {
+	REF_CHECK(device);
+
 	viewSurface = new VulkanSurface(instance, &logicalDevice, windowHandle, viewWidth, viewHeight);
 	swapchain = new VulkanSwapchain(logicalDevice, viewSurface);
 	swapchain->Initialize();

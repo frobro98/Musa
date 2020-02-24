@@ -7,6 +7,8 @@
 #include "Math/Vector2.hpp"
 #include "Math/Matrix2.hpp"
 
+struct WidgetBatchElements;
+
 namespace UI
 {
 
@@ -42,7 +44,7 @@ public:
 	// Updates widget hierarchy
 	void Update(const Vector2& parentPosition, const Vector2& parentScale);
 	// Prepares widget hierarchy for render;
-	void PrepareForRender();
+	void PrepareForRender(WidgetBatchElements& widgetElements);
 
 public:
 	DynamicArray<Widget*> children;
@@ -93,6 +95,6 @@ private:
 			   but the way they are rendered is much more complex, so having specific gpu data stores that 
 			   understand the nuances of how a widget should be rendered is super overkill
 	*/
-	virtual void PrepareForRenderInternal() = 0;
+	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) = 0;
 };
 }

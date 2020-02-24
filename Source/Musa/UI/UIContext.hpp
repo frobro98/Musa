@@ -4,6 +4,7 @@
 #include "UI/UIPath.hpp"
 
 class Window;
+struct WidgetBatchElements;
 
 namespace UI
 {
@@ -32,7 +33,7 @@ public:
 	// Updates all of the UI within the tree. Probably pushes all of the info to the render side of things as well...
 	void Update();
 
-	void PrepareUIForRender();
+	void PrepareUIForRender(WidgetBatchElements& widgetElements);
 
 	// Returns a ui tree path to the widget under
 	Path GetUIPathAt(uint32 screenPosX, uint32 screenPosY) const;

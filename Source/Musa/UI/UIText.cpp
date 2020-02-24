@@ -12,7 +12,8 @@ void Text::UpdateInternal()
 {
 }
 
-void Text::PrepareForRenderInternal()
+void Text::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
+	UNUSED(widgetElements);
 }
 }

@@ -15,8 +15,9 @@ InputEvents TextInput::OnChar(tchar /*character*/, bool /*isRepeated*/)
 void TextInput::UpdateInternal()
 {
 }
-void TextInput::PrepareForRenderInternal()
+void TextInput::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
+	UNUSED(widgetElements);
 }
 }
 

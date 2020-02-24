@@ -6,7 +6,8 @@ namespace UI
 void Area::UpdateInternal()
 {
 }
-void Area::PrepareForRenderInternal()
+void Area::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
+	UNUSED(widgetElements);
 }
 }

@@ -16,16 +16,18 @@ public:
 	Console() = default;
 	Console(Widget* parent);
 
+	virtual InputEvents OnKeyDown(Inputs::Type keyType, bool isRepeated) override;
 	virtual InputEvents OnChar(tchar c, bool isRepeated) override;
 
-private:
 	virtual void UpdateInternal() override;
-	virtual void PrepareForRenderInternal() override;
+	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;
 
 private:
 	static constexpr uint32 MaxCharsPerFrame = 4;
 	String textOnScreen;
-	UniquePtr<TextInput> consoleInput;
+
+	// Might not need something this heavy for a console...(?)
+	//UniquePtr<TextInput> consoleInput;
 	UniquePtr<Image> background;
 };
 }

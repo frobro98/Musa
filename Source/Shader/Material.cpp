@@ -20,6 +20,8 @@ Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const
 	vertexShader(&vertShader),
 	fragmentShader(&fragShader)
 {
+	REF_CHECK(vertShader, fragShader, color);
+
 	if (textureName != nullptr)
 	{
 		texture0 = GetTextureManager().FindTexture(textureName);
@@ -32,11 +34,13 @@ Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const
     ConfigureMaterialInfo();
 }
 
-Material::Material(ShaderResource & vertShader, ShaderResource & fragShader, const Texture* tex, const Color32 & color)
+Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const Texture* tex, const Color32& color)
 	: diffuseColor(color),
 	vertexShader(&vertShader),
 	fragmentShader(&fragShader)
 {
+	REF_CHECK(vertShader, fragShader, color);
+
 	texture0 = tex;
 
     ConfigureMaterialInfo();
@@ -72,26 +76,30 @@ void Material::DisableWireframe()
 	fillMode = FillMode::Full;
 }
 
-void Material::SetTexture0(Texture* tex0)
+void Material::SetTexture0(Texture& tex0)
 {
-	texture0 = tex0;
+	REF_CHECK(tex0);
+	texture0 = &tex0;
 	ConfigureMaterialInfo();
 }
 
-void Material::SetTexture1(Texture* tex1)
+void Material::SetTexture1(Texture& tex1)
 {
-	texture1 = tex1;
+	REF_CHECK(tex1);
+	texture1 = &tex1;
 	ConfigureMaterialInfo();
 }
 
-void Material::SetNormalMap(Texture* normMap)
+void Material::SetNormalMap(Texture& normMap)
 {
-	normalMap = normMap;
+	REF_CHECK(normMap);
+	normalMap = &normMap;
 	ConfigureMaterialInfo();
 }
 
 void Material::SetColor(const Color32& color)
 {
+	REF_CHECK(color);
 	diffuseColor = color;
 	ConfigureMaterialInfo();
 }

@@ -14,18 +14,18 @@ void Widget::Update(const Vector2& parentPosition, const Vector2& parentScale)
 	}
 }
 
-void Widget::PrepareForRender()
+void Widget::PrepareForRender(WidgetBatchElements& widgetElements)
 {
 	// PrepareRender prepares information used in the actual rendering of the UI.
 	// If data changed from Update or other functions, that data needs to be pushed to relavent rendering structures.
 	// 
 
-	PrepareForRenderInternal();
+	PrepareForRenderInternal(widgetElements);
 
 	// TODO - Decide on whether to have a bool that dictates whether the element should be rendered again
 	for (auto& child : children)
 	{
-		child->PrepareForRender();
+		child->PrepareForRender(widgetElements);
 	}
 }
 

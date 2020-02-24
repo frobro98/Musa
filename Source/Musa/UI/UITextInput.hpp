@@ -16,9 +16,8 @@ struct TextInput : public Widget
 	// Draw location for text as well as where the text will be next inserted
 	uint32 cursorLocation;
 
-private:
 	virtual void UpdateInternal() override;
-	virtual void PrepareForRenderInternal() override;
+	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;
 };
 }
 

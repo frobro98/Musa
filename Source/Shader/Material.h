@@ -25,9 +25,9 @@ public:
 	void EnableWireframe();
 	void DisableWireframe();
 
-	void SetTexture0(Texture* texture0);
-	void SetTexture1(Texture* texture1);
-	void SetNormalMap(Texture* normMap);
+	void SetTexture0(Texture& texture0);
+	void SetTexture1(Texture& texture1);
+	void SetNormalMap(Texture& normMap);
 	void SetCubeTexture(TextureCube* cube);
 	void SetColor(const Color32& color);
 	void SetShadingModel(ShadingModel model);

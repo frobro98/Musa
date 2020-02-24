@@ -158,6 +158,7 @@
     <ClInclude Include="..\..\Source\Musa\UI\ProfilingUI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UI.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIArea.hpp" />
+    <ClInclude Include="..\..\Source\Musa\UI\WidgetBatchElemements.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIButton.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIContext.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\UIImage.hpp" />

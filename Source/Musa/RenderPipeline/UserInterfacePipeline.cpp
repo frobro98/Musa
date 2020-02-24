@@ -27,13 +27,15 @@
 
 #include "Types/UniquePtr.hpp"
 #include "UI/UIContext.hpp"
+#include "UI/WidgetBatchElemements.hpp"
 
-DECLARE_METRIC_GROUP(TextDisplay);
-METRIC_STAT(TextSetup, TextDisplay);
-METRIC_STAT(TextRenderSetupCommands, TextDisplay);
-METRIC_STAT(TextFormatting, TextDisplay);
-METRIC_STAT(TextDisplayRender, TextDisplay);
-METRIC_STAT(RenderToScreen, TextDisplay);
+DECLARE_METRIC_GROUP(UIPipeline);
+METRIC_STAT(RenderUI, UIPipeline);
+METRIC_STAT(TextSetup, UIPipeline);
+METRIC_STAT(TextRenderSetupCommands, UIPipeline);
+METRIC_STAT(TextFormatting, UIPipeline);
+METRIC_STAT(TextDisplayRender, UIPipeline);
+METRIC_STAT(RenderToScreen, UIPipeline);
 
 static BatchCollection collection;
 // TODO - Leak but this shouldn't be global anyways....
@@ -220,13 +222,25 @@ namespace DeferredRender
 
 using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 
-void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget& sceneColorTarget, const RenderTarget& uiTarget, const View& view)
+void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget& uiTarget, const View& view)
 {
 	REF_CHECK(renderContext, ui, uiTarget);
 
-	DynamicArray<Color32> clearColors;
-	// UI Render
+	SCOPED_TIMED_BLOCK(RenderUI);
+
+	// Determine if UI needs to render
+
+	// If rendering, set up
 	{
+		WidgetBatchElements elems;
+		// Need to have some sort of primitive store that gets populated with all of the information per ui widget
+		ui.PrepareUIForRender(elems);
+
+		// With the render primitives and data stored in some way, need to actually set up rendering
+
+		DynamicArray<Color32> clearColors;
+
+		// Set framebuffer to be the one that is used for UI
 		RenderTargetList uiColorTarget;
 		uiColorTarget.Add(&uiTarget);
 		RenderTargetDescription targetDescription = CreateRenderTargetDescription(uiColorTarget, nullptr, RenderTargetAccess::None);
@@ -237,6 +251,8 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 		clearColors = { Color32(0, 0, 0, 0) };
 		renderContext.SetRenderTarget(targetDescription, uiRenderTarget, clearColors);
 
+		// Render to that framebuffer
+
 		// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
 		BEGIN_TIMED_BLOCK(TextDisplayRender);
 		RenderScreenText(renderContext, view);
@@ -244,63 +260,6 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 
 		TransitionTargetsToRead(renderContext, uiRenderTarget);
 	}
-
-	// Render to back buffer
-	{
-		clearColors = { Color32(0, 0, 0) };
-		NativeTexture* backBuffer = renderContext.GetBackBuffer();
-		NativeRenderTargets backBufferTarget = {};
-		backBufferTarget.colorTargets.Add(backBuffer);
-
-		RenderTargetDescription targetDescription = {};
-		targetDescription.colorAttachments.Resize(1);
-		targetDescription.targetExtents = { (float32)view.description.viewport.width, (float32)view.description.viewport.height };
-		targetDescription.hasDepth = false;
-
-		RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-		colorDesc.format = ImageFormat::BGRA_8norm;
-		colorDesc.load = LoadOperation::Clear;
-		colorDesc.store = StoreOperation::Store;
-		colorDesc.stencilLoad = LoadOperation::DontCare;
-		colorDesc.stencilStore = StoreOperation::DontCare;
-		colorDesc.sampleCount = 1;
-
-		TransitionTargetsToWrite(renderContext, backBufferTarget);
-
-		// Set target to back buffer
-		renderContext.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
-
-		// Render sceneColor and UI to back buffer
-		{
-			SCOPED_TIMED_BLOCK(RenderToScreen);
-
-			// TODO - This should be a pipeline helper function
-			uint32 viewWidth = (uint32)view.description.viewport.width;
-			uint32 viewHeight = (uint32)view.description.viewport.height;
-			renderContext.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
-			renderContext.SetScissor(0, 0, viewWidth, viewHeight);
-
-			GraphicsPipelineDescription desc = {};
-			renderContext.InitializeWithRenderState(desc);
-			desc.vertexInputs = {};
-			desc.rasterizerDesc = { 1.25f, 1.75f, FillMode::Full, CullingMode::Front };
-			desc.blendingDescs[0] = BlendDesc<ColorMask::RGBA, BlendOperation::Add, BlendFactor::One, BlendFactor::One, BlendOperation::Add, BlendFactor::One, BlendFactor::One>();
-			desc.depthStencilTestDesc = DepthTestDesc();
-			desc.topology = PrimitiveTopology::TriangleList;
-			desc.vertexShader = &GetShader<ScreenRenderVert>()->GetNativeShader();
-			desc.fragmentShader = &GetShader<ScreenRenderFrag>()->GetNativeShader();
-			renderContext.SetGraphicsPipeline(desc);
-
-			renderContext.SetTexture(*sceneColorTarget.nativeTarget, *SamplerDesc(), 0);
-			renderContext.SetTexture(*uiTarget.nativeTarget, *SamplerDesc(), 1);
-
-			renderContext.Draw(3, 1);
-		}
-
-		TransitionTargetsToRead(renderContext, backBufferTarget);
-	}
-
-
 
 	// Determine if UI needs to render
 

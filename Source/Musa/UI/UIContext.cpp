@@ -35,11 +35,11 @@ void Context::Update()
 	}
 }
 
-void Context::PrepareUIForRender()
+void Context::PrepareUIForRender(WidgetBatchElements& widgetElements)
 {
 	for (auto& element : widgets)
 	{
-		element->PrepareForRender();
+		element->PrepareForRender(widgetElements);
 	}
 }
 

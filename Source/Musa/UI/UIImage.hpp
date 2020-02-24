@@ -14,7 +14,7 @@ struct Image : public Widget
 	Image(Widget* parent);
 
 	virtual void UpdateInternal() override;
-	virtual void PrepareForRenderInternal() override;
+	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;
 
 	Color color = Color::White();
 	// Texture...???

@@ -372,7 +372,6 @@ void MusaEngine::UpdateAndRender(float32 tick)
 	uiContext->Update();
 
 	world->PushToRenderState();
-	uiContext->PrepareUIForRender();
 	END_TIMED_BLOCK(Update);
 
 	BEGIN_TIMED_BLOCK(Render);
@@ -403,7 +402,7 @@ void MusaEngine::RenderFrame()
 
 	//world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *engineTargets.userInterfaceTarget, *viewport);
 	DeferredRender::Render(engineTargets, world->GetScene(), renderManager, screenView.view);
-	DeferredRender::RenderUI(context, *uiContext, *engineTargets.sceneTargets.sceneColorTexture, *engineTargets.userInterfaceTarget, screenView.view);
+	DeferredRender::RenderUI(context, *uiContext, *engineTargets.userInterfaceTarget, screenView.view);
 
 	// Need a way to compose everything to the backbuffer
 	DeferredRender::ComposeBackbuffer(context, *engineTargets.sceneTargets.sceneColorTexture, *engineTargets.userInterfaceTarget, screenView.view);

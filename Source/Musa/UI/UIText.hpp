@@ -9,10 +9,11 @@ namespace UI
 {
 class Text : public Widget
 {
+public:
 	Text(FontID fontID);
 
 	virtual void UpdateInternal() override;
-	virtual void PrepareForRenderInternal() override;
+	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;
 
 	inline void SetText(StringView sv)
 	{

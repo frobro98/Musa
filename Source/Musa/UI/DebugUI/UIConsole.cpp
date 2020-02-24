@@ -4,16 +4,34 @@ namespace UI
 {
 Console::Console(Widget* parent)
 	: Widget(parent),
-	consoleInput(MakeUnique<TextInput>(this)),
+	//consoleInput(MakeUnique<TextInput>(this)),
 	background(MakeUnique<Image>(this))
 {
 	textOnScreen = "_";
 }
 
-InputEvents Console::OnChar(tchar c, bool isRepeated)
+InputEvents Console::OnKeyDown(Inputs::Type keyType, bool /*isRepeated*/)
 {
-	InputEvents events = consoleInput->OnChar(c, isRepeated);
-	return events;
+	// Handling delete/backspace/tab/arrow key movements
+
+	if (keyType == Inputs::Key_Tilde)
+	{
+
+	}
+
+	return InputEvents();
+}
+
+InputEvents Console::OnChar(tchar c, bool /*isRepeated*/)
+{
+	constexpr tchar minChar = 32;
+	constexpr tchar maxChar = 127;
+	if (c >= minChar && c < maxChar)
+	{
+
+	}
+	//InputEvents events = consoleInput->OnChar(c, isRepeated);
+	return InputEvents();
 }
 
 void Console::UpdateInternal()
@@ -22,8 +40,8 @@ void Console::UpdateInternal()
 	background->Update(relativePosition, relativeScale);
 }
 
-void Console::PrepareForRenderInternal()
+void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
-
+	UNUSED(widgetElements);
 }
 }

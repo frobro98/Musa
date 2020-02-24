@@ -13,7 +13,7 @@ public:
 
 private:
 	virtual void UpdateInternal() override;
-	virtual void PrepareForRenderInternal() override;
+	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;
 
 private:
 
