@@ -5,8 +5,9 @@
 #include "Input/Internal/InputInternal.hpp"
 
 
-Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler, uint32 xPos, uint32 yPos, uint32 w, uint32 h)
+Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler_, uint32 xPos, uint32 yPos, uint32 w, uint32 h)
 	: window(nullptr),
+	inputHandler(inputHandler_),
 	position(xPos, yPos),
 	width(w),
 	height(h),

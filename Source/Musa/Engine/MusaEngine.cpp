@@ -327,6 +327,8 @@ static void CreateInputContext(GameInput& gameInput)
 	gameInput.PushInputContext("Gamepad Context");
 }
 
+#include "UI/DebugUI/UIConsole.hpp"
+
 void MusaEngine::LoadContent()
 {
 	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
@@ -350,11 +352,9 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
-// 	// TODO - A scene currently requires a light in it. This is very bad. It needs to be so lighting is done in a separate pass and then the screen shader renders to the screen...
-// 	Light* light = world->CreateGameObject<SpotLight>();
-// 	light->SetPos(Vector4(100, 100, 100));
-// 	light->SetRotation(-40.f, 45.f, 0.f);
-// 	world->GetScene().AddLightToScene(*light);
+	// TODO - LEAKING MEMEORY!!!
+	UI::Console* console = new UI::Console;
+	uiContext->AddWidget(*console);
 }
 
 void MusaEngine::UnloadContent()

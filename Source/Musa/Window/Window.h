@@ -34,10 +34,12 @@ public:
 	inline IntVector2 GetPosition() const { return position; }
 	inline int32 GetWidth() const { return width; }
 	inline int32 GetHeight() const { return height; }
+	inline WindowInputHandler& GetInputHandler() const { return inputHandler; }
 
 private:
 	WINDOWPLACEMENT previousPlacement;
 	HWND window;
+	WindowInputHandler& inputHandler;
 	IntVector2 position;
 	int32 width;
 	int32 height;

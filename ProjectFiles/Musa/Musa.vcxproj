@@ -76,6 +76,8 @@
     <ClCompile Include="..\..\Source\Musa\UI\UIText.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UITextInput.cpp" />
     <ClCompile Include="..\..\Source\Musa\UI\UIWidget.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp" />
+    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElements.cpp" />
     <ClCompile Include="..\..\Source\Musa\Visualization\EngineStatView.cpp" />
     <ClCompile Include="..\..\Source\Musa\Window\Window.cpp" />
   </ItemGroup>

@@ -273,6 +273,10 @@
     <ClCompile Include="..\..\Source\Musa\UI\DebugUI\UIConsole.cpp">
       <Filter>Source\UI\DebugUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElements.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">

@@ -2,6 +2,10 @@
 
 namespace UI
 {
+Console::Console()
+	: background(MakeUnique<Image>(this))
+{
+}
 Console::Console(Widget* parent)
 	: Widget(parent),
 	//consoleInput(MakeUnique<TextInput>(this)),
@@ -28,7 +32,7 @@ InputEvents Console::OnChar(tchar c, bool /*isRepeated*/)
 	constexpr tchar maxChar = 127;
 	if (c >= minChar && c < maxChar)
 	{
-
+		return InputEvents(Handled);
 	}
 	//InputEvents events = consoleInput->OnChar(c, isRepeated);
 	return InputEvents();

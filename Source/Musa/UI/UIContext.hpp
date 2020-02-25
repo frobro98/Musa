@@ -4,7 +4,7 @@
 #include "UI/UIPath.hpp"
 
 class Window;
-struct WidgetBatchElements;
+class WidgetBatchElements;
 
 namespace UI
 {

@@ -245,6 +245,13 @@ void WindowInputHandler::AddInputStream(DynamicArray<IInputReceiver *>&& newInpu
 	inputReceivers = std::move(newInputStream);
 }
 
+void WindowInputHandler::AddInput(IInputReceiver& newInput)
+{
+	REF_CHECK(newInput);
+
+	inputReceivers.Add(&newInput);
+}
+
 void WindowInputHandler::ClearInputStream()
 {
 	inputReceivers.Clear();

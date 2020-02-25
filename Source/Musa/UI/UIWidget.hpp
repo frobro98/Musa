@@ -7,7 +7,7 @@
 #include "Math/Vector2.hpp"
 #include "Math/Matrix2.hpp"
 
-struct WidgetBatchElements;
+class WidgetBatchElements;
 
 namespace UI
 {

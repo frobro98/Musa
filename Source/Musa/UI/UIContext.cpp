@@ -2,6 +2,8 @@
 #include "UIContext.hpp"
 #include "Input/Input.hpp"
 #include "UIWidget.hpp"
+#include "Window/Window.h"
+#include "Input/WindowInputHandler.hpp"
 
 namespace UI
 {
@@ -13,6 +15,8 @@ Context::Context(uint32 screenDimensionX, uint32 screenDimensionY)
 void Context::AddWidget(Widget& widget)
 {
 	widgets.AddUnique(&widget);
+	WindowInputHandler& inputHandler = window->GetInputHandler();
+	inputHandler.AddInput(widget);
 }
 
 void Context::RemoveWidget(Widget & widget)

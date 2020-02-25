@@ -13,7 +13,7 @@ namespace UI
 class Console : public Widget
 {
 public:
-	Console() = default;
+	Console();
 	Console(Widget* parent);
 
 	virtual InputEvents OnKeyDown(Inputs::Type keyType, bool isRepeated) override;
