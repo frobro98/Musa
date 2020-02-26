@@ -6,6 +6,7 @@ Console::Console()
 	: background(MakeUnique<Image>(this))
 {
 	background->color = Color::Black();
+	background->color.a /= 2;
 	relativeScale = Vector2(10, 50);
 }
 Console::Console(Widget* parent)
