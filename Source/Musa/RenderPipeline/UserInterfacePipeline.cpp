@@ -70,7 +70,7 @@ static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& scree
 
 EngineStatView statView;
 
-static void RenderScreenText(RenderContext& renderer, const View& view)
+/*static*/ void RenderScreenText(RenderContext& renderer, const View& view)
 {
 	if (viewBuffer == nullptr)
 	{
@@ -191,9 +191,6 @@ static void RenderScreenText(RenderContext& renderer, const View& view)
 		desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
 		desc.rasterizerDesc = RasterDesc();
 		desc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-		desc.blendingDescs[1] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-		desc.blendingDescs[2] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
-		desc.blendingDescs[3] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 		desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
 		desc.topology = PrimitiveTopology::TriangleList;
 		desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
@@ -228,6 +225,17 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 
 	SCOPED_TIMED_BLOCK(RenderUI);
 
+	if (viewBuffer == nullptr)
+	{
+		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		viewBuffer = buff.Release();
+		ViewPropertiesBuffer buffer = {};
+		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
+		buffer.viewTransform = Matrix4(IDENTITY);
+		buffer.viewPosition = view.description.origin;
+		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
+	}
+
 	// Determine if UI needs to render
 
 	// If rendering, set up
@@ -254,9 +262,31 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 		// Render to that framebuffer
 
 		// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
-		BEGIN_TIMED_BLOCK(TextDisplayRender);
-		RenderScreenText(renderContext, view);
-		END_TIMED_BLOCK(TextDisplayRender);
+// 		BEGIN_TIMED_BLOCK(TextDisplayRender);
+// 		RenderScreenText(renderContext, view);
+// 		END_TIMED_BLOCK(TextDisplayRender);
+
+		GraphicsPipelineDescription desc = {};
+		renderContext.InitializeWithRenderState(desc);
+		desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
+		desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
+		desc.rasterizerDesc = RasterDesc();
+		desc.blendingDescs[0] = BlendDesc();
+		desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
+		desc.topology = PrimitiveTopology::TriangleList;
+		desc.vertexInputs = GetVertexInput<PrimitiveVertex>();
+
+		renderContext.SetGraphicsPipeline(desc);
+
+		renderContext.SetUniformBuffer(*viewBuffer, 0);
+		renderContext.SetTexture(*WhiteTexture()->gpuResource, *SamplerDesc(), 1);
+
+		const auto& elementList = elems.GetBatchElementList();
+		for (const auto& element : elementList)
+		{
+			renderContext.DrawRawIndexed({ element.batchedVertices }, { element.batchedIndices }, 1);
+		}
+		
 
 		TransitionTargetsToRead(renderContext, uiRenderTarget);
 	}

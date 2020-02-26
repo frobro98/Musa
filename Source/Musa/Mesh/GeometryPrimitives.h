@@ -51,6 +51,10 @@ struct PrimitiveVertex
 	Color32 color;
 };
 
+PrimitiveVertex MakePrimitiveVertex(Vector2 position, Vector2 texCoods, Color color);
+PrimitiveVertex MakePrimitiveVertex(Vector3 position, Vector2 texCoods, Color color);
+PrimitiveVertex MakePrimitiveVertex(Vector3 position, Vector2 texCoods, Color32 color);
+
 struct VertexBoneWeights
 {
 	static constexpr uint32 MaxWeightInfluences = 4;

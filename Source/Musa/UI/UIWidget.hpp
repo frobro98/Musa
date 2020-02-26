@@ -52,9 +52,9 @@ public:
 	Widget* parent = nullptr;
 
 	// UI needs position information relative to the parent
-	Vector2 relativePosition;
+	Vector2 relativePosition = Vector2(0, 0);
 	// UI needs some sort of transform for rendering
-	Vector2 relativeScale; // Also represents the dimensions...???
+	Vector2 relativeScale = Vector2(1, 1); // Also represents the dimensions...???
 
 	// UI needs an anchor point and pivot point
 	Vector2 pivot;

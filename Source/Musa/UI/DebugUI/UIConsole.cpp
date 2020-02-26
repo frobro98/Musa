@@ -5,6 +5,8 @@ namespace UI
 Console::Console()
 	: background(MakeUnique<Image>(this))
 {
+	background->color = Color::Black();
+	relativeScale = Vector2(10, 50);
 }
 Console::Console(Widget* parent)
 	: Widget(parent),
@@ -46,6 +48,7 @@ void Console::UpdateInternal()
 
 void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
-	UNUSED(widgetElements);
+	//BatchElement& elem = widgetElements.GetBatchElement(nullptr);
+	background->PrepareForRenderInternal(widgetElements);
 }
 }

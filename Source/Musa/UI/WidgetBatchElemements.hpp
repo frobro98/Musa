@@ -8,6 +8,7 @@ struct NativeTexture;
 struct BatchElement
 {
 	DynamicArray<PrimitiveVertex> batchedVertices;
+	DynamicArray<uint32> batchedIndices;
 	const NativeTexture* batchTexture;
 	//TODO - clipping must be addressed
 	// Either scissor or stencil clipping...?
@@ -15,8 +16,9 @@ struct BatchElement
 
 class WidgetBatchElements
 {
-	BatchElement& GetBatchElement(const NativeTexture* batchTexture);
-	forceinline const DynamicArray<BatchElement>& GetBatchElementList() { return batchElements; }
+public:
+	[[nodiscard]] BatchElement& GetBatchElement(const NativeTexture* batchTexture);
+	[[nodiscard]] forceinline const DynamicArray<BatchElement>& GetBatchElementList() { return batchElements; }
 
 	// TODO - Clipping
 
