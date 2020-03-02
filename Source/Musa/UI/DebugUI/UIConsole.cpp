@@ -1,4 +1,7 @@
 #include "UIConsole.hpp"
+#include "Font/FontCache.hpp"
+#include "Texture/Texture2D/Texture.h"
+#include "UI/WidgetBatchElemements.hpp"
 
 namespace UI
 {
@@ -8,6 +11,8 @@ Console::Console()
 	background->color = Color::Black();
 	background->color.a /= 2;
 	relativeScale = Vector2(10, 50);
+
+	InitializeFont();
 }
 Console::Console(Widget* parent)
 	: Widget(parent),
@@ -15,6 +20,7 @@ Console::Console(Widget* parent)
 	background(MakeUnique<Image>(this))
 {
 	textOnScreen = "_";
+	InitializeFont();
 }
 
 InputEvents Console::OnKeyDown(Inputs::Type keyType, bool /*isRepeated*/)
@@ -35,6 +41,7 @@ InputEvents Console::OnChar(tchar c, bool /*isRepeated*/)
 	constexpr tchar maxChar = 127;
 	if (c >= minChar && c < maxChar)
 	{
+		textOnScreen += c;
 		return InputEvents(Handled);
 	}
 	//InputEvents events = consoleInput->OnChar(c, isRepeated);
@@ -51,5 +58,76 @@ void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 {
 	//BatchElement& elem = widgetElements.GetBatchElement(nullptr);
 	background->PrepareForRenderInternal(widgetElements);
+
+	Texture& fontTex = *consoleFont->fontTexture;
+	BatchElement& batchElement = widgetElements.GetBatchElement(fontTex.gpuResource.Get());
+
+	uint32 textSize = textOnScreen.Length();
+	Vector2 currentTextPosition;
+	constexpr tchar spaceCode = 0x20;
+	for (uint32 i = 0; i < textSize; ++i)
+	{
+		tchar character = textOnScreen[i];
+		FontCharDescription* charDesc = consoleFont->fontCharacterMap.Find(character);
+		if (charDesc->characterCode != spaceCode)
+		{
+			const uint32 texWidth = fontTex.GetWidth();
+			const uint32 texHeight = fontTex.GetHeight();
+
+			const float halfWidth = charDesc->width * /*textScale **/ .5f;
+			const float halfHeight = charDesc->height * /*textScale **/ .5f;
+
+			const float negX = currentTextPosition.x;
+			const float posY = currentTextPosition.y - (charDesc->characterHeightOffset/* * textScale*/);
+			const float posX = negX + (charDesc->width/* * textScale*/);
+			const float negY = posY - (charDesc->height/* * textScale*/);
+
+			const float uNormCoord = charDesc->normTextureCoords.x;
+			const float vNormCoord = charDesc->normTextureCoords.y;
+			const float uNormSize = charDesc->normCharacterWidth;
+			const float vNormSize = charDesc->normCharacterHeight;
+
+			Color32 white = Color32::White();
+			DynamicArray<PrimitiveVertex>& vertices = batchElement.batchedVertices;
+			const uint32 startIndex = vertices.Size();
+			vertices.Add(PrimitiveVertex{
+						Vector3(negX, posY, 0),
+						Vector2(uNormCoord, vNormCoord + vNormSize),
+						white
+				});
+			vertices.Add(PrimitiveVertex{
+				Vector3(negX, negY, 0),
+				Vector2(uNormCoord, vNormCoord),
+				white
+				});
+			vertices.Add(PrimitiveVertex{
+				Vector3(posX, posY, 0),
+				Vector2(uNormCoord + uNormSize, vNormCoord + vNormSize),
+				white
+				});
+			vertices.Add(PrimitiveVertex{
+				Vector3(posX, negY, 0),
+				Vector2(uNormCoord + uNormSize, vNormCoord),
+				white
+				});
+
+			DynamicArray<uint32>& indices = batchElement.batchedIndices;
+			indices.Add(startIndex + 0);
+			indices.Add(startIndex + 1);
+			indices.Add(startIndex + 2);
+
+			indices.Add(startIndex + 2);
+			indices.Add(startIndex + 1);
+			indices.Add(startIndex + 3);
+		}
+
+		currentTextPosition.x += (charDesc->advance /** textScale*/);
+	}
+
+}
+void Console::InitializeFont()
+{
+	FontID fontID = StringView("Ariel");
+	consoleFont = GetLoadedFont(fontID);
 }
 }

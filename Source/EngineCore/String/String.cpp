@@ -183,6 +183,26 @@ int32 String::FindFrom(uint32 index, const tchar* str) const
 	return foundFirstIndex + index;
 }
 
+void String::Add(const tchar* str)
+{
+	uint32 oldLen = Length();
+	uint32 cStrLen = Strlen(str);
+	stringData.Resize(oldLen + cStrLen + 1);
+	Strcat(stringData.GetData(), stringData.Size(), str, cStrLen);
+}
+
+void String::Add(tchar c)
+{
+	const uint32 oldLen = Length();
+	constexpr uint32 cStrLen = 1;
+	stringData.Resize(oldLen + cStrLen + 1);
+	stringData[oldLen + 1] = c;
+	stringData.Last() = 0;
+}
+
+// void String::Insert(const tchar* str, uint32 index)
+// {
+//
 void String::Insert(tchar c, uint32 index)
 {
 	stringData.Insert(c, index);
@@ -302,6 +322,16 @@ String& String::operator+=(const tchar* strObj)
 	stringData.Resize(oldLen + cStrLen + 1);
 	Strcat(stringData.GetData(), stringData.Size(), strObj, cStrLen);
 
+	return *this;
+}
+
+String& String::operator+=(tchar c)
+{
+	const uint32 oldLen = Length();
+	constexpr uint32 cStrLen = 1;
+	stringData.Resize(oldLen + cStrLen + 1);
+	stringData[oldLen] = c;
+	stringData.Last() = 0;
 	return *this;
 }
 

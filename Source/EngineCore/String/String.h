@@ -36,6 +36,9 @@ public:
 	int32 FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const;
 	int32 FindFrom(uint32 index, const tchar* str) const;
 
+	void Add(const tchar* str);
+	void Add(tchar c);
+	void Insert(const tchar* str, uint32 index);
 	void Insert(tchar c, uint32 index);
 	void Remove(uint32 index, uint32 count = 1);
 	void RemoveAll(tchar c);
@@ -73,9 +76,11 @@ public:
 
 	String& operator+=(const String& strObj);
 	String& operator+=(const tchar* strObj);
+	String& operator+=(tchar c);
 
 	friend String operator+(const String& str0, const String& str1);
 	friend String operator+(const String& str0, const tchar* str1);
+	friend String operator+(const String& str, tchar c);
 	friend String operator+(const tchar* str0, const String& str1);
 
 private:

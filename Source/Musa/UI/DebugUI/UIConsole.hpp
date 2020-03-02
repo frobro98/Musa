@@ -7,6 +7,8 @@
 #include "UI/UIImage.hpp"
 #include "String/String.h"
 
+struct Font;
+
 namespace UI
 {
 // This is a big boy widget now!
@@ -23,11 +25,16 @@ public:
 	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;
 
 private:
+	void InitializeFont();
+
+private:
 	static constexpr uint32 MaxCharsPerFrame = 4;
 	String textOnScreen;
+	uint32 cursorPos = 0;
 
 	// Might not need something this heavy for a console...(?)
 	//UniquePtr<TextInput> consoleInput;
 	UniquePtr<Image> background;
+	Font* consoleFont;
 };
 }
