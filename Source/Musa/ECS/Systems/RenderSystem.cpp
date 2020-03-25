@@ -12,16 +12,16 @@ void RenderSystem::Tick(float deltaTime)
 	UNUSED(deltaTime);
 }
 
-ComponentGroupDescription RenderSystem::GetRequiredComponents() const
+ComponentSet RenderSystem::GetRequiredComponents() const
 {
-	ComponentGroupDescription group;
-	group.AddComponents<TransformComponent, RenderComponent>();
+	ComponentSet group;
+	AddComponentsTo<TransformComponent, RenderComponent>(group);
 	return group;
 }
 
 void RenderSystem::AssociateEntity(const Musa::Entity & entity)
 {
-	ComponentGroupDescription entityComponents = Musa::GetComponentDescriptionOf(entity);
+	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
 	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
 	RenderWork work =
 	{

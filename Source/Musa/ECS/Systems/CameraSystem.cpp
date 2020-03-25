@@ -15,16 +15,16 @@ void CameraSystem::Tick(float tick)
 	}
 }
 
-ComponentGroupDescription CameraSystem::GetRequiredComponents() const
+ComponentSet CameraSystem::GetRequiredComponents() const
 {
-	ComponentGroupDescription group;
-	group.AddComponents<CameraComponent, TransformComponent>();
+	ComponentSet group;
+	Musa::AddComponentsTo<CameraComponent, TransformComponent>(group);
 	return group;
 }
 
 void CameraSystem::AssociateEntity(const Musa::Entity& entity)
 {
-	ComponentGroupDescription entityComponents = Musa::GetComponentDescriptionOf(entity);
+	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
 	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
 	CameraWork work = 
 	{ 

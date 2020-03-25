@@ -21,13 +21,13 @@ inline constexpr bool all_same_type_v = all_same_type<Type, Types...>::value;
 template <typename Base, typename... Derived>
 struct all_base_of
 {
-	constexpr bool IsAllBase()
+	static constexpr bool IsAllBase()
 	{
 		bool result = true;
 		[[maybe_unused]] int dummy[] = { 0, (result = result && std::is_base_of_v<Base, Derived>, 0)... };
 		return result;
 	}
-	//static constexpr bool value = (std::is_base_of_v<Base, Derived> && ...);
+	static constexpr bool value = IsAllBase();
 };
 
 template <typename Base, typename... Derived>

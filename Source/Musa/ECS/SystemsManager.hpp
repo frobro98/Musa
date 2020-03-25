@@ -38,7 +38,7 @@ private:
 	DynamicArray<const Entity*> dirtyEntities;
 	PCSTree<System> systemDependencyTree;
 	Map<SystemType, System*> systemsMap;
-	Map<ComponentGroupDescription, DynamicArray<System*>> componentsToRelevantSystems;
+	Map<ComponentSet, DynamicArray<System*>> componentsToRelevantSystems;
 };
 
 SystemManager& GetSystemsManager();

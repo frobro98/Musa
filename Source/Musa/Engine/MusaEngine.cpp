@@ -2,12 +2,9 @@
 #include "Graphics/GraphicsInterface.hpp"
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
-#include "Math/Rect.hpp"
-#include "Math/Vector4.hpp"
 #include "Mesh/MeshManager.h"
 #include "Input/Input.hpp"
 #include "Texture/Texture2D/TextureManager.h"
-#include "DirectoryLocations.h"
 
 #include "Scene/GameWorld.hpp"
 #include "Scene/Scene.hpp"
@@ -21,8 +18,6 @@
 
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
-#include "Graphics/RenderContextUtilities.hpp"
-#include "Graphics/RenderContext.hpp"
 
 #include "Shader/ShaderDefinition.hpp"
 #include "Shader/ShaderObjects/UnlitShading.hpp"
@@ -39,13 +34,22 @@
 #include "MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
 
+// TODO - Probably should delete this
+#include "Graphics/RenderContextUtilities.hpp"
+#include "Graphics/RenderContext.hpp"
+
+#include "ECS/SystemsManager.hpp"
+#include "ECS/Component.hpp"
+#include "ECS/Entity.hpp"
+#include "ECS/Components/TransformComponent.hpp"
+#include "ECS/Components/RenderComponent.hpp"
+
 DECLARE_METRIC_GROUP(Engine);
 DECLARE_METRIC_GROUP(FrameRender);
 
 METRIC_STAT(UpdateAndRender, Engine);
 METRIC_STAT(Update, Engine);
 METRIC_STAT(Render, Engine);
-//METRIC_STAT(GatherMetrics, Engine);
 
 METRIC_STAT(BeginRenderFrame, FrameRender)
 METRIC_STAT(EndRenderFrame, FrameRender)
@@ -337,6 +341,8 @@ void MusaEngine::LoadContent()
 
 	GetMeshManager().Initialize();
 
+	Musa::GetSystemsManager().Initialize();
+
 	CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
 	gameInput->ShowCursor(false);
@@ -351,6 +357,10 @@ void MusaEngine::LoadContent()
 	GameObject* go = world->CreateGameObject<GameObject>();
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
+
+	Musa::ComponentSet groupDesc = Musa::CreateComponentDescription<TransformComponent, RenderComponent>();
+	/*Musa::Entity* entity = */Musa::CreateEntity("Cube");
+
 
 	// TODO - LEAKING MEMEORY!!!
 	UI::Console* console = new UI::Console;

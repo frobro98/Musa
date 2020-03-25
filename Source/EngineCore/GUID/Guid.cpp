@@ -7,7 +7,7 @@
 Guid::Guid()
 {
 	GUID guid;
-	[[maybe_unused]] HRESULT result = ::CoCreateGuid(&guid);
+	::CoCreateGuid(&guid);
 	Memcpy(bytes, GuidSize, &guid, GuidSize);
 	ComputeHash();
 }
@@ -25,7 +25,7 @@ Guid::Guid(const Guid& other)
 	Memcpy(bytes, GuidSize, other.bytes, GuidSize);
 }
 
-Guid & Guid::operator=(const Guid& other)
+Guid& Guid::operator=(const Guid& other)
 {
 	if (this != &other)
 	{

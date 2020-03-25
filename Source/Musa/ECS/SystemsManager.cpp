@@ -15,7 +15,7 @@ SystemManager& SystemManager::Instance()
 
 void SystemManager::Initialize()
 {
-	//systemDependencyTree.Insert(new Internal::SystemHierarchyRoot, nullptr);
+	systemDependencyTree.Insert(new Internal::SystemHierarchyRoot, nullptr);
 }
 
 void SystemManager::AddSystem(System& system)
@@ -63,15 +63,15 @@ void SystemManager::TickSystems(float deltaTime)
 
 void SystemManager::AddEntityToRequiredSystems(const Entity& entity)
 {
-	ComponentGroupDescription groupOnEntity = Internal::EntityPool::FindComponentTypesOn(entity);
-// 	for (auto system : systemDependencyTree)
-// 	{
-// 		ComponentGroupDescription desc = system->GetRequiredComponents();
-// 		if (groupOnEntity.ContainsTypes(desc))
-// 		{
-// 			system->AssociateEntity(entity);
-// 		}
-// 	}
+	ComponentSet groupOnEntity = GetComponentDescriptionOf(entity);
+	for (auto system : systemDependencyTree)
+	{
+		ComponentSet desc = system->GetRequiredComponents();
+		if (groupOnEntity.ContainsTypes(desc))
+		{
+			system->AssociateEntity(entity);
+		}
+	}
 }
 
 

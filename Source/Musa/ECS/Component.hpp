@@ -22,7 +22,7 @@ struct Component
 };
 
 template <class Comp, typename = std::enable_if_t<std::is_base_of_v<Component, Comp>>>
-Comp* CreateComponent()
+inline Comp* CreateComponent()
 {
 	ComponentType type = Comp::GetComponentType();
 
@@ -33,6 +33,11 @@ Comp* CreateComponent()
 	}
 
 	return pool->CreateComponent<Comp>();
+}
+
+inline Component* CreateComponentFrom(const ComponentType& /*type*/)
+{
+
 }
 
 void DestroyComponent(Component* component);

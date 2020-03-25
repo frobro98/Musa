@@ -15,10 +15,16 @@ namespace Internal
 Component* GetComponentFromImpl(const Entity& entity, ComponentType type);
 bool HasComponentImpl(const Entity& entity, ComponentType type);
 void AttachComponentImpl(const Entity& entity, Component& comp);
+void AttachComponentsImpl(const Entity& entity, const ComponentSet& compDesc);
 void AssociateSystemsWithEntity(const Entity& entity);
 }
 
 using EntityID = Guid;
+
+inline EntityID GetNewEntityID()
+{
+	return EntityID();
+}
 
 // External reference to group of components
 struct Entity final
@@ -50,37 +56,43 @@ struct Entity final
 };
 
 Entity* CreateEntity();
-Entity* CreateEntity(const ComponentGroupDescription& components);
+Entity* CreateEntity(const ComponentSet& components);
 Entity* CreateEntity(const tchar* name);
-Entity* CreateEntity(const tchar* name, const ComponentGroupDescription& components);
+Entity* CreateEntity(const tchar* name, const ComponentSet& components);
 void DestroyEntity(Entity& entity);
 Entity* FindEntity(const EntityID& id);
 Entity* FindEntity(const tchar* name);
 
 template <typename Comp, typename = std::enable_if_t<std::is_base_of_v<Component, Comp>>>
-void AttachComponentTo(const Entity& entity)
+inline void AttachComponentTo(const Entity& entity)
 {
 	Comp* component = CreateComponent<Comp>();
 	Internal::AttachComponentImpl(entity, *component);
 }
 
 template <typename Comp, typename = std::enable_if_t<std::is_base_of_v<Component, Comp>>>
-void AttachComponentTo(const Entity& entity, Comp& component)
+inline void AttachComponentTo(const Entity& entity, Comp& component)
 {
 	Internal::AttachComponentImpl(entity, component);
 	Internal::AssociateSystemsWithEntity(entity);
 }
 
 
-template <typename... Components>//, typename = std::enable_if_t<all_base_of_v<Component, Components...>>>
-void AttachComponentsTo(const Entity& entity)
+template <typename... Components, typename = std::enable_if_t<all_base_of_v<Component, Components...>>>
+inline void AttachComponentsTo(const Entity& entity)
 {
 	[[maybe_unused]] int dummy[] = { 0, (Internal::AttachComponentImpl(entity, *CreateComponent<Components>()), 0)... };
 	Internal::AssociateSystemsWithEntity(entity);
 }
 
+inline void AttachComponentsTo(const Entity& entity, const ComponentSet& componentDesc)
+{
+	Internal::AttachComponentsImpl(entity, componentDesc);
+	Internal::AssociateSystemsWithEntity(entity);
+}
+
 template <class Comp, typename = std::enable_if_t<std::is_base_of_v<Component, Comp>>>
-Comp* GetComponentFrom(const Entity& entity)
+inline Comp* GetComponentFrom(const Entity& entity)
 {
 	ComponentType type = Comp::GetComponentType();
 	// TODO - determine if there's a way around the dynamic cast
@@ -88,12 +100,12 @@ Comp* GetComponentFrom(const Entity& entity)
 }
 
 template <typename Comp, typename = std::enable_if_t<std::is_base_of_v<Component, Comp>>>
-bool HasComponent(const Entity& entity)
+inline bool HasComponent(const Entity& entity)
 {
 	return Internal::HasComponentImpl(entity, Comp::template GetComponentType<Comp>());
 }
 
-ComponentGroupDescription GetComponentDescriptionOf(const Entity& entity);
+ComponentSet GetComponentDescriptionOf(const Entity& entity);
 
 }
 

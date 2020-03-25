@@ -15,16 +15,16 @@ void TransformSystem::Tick(float tick)
 	}
 }
 
-ComponentGroupDescription TransformSystem::GetRequiredComponents() const
+ComponentSet TransformSystem::GetRequiredComponents() const
 {
-	ComponentGroupDescription group;
-	group.AddComponents<TransformComponent>();
+	ComponentSet group;
+	AddComponentsTo<TransformComponent>(group);
 	return group;
 }
 
 void TransformSystem::AssociateEntity(const Musa::Entity& entity)
 {
-	ComponentGroupDescription entityComponents = Musa::GetComponentDescriptionOf(entity);
+	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
 	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
 	TransformWork work = 
 	{ 

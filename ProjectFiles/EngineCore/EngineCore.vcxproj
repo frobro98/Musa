@@ -71,7 +71,8 @@ copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>fmtd.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
@@ -102,7 +103,8 @@ copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
 copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>fmt.lib</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
@@ -128,6 +130,18 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\DebugOutput.h" />
     <ClInclude Include="..\..\Source\EngineCore\DirectoryLocations.h" />
     <ClInclude Include="..\..\Source\EngineCore\Extents.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\chrono.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\color.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\compile.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\core.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\format-inl.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\format.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\locale.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\os.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\ostream.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\posix.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\printf.h" />
+    <ClInclude Include="..\..\Source\EngineCore\fmt\ranges.h" />
     <ClInclude Include="..\..\Source\EngineCore\FNV-1a.h" />
     <ClInclude Include="..\..\Source\EngineCore\GUID\Guid.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\HashBasicTypes.h" />
@@ -163,12 +177,13 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DirectoryLocations.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\fmt\format.cc" />
+    <ClCompile Include="..\..\Source\EngineCore\fmt\os.cc" />
     <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Path\Path.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Serialization\DeserializeBase.cpp" />

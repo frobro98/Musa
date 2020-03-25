@@ -34,6 +34,9 @@
     <Filter Include="Source\Debugging">
       <UniqueIdentifier>{cd64e0bd-02ec-4343-bae1-e1d2152d3d7d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\fmt">
+      <UniqueIdentifier>{db8472a5-c908-49e0-babc-19622f5bee7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h">
@@ -192,11 +195,44 @@
     <ClInclude Include="..\..\Source\EngineCore\CoreFlags.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\format.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\format-inl.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\locale.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\os.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\ostream.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\posix.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\printf.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\ranges.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\chrono.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\color.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\compile.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\fmt\core.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\EngineCore\Assertion.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -256,6 +292,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp">
       <Filter>Source\Debugging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\fmt\format.cc">
+      <Filter>Source\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\fmt\os.cc">
+      <Filter>Source\fmt</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

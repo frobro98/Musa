@@ -29,124 +29,113 @@ public:
 static constexpr size_t TypeStorageBytes = 64;
 }
 
-using ComponentSet = std::bitset<Internal::TypeStorageBytes>;
-
 struct ComponentType
 {
+	size_t typeSize;
 	uint32 bitIndex;
 
-	constexpr ComponentType(uint32 shift)
-		: bitIndex(shift)
+	constexpr ComponentType(size_t compTypeSize, uint32 shift)
+		: typeSize(compTypeSize),
+		bitIndex(shift)
 	{
+		//Assert(typeSize >= sizeof(Component));
 		Assert(shift < Internal::TypeStorageBytes);
 	}
 
 	constexpr ComponentType(const ComponentType& other)
-		: bitIndex(other.bitIndex)
+		: typeSize(other.typeSize),
+		bitIndex(other.bitIndex)
 	{
-	}
-
-	constexpr ComponentType& operator=(const ComponentType& other)
-	{
-		if (this != &other)
-		{
-			bitIndex = other.bitIndex;
-		}
-
-		return *this;
 	}
 
 	friend constexpr bool operator==(const ComponentType& lhs, const ComponentType& rhs)
 	{
-		return lhs.bitIndex == rhs.bitIndex;
+		return lhs.typeSize == rhs.typeSize && lhs.bitIndex == rhs.bitIndex;
 	}
 
 	friend constexpr bool operator!=(const ComponentType& lhs, const ComponentType& rhs)
 	{
-		return lhs.bitIndex != rhs.bitIndex;
+		return lhs.typeSize != rhs.typeSize && lhs.bitIndex != rhs.bitIndex;
 	}
 };
 
-class ComponentGroupDescription
+struct ComponentSet
 {
-public:
-	ComponentGroupDescription() = default;
-
-private:
-	template <typename Type>
-	void AddComponent()
+	bool ContainsType(const ComponentType& type)
 	{
-		ComponentType cType = Type::GetComponentType();
-		componentSet.set(cType.bitIndex);
+		return set[type.bitIndex];
 	}
 
-public:
-	template <typename... Types>
-	void AddComponents()
+	bool ContainsTypes(const ComponentSet& types)
 	{
-		[[maybe_unused]] int dummy[] = {0, (AddComponent<Types>(), 0)...};
-		hash = fnv(componentSet.to_string().c_str(), (uint32)componentSet.size());
+		return (types.set & set) == types.set;
 	}
 
-	void AddComponentWithType(ComponentType type)
-	{
-		componentSet.set(type.bitIndex);
-	}
-
-	bool ContainsType(ComponentType type)
-	{
-		return componentSet[type.bitIndex];
-	}
-
-	bool ContainsTypes(const ComponentGroupDescription& types)
-	{
-		return (types.componentSet & componentSet) == types.componentSet;
-	}
-
-	uint32 GetHash()
-	{
-		return hash;
-	}
-
-	friend bool operator==(const ComponentGroupDescription& lhs, const ComponentGroupDescription& rhs)
-	{
-		return lhs.componentSet == rhs.componentSet;
-	}
-
-	friend bool operator!=(const ComponentGroupDescription& lhs, const ComponentGroupDescription& rhs)
-	{
-		return lhs.componentSet != rhs.componentSet;
-	}
-
-private:
-	ComponentSet componentSet;
+	std::bitset<Internal::TypeStorageBytes> set;
 	uint32 hash;
 };
 
-template <typename... Components, typename = std::enable_if_t<all_base_of_v<struct Component, Components...>>>
-ComponentGroupDescription CreateComponentDescription()
+inline bool operator==(const ComponentSet& lhs, const ComponentSet& rhs)
 {
-	ComponentGroupDescription desc;
-	desc.AddComponents<Components...>();
+	return lhs.set == rhs.set;
+}
+
+inline bool operator!=(const ComponentSet& lhs, const ComponentSet& rhs)
+{
+	return lhs.set != rhs.set;
+}
+
+template <typename Type>
+inline void AddComponentTo(ComponentSet& desc)
+{
+	ComponentType cType = Type::GetComponentType();
+	desc.set.set(cType.bitIndex);
+}
+
+template <typename... Types>
+inline void AddComponentsTo(ComponentSet& desc)
+{
+	[[maybe_unused]] int dummy[] = { 0, (AddComponentTo<Types>(desc), 0)... };
+	desc.hash = fnv(desc.set.to_string().c_str(), (uint32)desc.set.size());
+}
+
+inline void AddComponentWithTypeTo(ComponentType type, ComponentSet& desc)
+{
+	desc.set.set(type.bitIndex);
+}
+
+template <typename CompType>
+inline void AddComponentWithTypeTo(ComponentSet& desc)
+{
+	ComponentType type = CompType::GetComponentType();
+	desc.set.set(type.bitIndex);
+}
+
+template <typename... Components, typename = std::enable_if_t<all_base_of_v<Musa::Component, Components...>>>
+inline ComponentSet CreateComponentDescription()
+{
+	ComponentSet desc;
+	AddComponentsTo<Components...>(desc);
 	return desc;
 }
 
 }
 
-#define DECLARE_COMPONENT(type)						\
-static const Musa::ComponentType component_##type;	\
-static Musa::ComponentType GetComponentType()		\
-{													\
-	return component_##type;						\
+// TODO - For scene loading, this won't work because each set index isn't reproducible. Not a good solution in the end sadly...
+#define DECLARE_COMPONENT(type)							\
+static const Musa::ComponentType component_##type;		\
+static inline Musa::ComponentType GetComponentType()	\
+{														\
+	return component_##type;							\
 }
 
 #define DEFINE_COMPONENT(type) \
-const Musa::ComponentType type::component_##type = Musa::ComponentType(Musa::Internal::ComponentTypeCounter::counter++);
+const Musa::ComponentType type::component_##type = Musa::ComponentType(sizeof(type), Musa::Internal::ComponentTypeCounter::counter++);
 
 
-inline uint32 GetHash(Musa::ComponentGroupDescription group)
+inline uint32 GetHash(Musa::ComponentSet group)
 {
-	return group.GetHash();
+	return group.hash;
 }
 
 inline uint32 GetHash(Musa::ComponentType type)
