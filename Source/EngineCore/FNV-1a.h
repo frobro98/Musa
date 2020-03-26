@@ -3,22 +3,14 @@
 #include "PlatformDefinitions.h"
 #include "String/CStringUtilities.hpp"
 
-////////////////////////////////////////////////////////////////////////////////////////////////
-// FNV hash only supports 32 bit numbers currently
-//
-// If 64 bit numbers are a necessity, consider the
-// implementation AudioKinetic did at:
-// https://www.audiokinetic.com/library/2015.1_5418/?source=SDK&id=_ak_f_n_v_hash_8h_source.html
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-constexpr uint32 fnv(const void* hashData, uint32 dataSize)
+constexpr inline uint32 fnv32(const void* hashData, uint32 dataSize)
 {
 	uint8* byteData = (uint8 *)hashData;
 
 	// These numbers were gotten off of this website
 	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
-	constexpr uint32 offsetBasis = 2166136261;
-	constexpr uint32 hashPrime = 16777619;
+	constexpr uint32 offsetBasis = 0x811c9dc5;
+	constexpr uint32 hashPrime = 0x1000193;
 
 	uint32 hash = offsetBasis;
 
@@ -31,13 +23,67 @@ constexpr uint32 fnv(const void* hashData, uint32 dataSize)
 	return hash;
 }
 
-template <class T, typename = std::enable_if_t<!std::is_pointer_v<T>>>
-constexpr inline uint32 fnvHash(const T& objToHash)
+constexpr inline uint32 fnv32(const tchar* strData)
 {
-	return fnv(&objToHash, sizeof(T));
+	// These numbers were gotten off of this website
+	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
+	constexpr uint32 offsetBasis = 0x811c9dc5;
+	constexpr uint32 hashPrime = 0x1000193;
+
+	uint32 hash = offsetBasis;
+
+	uint32 i = 0;
+	while (strData[i])
+	{
+		hash ^= strData[i++];
+		hash *= hashPrime;
+	}
+
+	return hash;
 }
 
-constexpr inline uint32 fnvHash(const tchar* objToHash)
+constexpr inline uint64 fnv64(const void* hashData, uint64 dataSize)
 {
-	return fnv(objToHash, Strlen(objToHash));
+	uint8* byteData = (uint8 *)hashData;
+
+	// These numbers were gotten off of this website
+	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
+	constexpr uint64 offsetBasis = 0xcbf29ce484222325;
+	constexpr uint64 hashPrime = 0x100000001b3;
+
+	uint64 hash = offsetBasis;
+
+	for (uint64 i = 0; i < dataSize; ++i)
+	{
+		hash ^= *byteData++;
+		hash *= hashPrime;
+	}
+
+	return hash;
 }
+
+constexpr inline uint64 fnv64(const tchar* strData)
+{
+	// These numbers were gotten off of this website
+	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
+	constexpr uint64 offsetBasis = 0xcbf29ce484222325;
+	constexpr uint64 hashPrime = 0x100000001b3;
+
+	uint64 hash = offsetBasis;
+
+	uint64 i = 0;
+	while(strData[i])
+	{
+		hash ^= strData[i++];
+		hash *= hashPrime;
+	}
+
+	return hash;
+}
+
+template <class T, typename = std::enable_if_t<!std::is_pointer_v<T>>>
+constexpr inline uint64 fnvHash(const T& objToHash)
+{
+	return fnv64(&objToHash, sizeof(T));
+}
+

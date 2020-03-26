@@ -19,7 +19,7 @@ void AttachComponentsImpl(const Entity& entity, const ComponentSet& compDesc);
 void AssociateSystemsWithEntity(const Entity& entity);
 }
 
-using EntityID = Guid;
+using EntityID = uint64;
 
 inline EntityID GetNewEntityID()
 {
@@ -30,27 +30,19 @@ inline EntityID GetNewEntityID()
 struct Entity final
 {
 	const EntityID id;
-	String name; // TODO - This needs to be something that is a lot simpler than just a String object...
+	//String name; // TODO - This needs to be something that is a lot simpler than just a String object...
 
 	Entity(EntityID id_)
 		: id(id_)
 	{}
 
-	Entity(EntityID id_, const tchar* entityName)
-		: id(id_), name(entityName)
-	{}
-
 	Entity(const Entity& other)
-		: id(other.id), name(other.name)
+		: id(other.id)
 	{}
-
-	Entity(Entity&&) = delete;
-	Entity& operator=(const Entity&) = delete;
-	Entity& operator=(Entity&&) = delete;
 
 	friend bool operator==(const Entity& lhs, const Entity& rhs)
 	{
-		return lhs.id == rhs.id && lhs.name == rhs.name;
+		return lhs.id == rhs.id;
 	}
 
 };
@@ -61,7 +53,7 @@ Entity* CreateEntity(const tchar* name);
 Entity* CreateEntity(const tchar* name, const ComponentSet& components);
 void DestroyEntity(Entity& entity);
 Entity* FindEntity(const EntityID& id);
-Entity* FindEntity(const tchar* name);
+//Entity* FindEntity(const tchar* name);
 
 template <typename Comp, typename = std::enable_if_t<std::is_base_of_v<Component, Comp>>>
 inline void AttachComponentTo(const Entity& entity)

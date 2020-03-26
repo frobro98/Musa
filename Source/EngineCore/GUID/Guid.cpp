@@ -42,5 +42,5 @@ String Guid::ToString()
 
 void Guid::ComputeHash()
 {
-	hash = fnv(bytes, GuidSize);
+	hash = fnv32(bytes, GuidSize);
 }

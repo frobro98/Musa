@@ -358,8 +358,8 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
-	Musa::ComponentSet groupDesc = Musa::CreateComponentDescription<TransformComponent, RenderComponent>();
-	/*Musa::Entity* entity = */Musa::CreateEntity("Cube");
+// 	Musa::ComponentSet groupDesc = Musa::CreateComponentDescription<TransformComponent, RenderComponent>();
+// 	/*Musa::Entity* entity = */Musa::CreateEntity("Cube");
 
 
 	// TODO - LEAKING MEMEORY!!!

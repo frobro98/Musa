@@ -5,13 +5,15 @@
 #include "CStringUtilities.hpp"
 #include "Assertion.h"
 
+// TODO - Fix string and dynamic array to use size_t/uint64
+
 String::String(const tchar* cStr)
 {
 	Assert(cStr);
-	uint32 len = Strlen(cStr);
+	size_t len = Strlen(cStr);
 	if (len > 0)
 	{
-		stringData.AddDefault(len + 1);
+		stringData.AddDefault((uint32)len + 1);
 		Memcpy(stringData.GetData(), len * sizeof(tchar), cStr, len * sizeof(tchar));
 	}
 }
@@ -19,10 +21,10 @@ String::String(const tchar* cStr)
 String& String::operator=(const tchar* cStr)
 {
 	Assert(cStr);
-	uint32 len = Strlen(cStr);
+	size_t len = Strlen(cStr);
 	if (len > 0)
 	{
-		stringData.AddDefault(len + 1);
+		stringData.AddDefault((uint32)len + 1);
 		Memcpy(stringData.GetData(), len * sizeof(tchar), cStr, len * sizeof(tchar));
 	} 
 
@@ -75,15 +77,15 @@ void String::Replace(const tchar* toFind, const tchar* toReplace)
 
 	if (!IsEmpty() && *toFind)
 	{
-		uint32 findLen = Strlen(toFind);
-		uint32 replaceLen = Strlen(toReplace);
+		size_t findLen = Strlen(toFind);
+		size_t replaceLen = Strlen(toReplace);
 
 		if (findLen == replaceLen)
 		{
 			tchar* str = Strstr(stringData.GetData(), toFind);
 			while (str != nullptr)
 			{
-				for (uint32 i = 0; i < replaceLen; ++i)
+				for (size_t i = 0; i < replaceLen; ++i)
 				{
 					str[i] = toReplace[i];
 				}
@@ -169,7 +171,7 @@ int32 String::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) co
 	Assert(startIndex < stringData.Size());
 	Assert(startIndex < endIndex);
 	Assert(endIndex <= stringData.Size());
-	uint32 searchStrLen = Strlen(str);
+	size_t searchStrLen = Strlen(str);
 	int32 foundFirstIndex = FindFirstIn(stringData.GetData() + startIndex, endIndex - startIndex, str, searchStrLen);
 	return foundFirstIndex + startIndex;
 }
@@ -178,7 +180,7 @@ int32 String::FindFrom(uint32 index, const tchar* str) const
 {
 	Assert(str);
 	Assert(index < Length());
-	uint32 searchStrLen = Strlen(str);
+	size_t searchStrLen = Strlen(str);
 	int32 foundFirstIndex = FindFirstIn(stringData.GetData() + index, Length() - index, str, searchStrLen);
 	return foundFirstIndex + index;
 }
@@ -186,8 +188,8 @@ int32 String::FindFrom(uint32 index, const tchar* str) const
 void String::Add(const tchar* str)
 {
 	uint32 oldLen = Length();
-	uint32 cStrLen = Strlen(str);
-	stringData.Resize(oldLen + cStrLen + 1);
+	size_t cStrLen = Strlen(str);
+	stringData.Resize(oldLen + (uint32)cStrLen + 1);
 	Strcat(stringData.GetData(), stringData.Size(), str, cStrLen);
 }
 
@@ -318,8 +320,8 @@ String& String::operator+=(const String& strObj)
 String& String::operator+=(const tchar* strObj)
 {
 	uint32 oldLen = Length();
-	uint32 cStrLen = Strlen(strObj);
-	stringData.Resize(oldLen + cStrLen + 1);
+	size_t cStrLen = Strlen(strObj);
+	stringData.Resize(oldLen + (uint32)cStrLen + 1);
 	Strcat(stringData.GetData(), stringData.Size(), strObj, cStrLen);
 
 	return *this;
@@ -457,7 +459,7 @@ bool operator<=(const tchar* left, const String& right)
 
 uint32 GetHash(const String& str)
 {
-	return fnv(str.stringData.GetData(), static_cast<uint32>(str.stringData.Size()));
+	return fnv32(str.stringData.GetData(), static_cast<uint32>(str.stringData.Size()));
 }
 
 void Serialize(SerializeBase& ser, const String& str)

@@ -210,7 +210,7 @@ struct SamplerDescription
 
 	friend uint32 GetHash(const SamplerDescription& params)
 	{
-		return fnv(&params, sizeof(SamplerDescription));
+		return fnv32(&params, sizeof(SamplerDescription));
 	}
 };
 
@@ -284,5 +284,5 @@ struct ComputePipelineInitDescription
 
 inline uint32 GetHash(const GraphicsPipelineDescription& desc)
 {
-	return fnv(&desc, sizeof(GraphicsPipelineDescription));
+	return fnv32(&desc, sizeof(GraphicsPipelineDescription));
 }

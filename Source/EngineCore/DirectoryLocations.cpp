@@ -8,7 +8,7 @@ String EngineExeFullPath()
 	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&EngineAssetPath, &hCurrentModule);
 	tchar pathResult[512] = "";
 	GetModuleFileName(hCurrentModule, pathResult, ArraySize(pathResult));
-	uint32 pathLen = Strlen(pathResult);
+	size_t pathLen = Strlen(pathResult);
 	if (pathLen > 0)
 	{
 		String temp(pathResult);

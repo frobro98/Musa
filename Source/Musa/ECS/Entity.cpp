@@ -77,18 +77,15 @@ Entity* CreateEntity(const ComponentSet& components)
 	return entity;
 }
 
-Entity* CreateEntity(const tchar* name)
+Entity* CreateEntity(const tchar* /*name*/)
 {
-	Assert(name);
-
-	Entity* entity = new Entity(GetNewEntityID(), name);
+	Entity* entity = new Entity(GetNewEntityID());
 	entityPool.Add(entity->id, entity);
 	return entity;
 }
 
-Entity* CreateEntity(const tchar* name, const ComponentSet& components)
+Entity* CreateEntity(const tchar* /*name*/, const ComponentSet& components)
 {
-	Assert(name);
 	REF_CHECK(components);
 
 	Entity* entity = new Entity(GetNewEntityID());
@@ -121,19 +118,19 @@ Entity* FindEntity(const EntityID& id)
 	return entityPool[id];
 }
 
-Entity* FindEntity(const tchar* name)
-{
-	Entity* entity = nullptr;
-	for (const auto& entityPair : entityPool)
-	{
-		if (entityPair.second != nullptr && entityPair.second->name == name)
-		{
-			entity = entityPair.second;
-			break;
-		}
-	}
-	return entity;
-}
+// Entity* FindEntity(const tchar* name)
+// {
+// 	Entity* entity = nullptr;
+// 	for (const auto& entityPair : entityPool)
+// 	{
+// 		if (entityPair.second != nullptr)
+// 		{
+// 			entity = entityPair.second;
+// 			break;
+// 		}
+// 	}
+// 	return entity;
+// }
 
 ComponentSet GetComponentDescriptionOf(const Entity& entity)
 {

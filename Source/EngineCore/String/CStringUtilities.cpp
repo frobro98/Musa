@@ -1,21 +1,10 @@
 #include "CStringUtilities.hpp"
 #include "Assertion.h"
 
-void EvaluateFormattedString(tchar * buffer, uint32 bufferLen, const tchar * format, va_list vaList)
-{
-	vsnprintf(buffer, bufferLen, format, vaList);
-	va_end(vaList);
-}
 
-void FormatString(tchar * buffer, uint32 bufferLen, const tchar * format, ...)
+size_t Strlen(const tchar* str) noexcept
 {
-	va_list args = nullptr;
-	EvaluateFormattedString(buffer, bufferLen, format, args);
-}
-
-uint32 Strlen(const tchar* str) noexcept
-{
-	uint32 len = 0;
+	size_t len = 0;
 	if (str != nullptr)
 	{
 		const tchar* ptr = str;
@@ -34,11 +23,11 @@ tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src)
 	return dest;
 }
 
-tchar* Strcat(tchar* dest, uint32 sizeDest, const tchar* src, uint32 sizeSrc) noexcept
+tchar* Strcat(tchar* dest, size_t sizeDest, const tchar* src, size_t sizeSrc) noexcept
 {
 	// TODO - Actually use the sizeSrc and sizeDest parameters. Should be used...
 	UNUSED(sizeSrc, sizeDest);
-	uint32 destStrLen = Strlen(dest);
+	size_t destStrLen = Strlen(dest);
 	Assert(sizeDest >= sizeSrc + 1);
 	Assert(destStrLen <= (sizeDest - sizeSrc) + 1);
 
@@ -74,7 +63,7 @@ tchar* Strstr(tchar* str, const tchar* findStr) noexcept
 	return strstr(str, findStr);
 }
 
-int32 FindFirstIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 findStrLen)
+int32 FindFirstIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
 {
 	Assert(str);
 	Assert(findStr);
@@ -90,8 +79,8 @@ int32 FindFirstIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 
 		{
 			return -1;
 		}
-		uint32 iterLen = strLen - static_cast<uint32>(iter - str);
-		uint32 count = std::min(iterLen, findStrLen);
+		size_t iterLen = strLen - static_cast<uint32>(iter - str);
+		size_t count = std::min(iterLen, findStrLen);
 		if (Strncmp(iter, findStr, count) == 0)
 		{
 			return static_cast<int32>(iter - str);
@@ -99,7 +88,7 @@ int32 FindFirstIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 
 	}
 }
 
-int32 FindLastIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 findStrLen)
+int32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
 {
 	Assert(str);
 	Assert(findStr);
@@ -129,7 +118,7 @@ int32 FindLastIn(const tchar* str, uint32 strLen, const tchar* findStr, uint32 f
 	return -1;
 }
 
-bool StartsWith(const tchar* str, uint32 strLen, const tchar* startStr, uint32 startStrLen)
+bool StartsWith(const tchar* str, size_t strLen, const tchar* startStr, size_t startStrLen)
 {
 	if (startStrLen > strLen)
 	{
@@ -148,7 +137,7 @@ bool StartsWith(const tchar* str, uint32 strLen, const tchar* startStr, uint32 s
 	return true;
 }
 
-bool EndsWith(const tchar* str, uint32 strLen, const tchar* endStr, uint32 endStrLen)
+bool EndsWith(const tchar* str, size_t strLen, const tchar* endStr, size_t endStrLen)
 {
 	if (endStrLen > strLen)
 	{
@@ -205,10 +194,10 @@ int32 Strcmp(const tchar* str1, const tchar* str2) noexcept
 		return 1;
 	}
 
-	uint32 len1 = Strlen(str1);
-	uint32 len2 = Strlen(str2);
-	uint32 minLen = std::min(len1, len2);
-	for (uint32 i = 0; i < minLen + 1; ++i, ++str1, ++str2)
+	size_t len1 = Strlen(str1);
+	size_t len2 = Strlen(str2);
+	size_t minLen = std::min(len1, len2);
+	for (size_t i = 0; i < minLen + 1; ++i, ++str1, ++str2)
 	{
 		if (*str1 != *str2)
 		{
@@ -218,15 +207,15 @@ int32 Strcmp(const tchar* str1, const tchar* str2) noexcept
 	return 0;
 }
 
-int32 Strncmp(const tchar* str1, const tchar* str2, uint32 count) noexcept
+int32 Strncmp(const tchar* str1, const tchar* str2, size_t count) noexcept
 {
-	uint32 len1 = Strlen(str1);
-	uint32 len2 = Strlen(str2);
-	uint32 minLen = std::min(len1, len2);
+	size_t len1 = Strlen(str1);
+	size_t len2 = Strlen(str2);
+	size_t minLen = std::min(len1, len2);
 	Assert(count <= minLen);
 	// TODO - Use minLen? Need to think about this a little
 	UNUSED(minLen);
-	for (uint32 i = 0; i < count; ++i, ++str1, ++str2)
+	for (size_t i = 0; i < count; ++i, ++str1, ++str2)
 	{
 		if (*str1 != *str2)
 		{

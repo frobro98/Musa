@@ -552,5 +552,11 @@
     <ClInclude Include="..\..\Source\Musa\UI\WidgetBatchElemements.hpp">
       <Filter>Source\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Archetype.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\ComponentType.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

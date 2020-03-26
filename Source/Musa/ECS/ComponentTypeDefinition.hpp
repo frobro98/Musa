@@ -96,7 +96,7 @@ template <typename... Types>
 inline void AddComponentsTo(ComponentSet& desc)
 {
 	[[maybe_unused]] int dummy[] = { 0, (AddComponentTo<Types>(desc), 0)... };
-	desc.hash = fnv(desc.set.to_string().c_str(), (uint32)desc.set.size());
+	desc.hash = fnv32(desc.set.to_string().c_str(), (uint32)desc.set.size());
 }
 
 inline void AddComponentWithTypeTo(ComponentType type, ComponentSet& desc)

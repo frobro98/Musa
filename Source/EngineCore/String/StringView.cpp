@@ -6,7 +6,7 @@
 
 StringView::StringView(const tchar* str)
 	: string(str),
-	stringLen(Strlen(str))
+	stringLen((uint32)Strlen(str))
 {
 	Assert(string != nullptr);
 }
@@ -69,7 +69,7 @@ int32 StringView::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str
 	Assert(startIndex < stringLen);
 	Assert(startIndex < endIndex);
 	Assert(endIndex <= stringLen);
-	uint32 searchStrLen = Strlen(str);
+	size_t searchStrLen = Strlen(str);
 	int32 foundFirstIndex = FindFirstIn(string + startIndex, endIndex - startIndex, str, searchStrLen);
 	return foundFirstIndex + startIndex;
 }
@@ -78,7 +78,7 @@ int32 StringView::FindFrom(uint32 index, const tchar* str) const
 {
 	Assert(str);
 	Assert(index < Length());
-	uint32 searchStrLen = Strlen(str);
+	size_t searchStrLen = Strlen(str);
 	int32 foundFirstIndex = FindFirstIn(string + index, stringLen - index, str, searchStrLen);
 	return foundFirstIndex + index;
 }
@@ -162,7 +162,7 @@ int32 StringView::Compare(const tchar* cs, uint32 compLen) const
 
 uint32 GetHash(const StringView& str)
 {
-	return fnv(str.string, str.stringLen);
+	return fnv32(str.string, str.stringLen);
 }
 
 bool operator==(const StringView& s0, const StringView& s1)

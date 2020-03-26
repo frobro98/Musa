@@ -39,12 +39,12 @@ inline uint32 GetHash(int32 i)
 
 inline uint32 GetHash(uint64 i)
 {
-	return fnv(&i, sizeof(uint64));
+	return fnv32(&i, sizeof(uint64));
 }
 
 inline uint32 GetHash(int64 i)
 {
-	return fnv(&i, sizeof(int64));
+	return fnv32(&i, sizeof(int64));
 }
 
 inline uint32 GetHash(float f)
@@ -54,22 +54,22 @@ inline uint32 GetHash(float f)
 
 inline uint32 GetHash(double d)
 {
-	return fnv(&d, sizeof(double));
+	return fnv32(&d, sizeof(double));
 }
 
 inline uint32 GetHash(const void* p)
 {
-	return fnv(p, sizeof(p));
+	return fnv32(p, sizeof(p));
 }
 
 inline uint32 GetHash(void* p)
 {
-	return fnv(p, sizeof(p));
+	return fnv32(p, sizeof(p));
 }
 
 inline uint32 GetHash(const tchar* cStr)
 {
-	return fnv(cStr, Strlen(cStr));
+	return fnv32(cStr);
 }
 
 inline uint32 GetHash(KeyInput key)

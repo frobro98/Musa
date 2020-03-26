@@ -83,5 +83,5 @@ inline uint32 GetHash(const RenderTargetDescription& desc)
 	Memcpy(hashDesc.colorDescs.GetData(), sizeof(hashDesc.colorDescs), desc.colorAttachments.GetData(), sizeof(desc.colorAttachments));
 	Memcpy(&hashDesc.depthDesc, sizeof(hashDesc.depthDesc), &desc.depthAttachment, sizeof(desc.depthAttachment));
 
-	return fnv(&hashDesc, sizeof(HashableTargetDescription));
+	return fnv32(&hashDesc, sizeof(HashableTargetDescription));
 }
