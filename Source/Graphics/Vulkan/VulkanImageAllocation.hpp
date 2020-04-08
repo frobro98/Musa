@@ -24,7 +24,7 @@ struct ImageGraphicsAllocation : public GraphicsMemoryAllocation<ImageMemory>
 	VkImageUsageFlags usageFlags;
 
 protected:
-	virtual ImageMemory* CreateMemoryRange(uint32 actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) override;
+	virtual ImageMemory* CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) override;
 	uint32 pad[1] = { 0 };
 };
 
@@ -34,7 +34,7 @@ public:
 	ImageMemory(
 		ImageGraphicsAllocation& owningAlloc, 
 		VkImage image,
-		uint32 size,
+		VkDeviceSize size,
 		uint32 blockSize, 
 		uint32 alignedOffset, 
 		uint32 actualOffset

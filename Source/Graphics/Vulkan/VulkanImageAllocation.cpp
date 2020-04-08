@@ -20,12 +20,12 @@ ImageGraphicsAllocation::ImageGraphicsAllocation(
 	CHECK_VK(result);
 }
 
-ImageMemory* ImageGraphicsAllocation::CreateMemoryRange(uint32 actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
+ImageMemory* ImageGraphicsAllocation::CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
 {
 	return new ImageMemory(*this, image, actualSize, blockSize, alignedOffset, actualOffset);
 }
 
-ImageMemory::ImageMemory(ImageGraphicsAllocation& owningAlloc, VkImage img, uint32 imgSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
+ImageMemory::ImageMemory(ImageGraphicsAllocation& owningAlloc, VkImage img, VkDeviceSize imgSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
 	: GraphicsMemoryRange(owningAlloc, imgSize, blockSize, alignedOffset, actualOffset),
 	associatedImage(img)
 {

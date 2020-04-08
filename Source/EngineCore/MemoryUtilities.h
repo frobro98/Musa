@@ -2,32 +2,32 @@
 
 #include "Assertion.h"
 
-inline constexpr uint32 KilobytesAsBytes(uint32 kilobytes)
+inline constexpr size_t KilobytesAsBytes(size_t kilobytes)
 {
 	return kilobytes * 1024;
 }
 
-inline constexpr uint32 MegabytesAsBytes(uint32 megabytes)
+inline constexpr size_t MegabytesAsBytes(size_t megabytes)
 {
 	return KilobytesAsBytes(megabytes) * 1024;
 }
 
-inline constexpr uint32 GigabytesAsBytes(uint32 gigabytes)
+inline constexpr size_t GigabytesAsBytes(size_t gigabytes)
 {
 	return MegabytesAsBytes(gigabytes) * 1024;
 }
 
-inline constexpr uint32 Kilobytes(uint32 bytes)
+inline constexpr size_t Kilobytes(size_t bytes)
 {
 	return bytes / 1024;
 }
 
-inline constexpr uint32 Megabytes(uint32 bytes)
+inline constexpr size_t Megabytes(size_t bytes)
 {
 	return bytes / Kilobytes(bytes);
 }
 
-inline constexpr uint32 Gigabytes(uint32 bytes)
+inline constexpr size_t Gigabytes(size_t bytes)
 {
 	return bytes / Megabytes(bytes);
 }

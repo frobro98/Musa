@@ -39,14 +39,14 @@ public:
 
 private:
 	template <class Allocation>
-	bool TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, uint32 bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc);
+	bool TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc);
 
-	VulkanBuffer* CreateNewAllocation(uint32 bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
+	VulkanBuffer* CreateNewAllocation(VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
 	uint32 QueryMemoryType(uint32 typeFilter, VkMemoryPropertyFlags propertyFlags);
 
-	BufferGraphicsAllocation& AllocateBufferBlock(uint32 bufferSize, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
+	BufferGraphicsAllocation& AllocateBufferBlock(VkDeviceSize bufferSize, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
 private:
-	static constexpr uint32 DefaultAllocationSize = MegabytesAsBytes(1);
+	static constexpr size_t DefaultAllocationSize = MegabytesAsBytes(1);
 
 	DynamicArray<GraphicsAllocation*> allocations;
 	DynamicArray<GraphicsAllocation*> allocationsToFree;
@@ -66,7 +66,7 @@ private:
 //////////////////////////////////////////////////////////////////////////
 
 template<class Allocation>
-inline bool VulkanMemoryManager::TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, uint32 bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc)
+inline bool VulkanMemoryManager::TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc)
 {
 	for (auto allocation : allocList)
 	{

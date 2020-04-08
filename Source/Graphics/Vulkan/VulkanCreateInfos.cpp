@@ -15,9 +15,11 @@ namespace Vk
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 #if M_DEBUG
 		createInfo.pNext = additionalData;
-#endif
 		createInfo.enabledLayerCount = numLayers;
 		createInfo.ppEnabledLayerNames = instanceLayers;
+#else
+		UNUSED(numLayers, instanceLayers);
+#endif
 		createInfo.enabledExtensionCount = numExtensions;
 		createInfo.ppEnabledExtensionNames = instanceExtensions;
 		return createInfo;

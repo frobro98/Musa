@@ -2,7 +2,7 @@
 #include "Assertion.h"
 
 
-size_t Strlen(const tchar* str) noexcept
+constexpr size_t Strlen(const tchar* str) noexcept
 {
 	size_t len = 0;
 	if (str != nullptr)

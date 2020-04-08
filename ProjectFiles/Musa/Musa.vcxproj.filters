@@ -273,10 +273,9 @@
     <ClCompile Include="..\..\Source\Musa\UI\DebugUI\UIConsole.cpp">
       <Filter>Source\UI\DebugUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElements.cpp">
+    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -556,6 +555,15 @@
       <Filter>Source\ECS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\ComponentType.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Internal\TypenameHashing.hpp">
+      <Filter>Source\ECS\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Internal\robin_hood.hpp">
+      <Filter>Source\ECS\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\ComponentOffsetList.hpp">
       <Filter>Source\ECS</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,13 +6,13 @@
 
 struct VulkanBuffer;
 
-constexpr uint32 AllocationSizeBytes = MegabytesAsBytes(1);
+constexpr size_t AllocationSizeBytes = MegabytesAsBytes(1);
 
 struct TempAlloc
 {
 	void* allocData;
 	VkBuffer buffer;
-	uint32 allocSize;
+	VkDeviceSize allocSize;
 	uint32 offset;
 };
 
@@ -21,12 +21,12 @@ struct VulkanFrameTempAllocation
 	VulkanFrameTempAllocation(const VulkanDevice& device);
 	~VulkanFrameTempAllocation();
 
-	TempAlloc AllocateTempMemory(uint32 allocSize, uint32 allocAlignment);
+	TempAlloc AllocateTempMemory(VkDeviceSize allocSize, uint32 allocAlignment);
 	void ClearSuballocations();
 
 	void* freeAllocPtr;
 	void* mappedBeginningPtr;
-	uint32 allocationSize;
+	VkDeviceSize allocationSize;
 
 private:
 	const VulkanDevice& logicalDevice;

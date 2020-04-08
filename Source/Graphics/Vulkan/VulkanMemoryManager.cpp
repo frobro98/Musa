@@ -120,7 +120,7 @@ VulkanBuffer* VulkanMemoryManager::AllocateBuffer(
 		alignment = Max((uint32)limits.minStorageBufferOffsetAlignment, alignment);
 	}
 	
-	uint32 buffSize = (uint32)bufferSize;
+	VkDeviceSize buffSize = bufferSize;
 	if (!TryCreateBufferFrom(usedBufferAllocations, buffSize, alignment, usageFlags, memoryFlags, buffer))
 	{
 		if (!TryCreateBufferFrom(freeBufferAllocations, buffSize, alignment, usageFlags, memoryFlags, buffer))
@@ -144,7 +144,7 @@ void VulkanMemoryManager::FreePendingAllocations()
 {
 }
 
-VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(uint32 bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags)
+VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags)
 {
 	BufferGraphicsAllocation* allocation = &AllocateBufferBlock(bufferSize, usageFlags, memoryFlags);
 	usedBufferAllocations.Add(allocation);
@@ -175,11 +175,11 @@ uint32 VulkanMemoryManager::QueryMemoryType(uint32 typeFilter, VkMemoryPropertyF
 	return typeIndex;
 }
 
-BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(uint32 bufferSize, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags)
+BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(VkDeviceSize bufferSize, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags)
 {
 	const VkPhysicalDeviceMemoryProperties& properties = logicalDevice.GetMemoryProperties();
 
-	uint32 allocSize = Max(bufferSize, DefaultAllocationSize);
+	VkDeviceSize allocSize = Max(bufferSize, DefaultAllocationSize);
 
 	VkBufferCreateInfo bufferInfo = {};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;

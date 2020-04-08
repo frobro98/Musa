@@ -363,8 +363,8 @@ void MusaEngine::LoadContent()
 
 
 	// TODO - LEAKING MEMEORY!!!
-	UI::Console* console = new UI::Console;
-	uiContext->AddWidget(*console);
+	//UI::Console* console = new UI::Console;
+	//uiContext->AddWidget(*console);
 }
 
 void MusaEngine::UnloadContent()

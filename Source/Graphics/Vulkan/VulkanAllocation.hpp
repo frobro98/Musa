@@ -23,7 +23,7 @@ public:
 	GraphicsMemoryAllocation(
 		VulkanDevice& device,
 		VkMemoryPropertyFlags memProperties,
-		uint32 size,
+		VkDeviceSize size,
 		uint32 alignment,
 		uint32 typeIndex,
 		bool canMap, bool cached, bool coherent
@@ -31,7 +31,7 @@ public:
 
 	virtual ~GraphicsMemoryAllocation();
 
-	bool TrySelectMemoryRange(uint32 requestedSize, uint32 alignment, Suballoc*& range);
+	bool TrySelectMemoryRange(VkDeviceSize requestedSize, uint32 alignment, Suballoc*& range);
 
 	void LockForWrite(VkDeviceSize size, uint32 offset);
 	void Unlock();
@@ -56,7 +56,7 @@ public:
 	inline VkMemoryPropertyFlags GetMemoryProperties() const { return memoryProperties; }
 
 protected:
-	virtual Suballoc* CreateMemoryRange(uint32 actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) = 0;
+	virtual Suballoc* CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) = 0;
 
 protected:
 	DynamicArray<URange> freeAllocationBlocks;
@@ -68,7 +68,7 @@ private:
 	std::mutex allocationMutex;
 	void* mappedData = nullptr;
 	VkMemoryPropertyFlags memoryProperties;
-	uint32 allocationSize;
+	VkDeviceSize allocationSize;
 	uint32 usedSpaceSize;
 	uint32 offsetAlignment;
 	// This is for accessing information about the heap this allocation is apart
@@ -83,7 +83,7 @@ struct GraphicsMemoryRange
 {
 	GraphicsMemoryRange(
 		Alloc& owningAlloc,
-		uint32 allocSize,
+		VkDeviceSize allocSize,
 		uint32 blockSize,
 		uint32 alignedOffset,
 		uint32 actualOffset
@@ -106,7 +106,7 @@ struct GraphicsMemoryRange
 	}
 
 	Alloc& owningAllocation;
-	const uint32 size;
+	const VkDeviceSize size;
 
 	// This is the size of the entire block of memory requested by the suballocation
 	// Could be the same as total size
@@ -125,7 +125,7 @@ template <class Suballoc>
 GraphicsMemoryAllocation<Suballoc>::GraphicsMemoryAllocation(
 	VulkanDevice& device,
 	VkMemoryPropertyFlags memProperties,
-	uint32 size,
+	VkDeviceSize size,
 	uint32 memAlignment,
 	uint32 typeIndex,
 	bool canMap, bool cached, bool coherent)
@@ -143,8 +143,8 @@ GraphicsMemoryAllocation<Suballoc>::GraphicsMemoryAllocation(
 	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 	allocInfo.allocationSize = size;
 	allocInfo.memoryTypeIndex = typeIndex;
-
-	URange range = { 0, size };
+	// TODO - URange is an interesting concept, but I need something more flexible to cover size_t, uint64, uint16, etc...
+	URange range = { 0, (uint32)size };
 	freeAllocationBlocks.Add(range);
 
 	[[maybe_unused]] VkResult result = vkAllocateMemory(device.GetNativeHandle(), &allocInfo, nullptr, &graphicsMemory);
@@ -166,16 +166,17 @@ inline GraphicsMemoryAllocation<Suballoc>::~GraphicsMemoryAllocation()
 }
 
 template<class Suballoc>
-inline bool GraphicsMemoryAllocation<Suballoc>::TrySelectMemoryRange(uint32 requestedSize, uint32 alignment, Suballoc *& memoryRange)
+inline bool GraphicsMemoryAllocation<Suballoc>::TrySelectMemoryRange(VkDeviceSize requestedSize, uint32 alignment, Suballoc *& memoryRange)
 {
 	uint32 adjustedAlignment = Max(alignment, offsetAlignment);
 	for (uint32 i = 0; i < freeAllocationBlocks.Size(); ++i)
 	{
+		// TODO - Need to change this shit to be able to use size_t/VkDeviceSize by default instead of using uint32
 		URange& allocRange = freeAllocationBlocks[i];
 		uint32 actualOffset = allocRange.start;
 		uint32 alignedOffset = Align(actualOffset, adjustedAlignment);
 		uint32 offsetAdjustedDiff = alignedOffset - actualOffset;
-		uint32 totalRequestedMemory = offsetAdjustedDiff + requestedSize;
+		uint32 totalRequestedMemory = offsetAdjustedDiff + (uint32)requestedSize;
 		if (totalRequestedMemory <= allocRange.size)
 		{
 			if (totalRequestedMemory < allocRange.size)
@@ -242,7 +243,7 @@ inline void GraphicsMemoryAllocation<Suballoc>::Unlock()
 template <class Alloc>
 GraphicsMemoryRange<Alloc>::GraphicsMemoryRange(
 	Alloc& owningAlloc,
-	uint32 allocSize,
+	VkDeviceSize allocSize,
 	uint32 blckSize,
 	uint32 alignedOffset,
 	uint32 actualOffset

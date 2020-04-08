@@ -5,7 +5,7 @@
 // C-string functions
 
 // TODO - will probably need to revisit for unicode
-size_t Strlen(const tchar* str) noexcept;
+constexpr size_t Strlen(const tchar* str) noexcept;
 tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src);
 int32 Strcmp(const tchar* str1, const tchar* str2) noexcept;
 int32 Strncmp(const tchar* str1, const tchar* str2, size_t count) noexcept;

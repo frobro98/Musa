@@ -24,7 +24,7 @@ VulkanFrameTempAllocation::~VulkanFrameTempAllocation()
 	logicalDevice.GetMemoryManager().DeallocateBuffer(*allocBuffer);
 }
 
-TempAlloc VulkanFrameTempAllocation::AllocateTempMemory(uint32 allocSize, uint32 allocAlignment)
+TempAlloc VulkanFrameTempAllocation::AllocateTempMemory(VkDeviceSize allocSize, uint32 allocAlignment)
 {
 	// Assert if the remaining buffer size can fit this new allocation
 	// This is a big deal if it can't, because there isn't a way to handle this sort of issue

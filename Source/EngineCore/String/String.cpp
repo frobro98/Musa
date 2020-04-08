@@ -319,8 +319,8 @@ String& String::operator+=(const String& strObj)
 
 String& String::operator+=(const tchar* strObj)
 {
-	uint32 oldLen = Length();
-	size_t cStrLen = Strlen(strObj);
+	const uint32 oldLen = Length();
+	const size_t cStrLen = Strlen(strObj);
 	stringData.Resize(oldLen + (uint32)cStrLen + 1);
 	Strcat(stringData.GetData(), stringData.Size(), strObj, cStrLen);
 

@@ -22,7 +22,7 @@ public:
 	VkBufferUsageFlags usageFlags;
 
 private:
-	virtual BufferMemory* CreateMemoryRange(uint32 actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) override;
+	virtual BufferMemory* CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) override;
 	uint32 pad[1] = { 0 };
 };
 
@@ -32,7 +32,7 @@ public:
 	BufferMemory(
 		BufferGraphicsAllocation& owningAlloc, 
 		VkBuffer buffer,
-		uint32 size,
+		VkDeviceSize size,
 		uint32 blockSize,
 		uint32 alignedOffset,
 		uint32 actualOffset
