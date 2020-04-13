@@ -20,7 +20,7 @@ public:
 	virtual void Tick(float tick) = 0;
 	virtual void OnDestruction() {};
 	virtual void AssociateEntity(const Entity& entity) = 0;
-	[[nodiscard]] virtual ComponentSet GetRequiredComponents() const = 0;
+//	[[nodiscard]] virtual ComponentSet GetRequiredComponents() const = 0;
 };
 
 template <class Sys>

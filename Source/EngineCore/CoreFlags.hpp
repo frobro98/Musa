@@ -5,3 +5,6 @@
 
 #define forceinline __forceinline
 
+#define likely(x) (x)
+#define unlikely(x) (x)
+

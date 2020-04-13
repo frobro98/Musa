@@ -4,7 +4,7 @@
 #include "Vector4.hpp"
 #include "Vector2.hpp"
 #include "Vector3.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 
 #include "PlatformDefinitions.h"
 // Includes to handle SIMD register types

@@ -8,7 +8,7 @@
 #include "Input/Internal/InputInternal.hpp"
 #include "Input/InputDefinitions.hpp"
 #include "Input/Internal/ControllerInputUtilities.hpp"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);

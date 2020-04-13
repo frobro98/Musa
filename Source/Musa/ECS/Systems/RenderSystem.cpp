@@ -12,22 +12,22 @@ void RenderSystem::Tick(float deltaTime)
 	UNUSED(deltaTime);
 }
 
-ComponentSet RenderSystem::GetRequiredComponents() const
-{
-	ComponentSet group;
-	AddComponentsTo<TransformComponent, RenderComponent>(group);
-	return group;
-}
+// ComponentSet RenderSystem::GetRequiredComponents() const
+// {
+// 	ComponentSet group;
+// 	AddComponentsTo<TransformComponent, RenderComponent>(group);
+// 	return group;
+// }
 
-void RenderSystem::AssociateEntity(const Musa::Entity & entity)
+void RenderSystem::AssociateEntity(const Musa::Entity& /*entity*/)
 {
-	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
-	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
-	RenderWork work =
-	{
-		GetComponentFrom<TransformComponent>(entity), // const transform
-		GetComponentFrom<RenderComponent>(entity)	  // render
-	};
-	Assert(work.transform != nullptr);
-	componentWork.Add(work);
+// 	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
+// 	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
+// 	RenderWork work =
+// 	{
+// 		GetComponentFrom<TransformComponent>(entity), // const transform
+// 		GetComponentFrom<RenderComponent>(entity)	  // render
+// 	};
+// 	Assert(work.transform != nullptr);
+// 	componentWork.Add(work);
 }

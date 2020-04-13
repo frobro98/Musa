@@ -49,6 +49,7 @@ public:
 	// Determinant
 	float Determinant() const;
 
+	// TODO - Need to figure out why my inverse is incorrect in some specific cases...
 	// Inverse
 	void Inverse();
 	Matrix4 GetInverse() const;

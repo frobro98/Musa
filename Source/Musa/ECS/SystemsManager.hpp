@@ -32,13 +32,13 @@ public:
 private:
 	SystemManager() = default;
 
-	void AddEntityToRequiredSystems(const Entity& entity);
+	//void AddEntityToRequiredSystems(const Entity& entity);
 
 private:
 	DynamicArray<const Entity*> dirtyEntities;
 	PCSTree<System> systemDependencyTree;
 	Map<SystemType, System*> systemsMap;
-	Map<ComponentSet, DynamicArray<System*>> componentsToRelevantSystems;
+//	Map<ComponentSet, DynamicArray<System*>> componentsToRelevantSystems;
 };
 
 SystemManager& GetSystemsManager();

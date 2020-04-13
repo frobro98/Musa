@@ -3,7 +3,10 @@
 #include "PlatformDefinitions.h"
 #include "String/CStringUtilities.hpp"
 
-constexpr inline uint32 fnv32(const void* hashData, uint32 dataSize)
+#pragma warning(push)
+#pragma warning(disable:4307)
+
+constexpr uint32 fnv32(const void* hashData, uint32 dataSize)
 {
 	uint8* byteData = (uint8 *)hashData;
 
@@ -23,7 +26,7 @@ constexpr inline uint32 fnv32(const void* hashData, uint32 dataSize)
 	return hash;
 }
 
-constexpr inline uint32 fnv32(const tchar* strData)
+constexpr uint32 fnv32(const tchar* strData)
 {
 	// These numbers were gotten off of this website
 	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
@@ -42,7 +45,7 @@ constexpr inline uint32 fnv32(const tchar* strData)
 	return hash;
 }
 
-constexpr inline uint64 fnv64(const void* hashData, uint64 dataSize)
+constexpr uint64 fnv64(const void* hashData, uint64 dataSize)
 {
 	uint8* byteData = (uint8 *)hashData;
 
@@ -62,7 +65,7 @@ constexpr inline uint64 fnv64(const void* hashData, uint64 dataSize)
 	return hash;
 }
 
-constexpr inline uint64 fnv64(const tchar* strData)
+constexpr uint64 fnv64(const tchar* strData)
 {
 	// These numbers were gotten off of this website
 	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
@@ -75,15 +78,17 @@ constexpr inline uint64 fnv64(const tchar* strData)
 	while(strData[i])
 	{
 		hash ^= strData[i++];
-		hash *= hashPrime;
+		hash *= static_cast<uint64>(hashPrime);
 	}
 
 	return hash;
 }
 
 template <class T, typename = std::enable_if_t<!std::is_pointer_v<T>>>
-constexpr inline uint64 fnvHash(const T& objToHash)
+constexpr uint64 fnvHash(const T& objToHash)
 {
 	return fnv64(&objToHash, sizeof(T));
 }
+
+#pragma warning(pop)
 

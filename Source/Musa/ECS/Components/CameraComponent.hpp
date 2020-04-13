@@ -6,7 +6,7 @@
 
 struct CameraComponent : public Musa::Component
 {
-	DECLARE_COMPONENT(CameraComponent);
+	//DECLARE_COMPONENT(CameraComponent);
 
 	CameraComponent();
 

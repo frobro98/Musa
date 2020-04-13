@@ -1,5 +1,5 @@
 #include "Quat2.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 
 const Quat2 Quat2::Identity = Quat2();
 const Quat2 Quat2::Zero = Quat2(0, 0);

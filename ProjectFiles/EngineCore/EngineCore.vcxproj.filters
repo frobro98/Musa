@@ -144,9 +144,6 @@
     <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Utilities\CoreUtilities.hpp">
-      <Filter>Source\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
@@ -230,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\fmt\core.h">
       <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\FunctionRef.hpp">
+      <Filter>Source\Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

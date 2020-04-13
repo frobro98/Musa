@@ -15,24 +15,24 @@ void CameraSystem::Tick(float tick)
 	}
 }
 
-ComponentSet CameraSystem::GetRequiredComponents() const
-{
-	ComponentSet group;
-	Musa::AddComponentsTo<CameraComponent, TransformComponent>(group);
-	return group;
-}
+// ComponentSet CameraSystem::GetRequiredComponents() const
+// {
+// 	ComponentSet group;
+// 	Musa::AddComponentsTo<CameraComponent, TransformComponent>(group);
+// 	return group;
+// }
 
-void CameraSystem::AssociateEntity(const Musa::Entity& entity)
+void CameraSystem::AssociateEntity(const Musa::Entity& /*entity*/)
 {
-	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
-	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
-	CameraWork work = 
-	{ 
-		GetComponentFrom<TransformComponent>(entity), // const transform
-		GetComponentFrom<CameraComponent>(entity)	  // camera
-	};
-	Assert(work.transform != nullptr);
-	componentWork.Add(work);
+// 	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
+// 	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
+// 	CameraWork work = 
+// 	{ 
+// 		GetComponentFrom<TransformComponent>(entity), // const transform
+// 		GetComponentFrom<CameraComponent>(entity)	  // camera
+// 	};
+// 	Assert(work.transform != nullptr);
+// 	componentWork.Add(work);
 }
 
 void CameraSystem::UpdateOrientiationAndPosition(const TransformComponent& transform, CameraComponent& camera)

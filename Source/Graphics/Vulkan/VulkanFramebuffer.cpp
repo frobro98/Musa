@@ -3,7 +3,7 @@
 #include "VulkanRenderPass.h"
 #include "RenderTargetDescription.hpp"
 #include "VulkanTexture.h"
-#include "Utilities/CoreUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 VulkanFramebuffer::VulkanFramebuffer(const VulkanDevice& device)
 	: logicalDevice(&device)
@@ -33,8 +33,8 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 		const VulkanTexture* colorTex = static_cast<const VulkanTexture*>(renderTextures.colorTargets[i]);
 		viewAttachments[i] = colorTex->image->CreateView();
 		// TODO - Initialize extents in a better place. Possibly in the structure that is passed in?? (RenderTargetDescription)
-		extents.width = Min(extents.width, colorTex->image->width);
-		extents.height = Min(extents.height, colorTex->image->height);
+		extents.width = Math::Min(extents.width, colorTex->image->width);
+		extents.height = Math::Min(extents.height, colorTex->image->height);
 	}
 
 	if (targetDesc.hasDepth)
@@ -42,8 +42,8 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 		const VulkanTexture* depthTex = static_cast<const VulkanTexture*>(renderTextures.depthTarget);
 		viewAttachments[renderTextures.colorTargets.Size()] = depthTex->image->CreateView();
 		// TODO - Initialize extents in a better place. Possibly in the structure that is passed in?? (RenderTargetDescription)
-		extents.width = Min(extents.width, depthTex->image->width);
-		extents.height = Min(extents.height, depthTex->image->height);
+		extents.width = Math::Min(extents.width, depthTex->image->width);
+		extents.height = Math::Min(extents.height, depthTex->image->height);
 	}
 
 	VkFramebufferCreateInfo framebufferInfo = {};

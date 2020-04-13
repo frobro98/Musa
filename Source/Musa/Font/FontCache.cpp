@@ -9,7 +9,8 @@
 
 #include "Texture/Texture2D/TextureManager.h"
 #include "Texture/Texture2D/Texture.h"
-#include "Utilities/CoreUtilities.hpp"
+
+#include "Math/MathFunctions.hpp"
 
 //////////////////////////////////////////////////////////////////////////
 // FontID
@@ -122,7 +123,7 @@ Font* ImportTTFont(const Path& path)
 
 			Assert(bitmapHeightOffset + glyphHeight < bitmapHeight);
 
-			maxCharHeight = Max(maxCharHeight, glyphHeight);
+			maxCharHeight = Math::Max(maxCharHeight, glyphHeight);
 
 			float invBitmapWidth = 1.f / bitmapWidth;
 			float invBitmapHeight = 1.f / bitmapHeight;

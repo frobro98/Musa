@@ -1,6 +1,6 @@
 #include "Matrix2.hpp"
 #include "Quat2.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 
 Matrix2::Matrix2()
 	: _m0(0), _m1(0),

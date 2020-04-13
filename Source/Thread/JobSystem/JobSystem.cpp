@@ -1,7 +1,7 @@
 
 #include "JobSystem.hpp"
 #include "JobThread.hpp"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 namespace
 {

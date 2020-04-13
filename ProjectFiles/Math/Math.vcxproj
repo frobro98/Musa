@@ -207,6 +207,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Math\BitManipulation.hpp" />
     <ClInclude Include="..\..\Source\Math\BoundsVolumes.hpp" />
     <ClInclude Include="..\..\Source\Math\Internal\QuaternionImplementation.hpp" />
     <ClInclude Include="..\..\Source\Math\Internal\VectorImplementation.h" />
@@ -214,7 +215,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Math\MathConstants.hpp" />
     <ClInclude Include="..\..\Source\Math\MathDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Math\MathEngine.hpp" />
-    <ClInclude Include="..\..\Source\Math\MathUtilities.hpp" />
+    <ClInclude Include="..\..\Source\Math\MathFunctions.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix4.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix2.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix3.hpp" />
@@ -233,6 +234,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Math\Internal\QuaternionImplementation.cpp" />
     <ClCompile Include="..\..\Source\Math\Internal\VectorImplementation.cpp" />
     <ClCompile Include="..\..\Source\Math\IntVector2.cpp" />
+    <ClCompile Include="..\..\Source\Math\MathFunctions.cpp" />
     <ClCompile Include="..\..\Source\Math\Matrix2.cpp" />
     <ClCompile Include="..\..\Source\Math\Matrix4.cpp" />
     <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp" />

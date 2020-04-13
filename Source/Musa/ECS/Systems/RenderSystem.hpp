@@ -9,7 +9,7 @@ public:
 
 	virtual void Tick(float deltaTime) override;
 	//virtual void OnDestruction() override;
-	virtual Musa::ComponentSet GetRequiredComponents() const override;
+//	virtual Musa::ComponentSet GetRequiredComponents() const override;
 	virtual void AssociateEntity(const Musa::Entity& entity) override;
 
 	// GetDrawList() ???? Maybe?

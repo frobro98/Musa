@@ -3,9 +3,9 @@
 
 using namespace Musa;
 
-DEFINE_COMPONENT(RenderComponent);
+//DEFINE_COMPONENT(RenderComponent);
 
-RenderComponent::RenderComponent()
-	: Component(GetComponentType())
-{
-}
+// RenderComponent::RenderComponent()
+// 	: Component(GetComponentType())
+// {
+// }

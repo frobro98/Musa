@@ -7,9 +7,9 @@
 
 struct TransformComponent : public Musa::Component
 {
-	DECLARE_COMPONENT(TransformComponent);
-
-	TransformComponent();
+// 	DECLARE_COMPONENT(TransformComponent);
+// 
+// 	TransformComponent();
 
 	void SetPosition(const Vector4& pos);
 	void SetRotation(const Quat& rot);

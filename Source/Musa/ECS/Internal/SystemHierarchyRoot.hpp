@@ -13,7 +13,7 @@ class SystemHierarchyRoot : public System
 {
 public:
 	virtual void Tick(float /*tick*/) override {};
-	virtual ComponentSet GetRequiredComponents() const override { return ComponentSet(); }
+//	virtual ComponentSet GetRequiredComponents() const override { return ComponentSet(); }
 	virtual void AssociateEntity(const Entity& /*entity*/) override {}
 };
 

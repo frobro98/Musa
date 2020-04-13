@@ -1,8 +1,7 @@
 #include "GameInput.hpp"
 #include "Engine/MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
-#include "Utilities/CoreUtilities.hpp"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 GameInput::GameInput(MusaEngine& engine)
 	: musaEngine(engine)
@@ -281,7 +280,7 @@ void GameInput::PopInputContext(StringView contextName)
 void GameInput::ClampInputToRangeAndStore(float32 value, const RangedInput& input)
 {
 	const InputRange& range = input.range;
-	value = Clamp(value, range.minRawRange, range.maxRawRange);
+	value = Math::Clamp(value, range.minRawRange, range.maxRawRange);
 
 	float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
 	float32 normValue = Math::Lerp(range.minNormalizedRange, range.maxNormalizedRange, lerpT);// (lerpT * (range.maxNormalizedRange - range.minNormalizedRange)) + range.minNormalizedRange;

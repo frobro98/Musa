@@ -38,11 +38,10 @@
 #include "Graphics/RenderContextUtilities.hpp"
 #include "Graphics/RenderContext.hpp"
 
-#include "ECS/SystemsManager.hpp"
-#include "ECS/Component.hpp"
-#include "ECS/Entity.hpp"
-#include "ECS/Components/TransformComponent.hpp"
-#include "ECS/Components/RenderComponent.hpp"
+#include "ECS/Archetype.hpp"
+
+#include "Types/FunctionRef.hpp"
+
 
 DECLARE_METRIC_GROUP(Engine);
 DECLARE_METRIC_GROUP(FrameRender);
@@ -341,8 +340,6 @@ void MusaEngine::LoadContent()
 
 	GetMeshManager().Initialize();
 
-	Musa::GetSystemsManager().Initialize();
-
 	CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
 	gameInput->ShowCursor(false);
@@ -358,9 +355,8 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
-// 	Musa::ComponentSet groupDesc = Musa::CreateComponentDescription<TransformComponent, RenderComponent>();
-// 	/*Musa::Entity* entity = */Musa::CreateEntity("Cube");
-
+// 	[[maybe_unused]] Musa::Archetype* arch = Musa::CreateArchetypeFrom<float64>();
+// 	[[maybe_unused]] Musa::Archetype* arch0 = Musa::CreateArchetypeFrom<uint64, float32, float64>();
 
 	// TODO - LEAKING MEMEORY!!!
 	//UI::Console* console = new UI::Console;

@@ -1,11 +1,14 @@
 #pragma once
 
+#pragma warning(push)
+#pragma warning(disable:4307)
+
 #include "FNV-1a.h"
 #include "ECS/Internal/robin_hood.hpp"
 #include "ECS/Internal/TypenameHashing.hpp"
 
-//namespace Musa
-//{
+namespace Musa
+{
 using ComponentCtor = void(*)(void*);
 using ComponentDtor = void(*)(void*);
 
@@ -13,6 +16,7 @@ struct ComponentType
 {
 	ComponentCtor ctor = nullptr;
 	ComponentDtor dtor = nullptr;
+	// TODO - Combine these hashes into some sort of struct
 	uint64 typenameHash = 0;
 	uint64 archetypeBit = 0;
 	uint16 size = 0;
@@ -32,7 +36,7 @@ static constexpr ComponentType MakeTypeFor()
 
 	type.ctor = [](void* ptr)
 	{
-		new(p) Comp;
+		new(ptr) Comp;
 	};
 	type.dtor = [](void* ptr)
 	{
@@ -50,13 +54,13 @@ static const ComponentType* GetTypeFor()
 {
 	static const ComponentType* type = []()
 	{
-		constexpr typeHash = Internal::TypenameHash<Comp>();
+		/*constexpr*/ uint64 typeHash = Musa::Internal::template TypenameHash<Comp>();
 
 		auto typeIter = componentTypeCache.find(typeHash);
 		if (typeIter == componentTypeCache.end())
 		{
-			const ComponentType type = MakeTypeFor<Comp>();
-			componentTypeCache[typeHash] = type;
+			const ComponentType t = MakeTypeFor<Comp>();
+			componentTypeCache[typeHash] = t;
 		}
 
 		// NOTE - This is an ok thing to do because the map has indirection built into it. References are stable
@@ -65,4 +69,6 @@ static const ComponentType* GetTypeFor()
 	return type;
 }
 
-//}
+}
+#pragma warning(pop)
+

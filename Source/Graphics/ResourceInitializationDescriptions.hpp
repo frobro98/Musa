@@ -5,7 +5,7 @@
 #include "EngineCore/FNV-1a.h"
 #include "RenderTargetDescription.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
 struct ShaderResource;

@@ -209,7 +209,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	// Dynamic state info
 	VkPipelineDynamicStateCreateInfo dynamicStateInfo = {};
 	dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-	dynamicStateInfo.dynamicStateCount = ArraySize(dynamicStates);
+	dynamicStateInfo.dynamicStateCount = (uint32)ArraySize(dynamicStates);
 	dynamicStateInfo.pDynamicStates = dynamicStates;
 
 	VkGraphicsPipelineCreateInfo pipelineInfo = {};

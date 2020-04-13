@@ -8,7 +8,7 @@
 #include "Importers/PNGImporter.hpp"
 #include "Importers/BMPImporter.hpp"
 #include "Importers/TextureCompression.h"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 #include "Color.hpp"
 
 namespace

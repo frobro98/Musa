@@ -4,7 +4,7 @@
 
 struct RenderComponent : public Musa::Component
 {
-	DECLARE_COMPONENT(RenderComponent);
+	//DECLARE_COMPONENT(RenderComponent);
 
 	RenderComponent();
 

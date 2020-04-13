@@ -2,7 +2,7 @@
 #include "MipmapGeneration.hpp"
 #include "FastFourierTransform.hpp"
 #include "Texture2D/Texture.h"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 #include "Color.hpp"
 #include "Texture2D/TextureUtilities.hpp"
 
@@ -472,7 +472,7 @@ void ProcessMipLevelsWithFFT(DynamicArray<MipmapLevel>& mipMapLevels, uint32 lev
 
 uint32 GetMaxMipMapLevels(uint32 width, uint32 height)
 {
-	float maxDimention = static_cast<float>(Max(width, height));
+	float maxDimention = static_cast<float>(Math::Max(width, height));
 	uint32 numPossibleLevels = 1 + static_cast<uint32>(Math::Floor(Math::Log2(maxDimention)));
 	return numPossibleLevels;
 }

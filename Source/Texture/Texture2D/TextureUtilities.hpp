@@ -3,7 +3,7 @@
 #include "Types/Intrinsics.hpp"
 #include "ImageFormats.h"
 #include "Containers/DynamicArray.hpp"
-#include "Utilities/CoreUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 constexpr uint32 FormatInBytes(ImageFormat format)
 {
@@ -60,7 +60,7 @@ inline DynamicArray<uint8> UnnormalizePixelData(const DynamicArray<float>& norma
 
 	for (uint32 i = 0; i < normalizedPixelData.Size(); ++i)
 	{
-		float clampedVal = Clamp((normalizedPixelData[i] * 255.f), 0.f, 255.f);
+		float clampedVal = Math::Clamp((normalizedPixelData[i] * 255.f), 0.f, 255.f);
 		unnormalizedData[i] = static_cast<uint8>(clampedVal);
 // 		if (unnormalizedData[i] == 0)
 // 		{

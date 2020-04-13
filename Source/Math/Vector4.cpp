@@ -2,7 +2,7 @@
 #include "Vector4.hpp"
 #include "Vector3.hpp"
 #include "Vector2.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 #include "Internal/VectorImplementation.h"
 
 const Vector4 Vector4::RightAxis(1, 0, 0);

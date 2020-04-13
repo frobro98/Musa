@@ -7,7 +7,6 @@
 #include "Ranges.hpp"
 #include "Graphics/Vulkan/VulkanDevice.h"
 #include "Graphics/ResourceLockPtr.hpp"
-#include "Utilities/CoreUtilities.hpp"
 
 
 class GraphicsAllocation
@@ -168,7 +167,7 @@ inline GraphicsMemoryAllocation<Suballoc>::~GraphicsMemoryAllocation()
 template<class Suballoc>
 inline bool GraphicsMemoryAllocation<Suballoc>::TrySelectMemoryRange(VkDeviceSize requestedSize, uint32 alignment, Suballoc *& memoryRange)
 {
-	uint32 adjustedAlignment = Max(alignment, offsetAlignment);
+	uint32 adjustedAlignment = Math::Max(alignment, offsetAlignment);
 	for (uint32 i = 0; i < freeAllocationBlocks.Size(); ++i)
 	{
 		// TODO - Need to change this shit to be able to use size_t/VkDeviceSize by default instead of using uint32

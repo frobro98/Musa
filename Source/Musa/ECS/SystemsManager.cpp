@@ -49,7 +49,7 @@ void SystemManager::ProcessDirtyEntities()
 	for (const auto& entity : dirtyEntities)
 	{
 		Assert(entity != nullptr);
-		AddEntityToRequiredSystems(*entity);
+		//AddEntityToRequiredSystems(*entity);
 	}
 }
 
@@ -60,19 +60,19 @@ void SystemManager::TickSystems(float deltaTime)
 		system->Tick(deltaTime);
 	}
 }
-
-void SystemManager::AddEntityToRequiredSystems(const Entity& entity)
-{
-	ComponentSet groupOnEntity = GetComponentDescriptionOf(entity);
-	for (auto system : systemDependencyTree)
-	{
-		ComponentSet desc = system->GetRequiredComponents();
-		if (groupOnEntity.ContainsTypes(desc))
-		{
-			system->AssociateEntity(entity);
-		}
-	}
-}
+// 
+// void SystemManager::AddEntityToRequiredSystems(const Entity& entity)
+// {
+// 	ComponentSet groupOnEntity = GetComponentDescriptionOf(entity);
+// 	for (auto system : systemDependencyTree)
+// 	{
+// 		ComponentSet desc = system->GetRequiredComponents();
+// 		if (groupOnEntity.ContainsTypes(desc))
+// 		{
+// 			system->AssociateEntity(entity);
+// 		}
+// 	}
+// }
 
 
 SystemManager& GetSystemsManager()

@@ -3,9 +3,9 @@
 
 using namespace Musa;
 
-DEFINE_COMPONENT(CameraComponent);
+//DEFINE_COMPONENT(CameraComponent);
 
-CameraComponent::CameraComponent()
-	: Component(GetComponentType())
-{
-}
+// CameraComponent::CameraComponent()
+// 	: Component(GetComponentType())
+// {
+// }

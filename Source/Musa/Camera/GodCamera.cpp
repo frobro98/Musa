@@ -4,7 +4,6 @@
 #include "Engine/FrameData.hpp"
 #include "Input/GameInput.hpp"
 #include "DebugOutput.h"
-#include "Math/MathUtilities.hpp"
 
 GodCamera::GodCamera(GameWorld& world, Camera& cam)
 	: GameObject(world),

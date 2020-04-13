@@ -38,7 +38,7 @@ VulkanDescriptorPool::VulkanDescriptorPool(VulkanDevice& device)
 
 	VkDescriptorPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	poolInfo.poolSizeCount = ArraySize(poolSizes);
+	poolInfo.poolSizeCount = (uint32)ArraySize(poolSizes);
 	poolInfo.pPoolSizes = poolSizes;
 	poolInfo.maxSets = 1000;//logicalDevice->GetDeviceLimits().maxBoundDescriptorSets;
 	// TODO - Figure out what this flag specifically does

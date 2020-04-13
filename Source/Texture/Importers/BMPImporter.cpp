@@ -1,6 +1,6 @@
 
 #include "BMPImporter.hpp"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 namespace
 {

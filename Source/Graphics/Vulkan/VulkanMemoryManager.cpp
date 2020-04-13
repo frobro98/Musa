@@ -5,7 +5,7 @@
 #include "VulkanImageAllocation.hpp"
 #include "VulkanDevice.h"
 
-#include "Utilities/CoreUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 
 VulkanMemoryManager::VulkanMemoryManager(VulkanDevice& device)
@@ -112,12 +112,12 @@ VulkanBuffer* VulkanMemoryManager::AllocateBuffer(
 	// TODO - Helper for bit flag testing validity
 	if ((usageFlags && VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) != 0)
 	{
-		alignment = Max((uint32)limits.minUniformBufferOffsetAlignment, alignment);
+		alignment = Math::Max((uint32)limits.minUniformBufferOffsetAlignment, alignment);
 	}
 	// TODO - Helper for bit flag testing validity
 	if ((usageFlags && VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) != 0)
 	{
-		alignment = Max((uint32)limits.minStorageBufferOffsetAlignment, alignment);
+		alignment = Math::Max((uint32)limits.minStorageBufferOffsetAlignment, alignment);
 	}
 	
 	VkDeviceSize buffSize = bufferSize;
@@ -149,7 +149,7 @@ VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(VkDeviceSize bufferSize, 
 	BufferGraphicsAllocation* allocation = &AllocateBufferBlock(bufferSize, usageFlags, memoryFlags);
 	usedBufferAllocations.Add(allocation);
 
-	uint32 suballocationAlignment = Max(alignment, allocation->GetAlignment());
+	uint32 suballocationAlignment = Math::Max(alignment, allocation->GetAlignment());
 
 	BufferMemory* memory;
 	[[maybe_unused]] bool success = allocation->TrySelectMemoryRange(bufferSize, suballocationAlignment, memory);
@@ -179,7 +179,7 @@ BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(VkDeviceSize 
 {
 	const VkPhysicalDeviceMemoryProperties& properties = logicalDevice.GetMemoryProperties();
 
-	VkDeviceSize allocSize = Max(bufferSize, DefaultAllocationSize);
+	VkDeviceSize allocSize = Math::Max(bufferSize, DefaultAllocationSize);
 
 	VkBufferCreateInfo bufferInfo = {};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;

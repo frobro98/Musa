@@ -1,5 +1,5 @@
 #include "MatrixUtilities.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 #include "Assertion.h"
 
 namespace Math

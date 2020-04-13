@@ -19,14 +19,15 @@
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Archetype.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Component.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\ComponentOffsetList.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\CameraComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\InputComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\MovementComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\RenderComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\TransformComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeDefinition.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Entity.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Internal\ComponentPool.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Internal\EntityPool.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\System.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\MovementSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\World.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp" />
@@ -91,6 +93,7 @@
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Archetype.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Component.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\ComponentArray.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MovementComponent.hpp" />
@@ -113,6 +116,8 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Types.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\World.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />

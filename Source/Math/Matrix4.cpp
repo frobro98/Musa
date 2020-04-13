@@ -2,7 +2,7 @@
 #include "Matrix4.hpp"
 #include "Vector4.hpp"
 #include "Quat.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 #include "Assertion.h"
 
 Matrix4::Matrix4()

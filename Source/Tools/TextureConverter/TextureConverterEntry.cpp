@@ -5,7 +5,7 @@
 #include "Archiver/FileSerializer.hpp"
 #include "MipmapGeneration.hpp"
 #include "Color.hpp"
-#include "Utilities/CoreUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 
 // TODO - Probably are useful utilities for color manipulation
 Color TintColor(const Color& color, const Color& tint)
@@ -19,7 +19,7 @@ Color TintColor(const Color& color, const Color& tint)
 
 uint8 TintValue(uint8 val, uint8 tint)
 {
-	float tintedValue = Clamp((tint - val) * .5f, 0.f, 255.f);
+	float tintedValue = Math::Clamp((tint - val) * .5f, 0.f, 255.f);
 	val = val + tintedValue > 255 ? 255u : val + static_cast<uint8>(tintedValue);
 	return val;
 }

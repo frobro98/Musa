@@ -147,9 +147,6 @@
     <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeDefinition.cpp">
       <Filter>Source\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Entity.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\System.cpp">
       <Filter>Source\ECS</Filter>
     </ClCompile>
@@ -275,6 +272,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp">
       <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\ComponentOffsetList.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Archetype.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\World.cpp">
+      <Filter>Source\ECS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -564,6 +570,15 @@
       <Filter>Source\ECS\Internal</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\ComponentOffsetList.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\ComponentArray.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\World.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Types.hpp">
       <Filter>Source\ECS</Filter>
     </ClInclude>
   </ItemGroup>

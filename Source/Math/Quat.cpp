@@ -2,7 +2,7 @@
 #include "EngineCore/Assertion.h"
 #include "Quat.hpp"
 #include "Vector4.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 #include "Internal/QuaternionImplementation.hpp"
 
 const Quat Quat::Identity = Quat(0, 0, 0, 1);

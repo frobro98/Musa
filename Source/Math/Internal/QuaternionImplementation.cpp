@@ -2,7 +2,7 @@
 #include "Quat.hpp"
 #include "Vector4.hpp"
 #include "Matrix4.hpp"
-#include "MathUtilities.hpp"
+#include "MathFunctions.hpp"
 #include "QuaternionImplementation.hpp"
 
 #include "PlatformDefinitions.h"

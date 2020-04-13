@@ -7,7 +7,7 @@ class TransformSystem : public Musa::System
 {
 public:
 	virtual void Tick(float tick) override;
-	virtual Musa::ComponentSet GetRequiredComponents() const override;
+//	virtual Musa::ComponentSet GetRequiredComponents() const override;
 	virtual void AssociateEntity(const Musa::Entity& entity) override;
 
 private:

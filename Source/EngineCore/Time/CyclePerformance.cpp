@@ -1,5 +1,6 @@
 
 #include "CyclePerformance.hpp"
+#include "Windows/WindowsDefinitions.h"
 
 static float64 InvCyclesPerSec = 0.0;
 

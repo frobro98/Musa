@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "Windows/WindowsTypes.h"
+#include "CoreFlags.hpp"
 
 using uint64 = uint64_t;
 using uint32 = uint32_t;

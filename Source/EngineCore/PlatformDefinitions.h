@@ -43,7 +43,7 @@ WALL_WRN_POP
 #include "Types/Intrinsics.hpp"
 
 template <typename T, uint32 N>
-constexpr uint32 ArraySize([[maybe_unused]] const T (&arr)[N])
+constexpr size_t ArraySize([[maybe_unused]] const T(&arr)[N])
 {
 	return N;
 }

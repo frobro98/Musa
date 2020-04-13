@@ -6,16 +6,18 @@
 namespace Musa::Internal
 {
 template <typename Comp>
-static constexpr const char* TypenameString()
+/*constexpr forceinline */const char* TypenameString()
 {
-	return __func__;
+	return __FUNCSIG__;
 }
 
 template <typename Comp>
-static constexpr uint64 TypenameHash()
+/*constexpr forceinline*/ uint64 TypenameHash()
 {
-	using sanitizedType = std::remove_reference_t<std::remove_const_t>;
-	constexpr uint64 hash = fnv64(TypenameString<sanitizedType>());
+	using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
+	/*constexpr*/ const char* typeStr = TypenameString<sanitizedType>();
+	/*constexpr*/ uint64 hash = fnv64(typeStr);
 	return hash;
 }
 }
+

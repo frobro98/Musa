@@ -1,6 +1,6 @@
 #include "FastFourierTransform.hpp"
 #include "Math/MathConstants.hpp"
-#include "Math/MathUtilities.hpp"
+#include "Math/MathFunctions.hpp"
 #include "FastFourierTransform.hpp"
 
 namespace

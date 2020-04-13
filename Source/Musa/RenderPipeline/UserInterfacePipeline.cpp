@@ -10,7 +10,6 @@
 #include "BatchPrimitives.hpp"
 #include "Graphics/UniformBuffers.h"
 #include "Math/MatrixUtilities.hpp"
-#include "Utilities/CoreUtilities.hpp"
 #include "String/String.h"
 #include "Containers/Stack.hpp"
 
@@ -262,9 +261,9 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 		// Render to that framebuffer
 
 		// TODO - This needs to be rendered not to the gbuffer, but to the final resulting image. 
-// 		BEGIN_TIMED_BLOCK(TextDisplayRender);
-// 		RenderScreenText(renderContext, view);
-// 		END_TIMED_BLOCK(TextDisplayRender);
+ 		BEGIN_TIMED_BLOCK(TextDisplayRender);
+ 		RenderScreenText(renderContext, view);
+ 		END_TIMED_BLOCK(TextDisplayRender);
 
 		GraphicsPipelineDescription desc = {};
 		renderContext.InitializeWithRenderState(desc);

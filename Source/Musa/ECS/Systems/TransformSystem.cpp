@@ -15,23 +15,23 @@ void TransformSystem::Tick(float tick)
 	}
 }
 
-ComponentSet TransformSystem::GetRequiredComponents() const
-{
-	ComponentSet group;
-	AddComponentsTo<TransformComponent>(group);
-	return group;
-}
+// ComponentSet TransformSystem::GetRequiredComponents() const
+// {
+// 	ComponentSet group;
+// 	AddComponentsTo<TransformComponent>(group);
+// 	return group;
+// }
 
-void TransformSystem::AssociateEntity(const Musa::Entity& entity)
+void TransformSystem::AssociateEntity(const Musa::Entity& /*entity*/)
 {
-	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
-	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
-	TransformWork work = 
-	{ 
-		GetComponentFrom<TransformComponent>(entity) // Transform
-	};
-	Assert(work.transform != nullptr);
-	componentWork.Add(work);
+// 	ComponentSet entityComponents = Musa::GetComponentDescriptionOf(entity);
+// 	Assert(entityComponents.ContainsTypes(GetRequiredComponents()));
+// 	TransformWork work = 
+// 	{ 
+// 		GetComponentFrom<TransformComponent>(entity) // Transform
+// 	};
+// 	Assert(work.transform != nullptr);
+// 	componentWork.Add(work);
 }
 
 void TransformSystem::ProcessTransform(TransformWork& work)

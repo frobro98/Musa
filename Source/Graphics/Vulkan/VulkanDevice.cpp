@@ -103,7 +103,7 @@ void VulkanDevice::Initialize(VkInstance inst)
 	Assert(enabledGPUFeatures.geometryShader);
 	Assert(enabledGPUFeatures.textureCompressionBC);
 
-	VkDeviceCreateInfo deviceInfo = Vk::DeviceInfo(queueInfos, ArraySize(queueInfos), deviceExtensions, ArraySize(deviceExtensions), enabledGPUFeatures);
+	VkDeviceCreateInfo deviceInfo = Vk::DeviceInfo(queueInfos, (uint32)ArraySize(queueInfos), deviceExtensions, (uint32)ArraySize(deviceExtensions), enabledGPUFeatures);
 	vkCreateDevice(gpu, &deviceInfo, nullptr, &vulkanDevice);
 
 	graphicsQueue = new VulkanQueue(this);

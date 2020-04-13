@@ -2,13 +2,13 @@
 #include "TransformComponent.hpp"
 
 using namespace Musa;
+// 
+// DEFINE_COMPONENT(TransformComponent);
 
-DEFINE_COMPONENT(TransformComponent);
-
-TransformComponent::TransformComponent()
-	: Component(GetComponentType())
-{
-}
+// TransformComponent::TransformComponent()
+// 	: Component(GetComponentType())
+// {
+// }
 
 void TransformComponent::SetPosition(const Vector4& pos)
 {
