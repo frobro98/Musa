@@ -18,19 +18,10 @@
     <ClCompile Include="..\..\Source\ECS\Component.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\ECS\ComponentTypeDefinition.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\ECS\ComponentTypeOffsetList.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ECS\Entity.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\ECS\System.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\ECS\SystemsManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ECS\World.cpp">
@@ -53,22 +44,10 @@
     <ClInclude Include="..\..\Source\ECS\ComponentType.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ECS\ComponentTypeDefinition.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\ECS\ComponentTypeOffsetList.hpp">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ECS\Entity.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ECS\System.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ECS\SystemsManager.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\ECS\SystemTypeDefinitions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ECS\Types.hpp">

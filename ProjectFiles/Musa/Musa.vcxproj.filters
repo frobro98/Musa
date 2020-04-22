@@ -138,21 +138,6 @@
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CameraSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\InputSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\MovementSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\Components\CameraComponent.cpp">
       <Filter>Source\ECS\Components</Filter>
     </ClCompile>
@@ -340,21 +325,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp">
       <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CameraSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\InputSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\MovementSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
