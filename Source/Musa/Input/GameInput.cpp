@@ -3,6 +3,8 @@
 #include "Entry/MusaApp.hpp"
 #include "Math/MathFunctions.hpp"
 
+#include "DebugOutput.h"
+
 GameInput::GameInput(MusaEngine& engine)
 	: musaEngine(engine)
 {

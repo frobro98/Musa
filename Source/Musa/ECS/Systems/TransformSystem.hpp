@@ -16,7 +16,6 @@ private:
 		struct TransformComponent* transform;
 	};
 
-	void ProcessTransform(TransformWork& work);
 
 private:
 	DynamicArray<TransformWork> componentWork;

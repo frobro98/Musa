@@ -39,6 +39,9 @@
 #include "Graphics/RenderContext.hpp"
 
 #include "ECS/Archetype.hpp"
+#include "ECS/World.hpp"
+#include "ECS/Components/TransformComponent.hpp"
+#include "ECS/Components/RenderComponent.hpp"
 
 #include "Types/FunctionRef.hpp"
 
@@ -355,8 +358,10 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
-// 	[[maybe_unused]] Musa::Archetype* arch = Musa::CreateArchetypeFrom<float64>();
-// 	[[maybe_unused]] Musa::Archetype* arch0 = Musa::CreateArchetypeFrom<uint64, float32, float64>();
+// 	Musa::World* w = new Musa::World;
+// 
+// 	Musa::Entity e = w->CreateEntity<TransformComponent>();
+// 	w->AddComponentTo<RenderComponent>(e);
 
 	// TODO - LEAKING MEMEORY!!!
 	//UI::Console* console = new UI::Console;

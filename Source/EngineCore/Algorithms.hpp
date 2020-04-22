@@ -2,8 +2,19 @@
 
 #include "Containers/DynamicArray.hpp"
 
+// TODO - Move this to somewhere that makes more sense than this...
+template<typename T = void>
+struct LessThan
+{
+	constexpr bool operator()(const T& lhs, const T& rhs) const
+	{
+		return lhs < rhs;
+	}
+};
+
+
 template <typename Exch>
-void Exchange(Exch& e0, Exch& e1)
+void Swap(Exch& e0, Exch& e1)
 {
 	Exch tmp = e0;
 	e0 = e1;
@@ -22,10 +33,14 @@ void InsertionSort(DynamicArray<Elem>& arr)
 			uint32 index = static_cast<uint32>(j);
 			if (arr[index + 1] < arr[index])
 			{
-				Exchange(arr[index], arr[index + 1]);
+				Swap(arr[index], arr[index + 1]);
 			}
 		}
 	}
+
+	Assert(IsSorted(arr.GetData(), arr.Size(), [](const Elem& lhs, const Elem& rhs) {
+		return lhs < rhs;
+	}));
 }
 
 template <typename T, size_t N>
@@ -38,8 +53,37 @@ void InsertionSort(T(&arr)[N])
 		{
 			if (arr[j + 1] < arr[j])
 			{
-				Exchange(arr[j], arr[j + 1]);
+				Swap(arr[j], arr[j + 1]);
 			}
 		}
 	}
+
+	Assert(IsSorted(arr, N, [] (const T& lhs, const T& rhs){
+		return lhs < rhs;
+	}));
 }
+
+template <typename T, typename Pred>
+bool IsSorted(const T* arr, size_t count, Pred&& func)
+{
+	for (uint32 i = 1; i < count; ++i)
+	{
+		if (!func(arr[i - 1], arr[i]))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// template<class Elem, typename Pred>
+// void Partition(DynamicArray<Elem>& arr, Pred&& partFunc)
+// {
+// 	for (uint32 i = 0; i < arr.Size(); ++i)
+// 	{
+// 		if()
+// 	}
+// }
+
+

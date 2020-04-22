@@ -13,6 +13,9 @@
     <Filter Include="UnitTests\Math">
       <UniqueIdentifier>{80ed4aa4-b1c9-4e89-b4a7-89e7918cd631}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnitTests\ECS">
+      <UniqueIdentifier>{8d5efb11-2330-41df-83f3-9e9c2d7d9ff4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\UnitTests\UnitTestMain.cpp" />

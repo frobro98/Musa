@@ -6,6 +6,8 @@
 #include "Window/Window.h"
 #include "Entry/MusaApp.hpp"
 
+#include "DebugOutput.h"
+
 WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
 	: gameInput(input),
 	application(app)
@@ -131,7 +133,7 @@ void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 
 	IntVector2 mouseMovePos(mouseX, mouseY);
 	currentMousePos = mouseMovePos;
 
-	if (currentMousePos != prevMousePos)
+	if (deltaX || deltaY)
 	{
 		InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
 		{

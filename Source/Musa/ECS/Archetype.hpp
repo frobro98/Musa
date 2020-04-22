@@ -7,7 +7,9 @@
 #include "Utilities/TemplateUtils.hpp"
 #include "ECS/Types.hpp"
 #include "ECS/ComponentType.hpp"
-#include "ECS/ComponentOffsetList.hpp"
+#include "ECS/ComponentTypeOffsetList.hpp"
+#include "ECS/ArchetypeChunk.hpp"
+#include "ECS/World.hpp"
 
 
 namespace Musa
@@ -27,48 +29,49 @@ static uint64 TypeListHash(const StaticArray<ComponentType*, N> types)
 	return typelistHash;
 }
 
-constexpr size_t ArchetypeBlockSize = KilobytesAsBytes(16);
-
-struct ArchetypeDataFooter
-{
-	struct Archetype* owner = nullptr;
-	uint32 numEntities;
-};
-
-constexpr uint32 UsableChunkSize = ArchetypeBlockSize - sizeof(ArchetypeDataFooter);
-
-struct /*alignas(32)*/ ArchetypeChunk
-{
-	uint8 data[UsableChunkSize];
-	ArchetypeDataFooter footer;
-};
-static_assert(sizeof(ArchetypeChunk) == ArchetypeBlockSize);
-
+constexpr uint32 MaxComponentsPerArchetype = 32;
 
 // Contains blocks of memory which contain the actual component data
 // Similar to how Unity ECS archetypes are implemented
 struct Archetype
 {
+	World* world;
 	// Must have some sort of identifier which also shows what components are stored within it
-	DynamicArray<ArchetypeChunk*> chunkList;
-	ComponentOffsetList offsetList;
+	DynamicArray<UniquePtr<ArchetypeChunk>> chunkList;
+	ComponentTypeOffsetList offsetList;
 	ArchetypeHashID archetypeHashID;
-	uint32 currentChunkIndex;
+	uint32 fullChunks;
 };
 
-Archetype* CreateArchetypeFrom(const ComponentType** compTypes, size_t typeCount);
+Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compTypes, size_t typeCount);
 
 template<typename... Comps, typename = std::enable_if_t<all_base_of_v<Component, Comps...>>>
-Archetype* CreateArchetypeFrom()
+Archetype* GetOrCreateArchetypeFrom(World& world)
 {
+	REF_CHECK(world);
+
 	//if constexpr(sizeof...(Comps) != 0)
 	{
 		static const ComponentType* compTypes[] = { GetTypeFor<Comps>()... };
 		constexpr size_t typeCount = ArraySize(compTypes);
 
 		InsertionSort(compTypes);
-		return CreateArchetypeFrom(compTypes, typeCount);
+		// NOTE - No chunk created at this point because there isn't any reason for it to be. It needs to be created when an Entity is added...
+		return CreateArchetypeFrom(world, compTypes, typeCount);
 	}
 }
+
+ArchetypeChunk& GetOrCreateFreeArchetypeChunk(Archetype& archetype);
+
+forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
+{
+	Assert(world.IsEntityValid(entity));
+	return *world.entityBridges[entity.id].owningChunk->footer.owner;
+}
+
+// TODO - This isn't really that great of a name I think, and it shouldn't be this public
+void SetEntitysArchetype(World& world, Entity entity, Archetype& archetype);
+
+void SortChunksForFullness(Archetype& archetype);
 
 }

@@ -27,12 +27,20 @@ public:
 	[[nodiscard]] OwnedType* Release();
 	void Reset(OwnedType* newPtr = nullptr);
 
+	void Swap(UniquePtr& other);
+
 private:
 	void ReleaseOwnedPtr();
 
 private:
 	OwnedType* ptr = nullptr;
 };
+
+template <typename Type>
+inline void Swap(UniquePtr<Type>& lhs, UniquePtr<Type>& rhs)
+{
+	lhs.Swap(rhs);
+}
 
 template<typename OwnedType, typename... Args>
 inline UniquePtr<OwnedType> MakeUnique(Args&&... args)
@@ -107,6 +115,14 @@ inline void UniquePtr<OwnedType>::Reset(OwnedType* newPtr)
 {
 	ReleaseOwnedPtr();
 	ptr = newPtr;
+}
+
+template<typename OwnedType>
+inline void UniquePtr<OwnedType>::Swap(UniquePtr& other)
+{
+	OwnedType* tmp = ptr;
+	ptr = other.ptr;
+	other.ptr = tmp;
 }
 
 template<typename OwnedType>

@@ -54,7 +54,7 @@ static const ComponentType* GetTypeFor()
 {
 	static const ComponentType* type = []()
 	{
-		/*constexpr*/ uint64 typeHash = Musa::Internal::template TypenameHash<Comp>();
+		constexpr uint64 typeHash = Musa::Internal::template TypenameHash<Comp>();
 
 		auto typeIter = componentTypeCache.find(typeHash);
 		if (typeIter == componentTypeCache.end())

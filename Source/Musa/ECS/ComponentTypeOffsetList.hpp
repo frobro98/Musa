@@ -7,7 +7,7 @@ namespace Musa
 {
 struct ComponentType;
 
-struct ComponentOffset
+struct ComponentTypeOffset
 {
 	const ComponentType* type = nullptr;
 	const uint64 typenameHash;
@@ -15,13 +15,13 @@ struct ComponentOffset
 	const size_t chunkOffset;
 };
 
-struct ComponentOffsetList
+struct ComponentTypeOffsetList
 {
-	const DynamicArray<ComponentOffset> offsets;
+	const DynamicArray<ComponentTypeOffset> offsets;
 	const uint32 capacity;
 };
 
 // TODO - Investigate compile time construction...
-ComponentOffsetList ConstructOffsetList(const ComponentType** compTypes, size_t count);
+ComponentTypeOffsetList ConstructOffsetList(const ComponentType** compTypes, size_t count);
 }
 

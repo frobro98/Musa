@@ -23,17 +23,6 @@ private:
 		struct CameraComponent* camera;
 	};
 
-	void ProcessSingleCamera(CameraWork& work);
-	void UpdatePosition(CameraWork& work);
-	void CalculatePlaneDimentions(CameraWork& work);
-	void CalculateFrustum(CameraWork& work);
-	void CalculateFrustumNormals(CameraWork& work);
-	void UpdateView(CameraWork& work);
-	void UpdateProjection(CameraWork& work);
-	void UpdateViewport(CameraWork& work);
-
-	void UpdateOrientiationAndPosition(const TransformComponent& transform, CameraComponent& camera);
-
 private:
 	DynamicArray<CameraWork> componentWork;
 };

@@ -153,12 +153,6 @@
     <ClCompile Include="..\..\Source\Musa\ECS\SystemsManager.cpp">
       <Filter>Source\ECS</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Internal\ComponentPool.cpp">
-      <Filter>Source\ECS\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Internal\EntityPool.cpp">
-      <Filter>Source\ECS\Internal</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\CameraSystem.cpp">
       <Filter>Source\ECS\Systems</Filter>
     </ClCompile>
@@ -273,13 +267,19 @@
     <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\ComponentOffsetList.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\Archetype.cpp">
       <Filter>Source\ECS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\World.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Entity.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\ArchetypeChunk.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeOffsetList.cpp">
       <Filter>Source\ECS</Filter>
     </ClCompile>
   </ItemGroup>
@@ -388,12 +388,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp">
       <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\ComponentPool.hpp">
-      <Filter>Source\ECS\Internal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\EntityPool.hpp">
-      <Filter>Source\ECS\Internal</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Internal\SystemHierarchyRoot.hpp">
       <Filter>Source\ECS\Internal</Filter>
@@ -569,9 +563,6 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Internal\robin_hood.hpp">
       <Filter>Source\ECS\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentOffsetList.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\ComponentArray.hpp">
       <Filter>Source\ECS</Filter>
     </ClInclude>
@@ -579,6 +570,12 @@
       <Filter>Source\ECS</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Types.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\ArchetypeChunk.hpp">
+      <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\ComponentTypeOffsetList.hpp">
       <Filter>Source\ECS</Filter>
     </ClInclude>
   </ItemGroup>

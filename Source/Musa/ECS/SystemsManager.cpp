@@ -2,7 +2,6 @@
 #include "SystemsManager.hpp"
 #include "System.hpp"
 #include "Internal/SystemHierarchyRoot.hpp"
-#include "Internal/EntityPool.hpp"
 #include "ECS/Entity.hpp"
 
 namespace Musa

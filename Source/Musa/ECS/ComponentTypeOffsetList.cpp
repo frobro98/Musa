@@ -5,7 +5,7 @@
 
 namespace Musa
 {
-ComponentOffsetList ConstructOffsetList(const ComponentType** compTypes, size_t count)
+ComponentTypeOffsetList ConstructOffsetList(const ComponentType** compTypes, size_t count)
 {
 	uint32 componentSetSize = sizeof(Entity);
 	for (size_t i = 0; i < count; ++i)
@@ -20,7 +20,7 @@ ComponentOffsetList ConstructOffsetList(const ComponentType** compTypes, size_t 
 	constexpr uint32 slack = 2;
 	const uint32 archetypeEntityCap = usableSpace / componentSetSize - slack;
 
-	DynamicArray<ComponentOffset> offsetList;
+	DynamicArray<ComponentTypeOffset> offsetList;
 	offsetList.Reserve(archetypeEntityCap);
 	size_t offset = sizeof(Entity) * archetypeEntityCap;
 	for (size_t i = 0; i < count; ++i)
@@ -30,14 +30,14 @@ ComponentOffsetList ConstructOffsetList(const ComponentType** compTypes, size_t 
 
 		size_t remainder = offset % type->alignment;
 		offset += type->alignment - remainder;
-		offsetList.Add(ComponentOffset{ type, type->typenameHash, type->archetypeBit, offset });
+		offsetList.Add(ComponentTypeOffset{ type, type->typenameHash, type->archetypeBit, offset });
 
 		offset += type->size * archetypeEntityCap;
 	}
 
 	Assert(offset <= Musa::ArchetypeBlockSize);
 
-	return ComponentOffsetList{
+	return ComponentTypeOffsetList{
 		std::move(offsetList),
 		archetypeEntityCap
 	};

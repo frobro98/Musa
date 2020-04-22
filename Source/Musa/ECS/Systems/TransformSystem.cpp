@@ -9,10 +9,6 @@ using namespace Musa;
 void TransformSystem::Tick(float tick)
 {
 	UNUSED(tick);
-	for (auto& work : componentWork)
-	{
-		ProcessTransform(work);
-	}
 }
 
 // ComponentSet TransformSystem::GetRequiredComponents() const
@@ -32,24 +28,4 @@ void TransformSystem::AssociateEntity(const Musa::Entity& /*entity*/)
 // 	};
 // 	Assert(work.transform != nullptr);
 // 	componentWork.Add(work);
-}
-
-void TransformSystem::ProcessTransform(TransformWork& work)
-{
-	TransformComponent* transform = work.transform;
-	if (transform->IsDirty())
-	{
-		Matrix4 translation(TRANS, transform->GetPosition());
-		Matrix4 scale(SCALE, transform->GetScale());
-		transform->SetLocalTransform(scale * transform->GetRotation() * translation);
-		transform->SetWorldTransform(transform->GetLocalTransform() /** parentTransform*/);
-		
-		// Transform children...
-
-		transform->ResetDirtyFlag();
-	}
-	else
-	{
-		transform->ResetUpdatedFlag();
-	}
 }

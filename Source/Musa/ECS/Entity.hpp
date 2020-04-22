@@ -4,6 +4,10 @@
 
 namespace Musa
 {
+struct Archetype;
+struct ArchetypeChunk;
+struct World;
+
 // External reference to group of components
 struct Entity final
 {
@@ -16,5 +20,13 @@ inline bool operator==(const Entity& lhs, const Entity& rhs)
 	return lhs.id == rhs.id && lhs.version == rhs.version;
 }
 
+struct EntityBridge
+{
+	ArchetypeChunk* owningChunk;
+	uint32 version;
+	uint32 chunkIndex;
+};
+
+Entity CreateEntityWith(Archetype& archetype);
 }
 

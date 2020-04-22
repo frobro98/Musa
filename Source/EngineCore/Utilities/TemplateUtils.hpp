@@ -5,7 +5,7 @@
 template <typename Type, typename... Types>
 struct all_same_type
 {
-	constexpr bool IsAllSame()
+	static constexpr bool IsAllSame()
 	{
 		bool result = true;
 		[[maybe_unused]] int dummy[] = { 0, (result = result && std::is_same_v<Type, Types>, 0)... };

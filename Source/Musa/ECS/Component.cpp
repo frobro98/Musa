@@ -1,6 +1,5 @@
 
 #include "Component.hpp"
-#include "Internal/ComponentPool.hpp"
 
 namespace Musa
 {
