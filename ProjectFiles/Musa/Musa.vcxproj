@@ -19,25 +19,16 @@
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Archetype.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\ArchetypeChunk.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Component.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeOffsetList.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\CameraComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\InputComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\MovementComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\RenderComponent.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Components\TransformComponent.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeDefinition.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Entity.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\System.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\SystemsManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\CameraSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\InputSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\MovementSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\TransformSystem.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\World.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp" />
@@ -91,32 +82,16 @@
     <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Archetype.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\ArchetypeChunk.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Component.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentArray.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MovementComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\TransformComponent.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentType.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentTypeDefinition.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentTypeOffsetList.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Entity.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\robin_hood.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\SystemHierarchyRoot.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\TypenameHashing.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\System.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\SystemsManager.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\CameraSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\InputSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\MovementSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\TransformSystem.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Types.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\World.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />
@@ -248,23 +223,25 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>freetyped.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetyped.lib;ECS_d.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>rem copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
-rem echo         Copied nvtt.dll! 
-copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
-echo         Copied ispc_texcomp.dll!</Command>
+      <Command>copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
+echo         Copied ispc_texcomp.dll!
+copy "$(SolutionDir)Binaries\ECS_d.dll" &gt; nul
+echo         Copied ECS_d.dll!
+copy "$(SolutionDir)Binaries\ECS_d.pdb" &gt; nul
+echo         Copied ECS_d.pdb!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -276,7 +253,7 @@ echo         Copied ispc_texcomp.dll!</Command>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -286,13 +263,17 @@ echo         Copied ispc_texcomp.dll!</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;ECS.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
-echo         Copied nvtt.dll! 
+      <Command>rem copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
+rem echo         Copied nvtt.dll! 
 copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
-echo         Copied ispc_texcomp.dll!</Command>
+echo         Copied ispc_texcomp.dll!
+copy "$(SolutionDir)Binaries\ECS.dll" &gt; nul
+echo         Copied ECS_d.dll!
+copy "$(SolutionDir)Binaries\ECS.pdb" &gt; nul
+echo         Copied ECS.pdb!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -304,7 +285,7 @@ echo         Copied ispc_texcomp.dll!</Command>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -317,15 +298,19 @@ echo         Copied ispc_texcomp.dll!</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;ECS.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Thread.lib;File.lib;Math.lib;Memory.lib;PCSTrees.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
-echo         Copied nvtt.dll! 
+      <Command>rem copy "$(SolutionDir)ThirdParty\lib\nvtt\nvtt.dll" "$(OutputPath)" &gt;nul
+rem echo         Copied nvtt.dll! 
 copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
-echo         Copied ispc_texcomp.dll!</Command>
+echo         Copied ispc_texcomp.dll!
+copy "$(SolutionDir)Binaries\ECS.dll" &gt; nul
+echo         Copied ECS_d.dll!
+copy "$(SolutionDir)Binaries\ECS.pdb" &gt; nul
+echo         Copied ECS.pdb!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

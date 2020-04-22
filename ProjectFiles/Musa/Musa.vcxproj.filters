@@ -34,9 +34,6 @@
     <Filter Include="Source\ECS">
       <UniqueIdentifier>{8735c9ec-ab5f-418d-84cc-9fd9bfc67cb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\ECS\Internal">
-      <UniqueIdentifier>{219abbae-3f4e-4a82-a05c-932a622d5137}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\ECS\Systems">
       <UniqueIdentifier>{027fd02b-b0b4-4c9b-ae6f-7f53c472e0c6}</UniqueIdentifier>
     </Filter>
@@ -140,18 +137,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp">
       <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Component.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeDefinition.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\System.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\SystemsManager.cpp">
-      <Filter>Source\ECS</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\CameraSystem.cpp">
       <Filter>Source\ECS\Systems</Filter>
@@ -267,21 +252,6 @@
     <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Archetype.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\World.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Entity.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\ArchetypeChunk.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\ComponentTypeOffsetList.cpp">
-      <Filter>Source\ECS</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -370,27 +340,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp">
       <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Component.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentTypeDefinition.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Entity.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\System.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\SystemsManager.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\SystemTypeDefinitions.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\SystemHierarchyRoot.hpp">
-      <Filter>Source\ECS\Internal</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\CameraSystem.hpp">
       <Filter>Source\ECS\Systems</Filter>
@@ -550,33 +499,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\WidgetBatchElemements.hpp">
       <Filter>Source\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Archetype.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentType.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\TypenameHashing.hpp">
-      <Filter>Source\ECS\Internal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Internal\robin_hood.hpp">
-      <Filter>Source\ECS\Internal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentArray.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\World.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Types.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\ArchetypeChunk.hpp">
-      <Filter>Source\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\ComponentTypeOffsetList.hpp">
-      <Filter>Source\ECS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

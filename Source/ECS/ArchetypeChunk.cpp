@@ -132,8 +132,8 @@ void DestructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex)
 // Returns the new chunk index
 uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChunkIndex, ArchetypeChunk& newChunk)
 {
-	uint32 oldComponentCount = oldChunk.footer.offsetList->capacity;
-	uint32 newComponentCount = newChunk.footer.offsetList->capacity;
+	uint32 oldComponentCount = oldChunk.footer.offsetList->offsets.Size();
+	uint32 newComponentCount = newChunk.footer.offsetList->offsets.Size();
 	auto& oldOffsetList = oldChunk.footer.offsetList;
 	auto& newOffsetList = newChunk.footer.offsetList;
 
@@ -189,9 +189,9 @@ void RemoveEntityFromChunk(ArchetypeChunk& chunk, uint32 chunkIndex)
 	Assert(chunk.footer.numEntities > chunkIndex);
 
 	bool fullBeforeRemove = chunk.footer.numEntities == chunk.footer.offsetList->capacity;
-	--chunk.footer.numEntities;
 
 	DestructEntityInChunk(chunk, chunkIndex);
+	--chunk.footer.numEntities;
 
 	Entity* entityArray = reinterpret_cast<Entity*>(&chunk);
 	new(entityArray + chunkIndex) Entity{};

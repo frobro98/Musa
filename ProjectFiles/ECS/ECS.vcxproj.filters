@@ -4,5 +4,90 @@
     <Filter Include="Source">
       <UniqueIdentifier>{5db113dd-4e49-4d4b-932f-d51cfcd5fedb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Internal">
+      <UniqueIdentifier>{a9fb508a-a535-4de0-98d3-005e8af43048}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\ECS\Archetype.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\ArchetypeChunk.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\Component.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\ComponentTypeDefinition.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\ComponentTypeOffsetList.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\Entity.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\System.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\SystemsManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\World.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\ECS\Archetype.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\ArchetypeChunk.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\Component.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\ComponentArray.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\ComponentType.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\ComponentTypeDefinition.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\ComponentTypeOffsetList.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\Entity.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\System.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\SystemsManager.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\SystemTypeDefinitions.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\Types.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\World.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\Internal\robin_hood.hpp">
+      <Filter>Source\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\Internal\SystemHierarchyRoot.hpp">
+      <Filter>Source\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\Internal\TypenameHashing.hpp">
+      <Filter>Source\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\DLLDef.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

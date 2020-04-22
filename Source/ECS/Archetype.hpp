@@ -14,21 +14,6 @@
 
 namespace Musa
 {
-struct Component;
-
-template <size_t N>
-static uint64 TypeListHash(const StaticArray<ComponentType*, N> types)
-{
-	uint64 typelistHash = 0;
-	for (const auto& type : types)
-	{
-		// TODO - This might not be the correct solution. Main problem is that there currently would be a comparison
-		// and then a search over the archetype to verify correctness. If this isn't correctable, then this might be ok...?
-		typelistHash |= types->archetypeBit;
-	}
-	return typelistHash;
-}
-
 constexpr uint32 MaxComponentsPerArchetype = 32;
 
 // Contains blocks of memory which contain the actual component data
@@ -43,10 +28,10 @@ struct Archetype
 	uint32 fullChunks;
 };
 
-Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compTypes, size_t typeCount);
+ECS_API Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compTypes, size_t typeCount);
 
 template<typename... Comps, typename = std::enable_if_t<all_base_of_v<Component, Comps...>>>
-Archetype* GetOrCreateArchetypeFrom(World& world)
+ECS_TEMPLATE Archetype* GetOrCreateArchetypeFrom(World& world)
 {
 	REF_CHECK(world);
 
@@ -55,9 +40,9 @@ Archetype* GetOrCreateArchetypeFrom(World& world)
 		static const ComponentType* compTypes[] = { GetTypeFor<Comps>()... };
 		constexpr size_t typeCount = ArraySize(compTypes);
 
-		InsertionSort(compTypes);
+		InsertionSort(compTypes, typeCount);
 		// NOTE - No chunk created at this point because there isn't any reason for it to be. It needs to be created when an Entity is added...
-		return CreateArchetypeFrom(world, compTypes, typeCount);
+		return GetOrCreateArchetypeFrom(world, compTypes, typeCount);
 	}
 }
 

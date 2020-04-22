@@ -20,8 +20,9 @@ static forceinline ArchetypeChunk* CreateNewChunkFor(Archetype& archetype)
 {
 	UniquePtr<ArchetypeChunk> chunk = CreateChunk(archetype.offsetList);
 	chunk->footer.owner = &archetype;
+	ArchetypeChunk* ret = chunk.Get();
 	archetype.chunkList.Add(std::move(chunk));
-	return chunk.Get();
+	return ret;
 }
 
 static Archetype* FindMatchingArchetype(World& world, ArchetypeHashID hashId, const ComponentType** compTypes, size_t typeCount)
@@ -89,7 +90,7 @@ static void MoveEntityTo(Archetype& archetype, Entity entity)
 Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compTypes, size_t typeCount)
 {
 	REF_CHECK(world);
-	Assert(IsSorted(compTypes, typeCount, LessThan<const ComponentType*>{}));
+	Assert(IsSorted(compTypes, typeCount, Less<const ComponentType*>{}));
 
 	Assert(typeCount <= MaxComponentsPerArchetype);
 
@@ -106,10 +107,11 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 				hashId,
 				0
 			});
+		archetype = upArchetype.Get();
+
 		world.archetypeHashIDs.Add(upArchetype->archetypeHashID);
 		world.archetypesByHash[hashId].Add(upArchetype.Get());
 		world.archetypes.Add(std::move(upArchetype));
-		archetype = upArchetype.Get();
 	}
 
 	return archetype;

@@ -24,7 +24,7 @@ struct ComponentType
 };
 
 template <typename Comp>
-static constexpr ComponentType MakeTypeFor()
+forceinline constexpr ComponentType MakeTypeFor()
 {
 	static_assert(!std::is_empty_v<Comp>, "A component can't be size 0");
 
@@ -50,7 +50,7 @@ static constexpr ComponentType MakeTypeFor()
 static robin_hood::unordered_node_map<uint64, ComponentType> componentTypeCache;
 
 template <typename Comp>
-static const ComponentType* GetTypeFor()
+forceinline const ComponentType* GetTypeFor()
 {
 	static const ComponentType* type = []()
 	{

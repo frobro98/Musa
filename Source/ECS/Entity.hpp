@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EngineCore/Types/Intrinsics.hpp"
+#include "ECS/DLLDef.h"
 
 namespace Musa
 {
@@ -27,6 +28,6 @@ struct EntityBridge
 	uint32 chunkIndex;
 };
 
-Entity CreateEntityWith(Archetype& archetype);
+ECS_API Entity CreateEntityWith(Archetype& archetype);
 }
 

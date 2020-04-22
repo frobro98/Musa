@@ -358,10 +358,10 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
 	go->SetScale(30, 30, 30);
 
-// 	Musa::World* w = new Musa::World;
-// 
-// 	Musa::Entity e = w->CreateEntity<TransformComponent>();
-// 	w->AddComponentTo<RenderComponent>(e);
+	Musa::World* w = new Musa::World;
+
+	Musa::Entity e = w->CreateEntity<TransformComponent>();
+	w->AddComponentTo<RenderComponent>(e);
 
 	// TODO - LEAKING MEMEORY!!!
 	//UI::Console* console = new UI::Console;

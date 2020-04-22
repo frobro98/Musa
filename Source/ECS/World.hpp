@@ -4,6 +4,7 @@
 #include "Types/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
+#include "ECS/DLLDef.h"
 #include "ECS/Types.hpp"
 #include "ECS/Entity.hpp"
 #include "ECS/ComponentType.hpp"
@@ -17,15 +18,12 @@ struct Archetype;
 struct Component;
 struct World;
 
-namespace Internal
+struct ECS_API World final
 {
-Entity ConstructEntityInternals(World& world, const ComponentType** types, uint32 typeCount);
-void HookUpComponentType(World& world, Entity entity, const ComponentType* type);
-void UnhookComponentType(World& world, Entity entity, const ComponentType* type);
-}
+	World() = default;
+	World(const World&) = delete;
+	World& operator=(const World&) = delete;
 
-struct World final
-{
 	template<typename... Comps, typename = std::enable_if_t<can_attach_to_entity_v<Comps...>>>
 	Entity CreateEntity();
 	void DestroyEntity(Entity entity);
@@ -47,6 +45,11 @@ struct World final
 	DynamicArray<ArchetypeHashID> archetypeHashIDs;
 	robin_hood::unordered_flat_map<ArchetypeHashID, DynamicArray<Archetype*>> archetypesByHash;
 	uint32 totalLivingEntities = 0;
+
+private:
+	Entity ConstructEntityInternals(World& world, const ComponentType** types, uint32 typeCount);
+	void HookUpComponentType(World& world, Entity entity, const ComponentType* type);
+	void UnhookComponentType(World& world, Entity entity, const ComponentType* type);
 };
 
 template<typename ...Comps, typename>
@@ -56,21 +59,23 @@ inline Entity World::CreateEntity()
 	static const ComponentType* types[] = { GetTypeFor<Comps>()... };
 	constexpr uint32 typeCount = (uint32)ArraySize(types);
 
-	InsertionSort(types);
+	InsertionSort(types, typeCount);
 
-	return Internal::ConstructEntityInternals(*this, types, typeCount);
+	return ConstructEntityInternals(*this, types, typeCount);
 }
 
 template<typename Comp>
 inline void World::AddComponentTo(Entity entity)
 {
 	const ComponentType* type = GetTypeFor<Comp>();
-	Internal::HookUpComponentType(*this, type);
+	HookUpComponentType(*this, entity, type);
 }
 
 template<typename Comp>
 inline void World::RemoveComponent(Entity entity)
 {
+	const ComponentType* type = GetTypeFor<Comp>();
+	HookUpComponentType(*this, type);
 }
 
 template<typename Comp>

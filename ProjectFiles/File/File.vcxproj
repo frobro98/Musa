@@ -89,8 +89,7 @@
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
-</Command>
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>
@@ -122,8 +121,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
-</Command>
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>
@@ -155,8 +153,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."
-</Command>
+copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>

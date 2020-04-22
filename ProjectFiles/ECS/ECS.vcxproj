@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Development|Win32">
+      <Configuration>Development</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Development|x64">
+      <Configuration>Development</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -38,6 +46,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -45,6 +60,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -62,10 +84,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Development|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -78,13 +106,36 @@
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
+    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\ECS;$(SolutionDir)\Source;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4710;4668;4514;5039;5045;4625;4251</DisableSpecificWarnings>
+      <PreprocessorDefinitions>ECS_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>EngineCore_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <PerUserRedirection>true</PerUserRedirection>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>@echo off
+mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,7 +159,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -122,7 +173,95 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\ECS;$(SolutionDir)\Source;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4710;4668;4514;5039;5045;4625;4251</DisableSpecificWarnings>
+      <PreprocessorDefinitions>ECS_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>EngineCore.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+      <PerUserRedirection>true</PerUserRedirection>
+    </Link>
+    <PostBuildEvent>
+      <Command>@echo off
+mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\ECS;$(SolutionDir)\Source;$(SolutionDir)\Source\EngineCore;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4710;4668;4514;5039;5045;4625;4251</DisableSpecificWarnings>
+      <PreprocessorDefinitions>ECS_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>EngineCore.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <PerUserRedirection>true</PerUserRedirection>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>@echo off
+mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
+copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ECS\Archetype.cpp" />
+    <ClCompile Include="..\..\Source\ECS\ArchetypeChunk.cpp" />
+    <ClCompile Include="..\..\Source\ECS\Component.cpp" />
+    <ClCompile Include="..\..\Source\ECS\ComponentTypeDefinition.cpp" />
+    <ClCompile Include="..\..\Source\ECS\ComponentTypeOffsetList.cpp" />
+    <ClCompile Include="..\..\Source\ECS\Entity.cpp" />
+    <ClCompile Include="..\..\Source\ECS\System.cpp" />
+    <ClCompile Include="..\..\Source\ECS\SystemsManager.cpp" />
+    <ClCompile Include="..\..\Source\ECS\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\ECS\Archetype.hpp" />
+    <ClInclude Include="..\..\Source\ECS\ArchetypeChunk.hpp" />
+    <ClInclude Include="..\..\Source\ECS\Component.hpp" />
+    <ClInclude Include="..\..\Source\ECS\ComponentArray.hpp" />
+    <ClInclude Include="..\..\Source\ECS\ComponentType.hpp" />
+    <ClInclude Include="..\..\Source\ECS\ComponentTypeDefinition.hpp" />
+    <ClInclude Include="..\..\Source\ECS\ComponentTypeOffsetList.hpp" />
+    <ClInclude Include="..\..\Source\ECS\DLLDef.h" />
+    <ClInclude Include="..\..\Source\ECS\Entity.hpp" />
+    <ClInclude Include="..\..\Source\ECS\Internal\robin_hood.hpp" />
+    <ClInclude Include="..\..\Source\ECS\Internal\SystemHierarchyRoot.hpp" />
+    <ClInclude Include="..\..\Source\ECS\Internal\TypenameHashing.hpp" />
+    <ClInclude Include="..\..\Source\ECS\System.hpp" />
+    <ClInclude Include="..\..\Source\ECS\SystemsManager.hpp" />
+    <ClInclude Include="..\..\Source\ECS\SystemTypeDefinitions.hpp" />
+    <ClInclude Include="..\..\Source\ECS\Types.hpp" />
+    <ClInclude Include="..\..\Source\ECS\World.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

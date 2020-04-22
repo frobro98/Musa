@@ -4,7 +4,7 @@
 
 // TODO - Move this to somewhere that makes more sense than this...
 template<typename T = void>
-struct LessThan
+struct Less
 {
 	constexpr bool operator()(const T& lhs, const T& rhs) const
 	{
@@ -58,9 +58,25 @@ void InsertionSort(T(&arr)[N])
 		}
 	}
 
-	Assert(IsSorted(arr, N, [] (const T& lhs, const T& rhs){
-		return lhs < rhs;
-	}));
+	Assert(IsSorted(arr, N, Less<T>{}));
+}
+
+template <typename T>
+void InsertionSort(T* arr, size_t count)
+{
+	for (size_t i = 1; i < count; ++i)
+	{
+		int64 index = (int64)i;
+		for (int64 j = index - 1; j >= 0; --j)
+		{
+			if (arr[j + 1] < arr[j])
+			{
+				Swap(arr[j], arr[j + 1]);
+			}
+		}
+	}
+
+	Assert(IsSorted(arr, count, Less<T>{}));
 }
 
 template <typename T, typename Pred>
