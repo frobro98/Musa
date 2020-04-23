@@ -12,10 +12,11 @@
 
 namespace Math
 {
-	inline void Slerp(Quat &result, const Quat &source, const Quat &target, const float slerpFactor)
+	inline Quat Slerp(const Quat &source, const Quat &target, const float slerpFactor)
 	{
 		Quat normSrc = source.GetNormalized();
 		Quat normTar = target.GetNormalized();
+		Quat result;
 		if (!normSrc.IsEquivalent(normTar, .001f))
 		{
 			float tmpCos = normSrc.Dot(normTar);
@@ -41,13 +42,15 @@ namespace Math
 		{
 			result = normSrc;
 		}
+
+		return result;
 	}
     
 	inline void SlerpArray(Quat *result, const Quat *source, const Quat *target, const float slerpFactor, const int numQuats)
 	{
 		for (int32 i = 0; i < numQuats; ++i)
 		{
-			Slerp(result[i], source[i], target[i], slerpFactor);
+			result[i] = Slerp(source[i], target[i], slerpFactor);
 		}
 	}
 };

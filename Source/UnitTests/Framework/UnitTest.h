@@ -9,62 +9,12 @@
 #ifndef CPP_UNIT_H
 #define CPP_UNIT_H
 
-#include "EngineCore/Platform.h"
-
-//---------------------------------------------------------------------------------------
-// UnitTrace - output to debug window
-//             isolated from other systems
-//
-// NOTE: You need to set your project settings
-//       Character Set -> Use Multi-Byte Character Set
-//
-//---------------------------------------------------------------------------------------
-
-// Windows.h include
-// many warnings - need to wrap for Wall warnings
-	#pragma warning( push )
-	#pragma warning( disable : 4820 )
-	#pragma warning( disable : 4668 )
-	#include <Windows.h>
-	#pragma warning( pop ) 
-
-
-#define UnitTraceBuffSize 256
-
-// Singleton helper class
-class UnitTrace
-{
-public:
-	// displays a printf to the output window
-	static void out(char* fmt, ...)
-	{
-		UnitTrace *pTrace = UnitTrace::privGetInstance();
-		assert(pTrace);
-
-		va_list args;
-		va_start(args, fmt);
-
-		vsprintf_s(pTrace->privBuff, UnitTraceBuffSize, fmt, args);
-		OutputDebugString(pTrace->privBuff);
-
-		va_end(args);
-	}
-
-	// Big four
-	UnitTrace() = default;
-	UnitTrace(const UnitTrace &) = default;
-	UnitTrace & operator = (const UnitTrace &) = default;
-	~UnitTrace() = default;
-
-private:
-	static UnitTrace *privGetInstance()
-	{
-		// This is where its actually stored (BSS section)
-		static UnitTrace helper;
-		return &helper;
-	}
-	char privBuff[UnitTraceBuffSize];
-};
+#include "Platform.h"
+#include "Assertion.h"
+#include "DebugOutput.h"
+#include "Containers/DynamicArray.hpp"
+#include "Utilities/MacroHelpers.hpp"
+#include "Math/MathFunctions.hpp"
 
 //---------------------------------------------------------------------------------------
 // Utility class - for testing floats
@@ -117,83 +67,19 @@ struct UnitStats
 };
 struct UnitData
 {
-	UnitData()
-		: pMemberName(0),
-		pSourceFilePath(0),
-		sourceLineNumber(0),
-		result(false),
-		pad0(0),
-		pad1(0),
-		pad2(0)
-	{
-	}
-
-	// Big four
-	UnitData(const UnitData &) = default;
-	UnitData & operator = (const UnitData &) = default;
-	~UnitData() = default;
-
-	// data: -----------------
-	const char *pMemberName;
-	char *pSourceFilePath;
-	int sourceLineNumber;
-	bool result;
-	char pad0;
-	char pad1;
-	char pad2;
+	const char *pMemberName = nullptr;
+	char *pSourceFilePath = nullptr;
+	int sourceLineNumber = 0;
+	bool result = false;
 };
 
-class UnitSLink
+class Test
 {
 public:
-	UnitSLink()
-	{
-		this->Clear();
-	}
-	// Big four
-	UnitSLink(const UnitSLink &) = default;
-	UnitSLink & operator = (const UnitSLink &) = default;
-	~UnitSLink() = default;
+	Test(const char* pTestName);
 
-	void Clear()
-	{
-		this->pNext = 0;
-	}
-
-	static void AddToFront(UnitSLink *&pRoot, UnitSLink *pNode )
-	{
-		if (pRoot == 0)
-		{		
-			pRoot = pNode;
-			assert(pNode->pNext == 0);
-		}
-		else
-		{
-			UnitSLink *pTmp = pRoot;
-			pRoot = pNode;
-			pNode->pNext = pTmp;
-		}
-	}
-
-public:
-	// Data
-	UnitSLink *pNext;
-};
-
-class Test : public UnitSLink
-{
-public:
-	Test(const char * pTestName);
-
-	// Big four
-	Test() = delete;
-	Test(const Test &) = default;
-	Test & operator = (const Test &) = default;
-	~Test() = default;
-
-
-	virtual void run(UnitData &, UnitStats &) = 0;
-	virtual void teardown() {};
+	virtual void run(UnitData &, UnitStats &) const = 0;
+	virtual void teardown() const {};
 
 public:
 	const char * pName;
@@ -208,62 +94,47 @@ public:
 	TestRegistry & operator = (const TestRegistry &) = delete;
 
 
-	static void AddTest(UnitSLink *pTest)
+	static void AddTest(Test& test)
 	{
-		//UnitTrace::out("TestRegistry:AddTest(%s) \n", pTest->pName);
-		assert(pTest != 0);
-
 		TestRegistry *pRegistry = TestRegistry::privGetInstance();
 
-		// add to front
-		UnitSLink::AddToFront((UnitSLink *&)pRegistry->pRoot, pTest);
+		pRegistry->tests.Add(&test);
 	}
 	static void RunTests()
 	{
 		//UnitTrace::out("\nTestRegistry:RunTests()\n");
-		UnitTrace::out("\n");
-		UnitTrace::out("---- Testing ----\n");
+		Debug::Print("\n");
+		Debug::Print("---- Testing ----\n");
 		TestRegistry *pRegistry = TestRegistry::privGetInstance();
-		UnitSLink *pTmp = (UnitSLink *)pRegistry->pRoot;
 
-		while (pTmp != 0)
+		UnitData unitData;
+		UnitStats unitStats;
+
+		for(const auto& test : pRegistry->tests)
 		{
-			pRegistry->_UnitStats.testCount++;
-
-			// downcast to the test
-			Test *pTest = (Test *)pTmp;
-
-			//UnitTrace::out("\n%s - start\n", pTest->pName);
+			unitStats.testCount++;
 
 			// run the test
-			pRegistry->_UnitData.result = true;
-			
-			pTest->testFunc->run(pRegistry->_UnitData, pRegistry->_UnitStats);
+			unitData.result = true;
+			test->run(unitData, unitStats);
 		
-			
-
-			if (pRegistry->_UnitData.result == true)
+			if (unitData.result == true)
 			{
-				pRegistry->_UnitStats.testPass++;
+				unitStats.testPass++;
 			}
 			else
 			{
-				pRegistry->_UnitStats.testFail++;
+				unitStats.testFail++;
 			}
-
-			//UnitTrace::out("%s - end\n", pTest->pName);
-
-			// next test
-			pTmp = pTmp->pNext;
 		}
 
-		UnitTrace::out("\n");
-		UnitTrace::out(" testCount: %d\n", pRegistry->_UnitStats.testCount);
-		UnitTrace::out("  testPass: %d\n", pRegistry->_UnitStats.testPass);
-		UnitTrace::out("  testFail: %d\n", pRegistry->_UnitStats.testFail);
-		UnitTrace::out("indvChecks: %d\n", pRegistry->_UnitStats.indvAsserts);
-		UnitTrace::out("\n");
-		UnitTrace::out("-----------------\n");
+		Debug::Print("\n");
+		Debug::Printf(" testCount: {}\n", unitStats.testCount);
+		Debug::Printf("  testPass: {}\n", unitStats.testPass);
+		Debug::Printf("  testFail: {}\n", unitStats.testFail);
+		Debug::Printf("indvChecks: {}\n", unitStats.indvAsserts);
+		Debug::Print("\n");
+		Debug::Print("-----------------\n");
 	}
 
 private:
@@ -275,15 +146,8 @@ private:
 		return &tRegistry;
 	}
 
-// Data: ------------------------
-	UnitData _UnitData;
-	UnitStats _UnitStats;
-	UnitSLink *pRoot = nullptr;
+	DynamicArray<Test*> tests;
 };
-
-
-// a trick to create a c-string
-#define STRING_ME(s) #s
 
 // Allow conditional expressions that are constant.
 #pragma warning( disable : 4127 )
@@ -300,7 +164,7 @@ private:
 		_UnitData.pMemberName = this->pName; \
 		_UnitData.pSourceFilePath = __FILE__; \
 		_UnitData.sourceLineNumber = __LINE__; \
-		UnitTrace::out("%s(%d): %s \n", _UnitData.pSourceFilePath, _UnitData.sourceLineNumber, _UnitData.pMemberName ); \
+		Debug::Printf("{}({}): {} \n", _UnitData.pSourceFilePath, _UnitData.sourceLineNumber, _UnitData.pMemberName ); \
 		this->teardown(); \
 		return; \
 	} \
@@ -309,66 +173,46 @@ private:
 	}\
 }
 
-
-#define CHECK_EQUAL( value1, value2 ) \
-{ \
-	_UnitStats.indvAsserts++;\
-	if( !( value1 == value2 ) ) \
-	{ \
-		_UnitData.result = false;  \
-		_UnitData.pMemberName = this->pName; \
-		_UnitData.pSourceFilePath = __FILE__; \
-		_UnitData.sourceLineNumber = __LINE__; \
-		UnitTrace::out("%s(%d): %s\n", _UnitData.pSourceFilePath, _UnitData.sourceLineNumber, _UnitData.pMemberName  ); \
-		return; \
-	} \
-	else\
-	{\
-	}\
-}
-
-// Here is the magic
-//
-// 1) it creates a class, <TestName>_Test
-//    it is derived from Test class
-// 2) it defines the constructor and calls the base constructor with the name
-//    it registers the name of the test to a single class (TestRegistry)
-// 3) It also overloads the Test::run() method with the body of the macro
-
-#define TEST( TestName, GroupName ) \
-class TestName##GroupName##_Test : public Test \
-{ \
-	public: \
-		TestName##GroupName##_Test(): \
-		Test( STRING_ME(TestName##GroupName##_Test)) \
-		{ \
-		}; \
-	\
-	void run(UnitData &_UnitData, UnitStats &_UnitStats);\
-} TestName##GroupName##_instance; \
-\
-void TestName##GroupName##_Test::run( UnitData &_UnitData, UnitStats &_UnitStats ) 
+#define CHECK_TRUE(value) CHECK(value == true);
+#define CHECK_FALSE(value) CHECK(value == false);
+#define CHECK_ZERO(value) CHECK(Math::IsZero(value)
+#define CHECK_EQ( value1, value2 ) CHECK(Math::IsEqual(value1, value2))
 
 
-#define TEST_WITH_TEARDOWN( TestName, GroupName ) \
-class TestName##GroupName##_Test : public Test \
-{ \
-	public: \
-		TestName##GroupName##_Test(): \
-		Test( STRING_ME(TestName##GroupName##_Test)) \
-		{ \
-		}; \
-	\
-	void run(UnitData &_UnitData, UnitStats &_UnitStats);\
-	virtual void teardown();\
-} TestName##GroupName##_instance; \
-\
-void TestName##GroupName##_Test::run( UnitData &_UnitData, UnitStats &_UnitStats ) 
+#define TEST(TestName, GroupName)													\
+class TestName##GroupName##_Test : public Test										\
+{																					\
+	public:																			\
+		TestName##GroupName##_Test():												\
+		Test(STRING(TestName##GroupName##_Test))									\
+		{																			\
+		};																			\
+																					\
+	virtual void run(UnitData &_UnitData, UnitStats &_UnitStats) const override;	\
+} TestName##GroupName##_instance;													\
+																					\
+void TestName##GroupName##_Test::run(UnitData& _UnitData, UnitStats& _UnitStats) const
+
+
+#define TEST_WITH_TEARDOWN(TestName, GroupName)												\
+class TestName##GroupName##_Test : public Test												\
+{																							\
+	public:																					\
+		TestName##GroupName##_Test():														\
+		Test(STRING(TestName##GroupName##_Test))											\
+		{																					\
+		};																					\
+																							\
+	virtual void run(UnitData &_UnitData, UnitStats &_UnitStats) const override;			\
+	virtual void teardown() override;														\
+} TestName##GroupName##_instance;															\
+																							\
+void TestName##GroupName##_Test::run(UnitData& _UnitData, UnitStats& _UnitStats) const 
 
 
 
-#define TEST_TEARDOWN( TestName, GroupName ) \
-void TestName##GroupName##_Test::teardown() 
+#define TEST_TEARDOWN(TestName, GroupName)	\
+void TestName##GroupName##_Test::teardown() const
 
 
 #endif

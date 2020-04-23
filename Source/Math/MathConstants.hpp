@@ -53,6 +53,6 @@ constexpr float32 InvPiOver180 = (float32)InvPiOver180_dbl;
 constexpr float32 SqrtOf2 = (float32)SqrtOf2_dbl;
 constexpr float32 InvSqrtOf2 = (float32)InvSqrtOf2_dbl;
 
-constexpr float32 InternalTolerence = 0.00001f;        // constant for internal tolerances
+constexpr float32 InternalTolerence = 0.0001f;        // constant for internal tolerances
 
 }

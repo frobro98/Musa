@@ -4,9 +4,7 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-
-#define eq	Util::isEqual 
+#include "Math/Matrix4.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
@@ -16,22 +14,22 @@ TEST( Matrix_Bracket_set, matix_tests )
 {
 	Matrix4 M;
 
-	CHECK( M[m0] == 0.0f );
-	CHECK( M[m1] == 0.0f );
-	CHECK( M[m2] == 0.0f );
-	CHECK( M[m3] == 0.0f );
-	CHECK( M[m4] == 0.0f );
-	CHECK( M[m5] == 0.0f );
-	CHECK( M[m6] == 0.0f );	
-	CHECK( M[m7] == 0.0f );
-	CHECK( M[m8] == 0.0f );
-	CHECK( M[m9] == 0.0f );
-	CHECK( M[m10] == 0.0f );
-	CHECK( M[m11] == 0.0f );
-	CHECK( M[m12] == 0.0f );
-	CHECK( M[m13] == 0.0f );
-	CHECK( M[m14] == 0.0f );
-	CHECK( M[m15] == 0.0f );
+	CHECK_EQ( M[m0], 0.0f );
+	CHECK_EQ( M[m1], 0.0f );
+	CHECK_EQ( M[m2], 0.0f );
+	CHECK_EQ( M[m3], 0.0f );
+	CHECK_EQ( M[m4], 0.0f );
+	CHECK_EQ( M[m5], 0.0f );
+	CHECK_EQ( M[m6], 0.0f );	
+	CHECK_EQ( M[m7], 0.0f );
+	CHECK_EQ( M[m8], 0.0f );
+	CHECK_EQ( M[m9], 0.0f );
+	CHECK_EQ( M[m10], 0.0f );
+	CHECK_EQ( M[m11], 0.0f );
+	CHECK_EQ( M[m12], 0.0f );
+	CHECK_EQ( M[m13], 0.0f );
+	CHECK_EQ( M[m14], 0.0f );
+	CHECK_EQ( M[m15], 0.0f );
 
 	M[m0] = 1.0f;
 	M[m1] = 2.0f;
@@ -50,22 +48,22 @@ TEST( Matrix_Bracket_set, matix_tests )
 	M[m14] = -2.0f;
 	M[m15] = 5.0f;
 
-	CHECK( M[m0] == 1.0f );
-	CHECK( M[m1] == 2.0f );
-	CHECK( M[m2] == 3.0f );
-	CHECK( M[m3] == 4.0f );
-	CHECK( M[m4] == 7.0f );
-	CHECK( M[m5] == 6.0f );
-	CHECK( M[m6] == 5.0f );	
-	CHECK( M[m7] == 3.0f );
-	CHECK( M[m8] == -4.0f );
-	CHECK( M[m9] == -2.0f );
-	CHECK( M[m10] == -1.0f );
-	CHECK( M[m11] == -4.0f );
-	CHECK( M[m12] == 9.0f );
-	CHECK( M[m13] == -7.0f );
-	CHECK( M[m14] == -2.0f );
-	CHECK( M[m15] == 5.0f );
+	CHECK_EQ( M[m0], 1.0f );
+	CHECK_EQ( M[m1], 2.0f );
+	CHECK_EQ( M[m2], 3.0f );
+	CHECK_EQ( M[m3], 4.0f );
+	CHECK_EQ( M[m4], 7.0f );
+	CHECK_EQ( M[m5], 6.0f );
+	CHECK_EQ( M[m6], 5.0f );	
+	CHECK_EQ( M[m7], 3.0f );
+	CHECK_EQ( M[m8], -4.0f );
+	CHECK_EQ( M[m9], -2.0f );
+	CHECK_EQ( M[m10], -1.0f );
+	CHECK_EQ( M[m11], -4.0f );
+	CHECK_EQ( M[m12], 9.0f );
+	CHECK_EQ( M[m13], -7.0f );
+	CHECK_EQ( M[m14], -2.0f );
+	CHECK_EQ( M[m15], 5.0f );
 }
 
 
@@ -98,26 +96,26 @@ TEST( Get_Brackets_const, Matrix_tests )
 	M[m14] = -2.0f;
 	M[m15] = 5.0f;
 
-	CHECK( M[m0] == 1.0f );
-	CHECK( M[m1] == 2.0f );
-	CHECK( M[m2] == 3.0f );
-	CHECK( M[m3] == 4.0f );
-	CHECK( M[m4] == 7.0f );
-	CHECK( M[m5] == 6.0f );
-	CHECK( M[m6] == 5.0f );	
-	CHECK( M[m7] == 3.0f );
-	CHECK( M[m8] == -4.0f );
-	CHECK( M[m9] == -2.0f );
-	CHECK( M[m10] == -1.0f );
-	CHECK( M[m11] == -4.0f );
-	CHECK( M[m12] == 9.0f );
-	CHECK( M[m13] == -7.0f );
-	CHECK( M[m14] == -2.0f );
-	CHECK( M[m15] == 5.0f );
+	CHECK_EQ( M[m0], 1.0f );
+	CHECK_EQ( M[m1], 2.0f );
+	CHECK_EQ( M[m2], 3.0f );
+	CHECK_EQ( M[m3], 4.0f );
+	CHECK_EQ( M[m4], 7.0f );
+	CHECK_EQ( M[m5], 6.0f );
+	CHECK_EQ( M[m6], 5.0f );	
+	CHECK_EQ( M[m7], 3.0f );
+	CHECK_EQ( M[m8], -4.0f );
+	CHECK_EQ( M[m9], -2.0f );
+	CHECK_EQ( M[m10], -1.0f );
+	CHECK_EQ( M[m11], -4.0f );
+	CHECK_EQ( M[m12], 9.0f );
+	CHECK_EQ( M[m13], -7.0f );
+	CHECK_EQ( M[m14], -2.0f );
+	CHECK_EQ( M[m15], 5.0f );
 
 	float sum = constTest( M );
 
-	CHECK( sum == 25.0f );
+	CHECK_EQ( sum, 25.0f );
 }
 
 TEST( Matrix_Bracket_get, matix_tests )
@@ -129,22 +127,22 @@ TEST( Matrix_Bracket_get, matix_tests )
 
 	Matrix4 M(V0,V1,V2,V3);
 
-	CHECK( M[m0] == 1.0f );
-	CHECK( M[m1] == 2.0f );
-	CHECK( M[m2] == 3.0f );
-	CHECK( M[m3] == 4.0f );
-	CHECK( M[m4] == 7.0f );
-	CHECK( M[m5] == 6.0f );
-	CHECK( M[m6] == 5.0f );	
-	CHECK( M[m7] == 3.0f );
-	CHECK( M[m8] == -4.0f );
-	CHECK( M[m9] == -2.0f );
-	CHECK( M[m10] == -1.0f );
-	CHECK( M[m11] == -4.0f );
-	CHECK( M[m12] == 9.0f );
-	CHECK( M[m13] == -7.0f );
-	CHECK( M[m14] == -2.0f );
-	CHECK( M[m15] == 5.0f );
+	CHECK_EQ( M[m0], 1.0f );
+	CHECK_EQ( M[m1], 2.0f );
+	CHECK_EQ( M[m2], 3.0f );
+	CHECK_EQ( M[m3], 4.0f );
+	CHECK_EQ( M[m4], 7.0f );
+	CHECK_EQ( M[m5], 6.0f );
+	CHECK_EQ( M[m6], 5.0f );	
+	CHECK_EQ( M[m7], 3.0f );
+	CHECK_EQ( M[m8], -4.0f );
+	CHECK_EQ( M[m9], -2.0f );
+	CHECK_EQ( M[m10], -1.0f );
+	CHECK_EQ( M[m11], -4.0f );
+	CHECK_EQ( M[m12], 9.0f );
+	CHECK_EQ( M[m13], -7.0f );
+	CHECK_EQ( M[m14], -2.0f );
+	CHECK_EQ( M[m15], 5.0f );
 
 	float t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
 
@@ -165,22 +163,22 @@ TEST( Matrix_Bracket_get, matix_tests )
 	t14 = M[m14];
 	t15 = M[m15];
 
-	CHECK( t0 == 1.0f );
-	CHECK( t1 == 2.0f );
-	CHECK( t2 == 3.0f );
-	CHECK( t3 == 4.0f );
-	CHECK( t4 == 7.0f );
-	CHECK( t5 == 6.0f );
-	CHECK( t6 == 5.0f );	
-	CHECK( t7 == 3.0f );
-	CHECK( t8 == -4.0f );
-	CHECK( t9 == -2.0f );
-	CHECK( t10 == -1.0f );
-	CHECK( t11 == -4.0f );
-	CHECK( t12 == 9.0f );
-	CHECK( t13 == -7.0f );
-	CHECK( t14 == -2.0f );
-	CHECK( t15 == 5.0f );
+	CHECK_EQ( t0, 1.0f );
+	CHECK_EQ( t1, 2.0f );
+	CHECK_EQ( t2, 3.0f );
+	CHECK_EQ( t3, 4.0f );
+	CHECK_EQ( t4, 7.0f );
+	CHECK_EQ( t5, 6.0f );
+	CHECK_EQ( t6, 5.0f );	
+	CHECK_EQ( t7, 3.0f );
+	CHECK_EQ( t8, -4.0f );
+	CHECK_EQ( t9, -2.0f );
+	CHECK_EQ( t10, -1.0f );
+	CHECK_EQ( t11, -4.0f );
+	CHECK_EQ( t12, 9.0f );
+	CHECK_EQ( t13, -7.0f );
+	CHECK_EQ( t14, -2.0f );
+	CHECK_EQ( t15, 5.0f );
 }
 
 // ---  End of File ---------------

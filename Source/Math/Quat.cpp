@@ -80,11 +80,11 @@ Quat::Quat(const Matrix4 & mat)
 	Set(mat);
 }
 
-// Quat& Quat::operator=(const Matrix4& m)
-// {
-// 	Set(m);
-// 	return *this;
-// }
+Quat& Quat::operator=(const Matrix4& m)
+{
+	Set(m);
+	return *this;
+}
 
 void Quat::Set(float x_, float y_, float z_, float w_)
 {

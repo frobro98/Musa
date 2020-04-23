@@ -4,10 +4,7 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-#include "Math/QuatFunctions.h"
-
-#define eq	Math::IsEqual 
+#include "Math/QuatFunctions.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
@@ -49,7 +46,7 @@ Quat QuatSourceA[] =
 	Quat(-0.006912f, -0.027648f,  0.000000f, 0.999594f),
 };
 
-#define numQuatA (sizeof(QuatSourceA)/sizeof(QuatSourceA[0]))
+constexpr size_t NumQuat = ArraySize(QuatSourceA);
 
 Quat QuatTargetA[] =
 {
@@ -78,6 +75,7 @@ Quat QuatTargetA[] =
 	Quat(0.005529f, -0.001382f,  0.194920f, 0.980802f),
 	Quat(0.002764f,  0.024883f, -0.001382f,-0.999686f),
 };
+static_assert(ArraySize(QuatTargetA) == NumQuat, "QuatTargetA doesn't contain the correct number of Quats");
 
 Quat QuatResultA[] =
 {
@@ -113,41 +111,41 @@ TEST(QuatSlerpDataTest, QuatSlerpTests)
 	Quat out1;
 
 	// Slerp Data Test	
-	Quat out2[numQuatA];
-	Math::SlerpArray(out2, QuatSourceA, QuatTargetA, 0.495f, numQuatA);
+	Quat out2[NumQuat];
+	Math::SlerpArray(out2, QuatSourceA, QuatTargetA, 0.495f, NumQuat);
 
 	i = 0;
-	Math::Slerp(out1, QuatSourceA[i], QuatTargetA[i], 0.495f);
+	out1 = Math::Slerp(QuatSourceA[i], QuatTargetA[i], 0.495f);
 
-	CHECK(eq(out1.x, out2[i].x, Math::InternalTolerence));
-	CHECK(eq(out1.y, out2[i].y, Math::InternalTolerence));
-	CHECK(eq(out1.z, out2[i].z, Math::InternalTolerence));
-	CHECK(eq(out1.w, out2[i].w, Math::InternalTolerence));
+	CHECK_EQ(out1.x, out2[i].x);
+	CHECK_EQ(out1.y, out2[i].y);
+	CHECK_EQ(out1.z, out2[i].z);
+	CHECK_EQ(out1.w, out2[i].w);
 
 	i = 21;
-	Math::Slerp(out1, QuatSourceA[i], QuatTargetA[i], 0.495f);
+	out1 = Math::Slerp(QuatSourceA[i], QuatTargetA[i], 0.495f);
 
-	CHECK(eq(out1.x, out2[i].x, Math::InternalTolerence));
-	CHECK(eq(out1.y, out2[i].y, Math::InternalTolerence));
-	CHECK(eq(out1.z, out2[i].z, Math::InternalTolerence));
-	CHECK(eq(out1.w, out2[i].w, Math::InternalTolerence));
+	CHECK_EQ(out1.x, out2[i].x);
+	CHECK_EQ(out1.y, out2[i].y);
+	CHECK_EQ(out1.z, out2[i].z);
+	CHECK_EQ(out1.w, out2[i].w);
 
 	i = 22;
-	Math::Slerp(out1, QuatSourceA[i], QuatTargetA[i], 0.495f);
+	out1 = Math::Slerp(QuatSourceA[i], QuatTargetA[i], 0.495f);
 
-	CHECK(eq(out1.x, out2[i].x, Math::InternalTolerence));
-	CHECK(eq(out1.y, out2[i].y, Math::InternalTolerence));
-	CHECK(eq(out1.z, out2[i].z, Math::InternalTolerence));
-	CHECK(eq(out1.w, out2[i].w, Math::InternalTolerence));
+	CHECK_EQ(out1.x, out2[i].x);
+	CHECK_EQ(out1.y, out2[i].y);
+	CHECK_EQ(out1.z, out2[i].z);
+	CHECK_EQ(out1.w, out2[i].w);
 
 
 	i = 23;
-	Math::Slerp(out1, QuatSourceA[i], QuatTargetA[i], 0.495f);
+	out1 = Math::Slerp(QuatSourceA[i], QuatTargetA[i], 0.495f);
 
-	CHECK(eq(out1.x, out2[i].x, Math::InternalTolerence));
-	CHECK(eq(out1.y, out2[i].y, Math::InternalTolerence));
-	CHECK(eq(out1.z, out2[i].z, Math::InternalTolerence));
-	CHECK(eq(out1.w, out2[i].w, Math::InternalTolerence));
+	CHECK_EQ(out1.x, out2[i].x);
+	CHECK_EQ(out1.y, out2[i].y);
+	CHECK_EQ(out1.z, out2[i].z);
+	CHECK_EQ(out1.w, out2[i].w);
 }
 
 // ---  End of File ---------------

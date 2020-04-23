@@ -19,40 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\UnitTests\UnitTestMain.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Heap_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Memory_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\StressAlignment_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\StressHeap_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\StressTracking_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\TrackingGlobal_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\TrackingHeap_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Alignment_Tests.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Dog.cpp">
-      <Filter>UnitTests\Memory</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Framework\Timer.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp">
-      <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Framework\FileIO.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Combo.cpp">
@@ -91,9 +58,6 @@
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_unary.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Accessors.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_AddSubMultDiv.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
@@ -106,28 +70,13 @@
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Functions.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Proxy.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_SetGet.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\QuatApp_Slerp.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Accessors.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_AddSub.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Boolean.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Bracket.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Constructors.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Functions.cpp">
@@ -139,36 +88,21 @@
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Scale.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Set.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Start_Here.cpp">
-      <Filter>UnitTests\Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_unary.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\UnitTests\Math\VectApp_Lerp.cpp">
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Lerp.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Slerp.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\UnitTests\Memory\Dog.h">
-      <Filter>UnitTests\Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\UnitTests\Framework\FileIO.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTracker.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTrackerMain.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\UnitTests\Framework\Timer.h">
-      <Filter>Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\UnitTests\Framework\Trace.h">
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\UnitTests\Framework\UnitTest.h">

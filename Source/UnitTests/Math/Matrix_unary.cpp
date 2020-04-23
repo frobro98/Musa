@@ -4,9 +4,7 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-
-#define eq	Math::IsEqual 
+#include "Math/Matrix4.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:

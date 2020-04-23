@@ -36,7 +36,7 @@ public:
 	explicit Quat(const Vector4& v, float angle);
 	explicit Quat(const Matrix4& mat);
 
-	//Quat& operator=(const Matrix4& m);
+	Quat& operator=(const Matrix4& m);
 
 	// Accessors
 	void Set(float x, float y, float z, float w);

@@ -4,20 +4,11 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-
-#define eq	Math::IsEqual 
+#include "Math/Quat.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
 //---------------------------------------------------------------------------
-
-TEST( QuatBoolean, QuatBooleanTests )
-{
-	// Quat Boolean tests 
-
-	CHECK( 1 );
-}
 
 
 TEST( QuatIsEqual, QuatBooleanTests )
@@ -31,7 +22,7 @@ TEST( QuatIsEqual, QuatBooleanTests )
 
 	// => q1.IsEqual(q2, 0.1f) 
 	bvalue1 = q1.IsEqual(q2, 0.1f);
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 
@@ -47,7 +38,7 @@ TEST( QuatIsEqual1, QuatBooleanTests )
 	// q1.IsEqual(q2, 0.1f) 
 	bvalue1 = q1.IsEqual(q2, 0.1f);
 
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 
@@ -63,7 +54,7 @@ TEST( QuatIsNegEqual, QuatBooleanTests )
 	// q1.IsNegativeEqual(q2, 0.1f) 
 	bvalue1 = q1.IsNegativeEqual(q2, 0.1f);
 
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 TEST( QuatIsNegEqual2, QuatBooleanTests )
@@ -78,7 +69,7 @@ TEST( QuatIsNegEqual2, QuatBooleanTests )
 	// q1.IsNegativeEqual(q2, 0.1f)
 	bvalue1 = q1.IsNegativeEqual(q2, 0.1f);
 
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 
@@ -94,7 +85,7 @@ TEST( QuatIsEquivalent, QuatBooleanTests )
 	// q1.IsEquivalent(q2, 0.1f) 
 	bvalue1 = q1.IsEquivalent(q2, 0.1f);
 
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 TEST( QuatIsEquivalent2, QuatBooleanTests )
@@ -109,7 +100,7 @@ TEST( QuatIsEquivalent2, QuatBooleanTests )
 	// q1.IsEquivalent(q2, 0.1f) 
 	bvalue1 = q1.IsEquivalent(q2, 0.1f);
 
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 TEST( QuatIsEquivalent3, QuatBooleanTests )
@@ -124,7 +115,7 @@ TEST( QuatIsEquivalent3, QuatBooleanTests )
 	// q1.IsEquivalent(q2, 0.1f) 
 	bvalue1 = q1.IsEquivalent(q2, 0.1f);
 
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 TEST( QuatIsConjugateEqual, QuatBooleanTests )
@@ -139,7 +130,7 @@ TEST( QuatIsConjugateEqual, QuatBooleanTests )
 	// q1.IsConjugateEqual(q2, 0.1f)
 	bvalue1 = q1.IsConjugateEqual(q2, 0.1f);
 	
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 TEST( QuatIsConjugateEqual2, QuatBooleanTests )
@@ -154,7 +145,7 @@ TEST( QuatIsConjugateEqual2, QuatBooleanTests )
 	// q1.IsConjugateEqual(q2, 0.1f) 
 	bvalue1 = q1.IsConjugateEqual(q2, 0.1f);
 
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 TEST( QuatIsIdentity, QuatBooleanTests )
@@ -168,7 +159,7 @@ TEST( QuatIsIdentity, QuatBooleanTests )
 	// q1.IsIdentity(0.1f) 
 	bvalue1 = q1.IsIdentity(0.1f);
 	
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 TEST( QuatIsIdentity2, QuatBooleanTests )
@@ -181,7 +172,7 @@ TEST( QuatIsIdentity2, QuatBooleanTests )
 
 	// q1.IsIdentity(0.1f) 
 	bvalue1 = q1.IsIdentity(0.1f);
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 TEST( QuatIsNormalized, QuatBooleanTests )
@@ -194,7 +185,7 @@ TEST( QuatIsNormalized, QuatBooleanTests )
 	
 	// q1.IsNormalized(0.1f) 
 	bvalue1 = q1.IsNormalized(0.1f);
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 TEST( QuatIsNormalized2, QuatBooleanTests )
@@ -207,7 +198,7 @@ TEST( QuatIsNormalized2, QuatBooleanTests )
 	
 	// q1.IsNormalized(0.1f) 
 	bvalue1 = q1.IsNormalized(0.1f);
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 TEST( QuatIsZero, QuatBooleanTests )
@@ -221,7 +212,7 @@ TEST( QuatIsZero, QuatBooleanTests )
 	// q1.IsZero(0.0f) 
 	bvalue1 = q1.IsZero(0.0f);
 	
-	CHECK( bvalue1 == false );
+	CHECK_FALSE(bvalue1);
 }
 
 TEST( QuatIsZero2, QuatBooleanTests )
@@ -234,7 +225,7 @@ TEST( QuatIsZero2, QuatBooleanTests )
 	
 	// q1.IsZero(0.1f) 
 	bvalue1 = q1.IsZero(0.1f);
-	CHECK( bvalue1 == true );
+	CHECK_TRUE(bvalue1);
 }
 
 // ---  End of File ---------------

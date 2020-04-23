@@ -4,20 +4,20 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-#include "Math/VectorFunctions.h"
-
-#define eq	Math::IsEqual  
+#include "Math/VectorFunctions.hpp"
+#include "Math/MathFunctions.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
 //---------------------------------------------------------------------------
 
-TEST(VectorLERPFunction, VectorLerpTests)
-{
-	// Vector Lerp Functions()
-	CHECK(1);
-}
+// TODO - This should go into a bigger test of lerping more than just vector
+
+// TEST(VectorLERPFunction, VectorLerpTests)
+// {
+// 	// Vector Lerp Functions()
+// 	CHECK(1);
+// }
 
 TEST(LERP_Array, VectorLerpTests)
 {
@@ -43,21 +43,21 @@ TEST(LERP_Array, VectorLerpTests)
 		Vector4(231.00f, -92.0f, 733.0f, 340.0f),
 	};
 
-#define numVectors  ((sizeof(vSource))/(sizeof(vSource[0])) )
+	constexpr size_t NumVectors = ArraySize(vSource);
 
-	Vector4 vResult[numVectors];
-	Vector4 vOut;
+	Vector4 vResult[NumVectors];
+	Vector4 vout;
 
-	Math::LerpArray(vResult, vSource, vTarget, 0.65f, numVectors);
+	Math::LerpArray(vResult, vSource, vTarget, 0.65f, NumVectors);
 
-	for (int i = 0; i < numVectors; i++)
+	for (int i = 0; i < NumVectors; i++)
 	{
-		Math::Lerp(vOut, vSource[i], vTarget[i], 0.65f);
+		vout = Math::Lerp(vSource[i], vTarget[i], 0.65f);
 
-		CHECK(eq(vOut.x, vResult[i].x, Math::InternalTolerence));
-		CHECK(eq(vOut.y, vResult[i].y, Math::InternalTolerence));
-		CHECK(eq(vOut.z, vResult[i].z, Math::InternalTolerence));
-		CHECK(eq(vOut.w, vResult[i].w, Math::InternalTolerence));
+		CHECK_EQ(vout.x, vResult[i].x);
+		CHECK_EQ(vout.y, vResult[i].y);
+		CHECK_EQ(vout.z, vResult[i].z);
+		CHECK_EQ(vout.w, vResult[i].w);
 	}
 }
 
@@ -67,12 +67,12 @@ TEST(MathLerp, MathTests)
 	Vector4 vb(10.0f, 20.0f, 30.0f);
 	Vector4 vout;
 
-	Math::Lerp(vout, va, vb, 0.0f);
+	vout = Math::Lerp(va, vb, 0.0f);
 
-	CHECK((vout.x == 0.0f));
-	CHECK((vout.y == 0.0f));
-	CHECK((vout.z == 0.0f));
-	CHECK((vout.w == 1.0f));
+	CHECK_EQ(vout.x, 0.0f);
+	CHECK_EQ(vout.y, 0.0f);
+	CHECK_EQ(vout.z, 0.0f);
+	CHECK_EQ(vout.w, 1.0f);
 }
 
 TEST(MathLerp2, MathTests)
@@ -81,12 +81,12 @@ TEST(MathLerp2, MathTests)
 	Vector4 vb(10.0f, 20.0f, 30.0f);
 	Vector4 vout;
 
-	Math::Lerp(vout, va, vb, 0.5f);
+	vout = Math::Lerp(va, vb, 0.5f);
 
-	CHECK((vout.x == 5.0f));
-	CHECK((vout.y == 10.0f));
-	CHECK((vout.z == 15.0f));
-	CHECK((vout.w == 1.0f));
+	CHECK_EQ(vout.x, 5.0f);
+	CHECK_EQ(vout.y, 10.0f);
+	CHECK_EQ(vout.z, 15.0f);
+	CHECK_EQ(vout.w, 1.0f);
 }
 
 TEST(MathLerp3, MathTests)
@@ -95,12 +95,12 @@ TEST(MathLerp3, MathTests)
 	Vector4 vb(10.0f, 20.0f, 30.0f);
 	Vector4 vout;
 
-	Math::Lerp(vout, va, vb, 0.25f);
+	vout = Math::Lerp(va, vb, 0.25f);
 
-	CHECK((vout.x == 2.5f));
-	CHECK((vout.y == 5.0f));
-	CHECK((vout.z == 7.50f));
-	CHECK((vout.w == 1.0f));
+	CHECK_EQ(vout.x, 2.5f);
+	CHECK_EQ(vout.y, 5.0f);
+	CHECK_EQ(vout.z, 7.50f);
+	CHECK_EQ(vout.w, 1.0f);
 }
 
 TEST(MathLerp4, MathTests)
@@ -109,12 +109,12 @@ TEST(MathLerp4, MathTests)
 	Vector4 vb(10.0f, 20.0f, 30.0f);
 	Vector4 vout;
 
-	Math::Lerp(vout, va, vb, 1.0f);
+	vout = Math::Lerp(va, vb, 1.0f);
 
-	CHECK((vout.x == 10.0f));
-	CHECK((vout.y == 20.0f));
-	CHECK((vout.z == 30.0f));
-	CHECK((vout.w == 1.0f));
+	CHECK_EQ(vout.x, 10.0f);
+	CHECK_EQ(vout.y, 20.0f);
+	CHECK_EQ(vout.z, 30.0f);
+	CHECK_EQ(vout.w, 1.0f);
 }
 
 // ---  End of File ---------------

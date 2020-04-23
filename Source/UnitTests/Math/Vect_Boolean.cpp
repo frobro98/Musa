@@ -4,9 +4,7 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-
-#define eq	Math::IsEqual 
+#include "Math/Vector4.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
@@ -20,7 +18,7 @@ TEST(IsEqualFalse, vector_tests)
 
 	bvalue1 = v1.IsEqual(v2, 0.1f);
 
-	CHECK(bvalue1 == false);
+	CHECK_FALSE(bvalue1);
 }
 
 TEST(IsEqualTrue, vector_tests)
@@ -31,7 +29,7 @@ TEST(IsEqualTrue, vector_tests)
 
 	bvalue1 = v1.IsEqual(v2, 0.1f);
 
-	CHECK(bvalue1 == true);
+	CHECK_TRUE(bvalue1);
 }
 
 TEST(IsZeroFalse, vector_tests)
@@ -41,7 +39,7 @@ TEST(IsZeroFalse, vector_tests)
 
 	bvalue1 = v1.IsZero(0.0f);
 
-	CHECK(bvalue1 == false);
+	CHECK_FALSE(bvalue1);
 }
 
 TEST(IsZeroTrue, vector_tests)
@@ -51,7 +49,7 @@ TEST(IsZeroTrue, vector_tests)
 
 	bvalue1 = v1.IsZero(0.1f);
 
-	CHECK(bvalue1 == true);
+	CHECK_TRUE(bvalue1);
 }
 
 TEST(IsEqualFalse_default, vector_tests)
@@ -62,18 +60,18 @@ TEST(IsEqualFalse_default, vector_tests)
 
 	bvalue1 = v1.IsEqual(v2);
 
-	CHECK(bvalue1 == false);
+	CHECK_FALSE(bvalue1);
 }
 
 TEST(IsEqualTrue_default, vector_tests)
 {
 	bool bvalue1;
 	Vector4 v1(1.0f, 2.0f, 3.0f);
-	Vector4 v2(1.0f, 2.0f, 3.05f);
+	Vector4 v2(1.0f, 2.0f, 3.00005f);
 
 	bvalue1 = v1.IsEqual(v2);
 
-	CHECK(bvalue1 == false);
+	CHECK_TRUE(bvalue1);
 }
 
 TEST(IsZeroFalse_default, vector_tests)
@@ -83,17 +81,17 @@ TEST(IsZeroFalse_default, vector_tests)
 
 	bvalue1 = v1.IsZero();
 
-	CHECK(bvalue1 == false);
+	CHECK_FALSE(bvalue1);
 }
 
 TEST(IsZeroTrue_default, vector_tests)
 {
 	bool bvalue1;
-	Vector4 v1(0.0f, 0.0f, 0.0f, 1.05f);
+	Vector4 v1(0.0f, 0.0f, 0.0f, 1.00005f);
 
 	bvalue1 = v1.IsZero();
 
-	CHECK(bvalue1 == false);
+	CHECK_TRUE(bvalue1);
 }
 
 // ---  End of File ---------------

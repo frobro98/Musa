@@ -72,7 +72,9 @@
     <ClInclude Include="..\..\Source\Math\MathFunctions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math\BitManipulation.hpp" />
+    <ClInclude Include="..\..\Source\Math\BitManipulation.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Math\Internal\VectorImplementation.cpp">

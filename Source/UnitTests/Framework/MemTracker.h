@@ -60,49 +60,6 @@
 // General includes
 #include "EngineCore/Platform.h"
 
-WALL_WRN_PUSH
-#include <assert.h>
-#include <stdio.h>
-WALL_WRN_POP
-
-// Printing buffer size
-#define MemTraceBuffSize 256
-
-// Singleton helper class
-class MemTrace
-{
-public:
-	// displays a printf to the output window
-	static void out(char* fmt, ...)
-	{
-		MemTrace *pTrace = MemTrace::privGetInstance();
-		assert(pTrace);
-
-		va_list args;
-		va_start(args, fmt);
-
-		vsprintf_s(pTrace->privBuff, MemTraceBuffSize, fmt, args);
-		OutputDebugString(pTrace->privBuff);
-
-		va_end(args);
-	}
-
-	// Big four
-	MemTrace() = default;
-	MemTrace(const MemTrace &) = default;
-	MemTrace & operator = (const MemTrace &) = default;
-	~MemTrace() = default;
-
-private:
-	static MemTrace *privGetInstance()
-	{
-		// This is where its actually stored (BSS section)
-		static MemTrace helper;
-		return &helper;
-	}
-	char privBuff[MemTraceBuffSize];
-};
-
 // Placement new - Macro Trick
 template<typename T, typename... Ts>
 inline T * _MemTrackerPlacement(void * Where, Ts... args)
@@ -133,19 +90,19 @@ inline T * _MemTrackerPlacement(void * Where, Ts... args)
 	#ifdef _DEBUG
 
 		#define MEM_TRACKER_PROCESS_END	int _leakCount = _CrtDumpMemoryLeaks(); \
-										MemTrace::out("\n"); \
-										MemTrace::out("--------------------------------\n"); \
+										Debug::Print("\n"); \
+										Debug::Print("--------------------------------\n"); \
 										if (_leakCount) { \
-										MemTrace::out(">>> Memory Tracking: fail <<<<<<\n"); }\
+										Debug::Print(">>> Memory Tracking: fail <<<<<<\n"); }\
 										else \
-										MemTrace::out("    Memory Tracking: passed \n"); \
-										MemTrace::out("--------------------------------\n"); \
-										MemTrace::out("    Memory Tracking: end()      \n"); \
-										MemTrace::out("--------------------------------\n");
+										Debug::Print("    Memory Tracking: passed \n"); \
+										Debug::Print("--------------------------------\n"); \
+										Debug::Print("    Memory Tracking: end()      \n"); \
+										Debug::Print("--------------------------------\n");
 
-		#define MEM_TRACKER_PROCESS		MemTrace::out("--------------------------------\n"); \
-										MemTrace::out("    Memory Tracking: start()    \n"); \
-										MemTrace::out("--------------------------------\n");
+		#define MEM_TRACKER_PROCESS		Debug::Print("--------------------------------\n"); \
+										Debug::Print("    Memory Tracking: start()    \n"); \
+										Debug::Print("--------------------------------\n");
 	#else
 		#define MEM_TRACKER_PROCESS
 		#define MEM_TRACKER_END 
@@ -177,5 +134,3 @@ inline T * _MemTrackerPlacement(void * Where, Ts... args)
 #endif
 
 #endif
-
-// ---  End of File ---------------

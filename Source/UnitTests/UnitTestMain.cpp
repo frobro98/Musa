@@ -1,6 +1,5 @@
 
 #include "Framework/UnitTest.h"
-#include "Framework/Trace.h"
 
 
 int main()

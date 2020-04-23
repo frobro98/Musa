@@ -61,7 +61,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <ClCompile>
@@ -69,7 +73,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EngineCore_d.lib;Math_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -79,15 +90,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\UnitTests\Framework\FileIO.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Framework\Timer.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Combo.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Accessor.cpp" />
@@ -101,45 +112,25 @@
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_set.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Special.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_unary.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\QuatApp_Slerp.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Accessors.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Slerp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_AddSubMultDiv.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Boolean.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Constructor.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Functions.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Proxy.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Quat_SetGet.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\VectApp_Lerp.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Accessors.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Lerp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_AddSub.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Boolean.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Bracket.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Constructors.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Functions.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Matrix.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Scale.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Set.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Start_Here.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Vect_unary.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Alignment_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Dog.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Heap_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\Memory_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\StressAlignment_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\StressHeap_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\StressTracking_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\TrackingGlobal_Tests.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Memory\TrackingHeap_Tests.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\UnitTestMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\UnitTests\Framework\FileIO.h" />
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTracker.h" />
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTrackerMain.h" />
-    <ClInclude Include="..\..\Source\UnitTests\Framework\Timer.h" />
-    <ClInclude Include="..\..\Source\UnitTests\Framework\Trace.h" />
     <ClInclude Include="..\..\Source\UnitTests\Framework\UnitTest.h" />
-    <ClInclude Include="..\..\Source\UnitTests\Memory\Dog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

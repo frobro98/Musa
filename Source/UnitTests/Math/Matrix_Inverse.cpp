@@ -4,13 +4,13 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-
-#define eq	Math::IsEqual 
+#include "Math/Matrix4.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
 //---------------------------------------------------------------------------
+
+// TODO - Find test that doesn't work with my inverse implementation and get it to work by going back and implementing the og....
 
 TEST( Matrix_inverse, matix_tests )
 {
@@ -30,7 +30,7 @@ TEST( Matrix_inverse, matix_tests )
 	
 	bool flag = C.IsIdentity(Math::InternalTolerence);
 
-	CHECK( flag == true );
+	CHECK_TRUE(flag);
 }
 
 TEST( Matrix_getinverse, matix_tests )
@@ -52,7 +52,7 @@ TEST( Matrix_getinverse, matix_tests )
 	
 	bool flag=C.IsIdentity(Math::InternalTolerence);
 
-	CHECK( flag == true );
+	CHECK_TRUE(flag);
 }
 
 // ---  End of File ---------------

@@ -29,7 +29,6 @@ Entity World::ConstructEntityInternals(World& world, const ComponentType** types
 	return CreateEntityWith(*archetype);
 }
 
-
 void World::HookUpComponentType(World& world, Entity entity, const ComponentType* type)
 {
 	const ComponentType* componentTypes[MaxComponentsPerArchetype];

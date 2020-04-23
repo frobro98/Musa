@@ -211,7 +211,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -242,7 +242,7 @@ echo         Copied ECS_d.pdb!</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -274,7 +274,7 @@ echo         Copied ECS.pdb!</Command>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\Texture;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>

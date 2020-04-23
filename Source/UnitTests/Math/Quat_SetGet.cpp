@@ -4,9 +4,8 @@
 //----------------------------------------------------------------------------- 
 
 #include "Framework/UnitTest.h"
-#include "Math/MathEngine.h"
-
-#define eq	Math::IsEqual 
+#include "Math/Vector4.hpp"
+#include "Math/Quat.hpp"
 
 //---------------------------------------------------------------------------
 // TESTS:
@@ -18,27 +17,27 @@ TEST(Quat_Set_everyElement, QuatSetGetTests)
 	// Set every element
 	q1.Set(2.0f, 3.0f, 4.0f, 5.0f);
 
-	CHECK(2.0f == q1.x);
-	CHECK(3.0f == q1.y);
-	CHECK(4.0f == q1.z);
-	CHECK(5.0f == q1.w);
+	CHECK_EQ(2.0f, q1.x);
+	CHECK_EQ(3.0f, q1.y);
+	CHECK_EQ(4.0f, q1.z);
+	CHECK_EQ(5.0f, q1.w);
 }
 
 TEST(Vect_set_3_elements, QuatSetGetTests)
 {
 	Vector4 A(2.0f, 3.0f, 4.0f, 5.0f);
 
-	CHECK(A.x == 2.0f);
-	CHECK(A.y == 3.0f);
-	CHECK(A.z == 4.0f);
-	CHECK(A.w == 5.0f);
+	CHECK_EQ(A.x, 2.0f);
+	CHECK_EQ(A.y, 3.0f);
+	CHECK_EQ(A.z, 4.0f);
+	CHECK_EQ(A.w, 5.0f);
 
 	A = Vector4(10.0f, 20.0f, 30.0f);
 
-	CHECK(A.x == 10.0f);
-	CHECK(A.y == 20.0f);
-	CHECK(A.z == 30.0f);
-	CHECK(A.w == 1.0f);
+	CHECK_EQ(A.x, 10.0f);
+	CHECK_EQ(A.y, 20.0f);
+	CHECK_EQ(A.z, 30.0f);
+	CHECK_EQ(A.w, 1.0f);
 }
 
 TEST(Quat_Set_Vect_Real, QuatSetGetTests)
@@ -50,10 +49,10 @@ TEST(Quat_Set_Vect_Real, QuatSetGetTests)
 	v1 = Vector4(12.0f, 13.0f, 14.0f, 15.0f);
 	q1 = Quat(v1, 20.0f);
 
-	CHECK((12.0f == q1.x));
-	CHECK((13.0f == q1.y));
-	CHECK((14.0f == q1.z));
-	CHECK((20.0f == q1.w));
+	CHECK_EQ(12.0f, q1.x);
+	CHECK_EQ(13.0f, q1.y);
+	CHECK_EQ(14.0f, q1.z);
+	CHECK_EQ(20.0f, q1.w);
 }
 
 TEST(Quat_Set_Quat_From_Matrix, QuatSetGetTests)
@@ -69,29 +68,29 @@ TEST(Quat_Set_Quat_From_Matrix, QuatSetGetTests)
 
 	q1.Set(M2);
 
-	CHECK(eq(0.2273f, q1.x, Math::InternalTolerence));
-	CHECK(eq(0.6695f, q1.y, Math::InternalTolerence));
-	CHECK(eq(0.5316f, q1.z, Math::InternalTolerence));
-	CHECK(eq(-0.4662f, q1.w, Math::InternalTolerence));
+	CHECK_EQ(0.2273f, q1.x);
+	CHECK_EQ(0.6695f, q1.y);
+	CHECK_EQ(0.5316f, q1.z);
+	CHECK_EQ(-0.4662f, q1.w);
 
 	M3.Set(q1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_IDENTITY, QuatSetGetTests)
@@ -101,36 +100,36 @@ TEST(Quat_Set_IDENTITY, QuatSetGetTests)
 	// Set Special Type:
 	q2.Set(IDENTITY);
 
-	CHECK((q2.x == 0.0f));
-	CHECK((q2.y == 0.0f));
-	CHECK((q2.z == 0.0f));
-	CHECK((q2.w == 1.0f));
+	CHECK_EQ(q2.x, 0.0f);
+	CHECK_EQ(q2.y, 0.0f);
+	CHECK_EQ(q2.z, 0.0f);
+	CHECK_EQ(q2.w, 1.0f);
 
 	M2.Set(IDENTITY);
 	qtmp.Set(M2);
-	CHECK(eq(q2.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q2.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q2.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q2.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q2.x, qtmp.x);
+	CHECK_EQ(q2.y, qtmp.y);
+	CHECK_EQ(q2.z, qtmp.z);
+	CHECK_EQ(q2.w, qtmp.w);
 
 	M3.Set(q2);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ZERO, QuatSetGetTests)
@@ -141,10 +140,10 @@ TEST(Quat_Set_ZERO, QuatSetGetTests)
 	// Set Special Type:
 	q3.Set(ZERO);
 
-	CHECK((q3.x == 0.0f));
-	CHECK((q3.y == 0.0f));
-	CHECK((q3.z == 0.0f));
-	CHECK((q3.w == 0.0f));
+	CHECK_EQ(q3.x, 0.0f);
+	CHECK_EQ(q3.y, 0.0f);
+	CHECK_EQ(q3.z, 0.0f);
+	CHECK_EQ(q3.w, 0.0f);
 }
 
 TEST(Quat_Set_ROT_X_PiOver2, QuatSetGetTests)
@@ -157,30 +156,30 @@ TEST(Quat_Set_ROT_X_PiOver2, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_X, Math::PiOver2);
 	qtmp.Set(M2);
-	CHECK(eq(q1.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q1.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q1.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q1.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q1.x, qtmp.x);
+	CHECK_EQ(q1.y, qtmp.y);
+	CHECK_EQ(q1.z, qtmp.z);
+	CHECK_EQ(q1.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_X_Pi, QuatSetGetTests)
@@ -194,30 +193,30 @@ TEST(Quat_Set_ROT_X_Pi, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_X, Math::Pi);
 	qtmp.Set(M2);
-	CHECK(eq(q2.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q2.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q2.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q2.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q2.x, qtmp.x);
+	CHECK_EQ(q2.y, qtmp.y);
+	CHECK_EQ(q2.z, qtmp.z);
+	CHECK_EQ(q2.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q2);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_Y_PiOver2, QuatSetGetTests)
@@ -231,30 +230,30 @@ TEST(Quat_Set_ROT_Y_PiOver2, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_Y, Math::PiOver2);
 	qtmp.Set(M2);
-	CHECK(eq(q3.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q3.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q3.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q3.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q3.x, qtmp.x);
+	CHECK_EQ(q3.y, qtmp.y);
+	CHECK_EQ(q3.z, qtmp.z);
+	CHECK_EQ(q3.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q3);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_Y_Pi, QuatSetGetTests)
@@ -268,30 +267,30 @@ TEST(Quat_Set_ROT_Y_Pi, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_Y, Math::Pi);
 	qtmp.Set(M2);
-	CHECK(eq(q4.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q4.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q4.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q4.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q4.x, qtmp.x);
+	CHECK_EQ(q4.y, qtmp.y);
+	CHECK_EQ(q4.z, qtmp.z);
+	CHECK_EQ(q4.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q4);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_Z_PiOver2, QuatSetGetTests)
@@ -305,30 +304,30 @@ TEST(Quat_Set_ROT_Z_PiOver2, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_Z, Math::PiOver2);
 	qtmp.Set(M2);
-	CHECK(eq(q1.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q1.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q1.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q1.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q1.x, qtmp.x);
+	CHECK_EQ(q1.y, qtmp.y);
+	CHECK_EQ(q1.z, qtmp.z);
+	CHECK_EQ(q1.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_Z_Pi, QuatSetGetTests)
@@ -342,30 +341,30 @@ TEST(Quat_Set_ROT_Z_Pi, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_Z, Math::Pi);
 	qtmp.Set(M2);
-	CHECK(eq(q2.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q2.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q2.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q2.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q2.x, qtmp.x);
+	CHECK_EQ(q2.y, qtmp.y);
+	CHECK_EQ(q2.z, qtmp.z);
+	CHECK_EQ(q2.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q2);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_X, QuatSetGetTests)
@@ -379,30 +378,30 @@ TEST(Quat_Set_ROT_X, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_X, Math::PiOver3);
 	qtmp.Set(M2);
-	CHECK(eq(q1.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q1.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q1.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q1.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q1.x, qtmp.x);
+	CHECK_EQ(q1.y, qtmp.y);
+	CHECK_EQ(q1.z, qtmp.z);
+	CHECK_EQ(q1.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_Y, QuatSetGetTests)
@@ -416,30 +415,30 @@ TEST(Quat_Set_ROT_Y, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_Y, Math::PiOver3);
 	qtmp.Set(M2);
-	CHECK(eq(q2.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q2.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q2.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q2.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q2.x, qtmp.x);
+	CHECK_EQ(q2.y, qtmp.y);
+	CHECK_EQ(q2.z, qtmp.z);
+	CHECK_EQ(q2.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q2);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_ROT_Z, QuatSetGetTests)
@@ -453,30 +452,30 @@ TEST(Quat_Set_ROT_Z, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_Z, Math::PiOver3);
 	qtmp.Set(M2);
-	CHECK(eq(q3.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q3.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q3.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q3.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q3.x, qtmp.x);
+	CHECK_EQ(q3.y, qtmp.y);
+	CHECK_EQ(q3.z, qtmp.z);
+	CHECK_EQ(q3.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q3);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_XY_set, QuatSetGetTests)
@@ -499,30 +498,30 @@ TEST(Quat_XY_set, QuatSetGetTests)
 	M2 = Mx * My;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qxy.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qxy.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qxy.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qxy.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qxy.x, qtmp.x);
+	CHECK_EQ(Qxy.y, qtmp.y);
+	CHECK_EQ(Qxy.z, qtmp.z);
+	CHECK_EQ(Qxy.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qxy);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_XZ_set, QuatSetGetTests)
@@ -544,30 +543,30 @@ TEST(Quat_XZ_set, QuatSetGetTests)
 	M2 = Mx * Mz;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qxz.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qxz.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qxz.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qxz.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qxz.x, qtmp.x);
+	CHECK_EQ(Qxz.y, qtmp.y);
+	CHECK_EQ(Qxz.z, qtmp.z);
+	CHECK_EQ(Qxz.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qxz);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_YX_set, QuatSetGetTests)
@@ -588,30 +587,30 @@ TEST(Quat_YX_set, QuatSetGetTests)
 	M2 = My * Mx;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qyx.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qyx.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qyx.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qyx.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qyx.x, qtmp.x);
+	CHECK_EQ(Qyx.y, qtmp.y);
+	CHECK_EQ(Qyx.z, qtmp.z);
+	CHECK_EQ(Qyx.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qyx);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_YZ_set, QuatSetGetTests)
@@ -632,30 +631,30 @@ TEST(Quat_YZ_set, QuatSetGetTests)
 	M2 = My * Mz;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qyz.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qyz.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qyz.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qyz.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qyz.x, qtmp.x);
+	CHECK_EQ(Qyz.y, qtmp.y);
+	CHECK_EQ(Qyz.z, qtmp.z);
+	CHECK_EQ(Qyz.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qyz);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_ZX_set, QuatSetGetTests)
@@ -676,30 +675,30 @@ TEST(Quat_ZX_set, QuatSetGetTests)
 	M2 = Mz * Mx;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qzx.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qzx.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qzx.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qzx.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qzx.x, qtmp.x);
+	CHECK_EQ(Qzx.y, qtmp.y);
+	CHECK_EQ(Qzx.z, qtmp.z);
+	CHECK_EQ(Qzx.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qzx);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_ZY_set, QuatSetGetTests)
@@ -721,30 +720,30 @@ TEST(Quat_ZY_set, QuatSetGetTests)
 	M2 = Mz * My;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qzy.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qzy.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qzy.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qzy.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qzy.x, qtmp.x);
+	CHECK_EQ(Qzy.y, qtmp.y);
+	CHECK_EQ(Qzy.z, qtmp.z);
+	CHECK_EQ(Qzy.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qzy);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_XYZ_set, QuatSetGetTests)
@@ -768,30 +767,30 @@ TEST(Quat_XYZ_set, QuatSetGetTests)
 	M2 = Mx * My * Mz;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qxyz.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qxyz.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qxyz.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qxyz.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qxyz.x, qtmp.x);
+	CHECK_EQ(Qxyz.y, qtmp.y);
+	CHECK_EQ(Qxyz.z, qtmp.z);
+	CHECK_EQ(Qxyz.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qxyz);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_XZY_set, QuatSetGetTests)
@@ -815,30 +814,30 @@ TEST(Quat_XZY_set, QuatSetGetTests)
 	M2 = Mx * Mz * My;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qxzy.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qxzy.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qxzy.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qxzy.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qxzy.x, qtmp.x);
+	CHECK_EQ(Qxzy.y, qtmp.y);
+	CHECK_EQ(Qxzy.z, qtmp.z);
+	CHECK_EQ(Qxzy.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qxzy);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_YXZ_set, QuatSetGetTests)
@@ -862,30 +861,30 @@ TEST(Quat_YXZ_set, QuatSetGetTests)
 	M2 = My * Mx * Mz;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qyxz.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qyxz.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qyxz.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qyxz.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qyxz.x, qtmp.x);
+	CHECK_EQ(Qyxz.y, qtmp.y);
+	CHECK_EQ(Qyxz.z, qtmp.z);
+	CHECK_EQ(Qyxz.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qyxz);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_YZX_set, QuatSetGetTests)
@@ -909,30 +908,30 @@ TEST(Quat_YZX_set, QuatSetGetTests)
 	M2 = My * Mz * Mx;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qyzx.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qyzx.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qyzx.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qyzx.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qyzx.x, qtmp.x);
+	CHECK_EQ(Qyzx.y, qtmp.y);
+	CHECK_EQ(Qyzx.z, qtmp.z);
+	CHECK_EQ(Qyzx.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qyzx);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_ZXY_set, QuatSetGetTests)
@@ -956,30 +955,30 @@ TEST(Quat_ZXY_set, QuatSetGetTests)
 	M2 = Mz * Mx * My;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qzxy.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qzxy.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qzxy.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qzxy.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qzxy.x, qtmp.x);
+	CHECK_EQ(Qzxy.y, qtmp.y);
+	CHECK_EQ(Qzxy.z, qtmp.z);
+	CHECK_EQ(Qzxy.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qzxy);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_ZYX_set, QuatSetGetTests)
@@ -1003,30 +1002,30 @@ TEST(Quat_ZYX_set, QuatSetGetTests)
 	M2 = Mz * My * Mx;
 
 	qtmp.Set(M2);
-	CHECK(eq(Qzyx.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qzyx.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qzyx.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qzyx.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qzyx.x, qtmp.x);
+	CHECK_EQ(Qzyx.y, qtmp.y);
+	CHECK_EQ(Qzyx.z, qtmp.z);
+	CHECK_EQ(Qzyx.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qzyx);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_AXIS_ANGLE_set, QuatSetGetTests)
@@ -1043,30 +1042,30 @@ TEST(Quat_AXIS_ANGLE_set, QuatSetGetTests)
 	M2.Set(ROT_AXIS_ANGLE, v11, Math::PiOver3);
 
 	qtmp.Set(M2);
-	CHECK(eq(Qa1.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(Qa1.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(Qa1.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(Qa1.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(Qa1.x, qtmp.x);
+	CHECK_EQ(Qa1.y, qtmp.y);
+	CHECK_EQ(Qa1.z, qtmp.z);
+	CHECK_EQ(Qa1.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(Qa1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_ROT_ORIENT_set, QuatSetGetTests)
@@ -1082,30 +1081,30 @@ TEST(Quat_ROT_ORIENT_set, QuatSetGetTests)
 
 	M2.Set(ROT_ORIENT, v15, v16);
 	qtmp.Set(M2);
-	CHECK(eq(q56.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q56.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q56.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q56.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q56.x, qtmp.x);
+	CHECK_EQ(q56.y, qtmp.y);
+	CHECK_EQ(q56.z, qtmp.z);
+	CHECK_EQ(q56.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q56);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_ROT_INVERSE_ORIENT_set, QuatSetGetTests)
@@ -1121,30 +1120,30 @@ TEST(Quat_ROT_INVERSE_ORIENT_set, QuatSetGetTests)
 
 	M2.Set(ROT_INVERSE_ORIENT, v17, v18);
 	qtmp.Set(M2);
-	CHECK(eq(q57.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q57.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q57.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q57.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q57.x, qtmp.x);
+	CHECK_EQ(q57.y, qtmp.y);
+	CHECK_EQ(q57.z, qtmp.z);
+	CHECK_EQ(q57.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q57);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 }
 
 TEST(Quat_Set_Each_ELEMENT, QuatSetGetTests)
@@ -1158,10 +1157,10 @@ TEST(Quat_Set_Each_ELEMENT, QuatSetGetTests)
 	q2.z = 13.0f;
 	q2.w = 14.0f;
 
-	CHECK((q2.x == 11.0f));
-	CHECK((q2.y == 12.0f));
-	CHECK((q2.z == 13.0f));
-	CHECK((q2.w == 14.0f));
+	CHECK_EQ(q2.x, 11.0f);
+	CHECK_EQ(q2.y, 12.0f);
+	CHECK_EQ(q2.z, 13.0f);
+	CHECK_EQ(q2.w, 14.0f);
 }
 
 TEST(Quat_Set_From_VECT, QuatSetGetTests)
@@ -1176,10 +1175,10 @@ TEST(Quat_Set_From_VECT, QuatSetGetTests)
 
 	q2.SetVector(v1);
 
-	CHECK((q2.x == 3.0f));
-	CHECK((q2.y == 4.0f));
-	CHECK((q2.z == 5.0f));
-	CHECK((q2.w == 0.0f));
+	CHECK_EQ(q2.x, 3.0f);
+	CHECK_EQ(q2.y, 4.0f);
+	CHECK_EQ(q2.z, 5.0f);
+	CHECK_EQ(q2.w, 0.0f);
 }
 
 TEST(Quat_Get_Vect_elements, QuatSetGetTests)
@@ -1195,14 +1194,14 @@ TEST(Quat_Get_Vect_elements, QuatSetGetTests)
 	tmp_z = q1.z;
 	tmp_real = q1.w;
 
-	CHECK((q1.x == 3.0f));
-	CHECK((q1.y == 4.0f));
-	CHECK((q1.z == 5.0f));
-	CHECK((q1.w == 6.0f));
-	CHECK((tmp_x == 3.0f));
-	CHECK((tmp_y == 4.0f));
-	CHECK((tmp_z == 5.0f));
-	CHECK((tmp_real == 6.0f));
+	CHECK_EQ(q1.x, 3.0f);
+	CHECK_EQ(q1.y, 4.0f);
+	CHECK_EQ(q1.z, 5.0f);
+	CHECK_EQ(q1.w, 6.0f);
+	CHECK_EQ(tmp_x, 3.0f);
+	CHECK_EQ(tmp_y, 4.0f);
+	CHECK_EQ(tmp_z, 5.0f);
+	CHECK_EQ(tmp_real, 6.0f);
 }
 
 TEST(Quat_Get_Vect, QuatSetGetTests)
@@ -1215,14 +1214,14 @@ TEST(Quat_Get_Vect, QuatSetGetTests)
 
 	v1 = q1.GetVector();
 
-	CHECK((v1.x == 7.0f));
-	CHECK((v1.y == 8.0f));
-	CHECK((v1.z == 9.0f));
-	CHECK((v1.w == 1.0f));
-	CHECK((q1.x == 7.0f));
-	CHECK((q1.y == 8.0f));
-	CHECK((q1.z == 9.0f));
-	CHECK((q1.w == 10.0f));
+	CHECK_EQ(v1.x, 7.0f);
+	CHECK_EQ(v1.y, 8.0f);
+	CHECK_EQ(v1.z, 9.0f);
+	CHECK_EQ(v1.w, 1.0f);
+	CHECK_EQ(q1.x, 7.0f);
+	CHECK_EQ(q1.y, 8.0f);
+	CHECK_EQ(q1.z, 9.0f);
+	CHECK_EQ(q1.w, 10.0f);
 }
 
 TEST(Quat_Get_Angle_of_rotation, QuatSetGetTests)
@@ -1238,34 +1237,34 @@ TEST(Quat_Get_Angle_of_rotation, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_AXIS_ANGLE, v1, Math::PiOver3);
 	qtmp.Set(M2);
-	CHECK(eq(q1.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q1.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q1.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q1.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q1.x, qtmp.x);
+	CHECK_EQ(q1.y, qtmp.y);
+	CHECK_EQ(q1.z, qtmp.z);
+	CHECK_EQ(q1.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 
 	float value;
 	value = q1.GetAngle();
-	CHECK(eq(value, Math::PiOver3, 0.02f));
+	CHECK_EQ(value, Math::PiOver3, 0.02f);
 }
 
 TEST(Quat_Get_Axis_of_rotation, QuatSetGetTests)
@@ -1282,44 +1281,44 @@ TEST(Quat_Get_Axis_of_rotation, QuatSetGetTests)
 	// Matrix to Quaternion
 	M2.Set(ROT_AXIS_ANGLE, v1, Math::PiOver3);
 	qtmp.Set(M2);
-	CHECK(eq(q1.x, qtmp.x, Math::InternalTolerence));
-	CHECK(eq(q1.y, qtmp.y, Math::InternalTolerence));
-	CHECK(eq(q1.z, qtmp.z, Math::InternalTolerence));
-	CHECK(eq(q1.w, qtmp.w, Math::InternalTolerence));
+	CHECK_EQ(q1.x, qtmp.x);
+	CHECK_EQ(q1.y, qtmp.y);
+	CHECK_EQ(q1.z, qtmp.z);
+	CHECK_EQ(q1.w, qtmp.w);
 
 	// Quaternion to Matrix
 	M3.Set(q1);
 
-	CHECK(eq(M2[m0], M3[m0], Math::InternalTolerence));
-	CHECK(eq(M2[m1], M3[m1], Math::InternalTolerence));
-	CHECK(eq(M2[m2], M3[m2], Math::InternalTolerence));
-	CHECK(eq(M2[m3], M3[m3], Math::InternalTolerence));
-	CHECK(eq(M2[m4], M3[m4], Math::InternalTolerence));
-	CHECK(eq(M2[m5], M3[m5], Math::InternalTolerence));
-	CHECK(eq(M2[m6], M3[m6], Math::InternalTolerence));
-	CHECK(eq(M2[m7], M3[m7], Math::InternalTolerence));
-	CHECK(eq(M2[m8], M3[m8], Math::InternalTolerence));
-	CHECK(eq(M2[m9], M3[m9], Math::InternalTolerence));
-	CHECK(eq(M2[m10], M3[m10], Math::InternalTolerence));
-	CHECK(eq(M2[m11], M3[m11], Math::InternalTolerence));
-	CHECK(eq(M2[m12], M3[m12], Math::InternalTolerence));
-	CHECK(eq(M2[m13], M3[m13], Math::InternalTolerence));
-	CHECK(eq(M2[m14], M3[m14], Math::InternalTolerence));
-	CHECK(eq(M2[m15], M3[m15], Math::InternalTolerence));
+	CHECK_EQ(M2[m0], M3[m0]);
+	CHECK_EQ(M2[m1], M3[m1]);
+	CHECK_EQ(M2[m2], M3[m2]);
+	CHECK_EQ(M2[m3], M3[m3]);
+	CHECK_EQ(M2[m4], M3[m4]);
+	CHECK_EQ(M2[m5], M3[m5]);
+	CHECK_EQ(M2[m6], M3[m6]);
+	CHECK_EQ(M2[m7], M3[m7]);
+	CHECK_EQ(M2[m8], M3[m8]);
+	CHECK_EQ(M2[m9], M3[m9]);
+	CHECK_EQ(M2[m10], M3[m10]);
+	CHECK_EQ(M2[m11], M3[m11]);
+	CHECK_EQ(M2[m12], M3[m12]);
+	CHECK_EQ(M2[m13], M3[m13]);
+	CHECK_EQ(M2[m14], M3[m14]);
+	CHECK_EQ(M2[m15], M3[m15]);
 
 	//  Get axis of rotation:
 	q1.Set(7.0f, 8.0f, 9.0f, 10.0f);
 
 	v1 = q1.GetAxis();
 
-	CHECK((v1.x == 7.0f));
-	CHECK((v1.y == 8.0f));
-	CHECK((v1.z == 9.0f));
-	CHECK((v1.w == 1.0f));
-	CHECK((q1.x == 7.0f));
-	CHECK((q1.y == 8.0f));
-	CHECK((q1.z == 9.0f));
-	CHECK((q1.w == 10.0f));
+	CHECK_EQ(v1.x, 7.0f);
+	CHECK_EQ(v1.y, 8.0f);
+	CHECK_EQ(v1.z, 9.0f);
+	CHECK_EQ(v1.w, 1.0f);
+	CHECK_EQ(q1.x, 7.0f);
+	CHECK_EQ(q1.y, 8.0f);
+	CHECK_EQ(q1.z, 9.0f);
+	CHECK_EQ(q1.w, 10.0f);
 }
 
 TEST(Quat_Get_bracket1, QuatSetGetTests)
@@ -1335,14 +1334,14 @@ TEST(Quat_Get_bracket1, QuatSetGetTests)
 	tmp_z = q1.z;
 	tmp_real = q1.w;
 
-	CHECK((q1.x == 7.0f));
-	CHECK((q1.y == 8.0f));
-	CHECK((q1.z == 9.0f));
-	CHECK((q1.w == 10.0f));
-	CHECK((tmp_x == 7.0f));
-	CHECK((tmp_y == 8.0f));
-	CHECK((tmp_z == 9.0f));
-	CHECK((tmp_real == 10.0f));
+	CHECK_EQ(q1.x, 7.0f);
+	CHECK_EQ(q1.y, 8.0f);
+	CHECK_EQ(q1.z, 9.0f);
+	CHECK_EQ(q1.w, 10.0f);
+	CHECK_EQ(tmp_x, 7.0f);
+	CHECK_EQ(tmp_y, 8.0f);
+	CHECK_EQ(tmp_z, 9.0f);
+	CHECK_EQ(tmp_real, 10.0f);
 }
 
 TEST(Quat_Get_bracket2, QuatSetGetTests)
@@ -1358,14 +1357,14 @@ TEST(Quat_Get_bracket2, QuatSetGetTests)
 	tmp_z = q1.z;
 	tmp_real = q1.w;
 
-	CHECK((q1.x == 1.0f));
-	CHECK((q1.y == 2.0f));
-	CHECK((q1.z == 3.0f));
-	CHECK((q1.w == 4.0f));
-	CHECK((tmp_x == 1.0f));
-	CHECK((tmp_y == 2.0f));
-	CHECK((tmp_z == 3.0f));
-	CHECK((tmp_real == 4.0f));
+	CHECK_EQ(q1.x, 1.0f);
+	CHECK_EQ(q1.y, 2.0f);
+	CHECK_EQ(q1.z, 3.0f);
+	CHECK_EQ(q1.w, 4.0f);
+	CHECK_EQ(tmp_x, 1.0f);
+	CHECK_EQ(tmp_y, 2.0f);
+	CHECK_EQ(tmp_z, 3.0f);
+	CHECK_EQ(tmp_real, 4.0f);
 }
 
 TEST(Quat_Get_bracket3, QuatSetGetTests)
@@ -1381,14 +1380,14 @@ TEST(Quat_Get_bracket3, QuatSetGetTests)
 	tmp_z = q1.z;
 	tmp_real = q1.w;
 
-	CHECK((q1.x == 7.0f));
-	CHECK((q1.y == 8.0f));
-	CHECK((q1.z == 9.0f));
-	CHECK((q1.w == 10.0f));
-	CHECK((tmp_x == 7.0f));
-	CHECK((tmp_y == 8.0f));
-	CHECK((tmp_z == 9.0f));
-	CHECK((tmp_real == 10.0f));
+	CHECK_EQ(q1.x, 7.0f);
+	CHECK_EQ(q1.y, 8.0f);
+	CHECK_EQ(q1.z, 9.0f);
+	CHECK_EQ(q1.w, 10.0f);
+	CHECK_EQ(tmp_x, 7.0f);
+	CHECK_EQ(tmp_y, 8.0f);
+	CHECK_EQ(tmp_z, 9.0f);
+	CHECK_EQ(tmp_real, 10.0f);
 }
 
 TEST(Quat_Get_bracket4, QuatSetGetTests)
@@ -1404,14 +1403,14 @@ TEST(Quat_Get_bracket4, QuatSetGetTests)
 	tmp_z = q1.z;
 	tmp_real = q1.w;
 
-	CHECK((q1.x == 1.0f));
-	CHECK((q1.y == 2.0f));
-	CHECK((q1.z == 3.0f));
-	CHECK((q1.w == 4.0f));
-	CHECK((tmp_x == 1.0f));
-	CHECK((tmp_y == 2.0f));
-	CHECK((tmp_z == 3.0f));
-	CHECK((tmp_real == 4.0f));
+	CHECK_EQ(q1.x, 1.0f);
+	CHECK_EQ(q1.y, 2.0f);
+	CHECK_EQ(q1.z, 3.0f);
+	CHECK_EQ(q1.w, 4.0f);
+	CHECK_EQ(tmp_x, 1.0f);
+	CHECK_EQ(tmp_y, 2.0f);
+	CHECK_EQ(tmp_z, 3.0f);
+	CHECK_EQ(tmp_real, 4.0f);
 }
 
 // ---  End of File ---------------
