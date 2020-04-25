@@ -23,7 +23,7 @@ inline bool operator==(const Entity& lhs, const Entity& rhs)
 
 struct EntityBridge
 {
-	ArchetypeChunk* owningChunk;
+	ArchetypeChunk* chunk;
 	uint32 version;
 	uint32 chunkIndex;
 };

@@ -32,6 +32,11 @@ inline constexpr size_t Gigabytes(size_t bytes)
 	return bytes / Megabytes(bytes);
 }
 
+inline void Memcpy(void* dst, const void* src, size_t size)
+{
+	memcpy(dst, src, size);
+}
+
 inline void Memcpy(void* dest, size_t destSize,  const void* src, size_t srcSize)
 {
 	memcpy_s(dest, destSize, src, srcSize);
@@ -74,7 +79,16 @@ constexpr AlignType Align(const AlignType ptr, uint64 alignment)
 	return (AlignType)(((uint64)ptr + (alignment - 1)) & ~(alignment - 1));
 }
 
+constexpr forceinline bool IsAligned(uintptr_t ptrAddr, uintptr_t alignment)
+{
+	return !(ptrAddr % alignment);
+}
 
+forceinline bool IsAligned(const void* ptrAddr, uintptr_t alignment)
+{
+	uintptr_t ptr = reinterpret_cast<uintptr_t>(ptrAddr);
+	return !(ptr % alignment);
+}
 
 inline size_t* GetSecretPointer(const void* data)
 {

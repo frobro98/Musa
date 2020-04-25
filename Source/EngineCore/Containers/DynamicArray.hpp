@@ -560,7 +560,7 @@ inline void DynamicArray<Type>::RemoveFirst(const valueType& elem)
 template<class Type>
 inline void DynamicArray<Type>::RemoveLast(const valueType& elem)
 {
-	for (int32 i = arraySize - 1; i > 0; --i)
+	for (int32 i = arraySize - 1; i >= 0; --i)
 	{
 		uint32 index = (uint32)i;
 		if (GetData()[index] == elem)

@@ -37,7 +37,7 @@ inline constexpr bool can_attach_to_entity_v = std::conjunction_v<
 template <typename... CompTypes>
 struct all_valid_component_types
 {
-	constexpr bool IsAllValid()
+	static constexpr bool IsAllValid()
 	{
 		bool result = true;
 		[[maybe_unused]] int dummy[] = { 0, (result = result && is_valid_component_type_v<CompTypes>, 0)... };
@@ -53,7 +53,7 @@ inline constexpr bool all_valid_component_types_v = all_valid_component_types<Co
 template <typename... CompTypes>
 struct all_can_attach_to_entity
 {
-	constexpr bool IsAllValid()
+	static constexpr bool IsAllValid()
 	{
 		bool result = true;
 		[[maybe_unused]] int dummy[] = { 0, (result = result && can_attach_to_entity_v<CompTypes>, 0)... };

@@ -62,10 +62,18 @@
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Binaries\ECS_d.dll" $(OutputPath) &gt; nul
+echo         Copied ECS_d.dll!
+copy "$(SolutionDir)Binaries\ECS_d.pdb" $(OutputPath) &gt; nul
+echo         Copied ECS.pdb!</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <ClCompile>
@@ -76,11 +84,19 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EngineCore_d.lib;Math_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>EngineCore_d.lib;Math_d.lib;ECS_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Binaries\ECS_d.dll" $(OutputPath) &gt; nul
+echo         Copied ECS_d.dll!
+copy "$(SolutionDir)Binaries\ECS_d.pdb" $(OutputPath) &gt; nul
+echo         Copied ECS.pdb!</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -91,43 +107,59 @@
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)Binaries\ECS_d.dll" $(OutputPath) &gt; nul
+echo         Copied ECS_d.dll!
+copy "$(SolutionDir)Binaries\ECS_d.pdb" $(OutputPath) &gt; nul
+echo         Copied ECS.pdb!</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\UnitTests\ECS\Archetype_Create.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_AddComp.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_CreateDestroy.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\World_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Combo.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Accessor.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_AddSub.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Bracket.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Constructor.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Functions.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Inverse.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Multiply.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Scale.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_set.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_Special.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix_unary.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Slerp.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_AddSubMultDiv.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Boolean.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Constructor.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_Functions.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Quat_SetGet.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Lerp.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_AddSub.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Boolean.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Functions.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Matrix.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_Scale.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\Math\Vect_unary.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Combo.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Accessor.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_AddSub.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Bracket.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Constructor.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Functions.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Inverse.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Multiply.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Scale.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_set.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_Special.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Matrix_unary.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quaternion\Quat_AddSubMultDiv.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quaternion\Quat_Boolean.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quaternion\Quat_Constructor.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quaternion\Quat_Functions.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quaternion\Quat_SetGet.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Quaternion\Quat_Slerp.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_AddSub.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_Boolean.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_Functions.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_Lerp.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_Matrix.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_Scale.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Math\Vector\Vect_unary.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\UnitTestMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\UnitTests\ECS\TestComponents\FloatArray.hpp" />
+    <ClInclude Include="..\..\Source\UnitTests\ECS\TestComponents\Movement.hpp" />
+    <ClInclude Include="..\..\Source\UnitTests\ECS\TestComponents\Position.hpp" />
+    <ClInclude Include="..\..\Source\UnitTests\ECS\TestComponents\Rotation.hpp" />
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTracker.h" />
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTrackerMain.h" />
     <ClInclude Include="..\..\Source\UnitTests\Framework\UnitTest.h" />

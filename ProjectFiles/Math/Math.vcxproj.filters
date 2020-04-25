@@ -7,6 +7,9 @@
     <Filter Include="Source\Internal">
       <UniqueIdentifier>{84ad42fb-1201-4965-b1b8-953829cde5c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Trig">
+      <UniqueIdentifier>{c89b44b6-963a-4ae3-9e20-a5e8f9525075}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Math\Internal\VectorImplementation.h">

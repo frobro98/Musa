@@ -7,14 +7,39 @@
 #include "Utilities/TemplateUtils.hpp"
 #include "ECS/Types.hpp"
 #include "ECS/ComponentType.hpp"
-#include "ECS/ComponentTypeOffsetList.hpp"
 #include "ECS/ArchetypeChunk.hpp"
 #include "ECS/World.hpp"
 
 
 namespace Musa
 {
-constexpr uint32 MaxComponentsPerArchetype = 32;
+namespace Internal
+{
+static forceinline void CheckForSameComponents(const ComponentType** types, size_t typeCount)
+{
+	Assert(typeCount < MaxComponentsPerArchetype);
+	Assert(types && IsSorted(types, typeCount, Less<const ComponentType*>{}));
+
+	[[maybe_unused]] auto checkTypes = [types, typeCount] {
+		// Check if type is already on current archetype
+		for (uint32 i = 1; i < typeCount; ++i)
+		{
+			if (types[i] == types[i - 1])
+			{
+				return false;
+			}
+		}
+		return true;
+	};
+
+	AssertFunc(checkTypes, "Components are");
+}
+
+}
+
+using ArchetypeComponentList = DynamicArray<const ComponentType*>;
+using ArchetypeComponentHashList = DynamicArray<ComponentTypeHash>;
+using ArchetypeComponentOffsetList = DynamicArray<size_t>;
 
 // Contains blocks of memory which contain the actual component data
 // Similar to how Unity ECS archetypes are implemented
@@ -22,10 +47,17 @@ struct Archetype
 {
 	World* world;
 	// Must have some sort of identifier which also shows what components are stored within it
-	DynamicArray<UniquePtr<ArchetypeChunk>> chunkList;
-	ComponentTypeOffsetList offsetList;
+	DynamicArray<UniquePtr<ArchetypeChunk>> chunks;
+	
+	// SOA!
+	// TODO - Consider breaking out more information from the types into other arrays
+	ArchetypeComponentList types;
+	ArchetypeComponentHashList typeHashes;
+	ArchetypeComponentOffsetList offsets;
+
 	ArchetypeHashID archetypeHashID;
-	uint32 fullChunks;
+	uint32 entityCapacity;
+	uint32 fullChunkCount;
 };
 
 ECS_API Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compTypes, size_t typeCount);
@@ -51,7 +83,7 @@ ArchetypeChunk& GetOrCreateFreeArchetypeChunk(Archetype& archetype);
 forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
 {
 	Assert(world.IsEntityValid(entity));
-	return *world.entityBridges[entity.id].owningChunk->footer.owner;
+	return *world.entityBridges[entity.id].chunk->footer.owner;
 }
 
 // TODO - This isn't really that great of a name I think, and it shouldn't be this public

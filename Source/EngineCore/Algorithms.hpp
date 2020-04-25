@@ -62,7 +62,7 @@ void InsertionSort(T(&arr)[N])
 }
 
 template <typename T>
-void InsertionSort(T* arr, size_t count)
+constexpr void InsertionSort(T* arr, size_t count)
 {
 	for (size_t i = 1; i < count; ++i)
 	{
@@ -80,7 +80,7 @@ void InsertionSort(T* arr, size_t count)
 }
 
 template <typename T, typename Pred>
-bool IsSorted(const T* arr, size_t count, Pred&& func)
+constexpr bool IsSorted(const T* arr, size_t count, Pred&& func)
 {
 	for (uint32 i = 1; i < count; ++i)
 	{

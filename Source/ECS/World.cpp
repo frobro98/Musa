@@ -3,8 +3,6 @@
 #include "ArchetypeChunk.hpp"
 #include "Archetype.hpp"
 
-#include "ECS/ComponentTypeOffsetList.hpp"
-
 namespace Musa
 {
 
@@ -12,7 +10,7 @@ static void ClearEntityBridge(World& world, Entity entity)
 {
 	world.deadIndices.Add(entity.id);
 	++world.entityBridges[entity.id].version;
-	world.entityBridges[entity.id].owningChunk = nullptr;
+	world.entityBridges[entity.id].chunk = nullptr;
 	world.entityBridges[entity.id].chunkIndex = 0;
 
 	--world.totalLivingEntities;
@@ -26,6 +24,8 @@ Entity World::ConstructEntityInternals(World& world, const ComponentType** types
 	Archetype* archetype = GetOrCreateArchetypeFrom(world, types, typeCount);
 	Assert(archetype);
 
+	Internal::CheckForSameComponents(types, typeCount);
+
 	return CreateEntityWith(*archetype);
 }
 
@@ -33,33 +33,28 @@ void World::HookUpComponentType(World& world, Entity entity, const ComponentType
 {
 	const ComponentType* componentTypes[MaxComponentsPerArchetype];
 	Archetype& currentArchetype = GetEntityArchetype(world, entity);
-	ComponentTypeOffsetList& currentOffsets = currentArchetype.offsetList;
+	ArchetypeComponentList& currentTypes = currentArchetype.types;
 
-	uint32 totalTypes = currentOffsets.offsets.Size();
+	uint32 totalTypes = currentTypes.Size();
 	Assert(totalTypes < MaxComponentsPerArchetype);
 
-	bool typeFound = false;
 	// Check if type is already on current archetype
-	for (uint32 i = 0; i < currentOffsets.offsets.Size(); ++i)
+	for (uint32 i = 0; i < totalTypes; ++i)
 	{
-		componentTypes[i] = currentOffsets.offsets[i].type;
-
-		if (componentTypes[i] == type)
-		{
-			typeFound = true;
-		}
+		componentTypes[i] = currentTypes[i];
 	}
 
-	if (!typeFound)
-	{
-		componentTypes[totalTypes] = type;
-		++totalTypes;
-		InsertionSort(componentTypes, totalTypes);
+	componentTypes[totalTypes] = type;
+	++totalTypes;
 
-		Archetype* newArchetype = GetOrCreateArchetypeFrom(world, componentTypes, totalTypes);
+	InsertionSort(componentTypes, totalTypes);
 
-		SetEntitysArchetype(world, entity, *newArchetype);
-	}
+	Internal::CheckForSameComponents(componentTypes, totalTypes);
+
+	Archetype* newArchetype = GetOrCreateArchetypeFrom(world, componentTypes, totalTypes);
+
+	SetEntitysArchetype(world, entity, *newArchetype);
+
 }
 
 void World::UnhookComponentType(World& world, Entity entity, const ComponentType* type)
@@ -67,16 +62,16 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 	Assert(false);
 	const ComponentType* componentTypes[MaxComponentsPerArchetype];
 	Archetype& currentArchetype = GetEntityArchetype(world, entity);
-	ComponentTypeOffsetList& currentOffsets = currentArchetype.offsetList;
+	ArchetypeComponentList& currentTypes = currentArchetype.types;
 
-	uint32 totalTypes = currentOffsets.offsets.Size();
+	uint32 totalTypes = currentTypes.Size();
 	Assert(totalTypes < MaxComponentsPerArchetype);
 
 	bool typeFound = false;
 	// Check if type is already on current archetype
-	for (uint32 i = 0; i < currentOffsets.offsets.Size(); ++i)
+	for (uint32 i = 0; i < totalTypes; ++i)
 	{
-		componentTypes[i] = currentOffsets.offsets[i].type;
+		componentTypes[i] = currentTypes[i];
 
 		if (componentTypes[i] == type)
 		{
@@ -85,7 +80,7 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 		}
 	}
 
-	if (!typeFound)
+	if (typeFound)
 	{
 		componentTypes[totalTypes] = type;
 		InsertionSort(componentTypes);
@@ -96,10 +91,15 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 	}
 }
 
+Entity World::CreateEntity(Archetype& archetype)
+{
+	return CreateEntityWith(archetype);
+}
+
 void World::DestroyEntity(Entity entity)
 {
 	Assert(IsEntityValid(entity));
-	RemoveEntityFromChunk(*entityBridges[entity.id].owningChunk, entityBridges[entity.id].chunkIndex);
+	RemoveEntityFromChunk(*entityBridges[entity.id].chunk, entityBridges[entity.id].chunkIndex);
 	ClearEntityBridge(*this, entity);
 }
 bool World::IsEntityValid(Entity entity) const

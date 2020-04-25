@@ -1,13 +1,9 @@
-//-----------------------------------------------------------------------------
-// Copyright Ed Keenan 2017
-// Optimized C++
 //----------------------------------------------------------------------------- 
 // UnitTest v.2.1.0
 //          v.2.1.1  - fixed C5038 warning
 //----------------------------------------------------------------------------- 
 
-#ifndef CPP_UNIT_H
-#define CPP_UNIT_H
+#pragma once
 
 #include "Platform.h"
 #include "Assertion.h"
@@ -16,34 +12,6 @@
 #include "Utilities/MacroHelpers.hpp"
 #include "Math/MathFunctions.hpp"
 
-//---------------------------------------------------------------------------------------
-// Utility class - for testing floats
-//
-// Needs <cmath> - fabs()
-//
-//---------------------------------------------------------------------------------------
-#include <cmath>
-
-class UnitUtility
-{
-public:
-	static bool AreEqual(float a, float b, float epsilon = 0.001f)
-	{
-		return (fabs(a - b) < epsilon);
-	}
-
-	static bool AreEqual(double a, double b, double epsilon = 0.001f)
-	{
-		return (fabs(a - b) < epsilon);
-	}
-};
-
-//---------------------------------------------------------------------------------------
-// Unit Tests
-//
-// Needs this header
-//
-//---------------------------------------------------------------------------------------
 struct UnitStats
 {
 	UnitStats()
@@ -73,17 +41,14 @@ struct UnitData
 	bool result = false;
 };
 
-class Test
+struct Test
 {
-public:
 	Test(const char* pTestName);
 
 	virtual void run(UnitData &, UnitStats &) const = 0;
 	virtual void teardown() const {};
 
-public:
-	const char * pName;
-	Test *testFunc;
+	const char * name;
 };
 
 class TestRegistry
@@ -161,7 +126,7 @@ private:
 	if( !( condition ) ) \
 	{ \
 		_UnitData.result = false;  \
-		_UnitData.pMemberName = this->pName; \
+		_UnitData.pMemberName = this->name; \
 		_UnitData.pSourceFilePath = __FILE__; \
 		_UnitData.sourceLineNumber = __LINE__; \
 		Debug::Printf("{}({}): {} \n", _UnitData.pSourceFilePath, _UnitData.sourceLineNumber, _UnitData.pMemberName ); \
@@ -173,10 +138,17 @@ private:
 	}\
 }
 
+#define VA_ARGS(...) , ## __VA_ARGS__
+
 #define CHECK_TRUE(value) CHECK(value == true);
 #define CHECK_FALSE(value) CHECK(value == false);
-#define CHECK_ZERO(value) CHECK(Math::IsZero(value)
-#define CHECK_EQ( value1, value2 ) CHECK(Math::IsEqual(value1, value2))
+#define CHECK_ZERO(value) CHECK(value == 0)
+
+#define CHECK_PTR(value) CHECK(value != nullptr);
+#define CHECK_NULL(value) CHECK(value == nullptr);
+
+#define CHECK_EQ(value1, value2) CHECK(value1 == value2)
+#define CHECK_FLTEQ( value1, value2, ...) CHECK(Math::IsEqual(value1, value2 VA_ARGS(__VA_ARGS__)))
 
 
 #define TEST(TestName, GroupName)													\
@@ -215,6 +187,3 @@ void TestName##GroupName##_Test::run(UnitData& _UnitData, UnitStats& _UnitStats)
 void TestName##GroupName##_Test::teardown() const
 
 
-#endif
-
-// ---  End of File ---------------

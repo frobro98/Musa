@@ -12,13 +12,22 @@ namespace Musa
 using ComponentCtor = void(*)(void*);
 using ComponentDtor = void(*)(void*);
 
+struct ComponentTypeHash
+{
+	uint64 typenameHash;
+	uint64 archetypeBit;
+};
+
+forceinline bool operator==(const ComponentTypeHash& lhs, const ComponentTypeHash& rhs)
+{
+	return lhs.typenameHash == rhs.typenameHash && lhs.archetypeBit == rhs.archetypeBit;
+}
+
 struct ComponentType
 {
 	ComponentCtor ctor = nullptr;
 	ComponentDtor dtor = nullptr;
-	// TODO - Combine these hashes into some sort of struct
-	uint64 typenameHash = 0;
-	uint64 archetypeBit = 0;
+	ComponentTypeHash hash;
 	uint16 size = 0;
 	uint16 alignment = 0;
 };
@@ -29,8 +38,12 @@ forceinline constexpr ComponentType MakeTypeFor()
 	static_assert(!std::is_empty_v<Comp>, "A component can't be size 0");
 
 	ComponentType type = {};
-	type.typenameHash = Musa::Internal::TypenameHash<Comp>();
-	type.archetypeBit |= 1ull << (type.typenameHash % 63ull);
+
+	constexpr uint64 hash = Musa::Internal::TypenameHash<Comp>();
+	type.hash = {
+		hash,
+		1ull << (hash % 63ull)
+	};
 	type.size = sizeof(Comp);
 	type.alignment = alignof(Comp);
 

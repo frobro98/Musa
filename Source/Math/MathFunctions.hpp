@@ -8,7 +8,6 @@
 
 namespace Math
 {
-
 template<typename T>
 constexpr forceinline T Max(T lhs, T rhs)
 {
@@ -77,8 +76,7 @@ constexpr forceinline bool IsEqual(const float32 a, const float32 b, const float
 	
 constexpr forceinline bool IsNotEqual(const float32 a, const float32 b, const float32 epsilon = InternalTolerence)
 {
-	float32 tmp = a - b;
-	return ((tmp < -epsilon) || (tmp > epsilon));
+	return !IsEqual(a, b, epsilon);
 }
 	
 constexpr forceinline bool IsOne(const float32 a, const float32 epsilon = InternalTolerence)
@@ -117,7 +115,6 @@ constexpr forceinline float64 DegreesToRadians(float64 deg)
 	return deg * PiOver180_dbl;
 }
 
-// TODO - Make Abs constexpr
 // Absolute Value
 forceinline int32 Abs(int32 value)
 {
@@ -129,6 +126,7 @@ forceinline int64 Abs(int64 value)
 	return Max(-value, value);
 }
 
+// TODO - Make Abs constexpr
 forceinline float32 Abs(float32 value)
 {
 	constexpr uint32 floatMask = 0x7fffffff;

@@ -2,6 +2,7 @@
 
 #include "Types/Intrinsics.hpp"
 #include "Types/UniquePtr.hpp"
+#include "Algorithms.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
 #include "ECS/DLLDef.h"
@@ -9,6 +10,7 @@
 #include "ECS/Entity.hpp"
 #include "ECS/ComponentType.hpp"
 #include "ECS/Internal/robin_hood.hpp"
+#include "ECS/ArchetypeChunk.hpp"
 
 namespace Musa
 {
@@ -18,14 +20,20 @@ struct Archetype;
 struct Component;
 struct World;
 
+constexpr uint32 MaxComponentsPerArchetype = 32;
+
 struct ECS_API World final
 {
 	World() = default;
 	World(const World&) = delete;
 	World& operator=(const World&) = delete;
 
-	template<typename... Comps, typename = std::enable_if_t<can_attach_to_entity_v<Comps...>>>
+	template<typename... Comps>
 	Entity CreateEntity();
+	template<uint32 N>
+	Entity CreateEntity(const ComponentType* (&types)[N]);
+
+	Entity CreateEntity(Archetype& archetype);
 	void DestroyEntity(Entity entity);
 
 	bool IsEntityValid(Entity entity) const;
@@ -52,16 +60,27 @@ private:
 	void UnhookComponentType(World& world, Entity entity, const ComponentType* type);
 };
 
-template<typename ...Comps, typename>
+template<typename ...Comps>
 inline Entity World::CreateEntity()
 {
+	static_assert(all_can_attach_to_entity_v<Comps...>, "Invalid type trying to attach to Entity");
 	static_assert(sizeof...(Comps) > 0, "Can't have an empty entity at this point!");
 	static const ComponentType* types[] = { GetTypeFor<Comps>()... };
 	constexpr uint32 typeCount = (uint32)ArraySize(types);
+	static_assert(typeCount < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
 
 	InsertionSort(types, typeCount);
 
 	return ConstructEntityInternals(*this, types, typeCount);
+}
+
+template<uint32 N>
+inline Entity World::CreateEntity(const ComponentType* (&types)[N])
+{
+	static_assert(N < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
+
+	InsertionSort(types, N);
+	return ConstructEntityInternals(*this, types, N);
 }
 
 template<typename Comp>
@@ -81,7 +100,11 @@ inline void World::RemoveComponent(Entity entity)
 template<typename Comp>
 inline bool World::HasComponent(Entity entity) const
 {
-	return false;
+	Assert(IsEntityValid(entity));
+
+	EntityBridge& bridge = entityBridges[entity.id];
+	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
+	return chunkArr.IsValid();
 }
 
 }

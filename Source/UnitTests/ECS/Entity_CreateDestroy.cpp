@@ -1,0 +1,500 @@
+
+#include "Framework/UnitTest.h"
+
+#include "ECS/World.hpp"
+#include "ECS/Archetype.hpp"
+
+#include "TestComponents/FloatArray.hpp"
+#include "TestComponents/Movement.hpp"
+#include "TestComponents/Position.hpp"
+#include "TestComponents/Rotation.hpp"
+
+using namespace Musa;
+
+TEST(EntityCreate, EntityCreateDestroy)
+{
+	World w;
+
+	Entity e = w.CreateEntity<Position>();
+
+	CHECK_TRUE(w.IsEntityValid(e));
+
+	CHECK_EQ(e.id, 0);
+	CHECK_EQ(e.version, 1);
+	CHECK_EQ(w.entityBridges.Size(), 1);
+	
+	EntityBridge& b = w.entityBridges[0];
+	
+	CHECK_EQ(b.version, e.version);
+
+	CHECK_PTR(b.chunk);
+	CHECK_EQ(b.chunkIndex, 0);
+
+	CHECK_EQ(w.archetypes.Size(), 1);
+}
+
+TEST(EntityDestroy, EntityCreateDestroy)
+{
+	World w;
+
+	Entity e = w.CreateEntity<Position>();
+
+	CHECK_TRUE(w.IsEntityValid(e));
+
+	CHECK_EQ(e.id, 0);
+	CHECK_EQ(e.version, 1);
+	CHECK_EQ(w.entityBridges.Size(), 1);
+
+	EntityBridge& b = w.entityBridges[0];
+
+	CHECK_EQ(b.version, e.version);
+
+	CHECK_PTR(b.chunk);
+	CHECK_EQ(b.chunkIndex, 0);
+
+	w.DestroyEntity(e);
+
+	CHECK_FALSE(w.IsEntityValid(e));
+
+	CHECK_EQ(w.deadIndices.Size(), 1);
+	CHECK_EQ(w.entityBridges.Size(), 1);
+	
+	CHECK_NULL(b.chunk);
+
+	CHECK_EQ(w.archetypes.Size(), 1);
+
+	Archetype* a = w.archetypes[0].Get();
+
+	CHECK_PTR(a);
+	CHECK_EQ(a->types.Size(), 1);
+	CHECK_EQ(a->types[0], GetTypeFor<Position>());
+
+	CHECK_EQ(a->chunks.Size(), 1);
+	CHECK_ZERO(a->chunks[0]->footer.numEntities);
+}
+
+TEST(EntityCreateDestroyLoop, EntityCreateDestroy)
+{
+	World w;
+
+	constexpr uint32 loops = 100;
+	for (uint32 i = 0; i < loops; ++i)
+	{
+		Entity e = w.CreateEntity<Position, Rotation>();
+
+		CHECK_TRUE(w.IsEntityValid(e));
+		CHECK_EQ(w.deadIndices.Size(), 0);
+		CHECK_EQ(w.archetypes.Size(), 1);
+
+		CHECK_EQ(e.id, 0);
+		CHECK_EQ(e.version, i + 1);
+		CHECK_EQ(w.entityBridges.Size(), 1);
+
+		EntityBridge& b = w.entityBridges[0];
+
+		CHECK_EQ(b.version, e.version);
+		CHECK_PTR(b.chunk);
+		CHECK_EQ(b.chunkIndex, 0);
+
+		w.DestroyEntity(e);
+
+		CHECK_FALSE(w.IsEntityValid(e));
+		CHECK_EQ(w.deadIndices.Size(), 1);
+		CHECK_EQ(w.archetypes.Size(), 1);
+	}
+}
+
+TEST(EntityCreateMultiple, EntityCreateDestroy)
+{
+	World w;
+
+	Entity e0 = w.CreateEntity<Position>();
+	Entity e1 = w.CreateEntity<Position>();
+	Entity e2 = w.CreateEntity<Position>();
+
+	CHECK_EQ(w.archetypes.Size(), 1);
+	
+	Archetype* archetype = w.archetypes[0].Get();
+	CHECK_PTR(archetype);
+
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_TRUE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(e0.id, 0);
+	CHECK_EQ(e1.id, 1);
+	CHECK_EQ(e2.id, 2);
+	CHECK_EQ(e0.version, 1);
+	CHECK_EQ(e1.version, 1);
+	CHECK_EQ(e2.version, 1);
+
+	CHECK_EQ(archetype->chunks.Size(), 1);
+	CHECK_EQ(archetype->chunks[0]->footer.numEntities, 3);
+
+	// Validating chunk data
+	ArchetypeChunk& chunk = *archetype->chunks[0];
+	ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+	CHECK_TRUE(arr.IsValid());
+
+	for (uint32 i = 0; i < arr.Size(); ++i)
+	{
+		CHECK_EQ(arr[i].id, i);
+		CHECK_EQ(arr[i].version, 1);
+	}
+
+	ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+	CHECK_TRUE(posArr.IsValid());
+	for (uint32 i = 0; i < posArr.Size(); ++i)
+	{
+		CHECK_TRUE(posArr[i].position.IsZero());
+	}
+
+}
+
+TEST(EntityCreateMultipleDestroyOne, EntityCreateDestroy)
+{
+	World w;
+
+	Entity e0 = w.CreateEntity<Position>();
+	Entity e1 = w.CreateEntity<Position>();
+	Entity e2 = w.CreateEntity<Position>();
+
+	CHECK_EQ(w.archetypes.Size(), 1);
+
+	Archetype* archetype = w.archetypes[0].Get();
+	CHECK_PTR(archetype);
+
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_TRUE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(e0.id, 0);
+	CHECK_EQ(e1.id, 1);
+	CHECK_EQ(e2.id, 2);
+	CHECK_EQ(e0.version, 1);
+	CHECK_EQ(e1.version, 1);
+	CHECK_EQ(e2.version, 1);
+
+	CHECK_EQ(archetype->chunks.Size(), 1);
+
+	ArchetypeChunk& chunk = *archetype->chunks[0];
+	CHECK_EQ(chunk.footer.numEntities, 3);
+
+	// Validating chunk data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+
+		for (uint32 i = 0; i < arr.Size(); ++i)
+		{
+			CHECK_EQ(arr[i].id, i);
+			CHECK_EQ(arr[i].version, 1);
+		}
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+
+	// Destroy one entity
+	w.DestroyEntity(e1);
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_FALSE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(w.entityBridges.Size(), 3);
+	CHECK_EQ(w.deadIndices.Size(), 1);
+	CHECK_EQ(w.deadIndices[0], 1);
+
+	CHECK_EQ(chunk.footer.numEntities, 2);
+
+	// Revalidate the entity data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+		CHECK_EQ(arr.Size(), 2); 
+
+		CHECK_EQ(arr[0].id, 0);
+		CHECK_EQ(arr[0].version, 1);
+	
+		CHECK_EQ(arr[1].id, 2);
+		CHECK_EQ(arr[1].version, 1);
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		CHECK_EQ(posArr.Size(), 2);
+
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+}
+
+TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
+{
+	World w;
+
+	Entity e0 = w.CreateEntity<Position>();
+	Entity e1 = w.CreateEntity<Position>();
+	Entity e2 = w.CreateEntity<Position>();
+
+	CHECK_EQ(w.archetypes.Size(), 1);
+
+	Archetype* archetype = w.archetypes[0].Get();
+	CHECK_PTR(archetype);
+
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_TRUE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(e0.id, 0);
+	CHECK_EQ(e1.id, 1);
+	CHECK_EQ(e2.id, 2);
+	CHECK_EQ(e0.version, 1);
+	CHECK_EQ(e1.version, 1);
+	CHECK_EQ(e2.version, 1);
+
+	CHECK_EQ(archetype->chunks.Size(), 1);
+
+	ArchetypeChunk& chunk = *archetype->chunks[0];
+	CHECK_EQ(chunk.footer.numEntities, 3);
+
+	// Validating chunk data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+
+		for (uint32 i = 0; i < arr.Size(); ++i)
+		{
+			CHECK_EQ(arr[i].id, i);
+			CHECK_EQ(arr[i].version, 1);
+		}
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+
+	// Destroy one entity
+	w.DestroyEntity(e1);
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_FALSE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(w.entityBridges.Size(), 3);
+	CHECK_EQ(w.deadIndices.Size(), 1);
+	CHECK_EQ(w.deadIndices[0], 1);
+
+	CHECK_EQ(chunk.footer.numEntities, 2);
+
+	// Revalidate the entity data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+		CHECK_EQ(arr.Size(), 2);
+
+		CHECK_EQ(arr[0].id, 0);
+		CHECK_EQ(arr[0].version, 1);
+
+		CHECK_EQ(arr[1].id, 2);
+		CHECK_EQ(arr[1].version, 1);
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		CHECK_EQ(posArr.Size(), 2);
+
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+
+	// Destroy another entity
+	w.DestroyEntity(e0);
+
+	CHECK_FALSE(w.IsEntityValid(e0));
+	CHECK_FALSE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(w.entityBridges.Size(), 3);
+	CHECK_EQ(w.deadIndices.Size(), 2);
+	CHECK_EQ(w.deadIndices[0], 1);
+	CHECK_EQ(w.deadIndices[1], 0);
+
+	CHECK_EQ(chunk.footer.numEntities, 1);
+
+	// Revalidate the entity data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+		CHECK_EQ(arr.Size(), 1);
+
+		CHECK_EQ(arr[0].id, 2);
+		CHECK_EQ(arr[0].version, 1);
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		CHECK_EQ(posArr.Size(), 1);
+
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+}
+
+TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
+{
+	World w;
+
+	Entity e0 = w.CreateEntity<Position>();
+	Entity e1 = w.CreateEntity<Position>();
+	Entity e2 = w.CreateEntity<Position>();
+
+	CHECK_EQ(w.archetypes.Size(), 1);
+
+	Archetype* archetype = w.archetypes[0].Get();
+	CHECK_PTR(archetype);
+
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_TRUE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(e0.id, 0);
+	CHECK_EQ(e1.id, 1);
+	CHECK_EQ(e2.id, 2);
+	CHECK_EQ(e0.version, 1);
+	CHECK_EQ(e1.version, 1);
+	CHECK_EQ(e2.version, 1);
+
+	CHECK_EQ(archetype->chunks.Size(), 1);
+
+	ArchetypeChunk& chunk = *archetype->chunks[0];
+	CHECK_EQ(chunk.footer.numEntities, 3);
+
+	// Validating chunk data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+
+		for (uint32 i = 0; i < arr.Size(); ++i)
+		{
+			CHECK_EQ(arr[i].id, i);
+			CHECK_EQ(arr[i].version, 1);
+		}
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+
+	// Destroy one entity
+	w.DestroyEntity(e1);
+
+	CHECK_TRUE(w.IsEntityValid(e0));
+	CHECK_FALSE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(w.entityBridges.Size(), 3);
+	CHECK_EQ(w.deadIndices.Size(), 1);
+	CHECK_EQ(w.deadIndices[0], 1);
+
+	CHECK_EQ(chunk.footer.numEntities, 2);
+
+	// Revalidate the entity data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+		CHECK_EQ(arr.Size(), 2);
+
+		CHECK_EQ(arr[0].id, 0);
+		CHECK_EQ(arr[0].version, 1);
+
+		CHECK_EQ(arr[1].id, 2);
+		CHECK_EQ(arr[1].version, 1);
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		CHECK_EQ(posArr.Size(), 2);
+
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+
+	// Destroy another entity
+	w.DestroyEntity(e0);
+
+	CHECK_FALSE(w.IsEntityValid(e0));
+	CHECK_FALSE(w.IsEntityValid(e1));
+	CHECK_TRUE(w.IsEntityValid(e2));
+
+	CHECK_EQ(w.entityBridges.Size(), 3);
+	CHECK_EQ(w.deadIndices.Size(), 2);
+	CHECK_EQ(w.deadIndices[0], 1);
+	CHECK_EQ(w.deadIndices[1], 0);
+
+	CHECK_EQ(chunk.footer.numEntities, 1);
+
+	// Revalidate the entity data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_TRUE(arr.IsValid());
+		CHECK_EQ(arr.Size(), 1);
+
+		CHECK_EQ(arr[0].id, 2);
+		CHECK_EQ(arr[0].version, 1);
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_TRUE(posArr.IsValid());
+		CHECK_EQ(posArr.Size(), 1);
+
+		for (uint32 i = 0; i < posArr.Size(); ++i)
+		{
+			CHECK_TRUE(posArr[i].position.IsZero());
+		}
+	}
+
+
+	// Destroy last entity
+	w.DestroyEntity(e2);
+
+	CHECK_FALSE(w.IsEntityValid(e0));
+	CHECK_FALSE(w.IsEntityValid(e1));
+	CHECK_FALSE(w.IsEntityValid(e2));
+
+	CHECK_EQ(w.entityBridges.Size(), 3);
+	CHECK_EQ(w.deadIndices.Size(), 3);
+	CHECK_EQ(w.deadIndices[0], 1);
+	CHECK_EQ(w.deadIndices[1], 0);
+	CHECK_EQ(w.deadIndices[2], 2);
+
+	CHECK_EQ(chunk.footer.numEntities, 0);
+
+	// Revalidate the entity data
+	{
+		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
+		CHECK_FALSE(arr.IsValid());
+
+		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
+		CHECK_FALSE(posArr.IsValid());
+	}
+}
+
