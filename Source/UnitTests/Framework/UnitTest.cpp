@@ -1,10 +1,10 @@
 
 #include "UnitTest.h"
 
-Test::Test(const char* testName)
+UnitTest::UnitTest(const char* testName)
 {
 	// initialized data
 	name = testName;
 
-	TestRegistry::AddTest(*this);
+	UnitTestRegistry::AddTest(*this);
 }

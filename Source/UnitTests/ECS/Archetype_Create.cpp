@@ -264,3 +264,20 @@ TEST(ArchetypeGetExisting, ArchetypeTesting)
 
 	CHECK_EQ(archetype, existingArchetype);
 }
+
+TEST(ArchetypeNullType, ArchetypeTesting)
+{
+	World w;
+
+	Archetype* archetype = GetOrCreateArchetypeFrom(w, nullptr, 0);
+
+	CHECK_PTR(archetype->world);
+	CHECK_EQ(archetype->world, &w);
+
+	CHECK_ZERO(archetype->types.Size());
+	CHECK_ZERO(archetype->chunks.Size());
+	CHECK_ZERO(archetype->offsets.Size());
+	CHECK_ZERO(archetype->typeHashes.Size());
+	CHECK_ZERO(archetype->fullChunkCount);
+}
+

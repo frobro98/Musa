@@ -57,13 +57,14 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -77,7 +78,7 @@ echo         Copied ECS.pdb!</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='UnitTest|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -86,6 +87,7 @@ echo         Copied ECS.pdb!</Command>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -100,7 +102,7 @@ echo         Copied ECS.pdb!</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -109,6 +111,7 @@ echo         Copied ECS.pdb!</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -126,6 +129,7 @@ echo         Copied ECS.pdb!</Command>
     <ClCompile Include="..\..\Source\UnitTests\ECS\Archetype_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_AddComp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_CreateDestroy.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_RemoveComp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\World_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Combo.cpp" />

@@ -18,7 +18,7 @@ namespace Internal
 static forceinline void CheckForSameComponents(const ComponentType** types, size_t typeCount)
 {
 	Assert(typeCount < MaxComponentsPerArchetype);
-	Assert(types && IsSorted(types, typeCount, Less<const ComponentType*>{}));
+	Assert(IsSorted(types, typeCount, Less<const ComponentType*>{}));
 
 	[[maybe_unused]] auto checkTypes = [types, typeCount] {
 		// Check if type is already on current archetype
@@ -67,7 +67,7 @@ ECS_TEMPLATE Archetype* GetOrCreateArchetypeFrom(World& world)
 {
 	REF_CHECK(world);
 
-	//if constexpr(sizeof...(Comps) != 0)
+	if constexpr (sizeof...(Comps) > 0)
 	{
 		static const ComponentType* compTypes[] = { GetTypeFor<Comps>()... };
 		constexpr size_t typeCount = ArraySize(compTypes);
@@ -75,6 +75,11 @@ ECS_TEMPLATE Archetype* GetOrCreateArchetypeFrom(World& world)
 		InsertionSort(compTypes, typeCount);
 		// NOTE - No chunk created at this point because there isn't any reason for it to be. It needs to be created when an Entity is added...
 		return GetOrCreateArchetypeFrom(world, compTypes, typeCount);
+	}
+	else
+	{
+		return GetOrCreateArchetypeFrom(world, nullptr, 0);
+
 	}
 }
 

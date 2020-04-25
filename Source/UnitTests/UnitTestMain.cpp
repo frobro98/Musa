@@ -4,7 +4,7 @@
 
 int main()
 {
-	TestRegistry::RunTests();
+	UnitTestRegistry::RunTests();
 
 	return 0;
 }

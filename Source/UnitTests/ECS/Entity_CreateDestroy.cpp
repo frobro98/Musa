@@ -551,7 +551,7 @@ TEST(EntityCreateDestroyMakeNotFull, EntityCreateDestroy)
 
 	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
 
-	Entity e;
+	Entity e{};
 	for (uint32 i = 0; i < maxEntitiesPerChunk; ++i)
 	{
 		e = w.CreateEntity(*archetype);

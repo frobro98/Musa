@@ -59,7 +59,6 @@ void World::HookUpComponentType(World& world, Entity entity, const ComponentType
 
 void World::UnhookComponentType(World& world, Entity entity, const ComponentType* type)
 {
-	Assert(false);
 	const ComponentType* componentTypes[MaxComponentsPerArchetype];
 	Archetype& currentArchetype = GetEntityArchetype(world, entity);
 	ArchetypeComponentList& currentTypes = currentArchetype.types;
@@ -76,16 +75,16 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 		if (componentTypes[i] == type)
 		{
 			typeFound = true;
-
+			componentTypes[i] = currentTypes[totalTypes - 1];
 		}
 	}
 
 	if (typeFound)
 	{
-		componentTypes[totalTypes] = type;
-		InsertionSort(componentTypes);
+		--totalTypes;
+		InsertionSort(componentTypes, totalTypes);
 
-		Archetype* newArchetype = GetOrCreateArchetypeFrom(world, componentTypes, totalTypes + 1);
+		Archetype* newArchetype = GetOrCreateArchetypeFrom(world, componentTypes, totalTypes);
 
 		SetEntitysArchetype(world, entity, *newArchetype);
 	}

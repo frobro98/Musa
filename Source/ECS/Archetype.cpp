@@ -34,9 +34,9 @@ static void FillOutTypeInformation(Archetype& archetype, const ComponentType** c
 	auto& typeList = archetype.types;
 	auto& typeHashList = archetype.typeHashes;
 	auto& typeOffsetList = archetype.offsets;
-	typeList.Reserve(archetypeEntityCap);
-	typeHashList.Reserve(archetypeEntityCap);
-	typeOffsetList.Reserve(archetypeEntityCap);
+	typeList.Reserve((uint32)count);
+	typeHashList.Reserve((uint32)count);
+	typeOffsetList.Reserve((uint32)count);
 
 
 	size_t offset = sizeof(Entity) * archetypeEntityCap;

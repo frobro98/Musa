@@ -41,9 +41,9 @@ struct UnitData
 	bool result = false;
 };
 
-struct Test
+struct UnitTest
 {
-	Test(const char* pTestName);
+	UnitTest(const char* pTestName);
 
 	virtual void run(UnitData &, UnitStats &) const = 0;
 	virtual void teardown() const {};
@@ -51,17 +51,17 @@ struct Test
 	const char * name;
 };
 
-class TestRegistry
+class UnitTestRegistry
 {
 public:
 	// Big four
-	TestRegistry(const TestRegistry &) = delete;
-	TestRegistry & operator = (const TestRegistry &) = delete;
+	UnitTestRegistry(const UnitTestRegistry &) = delete;
+	UnitTestRegistry & operator = (const UnitTestRegistry &) = delete;
 
 
-	static void AddTest(Test& test)
+	static void AddTest(UnitTest& test)
 	{
-		TestRegistry *pRegistry = TestRegistry::privGetInstance();
+		UnitTestRegistry *pRegistry = UnitTestRegistry::privGetInstance();
 
 		pRegistry->tests.Add(&test);
 	}
@@ -70,7 +70,7 @@ public:
 		//UnitTrace::out("\nTestRegistry:RunTests()\n");
 		Debug::Print("\n");
 		Debug::Print("---- Testing ----\n");
-		TestRegistry *pRegistry = TestRegistry::privGetInstance();
+		UnitTestRegistry *pRegistry = UnitTestRegistry::privGetInstance();
 
 		UnitData unitData;
 		UnitStats unitStats;
@@ -103,15 +103,15 @@ public:
 	}
 
 private:
-	TestRegistry() = default;
+	UnitTestRegistry() = default;
 
-	static TestRegistry* privGetInstance()
+	static UnitTestRegistry* privGetInstance()
 	{
-		static TestRegistry tRegistry;
+		static UnitTestRegistry tRegistry;
 		return &tRegistry;
 	}
 
-	DynamicArray<Test*> tests;
+	DynamicArray<UnitTest*> tests;
 };
 
 // Allow conditional expressions that are constant.
@@ -160,11 +160,11 @@ private:
 
 
 #define TEST(TestName, GroupName)													\
-class TestName##GroupName##_Test : public Test										\
+class TestName##GroupName##_Test : public UnitTest									\
 {																					\
 	public:																			\
 		TestName##GroupName##_Test():												\
-		Test(STRING(TestName##GroupName##_Test))									\
+		UnitTest(STRING(TestName##GroupName##_Test))								\
 		{																			\
 		};																			\
 																					\
@@ -175,11 +175,11 @@ void TestName##GroupName##_Test::run(UnitData& _UnitData, UnitStats& _UnitStats)
 
 
 #define TEST_WITH_TEARDOWN(TestName, GroupName)												\
-class TestName##GroupName##_Test : public Test												\
+class TestName##GroupName##_Test : public UnitTest											\
 {																							\
 	public:																					\
 		TestName##GroupName##_Test():														\
-		Test(STRING(TestName##GroupName##_Test))											\
+		UnitTest(STRING(TestName##GroupName##_Test))										\
 		{																					\
 		};																					\
 																							\

@@ -64,14 +64,20 @@ template<typename ...Comps>
 inline Entity World::CreateEntity()
 {
 	static_assert(all_can_attach_to_entity_v<Comps...>, "Invalid type trying to attach to Entity");
-	static_assert(sizeof...(Comps) > 0, "Can't have an empty entity at this point!");
-	static const ComponentType* types[] = { GetTypeFor<Comps>()... };
-	constexpr uint32 typeCount = (uint32)ArraySize(types);
-	static_assert(typeCount < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
+	if constexpr (sizeof...(Comps) > 0)
+	{
+		static const ComponentType* types[] = { GetTypeFor<Comps>()... };
+		constexpr uint32 typeCount = (uint32)ArraySize(types);
+		static_assert(typeCount < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
 
-	InsertionSort(types, typeCount);
+		InsertionSort(types, typeCount);
 
-	return ConstructEntityInternals(*this, types, typeCount);
+		return ConstructEntityInternals(*this, types, typeCount);
+	}
+	else
+	{
+		return ConstructEntityInternals(*this, nullptr, 0);
+	}
 }
 
 template<uint32 N>
@@ -86,6 +92,7 @@ inline Entity World::CreateEntity(const ComponentType* (&types)[N])
 template<typename Comp>
 inline void World::AddComponentTo(Entity entity)
 {
+	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to attach to Entity");
 	const ComponentType* type = GetTypeFor<Comp>();
 	HookUpComponentType(*this, entity, type);
 }
@@ -93,16 +100,18 @@ inline void World::AddComponentTo(Entity entity)
 template<typename Comp>
 inline void World::RemoveComponent(Entity entity)
 {
+	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to remove from Entity");
 	const ComponentType* type = GetTypeFor<Comp>();
-	HookUpComponentType(*this, type);
+	UnhookComponentType(*this, entity, type);
 }
 
 template<typename Comp>
 inline bool World::HasComponent(Entity entity) const
 {
+	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to check on Entity");
 	Assert(IsEntityValid(entity));
 
-	EntityBridge& bridge = entityBridges[entity.id];
+	const EntityBridge& bridge = entityBridges[entity.id];
 	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
 	return chunkArr.IsValid();
 }

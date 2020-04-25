@@ -50,16 +50,20 @@ inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 		else
 		{
 			constexpr uint64 hash = Musa::Internal::TypenameHash<sanitizedType>();
-			const uint32 numEntities = chunk.footer.numEntities;
 			auto& hashes = *chunk.footer.typeHashes;
+			const uint32 typeCount = hashes.Size();
 
-			for (uint32 i = 0; i < numEntities; ++i)
+			if (typeCount > 0)
 			{
-				if (hashes[i].typenameHash == hash)
+				for (uint32 i = 0; i < typeCount; ++i)
 				{
-					auto& offsets = *chunk.footer.offsets;
-					sanitizedType* ptr = reinterpret_cast<sanitizedType*>((uint8*)&chunk + offsets[i]);
-					return ChunkArray<sanitizedType>(*ptr, numEntities);
+					if (hashes[i].typenameHash == hash)
+					{
+						auto& offsets = *chunk.footer.offsets;
+						sanitizedType* ptr = reinterpret_cast<sanitizedType*>((uint8*)&chunk + offsets[i]);
+						const uint32 numEntities = chunk.footer.numEntities;
+						return ChunkArray<sanitizedType>(*ptr, numEntities);
+					}
 				}
 			}
 		}

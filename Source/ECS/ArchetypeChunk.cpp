@@ -104,27 +104,32 @@ static uint32 AssociateSameComponentTypes(
 )
 {
 	uint32 sameTypeCount = 0;
-	uint32 newTypeIndex = 0;
-	for (uint32 oldTypeIndex = 0;
-		oldTypeIndex < oldCount && newTypeIndex < newCount;
-		++oldTypeIndex, ++newTypeIndex)
-	{
-		const ComponentType* oldType = oldTypes[oldTypeIndex];
-		Assert(oldType->size != 0);
-		const ComponentType* newType = newTypes[newTypeIndex];
 
-		while (oldType != newType &&
-			newTypeIndex < newCount)
+	uint32 biggerTypeIndex = 0;
+	const uint32 smallCount = /*Math::Max()*/ oldCount < newCount ? oldCount : newCount;
+	const uint32 biggerCount = /*Math::Max()*/ oldCount > newCount ? oldCount : newCount;
+	ArchetypeComponentList& smallList = /*Math::Select()*/ oldCount < newCount ? oldTypes : newTypes;
+	ArchetypeComponentList& biggerList = /*Math::Select()*/ oldCount > newCount ? oldTypes : newTypes;
+	for (uint32 smallTypeIndex = 0;
+		smallTypeIndex < smallCount && biggerTypeIndex < biggerCount;
+		++smallTypeIndex, ++biggerTypeIndex)
+	{
+		const ComponentType* smallType = smallList[smallTypeIndex];
+		Assert(smallType->size != 0);
+		const ComponentType* biggerType = biggerList[biggerTypeIndex];
+
+		while (smallType != biggerType &&
+			biggerTypeIndex < biggerCount-1)
 		{
-			++newTypeIndex;
-			newType = newTypes[newTypeIndex];
+			++biggerTypeIndex;
+			biggerType = biggerList[biggerTypeIndex];
 		}
 
-		if (oldType == newType)
+		if (smallType == biggerType)
 		{
-			typeIndexArray[sameTypeCount].oldIndex = oldTypeIndex;
-			typeIndexArray[sameTypeCount].newIndex = newTypeIndex;
-			typeIndexArray[sameTypeCount].size = oldType->size;
+			typeIndexArray[sameTypeCount].oldIndex = oldCount < newCount ? smallTypeIndex : biggerTypeIndex;
+			typeIndexArray[sameTypeCount].newIndex = newCount < oldCount ? smallTypeIndex : biggerTypeIndex;
+			typeIndexArray[sameTypeCount].size = smallType->size;
 			++sameTypeCount;
 		}
 	}
@@ -137,7 +142,7 @@ void ConstructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex)
 	Assert(chunk.footer.numEntities > entityIndex);
 	auto& offsetList = *chunk.footer.offsets;
 	auto& typeList = *chunk.footer.types;
-	// Initialize memory using contrustor
+	// Initialize memory using construstor
 	for(uint32 i = 0; i < typeList.Size(); ++i)
 	//for (const auto& compOffset : *offsetList)
 	{
