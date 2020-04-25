@@ -148,7 +148,15 @@ private:
 #define CHECK_NULL(value) CHECK(value == nullptr);
 
 #define CHECK_EQ(value1, value2) CHECK(value1 == value2)
+#define CHECK_NE(value1, value2) CHECK(value1 != value2)
+#define CHECK_LT(value1, value2) CHECK(value1 < value2)
+#define CHECK_LE(value1, value2) CHECK(value1 <= value2)
+#define CHECK_GT(value1, value2) CHECK(value1 > value2)
+#define CHECK_GE(value1, value2) CHECK(value1 >= value2)
+
+
 #define CHECK_FLTEQ( value1, value2, ...) CHECK(Math::IsEqual(value1, value2 VA_ARGS(__VA_ARGS__)))
+
 
 
 #define TEST(TestName, GroupName)													\

@@ -498,3 +498,86 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 	}
 }
 
+TEST(EntityCreateForceNewChunk, EntityCreateDestroy)
+{
+	World w;
+
+	Archetype* archetype = GetOrCreateArchetypeFrom<Position>(w);
+	CHECK_PTR(archetype);
+
+	Entity init = w.CreateEntity(*archetype);
+	CHECK_TRUE(w.IsEntityValid(init));
+
+	CHECK_EQ(init.id, 0);
+	CHECK_EQ(init.version, 1);
+
+	CHECK_EQ(archetype->chunks.Size(), 1);
+
+	ArchetypeChunk& firstChunk = *archetype->chunks[0];
+	CHECK_EQ(firstChunk.footer.numEntities, 1);
+
+	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
+
+	for (uint32 i = 0; i < maxEntitiesPerChunk; ++i)
+	{
+		w.CreateEntity(*archetype);
+	}
+
+	CHECK_EQ(archetype->chunks.Size(), 2);
+
+	CHECK_EQ(firstChunk.footer.numEntities, maxEntitiesPerChunk);
+
+	ArchetypeChunk& secondChunk = *archetype->chunks[1];
+	CHECK_EQ(secondChunk.footer.numEntities, 1);
+}
+
+TEST(EntityCreateDestroyMakeNotFull, EntityCreateDestroy)
+{
+	World w;
+
+	Archetype* archetype = GetOrCreateArchetypeFrom<Position>(w);
+	CHECK_PTR(archetype);
+
+	Entity init = w.CreateEntity(*archetype);
+	CHECK_TRUE(w.IsEntityValid(init));
+
+	CHECK_EQ(init.id, 0);
+	CHECK_EQ(init.version, 1);
+
+	CHECK_EQ(archetype->chunks.Size(), 1);
+
+	ArchetypeChunk& firstChunk = *archetype->chunks[0];
+	CHECK_EQ(firstChunk.footer.numEntities, 1);
+
+	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
+
+	Entity e;
+	for (uint32 i = 0; i < maxEntitiesPerChunk; ++i)
+	{
+		e = w.CreateEntity(*archetype);
+	}
+
+	CHECK_EQ(archetype->chunks.Size(), 2);
+	CHECK_EQ(archetype->fullChunkCount, 1);
+
+	CHECK_EQ(firstChunk.footer.numEntities, maxEntitiesPerChunk);
+
+	ArchetypeChunk& secondChunk = *archetype->chunks[1];
+	CHECK_EQ(secondChunk.footer.numEntities, 1);
+
+	w.DestroyEntity(e);
+
+	CHECK_FALSE(w.IsEntityValid(e));
+	CHECK_EQ(secondChunk.footer.numEntities, 0);
+
+	--e.id;
+	CHECK_TRUE(w.IsEntityValid(e));
+
+	CHECK_EQ(firstChunk.footer.numEntities, maxEntitiesPerChunk);
+
+	w.DestroyEntity(e);
+	CHECK_FALSE(w.IsEntityValid(e));
+
+	CHECK_EQ(firstChunk.footer.numEntities, maxEntitiesPerChunk-1);
+}
+

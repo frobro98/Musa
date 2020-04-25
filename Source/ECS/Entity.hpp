@@ -12,8 +12,8 @@ struct World;
 // External reference to group of components
 struct Entity final
 {
-	const uint32 id;
-	const uint32 version;
+	uint32 id;
+	uint32 version;
 };
 
 inline bool operator==(const Entity& lhs, const Entity& rhs)
