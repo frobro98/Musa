@@ -294,12 +294,3 @@ TEST(EntityAddThreeRemoveThree, EntityRemoveComponent)
 	CHECK_EQ(nullType->types.Size(), 0);
 }
 
-TEST(EntityRemoveStressTest, EntityRemoveComponent)
-{
-	World w;
-
-	Entity e = w.CreateEntity<Position>();
-
-	CHECK_EQ(w.archetypes.Size(), 1);
-	CHECK_EQ(w.entityBridges.Size(), 1);
-}

@@ -118,4 +118,13 @@ public:
 	friend Quat operator/(const Quat& q, float val);
 	friend Quat operator/(float val, const Quat& q);
 
+	friend bool operator==(const Quat& lhs, const Quat& rhs)
+	{
+		return lhs.IsEqual(rhs);
+	}
+
+	friend bool operator!=(const Quat& lhs, const Quat& rhs)
+	{
+		return !lhs.IsEqual(rhs);
+	}
 };

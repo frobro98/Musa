@@ -36,7 +36,7 @@ struct ArchetypeChunk
 static_assert(sizeof(ArchetypeChunk) == ArchetypeBlockSize);
 
 template<typename Comp>
-inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
+[[nodiscard]] inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 {
 	using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
 

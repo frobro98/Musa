@@ -43,6 +43,10 @@ struct ECS_API World final
 	template <typename Comp>
 	void RemoveComponent(Entity entity);
 	template <typename Comp>
+	void SetComponentDataOn(Entity entity, Comp&& component);
+	template <typename Comp>
+	Comp& GetComponentDataOn(Entity entity) const;
+	template <typename Comp>
 	bool HasComponent(Entity entity) const;
 
 	// stores all of the different archetypes based on their similar  archetypeHashIDs
@@ -103,6 +107,28 @@ inline void World::RemoveComponent(Entity entity)
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to remove from Entity");
 	const ComponentType* type = GetTypeFor<Comp>();
 	UnhookComponentType(*this, entity, type);
+}
+
+template<typename Comp>
+inline void World::SetComponentDataOn(Entity entity, Comp&& component)
+{
+	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to check on Entity");
+	Assert(IsEntityValid(entity));
+
+	const EntityBridge& bridge = entityBridges[entity.id];
+	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
+	chunkArr[bridge.chunkIndex] = std::forward<Comp>(component);
+}
+
+template<typename Comp>
+inline Comp& World::GetComponentDataOn(Entity entity) const
+{
+	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to check on Entity");
+	Assert(IsEntityValid(entity));
+
+	const EntityBridge& bridge = entityBridges[entity.id];
+	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
+	return chunkArr[bridge.chunkIndex];
 }
 
 template<typename Comp>
