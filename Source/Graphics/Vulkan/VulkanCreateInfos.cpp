@@ -9,7 +9,7 @@
 
 namespace Vk
 {
-	VkInstanceCreateInfo InstanceInfo(const tchar* const* instanceLayers, uint32 numLayers, const tchar* const* instanceExtensions, uint32 numExtensions, [[maybe_unused]] const void * additionalData)
+	VkInstanceCreateInfo InstanceInfo(const tchar* const* instanceLayers, uint32 numLayers, const tchar* const* instanceExtensions, uint32 numExtensions, NOT_USED const void* additionalData)
 	{
 		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -35,7 +35,7 @@ namespace Vk
 		return queueInfo;
 	}
 
-	VkDeviceCreateInfo DeviceInfo(const VkDeviceQueueCreateInfo * queueInfo, uint32 numQueueInfos, const tchar ** deviceExtensions, uint32 numExtensions, const VkPhysicalDeviceFeatures & deviceFeatures)
+	VkDeviceCreateInfo DeviceInfo(const VkDeviceQueueCreateInfo* queueInfo, uint32 numQueueInfos, const tchar** deviceExtensions, uint32 numExtensions, const VkPhysicalDeviceFeatures& deviceFeatures)
 	{
 		VkDeviceCreateInfo deviceInfo = {};
 		deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -48,7 +48,7 @@ namespace Vk
 	}
 
 //#if M_DEBUG
-	VkDebugReportCallbackCreateInfoEXT DebugReportCallbackInfo(PFN_vkDebugReportCallbackEXT debugFunc, VkDebugReportFlagsEXT debugFlags, void * userData)
+	VkDebugReportCallbackCreateInfoEXT DebugReportCallbackInfo(PFN_vkDebugReportCallbackEXT debugFunc, VkDebugReportFlagsEXT debugFlags, void* userData)
 	{
 		VkDebugReportCallbackCreateInfoEXT createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
@@ -88,7 +88,7 @@ namespace Vk
 		return imageViewInfo;
 	}
 
-	VkRenderPassCreateInfo RenderPassInfo(const VkAttachmentDescription * attachments,
+	VkRenderPassCreateInfo RenderPassInfo(const VkAttachmentDescription* attachments,
 		uint32 numAttachments,
 		const VkSubpassDescription * subpasses,
 		uint32 numSubpasses,

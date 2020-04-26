@@ -17,8 +17,8 @@ struct BatchElement
 class WidgetBatchElements
 {
 public:
-	[[nodiscard]] BatchElement& GetBatchElement(const NativeTexture* batchTexture);
-	[[nodiscard]] forceinline const DynamicArray<BatchElement>& GetBatchElementList() { return batchElements; }
+	NODISCARD BatchElement& GetBatchElement(const NativeTexture* batchTexture);
+	NODISCARD forceinline const DynamicArray<BatchElement>& GetBatchElementList() { return batchElements; }
 
 	// TODO - Clipping
 

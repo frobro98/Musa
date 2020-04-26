@@ -20,7 +20,7 @@ static forceinline void CheckForSameComponents(const ComponentType** types, size
 	Assert(typeCount < MaxComponentsPerArchetype);
 	Assert(IsSorted(types, typeCount, Less<const ComponentType*>{}));
 
-	[[maybe_unused]] auto checkTypes = [types, typeCount] {
+	NOT_USED auto checkTypes = [types, typeCount] {
 		// Check if type is already on current archetype
 		for (uint32 i = 1; i < typeCount; ++i)
 		{

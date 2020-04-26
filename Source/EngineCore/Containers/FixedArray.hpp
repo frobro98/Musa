@@ -22,20 +22,20 @@ public:
 	void RemoveAt(uint32 index, uint32 count = 1);
 	
 	template<typename AddType>
-	[[nodiscard]] bool TryAdd(AddType&& elem);
+	NODISCARD bool TryAdd(AddType&& elem);
 
 	void Resize(uint32 newSize);
 	void Clear();
 
 
-	[[nodiscard]] bool IsEmpty() const;
-	[[nodiscard]] bool HasRoom() const;
+	NODISCARD bool IsEmpty() const;
+	NODISCARD bool HasRoom() const;
 
-	[[nodiscard]] uint32 Size() const;
-	[[nodiscard]] constexpr uint32 Capacity() const;
+	NODISCARD uint32 Size() const;
+	NODISCARD constexpr uint32 Capacity() const;
 
-	[[nodiscard]] ElemType* GetData();
-	[[nodiscard]] const ElemType* GetData() const;
+	NODISCARD ElemType* GetData();
+	NODISCARD const ElemType* GetData() const;
 
 	// TODO - Find? Sort? Contains?
 

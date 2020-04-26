@@ -2,13 +2,15 @@
 
 #include <type_traits>
 
+#include "CoreFlags.hpp"
+
 template <typename Type, typename... Types>
 struct all_same_type
 {
 	static constexpr bool IsAllSame()
 	{
 		bool result = true;
-		[[maybe_unused]] int dummy[] = { 0, (result = result && std::is_same_v<Type, Types>, 0)... };
+		NOT_USED int dummy[] = { 0, (result = result && std::is_same_v<Type, Types>, 0)... };
 		return result;
 	}
 	//static constexpr bool value = (std::is_same_v<Type, Types> && ...);
@@ -24,7 +26,7 @@ struct all_base_of
 	static constexpr bool IsAllBase()
 	{
 		bool result = true;
-		[[maybe_unused]] int dummy[] = { 0, (result = result && std::is_base_of_v<Base, Derived>, 0)... };
+		NOT_USED int dummy[] = { 0, (result = result && std::is_base_of_v<Base, Derived>, 0)... };
 		return result;
 	}
 	static constexpr bool value = IsAllBase();
@@ -39,7 +41,7 @@ struct all_convertable_to
 	static constexpr bool AreAllConvertable()
 	{
 		bool result = true;
-		[[maybe_unused]] int dummy[] = { 0, (result = result && std::is_convertible_v<ConvertFrom, ConvertTo>, 0)... };
+		NOT_USED int dummy[] = { 0, (result = result && std::is_convertible_v<ConvertFrom, ConvertTo>, 0)... };
 		return result;
 	}
 

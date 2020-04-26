@@ -2,6 +2,8 @@
 
 #include <type_traits>
 
+#include "CoreFlags.hpp"
+
 template <typename OwnedType>
 class UniquePtr
 {
@@ -23,8 +25,8 @@ public:
 	bool IsValid() const;
 	operator bool() const;
 
-	[[nodiscard]] OwnedType* Get() const;
-	[[nodiscard]] OwnedType* Release();
+	NODISCARD OwnedType* Get() const;
+	NODISCARD OwnedType* Release();
 	void Reset(OwnedType* newPtr = nullptr);
 
 	void Swap(UniquePtr& other);

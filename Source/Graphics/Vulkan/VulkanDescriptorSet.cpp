@@ -46,7 +46,7 @@ void VulkanDescriptorSetLayout::BindLayout()
 	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 	layoutInfo.bindingCount = bindings.Size();
 	layoutInfo.pBindings = bindings.GetData();
-	[[maybe_unused]] VkResult result = vkCreateDescriptorSetLayout(logicalDevice.GetNativeHandle(), &layoutInfo, nullptr, &descriptorSetLayout);
+	NOT_USED VkResult result = vkCreateDescriptorSetLayout(logicalDevice.GetNativeHandle(), &layoutInfo, nullptr, &descriptorSetLayout);
 	CHECK_VK(result);
 }
 

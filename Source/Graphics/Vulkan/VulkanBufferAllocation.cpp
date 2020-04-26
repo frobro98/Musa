@@ -21,7 +21,7 @@ BufferGraphicsAllocation::BufferGraphicsAllocation(
 	buffer(buff),
 	usageFlags(usage)
 {
-	[[maybe_unused]] VkResult result = vkBindBufferMemory(device.GetNativeHandle(), buffer, graphicsMemory, 0);
+	NOT_USED VkResult result = vkBindBufferMemory(device.GetNativeHandle(), buffer, graphicsMemory, 0);
 	CHECK_VK(result);
 }
 

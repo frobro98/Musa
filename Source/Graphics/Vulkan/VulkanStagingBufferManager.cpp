@@ -106,7 +106,7 @@ VulkanStagingBuffer* VulkanStagingBufferManager::CreateFreshBuffer(VkDeviceSize 
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 	VkBuffer bufferHandle = VK_NULL_HANDLE;
-	[[maybe_unused]] VkResult result = vkCreateBuffer(logicalDevice.GetNativeHandle(), &bufferInfo, nullptr, &bufferHandle);
+	NOT_USED VkResult result = vkCreateBuffer(logicalDevice.GetNativeHandle(), &bufferInfo, nullptr, &bufferHandle);
 	CHECK_VK(result);
 
 	VulkanStagingBuffer* stagingBuffer = new VulkanStagingBuffer(bufferHandle, size);

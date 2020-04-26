@@ -26,7 +26,7 @@ Mesh* MeshManager::LoadPrimitive(Primitive primitiveMesh)
 	return nullptr;
 }
 
-Mesh* MeshManager::LoadFrustumForCamera([[maybe_unused]] Camera* cam)
+Mesh* MeshManager::LoadFrustumForCamera(NOT_USED Camera* cam)
 {
 	Vertex vertices[9];
 	Face faces[8];

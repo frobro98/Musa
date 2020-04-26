@@ -48,7 +48,7 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 	imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 	VkImage img;
-	[[maybe_unused]] VkResult result = vkCreateImage(logicalDevice.GetNativeHandle(), &imageInfo, nullptr, &img);
+	NOT_USED VkResult result = vkCreateImage(logicalDevice.GetNativeHandle(), &imageInfo, nullptr, &img);
 	CHECK_VK(result);
 
 	VkMemoryRequirements memoryRequirements;
@@ -75,7 +75,7 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 	allocations.Add(allocation);
 
 	ImageMemory* memory = nullptr;
-	[[maybe_unused]] bool success = allocation->TrySelectMemoryRange(
+	NOT_USED bool success = allocation->TrySelectMemoryRange(
 		(uint32)memoryRequirements.size,
 		(uint32)memoryRequirements.alignment,
 		memory
@@ -152,7 +152,7 @@ VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(VkDeviceSize bufferSize, 
 	uint32 suballocationAlignment = Math::Max(alignment, allocation->GetAlignment());
 
 	BufferMemory* memory;
-	[[maybe_unused]] bool success = allocation->TrySelectMemoryRange(bufferSize, suballocationAlignment, memory);
+	NOT_USED bool success = allocation->TrySelectMemoryRange(bufferSize, suballocationAlignment, memory);
 	Assert(success);
 
 	return new VulkanBuffer(logicalDevice, allocation->buffer, *memory);
@@ -188,7 +188,7 @@ BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(VkDeviceSize 
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 	VkBuffer bufferHandle = VK_NULL_HANDLE;
-	[[maybe_unused]] VkResult result = vkCreateBuffer(logicalDevice.GetNativeHandle(), &bufferInfo, nullptr, &bufferHandle);
+	NOT_USED VkResult result = vkCreateBuffer(logicalDevice.GetNativeHandle(), &bufferInfo, nullptr, &bufferHandle);
 	CHECK_VK(result);
 
 	VkMemoryRequirements memoryRequirements;

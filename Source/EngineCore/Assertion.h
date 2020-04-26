@@ -21,7 +21,7 @@ namespace Debug
 	}
 	
 	template<typename... Args>
-	inline void AssertionFailed(const tchar* expr, const tchar* file, int32 line, const tchar* desc, [[maybe_unused]] Args... args)
+	inline void AssertionFailed(const tchar* expr, const tchar* file, int32 line, const tchar* desc, NOT_USED Args... args)
 	{
 		UNUSED(expr, file, line, desc);
 		DebugBreak();

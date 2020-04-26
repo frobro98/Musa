@@ -30,7 +30,7 @@ void VulkanCommandBuffer::Initialize(VkCommandBufferLevel cmdBufferLevel, VkComm
 	cmdAllocInfo.commandPool = cmdPool;
 	cmdAllocInfo.level = cmdBufferLevel;
 
-	[[maybe_unused]] VkResult result = vkAllocateCommandBuffers(logicalDevice->GetNativeHandle(), &cmdAllocInfo, &commandBuffer);
+	NOT_USED VkResult result = vkAllocateCommandBuffers(logicalDevice->GetNativeHandle(), &cmdAllocInfo, &commandBuffer);
 	CHECK_VK(result);
 
 	state = CommandBufferState::Initialized;
@@ -66,7 +66,7 @@ void VulkanCommandBuffer::Begin(VkCommandBufferUsageFlags cbUsageFlags, const Vk
 	beginInfo.flags = cbUsageFlags;
 	// TODO - If command buffer usage flags are specific values, parts of the inheritance info must be valid. Therefore, these values must be checked...
 	beginInfo.pInheritanceInfo = pInheritanceInfo;
-	[[maybe_unused]] VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
+	NOT_USED VkResult result = vkBeginCommandBuffer(commandBuffer, &beginInfo);
 	CHECK_VK(result);
 	state = CommandBufferState::Began;
 }
@@ -124,7 +124,7 @@ void VulkanCommandBuffer::EndRenderPass()
 void VulkanCommandBuffer::End()
 {
 	Assert(state == CommandBufferState::Began);
-	[[maybe_unused]] VkResult result = vkEndCommandBuffer(commandBuffer);
+	NOT_USED VkResult result = vkEndCommandBuffer(commandBuffer);
 	CHECK_VK(result);
 	state = CommandBufferState::PendingSubmit;
 }
@@ -520,7 +520,7 @@ void VulkanCommandBufferManager::AllocateMissingCommandBuffers(uint32 remainingC
 	cmdAllocInfo.commandBufferCount = remainingCmdBufs;
 	cmdAllocInfo.commandPool = graphicsCmdPool;
 	cmdAllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
-	[[maybe_unused]] VkResult result = vkAllocateCommandBuffers(logicalDevice.GetNativeHandle(), &cmdAllocInfo, buffers.GetData());
+	NOT_USED VkResult result = vkAllocateCommandBuffers(logicalDevice.GetNativeHandle(), &cmdAllocInfo, buffers.GetData());
 	CHECK_VK(result);
 
 	for (uint32 i = 0; i < remainingCmdBufs; ++i)

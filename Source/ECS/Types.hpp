@@ -40,7 +40,7 @@ struct all_valid_component_types
 	static constexpr bool IsAllValid()
 	{
 		bool result = true;
-		[[maybe_unused]] int dummy[] = { 0, (result = result && is_valid_component_type_v<CompTypes>, 0)... };
+		NOT_USED int dummy[] = { 0, (result = result && is_valid_component_type_v<CompTypes>, 0)... };
 		return result;
 	}
 
@@ -56,7 +56,7 @@ struct all_can_attach_to_entity
 	static constexpr bool IsAllValid()
 	{
 		bool result = true;
-		[[maybe_unused]] int dummy[] = { 0, (result = result && can_attach_to_entity_v<CompTypes>, 0)... };
+		NOT_USED int dummy[] = { 0, (result = result && can_attach_to_entity_v<CompTypes>, 0)... };
 		return result;
 	}
 

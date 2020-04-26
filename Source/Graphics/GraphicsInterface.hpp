@@ -24,21 +24,21 @@ public:
 	virtual void InitializeGraphics() = 0;
 	virtual void DeinitializeGraphics() = 0;
 	
-	[[nodiscard]] virtual UniquePtr<NativeViewport> CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) = 0;
+	NODISCARD virtual UniquePtr<NativeViewport> CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) = 0;
 
-	[[nodiscard]] virtual UniquePtr<NativeVertexBuffer> CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const = 0;
-	[[nodiscard]] virtual UniquePtr<NativeIndexBuffer> CreateIndexBuffer(const DynamicArray<Face>& faces) const = 0;
-	[[nodiscard]] virtual UniquePtr<NativeUniformBuffer> CreateUniformBuffer(uint32 bufferSize) const = 0;
+	NODISCARD virtual UniquePtr<NativeVertexBuffer> CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const = 0;
+	NODISCARD virtual UniquePtr<NativeIndexBuffer> CreateIndexBuffer(const DynamicArray<Face>& faces) const = 0;
+	NODISCARD virtual UniquePtr<NativeUniformBuffer> CreateUniformBuffer(uint32 bufferSize) const = 0;
 	// TODO - Consider the model where the mapped ptr is returned and then the user does with it what they wish
 	virtual void PushBufferData(NativeUniformBuffer& buffer, const void* data) const = 0;
 
-	[[nodiscard]] virtual UniquePtr<NativeTexture> CreateEmptyTexture2D(uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
-	[[nodiscard]] virtual UniquePtr<NativeTexture> CreateInitializedTexture2D(const ResourceBlob& textureBlob, uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
-	[[nodiscard]] virtual NativeSampler* CreateTextureSampler(const SamplerDescription& params) = 0;
+	NODISCARD virtual UniquePtr<NativeTexture> CreateEmptyTexture2D(uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
+	NODISCARD virtual UniquePtr<NativeTexture> CreateInitializedTexture2D(const ResourceBlob& textureBlob, uint32 width, uint32 height, ImageFormat textureFormat, uint32 mipLevels, TextureUsage::Type usage) = 0;
+	NODISCARD virtual NativeSampler* CreateTextureSampler(const SamplerDescription& params) = 0;
 	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) = 0;
 
-	[[nodiscard]] virtual void* GetGraphicsDevice() = 0;
-	[[nodiscard]] virtual RenderContext* GetRenderContext() = 0;
+	NODISCARD virtual void* GetGraphicsDevice() = 0;
+	NODISCARD virtual RenderContext* GetRenderContext() = 0;
 };
 
 GraphicsInterface& GetGraphicsInterface();

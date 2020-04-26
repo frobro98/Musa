@@ -36,7 +36,7 @@ struct ArchetypeChunk
 static_assert(sizeof(ArchetypeChunk) == ArchetypeBlockSize);
 
 template<typename Comp>
-[[nodiscard]] inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
+NODISCARD inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 {
 	using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
 
@@ -75,9 +75,9 @@ template<typename Comp>
 void ConstructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex);
 void DestructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex);
 
-[[nodiscard]] uint32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity);
+NODISCARD uint32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity);
 void RemoveEntityFromChunk(ArchetypeChunk& chunk, uint32 chunkIndex);
-[[nodiscard]] uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChunkIndex, ArchetypeChunk& newChunk);
+NODISCARD uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChunkIndex, ArchetypeChunk& newChunk);
 }
 #pragma warning(pop)
 

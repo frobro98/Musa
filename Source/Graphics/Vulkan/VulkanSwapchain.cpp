@@ -232,7 +232,7 @@ void VulkanSwapchain::CreateSwapchain()
 	swapchainInfo.clipped = VK_TRUE;
 	swapchainInfo.oldSwapchain = swapchainHandle;
 
-	[[maybe_unused]] VkResult result = vkCreateSwapchainKHR(logicalDevice.GetNativeHandle(), &swapchainInfo, nullptr, &swapchainHandle);
+	NOT_USED VkResult result = vkCreateSwapchainKHR(logicalDevice.GetNativeHandle(), &swapchainInfo, nullptr, &swapchainHandle);
 	CHECK_VK(result);
 }
 

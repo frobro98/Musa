@@ -20,6 +20,24 @@ struct Archetype;
 struct Component;
 struct World;
 
+template<typename... Args>
+struct TypeList
+{
+};
+
+template<typename...>
+struct always_false
+{
+	static constexpr bool value = false;
+};
+
+template<typename... Args, typename Func>
+void ForeachInternal(TypeList<Args...> paramTypes, Func&& func)
+{
+	UNUSED(paramTypes, func);
+	static_assert(always_false<Args...>::value, "Foreach doesn't support more than 6 arguments");
+}
+
 constexpr uint32 MaxComponentsPerArchetype = 32;
 
 struct ECS_API World final

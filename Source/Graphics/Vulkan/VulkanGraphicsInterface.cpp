@@ -261,7 +261,7 @@ void VulkanGraphicsInterface::CreateInstance()
 	VkDebugReportCallbackCreateInfoEXT debugInfo = Vk::DebugReportCallbackInfo(VulkanDebugCallback, debugFlags, this);
 	VkInstanceCreateInfo instanceInfo = Vk::InstanceInfo(validationLayers, (uint32)ArraySize(validationLayers),
 		instanceExtensions, (uint32)ArraySize(instanceExtensions), &debugInfo);
-	[[maybe_unused]] VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
+	NOT_USED VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
 	CHECK_VK(result);
 
 	// Trying to get around warnings

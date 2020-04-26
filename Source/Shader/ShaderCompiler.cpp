@@ -309,7 +309,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 			// Reflection
 			SpvReflectShaderModule module = {};
-			[[maybe_unused]] SpvReflectResult spvResult = spvReflectCreateShaderModule(
+			NOT_USED SpvReflectResult spvResult = spvReflectCreateShaderModule(
 				spirv.size() * sizeof(uint32), spirv.data(), &module);
 			Assert(spvResult == SPV_REFLECT_RESULT_SUCCESS);
 

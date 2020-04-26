@@ -16,7 +16,7 @@ ImageGraphicsAllocation::ImageGraphicsAllocation(
 	image(img),
 	usageFlags(usage)
 {
-	[[maybe_unused]] VkResult result = vkBindImageMemory(device.GetNativeHandle(), image, graphicsMemory, 0);
+	NOT_USED VkResult result = vkBindImageMemory(device.GetNativeHandle(), image, graphicsMemory, 0);
 	CHECK_VK(result);
 }
 

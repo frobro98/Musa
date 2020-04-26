@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CoreFlags.hpp"
+
 #define WALL_WRN_PUSH				  \
 	__pragma(warning( push ))		  \
 	__pragma(warning(disable : 4820)) \
@@ -23,7 +25,6 @@
 	__pragma(warning( pop ))
 
 WALL_WRN_PUSH
-
 #include <new>
 #include <memory>
 #include <algorithm>
@@ -34,16 +35,10 @@ WALL_WRN_POP
 #include "Windows/WindowsDefinitions.h"
 #endif
 
-#define UNUSED(...)						\
-	__pragma(warning(push))				\
-	__pragma(warning(disable : 4548))	\
-	(__VA_ARGS__)						\
-	__pragma(warning(pop))
-
 #include "Types/Intrinsics.hpp"
 
 template <typename T, uint32 N>
-constexpr size_t ArraySize([[maybe_unused]] const T(&arr)[N])
+constexpr size_t ArraySize(NOT_USED const T(&arr)[N])
 {
 	return N;
 }

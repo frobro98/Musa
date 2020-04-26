@@ -12,7 +12,7 @@ enum HandledInput
 // Describes the input state as it is after some form of input is handled
 // THESE EVENTS DESCRIBE APPLICATION LEVEL EVENTS THAT HAPPEN
 // TODO - Consider renaming this to reflect that it's all about operating system level events that are important here
-class [[nodiscard]] InputEvents
+class NODISCARD InputEvents
 {
 public:
 	InputEvents() = default;

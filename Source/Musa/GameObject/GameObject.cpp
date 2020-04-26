@@ -150,7 +150,7 @@ void GameObject::ToggleDebugColor()
 	}
 }
 
-void GameObject::Update([[maybe_unused]] float tick)
+void GameObject::Update(NOT_USED float tick)
 {
 	Matrix4 Trans(TRANS, position);
 	Quat Rot(ROT_XYZ, rotX, rotY, rotZ);

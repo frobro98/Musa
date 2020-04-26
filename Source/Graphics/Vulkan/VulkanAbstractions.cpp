@@ -17,7 +17,7 @@ VkImageView VulkanImage::CreateView() const
 	imageViewInfo.components.a = VK_COMPONENT_SWIZZLE_A;
 
 	VkImageView imageView = VK_NULL_HANDLE;
-	[[maybe_unused]] VkResult result = vkCreateImageView(device->GetNativeHandle(), &imageViewInfo, nullptr, &imageView);
+	NOT_USED VkResult result = vkCreateImageView(device->GetNativeHandle(), &imageViewInfo, nullptr, &imageView);
 	CHECK_VK(result);
 	return imageView;
 }

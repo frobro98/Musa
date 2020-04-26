@@ -77,6 +77,6 @@ void VulkanShader::Compile(const DynamicArray<uint8>& source, ShaderStage stage)
 	shaderModInfo.codeSize = sourceSize;
 	shaderModInfo.pCode = shaderSource;
 
-	[[maybe_unused]] VkResult result = vkCreateShaderModule(logicalDevice->GetNativeHandle(), &shaderModInfo, nullptr, &shaderModule);
+	NOT_USED VkResult result = vkCreateShaderModule(logicalDevice->GetNativeHandle(), &shaderModInfo, nullptr, &shaderModule);
 	CHECK_VK(result);
 }

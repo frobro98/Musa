@@ -296,7 +296,7 @@ void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuff
 // i.e. the objects within the view frustum and the light "frustum"
 void RenderSceneForShadowMap(Renderer& renderer, Light* light, Scene& scene)
 {
-	[[maybe_unused]] Matrix proj = scene.GetScreenView().view.transforms.projectionMatrix;
+	NOT_USED Matrix proj = scene.GetScreenView().view.transforms.projectionMatrix;
 	LightDescription lightDesc = light->GetLightDescription();
 	TransformationUniformBuffer transformations;
 	transformations.view = Math::ConstructViewMatrix(light->GetPosition(), Vector::Zero , Vector::UpAxis);
