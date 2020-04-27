@@ -20,23 +20,85 @@ struct Archetype;
 struct Component;
 struct World;
 
-template<typename... Args>
-struct TypeList
-{
-};
-
-template<typename...>
-struct always_false
-{
-	static constexpr bool value = false;
-};
-
-template<typename... Args, typename Func>
-void ForeachInternal(TypeList<Args...> paramTypes, Func&& func)
-{
-	UNUSED(paramTypes, func);
-	static_assert(always_false<Args...>::value, "Foreach doesn't support more than 6 arguments");
-}
+// template<typename... Args>
+// struct TypeList
+// {
+// };
+// 
+// template<typename...>
+// struct always_false
+// {
+// 	static constexpr bool value = false;
+// };
+// 
+// template<typename... Args, typename Func>
+// void ForeachInternal(TypeList<Args...>, Func&&)
+// {
+// 	static_assert(always_false<Args...>::value, "Foreach doesn't support more than 6 arguments");
+// }
+// 
+// template<typename T0, typename Func>
+// void ForeachInternal(TypeList<T0> params, Func&& f)
+// {
+// 	printf("T0\n");
+// 
+// 	const ComponentType* type = GetTypeFor<T0>();
+// 	uint64 archetypeID = type->hash.archetypeBit;
+// 	World w;
+// 	
+// 	for (const auto& archetype : w.archetypes)
+// 	{
+// 		if (!!(archetype->archetypeHashID & archetypeID))
+// 		{
+// 			// We have one that might match
+// 			// Check the types living in the archetype
+// 			for (const auto& hash : archetype->typeHashes)
+// 			{
+// 				if (hash.typenameHash == type->hash.typenameHash)
+// 				{
+// 					// found type
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+// 
+// template<typename T0, typename T1, typename Func>
+// void ForeachInternal(TypeList<T0, T1> params, Func&& f)
+// {
+// 	printf("T0, T1\n");
+// }
+// 
+// template<typename T0, typename T1, typename T2, typename Func>
+// void ForeachInternal(TypeList<T0, T1, T2> params, Func&& f)
+// {
+// 	printf("T0, T1, T2\n");
+// }
+// 
+// template<typename T0, typename T1, typename T2, typename T3, typename Func>
+// void ForeachInternal(TypeList<T0, T1, T2, T3> params, Func&& f)
+// {
+// 	printf("T0, T1, T2, T3\n");
+// }
+// 
+// template<typename T0, typename T1, typename T2, typename T3, typename T4, typename Func>
+// void ForeachInternal(TypeList<T0, T1, T2, T3, T4> params, Func&& f)
+// {
+// 	printf("T0, T1, T2, T3, T4\n");
+// }
+// 
+// template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename Func>
+// void ForeachInternal(TypeList<T0, T1, T2, T3, T4, T5> params, Func&& f)
+// {
+// 	printf("T0, T1, T2, T3, T4, T5\n");
+// }
+// 
+// template<typename Func>
+// void Foreach(Func&& f)
+// {
+// 	using params = decltype(args(&Func::operator()));
+// 	ForeachInternal(params{}, std::forward<Func>(f));
+// }
 
 constexpr uint32 MaxComponentsPerArchetype = 32;
 
