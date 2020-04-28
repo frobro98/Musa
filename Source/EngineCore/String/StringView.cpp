@@ -2,7 +2,7 @@
 #include "Assertion.h"
 #include "CStringUtilities.hpp"
 #include "String.h"
-#include "FNV-1a.h"
+#include "Utilities/Hash.hpp"
 
 constexpr StringView::StringView(const tchar* str)
 	: string(str),

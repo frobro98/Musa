@@ -77,7 +77,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\Graphics;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625;4307</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -106,7 +106,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\Graphics;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625;4307</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
@@ -138,7 +138,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\Graphics;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625;4307</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
@@ -219,6 +219,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\Hash.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\TemplateUtils.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Version.hpp" />
@@ -249,6 +250,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer_win32.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Utilities\Hash.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

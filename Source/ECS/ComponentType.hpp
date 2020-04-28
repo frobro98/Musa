@@ -3,7 +3,7 @@
 #pragma warning(push)
 #pragma warning(disable:4307)
 
-#include "FNV-1a.h"
+#include "Utilities/Hash.hpp"
 #include "ECS/Internal/robin_hood.hpp"
 #include "ECS/Internal/TypenameHashing.hpp"
 

@@ -2,7 +2,7 @@
 
 #include "Guid.hpp"
 #include "Assertion.h"
-#include "FNV-1a.h"
+#include "Utilities/Hash.hpp"
 
 Guid::Guid()
 {

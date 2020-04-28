@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Platform.h"
-#include "FNV-1a.h"
+#include "Utilities/Hash.hpp"
 #include "String/CStringUtilities.hpp"
 #include "GUID/Guid.hpp"
 

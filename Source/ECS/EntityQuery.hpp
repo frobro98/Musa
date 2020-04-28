@@ -8,7 +8,7 @@ namespace Musa
 struct EntityQuery
 {
 	template <typename... Comps>
-	EntityQuery& With();
+	EntityQuery& All();
 	template <typename... Comps>
 	EntityQuery& Any();
 	template <typename... Comps>

@@ -1,6 +1,6 @@
 
 #include "String/String.h"
-#include "FNV-1a.h"
+#include "Utilities/Hash.hpp"
 #include "MemoryUtilities.h"
 #include "CStringUtilities.hpp"
 #include "Assertion.h"

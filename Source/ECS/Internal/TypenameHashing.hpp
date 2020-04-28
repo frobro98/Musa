@@ -3,6 +3,7 @@
 #include <type_traits>
 #include "Types/Intrinsics.hpp"
 #include "String/StringView.hpp"
+#include "String/CStringUtilities.hpp"
 
 namespace Musa::Internal
 {

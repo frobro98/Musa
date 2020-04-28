@@ -2,7 +2,7 @@
 
 #include "EngineCore/Types/Intrinsics.hpp"
 #include "VertexInputDescription.hpp"
-#include "EngineCore/FNV-1a.h"
+#include "Utilities/Hash.hpp"
 #include "RenderTargetDescription.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Math/MathFunctions.hpp"

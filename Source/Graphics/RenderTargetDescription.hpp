@@ -3,7 +3,7 @@
 #include "Types/Intrinsics.hpp"
 #include "Containers/FixedArray.hpp"
 #include "Extents.hpp"
-#include "FNV-1a.h"
+#include "Utilities/Hash.hpp"
 #include "MemoryUtilities.h"
 #include "Texture/ImageFormats.h"
 #include "Graphics/GraphicsAPIDefinitions.hpp"

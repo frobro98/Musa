@@ -231,6 +231,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Types\FunctionRef.hpp">
       <Filter>Source\Types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Utilities\Hash.hpp">
+      <Filter>Source\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp">
@@ -298,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\fmt\os.cc">
       <Filter>Source\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Utilities\Hash.cpp">
+      <Filter>Source\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
