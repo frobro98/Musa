@@ -29,10 +29,18 @@ constexpr size_t Strlen(const tchar* str) noexcept
 
 constexpr int32 Strcmp(const tchar* str1, const tchar* str2) noexcept
 {
+	if (str1 == nullptr)
+	{
+		return -1;
+	}
+	if (str2 == nullptr)
+	{
+		return 1;
+	}
 	size_t len1 = Strlen(str1);
 	size_t len2 = Strlen(str2);
-	size_t minLen = len1 < len2 ? len1 : len2;
-	for (; minLen; --minLen, ++str1, ++str2)
+	size_t maxLen = len1 > len2 ? len1 : len2;
+	for (; maxLen; --maxLen, ++str1, ++str2)
 	{
 		if (*str1 < *str2)
 		{
