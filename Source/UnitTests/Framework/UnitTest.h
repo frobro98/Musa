@@ -145,6 +145,7 @@ private:
 #define CHECK_ZERO(value) CHECK(value == 0)
 
 #define CHECK_PTR(value) CHECK(value != nullptr);
+#define CHECK_REF(value) CHECK(&value != nullptr);
 #define CHECK_NULL(value) CHECK(value == nullptr);
 
 #define CHECK_EQ(value1, value2) CHECK(value1 == value2)
@@ -156,8 +157,6 @@ private:
 
 
 #define CHECK_FLTEQ( value1, value2, ...) CHECK(Math::IsEqual(value1, value2 VA_ARGS(__VA_ARGS__)))
-
-
 
 #define TEST(TestName, GroupName)													\
 class TestName##GroupName##_Test : public UnitTest									\

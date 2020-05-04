@@ -11,10 +11,21 @@ class UniquePtr
 public:
 	UniquePtr() = default;
 	UniquePtr(OwnedType* owningPtr);
+	template <typename Type, typename = std::enable_if_t<std::is_convertible_v<Type*, OwnedType*>>>
+	UniquePtr(UniquePtr<Type>&& up) noexcept
+		: ptr(up.Release())
+	{
+	}
+
 	~UniquePtr();
 
-	UniquePtr(UniquePtr&&);
-	UniquePtr& operator=(UniquePtr&&);
+	UniquePtr(UniquePtr&&) noexcept;
+	UniquePtr& operator=(UniquePtr&&) noexcept;
+	template <typename Type, typename = std::enable_if_t<std::is_convertible_v<Type*, OwnedType*>>>
+	UniquePtr& operator=(UniquePtr<Type>&& other) noexcept
+	{
+		Reset(other.Release());
+	}
 
 	UniquePtr(const UniquePtr&) = delete;
 	UniquePtr& operator=(const UniquePtr&) = delete;
@@ -26,7 +37,7 @@ public:
 	operator bool() const;
 
 	NODISCARD OwnedType* Get() const;
-	NODISCARD OwnedType* Release();
+	NODISCARD OwnedType* Release() noexcept;
 	void Reset(OwnedType* newPtr = nullptr);
 
 	void Swap(UniquePtr& other);
@@ -63,14 +74,14 @@ inline UniquePtr<OwnedType>::~UniquePtr()
 }
 
 template<typename OwnedType>
-inline UniquePtr<OwnedType>::UniquePtr(UniquePtr&& other)
+inline UniquePtr<OwnedType>::UniquePtr(UniquePtr&& other) noexcept
 {
 	ptr = other.ptr;
 	other.ptr = nullptr;
 }
 
 template<typename OwnedType>
-inline UniquePtr<OwnedType>& UniquePtr<OwnedType>::operator=(UniquePtr&& other)
+inline UniquePtr<OwnedType>& UniquePtr<OwnedType>::operator=(UniquePtr&& other) noexcept
 {
 	if (this != &other)
 	{
@@ -135,7 +146,7 @@ inline void UniquePtr<OwnedType>::ReleaseOwnedPtr()
 }
 
 template<typename OwnedType>
-inline OwnedType* UniquePtr<OwnedType>::Release()
+inline OwnedType* UniquePtr<OwnedType>::Release() noexcept
 {
 	OwnedType* p = ptr;
 	ptr = nullptr;

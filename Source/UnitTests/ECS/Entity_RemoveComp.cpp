@@ -26,7 +26,7 @@ TEST(EntityAddOneRemoveOne, EntityRemoveComponent)
 	CHECK_EQ(w.archetypes.Size(), 1);
 
 	CHECK_EQ(posArchType->types.Size(), 1);
-	CHECK_EQ(posArchType->types[0], GetTypeFor<Position>());
+	CHECK_EQ(posArchType->types[0], GetComponentTypeFor<Position>());
 
 	w.RemoveComponent<Position>(e);
 
@@ -56,7 +56,7 @@ TEST(EntityAddTwoRemoveOne, EntityRemoveComponent)
 	CHECK_EQ(w.archetypes.Size(), 1);
 
 	CHECK_EQ(posArchType->types.Size(), 1);
-	CHECK_EQ(posArchType->types[0], GetTypeFor<Position>());
+	CHECK_EQ(posArchType->types[0], GetComponentTypeFor<Position>());
 
 	w.AddComponentTo<Rotation>(e);
 	CHECK_TRUE(w.HasComponent<Position>(e));
@@ -99,7 +99,7 @@ TEST(EntityAddThreeRemoveOne, EntityRemoveComponent)
 	CHECK_EQ(w.archetypes.Size(), 1);
 
 	CHECK_EQ(posArchType->types.Size(), 1);
-	CHECK_EQ(posArchType->types[0], GetTypeFor<Position>());
+	CHECK_EQ(posArchType->types[0], GetComponentTypeFor<Position>());
 
 	// Add Rotation
 	w.AddComponentTo<Rotation>(e);
@@ -156,7 +156,7 @@ TEST(EntityAddThreeRemoveTwo, EntityRemoveComponent)
 	CHECK_EQ(w.archetypes.Size(), 1);
 
 	CHECK_EQ(posArchType->types.Size(), 1);
-	CHECK_EQ(posArchType->types[0], GetTypeFor<Position>());
+	CHECK_EQ(posArchType->types[0], GetComponentTypeFor<Position>());
 
 	// Add Rotation
 	w.AddComponentTo<Rotation>(e);
@@ -227,7 +227,7 @@ TEST(EntityAddThreeRemoveThree, EntityRemoveComponent)
 	CHECK_EQ(w.archetypes.Size(), 1);
 
 	CHECK_EQ(posArchType->types.Size(), 1);
-	CHECK_EQ(posArchType->types[0], GetTypeFor<Position>());
+	CHECK_EQ(posArchType->types[0], GetComponentTypeFor<Position>());
 
 	// Add Rotation
 	w.AddComponentTo<Rotation>(e);

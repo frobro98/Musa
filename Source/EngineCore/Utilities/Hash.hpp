@@ -4,12 +4,16 @@
 
 #include "Types/Intrinsics.hpp"
 
+template <typename T>
+forceinline void HashCombine(uint32& hash, const T& obj)
+{
+	hash ^= GetHash(obj) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+}
+
 constexpr uint32 fnv32(const void* hashData, uint32 dataSize)
 {
 	uint8* byteData = (uint8 *)hashData;
 
-	// These numbers were gotten off of this website
-	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
 	constexpr uint32 offsetBasis = 0x811c9dc5;
 	constexpr uint32 hashPrime = 0x1000193;
 
@@ -26,8 +30,6 @@ constexpr uint32 fnv32(const void* hashData, uint32 dataSize)
 
 constexpr uint32 fnv32(const tchar* strData)
 {
-	// These numbers were gotten off of this website
-	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
 	constexpr uint32 offsetBasis = 0x811c9dc5;
 	constexpr uint32 hashPrime = 0x1000193;
 
@@ -47,8 +49,6 @@ constexpr uint64 fnv64(const void* hashData, uint64 dataSize)
 {
 	uint8* byteData = (uint8 *)hashData;
 
-	// These numbers were gotten off of this website
-	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
 	constexpr uint64 offsetBasis = 0xcbf29ce484222325;
 	constexpr uint64 hashPrime = 0x100000001b3;
 
@@ -65,8 +65,6 @@ constexpr uint64 fnv64(const void* hashData, uint64 dataSize)
 
 constexpr uint64 fnv64(const tchar* strData)
 {
-	// These numbers were gotten off of this website
-	// http://www.isthe.com/chongo/tech/comp/fnv/#FNV-param
 	constexpr uint64 offsetBasis = 0xcbf29ce484222325;
 	constexpr uint64 hashPrime = 0x100000001b3;
 

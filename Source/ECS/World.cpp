@@ -90,6 +90,13 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 	}
 }
 
+Entity World::CreateEntity(const ComponentType ** types, uint32 typeCount)
+{
+	Assert(typeCount < MaxComponentsPerArchetype);
+	InsertionSort(types, typeCount);
+	return ConstructEntityInternals(*this, types, typeCount);
+}
+
 Entity World::CreateEntity(Archetype& archetype)
 {
 	return CreateEntityWith(archetype);
@@ -112,6 +119,9 @@ bool World::IsEntityValid(Entity entity) const
 	}
 
 	return false;
+}
+void World::Update()
+{
 }
 }
 

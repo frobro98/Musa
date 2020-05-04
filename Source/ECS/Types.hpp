@@ -7,7 +7,9 @@
 using EntityIndex = uint32;
 using EntityVersion = uint32;
 
-using ArchetypeHashID = uint64;
+using ArchetypeMask = uint64;
+
+constexpr uint32 MaxComponentsPerArchetype = 32;
 
 namespace Musa
 {

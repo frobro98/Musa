@@ -6,9 +6,9 @@
 
 namespace Musa
 {
-static constexpr ArchetypeHashID BuildArchetypeHash(const ComponentType** types, size_t typeCount)
+static constexpr ArchetypeMask BuildArchetypeHash(const ComponentType** types, size_t typeCount)
 {
-	ArchetypeHashID hashId = 0;
+	ArchetypeMask hashId = 0;
 	for (size_t i = 0; i < typeCount; ++i)
 	{
 		hashId |= types[i]->hash.archetypeBit;
@@ -70,7 +70,7 @@ static forceinline ArchetypeChunk* CreateNewChunkFor(Archetype& archetype)
 	return ret;
 }
 
-static Archetype* FindMatchingArchetype(World& world, ArchetypeHashID hashId, const ComponentType** compTypes, size_t typeCount)
+static Archetype* FindMatchingArchetype(World& world, ArchetypeMask hashId, const ComponentType** compTypes, size_t typeCount)
 {
 	Archetype* archetype = nullptr;
 	auto iter = world.archetypesByHash.find(hashId);
@@ -140,20 +140,20 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 
 	Internal::CheckForSameComponents(compTypes, typeCount);
 
-	ArchetypeHashID hashId = BuildArchetypeHash(compTypes, typeCount);
+	ArchetypeMask hashId = BuildArchetypeHash(compTypes, typeCount);
 
 	Archetype* archetype = FindMatchingArchetype(world, hashId, compTypes, typeCount);
 	if (archetype == nullptr)
 	{
 		archetype = new Archetype;
 		archetype->world = &world;
-		archetype->archetypeHashID = hashId;
+		archetype->archetypeMask = hashId;
 		archetype->fullChunkCount = 0;
 
 		FillOutTypeInformation(*archetype, compTypes, typeCount);
 		UniquePtr<Archetype> upArchetype(archetype);
 
-		world.archetypeHashIDs.Add(upArchetype->archetypeHashID);
+		world.archetypeHashIDs.Add(upArchetype->archetypeMask);
 		world.archetypesByHash[hashId].Add(upArchetype.Get());
 		world.archetypes.Add(std::move(upArchetype));
 	}

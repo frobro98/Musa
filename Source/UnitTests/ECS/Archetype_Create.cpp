@@ -15,7 +15,7 @@ TEST(ArchetypeCreateOne, ArchetypeTesting)
 	World w;
 
 	Archetype* archetype = GetOrCreateArchetypeFrom<Position>(w);
-	const ComponentType* posType = GetTypeFor<Position>();
+	const ComponentType* posType = GetComponentTypeFor<Position>();
 
 	CHECK(archetype->world);
 	CHECK_EQ(archetype->world, &w);
@@ -44,7 +44,7 @@ TEST(ArchetypeCreateTwo, ArchetypeTesting)
 	World w;
 
 	Archetype* archetype0 = GetOrCreateArchetypeFrom<Position>(w);
-	const ComponentType* posType = GetTypeFor<Position>();
+	const ComponentType* posType = GetComponentTypeFor<Position>();
 
 	// First Archetype Creation
 
@@ -73,7 +73,7 @@ TEST(ArchetypeCreateTwo, ArchetypeTesting)
 
 	// Second Archetype Creation
 	Archetype* archetype1 = GetOrCreateArchetypeFrom<Position, Rotation>(w);
-	const ComponentType* rotType = GetTypeFor<Rotation>();
+	const ComponentType* rotType = GetComponentTypeFor<Rotation>();
 
 	CHECK(archetype1->world);
 	CHECK_EQ(archetype1->world, &w);
@@ -111,7 +111,7 @@ TEST(ArchetypeCreateThree, ArchetypeTesting)
 	World w;
 
 	Archetype* archetype0 = GetOrCreateArchetypeFrom<Position>(w);
-	const ComponentType* posType = GetTypeFor<Position>();
+	const ComponentType* posType = GetComponentTypeFor<Position>();
 
 	// First Archetype Creation
 
@@ -140,7 +140,7 @@ TEST(ArchetypeCreateThree, ArchetypeTesting)
 
 	// Second Archetype Creation
 	Archetype* archetype1 = GetOrCreateArchetypeFrom<Position, Rotation>(w);
-	const ComponentType* rotType = GetTypeFor<Rotation>();
+	const ComponentType* rotType = GetComponentTypeFor<Rotation>();
 
 	CHECK(archetype1->world);
 	CHECK_EQ(archetype1->world, &w);
@@ -180,7 +180,7 @@ TEST(ArchetypeCreateThree, ArchetypeTesting)
 
 	// Third Archetype Creation
 	Archetype* archetype2 = GetOrCreateArchetypeFrom<Position, Rotation, Movement>(w);
-	const ComponentType* moveType = GetTypeFor<Movement>();
+	const ComponentType* moveType = GetComponentTypeFor<Movement>();
 
 	CHECK(archetype2->world);
 	CHECK_EQ(archetype2->world, &w);
@@ -238,7 +238,7 @@ TEST(ArchetypeGetExisting, ArchetypeTesting)
 	World w;
 
 	Archetype* archetype = GetOrCreateArchetypeFrom<Position>(w);
-	const ComponentType* posType = GetTypeFor<Position>();
+	const ComponentType* posType = GetComponentTypeFor<Position>();
 
 	CHECK(archetype->world);
 	CHECK_EQ(archetype->world, &w);

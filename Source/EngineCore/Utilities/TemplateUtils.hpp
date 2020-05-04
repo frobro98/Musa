@@ -50,3 +50,43 @@ struct all_convertable_to
 
 template<typename ConvertTo, typename... ConvertFrom>
 inline constexpr bool all_convertable_to_v = all_convertable_to<ConvertTo, ConvertFrom...>::value;
+
+template <typename Src, typename Dst>
+struct is_memcpy_constructable
+{
+	static_assert(std::conjunction_v<all_same_type_v<Src, Dst>>, "Can't memcpy an object into a different typed object");
+	static_assert(!std::is_reference_v<Src> && !std::is_reference_v<Dst>, "References can't be used with memcpy");
+
+	static constexpr bool value = false;
+};
+
+template <typename T>
+struct is_memcpy_constructable<T, T>
+{
+	static constexpr bool value = std::is_trivially_copy_constructible_v<T>;
+};
+
+template <typename T>
+struct is_memcpy_constructable<const T*, T*>
+{
+	static constexpr bool value = true;
+};
+
+template <typename Src, typename Dst>
+struct is_memcpy_constructable<const Src, Dst> : is_memcpy_constructable<Src, Dst>
+{
+};
+
+template <typename Src, typename Dst>
+inline constexpr bool is_memcpy_constructable_v = is_memcpy_constructable<Src, Dst>::value;
+
+// This is for static_assert calls that need to be always false, but can't be given false because it just wouldn't compile
+template<typename...>
+struct always_false
+{
+	static constexpr bool value = false;
+};
+
+template <typename... Args>
+inline constexpr bool always_false_v = always_false<Args...>::value;
+

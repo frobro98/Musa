@@ -42,7 +42,7 @@ public:
 	~RefPtr();
 	
 	template<typename... Args>
-	RefPtr(Args... args);
+	RefPtr(Args&&... args);
 
 	RefPtr(const RefPtr& other);
 	RefPtr(RefPtr&& other);
@@ -75,7 +75,7 @@ inline RefPtr<Type, Count>::~RefPtr()
 
 template<typename Type, class Count>
 template<typename ...Args>
-inline RefPtr<Type, Count>::RefPtr(Args ...args)
+inline RefPtr<Type, Count>::RefPtr(Args&&... args)
 	:data(std::forward<Args>(args)...),
 	counter(new Count)
 {

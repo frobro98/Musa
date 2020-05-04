@@ -6,13 +6,15 @@
 #include "Containers/StaticArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
 #include "ECS/Types.hpp"
+#include "ECS/DLLDef.h"
 #include "ECS/ComponentType.hpp"
 #include "ECS/ArchetypeChunk.hpp"
-#include "ECS/World.hpp"
 
 
 namespace Musa
 {
+struct World;
+
 namespace Internal
 {
 static forceinline void CheckForSameComponents(const ComponentType** types, size_t typeCount)
@@ -55,7 +57,7 @@ struct Archetype
 	ArchetypeComponentHashList typeHashes;
 	ArchetypeComponentOffsetList offsets;
 
-	ArchetypeHashID archetypeHashID;
+	ArchetypeMask archetypeMask;
 	uint32 entityCapacity;
 	uint32 fullChunkCount;
 };
@@ -69,7 +71,7 @@ ECS_TEMPLATE Archetype* GetOrCreateArchetypeFrom(World& world)
 
 	if constexpr (sizeof...(Comps) > 0)
 	{
-		static const ComponentType* compTypes[] = { GetTypeFor<Comps>()... };
+		static const ComponentType* compTypes[] = { GetComponentTypeFor<Comps>()... };
 		constexpr size_t typeCount = ArraySize(compTypes);
 
 		InsertionSort(compTypes, typeCount);
@@ -84,12 +86,6 @@ ECS_TEMPLATE Archetype* GetOrCreateArchetypeFrom(World& world)
 }
 
 ArchetypeChunk& GetOrCreateFreeArchetypeChunk(Archetype& archetype);
-
-forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
-{
-	Assert(world.IsEntityValid(entity));
-	return *world.entityBridges[entity.id].chunk->footer.owner;
-}
 
 // TODO - This isn't really that great of a name I think, and it shouldn't be this public
 void SetEntitysArchetype(World& world, Entity entity, Archetype& archetype);

@@ -3,6 +3,7 @@
 #include "Archetype.hpp"
 #include "Entity.hpp"
 #include "ComponentType.hpp"
+#include "ECS/World.hpp"
 
 namespace Musa
 {

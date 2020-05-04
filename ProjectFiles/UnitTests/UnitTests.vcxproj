@@ -62,7 +62,7 @@
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -85,7 +85,7 @@ echo         Copied ECS.pdb!</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -109,7 +109,7 @@ echo         Copied ECS.pdb!</Command>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -131,6 +131,7 @@ echo         Copied ECS.pdb!</Command>
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_CreateDestroy.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_RemoveComp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_SetComponentData.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\World_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Combo.cpp" />

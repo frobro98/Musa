@@ -11,25 +11,17 @@
 #include "ECS/ComponentType.hpp"
 #include "ECS/Internal/robin_hood.hpp"
 #include "ECS/ArchetypeChunk.hpp"
+#include "ECS/System.hpp"
+#include "ECS/SystemType.hpp"
+#include "ECS/Archetype.hpp"
 
 namespace Musa
 {
-
-struct ArchetypeChunk;
-struct Archetype;
-struct Component;
-struct World;
-
 // template<typename... Args>
 // struct TypeList
 // {
 // };
 // 
-// template<typename...>
-// struct always_false
-// {
-// 	static constexpr bool value = false;
-// };
 // 
 // template<typename... Args, typename Func>
 // void ForeachInternal(TypeList<Args...>, Func&&)
@@ -100,7 +92,8 @@ struct World;
 // 	ForeachInternal(params{}, std::forward<Func>(f));
 // }
 
-constexpr uint32 MaxComponentsPerArchetype = 32;
+struct Component;
+class System;
 
 struct ECS_API World final
 {
@@ -112,11 +105,19 @@ struct ECS_API World final
 	Entity CreateEntity();
 	template<uint32 N>
 	Entity CreateEntity(const ComponentType* (&types)[N]);
+	Entity CreateEntity(const ComponentType** types, uint32 typeCount);
 
 	Entity CreateEntity(Archetype& archetype);
 	void DestroyEntity(Entity entity);
 
 	bool IsEntityValid(Entity entity) const;
+
+	template <class Sys, typename... Args>
+	System& CreateSystem(Args&&... args);
+	template <class Sys>
+	void DestroySystem();
+
+	void Update();
 
 	template <typename Comp>
 	void AddComponentTo(Entity entity);
@@ -133,9 +134,12 @@ struct ECS_API World final
 	DynamicArray<EntityBridge> entityBridges;
 	DynamicArray<uint32> deadIndices;
 
+	DynamicArray<const SystemType*> systemTypesInWorld;
+	DynamicArray<UniquePtr<System>> systems;
+
 	DynamicArray<UniquePtr<Archetype>> archetypes;
-	DynamicArray<ArchetypeHashID> archetypeHashIDs;
-	robin_hood::unordered_flat_map<ArchetypeHashID, DynamicArray<Archetype*>> archetypesByHash;
+	DynamicArray<ArchetypeMask> archetypeHashIDs;
+	robin_hood::unordered_flat_map<ArchetypeMask, DynamicArray<Archetype*>> archetypesByHash;
 	uint32 totalLivingEntities = 0;
 
 private:
@@ -144,13 +148,19 @@ private:
 	void UnhookComponentType(World& world, Entity entity, const ComponentType* type);
 };
 
+forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
+{
+	Assert(world.IsEntityValid(entity));
+	return *world.entityBridges[entity.id].chunk->footer.owner;
+}
+
 template<typename ...Comps>
 inline Entity World::CreateEntity()
 {
 	static_assert(all_can_attach_to_entity_v<Comps...>, "Invalid type trying to attach to Entity");
 	if constexpr (sizeof...(Comps) > 0)
 	{
-		static const ComponentType* types[] = { GetTypeFor<Comps>()... };
+		static const ComponentType* types[] = { GetComponentTypeFor<Comps>()... };
 		constexpr uint32 typeCount = (uint32)ArraySize(types);
 		static_assert(typeCount < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
 
@@ -168,16 +178,37 @@ template<uint32 N>
 inline Entity World::CreateEntity(const ComponentType* (&types)[N])
 {
 	static_assert(N < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
+	return CreateEntity(types, N);
+}
 
-	InsertionSort(types, N);
-	return ConstructEntityInternals(*this, types, N);
+template<class Sys, typename ...Args>
+inline System& World::CreateSystem(Args&&... args)
+{
+	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
+	const SystemType* type = GetSystemTypeFor<Sys>();
+	Sys* system = new Sys(*this, std::forward<Args>(args)...);
+	systemTypesInWorld.Add(type);
+	//systems.Add(UniquePtr<Sys>(system));
+	UniquePtr<Sys> s(system);
+	systems.Add(std::move(s));
+	return *system;
+}
+
+template<class Sys>
+inline void World::DestroySystem()
+{
+	const SystemType* type = GetSystemTypeFor<Sys>();
+	int32 index = systemTypesInWorld.FindFirstIndex(type);
+	Assert(index >= 0);
+	systemTypesInWorld.Remove(index);
+	//systems.Remove(index);
 }
 
 template<typename Comp>
 inline void World::AddComponentTo(Entity entity)
 {
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to attach to Entity");
-	const ComponentType* type = GetTypeFor<Comp>();
+	const ComponentType* type = GetComponentTypeFor<Comp>();
 	HookUpComponentType(*this, entity, type);
 }
 
@@ -185,7 +216,7 @@ template<typename Comp>
 inline void World::RemoveComponent(Entity entity)
 {
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to remove from Entity");
-	const ComponentType* type = GetTypeFor<Comp>();
+	const ComponentType* type = GetComponentTypeFor<Comp>();
 	UnhookComponentType(*this, entity, type);
 }
 

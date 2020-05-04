@@ -130,6 +130,9 @@
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_SetComponentData.cpp">
       <Filter>UnitTests\ECS</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_Create.cpp">
+      <Filter>UnitTests\ECS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTracker.h">

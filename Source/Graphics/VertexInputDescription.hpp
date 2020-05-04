@@ -6,6 +6,7 @@
 
 #include "EngineCore/Types/Intrinsics.hpp"
 #include "Musa/Mesh/GeometryPrimitives.h"
+#include "Utilities/TemplateUtils.hpp"
 
 enum class VertexInputType : uint16
 {
@@ -61,7 +62,7 @@ struct VertexInputDescriptionList
 template<class MeshType>
 inline const VertexInputDescriptionList GetVertexInput()
 { 
-	static_assert(!std::is_same_v<MeshType,MeshType>, "The type passed in doesn't have a vertex input defined");
+	static_assert(always_false_v<MeshType>, "The type passed in doesn't have a vertex input defined");
 }
 
 template<>

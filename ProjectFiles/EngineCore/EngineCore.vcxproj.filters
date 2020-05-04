@@ -37,6 +37,9 @@
     <Filter Include="Source\fmt">
       <UniqueIdentifier>{db8472a5-c908-49e0-babc-19622f5bee7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Logging">
+      <UniqueIdentifier>{7cb41f4f-18fe-4b16-87b7-7f70dc0ee0ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h">
@@ -49,9 +52,6 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\DirectoryLocations.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\FNV-1a.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\HashBasicTypes.h">

@@ -5,6 +5,7 @@
 #include "MemoryUtilities.h"
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
+#include "Utilities/TemplateUtils.hpp"
 
 template<class Type>
 class DynamicArray
@@ -45,6 +46,7 @@ public:
 	// Creates an empty element in the array. Element isn't initialized in any way
 	uint32 AddEmpty(uint32 emptyElements = 1);
 	uint32 AddDefault(uint32 emptyElements = 1);
+	uint32 AddRange(const pointerType range, uint32 rangeSize);
 
 	template<class... Args>
 	uint32 Emplace(Args... args);
@@ -255,6 +257,7 @@ private:
 	void Construct(uint32 index);
 	void Construct(uint32 startIndex, uint32 endIndex);
 
+	// TODO - consider moving these operations out so more things could use them?
 	template <typename U>
 	std::enable_if_t<
 		std::is_same_v<pointerType, U> &&
@@ -268,9 +271,20 @@ private:
 	>
 		ConstructRange(U start, U end);
 
+	template <typename SrcType, typename DstType>
+	std::enable_if_t<
+		is_memcpy_constructable_v<SrcType, DstType>
+	>
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+
+	template <typename SrcType, typename DstType>
+	std::enable_if_t<
+		!is_memcpy_constructable_v<SrcType, DstType>
+	>
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+
 	void Destroy(uint32 index);
 	void Destroy(uint32 startIndex, uint32 endIndex);
-	void DestroyAll();
 
 	template <typename U>
 	std::enable_if_t<
@@ -351,6 +365,8 @@ DynamicArray<Type>::DynamicArray(const Type(&arr)[N])
 template<class Type>
 DynamicArray<Type>::~DynamicArray()
 {
+	DestroyRange(data, data + arraySize);
+
 	free(data);
 	arrayCapacity = 0;
 	arraySize = 0;
@@ -374,7 +390,7 @@ DynamicArray<Type>::DynamicArray(const DynamicArray<OtherType>& otherArr)
 template<class Type>
 DynamicArray<Type>::DynamicArray(DynamicArray&& otherArr) noexcept
 {
-	DestroyAll();
+	DestroyRange(data, data + arraySize);
 	free(data);
 
 	data = otherArr.data;
@@ -403,7 +419,7 @@ DynamicArray<Type>& DynamicArray<Type>::operator=(DynamicArray&& otherArr) noexc
 {
 	if (this != &otherArr)
 	{
-		DestroyAll();
+		DestroyRange(data, data + arraySize);
 		free(data);
 
 		data = otherArr.data;
@@ -469,6 +485,17 @@ inline uint32 DynamicArray<Type>::AddDefault(uint32 emptyElements)
 	uint32 index = arraySize;
 	arraySize = newSize;
 	Construct(index, arraySize);
+	return index;
+}
+
+template<class Type>
+inline uint32 DynamicArray<Type>::AddRange(const pointerType range, uint32 rangeSize)
+{
+	Assert(range);
+	Assert(rangeSize > 0);
+
+	uint32 index = AddEmpty(rangeSize);
+	ConstructRangeInPlace(data + index, range, rangeSize);
 	return index;
 }
 
@@ -874,6 +901,33 @@ inline DynamicArray<Type>::ConstructRange(U start, U end)
 }
 
 template<class Type>
+template <typename SrcType, typename DstType>
+std::enable_if_t<
+	is_memcpy_constructable_v<SrcType, DstType>
+>
+inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count)
+{
+	const uint32 byteCount = sizeof(SrcType) * count;
+	Memcpy(dst, type, count);
+}
+
+template<class Type>
+template <typename SrcType, typename DstType>
+std::enable_if_t<
+	!is_memcpy_constructable_v<SrcType, DstType>
+>
+	inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* src, uint32 count)
+{
+	while (count > 0)
+	{
+		::new(dst) SrcType(*src);
+		++src;
+		++dst;
+		++count;
+	}
+}
+
+template<class Type>
 inline void DynamicArray<Type>::Destroy(uint32 index)
 {
 	Assert(index >= 0 && index < arraySize);
@@ -886,15 +940,6 @@ inline void DynamicArray<Type>::Destroy(uint32 startIndex, uint32 endIndex)
 	Assert(startIndex < arraySize);
 	Assert(endIndex >= startIndex && endIndex <= arraySize);
 	DestroyRange(data + startIndex, data + endIndex);
-}
-
-template<class Type>
-inline void DynamicArray<Type>::DestroyAll()
-{
-	if (arraySize > 0)
-	{
-		DestroyRange(data, data + arraySize);
-	}
 }
 
 template<class Type>
@@ -973,7 +1018,7 @@ inline uint32 GetHash(const DynamicArray<Elem>& arr)
 	uint32 hash = 0;
 	for (const auto& elem : arr)
 	{
-		hash |= GetHash(elem);
+		HashCombine(hash, elem);
 	}
 
 	return hash;

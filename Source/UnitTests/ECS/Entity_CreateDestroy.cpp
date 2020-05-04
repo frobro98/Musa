@@ -67,7 +67,7 @@ TEST(EntityDestroy, EntityCreateDestroy)
 
 	CHECK_PTR(a);
 	CHECK_EQ(a->types.Size(), 1);
-	CHECK_EQ(a->types[0], GetTypeFor<Position>());
+	CHECK_EQ(a->types[0], GetComponentTypeFor<Position>());
 
 	CHECK_EQ(a->chunks.Size(), 1);
 	CHECK_ZERO(a->chunks[0]->footer.numEntities);

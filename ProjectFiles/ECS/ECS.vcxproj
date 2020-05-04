@@ -240,6 +240,8 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\ECS\Archetype.cpp" />
     <ClCompile Include="..\..\Source\ECS\ArchetypeChunk.cpp" />
     <ClCompile Include="..\..\Source\ECS\Entity.cpp" />
+    <ClCompile Include="..\..\Source\ECS\QueryDescription.cpp" />
+    <ClCompile Include="..\..\Source\ECS\System.cpp" />
     <ClCompile Include="..\..\Source\ECS\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -250,10 +252,12 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\ECS\ComponentType.hpp" />
     <ClInclude Include="..\..\Source\ECS\DLLDef.h" />
     <ClInclude Include="..\..\Source\ECS\Entity.hpp" />
-    <ClInclude Include="..\..\Source\ECS\EntityQuery.hpp" />
+    <ClInclude Include="..\..\Source\ECS\Query.hpp" />
     <ClInclude Include="..\..\Source\ECS\Internal\robin_hood.hpp" />
-    <ClInclude Include="..\..\Source\ECS\Internal\SystemHierarchyRoot.hpp" />
     <ClInclude Include="..\..\Source\ECS\Internal\TypenameHashing.hpp" />
+    <ClInclude Include="..\..\Source\ECS\QueryDescription.hpp" />
+    <ClInclude Include="..\..\Source\ECS\System.hpp" />
+    <ClInclude Include="..\..\Source\ECS\SystemType.hpp" />
     <ClInclude Include="..\..\Source\ECS\Types.hpp" />
     <ClInclude Include="..\..\Source\ECS\World.hpp" />
   </ItemGroup>

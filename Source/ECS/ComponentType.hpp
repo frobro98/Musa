@@ -9,6 +9,8 @@
 
 namespace Musa
 {
+struct Component;
+
 using ComponentCtor = void(*)(void*);
 using ComponentDtor = void(*)(void*);
 
@@ -33,8 +35,9 @@ struct ComponentType
 };
 
 template <typename Comp>
-forceinline constexpr ComponentType MakeTypeFor()
+forceinline ComponentType MakeComponentTypeFor()
 {
+	static_assert(std::is_base_of_v<Component, Comp>, "Type passed in as a template parameter must be derived from Musa::Component");
 	static_assert(!std::is_empty_v<Comp>, "A component can't be size 0");
 
 	ComponentType type = {};
@@ -63,16 +66,18 @@ forceinline constexpr ComponentType MakeTypeFor()
 static robin_hood::unordered_node_map<uint64, ComponentType> componentTypeCache;
 
 template <typename Comp>
-forceinline const ComponentType* GetTypeFor()
+forceinline const ComponentType* GetComponentTypeFor()
 {
-	static const ComponentType* type = []()
+	static_assert(std::is_base_of_v<Component, Comp>, "Type passed in as a template parameter must be derived from Musa::Component");
+
+	static const ComponentType* type = []
 	{
 		constexpr uint64 typeHash = Musa::Internal::template TypenameHash<Comp>();
 
 		auto typeIter = componentTypeCache.find(typeHash);
 		if (typeIter == componentTypeCache.end())
 		{
-			const ComponentType t = MakeTypeFor<Comp>();
+			const ComponentType t = MakeComponentTypeFor<Comp>();
 			componentTypeCache[typeHash] = t;
 		}
 
@@ -80,6 +85,24 @@ forceinline const ComponentType* GetTypeFor()
 		return &componentTypeCache[typeHash];
 	}();
 	return type;
+}
+
+forceinline const ComponentType* GetComponentTypeFrom(uint64 typeKey)
+{
+	Assert(componentTypeCache.find(typeKey) != componentTypeCache.end());
+	return &componentTypeCache[typeKey];
+}
+
+template <typename Comp>
+constexpr forceinline uint64 GetComponentTypeKeyFor()
+{
+	static_assert(std::is_base_of_v<Component, Comp>, "Type passed in as a template parameter must be derived from Musa::Component");
+	return Musa::Internal::template TypenameHash<Comp>();
+}
+
+forceinline uint64 GetComponentTypeKeyFor(const ComponentType* type)
+{
+	return type->hash.typenameHash;
 }
 
 }
