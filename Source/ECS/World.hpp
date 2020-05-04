@@ -188,9 +188,9 @@ inline System& World::CreateSystem(Args&&... args)
 	const SystemType* type = GetSystemTypeFor<Sys>();
 	Sys* system = new Sys(*this, std::forward<Args>(args)...);
 	systemTypesInWorld.Add(type);
-	//systems.Add(UniquePtr<Sys>(system));
-	UniquePtr<Sys> s(system);
-	systems.Add(std::move(s));
+	systems.Add(UniquePtr<Sys>(system));
+// 	UniquePtr<Sys> s(system);
+// 	systems.Add(std::move(s));
 	return *system;
 }
 
