@@ -278,9 +278,6 @@
     <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp">
       <Filter>Source\Types</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\EngineCore\String\StringView.cpp">
-      <Filter>Source\String</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp">
       <Filter>Source</Filter>
     </ClCompile>

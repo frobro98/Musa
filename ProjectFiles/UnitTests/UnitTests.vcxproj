@@ -83,7 +83,7 @@ echo         Copied ECS.pdb!</Command>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Source\;$(SolutionDir)Source\UnitTests;$(SolutionDir)Source\EngineCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

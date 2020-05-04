@@ -5,8 +5,8 @@
 // TODO - Move String up a directory level....or make Core required for every lib
 #include "String/String.h"
 #include "Path/Path.hpp"
-#include "TextureChunk.h"
-#include "ImageFormats.h"
+#include "Texture/TextureChunk.h"
+#include "Texture/ImageFormats.h"
 
 struct Texture;
 

@@ -4,9 +4,9 @@
 #include "Types/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "String/String.h"
-#include "ImageFormats.h"
-#include "Texture2D/MipmapLevel.hpp"
-#include "TextureSampleSettings.hpp"
+#include "Texture/ImageFormats.h"
+#include "Texture/Texture2D/MipmapLevel.hpp"
+#include "Texture/TextureSampleSettings.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class SerializeBase;

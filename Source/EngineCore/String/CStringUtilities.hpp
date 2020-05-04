@@ -101,20 +101,21 @@ constexpr const tchar* Strstr(const tchar* str, const tchar* findStr) noexcept
 	{
 		if (*str == *findStr)
 		{
-			res = str;
+			const tchar* foundPtr = str;
 			const tchar* findPtr = findStr + 1;
 			while (*findPtr)
 			{
+				++str;
 				if (*findPtr != *str)
 				{
 					break;
 				}
-				++str;
 				++findPtr;
 			}
 
 			if (*findPtr == 0)
 			{
+				res = foundPtr;
 				break;
 			}
 		}
@@ -134,11 +135,11 @@ constexpr tchar* Strstr(tchar* str, const tchar* findStr) noexcept
 			const tchar* findPtr = findStr + 1;
 			while (*findPtr)
 			{
+				++str;
 				if (*findPtr != *str)
 				{
 					break;
 				}
-				++str;
 				++findPtr;
 			}
 

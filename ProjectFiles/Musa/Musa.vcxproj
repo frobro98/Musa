@@ -214,23 +214,23 @@
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>freetyped.lib;ECS_d.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetyped.lib;EngineCore_d.lib;ECS_d.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Thread_d.lib;File_d.lib;Math_d.lib;Memory_d.lib;PCSTrees_d.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\ThirdParty\lib;$(SolutionDir)\Binaries;</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>MSVCRT;LIBCMTD</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
 echo         Copied ispc_texcomp.dll!
-copy "$(SolutionDir)Binaries\ECS_d.dll" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.dll" "$(OutputPath)" &gt; nul
 echo         Copied ECS_d.dll!
-copy "$(SolutionDir)Binaries\ECS_d.pdb" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.pdb" "$(OutputPath)" &gt; nul
 echo         Copied ECS_d.pdb!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -244,7 +244,7 @@ echo         Copied ECS_d.pdb!</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
@@ -276,7 +276,7 @@ echo         Copied ECS.pdb!</Command>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;$(SolutionDir)Source\ThirdParty;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>

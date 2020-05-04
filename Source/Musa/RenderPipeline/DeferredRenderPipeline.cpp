@@ -42,7 +42,7 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 	targetDescription.hasDepth = false;
 
 	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-	colorDesc.format = ImageFormat::BGRA_8norm;
+	colorDesc.format = ImageFormat::RGBA_8norm;
 	colorDesc.load = LoadOperation::Clear;
 	colorDesc.store = StoreOperation::Store;
 	colorDesc.stencilLoad = LoadOperation::DontCare;

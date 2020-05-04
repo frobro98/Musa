@@ -7,7 +7,7 @@
 
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
-#include "Texture2D/Texture.h"
+#include "Texture/Texture2D/Texture.h"
 #include "Mesh/MeshSceneInfo.hpp"
 #include "Mesh/Mesh.h"
 #include "Shader/Material.h"
