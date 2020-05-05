@@ -2,6 +2,7 @@
 
 #include "PlatformDefinitions.h"
 #include "Math/IntVector2.hpp"
+#include "Types/Uncopyable.hpp"
 
 class WindowInputHandler;
 
@@ -12,13 +13,11 @@ enum class WindowMode : uint32
 	Undefined = 2
 };
 
-class Window
+class Window : private Uncopyable
 {
 public:
 	Window(HINSTANCE instance, WindowInputHandler& inputHandler, uint32 xPos, uint32 yPos, uint32 width, uint32 height);
 	~Window();
-	Window(const Window&) = delete;
-	Window& operator=(const Window&) = delete;
 
 	void SetWindowMode(WindowMode mode);
 	void* GetWindowHandle() const;

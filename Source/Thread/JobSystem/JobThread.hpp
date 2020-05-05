@@ -4,19 +4,17 @@
 #include <condition_variable>
 
 #include "Types/ConcurrentTypes.hpp"
+#include "Types/Uncopyable.hpp"
 #include "Thread/JobSystem/Job.hpp"
 #include "Thread/ThreadingUtilities.hpp"
 
 class JobSystem;
 
-class JobThread
+class JobThread : private Uncopyable
 {
 public:
 	JobThread(JobSystem& jobSys, uint32 index, ThreadSleepPrimitive& systemSleepPrim);
 	~JobThread();
-
-	JobThread(const JobThread&) = delete;
-	JobThread& operator=(const JobThread&) = delete;
 
 	void Start();
 	void WaitStop();

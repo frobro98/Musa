@@ -1,11 +1,12 @@
 #pragma once
 
 #include "EngineCore/PlatformDefinitions.h"
+#include "Types/Uncopyable.hpp"
 
 // TODO - Fix PCSTree implementation because animations don't really compile now...
 
 template<class TreeType>
-class PCSTree
+class PCSTree : private Uncopyable
 {
 public:
 	struct Info

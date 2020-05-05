@@ -43,6 +43,8 @@ using ArchetypeComponentList = DynamicArray<const ComponentType*>;
 using ArchetypeComponentHashList = DynamicArray<ComponentTypeHash>;
 using ArchetypeComponentOffsetList = DynamicArray<size_t>;
 
+// NOTE - Currently, Archetypes will live on within the World
+
 // Contains blocks of memory which contain the actual component data
 // Similar to how Unity ECS archetypes are implemented
 struct Archetype

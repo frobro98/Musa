@@ -19,6 +19,7 @@ forceinline ArchetypeMask BuildQueryMask(const ComponentType** types, size_t typ
 	{
 		mask |= types[i]->hash.archetypeBit;
 	}
+	return mask;
 }
 
 struct QueryDescription

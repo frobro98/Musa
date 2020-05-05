@@ -216,7 +216,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Types\Intrinsics.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Types\Optional.h" />
     <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Types\Uncopyable.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Types\Unmoveable.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\Hash.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp" />

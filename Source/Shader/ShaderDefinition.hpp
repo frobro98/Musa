@@ -2,6 +2,7 @@
 
 #include <type_traits>
 
+#include "Types/Uncopyable.hpp"
 #include "String/String.h"
 #include "Path/Path.hpp"
 #include "Shader/ShaderStages.hpp"
@@ -23,15 +24,12 @@ static uint32 definitionCounter = 0;
 
 // Contains shader meta data and used to uniquely identify a shader
 // Similar to the component type
-struct ShaderDefinition final
+struct ShaderDefinition final : private Uncopyable
 {
 	using InitializeWithCompiledOutputFunc = ShaderObject* (&)(const ShaderCompiledOutput& compiledOutput);
 
 	template <typename... ShaderDefs>
 	ShaderDefinition(ShaderStage stage, const tchar* relativeSourcePath, const tchar* entryPoint, InitializeWithCompiledOutputFunc shaderObjFunc, ShaderDefs... defines);
-
-	ShaderDefinition(const ShaderDefinition&) = delete;
-	ShaderDefinition& operator=(const ShaderDefinition&) = delete;
 
 	inline const ShaderCompilerDefinitions& GetCompilerDefines() const { return definitions; }
 	inline ShaderObject* GetCompiledShaderObject(const ShaderCompiledOutput& output) const { return compiledShaderFunc(output); }

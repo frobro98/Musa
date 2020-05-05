@@ -1,19 +1,18 @@
 #pragma once
 
 #include "VulkanAbstractions.h"
+#include "Types/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 struct Face;
 class VulkanDevice;
 
-class VulkanIndexBuffer : public NativeIndexBuffer
+class VulkanIndexBuffer : public NativeIndexBuffer, private Uncopyable
 {
 public:
 	VulkanIndexBuffer(VulkanDevice& device, const DynamicArray<Face>& indices);
 	~VulkanIndexBuffer();
-	VulkanIndexBuffer(const VulkanIndexBuffer&) = delete;
-	VulkanIndexBuffer& operator=(const VulkanIndexBuffer&) = delete;
 
 	inline VulkanBuffer& GetBuffer() const { return *indexBuffer; }
 	inline uint32 GetNumberOfIndicies() const { return numIndicies; }

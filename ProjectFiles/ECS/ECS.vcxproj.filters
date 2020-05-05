@@ -74,5 +74,8 @@
     <ClInclude Include="..\..\Source\ECS\SystemType.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\QueryCache.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

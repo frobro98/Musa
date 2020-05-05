@@ -2,6 +2,7 @@
 
 #include "VulkanDefinitions.h"
 
+#include "Types/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 
@@ -12,14 +13,11 @@ class VulkanCommandBuffer;
 class VulkanFramebuffer;
 struct VulkanTexture;
 
-class VulkanSwapchain
+class VulkanSwapchain : private Uncopyable
 {
 public:
 	VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurface);
 	~VulkanSwapchain();
-
-	VulkanSwapchain(const VulkanSwapchain&) = delete;
-	VulkanSwapchain& operator=(const VulkanSwapchain&) = delete;
 
 	void Initialize();
 	void Terminate();

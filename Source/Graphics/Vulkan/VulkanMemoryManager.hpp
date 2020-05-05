@@ -3,6 +3,8 @@
 #include "VulkanDefinitions.h"
 #include "VulkanBufferAllocation.hpp"
 #include "Containers/DynamicArray.hpp"
+#include "Types/Uncopyable.hpp"
+#include "Types/Unmoveable.hpp"
 
 class VulkanDevice;
 class GraphicsAllocation;
@@ -11,16 +13,11 @@ struct ImageGraphicsAllocation;
 struct VulkanBuffer;
 struct VulkanImage;
 
-class VulkanMemoryManager
+class VulkanMemoryManager : private Uncopyable, private Unmoveable
 {
 public:
 	VulkanMemoryManager(VulkanDevice& device);
 	~VulkanMemoryManager();
-
-	VulkanMemoryManager(const VulkanMemoryManager&) = delete;
-	VulkanMemoryManager(VulkanMemoryManager&&) = delete;
-	VulkanMemoryManager& operator=(const VulkanMemoryManager&) = delete;
-	VulkanMemoryManager& operator=(VulkanMemoryManager&&) = delete;
 
 	VulkanImage* AllocateImage(
 		uint32 imgWidth, uint32 imgHeight, VkFormat imgFormat,

@@ -37,12 +37,13 @@
  //---------------------------------------------------------------------------
 
 #include "Time.h"
+#include "Types/Uncopyable.hpp"
 
 //---------------------------------------------------------------------------
 // TEMPLATE DECLARATION:
 //---------------------------------------------------------------------------
 
-class Timer
+class Timer : private Uncopyable
 {
 public:
 	//-----------------------------------------------------------------
@@ -51,8 +52,6 @@ public:
 
 	/* Creates a Timer for the platform you are compiling on. */
 	Timer();
-	Timer(const Timer &) = delete;
-	Timer & operator = (const Timer &) = delete;
 	~Timer();
 
 	//-----------------------------------------------------------------

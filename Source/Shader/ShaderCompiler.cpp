@@ -3,6 +3,7 @@ WALL_WRN_PUSH
 #include <sstream>
 WALL_WRN_POP
 
+#include "Types/Uncopyable.hpp"
 #include "ShaderCompiler.h"
 #include "ShaderStructure.hpp"
 #include "ShaderExternal.h"
@@ -18,16 +19,10 @@ WALL_WRN_POP
 namespace
 {
 
-class SpvReadBuf : public std::stringbuf
+class SpvReadBuf : public std::stringbuf, private Uncopyable
 {
 public:
-
-	SpvReadBuf()
-	{
-
-	}
-
-	SpvReadBuf& operator=(const SpvReadBuf&) = delete;
+	SpvReadBuf() = default;
 
 	virtual int32 sync() override
 	{

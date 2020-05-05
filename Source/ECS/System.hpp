@@ -30,7 +30,7 @@ public:
 
 	NODISCARD Query GetQueryFor(const QueryDescription& qb);
 	template <typename... CompTypes>
-	NODISCARD Query GetQueryFor(CompTypes... types);
+	NODISCARD Query GetQueryFor();
 
 protected:
 // 	QueryDescription BeginQuery();
@@ -43,8 +43,10 @@ private:
 };
 
 template<typename ...CompTypes>
-inline Query System::GetQueryFor(CompTypes ...types)
+inline Query System::GetQueryFor()
 {
-	return Query();
+	QueryDescription queryDesc;
+	queryDesc.Require<CompTypes...>();
+	return GetQueryFor(queryDesc);
 }
 }

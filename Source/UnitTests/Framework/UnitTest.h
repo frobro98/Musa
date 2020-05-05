@@ -8,6 +8,7 @@
 #include "Platform.h"
 #include "Assertion.h"
 #include "DebugOutput.h"
+#include "Types/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/MacroHelpers.hpp"
 #include "Math/MathFunctions.hpp"
@@ -51,14 +52,9 @@ struct UnitTest
 	const char * name;
 };
 
-class UnitTestRegistry
+class UnitTestRegistry : private Uncopyable
 {
 public:
-	// Big four
-	UnitTestRegistry(const UnitTestRegistry &) = delete;
-	UnitTestRegistry & operator = (const UnitTestRegistry &) = delete;
-
-
 	static void AddTest(UnitTest& test)
 	{
 		UnitTestRegistry *pRegistry = UnitTestRegistry::privGetInstance();

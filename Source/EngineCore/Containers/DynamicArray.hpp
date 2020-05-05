@@ -908,7 +908,7 @@ std::enable_if_t<
 inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count)
 {
 	const uint32 byteCount = sizeof(SrcType) * count;
-	Memcpy(dst, type, count);
+	Memcpy(dst, type, byteCount);
 }
 
 template<class Type>

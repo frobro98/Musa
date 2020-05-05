@@ -1,16 +1,14 @@
 #pragma once
 
 #include "VulkanAbstractions.h"
+#include "Types/Uncopyable.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
-class VulkanUniformBuffer : public NativeUniformBuffer
+class VulkanUniformBuffer : public NativeUniformBuffer , private Uncopyable
 {
 public:
 	VulkanUniformBuffer(const VulkanDevice& device, uint32 bufferSize);
 	~VulkanUniformBuffer();
-
-	VulkanUniformBuffer(const VulkanUniformBuffer&) = delete;
-	VulkanUniformBuffer& operator=(const VulkanUniformBuffer&) = delete;
 
 	void UpdateUniforms(const void* bufferData);
 

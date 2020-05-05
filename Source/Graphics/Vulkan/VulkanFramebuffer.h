@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VulkanDefinitions.h"
+#include "Types/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "EngineCore/Extents.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
@@ -12,13 +13,11 @@ struct RenderTargetDescription;
 struct NativeRenderTargets;
 struct VulkanTexture;
 
-class VulkanFramebuffer
+class VulkanFramebuffer : private Uncopyable
 {
 public:
 	VulkanFramebuffer(const VulkanDevice& device);
 	~VulkanFramebuffer();
-	VulkanFramebuffer(const VulkanFramebuffer&) = delete;
-	VulkanFramebuffer& operator=(const VulkanFramebuffer&) = delete;
 
 	void Initialize(const RenderTargetDescription& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_);
 

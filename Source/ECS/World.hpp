@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types/Intrinsics.hpp"
+#include "Types/Uncopyable.hpp"
 #include "Types/UniquePtr.hpp"
 #include "Algorithms.hpp"
 #include "Containers/DynamicArray.hpp"
@@ -95,11 +96,9 @@ namespace Musa
 struct Component;
 class System;
 
-struct ECS_API World final
+struct ECS_API World final : private Uncopyable
 {
 	World() = default;
-	World(const World&) = delete;
-	World& operator=(const World&) = delete;
 
 	template<typename... Comps>
 	Entity CreateEntity();
@@ -113,7 +112,7 @@ struct ECS_API World final
 	bool IsEntityValid(Entity entity) const;
 
 	template <class Sys, typename... Args>
-	System& CreateSystem(Args&&... args);
+	Sys& CreateSystem(Args&&... args);
 	template <class Sys>
 	void DestroySystem();
 
@@ -182,26 +181,25 @@ inline Entity World::CreateEntity(const ComponentType* (&types)[N])
 }
 
 template<class Sys, typename ...Args>
-inline System& World::CreateSystem(Args&&... args)
+inline Sys& World::CreateSystem(Args&&... args)
 {
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	const SystemType* type = GetSystemTypeFor<Sys>();
 	Sys* system = new Sys(*this, std::forward<Args>(args)...);
 	systemTypesInWorld.Add(type);
 	systems.Add(UniquePtr<Sys>(system));
-// 	UniquePtr<Sys> s(system);
-// 	systems.Add(std::move(s));
 	return *system;
 }
 
 template<class Sys>
 inline void World::DestroySystem()
 {
+	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	const SystemType* type = GetSystemTypeFor<Sys>();
 	int32 index = systemTypesInWorld.FindFirstIndex(type);
 	Assert(index >= 0);
 	systemTypesInWorld.Remove(index);
-	//systems.Remove(index);
+	systems.Remove(index);
 }
 
 template<typename Comp>

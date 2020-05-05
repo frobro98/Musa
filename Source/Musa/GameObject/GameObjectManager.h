@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Types/Uncopyable.hpp"
 #include "GameObject/GameObject.h"
 
 class GameWorld;
 
-class GameObjectManager final
+class GameObjectManager final : private Uncopyable
 {
 public:
 	GameObjectManager(GameWorld& world);
@@ -21,9 +22,6 @@ public:
 	void Remove(GameObject* go);
 
 private:
-	GameObjectManager(const GameObjectManager&) = delete;
-	GameObjectManager& operator=(const GameObjectManager&) = delete;
-
 	// TODO - Move to scene class
 	GameWorld* world = nullptr;
 };

@@ -62,7 +62,7 @@ forceinline ComponentType MakeComponentTypeFor()
 	return type;
 }
 
-// TODO - I'm not entirely sure why this might be needed. Consider refactoring this out
+// TODO - This should stay around, but there needs to be another way to get at the component types. Perhaps as an index?
 static robin_hood::unordered_node_map<uint64, ComponentType> componentTypeCache;
 
 template <typename Comp>

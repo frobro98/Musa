@@ -1,15 +1,12 @@
 #pragma once
 
 #include "VulkanAbstractions.h"
+#include "Types/Uncopyable.hpp"
 
-class VulkanStorageBuffer
+class VulkanStorageBuffer : private Uncopyable
 {
 public:
 	VulkanStorageBuffer() = default;
-	//~VulkanStorageBuffer();
-
-	VulkanStorageBuffer(const VulkanStorageBuffer&) = delete;
-	VulkanStorageBuffer& operator=(const VulkanStorageBuffer&) = delete;
 
 	void Initialize(const VulkanDevice& device, uint32 bufferSize);
 	void UpdateStorage(const void* bufferData);

@@ -234,6 +234,12 @@
     <ClInclude Include="..\..\Source\EngineCore\Utilities\Hash.hpp">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\Uncopyable.hpp">
+      <Filter>Source\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Types\Unmoveable.hpp">
+      <Filter>Source\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp">

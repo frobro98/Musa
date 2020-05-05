@@ -2,6 +2,7 @@
 
 #include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
+#include "Types/Uncopyable.hpp"
 
 class VulkanDevice;
 
@@ -51,14 +52,11 @@ private:
 
 };
 
-class VulkanFenceManager
+class VulkanFenceManager : private Uncopyable
 {
 public:
 	VulkanFenceManager(const VulkanDevice& device);
 	~VulkanFenceManager();
-
-	VulkanFenceManager(const VulkanFenceManager&) = delete;
-	VulkanFenceManager& operator=(const VulkanFenceManager&) = delete;
 
 	VulkanFence* CreateFence();
 	void DestroyFence(const VulkanFence& fence);

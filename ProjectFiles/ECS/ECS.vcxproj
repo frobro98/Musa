@@ -255,6 +255,7 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\ECS\Query.hpp" />
     <ClInclude Include="..\..\Source\ECS\Internal\robin_hood.hpp" />
     <ClInclude Include="..\..\Source\ECS\Internal\TypenameHashing.hpp" />
+    <ClInclude Include="..\..\Source\ECS\QueryCache.hpp" />
     <ClInclude Include="..\..\Source\ECS\QueryDescription.hpp" />
     <ClInclude Include="..\..\Source\ECS\System.hpp" />
     <ClInclude Include="..\..\Source\ECS\SystemType.hpp" />

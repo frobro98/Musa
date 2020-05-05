@@ -131,7 +131,8 @@ echo         Copied ECS.pdb!</Command>
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_CreateDestroy.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_RemoveComp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_SetComponentData.cpp" />
-    <ClCompile Include="..\..\Source\UnitTests\ECS\System_Create.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_CreateDestroy.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_Query.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\World_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Math\Matrix\Combo.cpp" />

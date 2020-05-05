@@ -3,6 +3,7 @@
 #include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Map.h"
+#include "Types/Uncopyable.hpp"
 
 #include "VulkanAbstractions.h"
 
@@ -12,13 +13,11 @@ class VulkanCommandBuffer;
 class WriteDescriptorSet;
 struct TextureSampler;
 
-class VulkanDescriptorSetLayout
+class VulkanDescriptorSetLayout : private Uncopyable
 {
 public:
 	VulkanDescriptorSetLayout(VulkanDevice& device);
 	~VulkanDescriptorSetLayout();
-
-	VulkanDescriptorSetLayout& operator=(const VulkanDescriptorSetLayout&) = delete;
 
 	void AddDescriptorBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStages, uint32 binding);
 	void BindLayout();
@@ -36,12 +35,10 @@ private:
 	VulkanDevice& logicalDevice;
 };
 
-class VulkanDescriptorSet
+class VulkanDescriptorSet : private Uncopyable
 {
 public:
 	VulkanDescriptorSet(const VulkanDevice& device, VulkanFence* fence, VkDescriptorSet ds, VulkanDescriptorSetLayout* layout);
-
-	VulkanDescriptorSet& operator=(const VulkanDescriptorSet&) = delete;
 
 	inline VkDescriptorSet GetNativeHandle() const { return descriptorSet; }
 	inline const VulkanFence* GetFence() const { return associatedFence; }

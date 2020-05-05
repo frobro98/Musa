@@ -3,14 +3,14 @@
 #include "mcpp/mcpp.h"
 #include "ShaderStructure.hpp"
 #include "Containers/Map.h"
+#include "Types/Uncopyable.hpp"
 
 class Path;
 
-class ShaderPreprocessor
+class ShaderPreprocessor : private Uncopyable
 {
 public:
 	ShaderPreprocessor(ShaderStage stage, const Map<String, String>& definitions);
-	ShaderPreprocessor& operator=(const ShaderPreprocessor&) = delete;
 
 	void Preprocess(const Path& pathToShader);
 	const char* ErrorString() const;
