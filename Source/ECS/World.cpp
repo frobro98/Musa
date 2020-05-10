@@ -90,6 +90,11 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 	}
 }
 
+World::World()
+	: queryCache(new QueryCache(*this))
+{
+}
+
 Entity World::CreateEntity(const ComponentType ** types, uint32 typeCount)
 {
 	Assert(typeCount < MaxComponentsPerArchetype);
@@ -122,6 +127,14 @@ bool World::IsEntityValid(Entity entity) const
 }
 void World::Update()
 {
+	// Sort systems if necessary
+
+	// Update all systems
+	for (auto& system : systems)
+	{
+		system->Update();
+		ResetInternalCache();
+	}
 }
 }
 

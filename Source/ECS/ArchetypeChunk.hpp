@@ -21,7 +21,7 @@ struct ArchetypeDataFooter
 	DynamicArray<ComponentTypeHash>* typeHashes = nullptr;
 	DynamicArray<size_t>* offsets = nullptr;
 	Archetype* owner = nullptr;
-	uint32 numEntities = 0;
+	uint32 entityCount = 0;
 };
 
 constexpr uint32 UsableChunkSize = ArchetypeBlockSize - sizeof(ArchetypeDataFooter);
@@ -40,36 +40,33 @@ NODISCARD inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 {
 	using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
 
-	if (chunk.footer.numEntities > 0)
+	if constexpr (std::is_same_v<Comp, Entity>)
 	{
-		if constexpr (std::is_same_v<Comp, Entity>)
-		{
-			Entity* entityArr = reinterpret_cast<Entity*>(&chunk);
-			return ChunkArray<Entity>(*entityArr, chunk.footer.numEntities);
-		}
-		else
-		{
-			constexpr uint64 hash = Musa::Internal::TypenameHash<sanitizedType>();
-			auto& hashes = *chunk.footer.typeHashes;
-			const uint32 typeCount = hashes.Size();
+		Entity* entityArr = reinterpret_cast<Entity*>(&chunk);
+		return ChunkArray<Entity>(*entityArr, chunk.footer.entityCount);
+	}
+	else
+	{
+		constexpr uint64 hash = Musa::Internal::TypenameHash<sanitizedType>();
+		auto& hashes = *chunk.footer.typeHashes;
+		const uint32 typeCount = hashes.Size();
 
-			if (typeCount > 0)
+		if (typeCount > 0)
+		{
+			for (uint32 i = 0; i < typeCount; ++i)
 			{
-				for (uint32 i = 0; i < typeCount; ++i)
+				if (hashes[i].typenameHash == hash)
 				{
-					if (hashes[i].typenameHash == hash)
-					{
-						auto& offsets = *chunk.footer.offsets;
-						sanitizedType* ptr = reinterpret_cast<sanitizedType*>((uint8*)&chunk + offsets[i]);
-						const uint32 numEntities = chunk.footer.numEntities;
-						return ChunkArray<sanitizedType>(*ptr, numEntities);
-					}
+					auto& offsets = *chunk.footer.offsets;
+					sanitizedType* ptr = reinterpret_cast<sanitizedType*>((uint8*)&chunk + offsets[i]);
+					const uint32 numEntities = chunk.footer.entityCount;
+					return ChunkArray<sanitizedType>(*ptr, numEntities);
 				}
 			}
 		}
-	}
 
-	return ChunkArray<sanitizedType>();
+		return ChunkArray<sanitizedType>();
+	}
 }
 
 void ConstructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex);

@@ -164,6 +164,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Algorithms.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Assertion.h" />
     <ClInclude Include="..\..\Source\EngineCore\Color.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\Containers\ArrayView.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\DynamicArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\FixedArray.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\List.h" />

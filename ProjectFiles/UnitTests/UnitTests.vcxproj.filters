@@ -136,6 +136,15 @@
     <ClCompile Include="..\..\Source\UnitTests\ECS\System_Query.cpp">
       <Filter>UnitTests\ECS</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_IterateEntities.cpp">
+      <Filter>UnitTests\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\ECS\World_SystemUpdate.cpp">
+      <Filter>UnitTests\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_ChunkBehaviors.cpp">
+      <Filter>UnitTests\ECS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\UnitTests\Framework\MemTracker.h">

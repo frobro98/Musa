@@ -240,6 +240,8 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\ECS\Archetype.cpp" />
     <ClCompile Include="..\..\Source\ECS\ArchetypeChunk.cpp" />
     <ClCompile Include="..\..\Source\ECS\Entity.cpp" />
+    <ClCompile Include="..\..\Source\ECS\Query.cpp" />
+    <ClCompile Include="..\..\Source\ECS\QueryCache.cpp" />
     <ClCompile Include="..\..\Source\ECS\QueryDescription.cpp" />
     <ClCompile Include="..\..\Source\ECS\System.cpp" />
     <ClCompile Include="..\..\Source\ECS\World.cpp" />

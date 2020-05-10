@@ -148,6 +148,7 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 		archetype = new Archetype;
 		archetype->world = &world;
 		archetype->archetypeMask = hashId;
+		archetype->totalEntityCount = 0;
 		archetype->fullChunkCount = 0;
 
 		FillOutTypeInformation(*archetype, compTypes, typeCount);
@@ -171,7 +172,7 @@ ArchetypeChunk& GetOrCreateFreeArchetypeChunk(Archetype& archetype)
 	else
 	{
 		chunk = archetype.chunks.Last().Get();
-		if (chunk->footer.numEntities == archetype.entityCapacity)
+		if (chunk->footer.entityCount == archetype.entityCapacity)
 		{
 			chunk = CreateNewChunkFor(archetype);
 		}
@@ -199,7 +200,7 @@ void SortChunksForFullness(Archetype& archetype)
 	const uint32 maxSize = archetype.entityCapacity;
 	auto& chunks = archetype.chunks;
 	auto isChunkFull = [maxSize](ArchetypeChunk& chunk) {
-		return chunk.footer.numEntities == maxSize;
+		return chunk.footer.entityCount == maxSize;
 	};
 
 	// Find if not

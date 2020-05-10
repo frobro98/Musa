@@ -15,6 +15,7 @@
 #include "ECS/System.hpp"
 #include "ECS/SystemType.hpp"
 #include "ECS/Archetype.hpp"
+#include "ECS/QueryCache.hpp"
 
 namespace Musa
 {
@@ -98,7 +99,7 @@ class System;
 
 struct ECS_API World final : private Uncopyable
 {
-	World() = default;
+	World();
 
 	template<typename... Comps>
 	Entity CreateEntity();
@@ -129,17 +130,19 @@ struct ECS_API World final : private Uncopyable
 	template <typename Comp>
 	bool HasComponent(Entity entity) const;
 
+	DynamicArray<const SystemType*> systemTypesInWorld;
+	DynamicArray<UniquePtr<System>> systems;
+
 	// stores all of the different archetypes based on their similar  archetypeHashIDs
 	DynamicArray<EntityBridge> entityBridges;
 	DynamicArray<uint32> deadIndices;
-
-	DynamicArray<const SystemType*> systemTypesInWorld;
-	DynamicArray<UniquePtr<System>> systems;
 
 	DynamicArray<UniquePtr<Archetype>> archetypes;
 	DynamicArray<ArchetypeMask> archetypeHashIDs;
 	robin_hood::unordered_flat_map<ArchetypeMask, DynamicArray<Archetype*>> archetypesByHash;
 	uint32 totalLivingEntities = 0;
+
+	QueryCache* queryCache;
 
 private:
 	Entity ConstructEntityInternals(World& world, const ComponentType** types, uint32 typeCount);
@@ -185,7 +188,10 @@ inline Sys& World::CreateSystem(Args&&... args)
 {
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	const SystemType* type = GetSystemTypeFor<Sys>();
-	Sys* system = new Sys(*this, std::forward<Args>(args)...);
+	Sys* system = new Sys(std::forward<Args>(args)...);
+	system->InitializeInternals(*this);
+	system->Initialize();
+
 	systemTypesInWorld.Add(type);
 	systems.Add(UniquePtr<Sys>(system));
 	return *system;
@@ -197,9 +203,12 @@ inline void World::DestroySystem()
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	const SystemType* type = GetSystemTypeFor<Sys>();
 	int32 index = systemTypesInWorld.FindFirstIndex(type);
+
 	Assert(index >= 0);
-	systemTypesInWorld.Remove(index);
+	systems[index]->Deinitialize();
+
 	systems.Remove(index);
+	systemTypesInWorld.Remove(index);
 }
 
 template<typename Comp>

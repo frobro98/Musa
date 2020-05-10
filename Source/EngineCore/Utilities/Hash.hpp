@@ -7,7 +7,13 @@
 template <typename T>
 forceinline void HashCombine(uint32& hash, const T& obj)
 {
-	hash ^= GetHash(obj) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+	uint32 objHash = GetHash(obj);
+	HashCombine(hash, objHash);
+}
+
+forceinline void HashCombine(uint32& hash, uint32 val)
+{
+	hash ^= val + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 }
 
 constexpr uint32 fnv32(const void* hashData, uint32 dataSize)

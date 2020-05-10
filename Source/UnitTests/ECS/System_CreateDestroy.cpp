@@ -16,8 +16,8 @@ static bool updatedSuccess = true;
 class UnitTestSystem : public System
 {
 public:
-	UnitTestSystem(World& w, const char* n, UnitData& data, UnitStats& stats)
-		: System(w), name(n), _UnitData(data), _UnitStats(stats)
+	UnitTestSystem(const char* n, UnitData& data, UnitStats& stats)
+		: name(n), _UnitData(data), _UnitStats(stats)
 	{}
 
 	virtual void Initialize() override;
@@ -70,11 +70,8 @@ TEST(SystemCreateOne, SystemCreateDestroy)
  	CHECK_EQ(w.systemTypesInWorld.Size(), 1);
  	CHECK_EQ(w.systemTypesInWorld[0], GetSystemTypeFor<UnitTestSystem>());
 
-	s.Initialize();
 	CHECK_FALSE(updatedSuccess);
 	CHECK_TRUE(s.UnitTestUpdate());
-	s.Deinitialize();
-	CHECK_FALSE(updatedSuccess);
 }
 
 TEST(SystemCreateDestroyOne, SystemCreateDestroy)
@@ -90,13 +87,13 @@ TEST(SystemCreateDestroyOne, SystemCreateDestroy)
 	CHECK_EQ(w.systemTypesInWorld.Size(), 1);
 	CHECK_EQ(w.systemTypesInWorld[0], GetSystemTypeFor<UnitTestSystem>());
 
-	s.Initialize();
 	CHECK_FALSE(updatedSuccess);
 	CHECK_TRUE(s.UnitTestUpdate());
-	s.Deinitialize();
-	CHECK_FALSE(updatedSuccess);
 
 	w.DestroySystem<UnitTestSystem>();
 	CHECK_EQ(w.systems.Size(), 0);
 	CHECK_EQ(w.systemTypesInWorld.Size(), 0);
+
+
+	CHECK_FALSE(updatedSuccess)
 }

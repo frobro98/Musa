@@ -37,14 +37,14 @@ struct QueryDescription
 	template <typename... Comps>
 	QueryDescription& None();
 
-	Query ToQuery() const;
+	Query& ToQuery() const;
 
 	DynamicArray<const ComponentType*> requiredComps;
 	DynamicArray<const ComponentType*> oneOrMoreComps;
 	DynamicArray<const ComponentType*> noneComp;
-	ArchetypeMask requiredMask;
-	ArchetypeMask anyMask;
-	ArchetypeMask noneMask;
+	ArchetypeMask requiredMask = 0;
+	ArchetypeMask oneOrMoreMask = 0;
+	ArchetypeMask noneMask = 0;
 	// TODO - It doesn't really make much sense to keep the world around I feel. The world will eventually manage the systems
 	// that exist as well as entity stuff, but it's way too big of a class to keep around at this level
 	//World* world;
@@ -87,8 +87,8 @@ inline QueryDescription& QueryDescription::OneOrMore()
 
 	Assert(oneOrMoreComps.IsEmpty());
 	oneOrMoreComps.Reserve(CompCount);
-	oneOrMoreComps.Add(types);
-	anyMask = BuildQueryMask(types, CompCount);
+	oneOrMoreComps.AddRange(types, CompCount);
+	oneOrMoreMask = BuildQueryMask(types, CompCount);
 
 	return *this;
 }
@@ -107,7 +107,8 @@ inline QueryDescription& QueryDescription::None()
 
 	Assert(noneComp.IsEmpty());
 	noneComp.Reserve(CompCount);
-	noneComp.Add(types);
+	noneComp.AddRange(types, CompCount);
+	noneMask = BuildQueryMask(types, CompCount);
 
 	return *this;
 }

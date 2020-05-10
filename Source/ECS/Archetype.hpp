@@ -17,6 +17,7 @@ struct World;
 
 namespace Internal
 {
+// TODO - This should be in some sort of Utility for ComponentTypes
 static forceinline void CheckForSameComponents(const ComponentType** types, size_t typeCount)
 {
 	Assert(typeCount < MaxComponentsPerArchetype);
@@ -34,7 +35,7 @@ static forceinline void CheckForSameComponents(const ComponentType** types, size
 		return true;
 	};
 
-	AssertFunc(checkTypes, "Components are");
+	AssertFunc(checkTypes, "There are duplicate components!");
 }
 
 }
@@ -43,8 +44,7 @@ using ArchetypeComponentList = DynamicArray<const ComponentType*>;
 using ArchetypeComponentHashList = DynamicArray<ComponentTypeHash>;
 using ArchetypeComponentOffsetList = DynamicArray<size_t>;
 
-// NOTE - Currently, Archetypes will live on within the World
-
+// TODO - Consider different memory layout schemes for archetypes and chunks
 // Contains blocks of memory which contain the actual component data
 // Similar to how Unity ECS archetypes are implemented
 struct Archetype
@@ -60,6 +60,7 @@ struct Archetype
 	ArchetypeComponentOffsetList offsets;
 
 	ArchetypeMask archetypeMask;
+	uint32 totalEntityCount;
 	uint32 entityCapacity;
 	uint32 fullChunkCount;
 };

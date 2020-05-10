@@ -3,22 +3,24 @@
 #include <type_traits>
 #include "Types/Intrinsics.hpp"
 #include "Assertion.h"
+#include "MemoryUtilities.h"
+#include "Utilities/TemplateUtils.hpp"
 
 template <typename ElemType, uint32 capacity>
 class FixedArray
 {
-public:
-	using valueType = ElemType;
-	using referenceType = ElemType&;
-	using pointerType = ElemType*;
+	using value_type = ElemType;
+	using reference_type = ElemType&;
+	using pointer_type = ElemType*;
 public:
 	FixedArray() = default;
 	FixedArray(uint32 startSize);
 
 	template<typename AddType>
 	void Add(AddType&& elem);
+	void AddRange(const pointer_type range, uint32 rangeSize);
 
-	void Remove(ElemType& elem);
+	void Remove(reference_type elem);
 	void RemoveAt(uint32 index, uint32 count = 1);
 	
 	template<typename AddType>
@@ -46,15 +48,27 @@ public:
 private:
 	void Destroy(uint32 index, uint32 count);
 
+	template <typename SrcType, typename DstType>
+	std::enable_if_t<
+		is_memcpy_constructable_v<SrcType, DstType>
+	>
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+
+	template <typename SrcType, typename DstType>
+	std::enable_if_t<
+		!is_memcpy_constructable_v<SrcType, DstType>
+	>
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+
 	template <typename U>
 	std::enable_if_t<
-		std::is_same_v<pointerType, U> &&
+		std::is_same_v<pointer_type, U> &&
 		!std::is_trivially_destructible_v<std::remove_pointer_t<U>>
 	>
 		DestroyRange(U start, U end);
 	template <typename U>
 	std::enable_if_t<
-		std::is_same_v<pointerType, U> &&
+		std::is_same_v<pointer_type, U> &&
 		std::is_trivially_destructible_v<std::remove_pointer_t<U>>
 	>
 		DestroyRange(U /*start*/, U /*end*/);
@@ -161,6 +175,14 @@ private:
 	uint32 size = 0;
 };
 
+
+template<typename ElemType, uint32 capacity>
+inline FixedArray<ElemType, capacity>::FixedArray(uint32 startSize)
+	: size(startSize)
+{
+	Assert(startSize <= capacity);
+}
+
 template<typename ElemType, uint32 capacity>
 template<typename AddType>
 inline void FixedArray<ElemType, capacity>::Add(AddType&& elem)
@@ -183,14 +205,19 @@ inline bool FixedArray<ElemType, capacity>::TryAdd(AddType&& elem)
 }
 
 template<typename ElemType, uint32 capacity>
-inline FixedArray<ElemType, capacity>::FixedArray(uint32 startSize)
-	: size(startSize)
+inline void FixedArray<ElemType, capacity>::AddRange(const pointer_type range, uint32 rangeSize)
 {
-	Assert(startSize <= capacity);
+	Assert(range);
+	Assert(rangeSize > 0);
+	Assert(size + rangeSize < capacity);
+
+	uint32 index = size;
+	ConstructRangeInPlace(data + index, range, rangeSize);
+	size += rangeSize;
 }
 
 template<typename ElemType, uint32 capacity>
-inline void FixedArray<ElemType, capacity>::Remove(ElemType& elem)
+inline void FixedArray<ElemType, capacity>::Remove(reference_type elem)
 {
 	for (uint32 i = 0; i < size; ++i)
 	{
@@ -288,6 +315,33 @@ inline void FixedArray<ElemType, capacity>::Destroy(uint32 index, uint32 count)
 }
 
 template<typename ElemType, uint32 capacity>
+template <typename SrcType, typename DstType>
+std::enable_if_t<
+	is_memcpy_constructable_v<SrcType, DstType>
+>
+inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count)
+{
+	const uint32 byteCount = sizeof(SrcType) * count;
+	Memcpy(dst, type, byteCount);
+}
+
+template<typename ElemType, uint32 capacity>
+template <typename SrcType, typename DstType>
+std::enable_if_t<
+	!is_memcpy_constructable_v<SrcType, DstType>
+>
+inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const SrcType* src, uint32 count)
+{
+	while (count > 0)
+	{
+		::new(dst) SrcType(*src);
+		++src;
+		++dst;
+		++count;
+	}
+}
+
+template<typename ElemType, uint32 capacity>
 template <typename U>
 std::enable_if_t<
 	std::is_same_v<ElemType*, U> &&
@@ -317,8 +371,8 @@ inline void FixedArray<ElemType, capacity>::MoveBackAt(uint32 index, uint32 coun
 	Assert(index + count <= size);
 	const uint32 srcIndex = index + count;
 	const uint32 dstIndex = index;
-	pointerType srcLoc = &data[srcIndex];
-	pointerType dstLoc = &data[dstIndex];
-	size_t memSize = (size - srcIndex) * sizeof(valueType);
+	pointer_type srcLoc = &data[srcIndex];
+	pointer_type dstLoc = &data[dstIndex];
+	size_t memSize = (size - srcIndex) * sizeof(value_type);
 	Memmove(dstLoc, memSize, srcLoc, memSize);
 }

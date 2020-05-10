@@ -6,7 +6,7 @@
 
 namespace Musa
 {
-Query QueryDescription::ToQuery() const
+Query& QueryDescription::ToQuery() const
 {
 	Assert(systemQuery);
 	// TODO - Queries should be cached somewhere in the ECS ecosystem
