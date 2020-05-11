@@ -1,11 +1,11 @@
 
+#include "EntityBridge.hpp"
 #include "Entity.hpp"
 #include "Archetype.hpp"
 #include "World.hpp"
 
 namespace Musa
 {
-
 static Entity DetermineNewEntity(World& world)
 {
 	++world.totalLivingEntities;
@@ -13,7 +13,7 @@ static Entity DetermineNewEntity(World& world)
 	if (world.deadIndices.Size() == 0)
 	{
 		EntityBridge bridge;
-		bridge.chunk = nullptr;
+		bridge.chunk = EmptyChunk;
 		bridge.version = 1;
 
 		uint32 id = world.entityBridges.Size();
@@ -44,6 +44,4 @@ Entity CreateEntityWith(Archetype& archetype)
 
 	return entity;
 }
-
 }
-

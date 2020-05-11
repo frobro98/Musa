@@ -10,7 +10,7 @@ static void ClearEntityBridge(World& world, Entity entity)
 {
 	world.deadIndices.Add(entity.id);
 	++world.entityBridges[entity.id].version;
-	world.entityBridges[entity.id].chunk = nullptr;
+	world.entityBridges[entity.id].chunk = EmptyChunk;
 	world.entityBridges[entity.id].chunkIndex = 0;
 
 	--world.totalLivingEntities;
@@ -110,7 +110,7 @@ Entity World::CreateEntity(Archetype& archetype)
 void World::DestroyEntity(Entity entity)
 {
 	Assert(IsEntityValid(entity));
-	RemoveEntityFromChunk(*entityBridges[entity.id].chunk, entityBridges[entity.id].chunkIndex);
+	RemoveEntityFromChunk(entityBridges[entity.id].chunk, entityBridges[entity.id].chunkIndex);
 	ClearEntityBridge(*this, entity);
 }
 bool World::IsEntityValid(Entity entity) const

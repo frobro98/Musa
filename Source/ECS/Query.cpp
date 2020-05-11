@@ -8,11 +8,11 @@ namespace Musa
 constexpr size_t StaticEntityQuerySize = KilobytesAsBytes(8) / sizeof(Entity);
 static FixedArray<Entity, (uint32)StaticEntityQuerySize> queriedEntityCache;
 
-static void StoreQueriedArchetypeEntities(const Archetype& archetype)
+static void StoreQueriedArchetypeEntities(Archetype& archetype)
 {
 	for (auto& chunk : archetype.chunks)
 	{
-		ChunkArray<Entity> entities = GetChunkArray<Entity>(*chunk);
+		ChunkArray<Entity> entities = GetChunkArray<Entity>(chunk);
 		Assert(entities.IsValid());
 
 		queriedEntityCache.AddRange(entities.data, entities.size);

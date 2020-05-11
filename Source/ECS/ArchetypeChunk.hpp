@@ -1,9 +1,13 @@
 #pragma once
 
+
 #include "Types/Intrinsics.hpp"
+#include "EngineCore/MemoryUtilities.h"
 #include "Containers/StaticArray.hpp"
 #include "Types/UniquePtr.hpp"
 #include "ECS/ChunkArray.hpp"
+#include "ECS/ComponentType.hpp"
+
 
 #pragma warning(push)
 #pragma warning(disable:4307)
@@ -15,7 +19,7 @@ struct Archetype;
 
 constexpr size_t ArchetypeBlockSize = KilobytesAsBytes(16);
 
-struct ArchetypeDataFooter
+struct ChunkHeader
 {
 	DynamicArray<const ComponentType*>* types = nullptr;
 	DynamicArray<ComponentTypeHash>* typeHashes = nullptr;
@@ -24,31 +28,31 @@ struct ArchetypeDataFooter
 	uint32 entityCount = 0;
 };
 
-constexpr uint32 UsableChunkSize = ArchetypeBlockSize - sizeof(ArchetypeDataFooter);
+constexpr uint32 UsableChunkSize = ArchetypeBlockSize - sizeof(ChunkHeader);
 
 struct ArchetypeChunk
 {
-	// TODO - Consider making this a dynamic block of memory instead of inline to the struct. 
-	// This will speed up access to the footer/any other data in the chunk
-	StaticArray<uint8, UsableChunkSize> data;
-	ArchetypeDataFooter footer;
+	ChunkHeader* header;
+	uint8* data;
 };
-static_assert(sizeof(ArchetypeChunk) == ArchetypeBlockSize);
+
+static constexpr ArchetypeChunk EmptyChunk = { nullptr, nullptr };
+
 
 template<typename Comp>
-NODISCARD inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
+NODISCARD forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 {
 	using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
 
 	if constexpr (std::is_same_v<Comp, Entity>)
 	{
-		Entity* entityArr = reinterpret_cast<Entity*>(&chunk);
-		return ChunkArray<Entity>(*entityArr, chunk.footer.entityCount);
+		Entity* entityArr = reinterpret_cast<Entity*>(chunk.data);
+		return ChunkArray<Entity>(*entityArr, chunk.header->entityCount);
 	}
 	else
 	{
 		constexpr uint64 hash = Musa::Internal::TypenameHash<sanitizedType>();
-		auto& hashes = *chunk.footer.typeHashes;
+		auto& hashes = *chunk.header->typeHashes;
 		const uint32 typeCount = hashes.Size();
 
 		if (typeCount > 0)
@@ -57,9 +61,9 @@ NODISCARD inline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 			{
 				if (hashes[i].typenameHash == hash)
 				{
-					auto& offsets = *chunk.footer.offsets;
-					sanitizedType* ptr = reinterpret_cast<sanitizedType*>((uint8*)&chunk + offsets[i]);
-					const uint32 numEntities = chunk.footer.entityCount;
+					auto& offsets = *chunk.header->offsets;
+					sanitizedType* ptr = reinterpret_cast<sanitizedType*>(chunk.data + offsets[i]);
+					const uint32 numEntities = chunk.header->entityCount;
 					return ChunkArray<sanitizedType>(*ptr, numEntities);
 				}
 			}

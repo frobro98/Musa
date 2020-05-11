@@ -27,7 +27,8 @@ TEST(EntityCreate, EntityCreateDestroy)
 	
 	CHECK_EQ(b.version, e.version);
 
-	CHECK_PTR(b.chunk);
+	CHECK_PTR(b.chunk.header);
+	CHECK_PTR(b.chunk.data);
 	CHECK_EQ(b.chunkIndex, 0);
 
 	CHECK_EQ(w.archetypes.Size(), 1);
@@ -49,7 +50,8 @@ TEST(EntityDestroy, EntityCreateDestroy)
 
 	CHECK_EQ(b.version, e.version);
 
-	CHECK_PTR(b.chunk);
+	CHECK_PTR(b.chunk.header);
+	CHECK_PTR(b.chunk.data);
 	CHECK_EQ(b.chunkIndex, 0);
 
 	w.DestroyEntity(e);
@@ -59,7 +61,8 @@ TEST(EntityDestroy, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices.Size(), 1);
 	CHECK_EQ(w.entityBridges.Size(), 1);
 	
-	CHECK_NULL(b.chunk);
+	CHECK_NULL(b.chunk.header);
+	CHECK_NULL(b.chunk.data);
 
 	CHECK_EQ(w.archetypes.Size(), 1);
 
@@ -70,7 +73,7 @@ TEST(EntityDestroy, EntityCreateDestroy)
 	CHECK_EQ(a->types[0], GetComponentTypeFor<Position>());
 
 	CHECK_EQ(a->chunks.Size(), 1);
-	CHECK_ZERO(a->chunks[0]->footer.entityCount);
+	CHECK_ZERO(a->chunks[0].header->entityCount);
 }
 
 TEST(EntityCreateDestroyLoop, EntityCreateDestroy)
@@ -93,7 +96,8 @@ TEST(EntityCreateDestroyLoop, EntityCreateDestroy)
 		EntityBridge& b = w.entityBridges[0];
 
 		CHECK_EQ(b.version, e.version);
-		CHECK_PTR(b.chunk);
+		CHECK_PTR(b.chunk.header);
+		CHECK_PTR(b.chunk.data);
 		CHECK_EQ(b.chunkIndex, 0);
 
 		w.DestroyEntity(e);
@@ -130,10 +134,10 @@ TEST(EntityCreateMultiple, EntityCreateDestroy)
 	CHECK_EQ(e2.version, 1);
 
 	CHECK_EQ(archetype->chunks.Size(), 1);
-	CHECK_EQ(archetype->chunks[0]->footer.entityCount, 3);
+	CHECK_EQ(archetype->chunks[0].header->entityCount, 3);
 
 	// Validating chunk data
-	ArchetypeChunk& chunk = *archetype->chunks[0];
+	ArchetypeChunk chunk = archetype->chunks[0];
 	ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
 	CHECK_TRUE(arr.IsValid());
 
@@ -179,8 +183,8 @@ TEST(EntityCreateMultipleDestroyOne, EntityCreateDestroy)
 
 	CHECK_EQ(archetype->chunks.Size(), 1);
 
-	ArchetypeChunk& chunk = *archetype->chunks[0];
-	CHECK_EQ(chunk.footer.entityCount, 3);
+	ArchetypeChunk chunk = archetype->chunks[0];
+	CHECK_EQ(chunk.header->entityCount, 3);
 
 	// Validating chunk data
 	{
@@ -212,7 +216,7 @@ TEST(EntityCreateMultipleDestroyOne, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices.Size(), 1);
 	CHECK_EQ(w.deadIndices[0], 1);
 
-	CHECK_EQ(chunk.footer.entityCount, 2);
+	CHECK_EQ(chunk.header->entityCount, 2);
 
 	// Revalidate the entity data
 	{
@@ -264,8 +268,8 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 
 	CHECK_EQ(archetype->chunks.Size(), 1);
 
-	ArchetypeChunk& chunk = *archetype->chunks[0];
-	CHECK_EQ(chunk.footer.entityCount, 3);
+	ArchetypeChunk chunk = archetype->chunks[0];
+	CHECK_EQ(chunk.header->entityCount, 3);
 
 	// Validating chunk data
 	{
@@ -297,7 +301,7 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices.Size(), 1);
 	CHECK_EQ(w.deadIndices[0], 1);
 
-	CHECK_EQ(chunk.footer.entityCount, 2);
+	CHECK_EQ(chunk.header->entityCount, 2);
 
 	// Revalidate the entity data
 	{
@@ -333,7 +337,7 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices[0], 1);
 	CHECK_EQ(w.deadIndices[1], 0);
 
-	CHECK_EQ(chunk.footer.entityCount, 1);
+	CHECK_EQ(chunk.header->entityCount, 1);
 
 	// Revalidate the entity data
 	{
@@ -382,8 +386,8 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 
 	CHECK_EQ(archetype->chunks.Size(), 1);
 
-	ArchetypeChunk& chunk = *archetype->chunks[0];
-	CHECK_EQ(chunk.footer.entityCount, 3);
+	ArchetypeChunk chunk = archetype->chunks[0];
+	CHECK_EQ(chunk.header->entityCount, 3);
 
 	// Validating chunk data
 	{
@@ -415,7 +419,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices.Size(), 1);
 	CHECK_EQ(w.deadIndices[0], 1);
 
-	CHECK_EQ(chunk.footer.entityCount, 2);
+	CHECK_EQ(chunk.header->entityCount, 2);
 
 	// Revalidate the entity data
 	{
@@ -451,7 +455,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices[0], 1);
 	CHECK_EQ(w.deadIndices[1], 0);
 
-	CHECK_EQ(chunk.footer.entityCount, 1);
+	CHECK_EQ(chunk.header->entityCount, 1);
 
 	// Revalidate the entity data
 	{
@@ -486,7 +490,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 	CHECK_EQ(w.deadIndices[1], 0);
 	CHECK_EQ(w.deadIndices[2], 2);
 
-	CHECK_EQ(chunk.footer.entityCount, 0);
+	CHECK_EQ(chunk.header->entityCount, 0);
 
 	// Revalidate the entity data
 	{
@@ -515,8 +519,8 @@ TEST(EntityCreateForceNewChunk, EntityCreateDestroy)
 
 	CHECK_EQ(archetype->chunks.Size(), 1);
 
-	ArchetypeChunk& firstChunk = *archetype->chunks[0];
-	CHECK_EQ(firstChunk.footer.entityCount, 1);
+	ArchetypeChunk firstChunk = archetype->chunks[0];
+	CHECK_EQ(firstChunk.header->entityCount, 1);
 
 	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
 
@@ -527,10 +531,10 @@ TEST(EntityCreateForceNewChunk, EntityCreateDestroy)
 
 	CHECK_EQ(archetype->chunks.Size(), 2);
 
-	CHECK_EQ(firstChunk.footer.entityCount, maxEntitiesPerChunk);
+	CHECK_EQ(firstChunk.header->entityCount, maxEntitiesPerChunk);
 
-	ArchetypeChunk& secondChunk = *archetype->chunks[1];
-	CHECK_EQ(secondChunk.footer.entityCount, 1);
+	ArchetypeChunk secondChunk = archetype->chunks[1];
+	CHECK_EQ(secondChunk.header->entityCount, 1);
 }
 
 TEST(EntityCreateDestroyMakeNotFull, EntityCreateDestroy)
@@ -548,8 +552,8 @@ TEST(EntityCreateDestroyMakeNotFull, EntityCreateDestroy)
 
 	CHECK_EQ(archetype->chunks.Size(), 1);
 
-	ArchetypeChunk& firstChunk = *archetype->chunks[0];
-	CHECK_EQ(firstChunk.footer.entityCount, 1);
+	ArchetypeChunk firstChunk = archetype->chunks[0];
+	CHECK_EQ(firstChunk.header->entityCount, 1);
 
 	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
 
@@ -562,24 +566,24 @@ TEST(EntityCreateDestroyMakeNotFull, EntityCreateDestroy)
 	CHECK_EQ(archetype->chunks.Size(), 2);
 	CHECK_EQ(archetype->fullChunkCount, 1);
 
-	CHECK_EQ(firstChunk.footer.entityCount, maxEntitiesPerChunk);
+	CHECK_EQ(firstChunk.header->entityCount, maxEntitiesPerChunk);
 
-	ArchetypeChunk& secondChunk = *archetype->chunks[1];
-	CHECK_EQ(secondChunk.footer.entityCount, 1);
+	ArchetypeChunk secondChunk = archetype->chunks[1];
+	CHECK_EQ(secondChunk.header->entityCount, 1);
 
 	w.DestroyEntity(e);
 
 	CHECK_FALSE(w.IsEntityValid(e));
-	CHECK_EQ(secondChunk.footer.entityCount, 0);
+	CHECK_EQ(secondChunk.header->entityCount, 0);
 
 	--e.id;
 	CHECK_TRUE(w.IsEntityValid(e));
 
-	CHECK_EQ(firstChunk.footer.entityCount, maxEntitiesPerChunk);
+	CHECK_EQ(firstChunk.header->entityCount, maxEntitiesPerChunk);
 
 	w.DestroyEntity(e);
 	CHECK_FALSE(w.IsEntityValid(e));
 
-	CHECK_EQ(firstChunk.footer.entityCount, maxEntitiesPerChunk-1);
+	CHECK_EQ(firstChunk.header->entityCount, maxEntitiesPerChunk-1);
 }
 

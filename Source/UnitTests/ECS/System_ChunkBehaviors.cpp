@@ -49,11 +49,22 @@ void IterateChunkSystem::Update()
 	CHECK_REF(w);
 
 	// Query gets all of the archetypes that match types asked for
-	Query& q0 = GetQueryFor<Position>();
+	QueryDescription desc = DescribeQuery().OneOrMore<Position, Rotation>();
+	Query& q0 = GetQueryFor(desc);
 
 	// Need to get all entities from Query object
 	ArrayView<Entity> entities = GetQueriedEntities(q0);
 	CHECK_EQ(entities.Size(), numEntitiesExpected);
+
+	DynamicArray<ArchetypeChunk> chunks = GetQueryChunks(q0);
+	CHECK_GT(chunks.Size(), 0);
+
+	uint32 numEntitiesInChunks = 0;
+	for (auto& chunk : chunks)
+	{
+		numEntitiesInChunks += chunk.header->entityCount;
+	}
+	CHECK_EQ(numEntitiesInChunks, numEntitiesExpected);
 
 	updatedSuccess = true;
 }
@@ -72,7 +83,28 @@ TEST(IterateQueriedChunks, SystemChunkBehaviors)
 	updatedSuccess = true;
 
 	World w;
-	CHECK_ZERO(w.systems.Size());
+	CHECK_REF(w);
+
+	constexpr uint32 numEntitiesExpected = 50;
+	for (uint32 i = 0; i < numEntitiesExpected / 2; ++i)
+	{
+		NOT_USED Entity e = w.CreateEntity<Position>();
+	}
+
+	for (uint32 i = 0; i < numEntitiesExpected / 2; ++i)
+	{
+		NOT_USED Entity e = w.CreateEntity<Rotation>();
+	}
+
+	IterateChunkSystem& s = w.CreateSystem<IterateChunkSystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
+	CHECK_REF(s);
+	CHECK_EQ(w.systems.Size(), 1);
+	CHECK_EQ(w.systemTypesInWorld.Size(), 1);
+	CHECK_EQ(w.systemTypesInWorld[0], GetSystemTypeFor<IterateChunkSystem>());
+
+	CHECK_FALSE(updatedSuccess);
+	w.Update();
+	CHECK_TRUE(updatedSuccess);
 
 }
 

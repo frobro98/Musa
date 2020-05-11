@@ -24,8 +24,8 @@ TEST(SetOneEntityComponents, EntitySetComponentData)
 	CHECK_EQ(a->types.Size(), 2);
 	CHECK_EQ(a->chunks.Size(), 1);
 
-	ChunkArray<Position> posArr = GetChunkArray<Position>(*a->chunks[0]);
-	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(*a->chunks[0]);
+	ChunkArray<Position> posArr = GetChunkArray<Position>(a->chunks[0]);
+	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 
 	CHECK_TRUE(posArr.IsValid());
 	CHECK_EQ(posArr.size, 1);
@@ -76,8 +76,8 @@ TEST(SetTwoEntityComponents, EntitySetComponentData)
 	CHECK_EQ(a->types.Size(), 2);
 	CHECK_EQ(a->chunks.Size(), 1);
 
-	ChunkArray<Position> posArr = GetChunkArray<Position>(*a->chunks[0]);
-	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(*a->chunks[0]);
+	ChunkArray<Position> posArr = GetChunkArray<Position>(a->chunks[0]);
+	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 
 	CHECK_TRUE(posArr.IsValid());
 	CHECK_EQ(posArr.size, 2);
@@ -165,9 +165,9 @@ TEST(Set50EntityComponentsEveryOther, EntitySetComponentData)
 
 	Archetype* a = GetOrCreateArchetypeFrom<Position, Rotation>(w);
 	CHECK_EQ(w.archetypes.Size(), 1);
-	ChunkArray<Position> posArr = GetChunkArray<Position>(*a->chunks[0]);
+	ChunkArray<Position> posArr = GetChunkArray<Position>(a->chunks[0]);
 	CHECK_EQ(posArr.size, EntityCount);
-	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(*a->chunks[0]);
+	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 	CHECK_EQ(rotArr.size, EntityCount);
 
 	for (uint32 i = 0; i < EntityCount; ++i)
@@ -200,8 +200,8 @@ TEST(GetAndSetOneEntityComponents, EntitySetComponentData)
 	CHECK_EQ(a->types.Size(), 2);
 	CHECK_EQ(a->chunks.Size(), 1);
 
-	ChunkArray<Position> posArr = GetChunkArray<Position>(*a->chunks[0]);
-	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(*a->chunks[0]);
+	ChunkArray<Position> posArr = GetChunkArray<Position>(a->chunks[0]);
+	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 
 	CHECK_TRUE(posArr.IsValid());
 	CHECK_EQ(posArr.size, 1);
@@ -254,8 +254,8 @@ TEST(GetAndSetTwoEntityComponents, EntitySetComponentData)
 	CHECK_EQ(a->types.Size(), 2);
 	CHECK_EQ(a->chunks.Size(), 1);
 
-	ChunkArray<Position> posArr = GetChunkArray<Position>(*a->chunks[0]);
-	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(*a->chunks[0]);
+	ChunkArray<Position> posArr = GetChunkArray<Position>(a->chunks[0]);
+	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 
 	CHECK_TRUE(posArr.IsValid());
 	CHECK_EQ(posArr.size, 2);
@@ -347,9 +347,9 @@ TEST(GetAndSet50EntityComponentsEveryOther, EntitySetComponentData)
 
 	Archetype* a = GetOrCreateArchetypeFrom<Position, Rotation>(w);
 	CHECK_EQ(w.archetypes.Size(), 1);
-	ChunkArray<Position> posArr = GetChunkArray<Position>(*a->chunks[0]);
+	ChunkArray<Position> posArr = GetChunkArray<Position>(a->chunks[0]);
 	CHECK_EQ(posArr.size, EntityCount);
-	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(*a->chunks[0]);
+	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 	CHECK_EQ(rotArr.size, EntityCount);
 
 	for (uint32 i = 0; i < EntityCount; ++i)

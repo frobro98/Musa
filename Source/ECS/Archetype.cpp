@@ -58,17 +58,24 @@ static void FillOutTypeInformation(Archetype& archetype, const ComponentType** c
 	Assert(offset <= Musa::ArchetypeBlockSize);
 }
 
-static forceinline ArchetypeChunk* CreateNewChunkFor(Archetype& archetype)
+static forceinline ArchetypeChunk CreateNewChunkFor(Archetype& archetype)
 {
-	UniquePtr<ArchetypeChunk> chunk(new ArchetypeChunk);
-	chunk->footer.owner = &archetype;
-	chunk->footer.types = &archetype.types;
-	chunk->footer.typeHashes = &archetype.typeHashes;
-	chunk->footer.offsets = &archetype.offsets;
-	ArchetypeChunk* ret = chunk.Get();
-	archetype.chunks.Add(std::move(chunk));
-	return ret;
+	uint8* chunkBlock = new uint8[ArchetypeBlockSize];
+	ChunkHeader* header = new(chunkBlock) ChunkHeader;
+	uint8* chunkData = reinterpret_cast<uint8*>(header + 1);
+	ArchetypeChunk chunk;
+	chunk.header = header;
+	chunk.data = chunkData;
+
+	header->owner = &archetype;
+	header->types = &archetype.types;
+	header->typeHashes = &archetype.typeHashes;
+	header->offsets = &archetype.offsets;
+	archetype.chunks.Add(chunk);
+	return chunk;
 }
+
+// TODO - There needs to be a way to destroy the memory holding onto the chunk data...
 
 static Archetype* FindMatchingArchetype(World& world, ArchetypeMask hashId, const ComponentType** compTypes, size_t typeCount)
 {
@@ -107,28 +114,28 @@ static Archetype* FindMatchingArchetype(World& world, ArchetypeMask hashId, cons
 static void AssociateNewEntityTo(Archetype& archetype, Entity entity)
 {
 	// New entity means finding a free data chunk and putting itself in it
-	ArchetypeChunk& chunk = GetOrCreateFreeArchetypeChunk(archetype);
+	ArchetypeChunk chunk = GetOrCreateFreeArchetypeChunk(archetype);
 	uint32 chunkIndex = AddEntityToChunk(chunk, entity);
 	ConstructEntityInChunk(chunk, chunkIndex);
-	archetype.world->entityBridges[entity.id].chunk = &chunk;
+	archetype.world->entityBridges[entity.id].chunk = chunk;
 	archetype.world->entityBridges[entity.id].chunkIndex = chunkIndex;
 }
 
 static void MoveEntityTo(Archetype& archetype, Entity entity)
 {
 	World& world = *archetype.world;
-	ArchetypeChunk& oldChunk = *world.entityBridges[entity.id].chunk;
+	ArchetypeChunk oldChunk = world.entityBridges[entity.id].chunk;
 	REF_CHECK(oldChunk);
 
 	uint32 oldChunkIndex = world.entityBridges[entity.id].chunkIndex;
 
-	ArchetypeChunk& newChunk = GetOrCreateFreeArchetypeChunk(archetype);
+	ArchetypeChunk newChunk = GetOrCreateFreeArchetypeChunk(archetype);
 
 	uint32 newChunkIndex = MoveEntityToChunk(entity, oldChunk, oldChunkIndex, newChunk);
 
 	RemoveEntityFromChunk(oldChunk, oldChunkIndex);
 
-	world.entityBridges[entity.id].chunk = &newChunk;
+	world.entityBridges[entity.id].chunk = newChunk;
 	world.entityBridges[entity.id].chunkIndex = newChunkIndex;
 }
 
@@ -162,27 +169,27 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 	return archetype;
 }
 
-ArchetypeChunk& GetOrCreateFreeArchetypeChunk(Archetype& archetype)
+ArchetypeChunk GetOrCreateFreeArchetypeChunk(Archetype& archetype)
 {
-	ArchetypeChunk* chunk;
+	ArchetypeChunk chunk;
 	if (archetype.chunks.IsEmpty())
 	{
 		chunk = CreateNewChunkFor(archetype);
 	}
 	else
 	{
-		chunk = archetype.chunks.Last().Get();
-		if (chunk->footer.entityCount == archetype.entityCapacity)
+		chunk = archetype.chunks.Last();
+		if (chunk.header->entityCount == archetype.entityCapacity)
 		{
 			chunk = CreateNewChunkFor(archetype);
 		}
 	}
-	return *chunk;
+	return chunk;
 }
 
 void SetEntitysArchetype(World& world, Entity entity, Archetype& archetype)
 {
-	if (world.entityBridges[entity.id].chunk == nullptr)
+	if (Memcmp(&world.entityBridges[entity.id].chunk, &EmptyChunk, sizeof(ArchetypeChunk)) == 0)
 	{
 		AssociateNewEntityTo(archetype, entity);
 	}
@@ -200,14 +207,14 @@ void SortChunksForFullness(Archetype& archetype)
 	const uint32 maxSize = archetype.entityCapacity;
 	auto& chunks = archetype.chunks;
 	auto isChunkFull = [maxSize](ArchetypeChunk& chunk) {
-		return chunk.footer.entityCount == maxSize;
+		return chunk.header->entityCount == maxSize;
 	};
 
 	// Find if not
 	uint32 first;
 	for (first = 0; first < chunks.Size(); ++first)
 	{
-		if (!isChunkFull(*chunks[first]))
+		if (!isChunkFull(chunks[first]))
 		{
 			break;
 		}
@@ -215,7 +222,7 @@ void SortChunksForFullness(Archetype& archetype)
 
 	for (uint32 index = first + 1; index < chunks.Size(); ++index)
 	{
-		if (isChunkFull(*chunks[index]))
+		if (isChunkFull(chunks[index]))
 		{
 			Swap(chunks[index], chunks[first]);
 			++first;

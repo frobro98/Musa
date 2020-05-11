@@ -16,6 +16,7 @@
 #include "ECS/SystemType.hpp"
 #include "ECS/Archetype.hpp"
 #include "ECS/QueryCache.hpp"
+#include "ECS/EntityBridge.hpp"
 
 namespace Musa
 {
@@ -125,10 +126,12 @@ struct ECS_API World final : private Uncopyable
 	void RemoveComponent(Entity entity);
 	template <typename Comp>
 	void SetComponentDataOn(Entity entity, Comp&& component);
+	// TODO - There should be a way to make this const
 	template <typename Comp>
-	Comp& GetComponentDataOn(Entity entity) const;
+	Comp& GetComponentDataOn(Entity entity);
+	// TODO - There should be a way to make this const
 	template <typename Comp>
-	bool HasComponent(Entity entity) const;
+	bool HasComponent(Entity entity);
 
 	DynamicArray<const SystemType*> systemTypesInWorld;
 	DynamicArray<UniquePtr<System>> systems;
@@ -153,7 +156,7 @@ private:
 forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
 {
 	Assert(world.IsEntityValid(entity));
-	return *world.entityBridges[entity.id].chunk->footer.owner;
+	return *world.entityBridges[entity.id].chunk.header->owner;
 }
 
 template<typename ...Comps>
@@ -233,30 +236,36 @@ inline void World::SetComponentDataOn(Entity entity, Comp&& component)
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to check on Entity");
 	Assert(IsEntityValid(entity));
 
-	const EntityBridge& bridge = entityBridges[entity.id];
-	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
+	EntityBridge& bridge = entityBridges[entity.id];
+	Assert(Memcmp(&bridge, &EmptyChunk, sizeof(ArchetypeChunk)) != 0);
+
+	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(bridge.chunk);
 	chunkArr[bridge.chunkIndex] = std::forward<Comp>(component);
 }
 
 template<typename Comp>
-inline Comp& World::GetComponentDataOn(Entity entity) const
+inline Comp& World::GetComponentDataOn(Entity entity)
 {
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to check on Entity");
 	Assert(IsEntityValid(entity));
 
-	const EntityBridge& bridge = entityBridges[entity.id];
-	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
+	EntityBridge& bridge = entityBridges[entity.id];
+	Assert(Memcmp(&bridge, &EmptyChunk, sizeof(ArchetypeChunk)) != 0);
+
+	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(bridge.chunk);
 	return chunkArr[bridge.chunkIndex];
 }
 
 template<typename Comp>
-inline bool World::HasComponent(Entity entity) const
+inline bool World::HasComponent(Entity entity) 
 {
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to check on Entity");
 	Assert(IsEntityValid(entity));
 
-	const EntityBridge& bridge = entityBridges[entity.id];
-	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(*bridge.chunk);
+	EntityBridge& bridge = entityBridges[entity.id];
+	Assert(Memcmp(&bridge.chunk, &EmptyChunk, sizeof(ArchetypeChunk)) != 0);
+
+	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(bridge.chunk);
 	return chunkArr.IsValid();
 }
 

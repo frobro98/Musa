@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EngineCore/Algorithms.hpp"
-#include "EngineCore/MemoryUtilities.h"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
@@ -51,7 +50,8 @@ struct Archetype
 {
 	World* world;
 	// Must have some sort of identifier which also shows what components are stored within it
-	DynamicArray<UniquePtr<ArchetypeChunk>> chunks;
+	// TODO - This will result in leaks potentially. The hope will be to store chunks in the same contiguous memory, so that'll relieve some of the leak maybe?
+	DynamicArray<ArchetypeChunk> chunks;
 	
 	// SOA!
 	// TODO - Consider breaking out more information from the types into other arrays
@@ -88,7 +88,7 @@ ECS_TEMPLATE Archetype* GetOrCreateArchetypeFrom(World& world)
 	}
 }
 
-ArchetypeChunk& GetOrCreateFreeArchetypeChunk(Archetype& archetype);
+ArchetypeChunk GetOrCreateFreeArchetypeChunk(Archetype& archetype);
 
 // TODO - This isn't really that great of a name I think, and it shouldn't be this public
 void SetEntitysArchetype(World& world, Entity entity, Archetype& archetype);

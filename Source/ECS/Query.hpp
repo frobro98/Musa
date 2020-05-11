@@ -4,6 +4,7 @@
 #include "Containers/ArrayView.hpp"
 #include "Types/Uncopyable.hpp"
 #include "ECS/Types.hpp"
+#include "ECS/DLLDef.h"
 #include "ECS/ComponentType.hpp"
 #include "ECS/Entity.hpp"
 
