@@ -9,7 +9,6 @@ struct DirectoryDescription
 {
 	DynamicArray<String> files;
 	uint32 numberOfFiles;
-	uint32 pad[1] = { 0 };
 };
 
 // TODO - Come back to these functions. I think that some of the parameters don't necessarily make sense

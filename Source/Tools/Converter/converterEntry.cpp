@@ -5,18 +5,21 @@
 
 #include "File/FileCore/File.h"
 #include "Model/ModelFileHeader.h"
-#include "Model/GeometryPrimitives.h"
-#include "Model/MeshUtilities.hpp"
+#include "Mesh/GeometryPrimitives.h"
+#include "Mesh/MeshUtilities.hpp"
 #include "Texture/TextureChunk.h"
 
-#include "File/Path.hpp"
+#include "Path/Path.hpp"
 #include "Texture/ImageFormats.h"
 #include "Processing/PrimitiveGeneration.h"
 #include "Archiver/AnimationHeader.h"
 #include "Archiver/ChunkHeader.h"
 #include "DirectoryLocations.h"
 
-#include "Math/MathEngine.h"
+#include "Math/MathFunctions.hpp"
+#include "Math/QuatFunctions.hpp"
+#include "Math/Vector4.hpp"
+#include "Math/Matrix4.hpp"
 #include "Containers/DynamicArray.hpp"
 
 static bool gVerbose = true;
@@ -198,7 +201,7 @@ HierarchyTableDescription ConstructTable(const std::vector<Hierarchy>& hierarchy
 		//std::reverse(boneElement.boneParentHierarchy.begin(), boneElement.boneParentHierarchy.end());
 
 		table.tableElements.push_back(boneElement);
-		table.maxElementLength = std::max(table.maxElementLength, boneElement.boneParentHierarchy.size());
+		table.maxElementLength = Math::Max(table.maxElementLength, (uint32)boneElement.boneParentHierarchy.size());
 	}
 
 	Assert(table.tableElements.size() == hierarchy.size());
@@ -214,7 +217,7 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 
 	SkeletonHeader header;
 	uint32 hierarchyOffset, tableOffset, poseDataOffset;
-	header.boneCount = hierarchy.size();
+	header.boneCount = (uint32)hierarchy.size();
 	result = File::Write(skeletonFile, &header, sizeof(SkeletonHeader));
 	Assert(result == File::Result::SUCCESS);
 
@@ -286,8 +289,8 @@ void SaveOutAnimation(uint32 skeletonHash, const std::vector<AnimationClip>& cli
 		clip.name.copy(header.animationName, AnimationNameLength);
 		// TODO - figure out how to get this hash
 		header.referenceSkeleton = skeletonHash;
-		header.keyFrameCount = clip.frames.size();
-		header.bonesPerFrame = clip.frames[0].bonesPerFrame.size();
+		header.keyFrameCount = (uint32)clip.frames.size();
+		header.bonesPerFrame = (uint32)clip.frames[0].bonesPerFrame.size();
 		header.totalAnimationTime = clip.totalTime;
 		header.frameRate = frameRate;
 
@@ -597,7 +600,7 @@ int main(int argc, char** argv)
 		lResult = LoadScene(lSdkManager, lScene, lFilePath.Buffer());
 	}
 
-	std::string filePath = lFilePath;
+	std::string filePath = lFilePath.Buffer();
 
 	std::vector<VertexWithFace> vertList;
 	std::vector<SkinData> skinData;
@@ -680,7 +683,7 @@ int main(int argc, char** argv)
 				AnimationClip clip;
 				clip.name = animation.name;
 				printf("Writing out %s\n", clip.name.c_str());
-				uint32 frameCount = animation.bones[0].rotationKeys.size();
+				uint32 frameCount = (uint32)animation.bones[0].rotationKeys.size();
 				clip.frames.reserve(frameCount);
 				for (uint32 i = 0; i < frameCount; ++i)
 				{
@@ -785,13 +788,13 @@ static Frame InterpolateFrame(const Frame& srcFrame, const Frame& tarFrame, uint
 	resultingFrame.frameTime = frameTime;
 	float deltaTime = static_cast<float>(frameTime - srcFrame.frameTime) / static_cast<float>(tarFrame.frameTime - srcFrame.frameTime);
 
-	uint32 boneCount = srcFrame.bonesPerFrame.size();
+	uint32 boneCount = (uint32)srcFrame.bonesPerFrame.size();
 	for (uint32 i = 0; i < boneCount; ++i)
 	{
 		FrameData boneData;
-		Math::Lerp(boneData.translation, srcFrame.bonesPerFrame[i].translation, tarFrame.bonesPerFrame[i].translation, deltaTime);
-		Math::Slerp(boneData.rotation, srcFrame.bonesPerFrame[i].rotation, tarFrame.bonesPerFrame[i].rotation, deltaTime);
-		Math::Lerp(boneData.scale, srcFrame.bonesPerFrame[i].scale, tarFrame.bonesPerFrame[i].scale, deltaTime);
+		boneData.translation = Math::Lerp(srcFrame.bonesPerFrame[i].translation, tarFrame.bonesPerFrame[i].translation, deltaTime);
+		boneData.rotation = Math::Slerp(srcFrame.bonesPerFrame[i].rotation, tarFrame.bonesPerFrame[i].rotation, deltaTime);
+		boneData.scale = Math::Lerp(srcFrame.bonesPerFrame[i].scale, tarFrame.bonesPerFrame[i].scale, deltaTime);
 		resultingFrame.bonesPerFrame.push_back(boneData);
 	}
 
@@ -1129,9 +1132,9 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 					int32 controlPointIndex = mesh->GetPolygonVertex(i, j);
 
 					VertexWithFace vert;
-					vert.v.x = static_cast<float>(controlPoints[controlPointIndex][0]);
-					vert.v.y = static_cast<float>(controlPoints[controlPointIndex][1]);
-					vert.v.z = static_cast<float>(controlPoints[controlPointIndex][2]);
+					vert.v.position.x = static_cast<float>(controlPoints[controlPointIndex][0]);
+					vert.v.position.y = static_cast<float>(controlPoints[controlPointIndex][1]);
+					vert.v.position.z = static_cast<float>(controlPoints[controlPointIndex][2]);
 
 					vert.weightIndex = controlPointIndex;
 
@@ -1147,14 +1150,14 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 								{
 									case FbxGeometryElement::eDirect:
 									{
-										vert.v.u = static_cast<float>(uv->GetDirectArray().GetAt(controlPointIndex)[0]);
-										vert.v.v = static_cast<float>(uv->GetDirectArray().GetAt(controlPointIndex)[1]);
+										vert.v.texCoords.x = static_cast<float>(uv->GetDirectArray().GetAt(controlPointIndex)[0]);
+										vert.v.texCoords.y = static_cast<float>(uv->GetDirectArray().GetAt(controlPointIndex)[1]);
 									}break;
 									case FbxGeometryElement::eIndexToDirect:
 									{
 										int32 id = uv->GetIndexArray().GetAt(controlPointIndex);
-										vert.v.u = static_cast<float>(uv->GetDirectArray().GetAt(id)[0]);
-										vert.v.v = static_cast<float>(uv->GetDirectArray().GetAt(id)[1]);
+										vert.v.texCoords.x = static_cast<float>(uv->GetDirectArray().GetAt(id)[0]);
+										vert.v.texCoords.y = static_cast<float>(uv->GetDirectArray().GetAt(id)[1]);
 									}break;
 									default:
 									{
@@ -1170,8 +1173,8 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 									case FbxGeometryElement::eDirect:
 									case FbxGeometryElement::eIndexToDirect:
 									{
-										vert.v.u = static_cast<float>(uv->GetDirectArray().GetAt(texUVIndex)[0]);
-										vert.v.v = static_cast<float>(uv->GetDirectArray().GetAt(texUVIndex)[1]);
+										vert.v.texCoords.x = static_cast<float>(uv->GetDirectArray().GetAt(texUVIndex)[0]);
+										vert.v.texCoords.y = static_cast<float>(uv->GetDirectArray().GetAt(texUVIndex)[1]);
 									}break;
 									default:
 									{
@@ -1194,9 +1197,9 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 
 						if (normal->GetMappingMode() == FbxGeometryElement::eByControlPoint)
 						{
-							vert.v.nx = static_cast<float>(normal->GetDirectArray().GetAt(controlPointIndex)[0]);
-							vert.v.ny = static_cast<float>(normal->GetDirectArray().GetAt(controlPointIndex)[1]);
-							vert.v.nz = static_cast<float>(normal->GetDirectArray().GetAt(controlPointIndex)[2]);
+							vert.v.normal.x = static_cast<float>(normal->GetDirectArray().GetAt(controlPointIndex)[0]);
+							vert.v.normal.y = static_cast<float>(normal->GetDirectArray().GetAt(controlPointIndex)[1]);
+							vert.v.normal.z = static_cast<float>(normal->GetDirectArray().GetAt(controlPointIndex)[2]);
 						}
 						else if (normal->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
 						{
@@ -1204,17 +1207,17 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 							{
 								case FbxGeometryElement::eDirect:
 								{
-									vert.v.nx = static_cast<float>(normal->GetDirectArray().GetAt(vertexId)[0]);
-									vert.v.ny = static_cast<float>(normal->GetDirectArray().GetAt(vertexId)[1]);
-									vert.v.nz = static_cast<float>(normal->GetDirectArray().GetAt(vertexId)[2]);
+									vert.v.normal.x = static_cast<float>(normal->GetDirectArray().GetAt(vertexId)[0]);
+									vert.v.normal.y = static_cast<float>(normal->GetDirectArray().GetAt(vertexId)[1]);
+									vert.v.normal.z = static_cast<float>(normal->GetDirectArray().GetAt(vertexId)[2]);
 								}break;
 
 								case FbxGeometryElement::eIndexToDirect:
 								{
 									int32 id = normal->GetIndexArray().GetAt(vertexId);
-									vert.v.nx = static_cast<float>(normal->GetDirectArray().GetAt(id)[0]);
-									vert.v.ny = static_cast<float>(normal->GetDirectArray().GetAt(id)[1]);
-									vert.v.nz = static_cast<float>(normal->GetDirectArray().GetAt(id)[2]);
+									vert.v.normal.x = static_cast<float>(normal->GetDirectArray().GetAt(id)[0]);
+									vert.v.normal.y = static_cast<float>(normal->GetDirectArray().GetAt(id)[1]);
+									vert.v.normal.z = static_cast<float>(normal->GetDirectArray().GetAt(id)[2]);
 								}break;
 
 								default:
@@ -1231,9 +1234,9 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 
 						if (tangent->GetMappingMode() == FbxGeometryElement::eByControlPoint)
 						{
-							vert.v.nx = static_cast<float>(tangent->GetDirectArray().GetAt(controlPointIndex)[0]);
-							vert.v.ny = static_cast<float>(tangent->GetDirectArray().GetAt(controlPointIndex)[1]);
-							vert.v.nz = static_cast<float>(tangent->GetDirectArray().GetAt(controlPointIndex)[2]);
+							vert.v.normal.x = static_cast<float>(tangent->GetDirectArray().GetAt(controlPointIndex)[0]);
+							vert.v.normal.y = static_cast<float>(tangent->GetDirectArray().GetAt(controlPointIndex)[1]);
+							vert.v.normal.z = static_cast<float>(tangent->GetDirectArray().GetAt(controlPointIndex)[2]);
 						}
 						else if (tangent->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
 						{
@@ -1241,16 +1244,16 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 							{
 								case FbxGeometryElement::eDirect:
 								{
-									vert.v.nx = static_cast<float>(tangent->GetDirectArray().GetAt(vertexId)[0]);
-									vert.v.ny = static_cast<float>(tangent->GetDirectArray().GetAt(vertexId)[1]);
-									vert.v.nz = static_cast<float>(tangent->GetDirectArray().GetAt(vertexId)[2]);
+									vert.v.normal.x = static_cast<float>(tangent->GetDirectArray().GetAt(vertexId)[0]);
+									vert.v.normal.y = static_cast<float>(tangent->GetDirectArray().GetAt(vertexId)[1]);
+									vert.v.normal.z = static_cast<float>(tangent->GetDirectArray().GetAt(vertexId)[2]);
 								}break;
 								case FbxGeometryElement::eIndexToDirect:
 								{
 									int32 id = tangent->GetIndexArray().GetAt(vertexId);
-									vert.v.nx = static_cast<float>(tangent->GetDirectArray().GetAt(id)[0]);
-									vert.v.ny = static_cast<float>(tangent->GetDirectArray().GetAt(id)[1]);
-									vert.v.nz = static_cast<float>(tangent->GetDirectArray().GetAt(id)[2]);
+									vert.v.normal.x = static_cast<float>(tangent->GetDirectArray().GetAt(id)[0]);
+									vert.v.normal.y = static_cast<float>(tangent->GetDirectArray().GetAt(id)[1]);
+									vert.v.normal.z = static_cast<float>(tangent->GetDirectArray().GetAt(id)[2]);
 								}
 								break;
 								default:
@@ -1508,7 +1511,7 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		{
 			VertexWithFace& vert = vertsSorted[i];
 			printf("Vertex: x(%f), y(%f), z(%f) - Weight Index: %u\n",
-				vert.v.x, vert.v.y, vert.v.z, vert.weightIndex
+				vert.v.position.x, vert.v.position.y, vert.v.position.z, vert.weightIndex
 			);
 		}
 
@@ -1544,11 +1547,11 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		convertedPositions.reserve(modelData.vertices.Size());
 		for (const Vertex& vert : modelData.vertices)
 		{
-			convertedPositions.push_back(Vector4(vert.x, vert.y, vert.z));
+			convertedPositions.push_back(Vector4(vert.position.x, vert.position.y, vert.position.z));
 		}
 
 		SphereBounds boundingSphere;
-		RitterSphere(boundingSphere, convertedPositions.data(), convertedPositions.size());
+		RitterSphere(boundingSphere, convertedPositions.data(), (uint32)convertedPositions.size());
 
 		// Save the data
 

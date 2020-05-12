@@ -2,15 +2,15 @@
 
 #include "Platform.h"
 #include "Malloc16Align.h"
-#include "Math/Vector4.h"
-#include "Math/Quat.h"
+#include "Math/Vector4.hpp"
+#include "Math/Quat.hpp"
 #include "Time/Time.h"
 
 struct FrameData : public Malloc16
 {
-	Vector translation;
+	Vector4 translation;
 	Quat rotation;
-	Vector scale;
+	Vector4 scale;
 };
 
 struct KeyFrame

@@ -260,9 +260,9 @@ echo         Copied ECS_d.pdb!</Command>
 rem echo         Copied nvtt.dll! 
 copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
 echo         Copied ispc_texcomp.dll!
-copy "$(SolutionDir)Binaries\ECS.dll" &gt; nul
+copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
 echo         Copied ECS_d.dll!
-copy "$(SolutionDir)Binaries\ECS.pdb" &gt; nul
+copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
 echo         Copied ECS.pdb!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -297,9 +297,9 @@ echo         Copied ECS.pdb!</Command>
 rem echo         Copied nvtt.dll! 
 copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(OutputPath)" &gt;nul
 echo         Copied ispc_texcomp.dll!
-copy "$(SolutionDir)Binaries\ECS.dll" &gt; nul
+copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
 echo         Copied ECS_d.dll!
-copy "$(SolutionDir)Binaries\ECS.pdb" &gt; nul
+copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
 echo         Copied ECS.pdb!</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

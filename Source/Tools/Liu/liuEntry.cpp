@@ -32,7 +32,7 @@
 // Feel free to add files and methods to this project
 //---------------------------------------------------------------------------
 
-void PackFilesTogether(char* outputFile, char* packageName, uint32 packageNameLen, char* packageVersion, uint32 versionLen)
+void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLen, char* packageVersion, size_t versionLen)
 {
 	DirectoryDescription dirDesc = GetAllFileTypesInCurrentDirectory("*.chnk");
 
@@ -53,7 +53,7 @@ void PackFilesTogether(char* outputFile, char* packageName, uint32 packageNameLe
 
 	for (uint32 i = 0; i < dirDesc.numberOfFiles; ++i)
 	{
-		char* file = dirDesc.files[i];
+		const char* file = *dirDesc.files[i];
 		File::Handle fileHandle;
 		result = File::Open(fileHandle, file, File::Mode::READ);
 		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be opened");
@@ -77,12 +77,6 @@ void PackFilesTogether(char* outputFile, char* packageName, uint32 packageNameLe
 	}
 
 	header.totalSize = packageFileSize;
-
-	for (uint32 i = 0; i < dirDesc.numberOfFiles; ++i)
-	{
-		delete[] dirDesc.files[i];
-	}
-	delete[] dirDesc.files;
 
 	File::Seek(outFileHandle, File::Location::BEGIN, 0);
 	File::Write(outFileHandle, &header, sizeof(PackageHeader));

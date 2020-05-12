@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Math/MathUtilities.h"
+#include "Math/MathFunctions.hpp"
 #include "PrimitiveGeneration.h"
 
 void MostSeparatedPointsOnAABB(int &min, int &max, Vector4 *pt, uint32 numPts)
