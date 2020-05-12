@@ -51,8 +51,6 @@ NODISCARD uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uin
 template<typename Comp>
 NODISCARD ECS_TEMPLATE forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk& chunk)
 {
-	using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
-
 	if constexpr (std::is_same_v<Comp, Entity>)
 	{
 		Entity* entityArr = reinterpret_cast<Entity*>(chunk.data);
@@ -60,6 +58,10 @@ NODISCARD ECS_TEMPLATE forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk
 	}
 	else
 	{
+		using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
+		using nonRefType = std::remove_reference_t<Comp>;
+
+		constexpr bool isConst = std::is_const_v<Comp>;
 		constexpr uint64 hash = Musa::Internal::TypenameHash<sanitizedType>();
 		ComponentTypeHash* hashes = chunk.header->typeHashes;
 		const uint32 typeCount = chunk.header->componentTypeCount;
@@ -70,15 +72,21 @@ NODISCARD ECS_TEMPLATE forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk
 			{
 				if (hashes[i].typenameHash == hash)
 				{
+					if constexpr (!isConst)
+					{
+						// TODO - This is awful and needs to change. Might need to pass in the system or world or something, but it needs to change
+						chunk.header->versions[i] = chunk.header->archetype->world->GetSystemVersion();
+					}
+
 					size_t* offsets = chunk.header->offsets;
-					sanitizedType* ptr = reinterpret_cast<sanitizedType*>(chunk.data + offsets[i]);
+					nonRefType* ptr = reinterpret_cast<nonRefType*>(chunk.data + offsets[i]);
 					const uint32 numEntities = chunk.header->entityCount;
-					return ChunkArray<sanitizedType>(*ptr, numEntities);
+					return ChunkArray<nonRefType>(*ptr, numEntities);
 				}
 			}
 		}
 
-		return ChunkArray<sanitizedType>();
+		return ChunkArray<nonRefType>();
 	}
 }
 

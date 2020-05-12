@@ -5,7 +5,7 @@
 
 namespace Musa
 {
-struct World;
+class World;
 struct QueryDescription;
 
 class QueryCache

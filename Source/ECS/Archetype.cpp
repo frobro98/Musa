@@ -75,7 +75,10 @@ static forceinline ArchetypeChunk CreateNewChunkFor(Archetype& archetype)
 	header->versions = versions;
 
 	uint32 typeCount = header->componentTypeCount;
-	Memset(versions, 0x1, typeCount * sizeof(uint32));
+	for (uint32 i = 0; i < typeCount; ++i)
+	{
+		versions[i] = 1;
+	}
 
 	chunkData = reinterpret_cast<uint8*>(versions + typeCount);
 	chunk.data = chunkData;

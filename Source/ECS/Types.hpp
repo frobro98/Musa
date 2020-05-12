@@ -28,7 +28,7 @@ struct is_valid_component_type
 };
 
 template <typename CompType>
-inline constexpr bool is_valid_component_type_v = is_valid_component_type::value;
+inline constexpr bool is_valid_component_type_v = is_valid_component_type<CompType>::value;
 
 template <typename CompType>
 inline constexpr bool can_attach_to_entity_v = std::conjunction_v<

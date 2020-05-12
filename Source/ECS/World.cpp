@@ -133,7 +133,12 @@ void World::Update()
 	for (auto& system : systems)
 	{
 		system->Update();
+		system->SetVersion(systemVersion);
 		ResetInternalCache();
+
+		// TODO - 0 isn't a valid number so this needs to catch when 0 is happening
+		// Update systemVersion
+		++systemVersion;
 	}
 }
 }

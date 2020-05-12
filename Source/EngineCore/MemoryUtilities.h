@@ -47,7 +47,7 @@ inline void Memmove(void* dest, size_t destSize, const void* src, size_t srcSize
 	memmove_s(dest, destSize, src, srcSize);
 }
 
-inline void Memset(void* mem, int32 value, size_t memSize)
+inline void Memset(void* mem, int8 value, size_t memSize)
 {
 	memset(mem, value, memSize);
 }

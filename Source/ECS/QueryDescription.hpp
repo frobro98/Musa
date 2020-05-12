@@ -10,7 +10,6 @@ namespace Musa
 struct Query;
 struct ComponentType;
 class System;
-//struct World;
 
 forceinline ArchetypeMask BuildQueryMask(const ComponentType** types, size_t typeCount)
 {

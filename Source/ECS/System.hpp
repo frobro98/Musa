@@ -11,7 +11,7 @@
 
 namespace Musa
 {
-struct World;
+class World;
 class QueryCache;
 
 class ECS_API System
@@ -43,6 +43,16 @@ public:
 
 	NODISCARD DynamicArray<ChunkComponentAccessor> GetQueryChunks(const Query& query);
 
+	forceinline void SetVersion(uint32 currentVersion)
+	{
+		prevVersion = currentVersion;
+	}
+	forceinline uint32 GetVersion()
+	{
+		return prevVersion;
+	}
+
+
 protected:
 // 	QueryDescription BeginQuery();
 // 	NODISCARD Query EndQuery(const QueryDescription& qb);
@@ -52,6 +62,7 @@ private:
 	// all of the world object into memory. Could be a lot to load. Need to split up some behaviors in the world into other structures
 	World* world = nullptr;
 	QueryCache* queryCache = nullptr;
+	uint32 prevVersion = 0;
 };
 
 template<typename ...CompTypes>

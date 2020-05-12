@@ -8,7 +8,6 @@ namespace Musa
 
 struct Archetype;
 struct ArchetypeChunk;
-struct World;
 
 struct EntityBridge
 {

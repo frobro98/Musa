@@ -3,6 +3,7 @@
 #include "ECS/Archetype.hpp"
 #include "ECS/World.hpp"
 #include "ECS/System.hpp"
+#include "ECS/ChunkComponentAccessor.hpp"
 
 #include "TestComponents/FloatArray.hpp"
 #include "TestComponents/Movement.hpp"
@@ -75,6 +76,222 @@ void IterateChunkSystem::Deinitialize()
 }
 
 //////////////////////////////////////////////////////////////////////////
+// Check Chunk Version System
+//////////////////////////////////////////////////////////////////////////
+
+class CheckChunkVersionSystem : public System
+{
+public:
+	CheckChunkVersionSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
+	{}
+
+	virtual void Initialize() override;
+	virtual void Update() override;
+	virtual void Deinitialize() override;
+
+	// This is here just to allow the UnitTestSystem be hooked into the unit test framework
+	void teardown() {};
+
+private:
+	const char* name;
+	UnitData& _UnitData;
+	UnitStats& _UnitStats;
+	uint32 numEntitiesExpected;
+	bool versionUpdate = false;
+};
+
+void CheckChunkVersionSystem::Initialize()
+{
+	updatedSuccess = false;
+}
+
+void CheckChunkVersionSystem::Update()
+{
+	World& w = GetWorld();
+	CHECK_REF(w);
+
+	// Query gets all of the archetypes that match types asked for
+	QueryDescription desc = DescribeQuery().Require<Position, Rotation>();
+	Query& q0 = GetQueryFor(desc);
+
+	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
+	CHECK_GT(chunks.Size(), 0);
+
+	uint32 numEntitiesInChunks = 0;
+	for (auto& chunk : chunks)
+	{
+		numEntitiesInChunks += chunk.GetEntityCount();
+	}
+	CHECK_EQ(numEntitiesInChunks, numEntitiesExpected);
+
+	if (!versionUpdate)
+	{
+		CHECK_TRUE(chunks[0].HasChanged<Position>(w.GetSystemVersion()));
+		CHECK_TRUE(chunks[0].HasChanged<Rotation>(w.GetSystemVersion()));
+
+		versionUpdate = true;
+	}
+	else
+	{
+		CHECK_FALSE(chunks[0].HasChanged<Position>(w.GetSystemVersion()));
+		CHECK_FALSE(chunks[0].HasChanged<Rotation>(w.GetSystemVersion()));
+	}
+
+	updatedSuccess = true;
+}
+
+void CheckChunkVersionSystem::Deinitialize()
+{
+	updatedSuccess = false;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Modify And Check Chunk System
+//////////////////////////////////////////////////////////////////////////
+
+class ModifyChunkSystem : public System
+{
+public:
+	ModifyChunkSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
+	{}
+
+	virtual void Initialize() override;
+	virtual void Update() override;
+	virtual void Deinitialize() override;
+
+	// This is here just to allow the UnitTestSystem be hooked into the unit test framework
+	void teardown() {};
+
+private:
+	const char* name;
+	UnitData& _UnitData;
+	UnitStats& _UnitStats;
+	uint32 numEntitiesExpected;
+	bool versionUpdated = false;
+};
+
+void ModifyChunkSystem::Initialize()
+{
+	updatedSuccess = false;
+}
+
+void ModifyChunkSystem::Update()
+{
+	World& w = GetWorld();
+	CHECK_REF(w);
+
+	// Query gets all of the archetypes that match types asked for
+	QueryDescription desc = DescribeQuery().Require<Position, Rotation>();
+	Query& q0 = GetQueryFor(desc);
+
+	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
+	CHECK_GT(chunks.Size(), 0);
+
+	uint32 numEntitiesInChunks = 0;
+	for (auto& chunk : chunks)
+	{
+		numEntitiesInChunks += chunk.GetEntityCount();
+	}
+	CHECK_EQ(numEntitiesInChunks, numEntitiesExpected);
+
+
+	if (!versionUpdated)
+	{
+		CHECK_TRUE(chunks[0].HasChanged<Position>(GetVersion()));
+		CHECK_TRUE(chunks[0].HasChanged<Rotation>(GetVersion()));
+		versionUpdated = true;
+	}
+	else
+	{
+		CHECK_FALSE(chunks[0].HasChanged<Position>(GetVersion()));
+		CHECK_FALSE(chunks[0].HasChanged<Rotation>(GetVersion()));
+
+		NOT_USED ChunkArray<Position> posArr = chunks[0].GetArrayOf<Position>();
+		NOT_USED ChunkArray<const Rotation> rotArr = chunks[0].GetArrayOf<const Rotation>();
+	}
+
+	updatedSuccess = true;
+}
+
+void ModifyChunkSystem::Deinitialize()
+{
+	updatedSuccess = false;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Check After Modification Chunk System
+//////////////////////////////////////////////////////////////////////////
+
+class CheckAfterModificationkSystem : public System
+{
+public:
+	CheckAfterModificationkSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
+	{}
+
+	virtual void Initialize() override;
+	virtual void Update() override;
+	virtual void Deinitialize() override;
+
+	// This is here just to allow the UnitTestSystem be hooked into the unit test framework
+	void teardown() {};
+
+private:
+	const char* name;
+	UnitData& _UnitData;
+	UnitStats& _UnitStats;
+	uint32 numEntitiesExpected;
+	bool versionUpdated = false;
+};
+
+void CheckAfterModificationkSystem::Initialize()
+{
+	updatedSuccess = false;
+}
+
+void CheckAfterModificationkSystem::Update()
+{
+	World& w = GetWorld();
+	CHECK_REF(w);
+
+	// Query gets all of the archetypes that match types asked for
+	QueryDescription desc = DescribeQuery().Require<Position, Rotation>();
+	Query& q0 = GetQueryFor(desc);
+
+	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
+	CHECK_GT(chunks.Size(), 0);
+
+	uint32 numEntitiesInChunks = 0;
+	for (auto& chunk : chunks)
+	{
+		numEntitiesInChunks += chunk.GetEntityCount();
+	}
+	CHECK_EQ(numEntitiesInChunks, numEntitiesExpected);
+
+	if (!versionUpdated)
+	{
+		CHECK_TRUE(chunks[0].HasChanged<Position>(GetVersion()));
+		CHECK_TRUE(chunks[0].HasChanged<Rotation>(GetVersion()));
+		versionUpdated = true;
+	}
+	else
+	{
+		CHECK_TRUE(chunks[0].HasChanged<Position>(GetVersion()));
+		CHECK_FALSE(chunks[0].HasChanged<Rotation>(GetVersion()));
+	}
+
+
+	updatedSuccess = true;
+}
+
+void CheckAfterModificationkSystem::Deinitialize()
+{
+	updatedSuccess = false;
+}
+
+//////////////////////////////////////////////////////////////////////////
 // Unit Tests
 //////////////////////////////////////////////////////////////////////////
 
@@ -106,5 +323,61 @@ TEST(IterateQueriedChunks, SystemChunkBehaviors)
 	w.Update();
 	CHECK_TRUE(updatedSuccess);
 
+}
+
+TEST(CheckVersionQueriedChunk, SystemChunkBehaviors)
+{
+	updatedSuccess = true;
+
+	World w;
+	CHECK_REF(w);
+
+	constexpr uint32 numEntitiesExpected = 50;
+	for (uint32 i = 0; i < numEntitiesExpected; ++i)
+	{
+		NOT_USED Entity e = w.CreateEntity<Position, Rotation>();
+	}
+
+	CheckChunkVersionSystem& s = w.CreateSystem<CheckChunkVersionSystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
+	CHECK_REF(s);
+	CHECK_EQ(w.systems.Size(), 1);
+	CHECK_EQ(w.systemTypesInWorld.Size(), 1);
+	CHECK_EQ(w.systemTypesInWorld[0], GetSystemTypeFor<CheckChunkVersionSystem>());
+
+	CHECK_FALSE(updatedSuccess);
+	w.Update();
+	w.Update();
+	CHECK_TRUE(updatedSuccess);
+}
+
+TEST(ModifyAndCheckVersionQueriedChunk, SystemChunkBehaviors)
+{
+	updatedSuccess = true;
+
+	World w;
+	CHECK_REF(w);
+
+	constexpr uint32 numEntitiesExpected = 50;
+	for (uint32 i = 0; i < numEntitiesExpected; ++i)
+	{
+		NOT_USED Entity e = w.CreateEntity<Position, Rotation>();
+	}
+
+	ModifyChunkSystem& s = w.CreateSystem<ModifyChunkSystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
+	CHECK_REF(s);
+	CHECK_EQ(w.systems.Size(), 1);
+	CHECK_EQ(w.systemTypesInWorld.Size(), 1);
+	CHECK_EQ(w.systemTypesInWorld[0], GetSystemTypeFor<ModifyChunkSystem>());
+
+	CheckAfterModificationkSystem& cs = w.CreateSystem<CheckAfterModificationkSystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
+	CHECK_REF(cs);
+	CHECK_EQ(w.systems.Size(), 2);
+	CHECK_EQ(w.systemTypesInWorld.Size(), 2);
+	CHECK_EQ(w.systemTypesInWorld[1], GetSystemTypeFor<CheckAfterModificationkSystem>());
+
+	CHECK_FALSE(updatedSuccess);
+	w.Update();
+	w.Update();
+	CHECK_TRUE(updatedSuccess);
 }
 

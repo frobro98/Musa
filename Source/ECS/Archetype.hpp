@@ -12,7 +12,7 @@
 
 namespace Musa
 {
-struct World;
+class World;
 
 namespace Internal
 {

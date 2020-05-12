@@ -98,8 +98,9 @@ namespace Musa
 struct Component;
 class System;
 
-struct ECS_API World final : private Uncopyable
+class ECS_API World final : private Uncopyable
 {
+public:
 	World();
 
 	template<typename... Comps>
@@ -133,6 +134,12 @@ struct ECS_API World final : private Uncopyable
 	template <typename Comp>
 	bool HasComponent(Entity entity);
 
+	forceinline uint32 GetSystemVersion()
+	{
+		return systemVersion;
+	}
+
+
 	DynamicArray<const SystemType*> systemTypesInWorld;
 	DynamicArray<UniquePtr<System>> systems;
 
@@ -151,6 +158,9 @@ private:
 	Entity ConstructEntityInternals(World& world, const ComponentType** types, uint32 typeCount);
 	void HookUpComponentType(World& world, Entity entity, const ComponentType* type);
 	void UnhookComponentType(World& world, Entity entity, const ComponentType* type);
+
+private:
+	uint32 systemVersion = 1;
 };
 
 forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
