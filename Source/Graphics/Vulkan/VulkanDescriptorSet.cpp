@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanDescriptorSet.h"
 #include "VulkanDevice.h"
 #include "VulkanBufferAllocation.hpp"

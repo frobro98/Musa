@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "QueryDescription.hpp"
 #include "Query.hpp"
 #include "World.hpp"

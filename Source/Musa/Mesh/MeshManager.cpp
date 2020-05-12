@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "MeshManager.h"
 #include "Mesh.h"
 #include "PlatformDefinitions.h"

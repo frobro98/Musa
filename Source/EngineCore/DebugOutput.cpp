@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "DebugOutput.h"
 
 constexpr uint32 DebugBufferSize = 256;

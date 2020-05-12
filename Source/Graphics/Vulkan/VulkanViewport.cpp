@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanDefinitions.h"
 #include "VulkanViewport.hpp"
 #include "VulkanSurface.h"

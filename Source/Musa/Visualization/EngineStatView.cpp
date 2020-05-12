@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "EngineStatView.hpp"
 #include "Debugging/ProfilerStatistics.hpp"
 #include "Visualization/ScreenTextItem.hpp"

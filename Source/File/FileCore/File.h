@@ -1,7 +1,6 @@
-#pragma once
+// Copyright 2020, Nathan Blane
 
-// Make the assumption of c-char strings, not UNICODE
-// 32 bit files, not supporting 64 bits
+#pragma once
 
 #include "Platform.h"
 

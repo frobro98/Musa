@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 #include "Math/Quat.hpp"

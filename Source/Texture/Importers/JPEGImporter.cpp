@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Platform.h"
 WALL_WRN_PUSH
 #include "libJPEG/jpgd.h"

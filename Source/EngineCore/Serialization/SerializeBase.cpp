@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "SerializeBase.hpp"
 #include "Assertion.h"
 

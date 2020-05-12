@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "UI.hpp"
 #include "UIInternal.hpp"

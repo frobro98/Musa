@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "DeserializeBase.hpp"
 
 void Deserialize(DeserializeBase& ser, tchar& c)

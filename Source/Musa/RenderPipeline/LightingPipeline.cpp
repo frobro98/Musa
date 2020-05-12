@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "LightingPipeline.hpp"
 #include "Scene/GBufferTargets.hpp"

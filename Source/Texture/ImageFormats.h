@@ -1,6 +1,8 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "Types/Intrinsics.hpp"
 
 enum class ImageFormat : uint32
 {

@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "MeshUtilities.hpp"
 #include "Mesh/GeometryPrimitives.h"

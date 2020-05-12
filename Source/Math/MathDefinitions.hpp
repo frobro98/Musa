@@ -1,11 +1,6 @@
-//-----------------------------------------------------------------------------
-// Copyright Ed Keenan 2018
-// Gam575
-//----------------------------------------------------------------------------- 
+// Copyright 2020, Nathan Blane
 
-#ifndef ENGINE_MATH_ENUM_H
-#define ENGINE_MATH_ENUM_H
-
+#pragma once
 
 enum m0_enum
 {
@@ -140,6 +135,3 @@ enum MatrixRowType
 	ROW_3
 };
 
-#endif
-
-// ---  End of File ---------------

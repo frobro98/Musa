@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "FastFourierTransform.hpp"
 #include "Math/MathConstants.hpp"
 #include "Math/MathFunctions.hpp"

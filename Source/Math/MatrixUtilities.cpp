@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "MatrixUtilities.hpp"
 #include "MathFunctions.hpp"
 #include "Assertion.h"

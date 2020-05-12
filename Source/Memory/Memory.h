@@ -1,19 +1,19 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 #include "EngineCore/Platform.h"
 
-// forward declaration
 class Heap;
 class Block;
 
-// Singleton
 class Memory
 {
 public:
 
 	// Constants for the library
-	static const uint32 MAJOR_VERSION = 2;
-	static const uint32 MINOR_VERSION = 0;
+	static constexpr uint32 MAJOR_VERSION = 2;
+	static constexpr uint32 MINOR_VERSION = 0;
 
 	// alignment 
 	enum Align

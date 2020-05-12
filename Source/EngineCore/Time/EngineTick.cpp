@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "EngineTick.h"
 
 float EngineTick::CountsPerSec = 0.f;

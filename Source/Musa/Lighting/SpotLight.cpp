@@ -1,4 +1,4 @@
-#include "SpotLight.hpp"
+// Copyright 2020, Nathan Blane
 
 #include "SpotLight.hpp"
 #include "Math/MathFunctions.hpp"

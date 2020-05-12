@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "Input.hpp"
 #include "Internal/InputInternal.hpp"

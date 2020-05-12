@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Hash.hpp"
 
 uint32 xxhash32(const void * buffer, uint32 byteCount, uint32 seed)

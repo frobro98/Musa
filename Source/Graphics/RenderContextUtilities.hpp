@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 // TODO - Not a great name for what its doing. Hopefully I'll get a better name later on?

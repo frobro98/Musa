@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "VulkanTexture.h"
 #include "VulkanDevice.h"

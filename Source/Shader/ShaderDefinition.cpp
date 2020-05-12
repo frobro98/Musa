@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "ShaderDefinition.hpp"
 #include "ShaderCompiler.h"
 #include "EngineCore/DirectoryLocations.h"

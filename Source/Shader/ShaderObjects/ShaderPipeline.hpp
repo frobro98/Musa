@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 // This defines the single object that a material keeps with it

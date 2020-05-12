@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanRenderState.hpp"
 #include "EngineCore/Assertion.h"
 #include "VulkanCommandBuffer.h"

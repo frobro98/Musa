@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "Graphics/GraphicsInterface.hpp"
 #include "Camera/Camera.h"

@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "CyclePerformance.hpp"
 #include "Windows/WindowsDefinitions.h"

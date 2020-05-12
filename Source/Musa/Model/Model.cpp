@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "Model.h"
 #include "Platform.h"

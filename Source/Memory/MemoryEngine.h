@@ -1,16 +1,10 @@
-//-----------------------------------------------------------------------------
-// Copyright Ed Keenan 2017
-// Optimized C++
-//----------------------------------------------------------------------------- 
+// Copyright 2020, Nathan Blane
 
-#ifndef MEM_ENGINE_H
-#define MEM_ENGINE_H
+#pragma once
 
 #include "Memory.h"
 #include "Heap.h"
 #include "Block.h"
 #include "GlobalNew.h"
 
-#endif
 
-// ---  End of File ---------------

@@ -1,6 +1,8 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 
 // TODO - This basically becomes a way to get at the "World" possibly
 // The other option would just be actually setting the world when the GameObjectManager creates them

@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanRenderContext.hpp"
 #include "VulkanRenderState.hpp"
 #include "EngineCore/Assertion.h"

@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "BatchCollection.hpp"
 #include "RenderContext.hpp"
 #include "ResourceArray.hpp"

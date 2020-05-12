@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "MemorySerializer.hpp"
 
 void MemorySerializer::SerializeData(const void* data, uint32 dataSize)

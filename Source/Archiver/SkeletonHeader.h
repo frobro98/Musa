@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 // TODO - Move this file out of the Archiver project

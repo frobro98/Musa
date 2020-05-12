@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "WidgetBatchElemements.hpp"
 
 BatchElement& WidgetBatchElements::GetBatchElement(const NativeTexture* batchTexture)

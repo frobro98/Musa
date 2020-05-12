@@ -1,13 +1,6 @@
+// Copyright 2020, Nathan Blane
 
 #include "Timer.h"
-
-
-Timer::Timer(): 
-	privTicMark( Time::MAX )
-{ }
-
-Timer::~Timer()	
-{ }
 
 void Timer::Tic()
 {

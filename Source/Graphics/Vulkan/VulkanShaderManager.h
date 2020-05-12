@@ -1,5 +1,6 @@
-#pragma once
+// Copyright 2020, Nathan Blane
 
+#pragma once
 
 #include "String/String.h"
 #include "Containers/DynamicArray.hpp"

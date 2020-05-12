@@ -1,63 +1,11 @@
 #pragma once
 
-/*
- * class Timer
- * Measures real durations of time in terms of Time.
- *
- * The Timer interface you see here owes itself to Matlab.
- * You only measure segements of time with a Timer.  Use tic() to
- * mark the beginning of the segment.  Use toc() to mark the end.
- *
- * toc() always returns the amount of time that has elapsed since tic()
- * was called.  If you never call tic() on your Timer then toc() will
- * return @link Time::Time() zero @endlink.
- *
- *
- * Example
- *
- *    #include "Timer.h"
- *
- *    // Create a Timer.
- *    Timer timer;
- *
- *    // Mark our begin time.
- *    timer.tic();
- *
- *    // Do something for a while.
- *    ...
- *
- *    // Measure how much time has gone by since we called tic().
- *    const Time elapsedTime = timer.toc();
- *
- *
- */
-
- //---------------------------------------------------------------------------
- // HEADER FILES:
- //---------------------------------------------------------------------------
-
 #include "Time.h"
 #include "Types/Uncopyable.hpp"
-
-//---------------------------------------------------------------------------
-// TEMPLATE DECLARATION:
-//---------------------------------------------------------------------------
 
 class Timer : private Uncopyable
 {
 public:
-	//-----------------------------------------------------------------
-	// Constructors / Destructors
-	//-----------------------------------------------------------------
-
-	/* Creates a Timer for the platform you are compiling on. */
-	Timer();
-	~Timer();
-
-	//-----------------------------------------------------------------
-	// Timing Methods
-	//-----------------------------------------------------------------
-
 	/*
 	* Marks the moment in time that toc() will get measured against.
 	* Call tic() to mark the beginning of the segment of time that
@@ -78,5 +26,5 @@ private:
 	static const Time privGetSystemTime();
 
 	// Data
-	Time privTicMark;
+	Time privTicMark{ Time::MAX };
 };

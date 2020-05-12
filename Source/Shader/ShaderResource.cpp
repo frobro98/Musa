@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "ShaderResource.hpp"
 #include "Graphics/Vulkan/VulkanDevice.h"
 #include "Graphics/Vulkan/VulkanUtilities.h"

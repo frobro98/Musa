@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "BatchPrimitives.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Shader/ShaderDefinition.hpp"

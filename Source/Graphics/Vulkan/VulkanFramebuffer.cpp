@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanFramebuffer.h"
 #include "VulkanDevice.h"
 #include "VulkanRenderPass.h"

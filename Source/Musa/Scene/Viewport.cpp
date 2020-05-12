@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 

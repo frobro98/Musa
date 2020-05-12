@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "GameWorld.hpp"
 #include "Scene/Scene.hpp"

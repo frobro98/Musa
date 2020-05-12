@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "TextureProcessing.hpp"
 #include "Containers/Map.h"

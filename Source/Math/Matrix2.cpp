@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Matrix2.hpp"
 #include "Quat2.hpp"
 #include "MathFunctions.hpp"

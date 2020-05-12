@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "EngineCore/Platform.h"
 #include "Assertion.h"
 #include "Window.h"

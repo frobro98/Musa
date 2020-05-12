@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "Camera.h"
 #include "GameObject/GameObject.h"

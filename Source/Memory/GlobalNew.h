@@ -1,10 +1,5 @@
-//-----------------------------------------------------------------------------
-// Copyright Ed Keenan 2017
-// Optimized C++
-//----------------------------------------------------------------------------- 
-
-#ifndef GLOBAL_NEW_H
-#define GLOBAL_NEW_H
+// Copyright 2020, Nathan Blane
+#pragma once
 
 #include "Memory.h"
 
@@ -28,6 +23,3 @@ void operator delete( void *p );
 void* operator new[]( size_t inSize );
 void operator delete[]( void *p );
 
-#endif
-
-// ---  End of File ---------------

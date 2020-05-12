@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"

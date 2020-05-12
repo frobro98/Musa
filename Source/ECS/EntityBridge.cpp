@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "EntityBridge.hpp"
 #include "Entity.hpp"

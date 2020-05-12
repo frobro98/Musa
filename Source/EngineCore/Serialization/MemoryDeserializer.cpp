@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "MemoryDeserializer.hpp"
 
 MemoryDeserializer::MemoryDeserializer(DynamicArray<uint8>& memory)

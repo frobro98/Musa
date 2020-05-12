@@ -1,6 +1,8 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
-#include "Math/Vector4.h"
+#include "Math/Vector4.hpp"
 #include "Math/BoundsVolumes.hpp"
 
 struct Plane
@@ -11,4 +13,4 @@ struct Plane
 	Vector4 bottomRight;
 };
 
-bool PlaneIntersectsSphere()
+bool PlaneIntersectsSphere();

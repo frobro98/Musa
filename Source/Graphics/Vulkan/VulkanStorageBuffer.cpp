@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanStorageBuffer.h"
 #include "MemoryUtilities.h"
 #include "VulkanBufferAllocation.hpp"

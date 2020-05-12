@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "RenderObjectManager.hpp"
 #include "RenderObject.hpp"
 

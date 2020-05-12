@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanUniformBuffer.h"
 #include "VulkanDevice.h"
 #include "VulkanMemoryManager.hpp"

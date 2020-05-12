@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "Framework/UnitTest.h"
 #include "Math/Matrix4.hpp"

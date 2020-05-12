@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Color.hpp"
 
 Color32 NormalizeColor(const Color& color)

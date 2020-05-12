@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "GameObject.h"
 #include "Model/Model.h"

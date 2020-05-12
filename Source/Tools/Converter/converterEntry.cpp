@@ -1,23 +1,4 @@
-/****************************************************************************************
-
-   Copyright (C) 2015 Autodesk, Inc.
-   All rights reserved.
-
-   Use of this software is subject to the terms of the Autodesk license agreement
-   provided at the time of installation or download, or which otherwise accompanies
-   this software in either electronic or hard copy form.
-
-****************************************************************************************/
-
-/////////////////////////////////////////////////////////////////////////
-//
-// This example illustrates how to detect if a scene is password 
-// protected, import and browse the scene to access node and animation 
-// information. It displays the content of the FBX file which name is 
-// passed as program argument. You can try it with the various FBX files 
-// output by the export examples.
-//
-/////////////////////////////////////////////////////////////////////////
+// Copyright 2020, Nathan Blane
 
 #include "Common/Common.h"
 

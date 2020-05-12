@@ -1,11 +1,6 @@
-//-----------------------------------------------------------------------------
-// Copyright Ed Keenan 2017
-// Optimized C++
-//----------------------------------------------------------------------------- 
+// Copyright 2020, Nathan Blane
 
-#ifndef BLOCK_H
-#define BLOCK_H
-
+#pragma once
 #include "Heap.h"
 
 class Block
@@ -57,6 +52,3 @@ protected:
 	Block          *pSecret;   // back pointer to the top of the tracking block
 };
 
-#endif
-
-// ---  End of File ---------------

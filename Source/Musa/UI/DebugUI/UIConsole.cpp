@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "UIConsole.hpp"
 #include "Font/FontCache.hpp"
 #include "Texture/Texture2D/Texture.h"

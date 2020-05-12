@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "GameInput.hpp"
 #include "Engine/MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"

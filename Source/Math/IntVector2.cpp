@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "IntVector2.hpp"
 #include "Vector2.hpp"
 

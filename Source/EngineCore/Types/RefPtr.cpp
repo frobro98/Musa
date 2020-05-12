@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "RefPtr.hpp"
 
 void Counter::Increment()

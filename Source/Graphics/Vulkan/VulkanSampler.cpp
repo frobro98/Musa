@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanSampler.hpp"
 #include "VulkanRenderingCloset.hpp"
 #include "VulkanDevice.h"

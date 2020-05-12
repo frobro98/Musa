@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "MipmapGeneration.hpp"
 #include "FastFourierTransform.hpp"

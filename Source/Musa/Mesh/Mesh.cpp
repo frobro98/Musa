@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "Mesh.h"
 #include "DirectoryLocations.h"

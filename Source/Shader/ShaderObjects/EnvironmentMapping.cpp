@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "EnvironmentMapping.hpp"
 
 DEFINE_VERTEX_SHADER(EnvironmentMappingVert,

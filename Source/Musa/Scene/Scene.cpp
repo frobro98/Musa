@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Scene.hpp"
 #include "Platform.h"
 #include "ScreenView.hpp"

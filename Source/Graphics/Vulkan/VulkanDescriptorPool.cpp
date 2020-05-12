@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "VulkanDescriptorPool.h"
 #include "VulkanDevice.h"

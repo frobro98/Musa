@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "FileSerializer.hpp"
 
 FileSerializer::FileSerializer(const Path& filePath)

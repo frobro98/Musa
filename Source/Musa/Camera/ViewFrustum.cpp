@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "ViewFrustum.hpp"
 #include "Math/BoundsVolumes.hpp"

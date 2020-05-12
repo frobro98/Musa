@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "MetricInterface.hpp"
 #include "Math/Vector2.hpp"

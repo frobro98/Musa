@@ -1,7 +1,10 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 #include "Types/ConcurrentTypes.hpp"
 
+// TODO - This container doesn't actually work. It needs to be tested and debugged a loooooootttt
 template <class Elem, uint32 size>
 class ConcurrentQueue
 {

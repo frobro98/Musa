@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "MusaApp.hpp"
 #include "Engine/MusaAppWindows.hpp"
 #include "Engine/FrameData.hpp"

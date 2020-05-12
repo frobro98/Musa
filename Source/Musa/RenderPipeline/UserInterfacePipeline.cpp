@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "UserInterfacePipeline.hpp"
 #include "Mesh/GeometryPrimitives.h"
 #include "Font/FontCache.hpp"

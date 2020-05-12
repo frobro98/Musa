@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "Material.h"
 #include "Texture2D/TextureManager.h"
 #include "Texture2D/Texture.h"

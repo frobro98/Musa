@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "ScreenView.hpp"
 #include "Assertion.h"
 #include "Math/MatrixUtilities.hpp"

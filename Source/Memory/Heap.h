@@ -1,21 +1,20 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 #include "EngineCore/Platform.h"
 #include "EngineCore/MemoryUtilities.h"
 
-// Forward declaration
 class Block;
 class Memory;
 
 
 // TODO - Make this abstract and make a StaticBlockHeap and DynamicBlockHeap
-// Heap class
 class Heap 
 {
 public:
-	// Constants 
-	static const uint32 NameLength = 32;
-	static const uint32 NameNumChar = (NameLength - 1);
+	static constexpr uint32 NameLength = 32;
+	static constexpr uint32 NameNumChar = (NameLength - 1);
 
 	// Heap Types
 	enum class Type : uint32
@@ -81,3 +80,4 @@ protected:
 	Heap* heapPrev;
 
 };
+

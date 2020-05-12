@@ -118,13 +118,11 @@ echo         Copied libfbxsdk.dll! </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Musa\Model\MeshUtilities.cpp" />
     <ClCompile Include="..\..\Source\Tools\Converter\Common\Common.cxx" />
     <ClCompile Include="..\..\Source\Tools\Converter\converterEntry.cpp" />
     <ClCompile Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Musa\Model\MeshUtilities.hpp" />
     <ClInclude Include="..\..\Source\Tools\Converter\Common\Common.h" />
     <ClInclude Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.h" />
   </ItemGroup>

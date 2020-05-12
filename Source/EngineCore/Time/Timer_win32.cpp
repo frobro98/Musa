@@ -1,18 +1,7 @@
-/*
- * Timer_win32.cpp
- *
- * Timer implementation specific to the win32 platform.
- */
 
-//---------------------------------------------------------------------------
-// HEADER FILES:
-//---------------------------------------------------------------------------
 #include "Timer.h"
 #include <windows.h>
 
-//---------------------------------------------------------------------------
-// NATIVE IMPLEMENTATION:
-//---------------------------------------------------------------------------
 const Time Timer::privGetSystemTime()
 {
 	const static Time oneSecond(Time::ONE_SECOND);

@@ -1,6 +1,8 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
-#include "Array.h"
+#include "Containers/DynamicArray.hpp"
 
 template <typename T>
 class Queue

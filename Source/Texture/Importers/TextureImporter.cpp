@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "TextureImporter.hpp"
 #include "File/FileUtilities.hpp"
 

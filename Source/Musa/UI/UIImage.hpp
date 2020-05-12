@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 // TODO - UI::Image is not a good description for what this is. It should be able to be an image/texture and/or a solid color value

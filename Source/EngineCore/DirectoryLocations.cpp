@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "DirectoryLocations.h"
 #include "String/CStringUtilities.hpp"
 

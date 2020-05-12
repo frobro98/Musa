@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "GameObjectManager.h"
 #include "Scene/SceneRoot.h"
 

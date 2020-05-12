@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "QueryCache.hpp"
 #include "QueryDescription.hpp"

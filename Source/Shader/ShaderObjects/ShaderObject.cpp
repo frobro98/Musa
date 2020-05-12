@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "ShaderObject.hpp"
 #include "Graphics/Vulkan/VulkanShaderManager.h"
 

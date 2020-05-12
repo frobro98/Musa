@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "TextureManager.h"
 #include "Texture.h"
 #include "DirectoryLocations.h"

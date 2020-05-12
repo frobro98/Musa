@@ -1,6 +1,8 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
-#include "Math/MathEngine.h"
+#include "Math/Vector4.hpp"
 
 class Transform
 {

@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "ProfilerStatistics.hpp"
 #include "MetricInterface.hpp"
 #include "Debugging/MetricInterface.hpp"

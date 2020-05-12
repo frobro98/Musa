@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "VulkanImageAllocation.hpp"
 #include "VulkanDevice.h"

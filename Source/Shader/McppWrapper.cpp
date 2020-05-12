@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "McppWrapper.hpp"
 #include "Assertion.h"
 #include "String/String.h"

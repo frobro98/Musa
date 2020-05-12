@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "ResourceBlob.hpp"
 #include "MemoryUtilities.h"
 #include "Serialization/SerializeBase.hpp"

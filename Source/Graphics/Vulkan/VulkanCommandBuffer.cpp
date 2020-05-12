@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "VulkanCommandBuffer.h"
 #include "VulkanDevice.h"
 #include "VulkanQueue.h"

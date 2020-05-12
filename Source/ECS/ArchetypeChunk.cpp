@@ -1,4 +1,4 @@
-
+// Copyright 2020, Nathan Blane
 
 #include "Archetype.hpp"
 #include "Entity.hpp"

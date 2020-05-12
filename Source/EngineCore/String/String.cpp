@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "String/String.h"
 #include "Utilities/Hash.hpp"

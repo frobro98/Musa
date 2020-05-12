@@ -10,9 +10,6 @@
     <ClCompile Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.cpp">
       <Filter>Source\Processing</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Model\MeshUtilities.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Tools\Converter\Common\Common.h">
@@ -20,9 +17,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Tools\Converter\Processing\PrimitiveGeneration.h">
       <Filter>Source\Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Model\MeshUtilities.hpp">
-      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

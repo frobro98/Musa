@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "GodCamera.hpp"
 #include "Camera.h"
 #include "Input/Input.hpp"

@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "VulkanAbstractions.h"
 #include "VulkanCreateInfos.h"

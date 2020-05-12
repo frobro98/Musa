@@ -1,7 +1,4 @@
-//----------------------------------------------------------------------------- 
-// UnitTest v.2.1.0
-//          v.2.1.1  - fixed C5038 warning
-//----------------------------------------------------------------------------- 
+// Copyright 2020, Nathan Blane
 
 #pragma once
 
@@ -15,24 +12,10 @@
 
 struct UnitStats
 {
-	UnitStats()
-		:testCount(0),
-		testPass(0),
-		testFail(0), 
-		indvAsserts(0)
-	{
-	}
-
-	// Big four
-	UnitStats(const UnitStats &) = default;
-	UnitStats & operator = (const UnitStats &) = default;
-	~UnitStats() = default;
-
-	// data: ------------------
-	int testCount;
-	int testPass;
-	int testFail;
-	int indvAsserts;
+	int testCount = 0;
+	int testPass = 0;
+	int testFail = 0;
+	int indvAsserts = 0;
 };
 struct UnitData
 {

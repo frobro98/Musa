@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "MusaAppOS.hpp"
 
 MusaAppOS::MusaAppOS(UniquePtr<WindowInputHandler>&& inputHandler_)

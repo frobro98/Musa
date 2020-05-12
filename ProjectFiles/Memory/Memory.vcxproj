@@ -162,7 +162,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\Malloc16Align.h" />
     <ClInclude Include="..\..\Source\Memory\Block.h" />
     <ClInclude Include="..\..\Source\Memory\DynamicBlockHeap.h" />
     <ClInclude Include="..\..\Source\Memory\FixedBlockHeap.h" />

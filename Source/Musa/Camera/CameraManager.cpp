@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #include "PlatformDefinitions.h"
 #include "CameraManager.h"
 #include "Camera.h"

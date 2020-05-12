@@ -1,3 +1,5 @@
+// Copyright 2020, Nathan Blane
+
 #pragma once
 
 // TODO - Rename the "Types" folder to be "BasicTypes" which shows that the types in it are sort of intrinsic to Musa

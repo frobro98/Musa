@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "UITextInput.hpp"
 #include "UIText.hpp"

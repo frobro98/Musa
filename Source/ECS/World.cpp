@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "World.hpp"
 #include "ArchetypeChunk.hpp"

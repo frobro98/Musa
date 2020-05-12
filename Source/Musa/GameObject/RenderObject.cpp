@@ -1,3 +1,4 @@
+// Copyright 2020, Nathan Blane
 
 #include "RenderObject.hpp"
 #include "GameObject/GameObject.h"
