@@ -30,7 +30,7 @@
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <SpectreMitigation>Spectre</SpectreMitigation>
+    <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -99,8 +99,7 @@ echo         Copied TextureConverter.exe!</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>EngineCore.lib;File.lib;Archiver.lib;Texture.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>
-      </IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)Tools"
