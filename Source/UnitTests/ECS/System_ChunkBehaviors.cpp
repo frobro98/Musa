@@ -56,13 +56,13 @@ void IterateChunkSystem::Update()
 	ArrayView<Entity> entities = GetQueriedEntities(q0);
 	CHECK_EQ(entities.Size(), numEntitiesExpected);
 
-	DynamicArray<ArchetypeChunk> chunks = GetQueryChunks(q0);
+	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
 	CHECK_GT(chunks.Size(), 0);
 
 	uint32 numEntitiesInChunks = 0;
 	for (auto& chunk : chunks)
 	{
-		numEntitiesInChunks += chunk.header->entityCount;
+		numEntitiesInChunks += chunk.GetEntityCount();
 	}
 	CHECK_EQ(numEntitiesInChunks, numEntitiesExpected);
 

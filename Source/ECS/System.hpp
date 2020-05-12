@@ -5,6 +5,7 @@
 #include "ECS/DLLDef.h"
 #include "ECS/QueryDescription.hpp"
 #include "ECS/Query.hpp"
+#include "ECS/ChunkComponentAccessor.hpp"
 // TODO - There should be another type that is user facing...
 #include "ECS/ArchetypeChunk.hpp"
 
@@ -40,7 +41,7 @@ public:
 		return QueryDescription{};
 	}
 
-	NODISCARD DynamicArray<ArchetypeChunk> GetQueryChunks(const Query& query);
+	NODISCARD DynamicArray<ChunkComponentAccessor> GetQueryChunks(const Query& query);
 
 protected:
 // 	QueryDescription BeginQuery();

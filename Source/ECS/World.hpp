@@ -156,7 +156,7 @@ private:
 forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
 {
 	Assert(world.IsEntityValid(entity));
-	return *world.entityBridges[entity.id].chunk.header->owner;
+	return *world.entityBridges[entity.id].chunk.header->archetype;
 }
 
 template<typename ...Comps>
@@ -265,8 +265,7 @@ inline bool World::HasComponent(Entity entity)
 	EntityBridge& bridge = entityBridges[entity.id];
 	Assert(Memcmp(&bridge.chunk, &EmptyChunk, sizeof(ArchetypeChunk)) != 0);
 
-	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(bridge.chunk);
-	return chunkArr.IsValid();
+	return DoesChunkContain<Comp>(bridge.chunk);
 }
 
 }

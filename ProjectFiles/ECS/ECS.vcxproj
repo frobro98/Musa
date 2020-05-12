@@ -133,9 +133,9 @@
       <Command>@echo off
 mkdir "$(SolutionDir)\Binaries" &gt; nul
 del "$(SolutionDir)\Binaries\ECS*"
-copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\." &gt; nul
+copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\." &gt; nul
+copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -200,9 +200,9 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <Command>@echo off
 mkdir "$(SolutionDir)\Binaries" &gt; nul
 del "$(SolutionDir)\Binaries\ECS*"
-copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\." &gt; nul
+copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\." &gt; nul
+copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -231,14 +231,15 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <Command>@echo off
 mkdir "$(SolutionDir)\Binaries" &gt; nul
 del "$(SolutionDir)\Binaries\ECS*"
-copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\." &gt; nul
+copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\." &gt; nul
+copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\ECS\Archetype.cpp" />
     <ClCompile Include="..\..\Source\ECS\ArchetypeChunk.cpp" />
+    <ClCompile Include="..\..\Source\ECS\ChunkComponentAccessor.cpp" />
     <ClCompile Include="..\..\Source\ECS\EntityBridge.cpp" />
     <ClCompile Include="..\..\Source\ECS\Query.cpp" />
     <ClCompile Include="..\..\Source\ECS\QueryCache.cpp" />
@@ -251,6 +252,7 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\ECS\ArchetypeChunk.hpp" />
     <ClInclude Include="..\..\Source\ECS\Component.hpp" />
     <ClInclude Include="..\..\Source\ECS\ChunkArray.hpp" />
+    <ClInclude Include="..\..\Source\ECS\ChunkComponentAccessor.hpp" />
     <ClInclude Include="..\..\Source\ECS\ComponentType.hpp" />
     <ClInclude Include="..\..\Source\ECS\DLLDef.h" />
     <ClInclude Include="..\..\Source\ECS\Entity.hpp" />

@@ -62,16 +62,25 @@ static forceinline ArchetypeChunk CreateNewChunkFor(Archetype& archetype)
 {
 	uint8* chunkBlock = new uint8[ArchetypeBlockSize];
 	ChunkHeader* header = new(chunkBlock) ChunkHeader;
-	uint8* chunkData = reinterpret_cast<uint8*>(header + 1);
+	uint8* chunkData = chunkBlock + sizeof(ChunkHeader);
+	uint32* versions = reinterpret_cast<uint32*>(chunkData);
+
 	ArchetypeChunk chunk;
 	chunk.header = header;
-	chunk.data = chunkData;
+	header->archetype = &archetype;
+	header->componentTypeCount = archetype.types.Size();
+	header->types = archetype.types.GetData();
+	header->typeHashes = archetype.typeHashes.GetData();
+	header->offsets = archetype.offsets.GetData();
+	header->versions = versions;
 
-	header->owner = &archetype;
-	header->types = &archetype.types;
-	header->typeHashes = &archetype.typeHashes;
-	header->offsets = &archetype.offsets;
+	uint32 typeCount = header->componentTypeCount;
+	Memset(versions, 0x1, typeCount * sizeof(uint32));
+
+	chunkData = reinterpret_cast<uint8*>(versions + typeCount);
+	chunk.data = chunkData;
 	archetype.chunks.Add(chunk);
+
 	return chunk;
 }
 

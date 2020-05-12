@@ -6,6 +6,4 @@
 #define ECS_API __declspec(dllimport)
 #endif
 
-//#define ECS_API
-
 #define ECS_TEMPLATE

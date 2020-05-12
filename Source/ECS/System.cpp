@@ -17,7 +17,7 @@ Query& System::GetQueryFor(const QueryDescription& qb)
 {
 	return queryCache->GetOrCreateEntityQuery(qb);
 }
-DynamicArray<ArchetypeChunk> System::GetQueryChunks(const Query& query)
+DynamicArray<ChunkComponentAccessor> System::GetQueryChunks(const Query& query)
 {
 	// TODO - Maybe consider not allocating 
 	uint32 chunkCount = 0;
@@ -26,11 +26,14 @@ DynamicArray<ArchetypeChunk> System::GetQueryChunks(const Query& query)
 		chunkCount += archetype->chunks.Size();
 	}
 
-	DynamicArray<ArchetypeChunk> chunks;
+	DynamicArray<ChunkComponentAccessor> chunks;
 	chunks.Reserve(chunkCount);
 	for (auto& archetype : query.queriedArchetypes)
 	{
-		chunks.AddRange(archetype->chunks.GetData(), archetype->chunks.Size());
+		for (uint32 i = 0; i < archetype->chunks.Size(); ++i)
+		{
+			chunks.Add(ChunkComponentAccessor(archetype->chunks[i])); 
+		}
 	}
 	Assert(chunks.Capacity() == chunkCount);
 
