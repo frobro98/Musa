@@ -67,6 +67,12 @@
     <Filter Include="Source\UI\DebugUI">
       <UniqueIdentifier>{0caab997-e4e7-4e77-9364-7ead77c2f821}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{352e7288-e4dc-4219-afb2-15ec990d4dba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation\Skeleton">
+      <UniqueIdentifier>{f218d1c1-2780-4cca-a56b-f55c0a1abf59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -236,6 +242,42 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\UI\WidgetBatchElemements.cpp">
       <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationMixer.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationMixerPool.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationTimeController.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationTimerManager.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\BlendSpace.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\Clip.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationClipFactory.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationController.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\SkeletonBone.cpp">
+      <Filter>Source\Animation\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\SkeletonInstance.cpp">
+      <Filter>Source\Animation\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\SkeletonManager.cpp">
+      <Filter>Source\Animation\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\Skeleton.cpp">
+      <Filter>Source\Animation\Skeleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +511,45 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\UI\WidgetBatchElemements.hpp">
       <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationController.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationMixer.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationMixerPool.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationTimeController.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationTimerManager.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\BlendSpace.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\Clip.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\KeyFrame.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationClipFactory.h">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\SkeletonBone.h">
+      <Filter>Source\Animation\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\SkeletonInstance.h">
+      <Filter>Source\Animation\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\SkeletonManager.h">
+      <Filter>Source\Animation\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\Skeleton.h">
+      <Filter>Source\Animation\Skeleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -371,7 +371,13 @@ void PackAndMoveAnimationData(const std::string& fileName)
 
 	sprintf_s(systemCall, "liu \"%s_anim.pak\" -v v0.1 -n \"%s_anim\"",
 		fileName.c_str(), fileName.c_str());
-	system(systemCall);
+	int code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
 
 	system("del *.chnk");
 
@@ -392,7 +398,14 @@ void ChunkHierarchy(const std::string& fileName)
 	sprintf_s(systemCall, "vodka \"%s.skel\" \"%s_skel.chnk\" -t SKEL_TYPE -n \"%s_Skel\"",
 		fileName.c_str(), fileName.c_str(), fileName.c_str());
 
-	system(systemCall);
+	int code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
+
 	system("del *.skel");
 }
 
@@ -405,7 +418,13 @@ void ChunkAnimationData(const std::vector<AnimationClip>& clips)
 		sprintf_s(systemCall, "vodka \"%s.anim\" \"%s.chnk\" -t ANIM_TYPE -n \"%s_anim\"",
 			clip.name.c_str(), clip.name.c_str(), clip.name.c_str());
 
-		system(systemCall);
+		int code = system(systemCall);
+		if (code != 0)
+		{
+			// TODO - Handle this a hell of a lot better than it is now...
+			printf("Call returned %d: %s\n", code, systemCall);
+			std::exit(-1);
+		}
 	}
 
 	system("del *.anim");
@@ -1460,10 +1479,14 @@ static void ChunkModel(const std::string& fileName)
 	sprintf_s(systemCall, "vodka \"%s.model\" \"%s_model.chnk\" -t VERTS_TYPE -n \"%s\"",
 		fileName.c_str(), fileName.c_str(), fileName.c_str());
 
-	sprintf_s(systemCall, "vodka \"%s.model\" \"%s_model.chnk\" -t VERTS_TYPE -n \"%s\"",
-		fileName.c_str(), fileName.c_str(), fileName.c_str());
+	int code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
 
-	system(systemCall);
 	system("del *.model");
 
 	printf("Chunked Model %s\n", fileName.c_str());
@@ -1476,7 +1499,14 @@ static void ChunkWeights(const std::string& fileName)
 	sprintf_s(systemCall, "vodka \"%s.wghts\" \"%s_weights.chnk\" -t WEIGHTS_TYPE -n \"%s\"",
 		fileName.c_str(), fileName.c_str(), fileName.c_str());
 
-	system(systemCall);
+	int code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
+
 	system("del *.wghts");
 
 	printf("Chunked weights for %s\n", fileName.c_str());
@@ -1491,7 +1521,14 @@ static void ChunkTexture(const std::string& fileName, uint32 textureIndex)
 		fileName.c_str(), textureIndex,
 		fileName.c_str(), textureIndex);
 
-	system(systemCall);
+	int code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
+
 	// TODO - This system delete isn't at all cross platform...
 	system("del *.tex");
 
@@ -1567,7 +1604,7 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		modelHeader.numVerts = static_cast<uint32>(modelData.vertices.Size());
 		modelHeader.numFaces = static_cast<uint32>(modelData.faces.Size());
 		size_t len = modelData.modelName.length();
-		len = len >= OBJECT_NAME_SIZE ? OBJECT_NAME_SIZE - 1 : len;
+		len = len >= ObjectNameSize ? ObjectNameSize - 1 : len;
 		modelData.modelName.copy(modelHeader.objName, len);
 
 		result = File::Write(modelHandle, &modelHeader, sizeof(ModelFileHeader));
@@ -1657,7 +1694,14 @@ void PackModelData(const std::string& fileName)
 
 	sprintf_s(systemCall, "liu \"%s.pak\" -v v0.1 -n \"%s\"",
 		fileName.c_str(), fileName.c_str());
-	system(systemCall);
+
+	int code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
 
 	system("del *.chnk");
 
@@ -1668,7 +1712,13 @@ void PackModelData(const std::string& fileName)
 	sprintf_s(systemCall, "move /y %s.pak %s%s.pak > nul",
 		fileName.c_str(), moveLocation.c_str(), fileName.c_str());
 
-	system(systemCall);
+	code = system(systemCall);
+	if (code != 0)
+	{
+		// TODO - Handle this a hell of a lot better than it is now...
+		printf("Call returned %d: %s\n", code, systemCall);
+		std::exit(-1);
+	}
 
 	printf("Moved Package to %s \n\n", moveLocation.c_str());
 }

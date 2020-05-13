@@ -88,7 +88,7 @@ void SkeletonInstance::GoToNextClip()
 	timer = controller->CreateTimeController(currentAnimationIndex);
 }
 
-void SkeletonInstance::SetWorld(const Matrix& world)
+void SkeletonInstance::SetWorld(const Matrix4& world)
 {
 	skeleton.SetWorld(world);
 }

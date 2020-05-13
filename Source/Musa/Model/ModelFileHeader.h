@@ -2,18 +2,19 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
+#include "Types/Intrinsics.hpp"
+#include "MemoryUtilities.h"
 #include "Math/BoundsVolumes.hpp"
 
-#define OBJECT_NAME_SIZE   32
-#define TEXTURE_NAME_SIZE  32
-#define TEXTURE_COUNT	   5
+constexpr uint32 ObjectNameSize = 32;
+constexpr uint32 TextureNameSize = 32;
+constexpr uint32 TextureCount = 5;
 
 #pragma pack(push, 1)
 struct ModelFileHeader
 {
 	// object name
-	char         objName[OBJECT_NAME_SIZE];
+	char         objName[ObjectNameSize];
 
 	// vertex buffer
 	uint32 numVerts;
@@ -27,7 +28,7 @@ struct ModelFileHeader
 
 	ModelFileHeader()
 	{
-		memset(this, 0x0, sizeof(ModelFileHeader));
+		Memset(this, 0x0, sizeof(ModelFileHeader));
 	}
 };
 #pragma pack(pop)

@@ -2,7 +2,7 @@
 
 #include "PCSTree/PCSNode.h"
 
-class Matrix;
+class Matrix4;
 class Model;
 struct FrameData;
 
@@ -14,16 +14,16 @@ public:
 
 	void SetIndex(uint32 index);
 	void SetDebug(bool debug);
-	void SetOrientation(const Matrix& orientation);
+	void SetOrientation(const Matrix4& orientation);
 
-	Matrix GetWorld() const;
+	Matrix4 GetWorld() const;
 
 	void UpdateAnimationTransform(FrameData* boneData);
 	// TODO - Get rid of this hack. This is bad and it should feel bad
-	void UpdateRootAnimationTransform(FrameData* boneData, const Matrix& parent);
+	void UpdateRootAnimationTransform(FrameData* boneData, const Matrix4& parent);
 
 private:
 	Model* debugModel;
-	Matrix* world;
+	Matrix4* world;
 	uint32 boneIndex;
 };

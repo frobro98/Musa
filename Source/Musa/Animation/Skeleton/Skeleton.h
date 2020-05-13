@@ -7,12 +7,12 @@
 #include "Time/Time.h"
 #include "Animation/AnimationController.h"
 // TODO - remove this dependency
-#include "Renderer/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 
 
 class AnimationClip;
 struct BonePoseData;
-class Matrix;
+class Matrix4;
 
 class Skeleton
 {
@@ -33,7 +33,7 @@ public:
 
 	bool IsAnimationDirty() const;
 
-	void SetWorld(const Matrix& m);
+	void SetWorld(const Matrix4& m);
 	void AddAnimation(AnimationClip* clip);
 	void SetDebug(bool debug);
 	void Update(Time frameTime);
@@ -51,11 +51,10 @@ private:
 	DynamicArray<BonePoseData> poseMatrices;
 	PCSTree<SkeletonBone> boneHierarchy;
 	SkeletonBone* bones;
-	Matrix* skeletonWorld;
+	Matrix4* skeletonWorld;
 	AnimationController* controller = nullptr;
 	uint32 boneCount;
 	uint32 skeletonHash;
 	bool isDebug;
-	bool pad[3];
 
 };

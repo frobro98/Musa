@@ -4,7 +4,7 @@
 
 #include "Types/Intrinsics.hpp"
 
-struct FrameData
+struct FrameTime
 {
 	// tick for this frame (not including physics at this point...)
 	const float32 tickSeconds = 0;
@@ -13,6 +13,6 @@ struct FrameData
 
 namespace Frame
 {
-FrameData GetFrameData();
+FrameTime GetFrameTime();
 float32 GetTickTimeSeconds();
 }

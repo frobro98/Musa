@@ -13,7 +13,7 @@ AnimationClip::AnimationClip(const tchar* animationName, KeyFrame* frames, uint3
 	frameCount(count),
 	frameRate(frameRate_)
 {
-	uint32 len = Strlen(animationName);
+	size_t len = Strlen(animationName);
 	if (len >= ClipNameLength)
 	{
 		len = ClipNameLength - 1;

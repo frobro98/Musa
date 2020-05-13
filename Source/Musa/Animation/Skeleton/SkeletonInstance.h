@@ -8,7 +8,7 @@
 
 struct BonePoseData;
 struct BoneHierarchyTable;
-class Matrix;
+class Matrix4;
 class Skeleton;
 class AnimationController;
 class AnimationTimeController;
@@ -37,7 +37,7 @@ public:
 	DynamicArray<BonePoseData> GetPose() const;
 	AnimationController* GetController() { return controller; }
 
-	void SetWorld(const Matrix& world);
+	void SetWorld(const Matrix4& world);
 	void Update(Time deltaTime);
 
 	void Faster();

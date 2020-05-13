@@ -20,4 +20,6 @@ Converter.exe ../Assets/Fbx/space_frigate.fbx -c bc7 > frigate.log
 echo Converting Geth Trooper
 Converter.exe ../Assets/Fbx/Geth_Trooper.fbx -c bc7 > trooper.log
 
+PAUSE
+
 popd

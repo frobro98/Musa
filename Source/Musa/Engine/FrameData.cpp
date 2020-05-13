@@ -6,17 +6,17 @@
 
 namespace
 {
-static FrameData frameData;
+static FrameTime frameData;
 }
 
 namespace Frame
 {
-void SetFrameStats(const FrameData& frame)
+void SetFrameStats(const FrameTime& frame)
 {
-	Memcpy(&frameData, sizeof(FrameData), &frame, sizeof(FrameData));
+	Memcpy(&frameData, sizeof(FrameTime), &frame, sizeof(FrameTime));
 }
 
-FrameData GetFrameData()
+FrameTime GetFrameData()
 {
 	return frameData;
 }

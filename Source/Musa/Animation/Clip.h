@@ -24,7 +24,7 @@ public:
 	KeyFrame* InterpolateKeyframes(Time deltaTime);
 
 private:
-	static constexpr const uint32 ClipNameLength = 64;
+	static constexpr const size_t ClipNameLength = 64;
 	char clipName[ClipNameLength];
 
 	AnimationMixer* mixer;

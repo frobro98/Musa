@@ -9,7 +9,7 @@ FileDeserializer::FileDeserializer(const Path& filePath)
 	Assert(result == File::Result::SUCCESS);
 	if (result != File::Result::SUCCESS)
 	{
-
+		Assert(false);
 	}
 	CacheFile();
 }

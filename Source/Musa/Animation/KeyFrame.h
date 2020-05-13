@@ -6,6 +6,7 @@
 #include "Math/Quat.hpp"
 #include "Time/Time.h"
 
+// TODO - Refactor the hell out of these structures...
 struct FrameData : public Malloc16
 {
 	Vector4 translation;
@@ -31,3 +32,9 @@ struct KeyFrame
 	uint32 boneCount;
 	Time frameTime;
 };
+// 
+// forceinline void Deserialize(DeserializeBase& ser, KeyFrame& keyframe)
+// {
+// 	ser.DeserializeData(&keyframe, sizeof(KeyFrame));
+// }
+

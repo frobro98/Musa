@@ -15,6 +15,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationClipFactory.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationController.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationMixer.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationMixerPool.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationTimeController.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\AnimationTimerManager.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\BlendSpace.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\Clip.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\Skeleton.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\SkeletonBone.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\SkeletonInstance.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\SkeletonManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
@@ -73,6 +85,19 @@
     <ClCompile Include="..\..\Source\Musa\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationClipFactory.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationController.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationMixer.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationMixerPool.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationTimeController.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\AnimationTimerManager.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\BlendSpace.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\Clip.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\KeyFrame.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\Skeleton.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\SkeletonBone.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\SkeletonInstance.h" />
+    <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\SkeletonManager.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />

@@ -9,7 +9,7 @@
 
 // TODO - Move this file out of the Archiver project
 
-constexpr const uint32 AnimationNameLength = 64;
+constexpr uint32 AnimationNameLength = 64;
 
 struct AnimationHeader
 {
@@ -25,3 +25,15 @@ struct AnimationHeader
 	uint32 totalAnimationTime;
 	Time::Duration frameRate;
 };
+
+forceinline void Deserialize(DeserializeBase& ser, AnimationHeader& header)
+{
+	ser.DeserializeData(header.animationName, AnimationNameLength);
+	Deserialize(ser, header.referenceSkeleton);
+	Deserialize(ser, header.keyFrameCount);
+	Deserialize(ser, header.bonesPerFrame);
+	Deserialize(ser, header.totalAnimationTime);
+	uint32 duration;
+	Deserialize(ser, duration);
+	header.frameRate = (Time::Duration)duration;
+}

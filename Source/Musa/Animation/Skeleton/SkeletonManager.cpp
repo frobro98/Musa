@@ -3,7 +3,7 @@
 #include "Skeleton.h"
 #include "SkeletonBone.h"
 // TODO - Remove this dependency
-#include "Renderer/UniformBuffer.h"
+#include "Graphics/UniformBuffers.h"
 
 #include "Archiver/SkeletonHeader.h"
 #include "PCSTree/PCSNode.h"

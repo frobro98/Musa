@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Platform.h"
+#include "String/String.h"
 
 class Mesh;
 
@@ -43,8 +44,8 @@ private:
 
 	struct MeshNode
 	{
+		String meshName;
 		MeshNode* next = nullptr;
-		const char* meshName = nullptr;
 		Mesh* mesh = nullptr;
 	};
 

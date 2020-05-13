@@ -24,5 +24,4 @@ private:
 	DynamicArray<uint8> fileData;
 	File::Handle handle;
 	uint32 bufferReadLoc = 0;
-	uint32 pad[1] = { 0 };
 };

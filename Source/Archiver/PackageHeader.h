@@ -2,10 +2,12 @@
 
 #pragma once
 
-#include "Platform.h"
+#include "Types/Intrinsics.hpp"
+#include "Archiver/FileSerializer.hpp"
+#include "Archiver/FileDeserializer.hpp"
 
-constexpr const unsigned int PackageVersionSize = 64;
-constexpr const unsigned int PackageNameSize = 64;
+constexpr uint32 PackageVersionSize = 64;
+constexpr uint32 PackageNameSize = 64;
 
 struct PackageHeader
 {
@@ -14,3 +16,11 @@ struct PackageHeader
 	uint32	numChunks;
 	uint32	totalSize;   // size of file (without package header)
 };
+
+forceinline void Deserialize(DeserializeBase& ser, PackageHeader& header)
+{
+	ser.DeserializeData(header.packageName, PackageNameSize);
+	ser.DeserializeData(header.versionString, PackageVersionSize);
+	Deserialize(ser, header.numChunks);
+	Deserialize(ser, header.totalSize);
+}

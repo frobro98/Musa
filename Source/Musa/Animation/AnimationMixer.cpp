@@ -1,8 +1,8 @@
 
 #include "AnimationMixer.h"
 #include "KeyFrame.h"
-#include "Math/VectorFunctions.h"
-#include "Math/QuatFunctions.h"
+#include "Math/VectorFunctions.hpp"
+#include "Math/QuatFunctions.hpp"
 
 AnimationMixer::AnimationMixer(uint32 skelBoneCount)
 	: resultingFrame(new KeyFrame(skelBoneCount))
@@ -26,9 +26,9 @@ void AnimationMixer::InterpolateAnimationFrames(Time deltaTime, const KeyFrame* 
 
 	for (uint32 i = 0; i < totalBones; ++i)
 	{
-		Math::Lerp(resultingBone->translation, boneA->translation, boneB->translation, deltaS);
-		Math::Slerp(resultingBone->rotation, boneA->rotation, boneB->rotation, deltaS);
-		Math::Lerp(resultingBone->scale, boneA->scale, boneB->scale, deltaS);
+		resultingBone->translation = Math::Lerp(boneA->translation, boneB->translation, deltaS);
+		resultingBone->rotation = Math::Slerp(boneA->rotation, boneB->rotation, deltaS);
+		resultingBone->scale = Math::Lerp(boneA->scale, boneB->scale, deltaS);
 
 		++boneA;
 		++boneB;

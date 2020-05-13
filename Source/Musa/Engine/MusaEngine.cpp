@@ -46,6 +46,19 @@
 
 #include "Types/FunctionRef.hpp"
 
+// NOTE - This is for deserializing PAK files.
+// TODO - The way pak files are deserialized, or even structured, needs to either change or be reexampined
+#include "Archiver/FileDeserializer.hpp"
+#include "Archiver/PackageHeader.h"
+#include "Archiver/ChunkHeader.h"
+#include "Archiver/AnimationHeader.h"
+#include "Model/ModelFileHeader.h"
+#include "Animation/AnimationClipFactory.h"
+#include "Animation/Clip.h"
+#include "Animation/Skeleton/SkeletonManager.h"
+#include "Animation/Skeleton/Skeleton.h"
+#include "DirectoryLocations.h"
+
 
 DECLARE_METRIC_GROUP(Engine);
 DECLARE_METRIC_GROUP(FrameRender);
@@ -334,6 +347,67 @@ static void CreateInputContext(GameInput& gameInput)
 	gameInput.PushInputContext("Gamepad Context");
 }
 
+// TODO - This SHOULD NOT exist in the engine file. It should exist in the file reading system probably...
+static void LoadPakFile(const Path& pakPath)
+{
+	FileDeserializer pakFile(pakPath);
+	PackageHeader pakHeader;
+	Deserialize(pakFile, pakHeader);
+	
+	for (uint32 i = 0; i < pakHeader.numChunks; ++i)
+	{
+		ChunkHeader chunkHeader;
+		Deserialize(pakFile, chunkHeader);
+
+		switch (chunkHeader.type)
+		{
+			case Chunk::VERTS_TYPE:
+			{
+				// TODO - This is sort of gross...there has to be a way to reduce the memory allocation. Allocating from the deserialization
+				// and then one from the mesh manager
+				// TODO - Deserialize the header here
+				uint8* modelData = new uint8[chunkHeader.chunkSize];
+				pakFile.DeserializeData(modelData, chunkHeader.chunkSize);
+				
+				GetMeshManager().LoadMeshFromPak(modelData, chunkHeader.chunkName);
+			}break;
+			case Chunk::TEXTURE_TYPE:
+			{
+				DynamicArray<uint8> texData(chunkHeader.chunkSize);
+				pakFile.DeserializeData(texData.GetData(), chunkHeader.chunkSize);
+
+				GetTextureManager().LoadTexture(texData, chunkHeader.chunkName);
+			}break;
+			case Chunk::SKEL_TYPE:
+			{
+				DynamicArray<uint8> skelData(chunkHeader.chunkSize);
+				pakFile.DeserializeData(skelData.GetData(), skelData.Size());
+
+				NOT_USED Skeleton* skeleton = SkeletonManager::CreateSkeleton(skelData.GetData(), chunkHeader.hashNum);
+			}
+			case Chunk::WEIGHTS_TYPE:
+			{
+				// TODO - Weights need to be stored with the mesh, at this point, but this sort of thing needs to be revisited...
+				DynamicArray<uint8> weights(chunkHeader.chunkSize);
+				pakFile.DeserializeData(weights.GetData(), weights.Size());
+
+			}
+			case Chunk::ANIM_TYPE:
+			{
+				DynamicArray<uint8> animData(chunkHeader.chunkSize);
+				pakFile.DeserializeData(animData.GetData(), chunkHeader.chunkSize);
+				
+				AnimationClip* clip = AnimationClipFactory::CreateAnimationClip(animData.GetData());
+				Skeleton* skeleton = SkeletonManager::FindSkeleton(clip->GetSkeletonHash());
+				skeleton->AddAnimation(clip);
+			}break;
+			default:
+				break;
+		}
+
+	}
+}
+
 #include "UI/DebugUI/UIConsole.hpp"
 
 void MusaEngine::LoadContent()
@@ -344,20 +418,24 @@ void MusaEngine::LoadContent()
 
 	GetMeshManager().Initialize();
 
+	Path bunnyPakPath(EngineAssetPath() + "Models/stanford-bunny.pak");
+	LoadPakFile(bunnyPakPath);
+
 	CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
 	gameInput->ShowCursor(false);
 
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 
-	Mesh* sphere = GetMeshManager().FindMesh(Mesh::BoxName);
+	//Mesh* bunny = GetMeshManager().FindMesh(Mesh::BoxName);
+	Mesh* bunny = GetMeshManager().FindMesh("stanford-bunny");
 
 	ShaderResource& vertShader = GetShader<UnlitVert>()->GetNativeShader();
 	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
 	GameObject* go = world->CreateGameObject<GameObject>();
-	go->SetModel(ModelFactory::CreateModel(sphere, new Material(vertShader, fragShader, "Ariel", Color32::White())));
-	go->SetScale(30, 30, 30);
+	go->SetModel(ModelFactory::CreateModel(bunny, new Material(vertShader, fragShader, WhiteTexture(), Color32::Cyan())));
+	go->SetScale(.5, .5, .5);
 
 	Musa::World* w = new Musa::World;
 

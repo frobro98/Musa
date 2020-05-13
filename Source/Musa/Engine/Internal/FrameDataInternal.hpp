@@ -4,9 +4,9 @@
 
 #include "Types/Intrinsics.hpp"
 
-struct FrameData;
+struct FrameTime;
 
 namespace Frame
 {
-void SetFrameStats(const FrameData& frame);
+void SetFrameStats(const FrameTime& frame);
 }

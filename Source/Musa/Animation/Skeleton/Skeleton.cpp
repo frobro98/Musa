@@ -3,7 +3,7 @@
 #include "SkeletonBone.h"
 #include "Animation/Clip.h"
 #include "Animation/AnimationController.h"
-#include "Math/MathConstants.h"
+#include "Math/MathConstants.hpp"
 #include "Archiver/SkeletonHeader.h"
 
 Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, uint32 count, uint32 hash, PCSTree<SkeletonBone>&& hierarchy)
@@ -11,7 +11,7 @@ Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchy
 	poseMatrices(poseList, count),
 	boneHierarchy(std::move(hierarchy)),
 	bones(boneList),
-	skeletonWorld(new Matrix(IDENTITY)),
+	skeletonWorld(new Matrix4(IDENTITY)),
 	boneCount(count),
 	skeletonHash(hash),
 	isDebug(true)
@@ -25,7 +25,7 @@ Skeleton::~Skeleton()
 	delete[] bones;
 }
 
-void Skeleton::SetWorld(const Matrix& m)
+void Skeleton::SetWorld(const Matrix4& m)
 {
 	*skeletonWorld = m;
 }
@@ -92,27 +92,27 @@ void Skeleton::SetDebugBonePose(SkeletonBone* bone)
 
 	if (parentBone != nullptr)
 	{
-		Vector start(0, 0, 0);
+		Vector4 start(0, 0, 0);
 
-		Vector initialParentPoint = start * parentBone->GetWorld();
-		Vector initialChildPoint = start * bone->GetWorld();
+		Vector4 initialParentPoint = start * parentBone->GetWorld();
+		Vector4 initialChildPoint = start * bone->GetWorld();
 
 		// Get the direction to the parent bone
-		Vector direction = initialParentPoint - initialChildPoint;
+		Vector4 direction = initialParentPoint - initialChildPoint;
 
 		float mag = direction.Magnitude();
 
-		Vector up(0, 1, 0);
+		Vector4 up(0, 1, 0);
 		up = up * parentBone->GetWorld();
 
 		const float boneWidth = 8.f;
 
-		Matrix scale(SCALE, boneWidth, mag, boneWidth);
+		Matrix4 scale(SCALE, boneWidth, mag, boneWidth);
 		Quat rot(ROT_ORIENT, direction.GetNormalized(), up);
 		Quat rotX(ROT_X, Math::PiOver2);
-		Matrix trans(TRANS, initialChildPoint);
+		Matrix4 trans(TRANS, initialChildPoint);
 
-		Matrix orientation = scale * rotX* rot * trans;
+		Matrix4 orientation = scale * rotX* rot * trans;
 
 		bone->SetOrientation(orientation);
 	}

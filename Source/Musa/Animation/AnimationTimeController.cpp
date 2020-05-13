@@ -1,7 +1,7 @@
 
 #include "AnimationTimeController.h"
 #include "Time/Time.h"
-#include "Math/MathUtilities.h"
+#include "Math/MathFunctions.hpp"
 
 AnimationTimeController::AnimationTimeController(Time::Duration animationFrameRate)
 	: internalTime(Time(Time::ZERO)),

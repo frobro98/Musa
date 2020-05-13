@@ -192,7 +192,7 @@ Mesh* MeshManager::LoadMeshFromPak(uint8* modelData, const char * modelName)
 	return mesh;
 }
 
-Mesh* MeshManager::LoadMeshFromPak(uint8 * modelData, uint8 * skinningData, const char * modelName)
+Mesh* MeshManager::LoadMeshFromPak(uint8 * modelData, uint8* skinningData, const char * modelName)
 {
 	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
 	uint8* vertPtr = modelData + header->vertBufferOffset;
@@ -225,12 +225,12 @@ Mesh* MeshManager::LoadMeshFromPak(uint8 * modelData, uint8 * skinningData, cons
 	return mesh;
 }
 
-void MeshManager::UnloadMesh(const char * modelName)
+void MeshManager::UnloadMesh(const char* modelName)
 {
 	MeshNode* current = head;
-	while (current != nullptr)
+	while (current->next != nullptr)
 	{
-		if (strcmp(current->next->meshName, modelName) == 0)
+		if (current->next->meshName == modelName)
 		{
 			MeshNode* node = current->next;
 			current->next = current->next->next;
@@ -248,7 +248,7 @@ Mesh* MeshManager::FindMesh(const char * modelName)
 	MeshNode* current = head;
 	while (current != nullptr)
 	{
-		if (strcmp(modelName, current->meshName) == 0)
+		if (current->meshName == modelName)
 		{
 			return current->mesh;
 		}
