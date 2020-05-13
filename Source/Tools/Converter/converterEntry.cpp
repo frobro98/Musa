@@ -444,6 +444,12 @@ static Matrix4 FbxMatToMusaMat(const FbxAMatrix& fbxMat)
 
 	return mat;
 }
+// 
+// static bool FbxMatSameAsMusaMat(const Matrix4& m0, const FbxAMatrix& fbxMat)
+// {
+// 	Matrix4 m1 = FbxMatToMusaMat(fbxMat);
+// 	return m0.IsEqual(m1);
+// }
 
 std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, const FbxMesh* geometry)
 {
@@ -487,14 +493,21 @@ std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, c
 
 			// TODO - Move this into a function!!
 
+// 			m4ClusterTransform = FbxMatToMusaMat(clusterTransform);
+// 			m4LinkTransform = FbxMatToMusaMat(linkTransform);
+//			m4LinkTransform.Inverse();
+//			linkTransform = linkTransform.Inverse();
+//			Assert(FbxMatSameAsMusaMat(m4LinkTransform, linkTransform));
+
 			FbxAMatrix clusterTransform, linkTransform;
 			clusterTransform = cluster->GetTransformMatrix(clusterTransform);
-			linkTransform = cluster->GetTransformLinkMatrix(linkTransform).Inverse();
+			linkTransform = cluster->GetTransformLinkMatrix(linkTransform);
 
-			Matrix4 clusterMat = FbxMatToMusaMat(clusterTransform);
+			Matrix4 clusterMat = FbxMatToMusaMat(linkTransform);
 			Matrix4 linkMat = FbxMatToMusaMat(linkTransform);
+			Matrix4 invLinkMat = linkMat.GetInverse();
 
-			Matrix4 poseInv = clusterMat * linkMat;
+			Matrix4 poseInv = clusterMat * invLinkMat;
 
 			PoseData pose = {};
 			pose.boneName = boneIter->name;
@@ -561,6 +574,9 @@ int main(int argc, char** argv)
     // Prepare the FBX SDK.
     InitializeSdkObjects(lSdkManager, lScene);
     // Load the scene.
+
+	while (!IsDebuggerPresent())
+		Sleep(100);
 
 	ModelData modelData;
 	FbxString lFilePath("");

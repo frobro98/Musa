@@ -21,12 +21,6 @@ public:
 	explicit Matrix4(MatrixScaleType scaleEnum, float sx, float sy, float sz);
 	Matrix4(const struct Quat& q);
 
-	Matrix4(const Matrix4& other);
-	Matrix4(Matrix4&& other) noexcept;
-
-	Matrix4& operator=(const Matrix4& m);
-	Matrix4& operator=(Matrix4&& m) noexcept;
-
 	// Setting specific matrix types
 	void Set(MatrixTransType transEnum, const Vector4& transVec);
 	void Set(MatrixTransType transEnum, float x, float y, float z);
@@ -158,35 +152,13 @@ public:
 	
 
 private:
+	// 00, 01, 02, 03
+	Vector4 v0;
+	// 10, 11, 12, 13
+	Vector4 v1;
+	// 20, 21, 22, 23
+	Vector4 v2;
+	// 30, 31, 32, 33
+	Vector4 v3;
 
-	union
-	{
-		struct
-		{
-			Vector4 v0;
-			Vector4 v1;
-			Vector4 v2;
-			Vector4 v3;
-		};
-
-		struct
-		{
-			float _m0;
-			float _m1;
-			float _m2;
-			float _m3;
-			float _m4;
-			float _m5;
-			float _m6;
-			float _m7;
-			float _m8;
-			float _m9;
-			float _m10;
-			float _m11;
-			float _m12;
-			float _m13;
-			float _m14;
-			float _m15;
-		};
-	};
 };

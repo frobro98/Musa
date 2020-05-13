@@ -7,10 +7,10 @@
 #include "Assertion.h"
 
 Matrix4::Matrix4()
-	: _m0(0.f), _m1(0.f), _m2(0.f), _m3(0.f),
-	  _m4(0.f), _m5(0.f), _m6(0.f), _m7(0.f),
-	  _m8(0.f), _m9(0.f), _m10(0.f), _m11(0.f),
-	  _m12(0.f), _m13(0.f), _m14(0.f), _m15(0.f)
+	: v0(0.f, 0.f, 0.f, 0.f),
+	v1(0.f, 0.f, 0.f, 0.f),
+	v2(0.f, 0.f, 0.f, 0.f),
+	v3(0.f, 0.f, 0.f, 0.f)
 {
 }
 
@@ -69,72 +69,6 @@ Matrix4::Matrix4(const Quat& q)
 	Set(q);
 }
 
-Matrix4::Matrix4(const Matrix4& other)
-{
-	_m0 = other._m0;
-	_m1 = other._m1;
-	_m2 = other._m2;
-	_m3 = other._m3;
-	_m4 = other._m4;
-	_m5 = other._m5;
-	_m6 = other._m6;
-	_m7 = other._m7;
-	_m8 = other._m8;
-	_m9 = other._m9;
-	_m10 = other._m10;
-	_m11 = other._m11;
-	_m12 = other._m12;
-	_m13 = other._m13;
-	_m14 = other._m14;
-	_m15 = other._m15;
-}
-
-Matrix4::Matrix4(Matrix4&& other) noexcept
-	: v0(std::move(other.v0)),
-	  v1(std::move(other.v1)),
-	  v2(std::move(other.v2)),
-	  v3(std::move(other.v3))
-{
-}
-
-Matrix4& Matrix4::operator=(const Matrix4& m)
-{
-	if (this != &m)
-	{
-		_m0 = m._m0;
-		_m1 = m._m1;
-		_m2 = m._m2;
-		_m3 = m._m3;
-		_m4 = m._m4;
-		_m5 = m._m5;
-		_m6 = m._m6;
-		_m7 = m._m7;
-		_m8 = m._m8;
-		_m9 = m._m9;
-		_m10 = m._m10;
-		_m11 = m._m11;
-		_m12 = m._m12;
-		_m13 = m._m13;
-		_m14 = m._m14;
-		_m15 = m._m15;
-	}
-
-	return *this;
-}
-
-Matrix4& Matrix4::operator=(Matrix4&& m) noexcept
-{
-	if (this != &m)
-	{
-		v0 = std::move(m.v0);
-		v1 = std::move(m.v1);
-		v2 = std::move(m.v2);
-		v3 = std::move(m.v3);
-	}
-
-	return *this;
-}
-
 void Matrix4::Set(MatrixTransType /*transEnum*/, const Vector4& transVec)
 {
 	v0 = Vector4(1.f, 0.f, 0.f, 0.f);
@@ -157,69 +91,24 @@ void Matrix4::Set(RotType rotationEnum, float angle)
 	{
 		case ROT_X:
 		{
-			_m0 = 1.f;
-			_m1 = 0.f;
-			_m2 = 0.f;
-			_m3 = 0.f;
-
-			_m4 = 0.f;
-			_m5 = Math::Cos(angle);
-			_m6 = Math::Sin(angle);
-			_m7 = 0.f;
-
-			_m8 = 0.f;
-			_m9 = -Math::Sin(angle);
-			_m10 = Math::Cos(angle);
-			_m11 = 0.f;
-
-			_m12 = 0.f;
-			_m13 = 0.f;
-			_m14 = 0.f;
-			_m15 = 1.f;
+			v0 = Vector4(1.f, 0.f, 0.f, 0.f);
+			v1 = Vector4(0.f, Math::Cos(angle), Math::Sin(angle), 0.f);
+			v2 = Vector4(0.f, -Math::Sin(angle), Math::Cos(angle), 0.f);
+			v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 		}break;
 		case ROT_Y:
 		{
-			_m0 = Math::Cos(angle);
-			_m1 = 0.f;
-			_m2 = -Math::Sin(angle);
-			_m3 = 0.f;
-
-			_m4 = 0.f;
-			_m5 = 1.f;
-			_m6 = 0.f;
-			_m7 = 0.f;
-
-			_m8 = Math::Sin(angle);
-			_m9 = 0;
-			_m10 = Math::Cos(angle);
-			_m11 = 0.f;
-
-			_m12 = 0.f;
-			_m13 = 0.f;
-			_m14 = 0.f;
-			_m15 = 1.f;
+			v0 = Vector4(Math::Cos(angle), 0.f, -Math::Sin(angle), 0.f);
+			v1 = Vector4(0.f, 1.f, 0.f, 0.f);
+			v2 = Vector4(Math::Sin(angle), 0.f, Math::Cos(angle), 0.f);
+			v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 		}break;
 		case ROT_Z:
 		{
-			_m0 = Math::Cos(angle);
-			_m1 = Math::Sin(angle);
-			_m2 = 0.f;
-			_m3 = 0.f;
-
-			_m4 = -Math::Sin(angle);
-			_m5 = Math::Cos(angle);
-			_m6 = 0.f;
-			_m7 = 0.f;
-
-			_m8 = 0.f;
-			_m9 = 0.f;
-			_m10 = 1.f;
-			_m11 = 0.f;
-
-			_m12 = 0.f;
-			_m13 = 0.f;
-			_m14 = 0.f;
-			_m15 = 1.f;
+			v0 = Vector4(Math::Cos(angle), Math::Sin(angle), 0.f, 0.f);
+			v1 = Vector4(-Math::Sin(angle), Math::Cos(angle), 0.f, 0.f);
+			v2 = Vector4(0.f, 0.f, 1.f, 0.f);
+			v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 		}break;
 		default:
 		{
@@ -302,25 +191,30 @@ void Matrix4::Set(RotOrientType type, const Vector4& dof, const Vector4& up)
 
 void Matrix4::Set(const Quat& q)
 {
-	_m0 = 1.f - 2.f * (q.y * q.y + q.z * q.z);
-	_m1 =		2.f * (q.x * q.y + q.w * q.z);
-	_m2 =		2.f * (q.x * q.z - q.w * q.y);
-	_m3 = 0.f;
+	v0 = Vector4(
+		1.f - 2.f * (q.y * q.y + q.z * q.z),
+		2.f * (q.x * q.y + q.w * q.z),
+		2.f * (q.x * q.z - q.w * q.y),
+		0.f
+	);
 
-	_m4 =		2.f * (q.x * q.y - q.w * q.z);
-	_m5 = 1.f - 2.f * (q.x * q.x + q.z * q.z);
-	_m6 =		2.f * (q.y * q.z + q.w * q.x);
-	_m7 = 0.f;
+	v1 = Vector4(
+		2.f * (q.x * q.y - q.w * q.z),
+		1.f - 2.f * (q.x * q.x + q.z * q.z),
+		2.f * (q.y * q.z + q.w * q.x),
+		0.f
+	);
 
-	_m8 =		2.f * (q.x * q.z + q.w * q.y);
-	_m9 =		2.f * (q.y * q.z - q.w * q.x);
-	_m10= 1.f - 2.f * (q.x * q.x + q.y * q.y);
-	_m11 = 0.f;
+	v2 = Vector4(
+		2.f * (q.x * q.z + q.w * q.y),
+		2.f * (q.y * q.z - q.w * q.x),
+		1.f - 2.f * (q.x * q.x + q.y * q.y),
+		0.f
+	);
 
-	_m12 = 0.f;
-	_m13 = 0.f;
-	_m14 = 0.f;
-	_m15 = 1.f;
+	v3 = Vector4(
+		0.f, 0.f, 0.f, 1.f
+	);
 }
 
 void Matrix4::Set(MatrixScaleType /*scaleEnum*/, const Vector4& scaleVec)
@@ -442,22 +336,30 @@ void Matrix4::Set(const Vector4 &axis, float angle)
 	wy = Q.w * y2;
 	wz = Q.w * z2;
 
-	_m0 = 1.0f - (yy + zz);
-	_m1 = xy + wz;
-	_m2 = xz - wy;
-	_m3 = 0.0f;
+	v0 = Vector4(
+		1.0f - (yy + zz),
+		xy + wz,
+		xz - wy,
+		0.f
+	);
 
-	_m4 = xy - wz;
-	_m5 = 1.0f - (xx + zz);
-	_m6 = yz + wx;
-	_m7 = 0.0f;
+	v1 = Vector4(
+		xy - wz,
+		1.0f - (xx + zz),
+		yz + wx,
+		0.f
+	);
 
-	_m8 = xz + wy;
-	_m9 = yz - wx;
-	_m10 = 1.0f - (xx + yy);
-	_m11 = 0.0f;
+	v2 = Vector4(
+		xz + wy,
+		yz - wx,
+		1.0f - (xx + yy),
+		0.f
+	);
 
-	v3 = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+	v3 = Vector4(
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
 }
 
 Vector4 Matrix4::Get(MatrixRowType rowEnum) const
@@ -488,166 +390,294 @@ Vector4 Matrix4::Get(MatrixRowType rowEnum) const
 
 float Matrix4::Determinant() const
 {
-	const float a = _m9*_m15 - _m11*_m13;
-	const float b = _m8*_m14 -_m10*_m12;
+	const float a = v2.y * v3.w - v2.w * v3.y; //_m9*_m15 - _m11*_m13;
+	const float b = v2.x * v3.z - v2.z * v3.x; //_m8*_m14 -_m10*_m12;
 
 	const float l01 = a;
 	const float l20 = a;
 	const float l12 = b;
 	const float l31 = b;
-	const float l00 = _m10*_m15 - _m11*_m14;
-	const float l02 = _m9*_m14 - _m10*_m13;
-	const float l11 = _m8*_m15 - _m11*_m12;
-	const float l22 = _m8*_m13 - _m9*_m12;
+	const float l00 = v2.z * v3.w - v3.z * v2.w; //_m10*_m15 - _m11*_m14;
+	const float l02 = v2.y * v3.z - v3.y * v2.z; //_m9*_m14 - _m10*_m13;
+	const float l11 = v2.x * v3.w - v3.x * v2.w; //_m8*_m15 - _m11*_m12;
+	const float l22 = v2.x * v3.y - v3.x * v2.y; //_m8*_m13 - _m9*_m12;
 	
 
-	const float det00 = _m5*(l00) - _m6*(l01) + _m7*(l02);
-	const float det01 = _m4*(l00) - _m6*(l11) + _m7*(l12);
-	const float det02 = _m4*(l20) - _m5*(l11) + _m7*(l22);
-	const float det03 = _m4*(l02) - _m5*(l31) + _m6*(l22);
+	const float det00 = v1.y*(l00) - v1.z*(l01) + v1.w*(l02);
+	const float det01 = v1.x*(l00) - v1.z*(l11) + v1.w*(l12);
+	const float det02 = v1.x*(l20) - v1.y*(l11) + v1.w*(l22);
+	const float det03 = v1.x*(l02) - v1.y*(l31) +v1.z*(l22);
 
-	return _m0*det00 - _m1*det01 + _m2*det02 - _m3*det03;
+	return v0.x*det00 - v0.y*det01 + v0.z*det02 - v0.w*det03;
 }
 
 void Matrix4::Inverse()
 {
+	// TODO - Optimize the math that happens here!
 	float detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
 	{
 		detScalar = 1.f / detScalar;
 
-		// Caching multiplications
-		float m2Xm7 = _m2*_m7;
-		float m3Xm6 = _m3*_m6;
-		float m3Xm5 = _m3*_m5;
-		float m1Xm7 = _m1*_m7;
-		float m1Xm6 = _m1*_m6;
-		float m2Xm5 = _m2*_m5;
-		float m3Xm4 = _m3*_m4;
-		float m0Xm7 = _m0*_m7;
-		float m4Xm10 = _m4*_m10;
-		float m2Xm4 = _m2*_m4;
-		float m0Xm6 = _m0*_m6;
-		float m5Xm10 = _m5*_m10;
-		float m1Xm4 = _m1*_m4;
-		float m0Xm5 = _m0*_m5;
+		// Adjunct of current Matrix
 
-		float v0x = _m13*(_m6*_m11 - _m7*_m10) + _m14*(_m7*_m9 - _m5*_m11) - _m6*_m9*_m15 + m5Xm10*_m15;
-		float v0y = _m13*(_m3*_m10 - _m2*_m11) - _m14*(_m3*_m9 + _m1*_m11) + _m15*(_m2*_m9 - _m1*_m10);
-		float v0z = _m13*(m2Xm7 - m3Xm6)       + _m14*(m3Xm5   - m1Xm7)    - _m15*(m2Xm5 + m1Xm6);
-		float v0w = _m9*(m3Xm6 - m2Xm7)        - _m10*(m3Xm5   + m1Xm7)    + _m11*(m2Xm5 - m1Xm6);
+		float b00 = v1.z * v2.w * v3.y
+			- v1.w * v2.z * v3.y
+			+ v1.w * v2.y * v3.z
+			- v1.y * v2.w * v3.z
+			- v1.z * v2.y * v3.w
+			+ v1.y * v2.z * v3.w;
+		float b01 = v0.w * v2.z * v3.y
+			- v0.z * v2.w * v3.y
+			- v0.w * v2.y * v3.z
+			+ v0.y * v2.w * v3.z
+			+ v0.z * v2.y * v3.w
+			- v0.y * v2.z * v3.w;
+		float b02 = v0.z * v1.w * v3.y
+			- v0.w * v1.z * v3.y
+			+ v0.w * v1.y * v3.z
+			- v0.y * v1.w * v3.z
+			- v0.z * v1.y * v3.w
+			+ v0.y * v1.z * v3.w;
+		float b03 = v0.w * v1.z * v2.y
+			- v0.z * v1.w * v2.y
+			- v0.w * v1.y * v2.z
+			+ v0.y * v1.w * v2.z
+			+ v0.z * v1.y * v2.w
+			- v0.y * v1.z * v2.w;
+		float b10 = v1.w * v2.z * v3.x
+			- v1.z * v2.w * v3.x
+			- v1.w * v2.x * v3.z
+			+ v1.x * v2.w * v3.z
+			+ v1.z * v2.x * v3.w
+			- v1.x * v2.z * v3.w;
+		float b11 = v0.z * v2.w * v3.x
+			- v0.w * v2.z * v3.x
+			+ v0.w * v2.x * v3.z
+			- v0.x * v2.w * v3.z
+			- v0.z * v2.x * v3.w
+			+ v0.x * v2.z * v3.w;
+		float b12 = v0.w * v1.z * v3.x
+			- v0.z * v1.w * v3.x
+			- v0.w * v1.x * v3.z
+			+ v0.x * v1.w * v3.z
+			+ v0.z * v1.x * v3.w
+			- v0.x * v1.z * v3.w;
+		float b13 = v0.z * v1.w * v2.x
+			- v0.w * v1.z * v2.x
+			+ v0.w * v1.x * v2.z
+			- v0.x * v1.w * v2.z
+			- v0.z * v1.x * v2.w
+			+ v0.x * v1.z * v2.w;
+		float b20 = v1.y * v2.w * v3.x
+			- v1.w * v2.y * v3.x
+			+ v1.w * v2.x * v3.y
+			- v1.x * v2.w * v3.y
+			- v1.y * v2.x * v3.w
+			+ v1.x * v2.y * v3.w;
+		float b21 = v0.w * v2.y * v3.x
+			- v0.y * v2.w * v3.x
+			- v0.w * v2.x * v3.y
+			+ v0.x * v2.w * v3.y
+			+ v0.y * v2.x * v3.w
+			- v0.x * v2.y * v3.w;
+		float b22 = v0.y * v1.w * v3.x
+			- v0.w * v1.y * v3.x
+			+ v0.w * v1.x * v3.y
+			- v0.x * v1.w * v3.y
+			- v0.y * v1.x * v3.w
+			+ v0.x * v1.y * v3.w;
+		float b23 = v0.w * v1.y * v2.x
+			- v0.y * v1.w * v2.x
+			- v0.w * v1.x * v2.y
+			+ v0.x * v1.w * v2.y
+			+ v0.y * v1.x * v2.w
+			- v0.x * v1.y * v2.w;
+		float b30 = v1.z * v2.y * v3.x
+			- v1.y * v2.z * v3.x
+			- v1.z * v2.x * v3.y
+			+ v1.x * v2.z * v3.y
+			+ v1.y * v2.x * v3.z
+			- v1.x * v2.y * v3.z;
+		float b31 = v0.y * v2.z * v3.x
+			- v0.z * v2.y * v3.x
+			+ v0.z * v2.x * v3.y
+			- v0.x * v2.z * v3.y
+			- v0.y * v2.x * v3.z
+			+ v0.x * v2.y * v3.z;
+		float b32 = v0.z * v1.y * v3.x
+			- v0.y * v1.z * v3.x
+			- v0.z * v1.x * v3.y
+			+ v0.x * v1.z * v3.y
+			+ v0.y * v1.x * v3.z
+			- v0.x * v1.y * v3.z;
 
-		float v1x = _m12*(_m7*_m10 - _m6*_m11) - _m14*(_m7*_m8 + _m4*_m11) + _m15*(_m6*_m8 - m4Xm10);
-		float v1y = _m12*(_m2*_m11 - _m3*_m10) + _m14*(_m3*_m8 - _m0*_m11) - _m2*_m8*_m15 + _m0*_m10*_m15;
-		float v1z = _m12*(m3Xm6 - m2Xm7)       - _m14*(m3Xm4   + m0Xm7)    + _m15*(m2Xm4 - m0Xm6);
-		float v1w = _m8*(m2Xm7 - m3Xm6)        + _m10*(m3Xm4   - m0Xm7)    - _m11*(m2Xm4 + m0Xm6);
-
-		float v2x = _m12*(_m5*_m11 - _m7*_m9) + _m13*(_m7*_m8 - _m4*_m11)  - _m5*_m8*_m15 + _m4*_m9*_m15;
-		float v2y = _m12*(_m3*_m9 - _m1*_m11) - _m13*(_m3*_m8 + _m0*_m11)  + _m15*(_m1*_m8 - _m0*_m9);
-		float v2z = _m12*(m1Xm7 - m3Xm5)      + _m13*(m3Xm4 - m0Xm7)       - m1Xm4*_m15  + m0Xm5*_m15;
-		float v2w = _m8*(m3Xm5 - m1Xm7)       - _m9*(m3Xm4 + m0Xm7)        + _m11*(m1Xm4 - m0Xm5);
-
-		float v3x = _m12*(_m6*_m9 - m5Xm10)   - _m6*_m8*_m13  + m4Xm10*_m13 + _m14*(_m5*_m8 - _m4*_m9);
-		float v3y = _m12*(_m1*_m10 - _m2*_m9) + _m13*(_m2*_m8 - _m0*_m10)   - _m1*_m8*_m14 + _m0*_m9*_m14;
-		float v3z = _m12*(m2Xm5 - m1Xm6)      - m2Xm4*_m13    + m0Xm6*_m13  + _m14*(m1Xm4 - m0Xm5);
-		float v3w = _m8*(m1Xm6 - m2Xm5)       + _m9*(m2Xm4    - m0Xm6)      - _m1*m4Xm10 + _m0*m5Xm10;
+		float b33 = v0.y * v1.z * v2.x
+			- v0.z * v1.y * v2.x
+			+ v0.z * v1.x * v2.y
+			- v0.x * v1.z * v2.y
+			- v0.y * v1.x * v2.z
+			+ v0.x * v1.y * v2.z;
 
 		v0 = Vector4(
-			v0x * detScalar,
-			v0y * detScalar,
-			v0z * detScalar,
-			v0w * detScalar
+			b00 * detScalar,
+			b01 * detScalar,
+			b02 * detScalar,
+			b03 * detScalar
 		);
 		v1 = Vector4(
-			v1x * detScalar,
-			v1y * detScalar,
-			v1z * detScalar,
-			v1w * detScalar
+			b10 * detScalar,
+			b11 * detScalar,
+			b12 * detScalar,
+			b13 * detScalar
 		);
 		v2 = Vector4(
-			v2x * detScalar,
-			v2y * detScalar,
-			v2z * detScalar,
-			v2w * detScalar
+			b20 * detScalar,
+			b21 * detScalar,
+			b22 * detScalar,
+			b23 * detScalar
 		);
 		v3 = Vector4(
-			v3x * detScalar,
-			v3y * detScalar,
-			v3z * detScalar,
-			v3w * detScalar
+			b30 * detScalar,
+			b31 * detScalar,
+			b32 * detScalar,
+			b33 * detScalar
 		);
-
-
 	}
 }
 
 Matrix4 Matrix4::GetInverse() const
 {
+	// TODO - Optimize the math that happens here!
 	float detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
 	{
 		detScalar = 1.f / detScalar;
 
-		// Caching multiplications
-		float m2Xm7 = _m2*_m7;
-		float m3Xm6 = _m3*_m6;
-		float m3Xm5 = _m3*_m5;
-		float m1Xm7 = _m1*_m7;
-		float m1Xm6 = _m1*_m6;
-		float m2Xm5 = _m2*_m5;
-		float m3Xm4 = _m3*_m4;
-		float m0Xm7 = _m0*_m7;
-		float m4Xm10 = _m4*_m10;
-		float m2Xm4 = _m2*_m4;
-		float m0Xm6 = _m0*_m6;
-		float m5Xm10 = _m5*_m10;
-		float m1Xm4 = _m1*_m4;
-		float m0Xm5 = _m0*_m5;
+		// Adjunct of current Matrix
 
-		float v0x = _m13*(_m6*_m11 - _m7*_m10) + _m14*(_m7*_m9 - _m5*_m11) - _m6*_m9*_m15 + m5Xm10*_m15;
-		float v0y = _m13*(_m3*_m10 - _m2*_m11) - _m14*(_m3*_m9 + _m1*_m11) + _m15*(_m2*_m9 - _m1*_m10);
-		float v0z = _m13*(m2Xm7 - m3Xm6)       + _m14*(m3Xm5   - m1Xm7)    - _m15*(m2Xm5 + m1Xm6);
-		float v0w = _m9*(m3Xm6 - m2Xm7)        - _m10*(m3Xm5   + m1Xm7)    + _m11*(m2Xm5 - m1Xm6);
+		float b00 = v1.z * v2.w * v3.y
+			- v1.w * v2.z * v3.y
+			+ v1.w * v2.y * v3.z
+			- v1.y * v2.w * v3.z
+			- v1.z * v2.y * v3.w
+			+ v1.y * v2.z * v3.w;
+		float b01 = v0.w * v2.z * v3.y
+			- v0.z * v2.w * v3.y
+			- v0.w * v2.y * v3.z
+			+ v0.y * v2.w * v3.z
+			+ v0.z * v2.y * v3.w
+			- v0.y * v2.z * v3.w;
+		float b02 = v0.z * v1.w * v3.y
+			- v0.w * v1.z * v3.y
+			+ v0.w * v1.y * v3.z
+			- v0.y * v1.w * v3.z
+			- v0.z * v1.y * v3.w
+			+ v0.y * v1.z * v3.w;
+		float b03 = v0.w * v1.z * v2.y
+			- v0.z * v1.w * v2.y
+			- v0.w * v1.y * v2.z
+			+ v0.y * v1.w * v2.z
+			+ v0.z * v1.y * v2.w
+			- v0.y * v1.z * v2.w;
+		float b10 = v1.w * v2.z * v3.x
+			- v1.z * v2.w * v3.x
+			- v1.w * v2.x * v3.z
+			+ v1.x * v2.w * v3.z
+			+ v1.z * v2.x * v3.w
+			- v1.x * v2.z * v3.w;
+		float b11 = v0.z * v2.w * v3.x
+			- v0.w * v2.z * v3.x
+			+ v0.w * v2.x * v3.z
+			- v0.x * v2.w * v3.z
+			- v0.z * v2.x * v3.w
+			+ v0.x * v2.z * v3.w;
+		float b12 = v0.w * v1.z * v3.x
+			- v0.z * v1.w * v3.x
+			- v0.w * v1.x * v3.z
+			+ v0.x * v1.w * v3.z
+			+ v0.z * v1.x * v3.w
+			- v0.x * v1.z * v3.w;
+		float b13 = v0.z * v1.w * v2.x
+			- v0.w * v1.z * v2.x
+			+ v0.w * v1.x * v2.z
+			- v0.x * v1.w * v2.z
+			- v0.z * v1.x * v2.w
+			+ v0.x * v1.z * v2.w;
+		float b20 = v1.y * v2.w * v3.x
+			- v1.w * v2.y * v3.x
+			+ v1.w * v2.x * v3.y
+			- v1.x * v2.w * v3.y
+			- v1.y * v2.x * v3.w
+			+ v1.x * v2.y * v3.w;
+		float b21 = v0.w * v2.y * v3.x
+			- v0.y * v2.w * v3.x
+			- v0.w * v2.x * v3.y
+			+ v0.x * v2.w * v3.y
+			+ v0.y * v2.x * v3.w
+			- v0.x * v2.y * v3.w;
+		float b22 = v0.y * v1.w * v3.x
+			- v0.w * v1.y * v3.x
+			+ v0.w * v1.x * v3.y
+			- v0.x * v1.w * v3.y
+			- v0.y * v1.x * v3.w
+			+ v0.x * v1.y * v3.w;
+		float b23 = v0.w * v1.y * v2.x
+			- v0.y * v1.w * v2.x
+			- v0.w * v1.x * v2.y
+			+ v0.x * v1.w * v2.y
+			+ v0.y * v1.x * v2.w
+			- v0.x * v1.y * v2.w;
+		float b30 = v1.z * v2.y * v3.x
+			- v1.y * v2.z * v3.x
+			- v1.z * v2.x * v3.y
+			+ v1.x * v2.z * v3.y
+			+ v1.y * v2.x * v3.z
+			- v1.x * v2.y * v3.z;
+		float b31 = v0.y * v2.z * v3.x
+			- v0.z * v2.y * v3.x
+			+ v0.z * v2.x * v3.y
+			- v0.x * v2.z * v3.y
+			- v0.y * v2.x * v3.z
+			+ v0.x * v2.y * v3.z;
+		float b32 = v0.z * v1.y * v3.x
+			- v0.y * v1.z * v3.x
+			- v0.z * v1.x * v3.y
+			+ v0.x * v1.z * v3.y
+			+ v0.y * v1.x * v3.z
+			- v0.x * v1.y * v3.z;
 
-		float v1x = _m12*(_m7*_m10 - _m6*_m11) - _m14*(_m7*_m8 + _m4*_m11) + _m15*(_m6*_m8 - m4Xm10);
-		float v1y = _m12*(_m2*_m11 - _m3*_m10) + _m14*(_m3*_m8 - _m0*_m11) - _m2*_m8*_m15 + _m0*_m10*_m15;
-		float v1z = _m12*(m3Xm6 - m2Xm7)       - _m14*(m3Xm4   + m0Xm7)    + _m15*(m2Xm4 - m0Xm6);
-		float v1w = _m8*(m2Xm7 - m3Xm6)        + _m10*(m3Xm4   - m0Xm7)    - _m11*(m2Xm4 + m0Xm6);
-
-		float v2x = _m12*(_m5*_m11 - _m7*_m9) + _m13*(_m7*_m8 - _m4*_m11)  - _m5*_m8*_m15 + _m4*_m9*_m15;
-		float v2y = _m12*(_m3*_m9 - _m1*_m11) - _m13*(_m3*_m8 + _m0*_m11)  + _m15*(_m1*_m8 - _m0*_m9);
-		float v2z = _m12*(m1Xm7 - m3Xm5)      + _m13*(m3Xm4 - m0Xm7)       - m1Xm4*_m15  + m0Xm5*_m15;
-		float v2w = _m8*(m3Xm5 - m1Xm7)       - _m9*(m3Xm4 + m0Xm7)        + _m11*(m1Xm4 - m0Xm5);
-
-		float v3x = _m12*(_m6*_m9 - m5Xm10)   - _m6*_m8*_m13  + m4Xm10*_m13 + _m14*(_m5*_m8 - _m4*_m9);
-		float v3y = _m12*(_m1*_m10 - _m2*_m9) + _m13*(_m2*_m8 - _m0*_m10)   - _m1*_m8*_m14 + _m0*_m9*_m14;
-		float v3z = _m12*(m2Xm5 - m1Xm6)      - m2Xm4*_m13    + m0Xm6*_m13  + _m14*(m1Xm4 - m0Xm5);
-		float v3w = _m8*(m1Xm6 - m2Xm5)       + _m9*(m2Xm4    - m0Xm6)      - _m1*m4Xm10 + _m0*m5Xm10;
+		float b33 = v0.y * v1.z * v2.x
+			- v0.z * v1.y * v2.x
+			+ v0.z * v1.x * v2.y
+			- v0.x * v1.z * v2.y
+			- v0.y * v1.x * v2.z
+			+ v0.x * v1.y * v2.z;
 
 		Matrix4 m;
 		m.v0 = Vector4(
-			v0x * detScalar,
-			v0y * detScalar,
-			v0z * detScalar,
-			v0w * detScalar
+			b00 * detScalar,
+			b01 * detScalar,
+			b02 * detScalar,
+			b03 * detScalar
 		);
 		m.v1 = Vector4(
-			v1x * detScalar,
-			v1y * detScalar,
-			v1z * detScalar,
-			v1w * detScalar
+			b10 * detScalar,
+			b11 * detScalar,
+			b12 * detScalar,
+			b13 * detScalar
 		);
 		m.v2 = Vector4(
-			v2x * detScalar,
-			v2y * detScalar,
-			v2z * detScalar,
-			v2w * detScalar
+			b20 * detScalar,
+			b21 * detScalar,
+			b22 * detScalar,
+			b23 * detScalar
 		);
 		m.v3 = Vector4(
-			v3x * detScalar,
-			v3y * detScalar,
-			v3z * detScalar,
-			v3w * detScalar
+			b30 * detScalar,
+			b31 * detScalar,
+			b32 * detScalar,
+			b33 * detScalar
 		);
 
 		return m;
@@ -658,74 +688,70 @@ Matrix4 Matrix4::GetInverse() const
 
 void Matrix4::Transpose()
 {
-	float tmp = _m1;
-	_m1 = _m4;
-	_m4 = tmp;
+	float tmp = v0.y;
+	v0.y = v1.x;
+	v1.x = tmp;
 
-	tmp = _m2;
-	_m2 = _m8;
-	_m8 = tmp;
+	tmp = v0.z;
+	v0.z = v2.x;
+	v2.x = tmp;
 
-	tmp = _m3;
-	_m3 = _m12;
-	_m12 = tmp;
+	tmp = v0.w;
+	v0.w = v3.x;
+	v3.x = tmp;
 
-	tmp = _m13;
-	_m13 = _m7;
-	_m7 = tmp;
+	tmp = v3.y;
+	v3.y = v1.w;
+	v1.w = tmp;
 
-	tmp = _m14;
-	_m14 = _m11;
-	_m11 = tmp;
+	tmp = v3.z;
+	v3.z = v2.w;
+	v2.w = tmp;
 
 	// middle
-	tmp = _m9;
-	_m9 = _m6;
-	_m6 = tmp;
+	tmp = v2.y;
+	v2.y = v1.z;
+	v1.z = tmp;
 }
 
 Matrix4 Matrix4::GetTranspose() const
 {
 	Matrix4 m(*this);
 
-	float tmp = m._m1;
-	m._m1 = m._m4;
-	m._m4 = tmp;
+	float tmp = m.v0.y;
+	m.v0.y = m.v1.x;
+	m.v1.x = tmp;
 
-	tmp = m._m2;
-	m._m2 = m._m8;
-	m._m8 = tmp;
+	tmp = m.v0.z;
+	m.v0.z = m.v2.x;
+	m.v2.x = tmp;
 
-	tmp = m._m3;
-	m._m3 = m._m12;
-	m._m12 = tmp;
+	tmp = m.v0.w;
+	m.v0.w = m.v3.x;
+	m.v3.x = tmp;
 
-	tmp = m._m13;
-	m._m13 = m._m7;
-	m._m7 = tmp;
+	tmp = m.v3.y;
+	m.v3.y = m.v1.w;
+	m.v1.w = tmp;
 
-	tmp = m._m14;
-	m._m14 = m._m11;
-	m._m11 = tmp;
+	tmp = m.v3.z;
+	m.v3.z = m.v2.w;
+	m.v2.w = tmp;
 
 	// middle
-	tmp = m._m9;
-	m._m9 = m._m6;
-	m._m6 = tmp;
+	tmp = m.v2.y;
+	m.v2.y = m.v1.z;
+	m.v1.z = tmp;
 
 	return m;
 }
 
 bool Matrix4::IsIdentity(float epsilon) const
 {
-	return Math::IsEqual(_m0, 1.f, epsilon) && Math::IsEqual(_m1, 0.f, epsilon) && 
-		   Math::IsEqual(_m2, 0.f, epsilon) && Math::IsEqual(_m3, 0.f, epsilon) &&
-		   Math::IsEqual(_m4, 0.f, epsilon) && Math::IsEqual(_m5, 1.f, epsilon) && 
-		   Math::IsEqual(_m6, 0.f, epsilon) && Math::IsEqual(_m7, 0.f, epsilon) &&
-		   Math::IsEqual(_m8, 0.f, epsilon) && Math::IsEqual(_m9, 0.f, epsilon) && 
-		   Math::IsEqual(_m10, 1.f, epsilon) && Math::IsEqual(_m11, 0.f, epsilon) &&
-		   Math::IsEqual(_m12, 0.f, epsilon) && Math::IsEqual(_m13, 0.f, epsilon) && 
-		   Math::IsEqual(_m14, 0.f, epsilon) && Math::IsEqual(_m15, 1.f, epsilon);
+	return v0.IsEqual(Vector4(1, 0, 0, 0), epsilon) &&
+		v1.IsEqual(Vector4(0, 1, 0, 0), epsilon) &&
+		v2.IsEqual(Vector4(0, 0, 1, 0), epsilon) &&
+		v3.IsEqual(Vector4(0, 0, 0, 1), epsilon);
 }
 
 bool Matrix4::IsEqual(const Matrix4& m) const
@@ -763,44 +789,50 @@ Matrix4 Matrix4::operator*(float s) const
 
 Matrix4& Matrix4::operator+=(const Matrix4& m)
 {
-	_m0 += m._m0;
-	_m1 += m._m1;
-	_m2 += m._m2;
-	_m3 += m._m3;
-	_m4 += m._m4;
-	_m5 += m._m5;
-	_m6 += m._m6;
-	_m7 += m._m7;
-	_m8 += m._m8;
-	_m9 += m._m9;
-	_m10 += m._m10;
-	_m11 += m._m11;
-	_m12 += m._m12;
-	_m13 += m._m13;
-	_m14 += m._m14;
-	_m15 += m._m15;
+	v0.x += m.v0.x;
+	v0.y += m.v0.y;
+	v0.z += m.v0.z;
+	v0.w += m.v0.w;
+
+	v1.x += m.v1.x;
+	v1.y += m.v1.y;
+	v1.z += m.v1.z;
+	v1.w += m.v1.w;
+
+	v2.x += m.v2.x;
+	v2.y += m.v2.y;
+	v2.z += m.v2.z;
+	v2.w += m.v2.w;
+
+	v3.x += m.v3.x;
+	v3.y += m.v3.y;
+	v3.z += m.v3.z;
+	v3.w += m.v3.w;
 
 	return *this;
 }
 
 Matrix4& Matrix4::operator-=(const Matrix4& m)
 {
-	_m0 -= m._m0;
-	_m1 -= m._m1;
-	_m2 -= m._m2;
-	_m3 -= m._m3;
-	_m4 -= m._m4;
-	_m5 -= m._m5;
-	_m6 -= m._m6;
-	_m7 -= m._m7;
-	_m8 -= m._m8;
-	_m9 -= m._m9;
-	_m10 -= m._m10;
-	_m11 -= m._m11;
-	_m12 -= m._m12;
-	_m13 -= m._m13;
-	_m14 -= m._m14;
-	_m15 -= m._m15;
+	v0.x -= m.v0.x;
+	v0.y -= m.v0.y;
+	v0.z -= m.v0.z;
+	v0.w -= m.v0.w;
+
+	v1.x -= m.v1.x;
+	v1.y -= m.v1.y;
+	v1.z -= m.v1.z;
+	v1.w -= m.v1.w;
+
+	v2.x -= m.v2.x;
+	v2.y -= m.v2.y;
+	v2.z -= m.v2.z;
+	v2.w -= m.v2.w;
+
+	v3.x -= m.v3.x;
+	v3.y -= m.v3.y;
+	v3.z -= m.v3.z;
+	v3.w -= m.v3.w;
 
 	return *this;
 }
@@ -808,31 +840,31 @@ Matrix4& Matrix4::operator-=(const Matrix4& m)
 Matrix4& Matrix4::operator*=(const Matrix4& m)
 {
 	v0 = Vector4(
-		_m0*m._m0 + _m1*m._m4 + _m2*m._m8 + _m3*m._m12,
-		_m0*m._m1 + _m1*m._m5 + _m2*m._m9 + _m3*m._m13,
-		_m0*m._m2 + _m1*m._m6 + _m2*m._m10 + _m3*m._m14,
-		_m0*m._m3 + _m1*m._m7 + _m2*m._m11 + _m3*m._m15
+		v0.x*m.v0.x + v0.y*m.v1.x + v0.z*m.v2.x + v0.w*m.v3.x,
+		v0.x*m.v0.y + v0.y*m.v1.y + v0.z*m.v2.y + v0.w*m.v3.y,
+		v0.x*m.v0.z + v0.y*m.v1.z + v0.z*m.v2.z + v0.w*m.v3.z,
+		v0.x*m.v0.w + v0.y*m.v1.w + v0.z*m.v2.w + v0.w*m.v3.w
 		);
 	
 	v1 = Vector4(
-		_m4*m._m0 + _m5*m._m4 + _m6*m._m8+ _m7*m._m12,
-		_m4*m._m1 + _m5*m._m5 + _m6*m._m9+ _m7*m._m13,
-		_m4*m._m2 + _m5*m._m6 + _m6*m._m10 + _m7*m._m14,
-		_m4*m._m3 + _m5*m._m7 + _m6*m._m11 + _m7*m._m15
+		v1.x*m.v0.x + v1.y*m.v1.x + v1.z*m.v2.x + v1.w*m.v3.x,
+		v1.x*m.v0.y + v1.y*m.v1.y + v1.z*m.v2.y + v1.w*m.v3.y,
+		v1.x*m.v0.z + v1.y*m.v1.z + v1.z*m.v2.z + v1.w*m.v3.z,
+		v1.x*m.v0.w + v1.y*m.v1.w + v1.z*m.v2.w + v1.w*m.v3.w
 	);
 
 	v2 = Vector4(
-		_m8*m._m0 + _m9*m._m4 + _m10*m._m8 + _m11*m._m12,
-		_m8*m._m1 + _m9*m._m5 + _m10*m._m9 + _m11*m._m13,
-		_m8*m._m2 + _m9*m._m6 + _m10*m._m10 + _m11*m._m14,
-		_m8*m._m3 + _m9*m._m7 + _m10*m._m11 + _m11*m._m15
+		v2.x*m.v0.x + v2.y*m.v1.x + v2.z*m.v2.x + v2.w*m.v3.x,
+		v2.x*m.v0.y + v2.y*m.v1.y + v2.z*m.v2.y + v2.w*m.v3.y,
+		v2.x*m.v0.z + v2.y*m.v1.z + v2.z*m.v2.z + v2.w*m.v3.z,
+		v2.x*m.v0.w + v2.y*m.v1.w + v2.z*m.v2.w + v2.w*m.v3.w
 	);
 
 	v3 = Vector4(
-		_m12*m._m0 + _m13*m._m4 + _m14*m._m8 + _m15*m._m12,
-		_m12*m._m1 + _m13*m._m5 + _m14*m._m9 + _m15*m._m13,
-		_m12*m._m2 + _m13*m._m6 + _m14*m._m10 + _m15*m._m14,
-		_m12*m._m3 + _m13*m._m7 + _m14*m._m11 + _m15*m._m15
+		v3.x*m.v0.x + v3.y*m.v1.x + v3.z*m.v2.x + v3.w*m.v3.x,
+		v3.x*m.v0.y + v3.y*m.v1.y + v3.z*m.v2.y + v3.w*m.v3.y,
+		v3.x*m.v0.z + v3.y*m.v1.z + v3.z*m.v2.z + v3.w*m.v3.z,
+		v3.x*m.v0.w + v3.y*m.v1.w + v3.z*m.v2.w + v3.w*m.v3.w
 	);
 
 	return *this;
@@ -840,23 +872,26 @@ Matrix4& Matrix4::operator*=(const Matrix4& m)
 
 Matrix4& Matrix4::operator*=(float s)
 {
-	_m0 *= s;
-	_m1 *= s;
-	_m2 *= s;
-	_m3 *= s;
-	_m4 *= s;
-	_m5 *= s;
-	_m6 *= s;
-	_m7 *= s;
-	_m8 *= s;
-	_m9 *= s;
-	_m10 *= s;
-	_m11 *= s;
-	_m12 *= s;
-	_m13 *= s;
-	_m14 *= s;
-	_m15 *= s;
+	v0.x *= s;
+	v0.y *= s;
+	v0.z *= s;
+	v0.w *= s;
 
+	v1.x *= s;
+	v1.y *= s;
+	v1.z *= s;
+	v1.w *= s;
+
+	v2.x *= s;
+	v2.y *= s;
+	v2.z *= s;
+	v2.w *= s;
+
+	v3.x *= s;
+	v3.y *= s;
+	v3.z *= s;
+	v3.w *= s;
+	
 	return *this;
 }
 
@@ -880,324 +915,323 @@ Matrix4 Matrix4::operator-() const
 	);
 }
 
-float & Matrix4::m0()
+float& Matrix4::m0()
 {
-	return _m0;
+	return v0.x;
 }
 
-float & Matrix4::m1()
+float& Matrix4::m1()
 {
-	return _m1;
+	return v0.y;
 }
 
-float & Matrix4::m2()
+float& Matrix4::m2()
 {
-	return _m2;
+	return v0.z;
 }
 
-float & Matrix4::m3()
+float& Matrix4::m3()
 {
-	return _m3;
+	return v0.w;
 }
 
-float & Matrix4::m4()
+float& Matrix4::m4()
 {
-	return _m4;
+	return v1.x;
 }
 
-float & Matrix4::m5()
+float& Matrix4::m5()
 {
-	return _m5;
+	return v1.y;
 }
 
-float & Matrix4::m6()
+float& Matrix4::m6()
 {
-	return _m6;
+	return v1.z;
 }
 
-float & Matrix4::m7()
+float& Matrix4::m7()
 {
-	return _m7;
+	return v1.w;
 }
 
-float & Matrix4::m8()
+float& Matrix4::m8()
 {
-	return _m8;
+	return v2.x;
 }
 
-float & Matrix4::m9()
+float& Matrix4::m9()
 {
-	return _m9;
+	return v2.y;
 }
 
-float & Matrix4::m10()
+float& Matrix4::m10()
 {
-	return _m10;
+	return v2.z;
 }
 
-float & Matrix4::m11()
+float& Matrix4::m11()
 {
-	return _m11;
+	return v2.w;
 }
 
-float & Matrix4::m12()
+float& Matrix4::m12()
 {
-	return _m12;
+	return v3.x;
 }
 
-float & Matrix4::m13()
+float& Matrix4::m13()
 {
-	return _m13;
+	return v3.y;
 }
 
-float & Matrix4::m14()
+float& Matrix4::m14()
 {
-	return _m14;
+	return v3.z;
 }
 
-float & Matrix4::m15()
+float& Matrix4::m15()
 {
-	return _m15;
+	return v3.w;
 }
 
-const float & Matrix4::m0() const
+const float& Matrix4::m0() const
 {
-	return _m0;
+	return v0.x;
 }
 
-const float & Matrix4::m1() const
+const float& Matrix4::m1() const
 {
-	return _m1;
+	return v0.y;
 }
 
-const float & Matrix4::m2() const
+const float& Matrix4::m2() const
 {
-	return _m2;
+	return v0.z;
 }
 
-const float & Matrix4::m3() const
+const float& Matrix4::m3() const
 {
-	return _m3;
+	return v0.w;
 }
 
-const float & Matrix4::m4() const
+const float& Matrix4::m4() const
 {
-	return _m4;
+	return v1.x;
 }
 
-const float & Matrix4::m5() const
+const float& Matrix4::m5() const
 {
-	return _m5;
+	return v1.y;
 }
 
-const float & Matrix4::m6() const
+const float& Matrix4::m6() const
 {
-	return _m6;
+	return v1.z;
 }
 
-const float & Matrix4::m7() const
+const float& Matrix4::m7() const
 {
-	return _m7;
+	return v1.w;
 }
 
-const float & Matrix4::m8() const
+const float& Matrix4::m8() const
 {
-	return _m8;
+	return v2.x;
 }
 
-const float & Matrix4::m9() const
+const float& Matrix4::m9() const
 {
-	return _m9;
+	return v2.y;
 }
 
-const float & Matrix4::m10() const
+const float& Matrix4::m10() const
 {
-	return _m10;
+	return v2.z;
 }
 
-const float & Matrix4::m11() const
+const float& Matrix4::m11() const 
 {
-	return _m11;
+	return v2.w;
 }
 
-const float & Matrix4::m12() const
+const float& Matrix4::m12() const
 {
-	return _m12;
+	return v3.x;
 }
 
-const float & Matrix4::m13() const
+const float& Matrix4::m13() const 
 {
-	return _m13;
+	return v3.y;
 }
 
-const float & Matrix4::m14() const
+const float& Matrix4::m14() const 
 {
-	return _m14;
+	return v3.z;
 }
 
-const float & Matrix4::m15() const
+const float& Matrix4::m15() const 
 {
-	return _m15;
+	return v3.w;
+}
+float& Matrix4::operator[](m0_enum)
+{
+	return v0.x;
 }
 
-float & Matrix4::operator[](m0_enum)
+float& Matrix4::operator[](m1_enum)
 {
-	return _m0;
+	return v0.y;
 }
 
-float & Matrix4::operator[](m1_enum)
+float& Matrix4::operator[](m2_enum)
 {
-	return _m1;
+	return v0.z;
 }
 
-float & Matrix4::operator[](m2_enum)
+float& Matrix4::operator[](m3_enum)
 {
-	return _m2;
+	return v0.w;
 }
 
-float & Matrix4::operator[](m3_enum)
+float& Matrix4::operator[](m4_enum)
 {
-	return _m3;
+	return v1.x;
 }
 
-float & Matrix4::operator[](m4_enum)
+float& Matrix4::operator[](m5_enum)
 {
-	return _m4;
+	return v1.y;
 }
 
-float & Matrix4::operator[](m5_enum)
+float& Matrix4::operator[](m6_enum)
 {
-	return _m5;
+	return v1.z;
 }
 
-float & Matrix4::operator[](m6_enum)
+float& Matrix4::operator[](m7_enum)
 {
-	return _m6;
+	return v1.w;
 }
 
-float & Matrix4::operator[](m7_enum)
+float& Matrix4::operator[](m8_enum)
 {
-	return _m7;
+	return v2.x;
 }
 
-float & Matrix4::operator[](m8_enum)
+float& Matrix4::operator[](m9_enum)
 {
-	return _m8;
+	return v2.y;
 }
 
-float & Matrix4::operator[](m9_enum)
+float& Matrix4::operator[](m10_enum)
 {
-	return _m9;
+	return v2.z;
 }
 
-float & Matrix4::operator[](m10_enum)
+float& Matrix4::operator[](m11_enum)
 {
-	return _m10;
+	return v2.w;
 }
 
-float & Matrix4::operator[](m11_enum)
+float& Matrix4::operator[](m12_enum)
 {
-	return _m11;
+	return v3.x;
 }
 
-float & Matrix4::operator[](m12_enum)
+float& Matrix4::operator[](m13_enum)
 {
-	return _m12;
+	return v3.y;
 }
 
-float & Matrix4::operator[](m13_enum)
+float& Matrix4::operator[](m14_enum)
 {
-	return _m13;
+	return v3.z;
 }
 
-float & Matrix4::operator[](m14_enum)
+float& Matrix4::operator[](m15_enum)
 {
-	return _m14;
+	return v3.w;
 }
 
-float & Matrix4::operator[](m15_enum)
+const float& Matrix4::operator[](m0_enum) const
 {
-	return _m15;
+	return v0.x;
 }
 
-const float & Matrix4::operator[](m0_enum) const
+const float& Matrix4::operator[](m1_enum) const 
 {
-	return _m0;
+	return v0.y;
 }
 
-const float & Matrix4::operator[](m1_enum) const
+const float& Matrix4::operator[](m2_enum) const
 {
-	return _m1;
+	return v0.z;
 }
 
-const float & Matrix4::operator[](m2_enum) const
+const float& Matrix4::operator[](m3_enum) const
 {
-	return _m2;
+	return v0.w;
 }
 
-const float & Matrix4::operator[](m3_enum) const
+const float& Matrix4::operator[](m4_enum) const
 {
-	return _m3;
+	return v1.x;
 }
 
-const float & Matrix4::operator[](m4_enum) const
+const float& Matrix4::operator[](m5_enum) const
 {
-	return _m4;
+	return v1.y;
 }
 
-const float & Matrix4::operator[](m5_enum) const
+const float& Matrix4::operator[](m6_enum) const
 {
-	return _m5;
+	return v1.z;
 }
 
-const float & Matrix4::operator[](m6_enum) const
+const float& Matrix4::operator[](m7_enum) const
 {
-	return _m6;
+	return v1.w;
 }
 
-const float & Matrix4::operator[](m7_enum) const
+const float& Matrix4::operator[](m8_enum) const
 {
-	return _m7;
+	return v2.x;
 }
 
-const float & Matrix4::operator[](m8_enum) const
+const float& Matrix4::operator[](m9_enum) const
 {
-	return _m8;
+	return v2.y;
 }
 
-const float & Matrix4::operator[](m9_enum) const
+const float& Matrix4::operator[](m10_enum) const 
 {
-	return _m9;
+	return v2.z;
 }
 
-const float & Matrix4::operator[](m10_enum) const
+const float& Matrix4::operator[](m11_enum) const
 {
-	return _m10;
+	return v2.w;
 }
 
-const float & Matrix4::operator[](m11_enum) const
+const float& Matrix4::operator[](m12_enum) const
 {
-	return _m11;
+	return v3.x;
 }
 
-const float & Matrix4::operator[](m12_enum) const
+const float& Matrix4::operator[](m13_enum) const
 {
-	return _m12;
+	return v3.y;
 }
 
-const float & Matrix4::operator[](m13_enum) const
+const float& Matrix4::operator[](m14_enum) const
 {
-	return _m13;
+	return v3.z;
 }
 
-const float & Matrix4::operator[](m14_enum) const
+const float& Matrix4::operator[](m15_enum) const
 {
-	return _m14;
-}
-
-const float & Matrix4::operator[](m15_enum) const
-{
-	return _m15;
+	return v3.w;
 }
 
 Vector4 operator*(const Vector4& v, const Matrix4& m)
@@ -1212,13 +1246,13 @@ Matrix4 operator*(float s, const Matrix4& m)
 	return ret *= s;
 }
 
-Vector4 & operator*=(Vector4& v, const Matrix4& m)
+Vector4& operator*=(Vector4& v, const Matrix4& m)
 {
 	v = Vector4(
-		v.x * m.m0() + v.y * m.m4() + v.z * m.m8()  + v.w * m.m12(),
-		v.x * m.m1() + v.y * m.m5() + v.z * m.m9()  + v.w * m.m13(),
-		v.x * m.m2() + v.y * m.m6() + v.z * m.m10() + v.w * m.m14(),
-		v.x * m.m3() + v.y * m.m7() + v.z * m.m11() + v.w * m.m15()
+		v.x * m.v0.x + v.y * m.v1.x + v.z * m.v2.x + v.w * m.v3.x,
+		v.x * m.v0.y + v.y * m.v1.y + v.z * m.v2.y + v.w * m.v3.y,
+		v.x * m.v0.z + v.y * m.v1.z + v.z * m.v2.z + v.w * m.v3.z,
+		v.x * m.v0.w + v.y * m.v1.w + v.z * m.v2.w + v.w * m.v3.w
 	);
 	return v;
 }

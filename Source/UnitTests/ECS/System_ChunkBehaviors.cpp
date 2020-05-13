@@ -128,15 +128,15 @@ void CheckChunkVersionSystem::Update()
 
 	if (!versionUpdate)
 	{
-		CHECK_TRUE(chunks[0].HasChanged<Position>(w.GetSystemVersion()));
-		CHECK_TRUE(chunks[0].HasChanged<Rotation>(w.GetSystemVersion()));
+		CHECK_TRUE(chunks[0].HasChanged<Position>(GetVersion()));
+		CHECK_TRUE(chunks[0].HasChanged<Rotation>(GetVersion()));
 
 		versionUpdate = true;
 	}
 	else
 	{
-		CHECK_FALSE(chunks[0].HasChanged<Position>(w.GetSystemVersion()));
-		CHECK_FALSE(chunks[0].HasChanged<Rotation>(w.GetSystemVersion()));
+		CHECK_FALSE(chunks[0].HasChanged<Position>(GetVersion()));
+		CHECK_FALSE(chunks[0].HasChanged<Rotation>(GetVersion()));
 	}
 
 	updatedSuccess = true;
