@@ -43,6 +43,11 @@
     <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
     <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp" />
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\MoveBetweenObject.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitingObject.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.cpp" />
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\RenderObject.cpp" />
@@ -117,6 +122,11 @@
     <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\MoveBetweenObject.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitingObject.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.hpp" />
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\GameInput.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\IInputReceiver.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h" />

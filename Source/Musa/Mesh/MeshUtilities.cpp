@@ -20,7 +20,6 @@ void GenerateMeshTangents(DynamicArray<Vertex>& verts, const DynamicArray<Face>&
 		Vector3 edge0 = v1Pos - v0Pos;
 		Vector3 edge1 = v2Pos - v0Pos;
 
-		// TODO - Make some sort of Vector2 data structure!
 		float deltaU0 = v1.texCoords.x - v0.texCoords.x;
 		float deltaU1 = v2.texCoords.x - v0.texCoords.x;
 		float deltaV0 = v1.texCoords.y - v0.texCoords.y;

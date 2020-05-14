@@ -1,18 +1,18 @@
 #pragma once
 
 #include "GameObject/GameObject.h"
-#include "Math/Vector.h"
+#include "Math/Vector4.hpp"
 
 class MoveBetweenObject : public GameObject
 {
 public:
-	MoveBetweenObject(const Vector& pointA, const Vector& pointB, float startingDelta = 0.f);
+	MoveBetweenObject(GameWorld& world, const Vector4& pointA, const Vector4& pointB, float startingDelta = 0.f);
 
 	virtual void Update(float tick) override;
 
 private:
-	Vector A, B;
-	Vector* srcVec;
-	Vector* dstVec;
+	Vector4 A, B;
+	Vector4* srcVec;
+	Vector4* dstVec;
 	float totalDelta;
 };

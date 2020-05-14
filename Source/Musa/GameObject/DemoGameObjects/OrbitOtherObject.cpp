@@ -1,7 +1,9 @@
 #include "OrbitOtherObject.hpp"
+#include "Math/Quat.hpp"
 
-OrbitOtherObject::OrbitOtherObject(const GameObject& obj, const Vector& orbitAxis)
-	: axis(orbitAxis),
+OrbitOtherObject::OrbitOtherObject(GameWorld& world, const GameObject& obj, const Vector4& orbitAxis)
+	: GameObject(world),
+	axis(orbitAxis),
 	object(obj)
 {
 	prevObjectPosition = object.GetPosition();
@@ -11,14 +13,14 @@ void OrbitOtherObject::Update(float tick)
 {
 	constexpr float angleOffsetDeg = .005f;
 
-	Vector objectPos = object.GetPosition();
-	Vector dir = objectPos - prevObjectPosition;
+	Vector4 objectPos = object.GetPosition();
+	Vector4 dir = objectPos - prevObjectPosition;
 
-	Matrix trans(TRANS, objectPos);
+	Matrix4 trans(TRANS, objectPos);
 	Quat rot(ROT_AXIS_ANGLE, axis, angleOffsetDeg * tick);
-	Matrix negTrans(TRANS, -objectPos);
+	Matrix4 negTrans(TRANS, -objectPos);
 
-	Matrix orbitTrans = negTrans * rot * trans;
+	Matrix4 orbitTrans = negTrans * rot * trans;
 
 	position += dir;
 	position *= orbitTrans;

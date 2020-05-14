@@ -1,7 +1,9 @@
 #include "ScaleChangingObject.hpp"
+#include "Math/MathFunctions.hpp"
 
-ScaleChangingObject::ScaleChangingObject(float scaleA, float scaleB)
-	: A(scaleA, scaleA, scaleA),
+ScaleChangingObject::ScaleChangingObject(GameWorld& world, float scaleA, float scaleB)
+	: GameObject(world),
+	A(scaleA, scaleA, scaleA),
 	B(scaleB, scaleB, scaleB),
 	srcVec(&A),
 	dstVec(&B)
@@ -18,7 +20,7 @@ void ScaleChangingObject::Update(float tick)
 		totalDelta = 0.f;
 	}
 
-	Math::Lerp(scale, *srcVec, *dstVec, totalDelta);
+	scale = Math::Lerp(*srcVec, *dstVec, totalDelta);
 
 	totalDelta += .001f * tick;
 

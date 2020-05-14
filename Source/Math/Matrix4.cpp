@@ -29,22 +29,22 @@ Matrix4::Matrix4(MatrixTransType transEnum, const Vector4 & transVec)
 	Set(transEnum, transVec);
 }
 
-Matrix4::Matrix4(MatrixTransType transEnum, float x, float y, float z)
+Matrix4::Matrix4(MatrixTransType transEnum, float32 x, float32 y, float32 z)
 {
 	Set(transEnum, x, y, z);
 }
 
-Matrix4::Matrix4(RotType rotationEnum, float angle)
+Matrix4::Matrix4(RotType rotationEnum, float32 angle)
 {
 	Set(rotationEnum, angle);
 }
 
-Matrix4::Matrix4(Rot3AxisType type, float xAngleRad, float yAngleRad, float zAngleRad)
+Matrix4::Matrix4(Rot3AxisType type, float32 xAngleRad, float32 yAngleRad, float32 zAngleRad)
 {
 	Set(type, xAngleRad, yAngleRad, zAngleRad);
 }
 
-Matrix4::Matrix4(RotAxisAngleType type, const Vector4& vect, float angleRads)
+Matrix4::Matrix4(RotAxisAngleType type, const Vector4& vect, float32 angleRads)
 {
 	Set(type, vect, angleRads);
 }
@@ -59,7 +59,7 @@ Matrix4::Matrix4(MatrixScaleType scaleEnum, const Vector4& scaleVec)
 	Set(scaleEnum, scaleVec);
 }
 
-Matrix4::Matrix4(MatrixScaleType scaleEnum, float sx, float sy, float sz)
+Matrix4::Matrix4(MatrixScaleType scaleEnum, float32 sx, float32 sy, float32 sz)
 {
 	Set(scaleEnum, sx, sy, sz);
 }
@@ -77,7 +77,7 @@ void Matrix4::Set(MatrixTransType /*transEnum*/, const Vector4& transVec)
 	v3 = Vector4(transVec.x, transVec.y, transVec.z, 1.f);
 }
 
-void Matrix4::Set(MatrixTransType /*transEnum*/, float x, float y, float z)
+void Matrix4::Set(MatrixTransType /*transEnum*/, float x, float32 y, float32 z)
 {
 	v0 = Vector4(1.f, 0.f, 0.f, 0.f);
 	v1 = Vector4(0.f, 1.f, 0.f, 0.f);
@@ -85,7 +85,7 @@ void Matrix4::Set(MatrixTransType /*transEnum*/, float x, float y, float z)
 	v3 = Vector4(x, y, z, 1.f);
 }
 
-void Matrix4::Set(RotType rotationEnum, float angle)
+void Matrix4::Set(RotType rotationEnum, float32 angle)
 {
 	switch (rotationEnum)
 	{
@@ -117,7 +117,7 @@ void Matrix4::Set(RotType rotationEnum, float angle)
 	}
 }
 
-void Matrix4::Set(Rot3AxisType, float xRad, float yRad, float zRad)
+void Matrix4::Set(Rot3AxisType, float32 xRad, float32 yRad, float32 zRad)
 {
 	Quat qX(ROT_X, xRad);
 	Quat qY(ROT_Y, yRad);
@@ -126,7 +126,7 @@ void Matrix4::Set(Rot3AxisType, float xRad, float yRad, float zRad)
 	Set(qX*qY*qZ);
 }
 
-void Matrix4::Set(RotAxisAngleType type, const Vector4& vect, float angleRads)
+void Matrix4::Set(RotAxisAngleType type, const Vector4& vect, float32 angleRads)
 {
 	Quat q(type, vect, angleRads);
 	Set(q);
@@ -225,7 +225,7 @@ void Matrix4::Set(MatrixScaleType /*scaleEnum*/, const Vector4& scaleVec)
 	v3 = Vector4(0.f, 0.f, 0.f, 1.f);
 }
 
-void Matrix4::Set(MatrixScaleType /*scaleEnum*/, float sx, float sy, float sz)
+void Matrix4::Set(MatrixScaleType /*scaleEnum*/, float32 sx, float32 sy, float32 sz)
 {
 	v0 = Vector4(sx, 0.f, 0.f, 0.f);
 	v1 = Vector4(0.f, sy, 0.f, 0.f);
@@ -291,13 +291,13 @@ void Matrix4::Set(MatrixRowType rowEnum, const Vector4& rowVec)
 	}
 }
 
-void Matrix4::Set(const Vector4 &axis, float angle)
+void Matrix4::Set(const Vector4 &axis, float32 angle)
 {
 	// angle
 	// axis;
-	const float angle_a = 0.5f * angle;
-	float cos_a;
-	float sin_a;
+	const float32 angle_a = 0.5f * angle;
+	float32 cos_a;
+	float32 sin_a;
 
 	cos_a = cosf(angle_a);
 	sin_a = sinf(angle_a);
@@ -313,10 +313,10 @@ void Matrix4::Set(const Vector4 &axis, float angle)
 	Q.w = cos_a;
 
 	// this function has been transposed
-	float x2, y2, z2;
-	float xx, xy, xz;
-	float yy, yz, zz;
-	float wx, wy, wz;
+	float32 x2, y2, z2;
+	float32 xx, xy, xz;
+	float32 yy, yz, zz;
+	float32 wx, wy, wz;
 
 	// ADD test to make sure that quat is normalized
 
@@ -388,25 +388,25 @@ Vector4 Matrix4::Get(MatrixRowType rowEnum) const
 	return Vector4();
 }
 
-float Matrix4::Determinant() const
+float32 Matrix4::Determinant() const
 {
-	const float a = v2.y * v3.w - v2.w * v3.y; //_m9*_m15 - _m11*_m13;
-	const float b = v2.x * v3.z - v2.z * v3.x; //_m8*_m14 -_m10*_m12;
+	const float32 a = v2.y * v3.w - v2.w * v3.y; //_m9*_m15 - _m11*_m13;
+	const float32 b = v2.x * v3.z - v2.z * v3.x; //_m8*_m14 -_m10*_m12;
 
-	const float l01 = a;
-	const float l20 = a;
-	const float l12 = b;
-	const float l31 = b;
-	const float l00 = v2.z * v3.w - v3.z * v2.w; //_m10*_m15 - _m11*_m14;
-	const float l02 = v2.y * v3.z - v3.y * v2.z; //_m9*_m14 - _m10*_m13;
-	const float l11 = v2.x * v3.w - v3.x * v2.w; //_m8*_m15 - _m11*_m12;
-	const float l22 = v2.x * v3.y - v3.x * v2.y; //_m8*_m13 - _m9*_m12;
+	const float32 l01 = a;
+	const float32 l20 = a;
+	const float32 l12 = b;
+	const float32 l31 = b;
+	const float32 l00 = v2.z * v3.w - v3.z * v2.w; //_m10*_m15 - _m11*_m14;
+	const float32 l02 = v2.y * v3.z - v3.y * v2.z; //_m9*_m14 - _m10*_m13;
+	const float32 l11 = v2.x * v3.w - v3.x * v2.w; //_m8*_m15 - _m11*_m12;
+	const float32 l22 = v2.x * v3.y - v3.x * v2.y; //_m8*_m13 - _m9*_m12;
 	
 
-	const float det00 = v1.y*(l00) - v1.z*(l01) + v1.w*(l02);
-	const float det01 = v1.x*(l00) - v1.z*(l11) + v1.w*(l12);
-	const float det02 = v1.x*(l20) - v1.y*(l11) + v1.w*(l22);
-	const float det03 = v1.x*(l02) - v1.y*(l31) +v1.z*(l22);
+	const float32 det00 = v1.y*(l00) - v1.z*(l01) + v1.w*(l02);
+	const float32 det01 = v1.x*(l00) - v1.z*(l11) + v1.w*(l12);
+	const float32 det02 = v1.x*(l20) - v1.y*(l11) + v1.w*(l22);
+	const float32 det03 = v1.x*(l02) - v1.y*(l31) +v1.z*(l22);
 
 	return v0.x*det00 - v0.y*det01 + v0.z*det02 - v0.w*det03;
 }
@@ -414,105 +414,105 @@ float Matrix4::Determinant() const
 void Matrix4::Inverse()
 {
 	// TODO - Optimize the math that happens here!
-	float detScalar = Determinant();
+	float32 detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
 	{
 		detScalar = 1.f / detScalar;
 
 		// Adjunct of current Matrix
 
-		float b00 = v1.z * v2.w * v3.y
+		float32 b00 = v1.z * v2.w * v3.y
 			- v1.w * v2.z * v3.y
 			+ v1.w * v2.y * v3.z
 			- v1.y * v2.w * v3.z
 			- v1.z * v2.y * v3.w
 			+ v1.y * v2.z * v3.w;
-		float b01 = v0.w * v2.z * v3.y
+		float32 b01 = v0.w * v2.z * v3.y
 			- v0.z * v2.w * v3.y
 			- v0.w * v2.y * v3.z
 			+ v0.y * v2.w * v3.z
 			+ v0.z * v2.y * v3.w
 			- v0.y * v2.z * v3.w;
-		float b02 = v0.z * v1.w * v3.y
+		float32 b02 = v0.z * v1.w * v3.y
 			- v0.w * v1.z * v3.y
 			+ v0.w * v1.y * v3.z
 			- v0.y * v1.w * v3.z
 			- v0.z * v1.y * v3.w
 			+ v0.y * v1.z * v3.w;
-		float b03 = v0.w * v1.z * v2.y
+		float32 b03 = v0.w * v1.z * v2.y
 			- v0.z * v1.w * v2.y
 			- v0.w * v1.y * v2.z
 			+ v0.y * v1.w * v2.z
 			+ v0.z * v1.y * v2.w
 			- v0.y * v1.z * v2.w;
-		float b10 = v1.w * v2.z * v3.x
+		float32 b10 = v1.w * v2.z * v3.x
 			- v1.z * v2.w * v3.x
 			- v1.w * v2.x * v3.z
 			+ v1.x * v2.w * v3.z
 			+ v1.z * v2.x * v3.w
 			- v1.x * v2.z * v3.w;
-		float b11 = v0.z * v2.w * v3.x
+		float32 b11 = v0.z * v2.w * v3.x
 			- v0.w * v2.z * v3.x
 			+ v0.w * v2.x * v3.z
 			- v0.x * v2.w * v3.z
 			- v0.z * v2.x * v3.w
 			+ v0.x * v2.z * v3.w;
-		float b12 = v0.w * v1.z * v3.x
+		float32 b12 = v0.w * v1.z * v3.x
 			- v0.z * v1.w * v3.x
 			- v0.w * v1.x * v3.z
 			+ v0.x * v1.w * v3.z
 			+ v0.z * v1.x * v3.w
 			- v0.x * v1.z * v3.w;
-		float b13 = v0.z * v1.w * v2.x
+		float32 b13 = v0.z * v1.w * v2.x
 			- v0.w * v1.z * v2.x
 			+ v0.w * v1.x * v2.z
 			- v0.x * v1.w * v2.z
 			- v0.z * v1.x * v2.w
 			+ v0.x * v1.z * v2.w;
-		float b20 = v1.y * v2.w * v3.x
+		float32 b20 = v1.y * v2.w * v3.x
 			- v1.w * v2.y * v3.x
 			+ v1.w * v2.x * v3.y
 			- v1.x * v2.w * v3.y
 			- v1.y * v2.x * v3.w
 			+ v1.x * v2.y * v3.w;
-		float b21 = v0.w * v2.y * v3.x
+		float32 b21 = v0.w * v2.y * v3.x
 			- v0.y * v2.w * v3.x
 			- v0.w * v2.x * v3.y
 			+ v0.x * v2.w * v3.y
 			+ v0.y * v2.x * v3.w
 			- v0.x * v2.y * v3.w;
-		float b22 = v0.y * v1.w * v3.x
+		float32 b22 = v0.y * v1.w * v3.x
 			- v0.w * v1.y * v3.x
 			+ v0.w * v1.x * v3.y
 			- v0.x * v1.w * v3.y
 			- v0.y * v1.x * v3.w
 			+ v0.x * v1.y * v3.w;
-		float b23 = v0.w * v1.y * v2.x
+		float32 b23 = v0.w * v1.y * v2.x
 			- v0.y * v1.w * v2.x
 			- v0.w * v1.x * v2.y
 			+ v0.x * v1.w * v2.y
 			+ v0.y * v1.x * v2.w
 			- v0.x * v1.y * v2.w;
-		float b30 = v1.z * v2.y * v3.x
+		float32 b30 = v1.z * v2.y * v3.x
 			- v1.y * v2.z * v3.x
 			- v1.z * v2.x * v3.y
 			+ v1.x * v2.z * v3.y
 			+ v1.y * v2.x * v3.z
 			- v1.x * v2.y * v3.z;
-		float b31 = v0.y * v2.z * v3.x
+		float32 b31 = v0.y * v2.z * v3.x
 			- v0.z * v2.y * v3.x
 			+ v0.z * v2.x * v3.y
 			- v0.x * v2.z * v3.y
 			- v0.y * v2.x * v3.z
 			+ v0.x * v2.y * v3.z;
-		float b32 = v0.z * v1.y * v3.x
+		float32 b32 = v0.z * v1.y * v3.x
 			- v0.y * v1.z * v3.x
 			- v0.z * v1.x * v3.y
 			+ v0.x * v1.z * v3.y
 			+ v0.y * v1.x * v3.z
 			- v0.x * v1.y * v3.z;
 
-		float b33 = v0.y * v1.z * v2.x
+		float32 b33 = v0.y * v1.z * v2.x
 			- v0.z * v1.y * v2.x
 			+ v0.z * v1.x * v2.y
 			- v0.x * v1.z * v2.y
@@ -549,105 +549,105 @@ void Matrix4::Inverse()
 Matrix4 Matrix4::GetInverse() const
 {
 	// TODO - Optimize the math that happens here!
-	float detScalar = Determinant();
+	float32 detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
 	{
 		detScalar = 1.f / detScalar;
 
 		// Adjunct of current Matrix
 
-		float b00 = v1.z * v2.w * v3.y
+		float32 b00 = v1.z * v2.w * v3.y
 			- v1.w * v2.z * v3.y
 			+ v1.w * v2.y * v3.z
 			- v1.y * v2.w * v3.z
 			- v1.z * v2.y * v3.w
 			+ v1.y * v2.z * v3.w;
-		float b01 = v0.w * v2.z * v3.y
+		float32 b01 = v0.w * v2.z * v3.y
 			- v0.z * v2.w * v3.y
 			- v0.w * v2.y * v3.z
 			+ v0.y * v2.w * v3.z
 			+ v0.z * v2.y * v3.w
 			- v0.y * v2.z * v3.w;
-		float b02 = v0.z * v1.w * v3.y
+		float32 b02 = v0.z * v1.w * v3.y
 			- v0.w * v1.z * v3.y
 			+ v0.w * v1.y * v3.z
 			- v0.y * v1.w * v3.z
 			- v0.z * v1.y * v3.w
 			+ v0.y * v1.z * v3.w;
-		float b03 = v0.w * v1.z * v2.y
+		float32 b03 = v0.w * v1.z * v2.y
 			- v0.z * v1.w * v2.y
 			- v0.w * v1.y * v2.z
 			+ v0.y * v1.w * v2.z
 			+ v0.z * v1.y * v2.w
 			- v0.y * v1.z * v2.w;
-		float b10 = v1.w * v2.z * v3.x
+		float32 b10 = v1.w * v2.z * v3.x
 			- v1.z * v2.w * v3.x
 			- v1.w * v2.x * v3.z
 			+ v1.x * v2.w * v3.z
 			+ v1.z * v2.x * v3.w
 			- v1.x * v2.z * v3.w;
-		float b11 = v0.z * v2.w * v3.x
+		float32 b11 = v0.z * v2.w * v3.x
 			- v0.w * v2.z * v3.x
 			+ v0.w * v2.x * v3.z
 			- v0.x * v2.w * v3.z
 			- v0.z * v2.x * v3.w
 			+ v0.x * v2.z * v3.w;
-		float b12 = v0.w * v1.z * v3.x
+		float32 b12 = v0.w * v1.z * v3.x
 			- v0.z * v1.w * v3.x
 			- v0.w * v1.x * v3.z
 			+ v0.x * v1.w * v3.z
 			+ v0.z * v1.x * v3.w
 			- v0.x * v1.z * v3.w;
-		float b13 = v0.z * v1.w * v2.x
+		float32 b13 = v0.z * v1.w * v2.x
 			- v0.w * v1.z * v2.x
 			+ v0.w * v1.x * v2.z
 			- v0.x * v1.w * v2.z
 			- v0.z * v1.x * v2.w
 			+ v0.x * v1.z * v2.w;
-		float b20 = v1.y * v2.w * v3.x
+		float32 b20 = v1.y * v2.w * v3.x
 			- v1.w * v2.y * v3.x
 			+ v1.w * v2.x * v3.y
 			- v1.x * v2.w * v3.y
 			- v1.y * v2.x * v3.w
 			+ v1.x * v2.y * v3.w;
-		float b21 = v0.w * v2.y * v3.x
+		float32 b21 = v0.w * v2.y * v3.x
 			- v0.y * v2.w * v3.x
 			- v0.w * v2.x * v3.y
 			+ v0.x * v2.w * v3.y
 			+ v0.y * v2.x * v3.w
 			- v0.x * v2.y * v3.w;
-		float b22 = v0.y * v1.w * v3.x
+		float32 b22 = v0.y * v1.w * v3.x
 			- v0.w * v1.y * v3.x
 			+ v0.w * v1.x * v3.y
 			- v0.x * v1.w * v3.y
 			- v0.y * v1.x * v3.w
 			+ v0.x * v1.y * v3.w;
-		float b23 = v0.w * v1.y * v2.x
+		float32 b23 = v0.w * v1.y * v2.x
 			- v0.y * v1.w * v2.x
 			- v0.w * v1.x * v2.y
 			+ v0.x * v1.w * v2.y
 			+ v0.y * v1.x * v2.w
 			- v0.x * v1.y * v2.w;
-		float b30 = v1.z * v2.y * v3.x
+		float32 b30 = v1.z * v2.y * v3.x
 			- v1.y * v2.z * v3.x
 			- v1.z * v2.x * v3.y
 			+ v1.x * v2.z * v3.y
 			+ v1.y * v2.x * v3.z
 			- v1.x * v2.y * v3.z;
-		float b31 = v0.y * v2.z * v3.x
+		float32 b31 = v0.y * v2.z * v3.x
 			- v0.z * v2.y * v3.x
 			+ v0.z * v2.x * v3.y
 			- v0.x * v2.z * v3.y
 			- v0.y * v2.x * v3.z
 			+ v0.x * v2.y * v3.z;
-		float b32 = v0.z * v1.y * v3.x
+		float32 b32 = v0.z * v1.y * v3.x
 			- v0.y * v1.z * v3.x
 			- v0.z * v1.x * v3.y
 			+ v0.x * v1.z * v3.y
 			+ v0.y * v1.x * v3.z
 			- v0.x * v1.y * v3.z;
 
-		float b33 = v0.y * v1.z * v2.x
+		float32 b33 = v0.y * v1.z * v2.x
 			- v0.z * v1.y * v2.x
 			+ v0.z * v1.x * v2.y
 			- v0.x * v1.z * v2.y
@@ -688,7 +688,7 @@ Matrix4 Matrix4::GetInverse() const
 
 void Matrix4::Transpose()
 {
-	float tmp = v0.y;
+	float32 tmp = v0.y;
 	v0.y = v1.x;
 	v1.x = tmp;
 
@@ -718,7 +718,7 @@ Matrix4 Matrix4::GetTranspose() const
 {
 	Matrix4 m(*this);
 
-	float tmp = m.v0.y;
+	float32 tmp = m.v0.y;
 	m.v0.y = m.v1.x;
 	m.v1.x = tmp;
 
@@ -746,7 +746,7 @@ Matrix4 Matrix4::GetTranspose() const
 	return m;
 }
 
-bool Matrix4::IsIdentity(float epsilon) const
+bool Matrix4::IsIdentity(float32 epsilon) const
 {
 	return v0.IsEqual(Vector4(1, 0, 0, 0), epsilon) &&
 		v1.IsEqual(Vector4(0, 1, 0, 0), epsilon) &&
@@ -754,12 +754,12 @@ bool Matrix4::IsIdentity(float epsilon) const
 		v3.IsEqual(Vector4(0, 0, 0, 1), epsilon);
 }
 
-bool Matrix4::IsEqual(const Matrix4& m) const
+bool Matrix4::IsEqual(const Matrix4& m, float32 epsilon) const
 {
-	return v0.IsEqual(m.v0) &&
-		v1.IsEqual(m.v1) &&
-		v2.IsEqual(m.v2) &&
-		v3.IsEqual(m.v3);
+	return v0.IsEqual(m.v0, epsilon) &&
+		v1.IsEqual(m.v1, epsilon) &&
+		v2.IsEqual(m.v2, epsilon) &&
+		v3.IsEqual(m.v3, epsilon);
 }
 
 Matrix4 Matrix4::operator+(const Matrix4& m) const
@@ -781,7 +781,7 @@ Matrix4 Matrix4::operator*(const Matrix4& m) const
 	return ret *= m;
 }
 
-Matrix4 Matrix4::operator*(float s) const
+Matrix4 Matrix4::operator*(float32 s) const
 {
 	Matrix4 m(*this);
 	return m *= s;
@@ -870,7 +870,7 @@ Matrix4& Matrix4::operator*=(const Matrix4& m)
 	return *this;
 }
 
-Matrix4& Matrix4::operator*=(float s)
+Matrix4& Matrix4::operator*=(float32 s)
 {
 	v0.x *= s;
 	v0.y *= s;
@@ -915,321 +915,321 @@ Matrix4 Matrix4::operator-() const
 	);
 }
 
-float& Matrix4::m0()
+float32& Matrix4::m0()
 {
 	return v0.x;
 }
 
-float& Matrix4::m1()
+float32& Matrix4::m1()
 {
 	return v0.y;
 }
 
-float& Matrix4::m2()
+float32& Matrix4::m2()
 {
 	return v0.z;
 }
 
-float& Matrix4::m3()
+float32& Matrix4::m3()
 {
 	return v0.w;
 }
 
-float& Matrix4::m4()
+float32& Matrix4::m4()
 {
 	return v1.x;
 }
 
-float& Matrix4::m5()
+float32& Matrix4::m5()
 {
 	return v1.y;
 }
 
-float& Matrix4::m6()
+float32& Matrix4::m6()
 {
 	return v1.z;
 }
 
-float& Matrix4::m7()
+float32& Matrix4::m7()
 {
 	return v1.w;
 }
 
-float& Matrix4::m8()
+float32& Matrix4::m8()
 {
 	return v2.x;
 }
 
-float& Matrix4::m9()
+float32& Matrix4::m9()
 {
 	return v2.y;
 }
 
-float& Matrix4::m10()
+float32& Matrix4::m10()
 {
 	return v2.z;
 }
 
-float& Matrix4::m11()
+float32& Matrix4::m11()
 {
 	return v2.w;
 }
 
-float& Matrix4::m12()
+float32& Matrix4::m12()
 {
 	return v3.x;
 }
 
-float& Matrix4::m13()
+float32& Matrix4::m13()
 {
 	return v3.y;
 }
 
-float& Matrix4::m14()
+float32& Matrix4::m14()
 {
 	return v3.z;
 }
 
-float& Matrix4::m15()
+float32& Matrix4::m15()
 {
 	return v3.w;
 }
 
-const float& Matrix4::m0() const
+const float32& Matrix4::m0() const
 {
 	return v0.x;
 }
 
-const float& Matrix4::m1() const
+const float32& Matrix4::m1() const
 {
 	return v0.y;
 }
 
-const float& Matrix4::m2() const
+const float32& Matrix4::m2() const
 {
 	return v0.z;
 }
 
-const float& Matrix4::m3() const
+const float32& Matrix4::m3() const
 {
 	return v0.w;
 }
 
-const float& Matrix4::m4() const
+const float32& Matrix4::m4() const
 {
 	return v1.x;
 }
 
-const float& Matrix4::m5() const
+const float32& Matrix4::m5() const
 {
 	return v1.y;
 }
 
-const float& Matrix4::m6() const
+const float32& Matrix4::m6() const
 {
 	return v1.z;
 }
 
-const float& Matrix4::m7() const
+const float32& Matrix4::m7() const
 {
 	return v1.w;
 }
 
-const float& Matrix4::m8() const
+const float32& Matrix4::m8() const
 {
 	return v2.x;
 }
 
-const float& Matrix4::m9() const
+const float32& Matrix4::m9() const
 {
 	return v2.y;
 }
 
-const float& Matrix4::m10() const
+const float32& Matrix4::m10() const
 {
 	return v2.z;
 }
 
-const float& Matrix4::m11() const 
+const float32& Matrix4::m11() const 
 {
 	return v2.w;
 }
 
-const float& Matrix4::m12() const
+const float32& Matrix4::m12() const
 {
 	return v3.x;
 }
 
-const float& Matrix4::m13() const 
+const float32& Matrix4::m13() const 
 {
 	return v3.y;
 }
 
-const float& Matrix4::m14() const 
+const float32& Matrix4::m14() const 
 {
 	return v3.z;
 }
 
-const float& Matrix4::m15() const 
+const float32& Matrix4::m15() const 
 {
 	return v3.w;
 }
-float& Matrix4::operator[](m0_enum)
+float32& Matrix4::operator[](m0_enum)
 {
 	return v0.x;
 }
 
-float& Matrix4::operator[](m1_enum)
+float32& Matrix4::operator[](m1_enum)
 {
 	return v0.y;
 }
 
-float& Matrix4::operator[](m2_enum)
+float32& Matrix4::operator[](m2_enum)
 {
 	return v0.z;
 }
 
-float& Matrix4::operator[](m3_enum)
+float32& Matrix4::operator[](m3_enum)
 {
 	return v0.w;
 }
 
-float& Matrix4::operator[](m4_enum)
+float32& Matrix4::operator[](m4_enum)
 {
 	return v1.x;
 }
 
-float& Matrix4::operator[](m5_enum)
+float32& Matrix4::operator[](m5_enum)
 {
 	return v1.y;
 }
 
-float& Matrix4::operator[](m6_enum)
+float32& Matrix4::operator[](m6_enum)
 {
 	return v1.z;
 }
 
-float& Matrix4::operator[](m7_enum)
+float32& Matrix4::operator[](m7_enum)
 {
 	return v1.w;
 }
 
-float& Matrix4::operator[](m8_enum)
+float32& Matrix4::operator[](m8_enum)
 {
 	return v2.x;
 }
 
-float& Matrix4::operator[](m9_enum)
+float32& Matrix4::operator[](m9_enum)
 {
 	return v2.y;
 }
 
-float& Matrix4::operator[](m10_enum)
+float32& Matrix4::operator[](m10_enum)
 {
 	return v2.z;
 }
 
-float& Matrix4::operator[](m11_enum)
+float32& Matrix4::operator[](m11_enum)
 {
 	return v2.w;
 }
 
-float& Matrix4::operator[](m12_enum)
+float32& Matrix4::operator[](m12_enum)
 {
 	return v3.x;
 }
 
-float& Matrix4::operator[](m13_enum)
+float32& Matrix4::operator[](m13_enum)
 {
 	return v3.y;
 }
 
-float& Matrix4::operator[](m14_enum)
+float32& Matrix4::operator[](m14_enum)
 {
 	return v3.z;
 }
 
-float& Matrix4::operator[](m15_enum)
+float32& Matrix4::operator[](m15_enum)
 {
 	return v3.w;
 }
 
-const float& Matrix4::operator[](m0_enum) const
+const float32& Matrix4::operator[](m0_enum) const
 {
 	return v0.x;
 }
 
-const float& Matrix4::operator[](m1_enum) const 
+const float32& Matrix4::operator[](m1_enum) const 
 {
 	return v0.y;
 }
 
-const float& Matrix4::operator[](m2_enum) const
+const float32& Matrix4::operator[](m2_enum) const
 {
 	return v0.z;
 }
 
-const float& Matrix4::operator[](m3_enum) const
+const float32& Matrix4::operator[](m3_enum) const
 {
 	return v0.w;
 }
 
-const float& Matrix4::operator[](m4_enum) const
+const float32& Matrix4::operator[](m4_enum) const
 {
 	return v1.x;
 }
 
-const float& Matrix4::operator[](m5_enum) const
+const float32& Matrix4::operator[](m5_enum) const
 {
 	return v1.y;
 }
 
-const float& Matrix4::operator[](m6_enum) const
+const float32& Matrix4::operator[](m6_enum) const
 {
 	return v1.z;
 }
 
-const float& Matrix4::operator[](m7_enum) const
+const float32& Matrix4::operator[](m7_enum) const
 {
 	return v1.w;
 }
 
-const float& Matrix4::operator[](m8_enum) const
+const float32& Matrix4::operator[](m8_enum) const
 {
 	return v2.x;
 }
 
-const float& Matrix4::operator[](m9_enum) const
+const float32& Matrix4::operator[](m9_enum) const
 {
 	return v2.y;
 }
 
-const float& Matrix4::operator[](m10_enum) const 
+const float32& Matrix4::operator[](m10_enum) const 
 {
 	return v2.z;
 }
 
-const float& Matrix4::operator[](m11_enum) const
+const float32& Matrix4::operator[](m11_enum) const
 {
 	return v2.w;
 }
 
-const float& Matrix4::operator[](m12_enum) const
+const float32& Matrix4::operator[](m12_enum) const
 {
 	return v3.x;
 }
 
-const float& Matrix4::operator[](m13_enum) const
+const float32& Matrix4::operator[](m13_enum) const
 {
 	return v3.y;
 }
 
-const float& Matrix4::operator[](m14_enum) const
+const float32& Matrix4::operator[](m14_enum) const
 {
 	return v3.z;
 }
 
-const float& Matrix4::operator[](m15_enum) const
+const float32& Matrix4::operator[](m15_enum) const
 {
 	return v3.w;
 }
@@ -1240,7 +1240,7 @@ Vector4 operator*(const Vector4& v, const Matrix4& m)
 	return ret *= m;
 }
 
-Matrix4 operator*(float s, const Matrix4& m)
+Matrix4 operator*(float32 s, const Matrix4& m)
 {
 	Matrix4 ret(m);
 	return ret *= s;

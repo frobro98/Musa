@@ -1,15 +1,16 @@
 
 #include "MoveBetweenObject.hpp"
-#include "Math/VectorFunctions.h"
+#include "Math/VectorFunctions.hpp"
 
-MoveBetweenObject::MoveBetweenObject(const Vector& pointA, const Vector& pointB, float startingDelta)
-	: A(pointA), 
+MoveBetweenObject::MoveBetweenObject(GameWorld& world, const Vector4& pointA, const Vector4& pointB, float startingDelta)
+	: GameObject(world),
+	A(pointA), 
 	B(pointB),
 	srcVec(&A),
 	dstVec(&B),
 	totalDelta(startingDelta)
 {
-	Math::Lerp(position, *srcVec, *dstVec, totalDelta);
+	position = Math::Lerp(*srcVec, *dstVec, totalDelta);
 }
 
 void MoveBetweenObject::Update(float tick)
@@ -21,7 +22,7 @@ void MoveBetweenObject::Update(float tick)
 		totalDelta = 0.f;
 	}
 
-	Math::Lerp(position, *srcVec, *dstVec, totalDelta);
+	position = Math::Lerp(*srcVec, *dstVec, totalDelta);
 
 	totalDelta += .003f;
 

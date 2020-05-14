@@ -1,9 +1,10 @@
 #include "OrbitingObject.hpp"
-#include "Math/Matrix.h"
-#include "Math/Quat.h"
+#include "Math/Matrix4.hpp"
+#include "Math/Quat.hpp"
 
-OrbitingObject::OrbitingObject(const Vector& orbitAxis, const Vector& orbitPos)
-	: axis(orbitAxis),
+OrbitingObject::OrbitingObject(GameWorld& world, const Vector4& orbitAxis, const Vector4& orbitPos)
+	: GameObject(world),
+	axis(orbitAxis),
 	orbitLocation(orbitPos)
 {
 }
@@ -11,11 +12,11 @@ OrbitingObject::OrbitingObject(const Vector& orbitAxis, const Vector& orbitPos)
 void OrbitingObject::Update(float tick)
 {
 	constexpr float angleOffsetDeg = .005f;
-	Matrix trans(TRANS, orbitLocation);
+	Matrix4 trans(TRANS, orbitLocation);
 	Quat rot(ROT_AXIS_ANGLE, axis, angleOffsetDeg * tick);
-	Matrix negTrans(TRANS, -orbitLocation);
+	Matrix4 negTrans(TRANS, -orbitLocation);
 
-	Matrix orbitTrans = negTrans * rot * trans;
+	Matrix4 orbitTrans = negTrans * rot * trans;
 
 	position *= orbitTrans;
 

@@ -35,16 +35,11 @@
 #include "MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
 
+
+
 // TODO - Probably should delete this
 #include "Graphics/RenderContextUtilities.hpp"
 #include "Graphics/RenderContext.hpp"
-
-#include "ECS/Archetype.hpp"
-#include "ECS/World.hpp"
-#include "ECS/Components/TransformComponent.hpp"
-#include "ECS/Components/RenderComponent.hpp"
-
-#include "Types/FunctionRef.hpp"
 
 // NOTE - This is for deserializing PAK files.
 // TODO - The way pak files are deserialized, or even structured, needs to either change or be reexampined
@@ -421,6 +416,9 @@ void MusaEngine::LoadContent()
 	Path bunnyPakPath(EngineAssetPath() + "Models/stanford-bunny.pak");
 	LoadPakFile(bunnyPakPath);
 
+	Path astroPakPath(EngineAssetPath() + "Models/astroboy.pak");
+	LoadPakFile(astroPakPath);
+
 	CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
 	gameInput->ShowCursor(false);
@@ -428,7 +426,8 @@ void MusaEngine::LoadContent()
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 
 	//Mesh* bunny = GetMeshManager().FindMesh(Mesh::BoxName);
-	Mesh* bunny = GetMeshManager().FindMesh("stanford-bunny");
+	//Mesh* bunny = GetMeshManager().FindMesh("stanford-bunny");
+	Mesh* bunny = GetMeshManager().FindMesh("astroboy");
 
 	ShaderResource& vertShader = GetShader<UnlitVert>()->GetNativeShader();
 	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
@@ -436,11 +435,6 @@ void MusaEngine::LoadContent()
 	GameObject* go = world->CreateGameObject<GameObject>();
 	go->SetModel(ModelFactory::CreateModel(bunny, new Material(vertShader, fragShader, WhiteTexture(), Color32::Cyan())));
 	go->SetScale(.5, .5, .5);
-
-	Musa::World* w = new Musa::World;
-
-	Musa::Entity e = w->CreateEntity<TransformComponent>();
-	w->AddComponentTo<RenderComponent>(e);
 
 	// TODO - LEAKING MEMEORY!!!
 	//UI::Console* console = new UI::Console;

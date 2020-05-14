@@ -73,6 +73,9 @@
     <Filter Include="Source\Animation\Skeleton">
       <UniqueIdentifier>{f218d1c1-2780-4cca-a56b-f55c0a1abf59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GameObject\DemoObjects">
+      <UniqueIdentifier>{bdc91728-8432-4d94-90bb-bd25d499e5a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -278,6 +281,21 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Animation\Skeleton\Skeleton.cpp">
       <Filter>Source\Animation\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.cpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.cpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\MoveBetweenObject.cpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitingObject.cpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.cpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +568,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Animation\Skeleton\Skeleton.h">
       <Filter>Source\Animation\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.hpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.hpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\MoveBetweenObject.hpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitingObject.hpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.hpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

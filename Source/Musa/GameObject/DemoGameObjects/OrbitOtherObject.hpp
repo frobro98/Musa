@@ -6,12 +6,12 @@
 class OrbitOtherObject : public GameObject
 {
 public:
-	OrbitOtherObject(const GameObject& obj, const Vector& axis);
+	OrbitOtherObject(GameWorld& world, const GameObject& obj, const Vector4& axis);
 
 	virtual void Update(float tick) override;
 
 private:
-	Vector axis;
-	Vector prevObjectPosition;
+	Vector4 axis;
+	Vector4 prevObjectPosition;
 	const GameObject& object;
 };

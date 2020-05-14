@@ -25,17 +25,6 @@ GameObject::GameObject(GameWorld& gameWorld)
 
 }
 
-// GameObject::GameObject(const GameObject& go)
-// 	: world(go.world), 
-// 	position(go.position),
-// 	rotX(go.rotX),
-// 	rotY(go.rotY),
-// 	rotZ(go.rotZ),
-// 	scale(go.scale),
-// 	model(MakeUnique<Model>(*go.model))
-// {
-// }
-
 GameObject::GameObject(GameObject&& go) noexcept
 	: worldTransform(std::move(go.worldTransform)),
 	position(go.position),

@@ -1,4 +1,5 @@
 #include "SpinningObject.hpp"
+#include "Math/MathFunctions.hpp"
 
 void SpinningObject::Update(float tick)
 {
