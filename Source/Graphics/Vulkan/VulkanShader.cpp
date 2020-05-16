@@ -13,7 +13,7 @@
 // #include <shaderc/shaderc.hpp>
 // WALL_WRN_POP
 
-DynamicArray<uint8> LoadSPVShader(const tchar* shaderFile)
+MemoryBuffer LoadSPVShader(const tchar* shaderFile)
 {
 	String filePath(EngineShaderSrcPath());
 	filePath += shaderFile;
@@ -27,7 +27,7 @@ DynamicArray<uint8> LoadSPVShader(const tchar* shaderFile)
 	File::Tell(fHandle, fileSize);
 	File::Seek(fHandle, File::Location::BEGIN, 0);
 
-	DynamicArray<uint8> fileData(fileSize);
+	MemoryBuffer fileData(fileSize);
 	result = File::Read(fHandle, fileData.GetData(), fileSize);
 	Assert(result == File::Result::SUCCESS);
 
@@ -65,19 +65,22 @@ VulkanShader::~VulkanShader()
 	delete[] shaderSource;
 }
 
-void VulkanShader::Compile(const DynamicArray<uint8>& source, ShaderStage stage)
+void VulkanShader::Compile(const MemoryBuffer& source, ShaderStage stage)
 {
-	shaderStage = stage;
-	sourceSize = source.Size();
-	uint32 size = source.Size() / sizeof(uint32);
-	shaderSource = new uint32[size];
-	memcpy(shaderSource, source.GetData(), sourceSize);
+	if (shaderModule == VK_NULL_HANDLE)
+	{
+		shaderStage = stage;
+		sourceSize = source.Size();
+		size_t size = source.Size() / sizeof(uint32);
+		shaderSource = new uint32[size];
+		memcpy(shaderSource, source.GetData(), sourceSize);
 
-	VkShaderModuleCreateInfo shaderModInfo = {};
-	shaderModInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-	shaderModInfo.codeSize = sourceSize;
-	shaderModInfo.pCode = shaderSource;
+		VkShaderModuleCreateInfo shaderModInfo = {};
+		shaderModInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+		shaderModInfo.codeSize = sourceSize;
+		shaderModInfo.pCode = shaderSource;
 
-	NOT_USED VkResult result = vkCreateShaderModule(logicalDevice->GetNativeHandle(), &shaderModInfo, nullptr, &shaderModule);
-	CHECK_VK(result);
+		NOT_USED VkResult result = vkCreateShaderModule(logicalDevice->GetNativeHandle(), &shaderModInfo, nullptr, &shaderModule);
+		CHECK_VK(result);
+	}
 }

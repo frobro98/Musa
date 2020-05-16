@@ -45,7 +45,7 @@ public:
 
 private:
 	static constexpr uint32 metricTableCount = 2;
-	TableEntries entries[metricTableCount];
+	StaticArray<TableEntries, metricTableCount> entries;
 	uint32 currentTableIndex = 0;
 };
 

@@ -12,7 +12,7 @@ class ResourceBlob final
 {
 public:
 	ResourceBlob() = default;
-	ResourceBlob(uint8* blobData, uint32 blobSize);
+	ResourceBlob(uint8* blobData, size_t blobSize);
 	ResourceBlob(const ResourceBlob& other);
 	ResourceBlob(ResourceBlob&& other) noexcept;
 	~ResourceBlob();
@@ -24,12 +24,12 @@ public:
 
 	inline uint8* GetData() { return data; }
 	inline const uint8* GetData() const { return data; }
-	inline uint32 GetSize() const { return size; }
+	inline size_t GetSize() const { return size; }
 
 	friend ResourceBlob CombineBlobs(const ResourceBlob& blob0, const ResourceBlob& blob1);
 	friend void Serialize(SerializeBase& ser, const ResourceBlob& blob);
 	friend void Deserialize(DeserializeBase& ser, ResourceBlob& blob);
 private:
 	uint8* data = nullptr;
-	uint32 size = 0;
+	size_t size = 0;
 };

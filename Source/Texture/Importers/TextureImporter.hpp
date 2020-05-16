@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 #include "Path/Path.hpp"
 #include "ImageFormats.h"
 
@@ -17,18 +17,18 @@ public:
 	uint32 GetHeight() const;
 	ImageFormat GetFormat() const;
 
-	virtual void SetImportData(const DynamicArray<uint8>& compressedData) = 0;
+	virtual void SetImportData(MemoryBuffer&& compressedData) = 0;
 
 	bool IsValid() const;
 	void Import();
-	const DynamicArray<uint8>& GetImportedPixelData() const;
+	const MemoryBuffer& GetImportedPixelData() const;
 
 protected:
 	virtual void ProcessImport() = 0;
 
 protected:
-	DynamicArray<uint8> importData;
-	DynamicArray<uint8> importedImageData;
+	MemoryBuffer importData;
+	MemoryBuffer importedImageData;
 	ImageFormat format = ImageFormat::Invalid;
 	int32 width = 0;
 	int32 height = 0;

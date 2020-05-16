@@ -6,7 +6,7 @@
 #include "Serialization/DeserializeBase.hpp"
 #include "Assertion.h"
 
-ResourceBlob::ResourceBlob(uint8* blobData, uint32 blobSize)
+ResourceBlob::ResourceBlob(uint8* blobData, size_t blobSize)
 	: size(blobSize)
 {
 	Assert(blobData != nullptr);
@@ -61,7 +61,7 @@ ResourceBlob& ResourceBlob::operator=(ResourceBlob&& other) noexcept
 
 void ResourceBlob::MergeWith(const ResourceBlob& other)
 {
-	uint32 newSize = size + other.size;
+	size_t newSize = size + other.size;
 	uint8* tmp = new uint8[newSize];
 
 	Memcpy(tmp, size, data, size);
@@ -74,7 +74,7 @@ void ResourceBlob::MergeWith(const ResourceBlob& other)
 
 ResourceBlob CombineBlobs(const ResourceBlob& blob0, const ResourceBlob& blob1)
 {
-	uint32 newSize = blob0.size + blob1.size;
+	size_t newSize = blob0.size + blob1.size;
 	uint8* data = new uint8[newSize];
 
 	Memcpy(data, blob0.size, blob0.data, blob0.size);
@@ -91,7 +91,7 @@ void Serialize(SerializeBase& ser, const ResourceBlob& blob)
 void Deserialize(DeserializeBase& ser, ResourceBlob& blob)
 {
 	uint8* data;
-	uint32 size;
+	size_t size;
 	Deserialize(ser, data, size);
 	blob = ResourceBlob(data, size);
 }

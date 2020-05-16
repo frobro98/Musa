@@ -10,6 +10,7 @@
 #include "Input/InputDefinitions.hpp"
 #include "Input/Internal/ControllerInputUtilities.hpp"
 #include "Math/MathFunctions.hpp"
+#include "Containers/MemoryBuffer.hpp"
 
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
@@ -252,9 +253,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_SYSKEYUP:
 			case WM_KEYUP:
 			{
-				uint32 vkCode = LOWORD(wParam);
 				wParam = MapWparamLeftRightKeys(wParam, lParam);
+				uint32 vkCode = LOWORD(wParam);
+				
 				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
+				Assert(input != Inputs::_INPUT_ENUM_MAX_);
 
 				inputHandler->HandleKeyUp(input);
 			}break;
@@ -279,7 +282,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				UINT size;
 				::GetRawInputData((HRAWINPUT)lParam, RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER));
 
-				DynamicArray<uint8> riData(size);
+				MemoryBuffer riData(size);
 				if (::GetRawInputData((HRAWINPUT)lParam, RID_INPUT, riData.GetData(), &size, sizeof(RAWINPUTHEADER)) == size)
 				{
 					const RAWINPUT* rawInput = reinterpret_cast<RAWINPUT*>(riData.GetData());

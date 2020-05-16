@@ -575,8 +575,10 @@ int main(int argc, char** argv)
     InitializeSdkObjects(lSdkManager, lScene);
     // Load the scene.
 
+#if _DEBUG
 	while (!IsDebuggerPresent())
 		Sleep(100);
+#endif
 
 	ModelData modelData;
 	FbxString lFilePath("");
@@ -1144,6 +1146,15 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 
 		if (attributeType == FbxNodeAttribute::eMesh)
 		{
+			// TODO - Make this a function...
+			FbxAMatrix globalTransform = node->EvaluateGlobalTransform();
+			const FbxVector4 trans = node->GetGeometricTranslation(FbxNode::eSourcePivot);
+			const FbxVector4 rot = node->GetGeometricRotation(FbxNode::eSourcePivot);
+			const FbxVector4 scale = node->GetGeometricScaling(FbxNode::eSourcePivot);
+			FbxAMatrix geometricTransform(trans, rot, scale);
+			FbxAMatrix offsetTransform = globalTransform * geometricTransform;
+
+
 			// TODO - allow for multiple meshes to be exported through this converter
 			FbxMesh* mesh = node->GetMesh();
 			int32 polygonCount = mesh->GetPolygonCount();
@@ -1153,7 +1164,6 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 			{
 				skinData = ProcessSkinningData(bones, mesh);
 			}
-
 
 			modelData.faces.Reserve(polygonCount);
 			int32 vertexId = 0;
@@ -1167,9 +1177,16 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 					int32 controlPointIndex = mesh->GetPolygonVertex(i, j);
 
 					VertexWithFace vert;
-					vert.v.position.x = static_cast<float>(controlPoints[controlPointIndex][0]);
-					vert.v.position.y = static_cast<float>(controlPoints[controlPointIndex][1]);
-					vert.v.position.z = static_cast<float>(controlPoints[controlPointIndex][2]);
+					FbxVector4 pos(
+						controlPoints[controlPointIndex][0],
+						controlPoints[controlPointIndex][1],
+						controlPoints[controlPointIndex][2]
+					);
+					pos = offsetTransform.MultT(pos);
+
+					vert.v.position.x = (float)pos[0];
+					vert.v.position.y = (float)pos[1]; //static_cast<float>(controlPoints[controlPointIndex][1]);
+					vert.v.position.z = (float)pos[2]; //static_cast<float>(controlPoints[controlPointIndex][2]);
 
 					vert.weightIndex = controlPointIndex;
 
@@ -1317,6 +1334,11 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 				modelData.faces.Add(face);
 			}
 
+			std::vector<TexturePath> paths = GetTextureData(mesh);
+			for (auto& texture : paths)
+			{
+				modelData.textures.Add(texture);
+			}
 
 // 			DisplayMesh(node, vertList, modelData);
 // 			FbxMesh* mesh = reinterpret_cast<FbxMesh*>(node->GetNodeAttribute());

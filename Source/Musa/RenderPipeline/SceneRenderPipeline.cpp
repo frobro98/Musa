@@ -43,7 +43,7 @@
 
 DECLARE_METRIC_GROUP(SceneRender);
 METRIC_STAT(DeferredRender, SceneRender);
-METRIC_STAT(RenderNormally, SceneRender);
+//METRIC_STAT(RenderNormally, SceneRender);
 METRIC_STAT(NormalMapRender, SceneRender);
 METRIC_STAT(GBufferRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
@@ -75,7 +75,7 @@ static void RenderWithNormalMap(RenderContext& renderer, const RenderObject& obj
 
 static void RenderNormally(RenderContext& renderer, const RenderObject& object, const View& view)
 {
-	SCOPED_TIMED_BLOCK(RenderNormally);
+	//SCOPED_TIMED_BLOCK(RenderNormally);
 
 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
 

@@ -64,7 +64,7 @@ Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const 
 	return texture;
 }
 
-Texture* TextureManager::LoadTexture(DynamicArray<uint8>& textureData, const char* /*textureName*/)
+Texture* TextureManager::LoadTexture(MemoryBuffer& textureData, const char* /*textureName*/)
 {
 	Texture* texture = new Texture;
 	MemoryDeserializer deserializer(textureData);
@@ -86,7 +86,7 @@ Texture* TextureManager::CompressTextureData(const TextureChunk& chunkData, uint
 	return texture;
 }
 
-Texture* TextureManager::CompressTextureData(DynamicArray<uint8>& textureData, const char* /*textureName*/)
+Texture* TextureManager::CompressTextureData(MemoryBuffer& textureData, const char* /*textureName*/)
 {
 	Texture uncompressed;
 	Texture compressed;

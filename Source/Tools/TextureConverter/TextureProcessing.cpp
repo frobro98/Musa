@@ -35,7 +35,7 @@ Texture ConstructTexture(TextureImporter& importer)
 	MipmapLevel baseLevel = {};
 	baseLevel.width = importer.GetWidth();
 	baseLevel.height = importer.GetHeight();
-	DynamicArray<uint8> pixels = importer.GetImportedPixelData();
+	const MemoryBuffer& pixels = importer.GetImportedPixelData();
 	uint8* data = new uint8[pixels.Size()];
 	Memcpy(data, pixels.Size(), pixels.GetData(), pixels.Size());
 	baseLevel.mipData = ResourceBlob(data, pixels.Size());
@@ -67,11 +67,11 @@ Texture ProcessImageFile(const Path& filePath, CompressionFormat format)
 {
 	Assert(filePath.DoesFileExist());
 
-	DynamicArray<uint8> textureData = LoadFileToMemory(filePath.GetString());
+	MemoryBuffer textureData = LoadFileToMemory(filePath.GetString());
 	String extension = filePath.GetFileExtension();
 	
 	TextureImporter* importer = importerMap[*extension];
-	importer->SetImportData(textureData);
+	importer->SetImportData(std::move(textureData));
 	if (importer->IsValid())
 	{
 		importer->Import();

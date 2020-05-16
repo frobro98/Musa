@@ -60,6 +60,7 @@ protected:
 	// TODO - implement own version of unique_ptr
 	Matrix4 worldTransform;
 
+	// TODO - This sort of thing should be private...
 	Vector4 position;
 	float32 rotX;
 	float32 rotY;

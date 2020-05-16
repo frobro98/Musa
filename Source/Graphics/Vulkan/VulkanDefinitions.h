@@ -16,21 +16,21 @@ WALL_WRN_POP
 #define VK_CREATE_DEBUG_REPORT(funcName) VkResult (VKAPI_PTR *funcName)(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback)
 typedef VK_CREATE_DEBUG_REPORT(vk_create_debug_report);
 static vk_create_debug_report vkCreateDebugReportCallbackEXT_ = nullptr;
-#if M_DEBUG
+//#if M_DEBUG
 #define vkCreateDebugReportCallbackEXT vkCreateDebugReportCallbackEXT_
-#else
-#define vkCreateDebugReportCallbackEXT 
-#endif
+//#else
+//#define vkCreateDebugReportCallbackEXT 
+//#endif
 
 // vkDestroyDebugReportCallbackEXT call replication
 #define VK_DESTROY_DEBUG_REPORT(funcName) VkResult (VKAPI_PTR *funcName)(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator)
 typedef VK_DESTROY_DEBUG_REPORT(vk_destroy_debug_report);
 static vk_destroy_debug_report vkDestroyDebugReportCallbackEXT_ = nullptr;
-#if M_DEBUG
+//#if M_DEBUG
 #define vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallbackEXT_
-#else
-#define vkDestroyDebugReportCallbackEXT 
-#endif
+//#else
+//#define vkDestroyDebugReportCallbackEXT 
+//#endif
 
 using GPUHandle = VkPhysicalDevice;
 

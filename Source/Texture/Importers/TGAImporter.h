@@ -29,11 +29,11 @@ class TGAImporter : public TextureImporter
 public:
 	TGAImporter();
 
-	virtual void SetImportData(const DynamicArray<uint8>& compressedData) override;
+	virtual void SetImportData(MemoryBuffer&& compressedData) override;
 
 private:
 	virtual void ProcessImport() override;
-	void ProcessHeader(const DynamicArray<uint8>& compressedData);
+	void ProcessHeader(const MemoryBuffer& compressedData);
 	void ModifyBGRImage();
 
 private:

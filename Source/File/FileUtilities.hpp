@@ -3,6 +3,6 @@
 #pragma once
 
 #include "Types/Intrinsics.hpp"
-#include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 
-DynamicArray<uint8> LoadFileToMemory(const tchar* filePath);
+MemoryBuffer LoadFileToMemory(const tchar* filePath);

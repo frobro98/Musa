@@ -3,7 +3,6 @@
 #include "FileSerializer.hpp"
 
 FileSerializer::FileSerializer(const Path& filePath)
-	: file(filePath)
 {
 	auto result = File::Open(handle, filePath.GetString(), File::Mode::WRITE);
 	Assert(result == File::Result::SUCCESS);
@@ -20,27 +19,24 @@ FileSerializer::~FileSerializer()
 	Assert(result == File::Result::SUCCESS);
 	if (result != File::Result::SUCCESS)
 	{
-
+		Assert(false);
 	}
 }
 
-void FileSerializer::SerializeData(const void* data, uint32 dataSize)
+void FileSerializer::SerializeData(const void* data, size_t dataSize)
 {
-	const uint8* byteData = reinterpret_cast<const uint8*>(data);
-	for (uint32 i = 0; i < dataSize; ++i)
-	{
-		serializedData.Add(byteData[i]);
-	}
+	serializedData.Add(data, dataSize);
 }
 
 void FileSerializer::Flush()
 {
-	auto result = File::Write(handle, &serializedData[bufferWriteIndex], serializedData.Size() - bufferWriteIndex);
+	// TODO - Using the low level file writing interface. Should consider not doing this sort of thing because of the limitations for loading large files
+	auto result = File::Write(handle, serializedData.Offset(bufferWriteIndex), (uint32)serializedData.Size() - bufferWriteIndex);
 	Assert(result == File::Result::SUCCESS);
 	if (result != File::Result::SUCCESS)
 	{
-
+		Assert(false);
 	}
 
-	bufferWriteIndex = serializedData.Size();
+	bufferWriteIndex = (uint32)serializedData.Size();
 }

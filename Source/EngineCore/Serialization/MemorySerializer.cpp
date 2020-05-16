@@ -2,16 +2,12 @@
 
 #include "MemorySerializer.hpp"
 
-void MemorySerializer::SerializeData(const void* data, uint32 dataSize)
+void MemorySerializer::SerializeData(const void* data, size_t dataSize)
 {
-	const uint8* byteData = reinterpret_cast<const uint8*>(data);
-	for (uint32 i = 0; i < dataSize; ++i)
-	{
-		memoryData.Add(byteData[i]);
-	}
+	memoryData.Add(data, dataSize);
 }
 
-DynamicArray<uint8> MemorySerializer::GetSerializedData() const
+MemoryBuffer& MemorySerializer::GetSerializedData() const
 {
 	return memoryData;
 }

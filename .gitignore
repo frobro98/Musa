@@ -88,6 +88,9 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+# Files created by Musa tools
+*.pak
+
 # Chutzpah Test files
 _Chutzpah*
 

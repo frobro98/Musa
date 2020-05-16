@@ -14,7 +14,7 @@ public:
 // 	JPEGImporter(JPEGImporter&&) = delete;
 // 	JPEGImporter& operator=(const JPEGImporter&) = delete;
 
-	virtual void SetImportData(const DynamicArray<uint8>& compressedData) override;
+	virtual void SetImportData(MemoryBuffer&& compressedData) override;
 
 private:
 	virtual void ProcessImport() override;

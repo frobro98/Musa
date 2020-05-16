@@ -1,9 +1,10 @@
 // Copyright 2020, Nathan Blane
 
+#include "Assertion.h"
 #include "FileUtilities.hpp"
 #include "FileCore/File.h"
 
-DynamicArray<uint8> LoadFileToMemory(const tchar* filePath)
+MemoryBuffer LoadFileToMemory(const tchar* filePath)
 {
 	File::Handle handle;
 	File::Result result = File::Open(handle, filePath, File::Mode::READ);
@@ -11,7 +12,7 @@ DynamicArray<uint8> LoadFileToMemory(const tchar* filePath)
 
 	uint32 fileSize;
 	File::Size(handle, fileSize);
-	DynamicArray<uint8> fileData(fileSize);
+	MemoryBuffer fileData(fileSize);
 	result = File::Read(handle, fileData.GetData(), fileSize);
 	Assert(result == File::Result::SUCCESS);
 

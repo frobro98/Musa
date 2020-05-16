@@ -31,15 +31,15 @@ void PNGImporter::PNGReadFunc(png_structp png_ptr, png_bytep data, png_size_t si
 {
 	PNGImporter* importer = reinterpret_cast<PNGImporter*>(png_get_io_ptr(png_ptr));
 	Assert(importer->bufferReadLocation + size <= importer->importData.Size());
-	DynamicArray<uint8>& compData = importer->importData;
-	Memcpy(data, size, &compData[importer->bufferReadLocation], size);
+	MemoryBuffer& compData = importer->importData;
+	Memcpy(data, size, compData.Offset(importer->bufferReadLocation), size);
 	// TODO - x64: Figure out how to handle size_t
 	importer->bufferReadLocation += (uint32)size;
 }
 
-void PNGImporter::SetImportData(const DynamicArray<uint8>& data)
+void PNGImporter::SetImportData(MemoryBuffer&& data)
 {
-	importData = data;
+	importData = std::move(data);
 	ProcessPNGHeader();
 }
 
@@ -105,12 +105,12 @@ void PNGImporter::ProcessImport()
 	const uint32 channels = 4;
 	const uint32 pixelBytes = bitDepth * channels / 8;
 	const uint32 bytesPerRow = pixelBytes * width;
-	importedImageData.Resize(width * height * pixelBytes);
+	importedImageData.IncreaseSize(width * height * pixelBytes);
 
 	png_bytep* pngRows = reinterpret_cast<png_bytep*>(png_malloc(png, sizeof(png_bytep) * height));
 	for (int32 i = 0; i < height; ++i)
 	{
-		pngRows[i] = &importedImageData[i * bytesPerRow];
+		pngRows[i] = importedImageData.Offset(i * bytesPerRow);
 	}
 	png_set_rows(png, pngInfo, pngRows);
 

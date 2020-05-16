@@ -2,19 +2,19 @@
 
 #pragma once
 
-#include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 #include "Serialization/DeserializeBase.hpp"
 
 class MemoryDeserializer : public DeserializeBase
 {
 public:
-	MemoryDeserializer(DynamicArray<uint8>& memory);
+	MemoryDeserializer(MemoryBuffer& memory);
 
-	virtual void DeserializeData(void* data, uint64 dataSize) override;
+	virtual void DeserializeData(void* data, size_t dataSize) override;
 
-	DynamicArray<uint8> GetSerializedData() const;
+	MemoryBuffer& GetSerializedData() const;
 
 private:
-	DynamicArray<uint8> memoryData;
+	MemoryBuffer& memoryData;
 	uint64 bufferReadLoc = 0;
 };

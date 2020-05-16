@@ -18,7 +18,7 @@ GodCamera::GodCamera(GameWorld& world, Camera& cam)
 
 void GodCamera::Update(float tick)
 {
-	constexpr float32 speed = 50.f;
+	constexpr float32 speed = 5.f;
 	constexpr float32 look = 5.f;
 	moveSpeed = speed * tick;
 	lookSpeed = look * tick;

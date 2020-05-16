@@ -10,6 +10,8 @@
 #include "VulkanUtilities.h"
 #include "VulkanFence.hpp"
 
+#include "DebugOutput.h"
+
 // TODO - The shader resource that lives in the Shader.lib doesn't belong here..
 #include "Shader/ShaderResource.hpp"
 
@@ -287,6 +289,7 @@ VulkanDescriptorSet* VulkanPipeline::GetUnusedDescriptorSet(VulkanCommandBuffer&
 		descriptorSets.Add(descriptorSet);
 		descriptorSet->associatedCommandBuffer = &cmdBuffer;
 		descriptorSet->associatedFenceSignal = cmdBuffer.GetFence()->GetFenceSignaledCount();
+		Debug::Printf("DescriptorSet Count:  {}\n", descriptorSets.Size());
 	}
 
 	return descriptorSet;

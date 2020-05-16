@@ -12,7 +12,7 @@ WALL_WRN_POP
 class PNGImporter : public TextureImporter
 {
 public:
-	virtual void SetImportData(const DynamicArray<uint8>& compressedData) override;
+	virtual void SetImportData(MemoryBuffer&& compressedData) override;
 
 private:
 	static void PNGReadFunc(png_structp png_ptr, png_bytep data, png_size_t length);

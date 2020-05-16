@@ -55,9 +55,9 @@ bool BMPFileValid(uint16 fileCode)
 }
 }
 
-void BMPImporter::SetImportData(const DynamicArray<uint8>& dataForImport)
+void BMPImporter::SetImportData(MemoryBuffer&& dataForImport)
 {
-	importData = dataForImport;
+	importData = std::move(dataForImport);
 	ProcessBMPHeader();
 }
 
@@ -156,6 +156,6 @@ void BMPImporter::ProcessBMPHeader()
 		Assert(channels > 1);
 		format = ImageFormat::BGRA_8norm;
 		// Storing data as if it has 4 channels
-		importedImageData.Resize(width * height * 4u);
+		importedImageData.IncreaseSize(width * height * 4u);
 	}
 }

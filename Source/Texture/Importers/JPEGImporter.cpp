@@ -11,10 +11,10 @@ JPEGImporter::JPEGImporter()
 {
 }
 
-void JPEGImporter::SetImportData(const DynamicArray<uint8>& data)
+void JPEGImporter::SetImportData(MemoryBuffer&& data)
 {
-	importData = data;
-	jpgd::jpeg_decoder_mem_stream jpegMemory(importData.GetData(), importData.Size());
+	importData = std::move(data);
+	jpgd::jpeg_decoder_mem_stream jpegMemory(importData.GetData(), (uint32)importData.Size());
 	jpgd::jpeg_decoder decoder(&jpegMemory);
 
 	validData = decoder.get_error_code() == jpgd::JPGD_SUCCESS;
@@ -42,7 +42,7 @@ void JPEGImporter::ProcessImport()
 	if (data)
 	{
 		uint32 uncompressedSize = static_cast<uint32>(width * height * numComponents);
-		importedImageData = DynamicArray<uint8>(data, uncompressedSize);
+		importedImageData.Add(data, uncompressedSize);
 		delete[] data;
 		data = nullptr;
 	}

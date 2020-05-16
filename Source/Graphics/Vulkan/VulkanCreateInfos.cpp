@@ -14,13 +14,13 @@ namespace Vk
 	{
 		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-#if M_DEBUG
+//#if M_DEBUG
 		createInfo.pNext = additionalData;
 		createInfo.enabledLayerCount = numLayers;
 		createInfo.ppEnabledLayerNames = instanceLayers;
-#else
+//#else
 		UNUSED(numLayers, instanceLayers);
-#endif
+//#endif
 		createInfo.enabledExtensionCount = numExtensions;
 		createInfo.ppEnabledExtensionNames = instanceExtensions;
 		return createInfo;

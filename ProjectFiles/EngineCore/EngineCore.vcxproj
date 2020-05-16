@@ -170,6 +170,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Containers\List.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\ListPair.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Map.h" />
+    <ClInclude Include="..\..\Source\EngineCore\Containers\MemoryBuffer.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Pair.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Queue.h" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\Set.h" />
@@ -231,6 +232,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp" />
+    <ClCompile Include="..\..\Source\EngineCore\Containers\MemoryBuffer.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Debugging\ProfilerStatistics.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp" />

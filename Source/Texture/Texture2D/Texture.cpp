@@ -59,17 +59,17 @@ uint32 Texture::GetHeight() const
 
 uint32 Texture::TotalSize() const
 {
-	uint32 totalSize = 0;
+	size_t totalSize = 0;
 	for (const auto& level : mipLevels)
 	{
 		totalSize += level.mipData.GetSize();
 	}
-	return totalSize;
+	return (uint32)totalSize;
 }
 
 ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels)
 {
-	uint32 totalSize = 0;
+	size_t totalSize = 0;
 	for (const auto& level : levels)
 	{
 		totalSize += level.mipData.GetSize();

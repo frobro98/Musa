@@ -12,6 +12,7 @@
 #include "Texture/Texture2D/Texture.h"
 
 #include "Math/MathFunctions.hpp"
+#include "Containers/MemoryBuffer.hpp"
 
 //////////////////////////////////////////////////////////////////////////
 // FontID
@@ -80,7 +81,7 @@ Font* ImportTTFont(const Path& path)
 	String fontName = "Ariel";
 	Font* font = new Font(fontName);
 
-	DynamicArray<uint8> bitmap(bitmapWidth*bitmapHeight*bitmapChannels);
+	MemoryBuffer bitmap(bitmapWidth*bitmapHeight*bitmapChannels);
 	const uint32 sdfHeight = 64 * sdfScaleFactor; // size 16 font with sdf scale
 	error = FT_Set_Char_Size(face, 0, ftToFontSpace(sdfHeight), 96, 96); // Everything it seems to be in 1/64 units, so we are shifting right to mult by 64
 
@@ -154,10 +155,10 @@ Font* ImportTTFont(const Path& path)
 
 					// TODO - Because of blending, there needs to be some meaningful alpha value. 
 					// TODO - The alpha lives in the bitmap, so it doesn't really make much sense to store it multiple times. Just keep the alpha for the entire pixel, disregarding the other 3 values
-					bitmap[totalArrayPos + 0] = bitmapVal; // red
-					bitmap[totalArrayPos + 1] = bitmapVal; // green
-					bitmap[totalArrayPos + 2] = bitmapVal; // blue
-					bitmap[totalArrayPos + 3] = bitmapVal; // Alpha; TODO - put sdf information in this...
+					*bitmap.Offset(totalArrayPos + 0) = bitmapVal; // red
+					*bitmap.Offset(totalArrayPos + 1) = bitmapVal; // green
+					*bitmap.Offset(totalArrayPos + 2) = bitmapVal; // blue
+					*bitmap.Offset(totalArrayPos + 3) = bitmapVal; // Alpha; TODO - put sdf information in this...
 				}
 				--bitmapY;
 			}
@@ -172,7 +173,7 @@ Font* ImportTTFont(const Path& path)
 	MipmapLevel level;
 	level.width = bitmapWidth;
 	level.height = bitmapHeight;
-	level.mipData = { bitmap.GetData(), bitmap.SizeInBytes() };
+	level.mipData = { bitmap.GetData(), bitmap.Size() };
 	t->mipLevels.Add(std::move(level));
 
 	font->fontTexture = t;

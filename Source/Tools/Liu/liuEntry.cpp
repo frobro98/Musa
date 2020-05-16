@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 
 #include "Archiver/PackageHeader.h"
 #include "File/FileCore/DirectoryUtilities.h"
@@ -65,7 +65,7 @@ void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLe
 		FILE_CHECK_VA(fileSize > 0, "%s doesn't exist!\n", file);
 		packageFileSize += fileSize;
 
-		DynamicArray<uint8> fileData(fileSize);
+		MemoryBuffer fileData(fileSize);
 		result = File::Read(fileHandle, fileData.GetData(), fileSize * sizeof(uint8));
 		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be read");
 

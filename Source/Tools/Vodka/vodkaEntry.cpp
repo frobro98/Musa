@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 
 #include "Archiver/ChunkHeader.h"
 #include "File/md5.h"
@@ -67,7 +67,7 @@ void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk c
 	File::Seek(fHandle, File::Location::BEGIN, 0);
 	FILE_CHECK(fileSize > 0, "Input file doesn't exist!\n");
 
-	DynamicArray<uint8> fileData(fileSize);
+	MemoryBuffer fileData(fileSize);
 	File::Read(fHandle, fileData.GetData(), fileSize * sizeof(uint8));
 	FILE_CHECK(result == File::Result::SUCCESS, "Input file reading error!\n");
 

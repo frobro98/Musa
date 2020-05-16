@@ -243,6 +243,9 @@
     <ClInclude Include="..\..\Source\EngineCore\Containers\ArrayView.hpp">
       <Filter>Source\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\Containers\MemoryBuffer.hpp">
+      <Filter>Source\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp">
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Utilities\Hash.cpp">
       <Filter>Source\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\Containers\MemoryBuffer.cpp">
+      <Filter>Source\Containers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

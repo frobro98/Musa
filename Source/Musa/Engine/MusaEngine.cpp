@@ -182,7 +182,7 @@ void MusaEngine::InitializeSceneView()
 	Camera* mainCamera = new Camera;
 	mainCamera->SetViewport(viewportDim);
 	mainCamera->SetPerspective(60.f, aspect, .1f, 10000.f);
-	mainCamera->SetOrientationAndPosition(Vector4(0, 0, 0), Vector4(0, 0, 155.f), Vector4(0, 1, 0));
+	mainCamera->SetOrientationAndPosition(Vector4(0, 0, 0), Vector4(0, 0, 10.f), Vector4(0, 1, 0));
 
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
@@ -368,14 +368,15 @@ static void LoadPakFile(const Path& pakPath)
 			}break;
 			case Chunk::TEXTURE_TYPE:
 			{
-				DynamicArray<uint8> texData(chunkHeader.chunkSize);
+				// TODO - Need to allow the Serialization/Deserialization functions to work with this
+				MemoryBuffer texData(chunkHeader.chunkSize);
 				pakFile.DeserializeData(texData.GetData(), chunkHeader.chunkSize);
 
 				GetTextureManager().LoadTexture(texData, chunkHeader.chunkName);
 			}break;
 			case Chunk::SKEL_TYPE:
 			{
-				DynamicArray<uint8> skelData(chunkHeader.chunkSize);
+				MemoryBuffer skelData(chunkHeader.chunkSize);
 				pakFile.DeserializeData(skelData.GetData(), skelData.Size());
 
 				NOT_USED Skeleton* skeleton = SkeletonManager::CreateSkeleton(skelData.GetData(), chunkHeader.hashNum);
@@ -383,13 +384,13 @@ static void LoadPakFile(const Path& pakPath)
 			case Chunk::WEIGHTS_TYPE:
 			{
 				// TODO - Weights need to be stored with the mesh, at this point, but this sort of thing needs to be revisited...
-				DynamicArray<uint8> weights(chunkHeader.chunkSize);
+				MemoryBuffer weights(chunkHeader.chunkSize);
 				pakFile.DeserializeData(weights.GetData(), weights.Size());
 
 			}
 			case Chunk::ANIM_TYPE:
 			{
-				DynamicArray<uint8> animData(chunkHeader.chunkSize);
+				MemoryBuffer animData(chunkHeader.chunkSize);
 				pakFile.DeserializeData(animData.GetData(), chunkHeader.chunkSize);
 				
 				AnimationClip* clip = AnimationClipFactory::CreateAnimationClip(animData.GetData());
@@ -403,7 +404,11 @@ static void LoadPakFile(const Path& pakPath)
 	}
 }
 
+// TODO - This will eventually be moved. Mostly for quick turn around
 #include "UI/DebugUI/UIConsole.hpp"
+#include "GameObject/DemoGameObjects/OrbitOtherObject.hpp"
+#include "GameObject/DemoGameObjects/MoveBetweenObject.hpp"
+#include "GameObject/DemoGameObjects/ScaleChangingObject.hpp"
 
 void MusaEngine::LoadContent()
 {
@@ -416,8 +421,11 @@ void MusaEngine::LoadContent()
 	Path bunnyPakPath(EngineAssetPath() + "Models/stanford-bunny.pak");
 	LoadPakFile(bunnyPakPath);
 
-	Path astroPakPath(EngineAssetPath() + "Models/astroboy.pak");
+	Path astroPakPath(EngineAssetPath() + "Models/astro-boy.pak");
 	LoadPakFile(astroPakPath);
+
+	Path gethPakPath(EngineAssetPath() + "Models/geth-trooper.pak");
+	LoadPakFile(gethPakPath);
 
 	CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
@@ -425,16 +433,99 @@ void MusaEngine::LoadContent()
 
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 
-	//Mesh* bunny = GetMeshManager().FindMesh(Mesh::BoxName);
-	//Mesh* bunny = GetMeshManager().FindMesh("stanford-bunny");
-	Mesh* bunny = GetMeshManager().FindMesh("astroboy");
+	NOT_USED Mesh* box = GetMeshManager().FindMesh(Mesh::BoxName);
+	NOT_USED Mesh* bunny = GetMeshManager().FindMesh("stanford-bunny");
+	NOT_USED Mesh* astro_boy = GetMeshManager().FindMesh("astro-boy");
+	NOT_USED Mesh* geth = GetMeshManager().FindMesh("geth-trooper");
 
 	ShaderResource& vertShader = GetShader<UnlitVert>()->GetNativeShader();
 	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
-	GameObject* go = world->CreateGameObject<GameObject>();
-	go->SetModel(ModelFactory::CreateModel(bunny, new Material(vertShader, fragShader, WhiteTexture(), Color32::Cyan())));
-	go->SetScale(.5, .5, .5);
+	GameObject* gethObject = world->CreateGameObject<GameObject>();
+	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D", Color32::White())));
+
+	GameObject* go = world->CreateGameObject<OrbitOtherObject>(*gethObject, 5.5f, Vector4::RightAxis);
+	go->SetModel(ModelFactory::CreateModel(astro_boy, new Material(vertShader, fragShader, "astroboy", Color32::White())));
+	go->SetPos(Vector4(-1.5f, 2.5f, 0));
+	
+	go = world->CreateGameObject<OrbitOtherObject>(*go, 2.f, Vector4::UpAxis);
+	go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), Color32::Blue())));
+	go->SetPos(Vector4(5, 0, 0));
+
+	constexpr uint32 numDoubleObjects = 400;
+
+	Vector4 pointA(-200.f, 2.f, -1.f);
+	Vector4 pointB(-200.f, 4.f, -1.f);
+
+	Vector4 scalePos(-400, 5, 7.f);
+	float dir = 1;
+	Color32 color = Color32::Blue();
+	for (uint32 i = 0; i < numDoubleObjects; ++i)
+	{
+		Vector4 tmp = pointA;
+		pointA = pointB;
+		pointB = tmp;
+
+		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
+		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+
+		pointA.x += 1.5f;
+		pointB.x += 1.5f;
+
+		constexpr float32 scaleDelta = 2.f;
+		if (dir < 0)
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
+			color = Color32::Blue();
+		}
+		else
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
+			color = Color32::Red();
+		}
+		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+		go->SetPos(scalePos);
+		
+		scalePos.y *= dir;
+		scalePos.x += 2.5f;
+		dir *= -1.f;
+	}
+
+	pointA.y -= 5.f;
+	pointB.y -= 5.f;
+	scalePos.y = -5;
+	for (uint32 i = 0; i < numDoubleObjects; ++i)
+	{
+		Vector4 tmp = pointA;
+		pointA = pointB;
+		pointB = tmp;
+
+		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
+		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+
+		pointA.x -= 1.5f;
+		pointB.x -= 1.5f;
+
+		constexpr float32 scaleDelta = 2.f;
+		if (dir < 0)
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
+			color = Color32::Blue();
+		}
+		else
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
+			color = Color32::Red();
+		}
+		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+		go->SetPos(scalePos);
+
+		scalePos.y *= dir;
+		scalePos.x -= 2.5f;
+		dir *= -1.f;
+	}
+
+	//go->SetScale(.5, .5, .5);
 
 	// TODO - LEAKING MEMEORY!!!
 	//UI::Console* console = new UI::Console;

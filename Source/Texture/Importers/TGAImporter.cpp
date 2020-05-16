@@ -10,13 +10,13 @@ TGAImporter::TGAImporter()
 {
 }
 
-void TGAImporter::SetImportData(const DynamicArray<uint8>& data)
+void TGAImporter::SetImportData(MemoryBuffer&& data)
 {
 	ProcessHeader(data);
-	importData = DynamicArray<uint8>(data.GetData() + sizeof(tgaFile), data.Size() - sizeof(tgaFile));
+	importData = std::move(data);
 }
 
-void TGAImporter::ProcessHeader(const DynamicArray<uint8>& data)
+void TGAImporter::ProcessHeader(const MemoryBuffer& data)
 {
 	Memcpy(&tgaFile, sizeof(TGAFileHeader), data.GetData(), sizeof(TGAFileHeader));
 	validData = tgaFile.bits == 24 || tgaFile.bits == 32;
@@ -48,18 +48,19 @@ void TGAImporter::ModifyBGRImage()
 	uint32 imageSize = width * height * bitDepth;
 	uint8* texDataPtr = importedImageData.GetData();
 	// Could be uint32 to allow always having an alpha
+	constexpr size_t tgaHeaderSize = sizeof(TGAFileHeader);
 	for (uint32 i = 0; i < imageSize; ++i)
 	{
 		// Blue
-		*texDataPtr = importData[i];
+		*texDataPtr = *importData.Offset(tgaHeaderSize + i);
 		++i, ++texDataPtr;
 
 		// Green
-		*texDataPtr = importData[i];
+		*texDataPtr = *importData.Offset(tgaHeaderSize + i);
 		++i, ++texDataPtr;
 
 		// Red
-		*texDataPtr = importData[i];
+		*texDataPtr = *importData.Offset(tgaHeaderSize + i);
 		++texDataPtr;
 
 		// Alpha
@@ -73,7 +74,7 @@ void TGAImporter::ProcessImport()
 {
 	constexpr uint32 correctBitDepth = 4;
 	const uint32 textureSize = width * height * correctBitDepth;
-	importedImageData.Resize(textureSize);
+	importedImageData.IncreaseSize(textureSize);
 	// Vulkan doesn't seem to support 24 bit textures, so here we are
 	if (bitDepth == 3 && tgaFile.imageType < 8) // BGR no alpha
 	{
@@ -81,7 +82,7 @@ void TGAImporter::ProcessImport()
 	}
 	else if (tgaFile.imageType < 8)
 	{
-		Memcpy(importedImageData.GetData(), textureSize, importData.GetData(), importData.Size());
+		Memcpy(importedImageData.GetData(), textureSize, importData.GetData() + sizeof(TGAFileHeader), textureSize);
 	}
 	else // RLE compression not currently supported!!
 	{
