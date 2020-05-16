@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GraphicsResourceFlags.hpp"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Texture/ImageFormats.h"
 #include "RenderTargetDescription.hpp"
 #include "Containers/DynamicArray.hpp"

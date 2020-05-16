@@ -3,7 +3,7 @@
 #pragma once
 
 #include "EngineCore/PlatformDefinitions.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 // TODO - Fix PCSTree implementation because animations don't really compile now...
 

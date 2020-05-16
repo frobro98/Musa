@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "TextureProcessing.hpp"
 #include "Archiver/FileSerializer.hpp"
 #include "MipmapGeneration.hpp"

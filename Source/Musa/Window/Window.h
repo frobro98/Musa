@@ -4,7 +4,7 @@
 
 #include "PlatformDefinitions.h"
 #include "Math/IntVector2.hpp"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 class WindowInputHandler;
 

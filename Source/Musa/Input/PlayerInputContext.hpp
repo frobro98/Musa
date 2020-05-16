@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #pragma once
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "String/String.h"
 #include "String/StringView.hpp"

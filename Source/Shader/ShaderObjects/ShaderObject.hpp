@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Shader/ShaderStructure.hpp"
 
 struct ShaderResource;

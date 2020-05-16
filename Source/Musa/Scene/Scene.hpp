@@ -16,7 +16,7 @@ struct GBuffer;
 struct SceneRenderTargets;
 struct RenderTarget;
 
-// TODO - this structure would correspond to a file that records all of the objects in scene
+// NOTE - this structure would correspond to a file that records all of the objects in scene
 
 // A Scene contains a hierarchy of game objects/entities.
 // This will be the manager for those objects/entities

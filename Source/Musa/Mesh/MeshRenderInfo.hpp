@@ -2,9 +2,7 @@
 
 #pragma once
 
-// TODO - Rename the file to match the name of the struct
-
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Math/BoundsVolumes.hpp"
 #include "Math/Matrix4.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"

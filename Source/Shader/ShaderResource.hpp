@@ -4,7 +4,7 @@
 
 #include "Graphics/Vulkan/VulkanDefinitions.h"
 
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Shader/ShaderStructure.hpp"
 

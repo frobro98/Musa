@@ -311,16 +311,10 @@
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Mesh\MeshInfo.hpp">
-      <Filter>Source\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshManager.h">
       <Filter>Source\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderEntity.hpp">
-      <Filter>Source\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Mesh\MeshSceneInfo.hpp">
       <Filter>Source\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshUtilities.hpp">
@@ -363,9 +357,6 @@
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp">
@@ -583,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.hpp">
       <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderInfo.hpp">
+      <Filter>Source\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

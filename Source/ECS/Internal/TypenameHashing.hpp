@@ -3,7 +3,7 @@
 #pragma once
 
 #include <type_traits>
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "String/StringView.hpp"
 #include "String/CStringUtilities.hpp"
 

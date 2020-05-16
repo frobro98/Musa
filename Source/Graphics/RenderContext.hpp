@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Color.hpp"
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 

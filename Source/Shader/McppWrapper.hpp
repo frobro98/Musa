@@ -5,7 +5,7 @@
 #include "mcpp/mcpp.h"
 #include "ShaderStructure.hpp"
 #include "Containers/Map.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 class Path;
 

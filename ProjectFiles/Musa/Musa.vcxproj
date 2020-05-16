@@ -147,10 +147,9 @@
     <ClInclude Include="..\..\Source\Musa\Lighting\SpotLight.hpp" />
     <ClInclude Include="..\..\Source\Musa\Mesh\GeometryPrimitives.h" />
     <ClInclude Include="..\..\Source\Musa\Mesh\Mesh.h" />
-    <ClInclude Include="..\..\Source\Musa\Mesh\MeshInfo.hpp" />
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshManager.h" />
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderEntity.hpp" />
-    <ClInclude Include="..\..\Source\Musa\Mesh\MeshSceneInfo.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderInfo.hpp" />
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshUtilities.hpp" />
     <ClInclude Include="..\..\Source\Musa\Model\Model.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h" />
@@ -165,7 +164,6 @@
     <ClInclude Include="..\..\Source\Musa\Scene\Scene.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\SceneRenderTargets.hpp" />
-    <ClInclude Include="..\..\Source\Musa\Scene\SceneRoot.h" />
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp" />
     <ClInclude Include="..\..\Source\Musa\UI\DebugUI\UIConsole.hpp" />

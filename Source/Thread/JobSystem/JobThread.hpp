@@ -5,8 +5,8 @@
 #include <thread>
 #include <condition_variable>
 
-#include "Types/ConcurrentTypes.hpp"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/ConcurrentTypes.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "Thread/JobSystem/Job.hpp"
 #include "Thread/ThreadingUtilities.hpp"
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Input/InputDefinitions.hpp"
 
 namespace Internal

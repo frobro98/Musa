@@ -4,7 +4,7 @@
 
 // TODO - Not a great name for what its doing. Hopefully I'll get a better name later on?
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/RenderTarget.hpp"
 #include "Graphics/GraphicsResourceFlags.hpp"
 

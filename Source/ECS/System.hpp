@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Assertion.h"
 #include "ECS/DLLDef.h"
 #include "ECS/QueryDescription.hpp"

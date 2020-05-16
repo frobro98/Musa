@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Intrinsics.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 // Container used to store 64 bit sized data
 class MemoryBuffer final : private Uncopyable

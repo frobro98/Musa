@@ -6,7 +6,7 @@
 // TODO - Remove the include of std::array<>...
 #include <array>
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Musa/Mesh/GeometryPrimitives.h"
 #include "Utilities/TemplateUtils.hpp"
 

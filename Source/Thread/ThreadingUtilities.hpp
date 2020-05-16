@@ -6,7 +6,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 struct ThreadSleepPrimitive
 {

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "ImageFormats.h"
 #include "Containers/DynamicArray.hpp"
 #include "Math/MathFunctions.hpp"

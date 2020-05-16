@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/Intrinsics.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class Viewport final

@@ -263,8 +263,6 @@ Mesh* MeshManager::FindMesh(const char * modelName)
 // u is longitude [0, 2PI] and v is latitude [0, PI] (note the difference in their range)
 Mesh* MeshManager::LoadSpherePrimitive()
 {
-	// TODO - This should be last resort, if sphere base file doesn't exist...
-
 	DynamicArray<Vertex> vertices;
 	DynamicArray<uint32> indices;
 

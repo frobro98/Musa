@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 #define MUSA_VERSION(major, minor, patch) \
 			((major << 24) | ((minor & 0xff) << 16) | (patch))

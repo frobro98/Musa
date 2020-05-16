@@ -3,7 +3,7 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "String/String.h"
 #include "Texture/ImageFormats.h"

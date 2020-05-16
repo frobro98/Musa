@@ -5,8 +5,8 @@
 #include "VulkanDefinitions.h"
 #include "VulkanBufferAllocation.hpp"
 #include "Containers/DynamicArray.hpp"
-#include "Types/Uncopyable.hpp"
-#include "Types/Unmoveable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
+#include "BasicTypes/Unmoveable.hpp"
 
 class VulkanDevice;
 class GraphicsAllocation;

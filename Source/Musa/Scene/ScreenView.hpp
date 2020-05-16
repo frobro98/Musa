@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"

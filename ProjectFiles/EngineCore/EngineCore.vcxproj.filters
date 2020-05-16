@@ -22,9 +22,6 @@
     <Filter Include="Source\GUID">
       <UniqueIdentifier>{185bfad3-763b-4270-870d-669d2779ff7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Types">
-      <UniqueIdentifier>{94af084f-3e6c-4087-aaaf-1f753c94b1bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Utilities">
       <UniqueIdentifier>{a55e51ee-b5d5-46ea-ba2b-cb03ddf0319f}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Source\Logging">
       <UniqueIdentifier>{7cb41f4f-18fe-4b16-87b7-7f70dc0ee0ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\BasicTypes">
+      <UniqueIdentifier>{a821bea5-c228-4567-96cb-c54a4ada557d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -132,15 +132,6 @@
     <ClInclude Include="..\..\Source\EngineCore\Ranges.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\Intrinsics.hpp">
-      <Filter>Source\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp">
-      <Filter>Source\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\ConcurrentTypes.hpp">
-      <Filter>Source\Types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\MemoryUtilities.h">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
@@ -176,12 +167,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp">
       <Filter>Source\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp">
-      <Filter>Source\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\Optional.h">
-      <Filter>Source\Types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Containers\ListPair.hpp">
       <Filter>Source\Containers</Filter>
@@ -228,23 +213,38 @@
     <ClInclude Include="..\..\Source\EngineCore\fmt\core.h">
       <Filter>Source\fmt</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\FunctionRef.hpp">
-      <Filter>Source\Types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Utilities\Hash.hpp">
       <Filter>Source\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\Uncopyable.hpp">
-      <Filter>Source\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\EngineCore\Types\Unmoveable.hpp">
-      <Filter>Source\Types</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Containers\ArrayView.hpp">
       <Filter>Source\Containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\EngineCore\Containers\MemoryBuffer.hpp">
       <Filter>Source\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Intrinsics.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Optional.h">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\RefPtr.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Uncopyable.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\UniquePtr.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Unmoveable.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\ConcurrentTypes.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\FunctionRef.hpp">
+      <Filter>Source\BasicTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +287,6 @@
     <ClCompile Include="..\..\Source\EngineCore\GUID\Guid.cpp">
       <Filter>Source\GUID</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp">
-      <Filter>Source\Types</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -316,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\EngineCore\Containers\MemoryBuffer.cpp">
       <Filter>Source\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineCore\BasicTypes\RefPtr.cpp">
+      <Filter>Source\BasicTypes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

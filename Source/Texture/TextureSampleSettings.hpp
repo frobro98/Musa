@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 
 enum class TextureFilter : uint8

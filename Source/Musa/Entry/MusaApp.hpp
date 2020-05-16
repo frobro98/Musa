@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Engine/MusaEngine.hpp"
 #include "Engine/MusaAppOS.hpp"
 #include "Window/Window.h"

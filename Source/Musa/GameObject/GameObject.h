@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 #include "Mesh/Mesh.h"
@@ -57,7 +57,6 @@ protected:
 	virtual void TransformDebugVolume();
 
 protected:
-	// TODO - implement own version of unique_ptr
 	Matrix4 worldTransform;
 
 	// TODO - This sort of thing should be private...

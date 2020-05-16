@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "String/String.h"
 #include "Path/Path.hpp"
 #include "Shader/ShaderStages.hpp"

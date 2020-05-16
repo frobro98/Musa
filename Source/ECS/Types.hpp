@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 using EntityIndex = uint32;
 using EntityVersion = uint32;

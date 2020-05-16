@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 
 #include "Graphics/Vulkan/VulkanIndexBuffer.h"

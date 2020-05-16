@@ -3,7 +3,7 @@
 #pragma once
 
 #include "VulkanDefinitions.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "EngineCore/Extents.hpp"
 #include "Graphics/RenderTargetDescription.hpp"

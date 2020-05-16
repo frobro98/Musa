@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "VertexInputDescription.hpp"
 #include "Utilities/Hash.hpp"
 #include "RenderTargetDescription.hpp"

@@ -4,7 +4,7 @@
 #include "Platform.h"
 #include "Shader/Material.h"
 #include "Mesh/Mesh.h"
-#include "Mesh/MeshSceneInfo.hpp"
+#include "Mesh/MeshRenderInfo.hpp"
 // #include "Animation/Skeleton/SkeletonBone.h"
 //#include "Animation/Skeleton/Skeleton.h"
 #include "Archiver/SkeletonHeader.h"

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/ConcurrentTypes.hpp"
+#include "BasicTypes/ConcurrentTypes.hpp"
 
 class Counter
 {

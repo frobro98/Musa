@@ -5,7 +5,7 @@ WALL_WRN_PUSH
 #include <sstream>
 WALL_WRN_POP
 
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "ShaderCompiler.h"
 #include "ShaderStructure.hpp"
 #include "ShaderExternal.h"

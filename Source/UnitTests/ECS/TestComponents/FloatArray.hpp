@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "ECS/Component.hpp"
 
 // NOTE: This definitely isn't a good kind of component! It doesn't describe what the data actually is and 

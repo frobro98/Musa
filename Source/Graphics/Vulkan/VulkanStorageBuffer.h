@@ -3,7 +3,7 @@
 #pragma once
 
 #include "VulkanAbstractions.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 class VulkanStorageBuffer : private Uncopyable
 {

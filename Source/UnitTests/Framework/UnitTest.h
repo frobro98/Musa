@@ -5,7 +5,7 @@
 #include "Platform.h"
 #include "Assertion.h"
 #include "DebugOutput.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/MacroHelpers.hpp"
 #include "Math/MathFunctions.hpp"

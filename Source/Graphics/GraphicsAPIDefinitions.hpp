@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 // TODO - move this enum to a better place
 enum class LoadOperation : uint8

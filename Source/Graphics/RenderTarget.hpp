@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Containers/FixedArray.hpp"
 // TODO - This file needs to live in the Graphics library
 #include "Texture/ImageFormats.h"

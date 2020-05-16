@@ -2,7 +2,7 @@
 
 #include "RenderObject.hpp"
 #include "GameObject/GameObject.h"
-#include "Mesh/MeshSceneInfo.hpp"
+#include "Mesh/MeshRenderInfo.hpp"
 #include "Shader/MaterialRenderInfo.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Graphics/UniformBuffers.h"

@@ -4,7 +4,7 @@
 
 #include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 class VulkanDevice;
 

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <atomic>
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 using uatom64 = std::atomic<uint64>;
 using atom64 = std::atomic<int64>;

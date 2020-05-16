@@ -127,9 +127,6 @@ void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 
 void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 deltaX, int32 deltaY)
 {
-	// NOTE - Currently, I don't care about mouse cursor position, however, I may in the future. Keep this in mind when passing this info down
-
-	// TODO - Input mouse movement is a little slow. Investigate this...
 	IntVector2 delta(deltaX, deltaY);
 	IntVector2 mouseMovePos(mouseX, mouseY);
 	currentMousePos = mouseMovePos;
@@ -222,7 +219,6 @@ void WindowInputHandler::HandleWindowClose()
 
 void WindowInputHandler::HandleActivationChanged(bool activated)
 {
-	// TODO - Finish having the same processing as the other handle inputs
 	for (auto& receiver : inputReceivers)
 	{
 		receiver->OnActivationChanged(activated);

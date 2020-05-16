@@ -3,7 +3,7 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Math/MathEngine.hpp"
 #include "Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"

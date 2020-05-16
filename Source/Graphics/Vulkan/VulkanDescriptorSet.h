@@ -5,7 +5,7 @@
 #include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Map.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 #include "VulkanAbstractions.h"
 

@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 template <typename T>
 forceinline void HashCombine(uint32& hash, const T& obj)

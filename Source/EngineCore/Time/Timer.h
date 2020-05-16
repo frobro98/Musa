@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Time.h"
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 
 class Timer : private Uncopyable
 {

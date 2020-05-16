@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/ConcurrentTypes.hpp"
+#include "BasicTypes/ConcurrentTypes.hpp"
 #include "Thread/JobSystem/Job.hpp"
 #include "MemoryUtilities.h"
 #include "Thread/ThreadingUtilities.hpp"

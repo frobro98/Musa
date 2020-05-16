@@ -34,6 +34,7 @@ public:
 	void PostUpdateInput();
 
 	// TODO - Does input stream correctly describe behavior of essentially an input path?
+	// Answer: No
 	void AddInputStream(DynamicArray<IInputReceiver*>&& newInputStream);
 	void AddInput(IInputReceiver& newInput);
 	void ClearInputStream();

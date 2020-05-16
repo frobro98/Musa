@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Assertion.h"
 
 template <class Type, uint32 size>
@@ -30,6 +30,7 @@ struct StaticArray
 		{
 			Assert(index < size);
 			++index;
+			return *this;
 		}
 
 		bool operator!=(const Iterator& other)
@@ -58,6 +59,7 @@ struct StaticArray
 		{
 			Assert(index < size);
 			++index;
+			return *this;
 		}
 
 		bool operator!=(const ConstIterator& other)

@@ -37,7 +37,7 @@ WALL_WRN_POP
 #include "Windows/WindowsDefinitions.h"
 #endif
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 template <typename T, uint32 N>
 constexpr size_t ArraySize(NOT_USED const T(&arr)[N])

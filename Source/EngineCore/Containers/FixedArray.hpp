@@ -3,7 +3,7 @@
 #pragma once
 
 #include <type_traits>
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Assertion.h"
 #include "MemoryUtilities.h"
 #include "Utilities/TemplateUtils.hpp"

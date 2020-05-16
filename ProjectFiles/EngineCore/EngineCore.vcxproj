@@ -163,6 +163,14 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Source\EngineCore\Algorithms.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Assertion.h" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\ConcurrentTypes.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\FunctionRef.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Intrinsics.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Optional.h" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\RefPtr.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Uncopyable.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\UniquePtr.hpp" />
+    <ClInclude Include="..\..\Source\EngineCore\BasicTypes\Unmoveable.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Color.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\ArrayView.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Containers\DynamicArray.hpp" />
@@ -213,14 +221,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Time\EngineTick.h" />
     <ClInclude Include="..\..\Source\EngineCore\Time\Time.h" />
     <ClInclude Include="..\..\Source\EngineCore\Time\Timer.h" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\ConcurrentTypes.hpp" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\FunctionRef.hpp" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\Intrinsics.hpp" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\Optional.h" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\RefPtr.hpp" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\Uncopyable.hpp" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\UniquePtr.hpp" />
-    <ClInclude Include="..\..\Source\EngineCore\Types\Unmoveable.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\CompileTimeCounter.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\Hash.hpp" />
     <ClInclude Include="..\..\Source\EngineCore\Utilities\MacroHelpers.hpp" />
@@ -231,6 +231,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\EngineCore\Windows\WindowsTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\EngineCore\BasicTypes\RefPtr.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Color.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Containers\MemoryBuffer.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Debugging\MetricInterface.cpp" />
@@ -252,7 +253,6 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\EngineCore\Time\Time.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Time\Timer_win32.cpp" />
-    <ClCompile Include="..\..\Source\EngineCore\Types\RefPtr.cpp" />
     <ClCompile Include="..\..\Source\EngineCore\Utilities\Hash.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -452,80 +452,79 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), Color32::Blue())));
 	go->SetPos(Vector4(5, 0, 0));
 
-	constexpr uint32 numDoubleObjects = 400;
+// 	constexpr uint32 numDoubleObjects = 400;
+// 
+// 	Vector4 pointA(-200.f, 2.f, -1.f);
+// 	Vector4 pointB(-200.f, 4.f, -1.f);
+// 
+// 	Vector4 scalePos(-400, 5, 7.f);
+// 	float dir = 1;
+// 	Color32 color = Color32::Blue();
+// 	for (uint32 i = 0; i < numDoubleObjects; ++i)
+// 	{
+// 		Vector4 tmp = pointA;
+// 		pointA = pointB;
+// 		pointB = tmp;
+// 
+// 		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
+// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+// 
+// 		pointA.x += 1.5f;
+// 		pointB.x += 1.5f;
+// 
+// 		constexpr float32 scaleDelta = 2.f;
+// 		if (dir < 0)
+// 		{
+// 			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
+// 			color = Color32::Blue();
+// 		}
+// 		else
+// 		{
+// 			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
+// 			color = Color32::Red();
+// 		}
+// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+// 		go->SetPos(scalePos);
+// 		
+// 		scalePos.y *= dir;
+// 		scalePos.x += 2.5f;
+// 		dir *= -1.f;
+// 	}
+// 
+// 	pointA.y -= 5.f;
+// 	pointB.y -= 5.f;
+// 	scalePos.y = -5;
+// 	for (uint32 i = 0; i < numDoubleObjects; ++i)
+// 	{
+// 		Vector4 tmp = pointA;
+// 		pointA = pointB;
+// 		pointB = tmp;
+// 
+// 		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
+// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+// 
+// 		pointA.x -= 1.5f;
+// 		pointB.x -= 1.5f;
+// 
+// 		constexpr float32 scaleDelta = 2.f;
+// 		if (dir < 0)
+// 		{
+// 			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
+// 			color = Color32::Blue();
+// 		}
+// 		else
+// 		{
+// 			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
+// 			color = Color32::Red();
+// 		}
+// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
+// 		go->SetPos(scalePos);
+// 
+// 		scalePos.y *= dir;
+// 		scalePos.x -= 2.5f;
+// 		dir *= -1.f;
+// 	}
 
-	Vector4 pointA(-200.f, 2.f, -1.f);
-	Vector4 pointB(-200.f, 4.f, -1.f);
-
-	Vector4 scalePos(-400, 5, 7.f);
-	float dir = 1;
-	Color32 color = Color32::Blue();
-	for (uint32 i = 0; i < numDoubleObjects; ++i)
-	{
-		Vector4 tmp = pointA;
-		pointA = pointB;
-		pointB = tmp;
-
-		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
-		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-
-		pointA.x += 1.5f;
-		pointB.x += 1.5f;
-
-		constexpr float32 scaleDelta = 2.f;
-		if (dir < 0)
-		{
-			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
-			color = Color32::Blue();
-		}
-		else
-		{
-			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
-			color = Color32::Red();
-		}
-		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-		go->SetPos(scalePos);
-		
-		scalePos.y *= dir;
-		scalePos.x += 2.5f;
-		dir *= -1.f;
-	}
-
-	pointA.y -= 5.f;
-	pointB.y -= 5.f;
-	scalePos.y = -5;
-	for (uint32 i = 0; i < numDoubleObjects; ++i)
-	{
-		Vector4 tmp = pointA;
-		pointA = pointB;
-		pointB = tmp;
-
-		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
-		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-
-		pointA.x -= 1.5f;
-		pointB.x -= 1.5f;
-
-		constexpr float32 scaleDelta = 2.f;
-		if (dir < 0)
-		{
-			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
-			color = Color32::Blue();
-		}
-		else
-		{
-			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
-			color = Color32::Red();
-		}
-		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-		go->SetPos(scalePos);
-
-		scalePos.y *= dir;
-		scalePos.x -= 2.5f;
-		dir *= -1.f;
-	}
-
-	//go->SetScale(.5, .5, .5);
 
 	// TODO - LEAKING MEMEORY!!!
 	//UI::Console* console = new UI::Console;

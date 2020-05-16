@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/Uncopyable.hpp"
+#include "BasicTypes/Uncopyable.hpp"
 #include "GameObject/GameObject.h"
 
 class GameWorld;

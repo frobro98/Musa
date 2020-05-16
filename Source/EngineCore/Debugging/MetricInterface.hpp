@@ -5,7 +5,7 @@
 #include <limits>
 #include <intrin.h>
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Time/CyclePerformance.hpp"

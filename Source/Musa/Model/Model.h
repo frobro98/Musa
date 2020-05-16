@@ -3,10 +3,10 @@
 #pragma once
 
 #include "Platform.h"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Malloc16Align.h"
 #include "Containers/DynamicArray.hpp"
-#include "Mesh/MeshSceneInfo.hpp"
+#include "Mesh/MeshRenderInfo.hpp"
 
 class Mesh;
 class Matrix4;

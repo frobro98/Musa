@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineCore/Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 
 
 // CPU version of a generic UniformBuffer type.

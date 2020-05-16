@@ -3,10 +3,10 @@
 #pragma once
 
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "EngineCore/MemoryUtilities.h"
 #include "Containers/StaticArray.hpp"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "ECS/ChunkArray.hpp"
 #include "ECS/ComponentType.hpp"
 #include "ECS/DLLDef.h"

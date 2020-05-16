@@ -158,6 +158,11 @@ struct Inputs
 
 		_INPUT_ENUM_MAX_ = 0x7FFFFFFF
 	};
+	// NOTE - These checks are one less than the total number of enums for each group tested
+	static_assert(Key_Z - Key_A == 25, "Looping through the alpha keys won't work!");
+	static_assert(Key_9 - Key_0 == 9, "Looping through the number keys won't work!");
+	static_assert(Key_Num9 - Key_Num0 == 9, "Looping through the numpad keys won't work!");
+	static_assert(Key_F12 - Key_F1 == 11, "Looping through the func keys won't work!");
 	static_assert(Max == Gamepad_RightStick_YAxis + 1);
 
 	enum State
@@ -171,30 +176,3 @@ struct Inputs
 	};
 };
 
-
-// TODO - Remove these operators
-// inline KeyboardState operator|=(KeyboardState& flag1, KeyboardState flag2)
-// {
-// 	flag1 = (KeyboardState)((uint32)flag1 | (uint32)flag2);
-// 	return flag1;
-// }
-// 
-// inline KeyStateFlags operator&(KeyStateFlags flag1, KeyStateFlags flag2)
-// {
-// 	return (KeyStateFlags)((uint32)flag1 & (uint32)flag2);
-// }
-// 
-// // inline uint32 operator|(KeyStateFlags flag1, KeyStateFlags flag2)
-// // {
-// // 	return (uint32)flag1 | (uint32)flag2;
-// // }
-// 
-// inline KeyStateFlags operator|(KeyStateFlags flag1, KeyStateFlags flag2)
-// {
-// 	return (KeyStateFlags)((uint32)flag1 | (uint32)flag2);
-// }
-// 
-// inline bool operator==(uint32 state, KeyInput flag)
-// {
-// 	return state == static_cast<uint32>(flag);
-// }

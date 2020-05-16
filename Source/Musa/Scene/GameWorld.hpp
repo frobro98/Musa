@@ -2,9 +2,8 @@
 
 #pragma once
 
-// TODO - Rename the "Types" folder to be "BasicTypes" which shows that the types in it are sort of intrinsic to Musa
-#include "Types/Intrinsics.hpp"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/Intrinsics.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Scene/ScreenView.hpp"
 #include "GameObject/GameObjectManager.h"
 #include "GameObject/RenderObjectManager.hpp"

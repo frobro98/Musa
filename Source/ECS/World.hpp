@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "Types/Intrinsics.hpp"
-#include "Types/Uncopyable.hpp"
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/Intrinsics.hpp"
+#include "BasicTypes/Uncopyable.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Algorithms.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"

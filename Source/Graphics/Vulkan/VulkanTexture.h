@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Vulkan/VulkanAbstractions.h"
 
 struct VulkanTexture : public NativeTexture

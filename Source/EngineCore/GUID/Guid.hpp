@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-#include "Types/Intrinsics.hpp"
+#include "BasicTypes/Intrinsics.hpp"
 #include "MemoryUtilities.h"
 #include "String/String.h"
 

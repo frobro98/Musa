@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Types/UniquePtr.hpp"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Scene/GameWorld.hpp"
 #include "Math/IntVector2.hpp"
 
