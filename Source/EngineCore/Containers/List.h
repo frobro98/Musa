@@ -3,9 +3,10 @@
 #pragma once
 
 #include "PlatformDefinitions.h"
+#include "CoreAPI.hpp"
 
 template <typename T>
-class List
+class CORE_TEMPLATE List
 {
 private:
 	struct ListNode

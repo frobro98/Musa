@@ -11,8 +11,9 @@
 #include "Shader/ShaderStructure.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
+#include "Shader/ShaderDll.hpp"
 
-class ShaderObject;
+class ShaderObjectBase;
 
 template <typename... Defines>
 using TypesAreStringPairs = typename std::enable_if_t<
@@ -26,15 +27,15 @@ static uint32 definitionCounter = 0;
 
 // Contains shader meta data and used to uniquely identify a shader
 // Similar to the component type
-struct ShaderDefinition final : private Uncopyable
+struct SHADER_API ShaderDefinition final : private Uncopyable
 {
-	using InitializeWithCompiledOutputFunc = ShaderObject* (&)(const ShaderCompiledOutput& compiledOutput);
+	using InitializeWithCompiledOutputFunc = ShaderObjectBase* (&)(const ShaderCompiledOutput& compiledOutput);
 
 	template <typename... ShaderDefs>
 	ShaderDefinition(ShaderStage stage, const tchar* relativeSourcePath, const tchar* entryPoint, InitializeWithCompiledOutputFunc shaderObjFunc, ShaderDefs... defines);
 
 	inline const ShaderCompilerDefinitions& GetCompilerDefines() const { return definitions; }
-	inline ShaderObject* GetCompiledShaderObject(const ShaderCompiledOutput& output) const { return compiledShaderFunc(output); }
+	inline ShaderObjectBase* GetCompiledShaderObject(const ShaderCompiledOutput& output) const { return compiledShaderFunc(output); }
 
 	friend uint32 GetHash(const ShaderDefinition* def)
 	{
@@ -62,14 +63,14 @@ private:
 	ShaderCompilerDefinitions definitions;
 };
 
-void InitializeShaders();
+SHADER_API void InitializeShaders();
 
 template <typename ShaderType>
-ShaderObject* GetShader()
+SHADER_TEMPLATE ShaderType*  GetShader()
 {
-	return GetAssociatedShader(ShaderType::Definition);
+	return (ShaderType*)GetAssociatedShader(ShaderType::Definition);
 }
-ShaderObject* GetAssociatedShader(const ShaderDefinition& definition);
+SHADER_API ShaderObjectBase* GetAssociatedShader(const ShaderDefinition& definition);
 
 const DynamicArray<ShaderDefinition*>& GetDefinitionList();
 

@@ -3,10 +3,11 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
+#include "Math/MathDll.hpp"
 
 struct Vector2;
 
-struct IntVector2
+struct MATH_API IntVector2
 {
 	int32 x = 0;
 	int32 y = 0;

@@ -7,6 +7,8 @@
 #include "Texture/ImageFormats.h"
 #include "Graphics/VertexInputDescription.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
+#include "Graphics/GraphicsDll.hpp"
+// TODO - Remove this shit
 #include "Shader/ShaderStructure.hpp"
 
 class VulkanDevice;
@@ -25,7 +27,8 @@ void CopyBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& buffe
 void CopyImage(VulkanCommandBuffer& cmdBuffer, const VulkanImage& srcImage, const VulkanImage& dstImage);
 
 // TODO - Move these into a vulkan format conversion file or something
-VkDescriptorType MusaConstantToDescriptorType(ShaderConstant constant);
+// TODO - Have these not be exported because it's unnecessary
+GRAPHICS_API VkDescriptorType MusaConstantToDescriptorType(ShaderConstant constant);
 VkFormat MusaFormatToVkFormat(ImageFormat format);
 VkImageAspectFlags MusaFormatToVkAspect(ImageFormat format);
 VkFormat MusaInputsToVk(VertexInputType type);
@@ -37,7 +40,7 @@ VkAttachmentLoadOp MusaLoadToVk(LoadOperation op);
 VkAttachmentStoreOp MusaStoreToVk(StoreOperation op);
 VkBlendOp MusaBlendOpToVk(BlendOperation op);
 VkBlendFactor MusaBlendFactorToVk(BlendFactor factor);
-VkShaderStageFlagBits MusaStageToVkStage(ShaderStage shaderStage);
+GRAPHICS_API VkShaderStageFlagBits MusaStageToVkStage(ShaderStage shaderStage);
 VkFilter MusaFilterToVkFilter(SamplerFilter filter);
 VkSamplerAddressMode MusaAddressModeToVkAddressMode(SamplerAddressMode addrMode);
 VkSamplerMipmapMode MusaMipModeToVkMipMode(SamplerMipmapMode mipMode);

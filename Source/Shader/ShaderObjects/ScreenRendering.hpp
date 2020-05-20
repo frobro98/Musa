@@ -2,13 +2,15 @@
 
 #pragma once
 
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 #include "Shader/ShaderDefinition.hpp"
+#include "Shader/ShaderDll.hpp"
 
-class ScreenRenderVert : public ShaderObject
+class SHADER_API ScreenRenderVert : public ShaderObject<NativeVertexShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new ScreenRenderVert(compiledOutput);
 	}
@@ -19,10 +21,10 @@ public:
 
 };
 
-class ScreenRenderFrag : public ShaderObject
+class SHADER_API ScreenRenderFrag : public ShaderObject<NativeFragmentShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new ScreenRenderFrag(compiledOutput);
 	}

@@ -15,8 +15,11 @@ WALL_WRN_POP
 #include "DirectoryLocations.h"
 #include "Assertion.h"
 #include "Path/Path.hpp"
+#include "Utilities/Hash.hpp"
+#include "Serialization/MemorySerializer.hpp"
 
-#include "fmt/format.h"
+#include "Graphics/Vulkan/VulkanShaderHeader.hpp"
+#include "Graphics/Vulkan/VulkanUtilities.h"
 
 namespace
 {
@@ -310,6 +313,10 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 				spirv.size() * sizeof(uint32), spirv.data(), &module);
 			Assert(spvResult == SPV_REFLECT_RESULT_SUCCESS);
 
+			VulkanShaderHeader shaderHeader;
+			shaderHeader.shaderStage = MusaStageToVkStage(inputs.shaderStage);
+			shaderHeader.entryPoint = entryPoint;
+			
 			output.compiledOutput.stage = inputs.shaderStage;
 			output.compiledOutput.shaderEntryPoint = entryPoint;
 
@@ -371,6 +378,29 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 					constant.bindingType = GetShaderConstantType(binding->descriptor_type);
 					constant.binding = binding->binding;
 					output.compiledOutput.bindingToConstants.Add(constant.binding, constant);
+
+					switch (constant.bindingType)
+					{
+						case ShaderConstantType::UniformBuffer:
+						case ShaderConstantType::StorageBuffer:
+						case ShaderConstantType::UniformDynamicBuffer:
+						case ShaderConstantType::StorageDynamicBuffer:
+						{
+							SpirvBuffer buffer;
+							buffer.bufferType = MusaConstantToDescriptorType(constant);
+							buffer.bindIndex = binding->binding;
+							shaderHeader.buffers.Add(buffer);
+						}break;
+						case ShaderConstantType::TextureSampler:
+						{
+							SpirvSampler sampler;
+							sampler.samplerType = MusaConstantToDescriptorType(constant);
+							sampler.bindIndex = binding->binding;
+							shaderHeader.samplers.Add(sampler);
+						}break;
+						default:
+							break;
+					}
 				}
 			}
 
@@ -378,8 +408,15 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 			// Shader code output
 			size_t compiledCodeSize = spirv.size() * sizeof(uint32);
-			output.compiledOutput.compiledCode.Resize((uint32)spirv.size());
-			Memcpy(output.compiledOutput.compiledCode.GetData(), compiledCodeSize, spirv.data(), compiledCodeSize);
+			DynamicArray<uint32> spirvBytecode((uint32)spirv.size());
+			Memcpy(spirvBytecode.GetData(), compiledCodeSize, spirv.data(), compiledCodeSize);
+			shaderHeader.bytecodeHash = fnv32(spirvBytecode.GetData(), spirvBytecode.SizeInBytes());
+
+			MemorySerializer memorySer(output.compiledOutput.shaderCode);
+			Serialize(memorySer, shaderHeader);
+			Serialize(memorySer, spirvBytecode);
+
+
 
 			SpvReadBuf buf;
 			std::ostream stream(&buf);

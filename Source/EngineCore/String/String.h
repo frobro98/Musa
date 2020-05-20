@@ -4,6 +4,7 @@
 
 #include "Platform.h"
 #include "Containers/DynamicArray.hpp"
+#include "CoreAPI.hpp"
 
 #include "fmt/format.h"
 
@@ -11,7 +12,7 @@ class SerializeBase;
 class DeserializeBase;
 
 // TODO - add functions to convert numbers to strings
-class String
+class CORE_API String
 {
 public:
 	String() = default;
@@ -80,39 +81,39 @@ public:
 	String& operator+=(const tchar* strObj);
 	String& operator+=(tchar c);
 
-	friend String operator+(const String& str0, const String& str1);
-	friend String operator+(const String& str0, const tchar* str1);
-	friend String operator+(const String& str, tchar c);
-	friend String operator+(const tchar* str0, const String& str1);
+	friend CORE_API String operator+(const String& str0, const String& str1);
+	friend CORE_API String operator+(const String& str0, const tchar* str1);
+	friend CORE_API String operator+(const String& str, tchar c);
+	friend CORE_API String operator+(const tchar* str0, const String& str1);
 
 private:
 	DynamicArray<tchar> stringData;
 
 public:
 	// Boolean operators
-	friend bool operator==(const String& left, const String& right);
-	friend bool operator!=(const String& left, const String& right);
-	friend bool operator>(const String& left, const String& right);
-	friend bool operator<(const String& left, const String& right);
-	friend bool operator>=(const String& left, const String& right);
-	friend bool operator<=(const String& left, const String& right);
+	friend CORE_API bool operator==(const String& left, const String& right);
+	friend CORE_API bool operator!=(const String& left, const String& right);
+	friend CORE_API bool operator>(const String& left, const String& right);
+	friend CORE_API bool operator<(const String& left, const String& right);
+	friend CORE_API bool operator>=(const String& left, const String& right);
+	friend CORE_API bool operator<=(const String& left, const String& right);
 
 	// C-String comparisons
-	friend bool operator==(const String& left, const tchar* right);
-	friend bool operator!=(const String& left, const tchar* right);
-	friend bool operator>(const String& left, const tchar* right);
-	friend bool operator<(const String& left, const tchar* right);
-	friend bool operator>=(const String& left, const tchar* right);
-	friend bool operator<=(const String& left, const tchar* right);
+	friend CORE_API bool operator==(const String& left, const tchar* right);
+	friend CORE_API bool operator!=(const String& left, const tchar* right);
+	friend CORE_API bool operator>(const String& left, const tchar* right);
+	friend CORE_API bool operator<(const String& left, const tchar* right);
+	friend CORE_API bool operator>=(const String& left, const tchar* right);
+	friend CORE_API bool operator<=(const String& left, const tchar* right);
 
-	friend bool operator==(const tchar* left, const String& right);
-	friend bool operator!=(const tchar* left, const String& right);
-	friend bool operator>(const tchar* left, const String& right);
-	friend bool operator<(const tchar* left, const String& right);
-	friend bool operator>=(const tchar* left, const String& right);
-	friend bool operator<=(const tchar* left, const String& right);
+	friend CORE_API bool operator==(const tchar* left, const String& right);
+	friend CORE_API bool operator!=(const tchar* left, const String& right);
+	friend CORE_API bool operator>(const tchar* left, const String& right);
+	friend CORE_API bool operator<(const tchar* left, const String& right);
+	friend CORE_API bool operator>=(const tchar* left, const String& right);
+	friend CORE_API bool operator<=(const tchar* left, const String& right);
 
-	friend uint32 GetHash(const String& str);
-	friend void Serialize(SerializeBase& ser, const String& str);
-	friend void Deserialize(DeserializeBase& ser, String& str);
+	friend CORE_API uint32 GetHash(const String& str);
+	friend CORE_API void Serialize(SerializeBase& ser, const String& str);
+	friend CORE_API void Deserialize(DeserializeBase& ser, String& str);
 };

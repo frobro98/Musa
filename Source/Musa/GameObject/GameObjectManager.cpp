@@ -1,7 +1,6 @@
 // Copyright 2020, Nathan Blane
 
 #include "GameObjectManager.h"
-#include "Scene/SceneRoot.h"
 
 #include "Scene/GameWorld.hpp"
 #include "Scene/Scene.hpp"

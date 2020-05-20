@@ -4,9 +4,6 @@
     <Filter Include="Source">
       <UniqueIdentifier>{835f2c2c-0732-42ed-820e-d0a0c17628aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Importers">
-      <UniqueIdentifier>{7dfa830f-636b-4071-9116-c00bfd54b329}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Texture2D">
       <UniqueIdentifier>{455fef02-d6d8-4d96-9a15-51abc392d2c8}</UniqueIdentifier>
     </Filter>
@@ -17,24 +14,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Texture\Texture2D\Texture.cpp">
       <Filter>Source\Texture2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Importers\TextureCompression.cpp">
-      <Filter>Source\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Importers\TGAImporter.cpp">
-      <Filter>Source\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Importers\JPEGImporter.cpp">
-      <Filter>Source\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Importers\PNGImporter.cpp">
-      <Filter>Source\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Importers\TextureImporter.cpp">
-      <Filter>Source\Importers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Texture\Importers\BMPImporter.cpp">
-      <Filter>Source\Importers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,31 +29,16 @@
     <ClInclude Include="..\..\Source\Texture\TextureChunk.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Importers\TextureCompression.h">
-      <Filter>Source\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Importers\TGAImporter.h">
-      <Filter>Source\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Importers\JPEGImporter.hpp">
-      <Filter>Source\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Importers\PNGImporter.hpp">
-      <Filter>Source\Importers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Importers\TextureImporter.hpp">
-      <Filter>Source\Importers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureUtilities.hpp">
       <Filter>Source\Texture2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\Importers\BMPImporter.hpp">
-      <Filter>Source\Importers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Texture\Texture2D\MipmapLevel.hpp">
       <Filter>Source\Texture2D</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Texture\TextureSampleSettings.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Texture\TextureDll.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

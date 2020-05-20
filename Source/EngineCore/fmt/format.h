@@ -34,6 +34,7 @@
 #define FMT_FORMAT_H_
 
 #include "core.h"
+#include "CoreAPI.hpp"
 
 #include <algorithm>
 #include <cerrno>
@@ -701,7 +702,7 @@ using wmemory_buffer = basic_memory_buffer<wchar_t>;
 
 /** A formatting error such as invalid format string. */
 FMT_CLASS_API
-class FMT_API format_error : public std::runtime_error {
+class CORE_API format_error : public std::runtime_error {
  public:
   explicit format_error(const char* message) : std::runtime_error(message) {}
   explicit format_error(const std::string& message)
@@ -735,18 +736,18 @@ using uint32_or_64_or_128_t = conditional_t<
 
 // Static data is placed in this class template for the header-only config.
 template <typename T = void> struct FMT_EXTERN_TEMPLATE_API basic_data {
-  static const uint64_t powers_of_10_64[];
-  static const uint32_t zero_or_powers_of_10_32[];
-  static const uint64_t zero_or_powers_of_10_64[];
-  static const uint64_t pow10_significands[];
-  static const int16_t pow10_exponents[];
-  static const char digits[];
-  static const char hex_digits[];
-  static const char foreground_color[];
-  static const char background_color[];
-  static const char reset_color[5];
-  static const wchar_t wreset_color[5];
-  static const char signs[];
+  CORE_API static const uint64_t powers_of_10_64[];
+  CORE_API static const uint32_t zero_or_powers_of_10_32[];
+  CORE_API static const uint64_t zero_or_powers_of_10_64[];
+  CORE_API static const uint64_t pow10_significands[];
+  CORE_API static const int16_t pow10_exponents[];
+  CORE_API static const char digits[];
+  CORE_API static const char hex_digits[];
+  CORE_API static const char foreground_color[];
+  CORE_API static const char background_color[];
+  CORE_API static const char reset_color[5];
+  CORE_API static const wchar_t wreset_color[5];
+  CORE_API static const char signs[];
 };
 
 FMT_EXTERN template struct basic_data<void>;
@@ -823,7 +824,7 @@ inline int count_digits(uint32_t n) {
 }
 #endif
 
-template <typename Char> FMT_API std::string grouping_impl(locale_ref loc);
+template <typename Char> CORE_API std::string grouping_impl(locale_ref loc);
 template <typename Char> inline std::string grouping(locale_ref loc) {
   return grouping_impl<char>(loc);
 }
@@ -831,7 +832,7 @@ template <> inline std::string grouping<wchar_t>(locale_ref loc) {
   return grouping_impl<wchar_t>(loc);
 }
 
-template <typename Char> FMT_API Char thousands_sep_impl(locale_ref loc);
+template <typename Char> CORE_API Char thousands_sep_impl(locale_ref loc);
 template <typename Char> inline Char thousands_sep(locale_ref loc) {
   return Char(thousands_sep_impl<char>(loc));
 }
@@ -839,7 +840,7 @@ template <> inline wchar_t thousands_sep(locale_ref loc) {
   return thousands_sep_impl<wchar_t>(loc);
 }
 
-template <typename Char> FMT_API Char decimal_point_impl(locale_ref loc);
+template <typename Char> CORE_API Char decimal_point_impl(locale_ref loc);
 template <typename Char> inline Char decimal_point(locale_ref loc) {
   return Char(decimal_point_impl<char>(loc));
 }
@@ -950,7 +951,7 @@ class utf8_to_utf16 {
   wmemory_buffer buffer_;
 
  public:
-  FMT_API explicit utf8_to_utf16(string_view s);
+  CORE_API explicit utf8_to_utf16(string_view s);
   operator wstring_view() const { return {&buffer_[0], size()}; }
   size_t size() const { return buffer_.size() - 1; }
   const wchar_t* c_str() const { return &buffer_[0]; }
@@ -2635,10 +2636,10 @@ void handle_dynamic_spec(int& value, arg_ref<typename Context::char_type> ref,
 
 using format_func = void (*)(internal::buffer<char>&, int, string_view);
 
-FMT_API void format_error_code(buffer<char>& out, int error_code,
+CORE_API void format_error_code(buffer<char>& out, int error_code,
                                string_view message) FMT_NOEXCEPT;
 
-FMT_API void report_error(format_func func, int error_code,
+CORE_API void report_error(format_func func, int error_code,
                           string_view message) FMT_NOEXCEPT;
 }  // namespace internal
 
@@ -2693,7 +2694,7 @@ class arg_formatter : public internal::arg_formatter_base<Range> {
  for example a file opening error.
 */
 FMT_CLASS_API
-class FMT_API system_error : public std::runtime_error {
+class CORE_API system_error : public std::runtime_error {
  private:
   void init(int err_code, string_view format_str, format_args args);
 
@@ -2751,12 +2752,12 @@ class FMT_API system_error : public std::runtime_error {
   may look like "Unknown error -1" and is platform-dependent.
   \endrst
  */
-FMT_API void format_system_error(internal::buffer<char>& out, int error_code,
+CORE_API void format_system_error(internal::buffer<char>& out, int error_code,
                                  string_view message) FMT_NOEXCEPT;
 
 // Reports a system error without throwing an exception.
 // Can be used to report errors from destructors.
-FMT_API void report_system_error(int error_code,
+CORE_API void report_system_error(int error_code,
                                  string_view message) FMT_NOEXCEPT;
 
 /** Fast integer formatter. */

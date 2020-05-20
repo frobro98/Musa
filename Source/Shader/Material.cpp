@@ -17,7 +17,7 @@ Material::Material()
 	ConfigureMaterialInfo();
 }
 
-Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const char* textureName, const Color32& color)
+Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const char* textureName, const Color32& color)
 	: diffuseColor(color),
 	vertexShader(&vertShader),
 	fragmentShader(&fragShader)
@@ -36,7 +36,7 @@ Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const
     ConfigureMaterialInfo();
 }
 
-Material::Material(ShaderResource& vertShader, ShaderResource& fragShader, const Texture* tex, const Color32& color)
+Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const Texture* tex, const Color32& color)
 	: diffuseColor(color),
 	vertexShader(&vertShader),
 	fragmentShader(&fragShader)

@@ -3,10 +3,11 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
+#include "Shader/ShaderDll.hpp"
 
 struct ShaderCompilerDefinitions;
 struct ShaderStructure;
 struct PreprocessedShaderOutput;
 
-bool Preprocess(const tchar* pathToShader, const ShaderCompilerDefinitions& inputs, PreprocessedShaderOutput& output);
-bool Compile(const tchar* pathToShader, const char* entryPoint, const ShaderCompilerDefinitions& inputs, ShaderStructure& outputs);
+bool SHADER_API Preprocess(const tchar* pathToShader, const ShaderCompilerDefinitions& inputs, PreprocessedShaderOutput& output);
+bool SHADER_API Compile(const tchar* pathToShader, const char* entryPoint, const ShaderCompilerDefinitions& inputs, ShaderStructure& outputs);

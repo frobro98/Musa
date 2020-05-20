@@ -237,7 +237,7 @@ void BatchCollection::BatchWireCircle(const BatchedCircleDescription& circleDesc
 	}
 }
 
-void BatchCollection::RenderBatches(RenderContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture)
+void BatchCollection::RenderBatches(RenderContext& renderer, const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture)
 {
 	RenderLineBatches(renderer, vertShader, fragShader, viewBuffer, texture);
 	RenderTriangleBatches(renderer, vertShader, fragShader, viewBuffer, texture);
@@ -246,7 +246,7 @@ void BatchCollection::RenderBatches(RenderContext& renderer, const ShaderResourc
 	batchedTris.Clear();
 }
 
-void BatchCollection::RenderLineBatches(RenderContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
+void BatchCollection::RenderLineBatches(RenderContext& renderer, const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
 {
 	if (HasLineBatches())
 	{
@@ -268,7 +268,7 @@ void BatchCollection::RenderLineBatches(RenderContext& renderer, const ShaderRes
 	}
 }
 
-void BatchCollection::RenderTriangleBatches(RenderContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
+void BatchCollection::RenderTriangleBatches(RenderContext& renderer, const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const
 {
 	if (HasTriangleBatches())
 	{

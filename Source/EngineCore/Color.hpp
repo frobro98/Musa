@@ -3,8 +3,9 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
+#include "CoreAPI.hpp"
 
-struct Color
+struct CORE_API Color
 {
 	constexpr Color() = default;
 	constexpr Color(uint8 red, uint8 green, uint8 blue)
@@ -72,7 +73,7 @@ struct Color
 	}
 };
 
-struct Color32
+struct CORE_API Color32
 {
 	constexpr Color32() = default;
 	constexpr Color32(float red, float green, float blue)
@@ -140,5 +141,5 @@ struct Color32
 	}
 };
 
-Color32 NormalizeColor(const Color& color);
-Color	UnnormalizeColor(const Color32& color);
+CORE_API Color32 NormalizeColor(const Color& color);
+CORE_API Color	UnnormalizeColor(const Color32& color);

@@ -22,20 +22,20 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -58,18 +58,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.dll</TargetExt>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.dll</TargetExt>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.dll</TargetExt>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -84,7 +84,8 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4307</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4307;4251</DisableSpecificWarnings>
+      <PreprocessorDefinitions>GRAPHICS_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
@@ -92,9 +93,14 @@
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>EngineCore_d.lib;File_d.lib;Math_d.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -109,11 +115,14 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4307</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4307;4251</DisableSpecificWarnings>
+      <PreprocessorDefinitions>GRAPHICS_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>EngineCore.lib;File.lib;Math.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
@@ -121,8 +130,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -138,11 +148,14 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4307</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4307;4251</DisableSpecificWarnings>
+      <PreprocessorDefinitions>GRAPHICS_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>EngineCore.lib;File.lib;Math.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
@@ -150,12 +163,14 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Graphics\BatchCollection.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\GraphicsDll.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
@@ -197,7 +212,8 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanSampler.hpp" />
-    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShader.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShaders.h" />
+    <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShaderHeader.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShaderManager.h" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanStagingBufferManager.hpp" />
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanStorageBuffer.h" />
@@ -239,7 +255,7 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderPass.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanRenderState.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanSampler.cpp" />
-    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShader.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShaders.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShaderManager.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanStagingBufferManager.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanStorageBuffer.cpp" />

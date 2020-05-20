@@ -4,8 +4,9 @@
 
 #include "Platform.h"
 #include "ChunkHeader.h"
+#include "Archiver/ArchiverDll.hpp"
 
-bool ProcessPackage(
+ARCHIVE_API bool ProcessPackage(
 	const char * const filePath,
 	Chunk type,
 	const char * const chunkName,

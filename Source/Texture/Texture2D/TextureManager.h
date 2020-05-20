@@ -9,11 +9,12 @@
 #include "Path/Path.hpp"
 #include "Texture/TextureChunk.h"
 #include "Texture/ImageFormats.h"
+#include "Texture/TextureDll.hpp"
 
 struct Texture;
 class MemoryBuffer;
 
-class TextureManager
+class TEX_API TextureManager
 {
 public:
 	static constexpr const char* DefaultFileName = "default.tex";
@@ -28,18 +29,18 @@ public:
 	void UnloadTexture(const char* textureName);
 	Texture* FindTexture(const char* textureName);
 
-	Texture* CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* textureName, ImageFormat format);
-	Texture* CompressTextureData(MemoryBuffer& textureData, const char* textureName);
+	//Texture* CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* textureName, ImageFormat format);
+	//Texture* CompressTextureData(MemoryBuffer& textureData, const char* textureName);
 
 	// TODO - This is to get around the problem of global texture not having gpu resources...need to fix this issue somehow
 	void AddTexture(Texture& tex);
 
 private:
-	Texture* Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format);
+	//Texture* Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format);
 	void ConfigureNativeTexture(Texture& texture);
 
 private:
 	DynamicArray<Texture*> texturesLoaded;
 };
 
-TextureManager& GetTextureManager();
+TEX_API TextureManager& GetTextureManager();

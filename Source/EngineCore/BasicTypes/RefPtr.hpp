@@ -3,8 +3,9 @@
 #pragma once
 
 #include "BasicTypes/ConcurrentTypes.hpp"
+#include "CoreAPI.hpp"
 
-class Counter
+class CORE_API Counter
 {
 public:
 	void Increment();

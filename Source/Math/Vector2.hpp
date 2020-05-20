@@ -4,11 +4,12 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Math/MathConstants.hpp"
+#include "Math/MathDll.hpp"
 
 struct Vector3;
 struct Vector4;
 
-struct Vector2
+struct MATH_API Vector2
 {
 	static const Vector2 RightAxis;
 	static const Vector2 UpAxis;
@@ -52,37 +53,37 @@ public:
 
 	Vector2& operator*=(float32 s);
 	Vector2 operator*(float32 s) const;
-	friend Vector2 operator*(float32 s, const Vector2 & vec);
+	friend MATH_API Vector2 operator*(float32 s, const Vector2 & vec);
 
-	friend bool operator==(const Vector2& lhs, const Vector2& rhs)
+	friend MATH_API bool operator==(const Vector2& lhs, const Vector2& rhs)
 	{
 		return lhs.IsEqual(rhs);
 	}
 
-	friend bool operator!=(const Vector2& lhs, const Vector2& rhs)
+	friend MATH_API bool operator!=(const Vector2& lhs, const Vector2& rhs)
 	{
 		return !lhs.IsEqual(rhs);
 	}
 
-	friend bool operator>(const Vector2& lhs, const Vector2& rhs)
+	friend MATH_API bool operator>(const Vector2& lhs, const Vector2& rhs)
 	{
 		return lhs.x > rhs.x
 			&& lhs.y > rhs.y;
 	}
 
-	friend bool operator>=(const Vector2& lhs, const Vector2& rhs)
+	friend MATH_API bool operator>=(const Vector2& lhs, const Vector2& rhs)
 	{
 		return lhs.x >= rhs.x
 			&& lhs.y >= rhs.y;
 	}
 
-	friend bool operator<(const Vector2& lhs, const Vector2& rhs)
+	friend MATH_API bool operator<(const Vector2& lhs, const Vector2& rhs)
 	{
 		return lhs.x < rhs.x
 			&& lhs.y < rhs.y;
 	}
 
-	friend bool operator<=(const Vector2& lhs, const Vector2& rhs)
+	friend MATH_API bool operator<=(const Vector2& lhs, const Vector2& rhs)
 	{
 		return lhs.x <= rhs.x
 			&& lhs.y <= rhs.y;

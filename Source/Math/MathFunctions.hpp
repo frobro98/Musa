@@ -7,6 +7,7 @@
 #include "CoreFlags.hpp"
 #include "Math/MathConstants.hpp"
 #include "Math/BitManipulation.hpp"
+#include "Math/MathDll.hpp"
 
 namespace Math
 {
@@ -203,7 +204,7 @@ forceinline float64 Modf(float64 val, float64& i)
 	return val - i;
 }
 
-float32 Fmod(float32 x, float32 y);
+MATH_API float32 Fmod(float32 x, float32 y);
 
 template <typename LerpType>
 forceinline LerpType Lerp(const LerpType& a, const LerpType& b, float32 t)

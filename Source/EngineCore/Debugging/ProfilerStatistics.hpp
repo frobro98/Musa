@@ -5,6 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/StaticArray.hpp"
+#include "CoreAPI.hpp"
 
 struct ProfileMetric
 {
@@ -27,7 +28,7 @@ struct ProfiledFrameMark
 	DynamicArray<ProfileMetric> frameMetrics;
 };
 
-class ProfilerStatistics
+class CORE_API ProfilerStatistics
 {
 public:
 	// Go to the next frame of data
@@ -42,4 +43,4 @@ private:
 	uint32 currentFrameIndex = 0;
 };
 
-ProfilerStatistics& GetProfilingStatistics();
+CORE_API ProfilerStatistics& GetProfilingStatistics();

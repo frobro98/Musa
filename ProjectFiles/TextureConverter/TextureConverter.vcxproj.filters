@@ -7,6 +7,9 @@
     <Filter Include="Source\Converter">
       <UniqueIdentifier>{959937e1-b596-4692-98d7-d8ed352f25ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Importers">
+      <UniqueIdentifier>{56bc233b-9d29-4d15-b365-577022d022f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Tools\TextureConverter\TextureConverterEntry.cpp">
@@ -21,6 +24,24 @@
     <ClCompile Include="..\..\Source\Tools\TextureConverter\FastFourierTransform.cpp">
       <Filter>Source\Converter</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\Importers\PNGImporter.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\Importers\TextureCompression.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\Importers\TextureImporter.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\Importers\TGAImporter.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\Importers\BMPImporter.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\TextureConverter\Importers\JPEGImporter.cpp">
+      <Filter>Source\Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Tools\TextureConverter\TextureProcessing.hpp">
@@ -31,6 +52,24 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Tools\TextureConverter\FastFourierTransform.hpp">
       <Filter>Source\Converter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\Importers\PNGImporter.hpp">
+      <Filter>Source\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\Importers\TextureCompression.h">
+      <Filter>Source\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\Importers\TextureImporter.hpp">
+      <Filter>Source\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\Importers\TGAImporter.h">
+      <Filter>Source\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\Importers\BMPImporter.hpp">
+      <Filter>Source\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\TextureConverter\Importers\JPEGImporter.hpp">
+      <Filter>Source\Importers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

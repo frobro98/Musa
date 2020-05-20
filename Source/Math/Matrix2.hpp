@@ -4,17 +4,18 @@
 
 #include "Math/Vector2.hpp"
 #include "Math/MathDefinitions.hpp"
+#include "Math/MathDll.hpp"
 
 struct Quat2;
 
-class Matrix2
+class MATH_API Matrix2
 {
 public:
 	static const Matrix2 Identity;
 	static const Matrix2 Zero;
 
 public:
-	Matrix2();
+	Matrix2() = default;
 	explicit Matrix2(const Vector2& row0, const Vector2& row1);
 	explicit Matrix2(float angle);
 	//explicit Matrix2(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
@@ -22,12 +23,6 @@ public:
 	explicit Matrix2(MatrixScaleType, const Vector2& scaleVec);
 	explicit Matrix2(MatrixScaleType, float sx, float sy);
 	Matrix2(const Quat2& q);
-
-	Matrix2(const Matrix2& other);
-	Matrix2(Matrix2&& other) noexcept;
-
-	Matrix2& operator=(const Matrix2& m);
-	Matrix2& operator=(Matrix2&& m) noexcept;
 
 	// Setting specific matrix types
 	void Set(float angle);
@@ -65,9 +60,9 @@ public:
 	Matrix2 operator*=(const Matrix2& m);
 	Matrix2& operator*=(float s);
 
-	friend Vector4 operator*(const Vector4& v, const Matrix2& m);
-	friend Matrix2 operator*(float s, const Matrix2& m);
-	friend Vector4& operator*=(Vector4& v, const Matrix2& m);
+	friend MATH_API Vector2 operator*(const Vector2& v, const Matrix2& m);
+	friend MATH_API Matrix2 operator*(float s, const Matrix2& m);
+	friend MATH_API Vector2& operator*=(Vector2& v, const Matrix2& m);
 
 	// Unary operators
 	Matrix2 operator+() const;
@@ -101,22 +96,7 @@ public:
 
 
 private:
-
-	union
-	{
-		struct
-		{
-			Vector2 v0;
-			Vector2 v1;
-		};
-
-		struct
-		{
-			float _m0;
-			float _m1;
-			float _m2;
-			float _m3;
-		};
-	};
+	Vector2 v0;
+	Vector2 v1;
 };
 

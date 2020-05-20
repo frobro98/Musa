@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Matrix4.hpp"
+#include "Math/MathDll.hpp"
 
 //------------------------------------------------------------------------
 // 
@@ -18,7 +19,7 @@
 // 
 //------------------------------------------------------------------------
 
-struct Quat final
+struct MATH_API Quat final
 {
 	static const Quat Identity;
 	static const Quat Zero;
@@ -97,35 +98,35 @@ public:
 	Quat operator*(const Quat& q) const;
 	Quat operator/(const Quat& q) const;
 
-	friend Matrix4& operator*=(Matrix4& m, const Quat& q);
-	friend Quat& operator*=(Quat& q, const Matrix4& m_);
-	friend Matrix4 operator*(const Matrix4& m, const Quat& q);
-	friend Matrix4 operator*(const Quat& q, const Matrix4& m_);
+	friend MATH_API Matrix4& operator*=(Matrix4& m, const Quat& q);
+	friend MATH_API Quat& operator*=(Quat& q, const Matrix4& m_);
+	friend MATH_API Matrix4 operator*(const Matrix4& m, const Quat& q);
+	friend MATH_API Matrix4 operator*(const Quat& q, const Matrix4& m_);
 
-	friend Vector4& operator*=(Vector4& v, const Quat& q);
-	friend Vector4 operator*(const Vector4& v, const Quat& q);
-	friend Vector4 operator*(const Quat& q, const Vector4& v);
+	friend MATH_API Vector4& operator*=(Vector4& v, const Quat& q);
+	friend MATH_API Vector4 operator*(const Vector4& v, const Quat& q);
+	friend MATH_API Vector4 operator*(const Quat& q, const Vector4& v);
 
-	friend Quat& operator+=(Quat& q, float val);
-	friend Quat& operator-=(Quat& q, float val);
-	friend Quat& operator*=(Quat& q, float val);
-	friend Quat& operator/=(Quat& q, float val);
+	friend MATH_API Quat& operator+=(Quat& q, float val);
+	friend MATH_API Quat& operator-=(Quat& q, float val);
+	friend MATH_API Quat& operator*=(Quat& q, float val);
+	friend MATH_API Quat& operator/=(Quat& q, float val);
 
-	friend Quat operator+(const Quat& q, float val);
-	friend Quat operator+(float val, const Quat& q);
-	friend Quat operator-(const Quat& q, float val);
-	friend Quat operator-(float val, const Quat& q);
-	friend Quat operator*(const Quat& q, float val);
-	friend Quat operator*(float val, const Quat& q);
-	friend Quat operator/(const Quat& q, float val);
-	friend Quat operator/(float val, const Quat& q);
+	friend MATH_API Quat operator+(const Quat& q, float val);
+	friend MATH_API Quat operator+(float val, const Quat& q);
+	friend MATH_API Quat operator-(const Quat& q, float val);
+	friend MATH_API Quat operator-(float val, const Quat& q);
+	friend MATH_API Quat operator*(const Quat& q, float val);
+	friend MATH_API Quat operator*(float val, const Quat& q);
+	friend MATH_API Quat operator/(const Quat& q, float val);
+	friend MATH_API Quat operator/(float val, const Quat& q);
 
-	friend bool operator==(const Quat& lhs, const Quat& rhs)
+	friend MATH_API bool operator==(const Quat& lhs, const Quat& rhs)
 	{
 		return lhs.IsEqual(rhs);
 	}
 
-	friend bool operator!=(const Quat& lhs, const Quat& rhs)
+	friend MATH_API bool operator!=(const Quat& lhs, const Quat& rhs)
 	{
 		return !lhs.IsEqual(rhs);
 	}

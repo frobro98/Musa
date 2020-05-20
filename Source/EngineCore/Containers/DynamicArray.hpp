@@ -8,9 +8,10 @@
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
 #include "Utilities/TemplateUtils.hpp"
+#include "CoreAPI.hpp"
 
 template<class Type>
-class DynamicArray
+class CORE_TEMPLATE DynamicArray
 {
 	using valueType = Type;
 	using pointerType = Type*;

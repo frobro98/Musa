@@ -6,9 +6,10 @@
 #include "Color.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Mesh/GeometryPrimitives.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Graphics/GraphicsDll.hpp"
 
 class RenderContext;
-struct ShaderResource;
 struct NativeUniformBuffer;
 struct NativeTexture;
 
@@ -45,7 +46,7 @@ struct BatchedCircleDescription
 	float numSegments;
 };
 
-class BatchCollection
+class GRAPHICS_API BatchCollection
 {
 public:
 	void BatchLine(const BatchedLineDescription& lineDesc);
@@ -60,14 +61,14 @@ public:
 	void BatchWireCircle(const BatchedCircleDescription& circleDesc);
 	
 	// TODO - Graphics pipeline will currently be set in this function. There isn't really a way for customization for depthstencil, blending, etc. This would be a good thing to investigate
-	void RenderBatches(RenderContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture);
+	void RenderBatches(RenderContext& renderer, const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture);
 
 	inline bool HasLineBatches() const { return !batchedLines.IsEmpty(); }
 	inline bool HasTriangleBatches() const { return !batchedTris.IsEmpty(); }
 
 private:
-	void RenderLineBatches(RenderContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
-	void RenderTriangleBatches(RenderContext& renderer, const ShaderResource& vertShader, const ShaderResource& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
+	void RenderLineBatches(RenderContext& renderer, const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
+	void RenderTriangleBatches(RenderContext& renderer, const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader, const NativeUniformBuffer& viewBuffer, const NativeTexture& texture) const;
 
 private:
 	struct PrimitiveTriangle

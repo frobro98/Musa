@@ -2,6 +2,11 @@
 
 #include "MemorySerializer.hpp"
 
+MemorySerializer::MemorySerializer(MemoryBuffer& memory)
+	: memoryData(memory)
+{
+}
+
 void MemorySerializer::SerializeData(const void* data, size_t dataSize)
 {
 	memoryData.Add(data, dataSize);

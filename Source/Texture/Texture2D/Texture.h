@@ -9,12 +9,13 @@
 #include "Texture/ImageFormats.h"
 #include "Texture/Texture2D/MipmapLevel.hpp"
 #include "Texture/TextureSampleSettings.hpp"
+#include "Texture/TextureDll.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class SerializeBase;
 class DeserializeBase;
 
-struct Texture
+struct TEX_API Texture
 {
 	Texture() = default;
 	Texture(uint8 r, uint8 g, uint8 b, uint8 a);
@@ -36,11 +37,11 @@ struct Texture
 
 ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels);
 
-void Serialize(SerializeBase& ser, const MipmapLevel& level);
-void Deserialize(DeserializeBase& ser, MipmapLevel& level);
+TEX_API void Serialize(SerializeBase& ser, const MipmapLevel& level);
+TEX_API void Deserialize(DeserializeBase& ser, MipmapLevel& level);
 
-void Serialize(SerializeBase& ser, const Texture& tex);
-void Deserialize(DeserializeBase& ser, Texture& tex);
+TEX_API void Serialize(SerializeBase& ser, const Texture& tex);
+TEX_API void Deserialize(DeserializeBase& ser, Texture& tex);
 
-Texture* WhiteTexture();
-Texture* BlackTexture();
+TEX_API Texture* WhiteTexture();
+TEX_API Texture* BlackTexture();

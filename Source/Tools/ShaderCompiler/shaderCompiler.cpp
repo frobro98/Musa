@@ -4,11 +4,11 @@
 
 #include "Path/Path.hpp"
 #include "String/CStringUtilities.hpp"
-#include "FileCore/File.h"
+#include "File/FileCore/File.h"
 
-#include "ShaderCompiler.h"
-#include "ShaderStructure.hpp"
-#include "ShaderStages.hpp"
+#include "Shader/ShaderCompiler.h"
+#include "Shader/ShaderStructure.hpp"
+#include "Shader/ShaderStages.hpp"
 
 constexpr const char* helpString =
 "##-- Shader Compiler --##                                                        \n"
@@ -93,7 +93,7 @@ static void SaveSPVInformation(const Path& outputShaderFile, const ShaderStructu
 	File::Result result = File::Open(h, outputShaderFile.GetString(), File::Mode::WRITE);
 	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to open file %s\n", outputShaderFile.GetString());
 
-	result = File::Write(h, shaderInfo.compiledOutput.compiledCode.GetData(), sizeof(uint32) * shaderInfo.compiledOutput.compiledCode.Size());
+	result = File::Write(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(uint32) * (uint32)shaderInfo.compiledOutput.shaderCode.Size());
 	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to write file %s\n", outputShaderFile.GetString());
 
 	result = File::Close(h);

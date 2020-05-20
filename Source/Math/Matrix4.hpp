@@ -4,10 +4,11 @@
 
 #include "Math/Vector4.hpp"
 #include "Math/MathDefinitions.hpp"
+#include "Math/MathDll.hpp"
 
 struct Quat;
 
-class Matrix4
+class MATH_API Matrix4
 {
 public:
 	Matrix4();
@@ -71,16 +72,16 @@ public:
 	Matrix4& operator*=(const Matrix4& m);
 	Matrix4& operator*=(float s);
 
-	friend Vector4 operator*(const Vector4& v, const Matrix4& m);
-	friend Matrix4 operator*(float32 s, const Matrix4& m);
-	friend Vector4& operator*=(Vector4& v, const Matrix4& m);
+	friend MATH_API Vector4 operator*(const Vector4& v, const Matrix4& m);
+	friend MATH_API Matrix4 operator*(float32 s, const Matrix4& m);
+	friend MATH_API Vector4& operator*=(Vector4& v, const Matrix4& m);
 
-	friend bool operator==(const Matrix4& lhs, const Matrix4& rhs)
+	friend MATH_API bool operator==(const Matrix4& lhs, const Matrix4& rhs)
 	{
 		return lhs.IsEqual(rhs);
 	}
 	
-	friend bool operator!=(const Matrix4& lhs, const Matrix4& rhs)
+	friend MATH_API bool operator!=(const Matrix4& lhs, const Matrix4& rhs)
 	{
 		return !lhs.IsEqual(rhs);
 	}

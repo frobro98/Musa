@@ -1,6 +1,8 @@
 // Copyright 2020, Nathan Blane
 
 #include "MathFunctions.hpp"
+#include "Math/MathDll.hpp"
+
 
 namespace Math
 {

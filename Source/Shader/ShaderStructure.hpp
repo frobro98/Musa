@@ -4,10 +4,11 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "ShaderStages.hpp"
-#include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 #include "Containers/Map.h"
 #include "String/String.h"
 
+// TODO - Move this into the Graphics dll
 enum class ShaderConstantType
 {
 	UniformBuffer,
@@ -50,8 +51,6 @@ struct ShaderCompilerDefinitions
 	Map<String, String> definitions;
 	// Stage
 	ShaderStage shaderStage;
-
-	uint32 pad[1] = { 0 };
 };
 
 struct PreprocessedShaderOutput
@@ -69,7 +68,6 @@ struct ShaderDebugInfo
 using ShaderInputByLocation = Map<uint32, ShaderVariable>;
 using ShaderOutputByLocation = Map<uint32, ShaderVariable>;
 using ShaderConstantByBinding = Map<uint32, ShaderConstant>;
-using VulkanByteCode = DynamicArray<uint32>;
 
 struct ShaderCompiledOutput
 {
@@ -77,10 +75,10 @@ struct ShaderCompiledOutput
 	ShaderOutputByLocation locationToOutputs;
 
 	ShaderConstantByBinding bindingToConstants;
-	VulkanByteCode compiledCode;
+	MemoryBuffer shaderCode;
 	const tchar* shaderEntryPoint;
+	
 	ShaderStage stage;
-	uint32 pad[1] = { 0 };
 };
 
 struct ShaderStructure

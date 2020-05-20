@@ -10,6 +10,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Time/CyclePerformance.hpp"
 #include "Utilities/MacroHelpers.hpp"
+#include "CoreAPI.hpp"
 
 enum class MetricType : uint32
 {
@@ -33,7 +34,7 @@ struct MetricEvent
 
 constexpr uint64 MetricTableEntryCount = std::numeric_limits<uint16>::max();
 
-class MetricTable
+class CORE_API MetricTable
 {
 public:
 	using TableEntries = DynamicArray<MetricEvent>;
@@ -49,7 +50,7 @@ private:
 	uint32 currentTableIndex = 0;
 };
 
-MetricTable& GetMetricTable();
+CORE_API MetricTable& GetMetricTable();
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -59,23 +60,23 @@ using MetricID = uint32;
 
 namespace Musa::Internal
 {
-	class MetricGroupCounter
-	{
-	public:
-		static uint32 GetNewMetricID() { return counter++; }
+class CORE_API MetricGroupCounter
+{
+public:
+	static uint32 GetNewMetricID() { return counter++; }
 
-	private:
-		static uint32 counter;
-	};
+private:
+	static uint32 counter;
+};
 
-	class MetricCounter
-	{
-	public:
-		static uint32 GetNewMetricID() { return counter++; }
+class CORE_API MetricCounter
+{
+public:
+	static uint32 GetNewMetricID() { return counter++; }
 
-	private:
-		static uint32 counter;
-	};
+private:
+	static uint32 counter;
+};
 }
 
 #define METRIC_NAME(Name) metric_##Name
@@ -137,7 +138,7 @@ forceinline void EndTimedBlock(uint32 id)
 #define END_TIMED_BLOCK(Name) \
 	EndTimedBlock(METRIC_NAME(Name).GetID());
 
-class ScopedTimeMetric
+class CORE_API ScopedTimeMetric
 {
 public:
 	ScopedTimeMetric(const char* name, uint32 id_, const tchar* filename, uint32 lineNumber)

@@ -7,10 +7,11 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "MemoryUtilities.h"
 #include "String/String.h"
+#include "CoreAPI.hpp"
 
 constexpr uint32 GuidSize = 16;
 
-class Guid
+class CORE_API Guid
 {
 public:
 	Guid();

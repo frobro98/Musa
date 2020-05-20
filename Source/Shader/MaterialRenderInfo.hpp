@@ -6,20 +6,21 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Shader/ShaderDll.hpp"
 
 class Material;
-struct ShaderResource;
+struct NativeVertexShader;
+struct NativeFragmentShader;
 
-struct MaterialRenderInfo
+struct SHADER_API MaterialRenderInfo
 {
 	Color32 baseColor = Color32::White();
 	UniquePtr<NativeUniformBuffer> materialProperties;
 	NativeTexture* baseTexture = nullptr;
 	NativeTexture* normalMap = nullptr;
-	ShaderResource* vertexShader = nullptr;
-	ShaderResource* fragmentShader = nullptr;
+	NativeVertexShader* vertexShader = nullptr;
+	NativeFragmentShader* fragmentShader = nullptr;
 	ShadingModel shadingModel = ShadingModel::Lit;
-	uint32 pad[1] = { 0 };
 
 	void UpdateRenderMaterial(const Material& material);
 };

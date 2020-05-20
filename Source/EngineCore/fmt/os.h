@@ -150,7 +150,7 @@ class utf16_to_utf8 {
 
  public:
   utf16_to_utf8() {}
-  FMT_API explicit utf16_to_utf8(wstring_view s);
+  CORE_API explicit utf16_to_utf8(wstring_view s);
   operator string_view() const { return string_view(&buffer_[0], size()); }
   size_t size() const { return buffer_.size() - 1; }
   const char* c_str() const { return &buffer_[0]; }
@@ -159,17 +159,17 @@ class utf16_to_utf8 {
   // Performs conversion returning a system error code instead of
   // throwing exception on conversion error. This method may still throw
   // in case of memory allocation error.
-  FMT_API int convert(wstring_view s);
+  CORE_API int convert(wstring_view s);
 };
 
-FMT_API void format_windows_error(buffer<char>& out, int error_code,
+CORE_API void format_windows_error(buffer<char>& out, int error_code,
                                   string_view message) FMT_NOEXCEPT;
 }  // namespace internal
 
 /** A Windows error. */
 class windows_error : public system_error {
  private:
-  FMT_API void init(int error_code, string_view format_str, format_args args);
+  CORE_API void init(int error_code, string_view format_str, format_args args);
 
  public:
   /**
@@ -208,7 +208,7 @@ class windows_error : public system_error {
 
 // Reports a Windows error without throwing an exception.
 // Can be used to report errors from destructors.
-FMT_API void report_windows_error(int error_code,
+CORE_API void report_windows_error(int error_code,
                                   string_view message) FMT_NOEXCEPT;
 #endif
 
@@ -229,7 +229,7 @@ class buffered_file {
   buffered_file() FMT_NOEXCEPT : file_(nullptr) {}
 
   // Destroys the object closing the file it represents if any.
-  FMT_API ~buffered_file() FMT_NOEXCEPT;
+  CORE_API ~buffered_file() FMT_NOEXCEPT;
 
  public:
   buffered_file(buffered_file&& other) FMT_NOEXCEPT : file_(other.file_) {
@@ -244,17 +244,17 @@ class buffered_file {
   }
 
   // Opens a file.
-  FMT_API buffered_file(cstring_view filename, cstring_view mode);
+  CORE_API buffered_file(cstring_view filename, cstring_view mode);
 
   // Closes the file.
-  FMT_API void close();
+  CORE_API void close();
 
   // Returns the pointer to a FILE object representing this file.
   FILE* get() const FMT_NOEXCEPT { return file_; }
 
   // We place parentheses around fileno to workaround a bug in some versions
   // of MinGW that define fileno as a macro.
-  FMT_API int(fileno)() const;
+  CORE_API int(fileno)() const;
 
   void vprint(string_view format_str, format_args args) {
     fmt::vprint(file_, format_str, args);
@@ -292,7 +292,7 @@ class file {
   file() FMT_NOEXCEPT : fd_(-1) {}
 
   // Opens a file and constructs a file object representing this file.
-  FMT_API file(cstring_view path, int oflag);
+  CORE_API file(cstring_view path, int oflag);
 
  public:
   file(const file&) = delete;
@@ -308,23 +308,23 @@ class file {
   }
 
   // Destroys the object closing the file it represents if any.
-  FMT_API ~file() FMT_NOEXCEPT;
+  CORE_API ~file() FMT_NOEXCEPT;
 
   // Returns the file descriptor.
   int descriptor() const FMT_NOEXCEPT { return fd_; }
 
   // Closes the file.
-  FMT_API void close();
+  CORE_API void close();
 
   // Returns the file size. The size has signed type for consistency with
   // stat::st_size.
-  FMT_API long long size() const;
+  CORE_API long long size() const;
 
   // Attempts to read count bytes from the file into the specified buffer.
-  FMT_API std::size_t read(void* buffer, std::size_t count);
+  CORE_API std::size_t read(void* buffer, std::size_t count);
 
   // Attempts to write count bytes from the specified buffer to the file.
-  FMT_API std::size_t write(const void* buffer, std::size_t count);
+  CORE_API std::size_t write(const void* buffer, std::size_t count);
 
   // Duplicates a file descriptor with the dup function and returns
   // the duplicate as a file object.
@@ -332,19 +332,19 @@ class file {
 
   // Makes fd be the copy of this file descriptor, closing fd first if
   // necessary.
-  FMT_API void dup2(int fd);
+  CORE_API void dup2(int fd);
 
   // Makes fd be the copy of this file descriptor, closing fd first if
   // necessary.
-  FMT_API void dup2(int fd, error_code& ec) FMT_NOEXCEPT;
+  CORE_API void dup2(int fd, error_code& ec) FMT_NOEXCEPT;
 
   // Creates a pipe setting up read_end and write_end file objects for reading
   // and writing respectively.
-  FMT_API static void pipe(file& read_end, file& write_end);
+  CORE_API static void pipe(file& read_end, file& write_end);
 
   // Creates a buffered_file object associated with this file and detaches
   // this file object from the file.
-  FMT_API buffered_file fdopen(const char* mode);
+  CORE_API buffered_file fdopen(const char* mode);
 };
 
 // Returns the memory page size.

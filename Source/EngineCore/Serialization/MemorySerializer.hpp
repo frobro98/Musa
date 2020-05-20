@@ -4,11 +4,12 @@
 
 #include "Containers/MemoryBuffer.hpp"
 #include "Serialization/SerializeBase.hpp"
+#include "CoreAPI.hpp"
 
-class MemorySerializer : public SerializeBase
+class CORE_API MemorySerializer : public SerializeBase
 {
 public:
-	MemorySerializer() = default;
+	MemorySerializer(MemoryBuffer& memory);
 
 	virtual void SerializeData(const void* data, size_t dataSize) override;
 

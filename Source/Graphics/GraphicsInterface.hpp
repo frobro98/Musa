@@ -7,7 +7,9 @@
 #include "Texture/ImageFormats.h"
 #include "RenderTargetDescription.hpp"
 #include "Containers/DynamicArray.hpp"
+#include "Containers/MemoryBuffer.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Graphics/GraphicsDll.hpp"
 
 struct Vertex;
 struct Face;
@@ -15,7 +17,7 @@ class ResourceBlob;
 class RenderContext;
 struct SamplerDescription;
 
-class GraphicsInterface
+class GRAPHICS_API GraphicsInterface
 {
 public:
 
@@ -26,6 +28,13 @@ public:
 	virtual void InitializeGraphics() = 0;
 	virtual void DeinitializeGraphics() = 0;
 	
+	NODISCARD virtual UniquePtr<NativeVertexShader> CreateVertexShader(const MemoryBuffer& vertexCode) = 0;
+	NODISCARD virtual UniquePtr<NativeFragmentShader> CreateFragmentShader(const MemoryBuffer& fragmentCode) = 0;
+	NODISCARD virtual UniquePtr<NativeGeometryShader> CreateGeometryShader(const MemoryBuffer& geometryCode) = 0;
+	NODISCARD virtual UniquePtr<NativeTessEvaluationShader> CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode) = 0;
+	NODISCARD virtual UniquePtr<NativeTessControlShader> CreateTessControlShader(const MemoryBuffer& tessCtrlCode) = 0;
+	NODISCARD virtual UniquePtr<NativeComputeShader> CreateComputeShader(const MemoryBuffer& computeCode) = 0;
+
 	NODISCARD virtual UniquePtr<NativeViewport> CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) = 0;
 
 	NODISCARD virtual UniquePtr<NativeVertexBuffer> CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const = 0;
@@ -43,4 +52,4 @@ public:
 	NODISCARD virtual RenderContext* GetRenderContext() = 0;
 };
 
-GraphicsInterface& GetGraphicsInterface();
+GRAPHICS_API GraphicsInterface& GetGraphicsInterface();

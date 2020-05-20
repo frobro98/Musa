@@ -10,6 +10,7 @@ class VulkanCommandBuffer;
 class VulkanDescriptorSet;
 class VulkanPipelineLayout;
 class VulkanDescriptorSetLayout;
+struct VulkanComputeShader;
 
 class VulkanComputePipeline
 {
@@ -17,7 +18,7 @@ public:
 	VulkanComputePipeline(VulkanDevice& device);
 	~VulkanComputePipeline();
 
-	void Initialize(const VulkanPipelineLayout* layout, class VulkanShader* shader);
+	void Initialize(const VulkanPipelineLayout* layout, VulkanComputeShader* shader);
 
 	void Bind(VulkanCommandBuffer* cmdBuffer) const;
 	void BindDescriptorSet(VulkanCommandBuffer* cmdBuffer, VulkanDescriptorSet* descriptorSet) const;

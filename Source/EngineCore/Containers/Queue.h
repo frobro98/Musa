@@ -3,9 +3,10 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
+#include "CoreAPI.hpp"
 
 template <typename T>
-class Queue
+class CORE_TEMPLATE Queue
 {
 public:
 

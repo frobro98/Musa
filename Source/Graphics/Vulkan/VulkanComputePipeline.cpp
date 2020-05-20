@@ -4,7 +4,7 @@
 #include "VulkanDescriptorSet.h"
 #include "VulkanDescriptorPool.h"
 #include "VulkanPipeline.h"
-#include "VulkanShader.h"
+#include "VulkanShaders.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanDevice.h"
 
@@ -17,7 +17,7 @@ VulkanComputePipeline::~VulkanComputePipeline()
 {
 }
 
-void VulkanComputePipeline::Initialize(const VulkanPipelineLayout* layout, VulkanShader* shader)
+void VulkanComputePipeline::Initialize(const VulkanPipelineLayout* layout, VulkanComputeShader* shader)
 {
 	pipelineLayout = layout;
 

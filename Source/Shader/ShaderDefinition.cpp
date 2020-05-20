@@ -10,11 +10,11 @@ namespace
 // TODO - Don't want this to be a dynamic array, because we don't know how many elements there will be
 // Could be wasting memory?
 static DynamicArray<ShaderDefinition*>* shaderDefinitions = nullptr;
-static Map<const ShaderDefinition*, ShaderObject*> shaderDefinitionMap;
+static Map<const ShaderDefinition*, ShaderObjectBase*> shaderDefinitionMap;
 
 static void CompileAssociatedShader(const ShaderDefinition& definition)
 {
-	if (ShaderObject* shader = nullptr; !shaderDefinitionMap.TryFind(&definition, shader))
+	if (ShaderObjectBase* shader = nullptr; !shaderDefinitionMap.TryFind(&definition, shader))
 	{
 		const Path fullShaderPath = EngineShaderSrcPath() / definition.sourcePath;
 		ShaderCompilerDefinitions input = definition.GetCompilerDefines();
@@ -40,9 +40,9 @@ void InitializeShaders()
 	}
 }
 
-ShaderObject* GetAssociatedShader(const ShaderDefinition& definition)
+ShaderObjectBase* GetAssociatedShader(const ShaderDefinition& definition)
 {
-	ShaderObject** obj = shaderDefinitionMap.Find(&definition);
+	ShaderObjectBase** obj = shaderDefinitionMap.Find(&definition);
 	Assert(obj);
 	return *obj;
 }

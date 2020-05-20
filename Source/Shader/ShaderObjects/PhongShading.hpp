@@ -2,13 +2,15 @@
 
 #pragma once
 
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 #include "Shader/ShaderDefinition.hpp"
+#include "Shader/ShaderDll.hpp"
 
-class PhongVert : public ShaderObject
+class SHADER_API PhongVert : public ShaderObject<NativeVertexShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new PhongVert(compiledOutput);
 	}
@@ -19,10 +21,10 @@ public:
 
 };
 
-class PhongFrag : public ShaderObject
+class SHADER_API PhongFrag : public ShaderObject<NativeFragmentShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new PhongFrag(compiledOutput);
 	}

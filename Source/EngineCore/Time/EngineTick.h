@@ -5,10 +5,11 @@
 #pragma once
 
 #include "Platform.h"
+#include "CoreAPI.hpp"
 
 // TODO: Decouple OS specific methods from interface
 
-class EngineTick
+class CORE_API EngineTick
 {
 public:
 	EngineTick();

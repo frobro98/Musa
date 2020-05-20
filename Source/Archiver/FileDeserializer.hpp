@@ -6,8 +6,9 @@
 #include "File/FileCore/File.h"
 #include "Containers/MemoryBuffer.hpp"
 #include "Serialization/DeserializeBase.hpp"
+#include "Archiver/ArchiverDll.hpp"
 
-class FileDeserializer final : public DeserializeBase
+class ARCHIVE_API FileDeserializer final : public DeserializeBase
 {
 public:
 	FileDeserializer(const Path& filePath);

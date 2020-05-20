@@ -11,7 +11,8 @@
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class Camera;
-struct ShaderResource;
+struct NativeVertexShader;
+struct NativeFragmentShader;
 
 struct ViewDescription
 {
@@ -46,8 +47,8 @@ public:
 
 	int32 GetScreenWidth() const;
 	int32 GetScreenHeight() const;
-	ShaderResource* GetScreenVertexShader() const;
-	ShaderResource* GetScreenFragmentShader() const;
+	NativeVertexShader* GetScreenVertexShader() const;
+	NativeFragmentShader* GetScreenFragmentShader() const;
 
 	void AssociateCameraWithView(const Camera& cam);
 
@@ -55,8 +56,8 @@ public:
 	View view;
 
 private:
-	ShaderResource* screenVertexShader = nullptr;
-	ShaderResource* screenFragmentShader = nullptr;
+	NativeVertexShader* screenVertexShader = nullptr;
+	NativeFragmentShader* screenFragmentShader = nullptr;
 	int32 width;
 	int32 height;
 };

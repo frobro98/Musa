@@ -35,8 +35,6 @@
 #include "MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
 
-
-
 // TODO - Probably should delete this
 #include "Graphics/RenderContextUtilities.hpp"
 #include "Graphics/RenderContext.hpp"
@@ -438,8 +436,8 @@ void MusaEngine::LoadContent()
 	NOT_USED Mesh* astro_boy = GetMeshManager().FindMesh("astro-boy");
 	NOT_USED Mesh* geth = GetMeshManager().FindMesh("geth-trooper");
 
-	ShaderResource& vertShader = GetShader<UnlitVert>()->GetNativeShader();
-	ShaderResource& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
+	NativeVertexShader& vertShader = GetShader<UnlitVert>()->GetNativeShader();
+	NativeFragmentShader& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
 	GameObject* gethObject = world->CreateGameObject<GameObject>();
 	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D", Color32::White())));

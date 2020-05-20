@@ -69,9 +69,6 @@
     <ClCompile Include="..\..\Source\Shader\ShaderDefinition.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Shader\ShaderResource.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.cpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClCompile>
@@ -137,14 +134,14 @@
     <ClInclude Include="..\..\Source\Shader\ShaderDefinition.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Shader\ShaderResource.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.hpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp">
       <Filter>Source\ShaderObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderDll.hpp">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,13 @@
 #pragma once
 
 #include "String/String.h"
+#include "CoreAPI.hpp"
 
 // TODO - figure out namespacing convention for these
 // TODO - Add actual Path and Directory creation classes
 //namespace Internal
 //{
-String EngineExeFullPath();
+CORE_API String EngineExeFullPath();
 
 inline String EngineRootPath()
 {

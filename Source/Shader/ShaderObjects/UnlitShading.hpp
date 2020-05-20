@@ -2,13 +2,15 @@
 
 #pragma once
 
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 #include "Shader/ShaderDefinition.hpp"
+#include "Shader/ShaderDll.hpp"
 
-class UnlitVert : public ShaderObject
+class SHADER_API UnlitVert : public ShaderObject<NativeVertexShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new UnlitVert(compiledOutput);
 	}
@@ -18,10 +20,10 @@ public:
 	UnlitVert(const ShaderCompiledOutput& compiledOutput);
 };
 
-class UnlitFrag : public ShaderObject
+class SHADER_API UnlitFrag : public ShaderObject<NativeFragmentShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new UnlitFrag(compiledOutput);
 	}

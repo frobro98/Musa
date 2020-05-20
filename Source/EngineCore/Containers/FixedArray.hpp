@@ -7,9 +7,10 @@
 #include "Assertion.h"
 #include "MemoryUtilities.h"
 #include "Utilities/TemplateUtils.hpp"
+#include "CoreAPI.hpp"
 
 template <typename ElemType, uint32 capacity>
-class FixedArray
+class CORE_TEMPLATE FixedArray
 {
 	using value_type = ElemType;
 	using reference_type = ElemType&;

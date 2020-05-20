@@ -2,29 +2,31 @@
 
 #pragma once
 
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 #include "Shader/ShaderDefinition.hpp"
+#include "Shader/ShaderDll.hpp"
 
-class SimplePrimitiveVert : public ShaderObject
+class SHADER_API SimplePrimitiveVert : public ShaderObject<NativeVertexShader>
 {
 	DECLARE_SHADER();
 public:
 	SimplePrimitiveVert(const ShaderCompiledOutput& compiledOutput);
 
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new SimplePrimitiveVert(compiledOutput);
 	}
 
 };
 
-class SimplePrimitiveFrag : public ShaderObject
+class SHADER_API SimplePrimitiveFrag : public ShaderObject<NativeFragmentShader>
 {
 	DECLARE_SHADER();
 public:
 	SimplePrimitiveFrag(const ShaderCompiledOutput& compiledOutput);
 
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new SimplePrimitiveFrag(compiledOutput);
 	}

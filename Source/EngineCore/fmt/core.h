@@ -14,6 +14,8 @@
 #include <string>
 #include <type_traits>
 
+#include "CoreAPI.hpp"
+
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
 #define FMT_VERSION 60102
 
@@ -242,7 +244,7 @@ namespace internal {
 // A workaround for gcc 4.8 to make void_t work in a SFINAE context.
 template <typename... Ts> struct void_t_impl { using type = void; };
 
-FMT_API void assert_fail(const char* file, int line, const char* message);
+CORE_API void assert_fail(const char* file, int line, const char* message);
 
 #ifndef FMT_ASSERT
 #  ifdef NDEBUG
@@ -468,7 +470,7 @@ struct error_handler {
   FMT_CONSTEXPR error_handler(const error_handler&) = default;
 
   // This function is intentionally not constexpr to give a compile-time error.
-  FMT_NORETURN FMT_API void on_error(const char* message);
+  FMT_NORETURN CORE_API void on_error(const char* message);
 };
 }  // namespace internal
 
@@ -1442,7 +1444,7 @@ typename buffer_context<Char>::iterator vformat_to(
     buffer<Char>& buf, basic_string_view<Char> format_str,
     basic_format_args<buffer_context<Char>> args);
 
-FMT_API void vprint_mojibake(std::FILE*, string_view, format_args);
+CORE_API void vprint_mojibake(std::FILE*, string_view, format_args);
 }  // namespace internal
 
 /**
@@ -1515,8 +1517,8 @@ inline std::basic_string<Char> format(const S& format_str, Args&&... args) {
       {internal::make_args_checked<Args...>(format_str, args...)});
 }
 
-FMT_API void vprint(string_view, format_args);
-FMT_API void vprint(std::FILE*, string_view, format_args);
+CORE_API void vprint(string_view, format_args);
+CORE_API void vprint(std::FILE*, string_view, format_args);
 
 /**
   \rst

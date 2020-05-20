@@ -4,17 +4,18 @@
 
 #include "Containers/MemoryBuffer.hpp"
 #include "Serialization/DeserializeBase.hpp"
+#include "CoreAPI.hpp"
 
-class MemoryDeserializer : public DeserializeBase
+class CORE_API MemoryDeserializer : public DeserializeBase
 {
 public:
-	MemoryDeserializer(MemoryBuffer& memory);
+	MemoryDeserializer(const MemoryBuffer& memory);
 
 	virtual void DeserializeData(void* data, size_t dataSize) override;
 
-	MemoryBuffer& GetSerializedData() const;
+	const MemoryBuffer& GetSerializedData() const;
 
 private:
-	MemoryBuffer& memoryData;
+	const MemoryBuffer& memoryData;
 	uint64 bufferReadLoc = 0;
 };

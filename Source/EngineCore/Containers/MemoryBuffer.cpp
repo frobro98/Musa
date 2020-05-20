@@ -16,27 +16,46 @@ MemoryBuffer::~MemoryBuffer()
 	DeallocMem();
 }
 
-MemoryBuffer::MemoryBuffer(MemoryBuffer&& other) noexcept
-	: memData(other.memData),
-	memSize(other.memSize)
+MemoryBuffer::MemoryBuffer(const MemoryBuffer& other)
 {
-	other.memData = nullptr;
-	other.memSize = 0;
+	ReallocMem(other.memSize);
+	memSize = other.memSize;
+	Copy(other.memData, other.memSize);
 }
 
-MemoryBuffer& MemoryBuffer::operator=(MemoryBuffer&& other) noexcept
+MemoryBuffer& MemoryBuffer::operator=(const MemoryBuffer& other)
 {
 	if (this != &other)
 	{
-		memData = other.memData;
 		memSize = other.memSize;
-
-		other.memData = nullptr;
-		other.memSize = 0;
+		ReallocMem(memSize);
+		Copy(other.memData, other.memSize);
 	}
 
 	return *this;
 }
+
+// MemoryBuffer::MemoryBuffer(MemoryBuffer&& other) noexcept
+// 	: memData(other.memData),
+// 	memSize(other.memSize)
+// {
+// 	other.memData = nullptr;
+// 	other.memSize = 0;
+// }
+// 
+// MemoryBuffer& MemoryBuffer::operator=(MemoryBuffer&& other) noexcept
+// {
+// 	if (this != &other)
+// 	{
+// 		memData = other.memData;
+// 		memSize = other.memSize;
+// 
+// 		other.memData = nullptr;
+// 		other.memSize = 0;
+// 	}
+// 
+// 	return *this;
+// }
 
 void MemoryBuffer::Add(const void* data, size_t dataSize)
 {
@@ -45,7 +64,7 @@ void MemoryBuffer::Add(const void* data, size_t dataSize)
 	memSize += dataSize;
 }
 
-uint8 * MemoryBuffer::Offset(size_t offset)
+uint8 * MemoryBuffer::Offset(size_t offset) const
 {
 	Assert(offset < memSize);
 	return memData + offset;
@@ -65,6 +84,11 @@ uint8* MemoryBuffer::GetData() const
 size_t MemoryBuffer::Size() const
 {
 	return memSize;
+}
+
+void MemoryBuffer::Copy(uint8* data, size_t size)
+{
+	Memcpy(memData, data, size);
 }
 
 void MemoryBuffer::AllocMem()

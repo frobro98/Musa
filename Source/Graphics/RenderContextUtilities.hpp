@@ -7,14 +7,15 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/RenderTarget.hpp"
 #include "Graphics/GraphicsResourceFlags.hpp"
+#include "Graphics/GraphicsDll.hpp"
 
 class RenderContext;
 struct NativeRenderTargets;
 
-void TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targets);
-void TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targets);
+GRAPHICS_API void TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targets);
+GRAPHICS_API void TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targets);
 
-UniquePtr<RenderTarget> CreateRenderTarget(
+GRAPHICS_API UniquePtr<RenderTarget> CreateRenderTarget(
 	ImageFormat format, 
 	uint32 width, uint32 height,
 	LoadOperation loadOp, StoreOperation storeOp,

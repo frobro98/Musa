@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "VulkanRenderingCloset.hpp"
-#include "VulkanShader.h"
+#include "VulkanShaders.h"
 #include "VulkanDescriptorSet.h"
 #include "VulkanPipeline.h"
 #include "VulkanUtilities.h"
@@ -11,9 +11,7 @@
 #include "VulkanFramebuffer.h"
 #include "VulkanRenderPass.h"
 #include "VulkanDescriptorLayoutManager.h"
-
-// TODO - The shader resource that lives in the Shader.lib doesn't belong here..
-#include "Shader/ShaderResource.hpp"
+#include "VulkanShaderHeader.hpp"
 
 
 VulkanRenderingCloset::VulkanRenderingCloset(const VulkanDevice& device)
@@ -142,19 +140,35 @@ VulkanPipelineLayout* VulkanRenderingCloset::ConfigurePipelineLayout(const Graph
 	VulkanDescriptorSetLayout* dsLayout = GetDescriptorLayoutManager().CreateSetLayout();
 
 	{
-		const DynamicArray<ShaderConstant>& uniforms = desc.vertexShader->shaderUniforms;
-		for (const auto& constant : uniforms)
+		const VulkanVertexShader* vertShader = reinterpret_cast<const VulkanVertexShader*>(desc.vertexShader);
+		const DynamicArray<SpirvBuffer>& buffers = vertShader->GetShaderHeader().buffers;
+		const DynamicArray<SpirvSampler>& samplers = vertShader->GetShaderHeader().samplers;
+
+		for (const auto& buffer : buffers)
 		{
-			dsLayout->AddDescriptorBinding(MusaConstantToDescriptorType(constant), VK_SHADER_STAGE_VERTEX_BIT, constant.binding);
+			dsLayout->AddDescriptorBinding(buffer.bufferType, VK_SHADER_STAGE_VERTEX_BIT, buffer.bindIndex);
+		}
+
+		for (const auto& sampler : samplers)
+		{
+			dsLayout->AddDescriptorBinding(sampler.samplerType, VK_SHADER_STAGE_VERTEX_BIT, sampler.bindIndex);
 		}
 	}
 
 	if (desc.fragmentShader)
 	{
-		const DynamicArray<ShaderConstant>& uniforms = desc.fragmentShader->shaderUniforms;
-		for (const auto& constant : uniforms)
+		const VulkanFragmentShader* fragShader = reinterpret_cast<const VulkanFragmentShader*>(desc.fragmentShader);
+		const DynamicArray<SpirvBuffer>& buffers = fragShader->GetShaderHeader().buffers;
+		const DynamicArray<SpirvSampler>& samplers = fragShader->GetShaderHeader().samplers;
+
+		for (const auto& buffer : buffers)
 		{
-			dsLayout->AddDescriptorBinding(MusaConstantToDescriptorType(constant), VK_SHADER_STAGE_FRAGMENT_BIT, constant.binding);
+			dsLayout->AddDescriptorBinding(buffer.bufferType, VK_SHADER_STAGE_FRAGMENT_BIT, buffer.bindIndex);
+		}
+
+		for (const auto& sampler : samplers)
+		{
+			dsLayout->AddDescriptorBinding(sampler.samplerType, VK_SHADER_STAGE_FRAGMENT_BIT, sampler.bindIndex);
 		}
 	}
 

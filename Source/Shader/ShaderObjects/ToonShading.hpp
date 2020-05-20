@@ -2,13 +2,15 @@
 
 #pragma once
 
+#include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 #include "Shader/ShaderDefinition.hpp"
+#include "Shader/ShaderDll.hpp"
 
-class ToonVert : public ShaderObject
+class SHADER_API ToonVert : public ShaderObject<NativeVertexShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new ToonVert(compiledOutput);
 	}
@@ -19,10 +21,10 @@ public:
 
 };
 
-class ToonFrag : public ShaderObject
+class SHADER_API ToonFrag : public ShaderObject<NativeFragmentShader>
 {
 private:
-	static ShaderObject* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
+	static ShaderObjectBase* InitializeCompiledShader(const ShaderCompiledOutput& compiledOutput)
 	{
 		return new ToonFrag(compiledOutput);
 	}

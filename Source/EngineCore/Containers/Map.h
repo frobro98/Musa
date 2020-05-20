@@ -6,9 +6,10 @@
 #include "HashBasicTypes.h"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Pair.h"
+#include "CoreAPI.hpp"
 
 template<typename Key, typename Value>
-class Map
+class CORE_TEMPLATE Map
 {
 	using KeyType = Key;
 	using ValueType = Value;

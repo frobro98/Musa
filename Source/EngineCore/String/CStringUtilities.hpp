@@ -4,13 +4,14 @@
 
 #include "PlatformDefinitions.h"
 #include "Assertion.h"
+#include "CoreAPI.hpp"
 
 // C-string functions
-tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src);
-tchar* Strcat(tchar* dest, size_t sizeDest, const tchar* src, size_t sizeSrc) noexcept;
+CORE_API tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src);
+CORE_API tchar* Strcat(tchar* dest, size_t sizeDest, const tchar* src, size_t sizeSrc) noexcept;
 
 template<size_t sizeDest>
-tchar* Strcat(tchar(&dest)[sizeDest], const tchar* src, uint32 sizeSrc) noexcept
+forceinline tchar* Strcat(tchar(&dest)[sizeDest], const tchar* src, uint32 sizeSrc) noexcept
 {
 	return Strcat(dest, sizeDest, src, sizeSrc);
 }
@@ -263,8 +264,8 @@ constexpr bool EndsWith(const tchar* str, size_t strLen, const tchar* endStr, si
 	return true;
 }
 
-tchar ToUpper(tchar character) noexcept;
-tchar ToLower(tchar character) noexcept;
-bool IsAlpha(tchar character) noexcept;
-bool IsAlnum(tchar character) noexcept;
+CORE_API tchar ToUpper(tchar character) noexcept;
+CORE_API tchar ToLower(tchar character) noexcept;
+CORE_API bool IsAlpha(tchar character) noexcept;
+CORE_API bool IsAlnum(tchar character) noexcept;
 

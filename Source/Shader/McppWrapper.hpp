@@ -6,10 +6,11 @@
 #include "ShaderStructure.hpp"
 #include "Containers/Map.h"
 #include "BasicTypes/Uncopyable.hpp"
+#include "Shader/ShaderDll.hpp"
 
 class Path;
 
-class ShaderPreprocessor : private Uncopyable
+class SHADER_API ShaderPreprocessor : private Uncopyable
 {
 public:
 	ShaderPreprocessor(ShaderStage stage, const Map<String, String>& definitions);

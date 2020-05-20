@@ -5,7 +5,6 @@
 #include "Math/MatrixUtilities.hpp"
 #include "Camera/Camera.h"
 #include "Shader/ShaderDefinition.hpp"
-#include "Shader/ShaderResource.hpp"
 #include "Shader/ShaderObjects/ScreenRendering.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffers.h"
@@ -30,12 +29,12 @@ int32 ScreenView::GetScreenHeight() const
 	return height;
 }
 
-ShaderResource* ScreenView::GetScreenVertexShader() const
+NativeVertexShader* ScreenView::GetScreenVertexShader() const
 {
 	return screenVertexShader;
 }
 
-ShaderResource* ScreenView::GetScreenFragmentShader() const
+NativeFragmentShader* ScreenView::GetScreenFragmentShader() const
 {
 	return screenFragmentShader;
 }

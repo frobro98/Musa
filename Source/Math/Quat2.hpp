@@ -2,6 +2,7 @@
 
 #include "Math/Matrix2.hpp"
 #include "Math/MathConstants.hpp"
+#include "Math/MathDll.hpp"
 
 //------------------------------------------------------------------------
 // 
@@ -14,7 +15,7 @@
 // 
 //------------------------------------------------------------------------
 
-struct Quat2 final
+struct MATH_API Quat2 final
 {
 	static const Quat2 Identity;
 	static const Quat2 Zero;
@@ -71,21 +72,21 @@ public:
 	Quat2& operator*=(float32 val);
 	Quat2& operator/=(float32 val);
 
-	friend Quat2 operator+(const Quat2& q0, const Quat2& q1);
-	friend Quat2 operator-(const Quat2& q0, const Quat2& q1);
+	friend MATH_API Quat2 operator+(const Quat2& q0, const Quat2& q1);
+	friend MATH_API Quat2 operator-(const Quat2& q0, const Quat2& q1);
 
-	friend Matrix2& operator*=(Matrix2& m, const Quat2& q);
-	friend Quat2& operator*=(Quat2& q, const Matrix2& m_);
-	friend Matrix2 operator*(const Matrix2& m, const Quat2& q);
-	friend Matrix2 operator*(const Quat2& q, const Matrix2& m_);
+	friend MATH_API Matrix2& operator*=(Matrix2& m, const Quat2& q);
+	friend MATH_API Quat2& operator*=(Quat2& q, const Matrix2& m_);
+	friend MATH_API Matrix2 operator*(const Matrix2& m, const Quat2& q);
+	friend MATH_API Matrix2 operator*(const Quat2& q, const Matrix2& m_);
 
-	friend Vector2& operator*=(Vector2& v, const Quat2& q);
-	friend Vector2 operator*(const Vector2& v, const Quat2& q);
+	friend MATH_API Vector2& operator*=(Vector2& v, const Quat2& q);
+	friend MATH_API Vector2 operator*(const Vector2& v, const Quat2& q);
 
-	friend Quat2 operator*(const Quat2& q, float32 val);
-	friend Quat2 operator*(float32 val, const Quat2& q);
-	friend Quat2 operator/(const Quat2& q, float32 val);
-	friend Quat2 operator/(float32 val, const Quat2& q);
+	friend MATH_API Quat2 operator*(const Quat2& q, float32 val);
+	friend MATH_API Quat2 operator*(float32 val, const Quat2& q);
+	friend MATH_API Quat2 operator/(const Quat2& q, float32 val);
+	friend MATH_API Quat2 operator/(float32 val, const Quat2& q);
 
 };
 

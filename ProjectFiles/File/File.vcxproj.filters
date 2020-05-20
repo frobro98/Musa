@@ -35,5 +35,8 @@
     <ClInclude Include="..\..\Source\File\md5.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\File\FileDll.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

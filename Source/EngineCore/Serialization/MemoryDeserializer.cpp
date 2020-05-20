@@ -4,7 +4,7 @@
 #include "MemoryDeserializer.hpp"
 #include "MemoryUtilities.h"
 
-MemoryDeserializer::MemoryDeserializer(MemoryBuffer& memory)
+MemoryDeserializer::MemoryDeserializer(const MemoryBuffer& memory)
 	: memoryData(memory)
 {
 }
@@ -16,7 +16,7 @@ void MemoryDeserializer::DeserializeData(void* data, size_t dataSize)
 	bufferReadLoc += dataSize;
 }
 
-MemoryBuffer& MemoryDeserializer::GetSerializedData() const
+const MemoryBuffer& MemoryDeserializer::GetSerializedData() const
 {
 	return memoryData;
 }

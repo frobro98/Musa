@@ -4,10 +4,11 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Assertion.h"
+#include "CoreAPI.hpp"
 
 // TODO - Need to support size_t instead of uint32 
 template <typename ViewType>
-class ArrayView
+class CORE_TEMPLATE ArrayView
 {
 	using pointer_type = ViewType*;
 	using reference_type = ViewType&;

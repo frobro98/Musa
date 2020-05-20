@@ -4,11 +4,13 @@
 
 #include <type_traits>
 
+#include "CoreAPI.hpp"
+
 #pragma warning(push)
 #pragma warning(disable : 4820)
 
 template <typename T1, typename T2>
-struct Pair
+struct CORE_TEMPLATE Pair
 {
 	using FirstType = T1;
 	using SecondType = T2;

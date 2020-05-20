@@ -27,6 +27,9 @@
     <ClInclude Include="..\..\Source\Archiver\SkeletonHeader.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Archiver\ArchiverDll.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Archiver\FileDeserializer.cpp">

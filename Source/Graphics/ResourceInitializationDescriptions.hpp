@@ -10,8 +10,6 @@
 #include "Math/MathFunctions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
-struct ShaderResource;
-
 struct DepthStencilTestingDescription
 {
 	CompareOperation depthCompareOp;
@@ -250,8 +248,8 @@ struct GraphicsPipelineDescription
 	BlendingDescription blendingDescs[MaxColorTargetCount];
 	DepthStencilTestingDescription depthStencilTestDesc;
 	VertexInputDescriptionList vertexInputs{};
-	const ShaderResource* vertexShader = nullptr;
-	const ShaderResource* fragmentShader = nullptr;
+	const NativeVertexShader* vertexShader = nullptr;
+	const NativeFragmentShader* fragmentShader = nullptr;
 	PrimitiveTopology topology;
 
 	friend bool operator==(const GraphicsPipelineDescription& lhs, const GraphicsPipelineDescription& rhs)
@@ -281,7 +279,7 @@ struct GraphicsPipelineDescription
 
 struct ComputePipelineInitDescription
 {
-	ShaderResource* computeShader;
+	NativeComputeShader* computeShader;
 };
 
 inline uint32 GetHash(const GraphicsPipelineDescription& desc)

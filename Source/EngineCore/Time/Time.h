@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Platform.h"
+#include "CoreAPI.hpp"
 
-class Time
+class CORE_API Time
 {
 public:
 
@@ -57,7 +58,7 @@ public:
 	* Example:
 	*    const Time halfSecond = 0.5f * Time(ONE_SECOND);
 	*/
-	friend const Time operator*(float, const Time&);
+	friend CORE_API const Time operator*(float, const Time&);
 
 	/*
 	* return: The product of the specified integer and Time.
@@ -65,7 +66,7 @@ public:
 	* Example:
 	*    const Time fourMinutes = 4 * Time(ONE_MINUTE);
 	*/
-	friend const Time operator*(int32, const Time&);
+	friend CORE_API const Time operator*(int32, const Time&);
 
 	/*
 	* return: The product of the specified integer and Time.
@@ -73,7 +74,7 @@ public:
 	* Example:
 	*    const Time fourMinutes = 4 * Time(ONE_MINUTE);
 	*/
-	friend const Time operator*(uint32, const Time&);
+	friend CORE_API const Time operator*(uint32, const Time&);
 
 	//-----------------------------------------------------------------
 	// Constructors / Destructors / Assignment

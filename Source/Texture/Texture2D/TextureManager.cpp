@@ -3,8 +3,6 @@
 #include "TextureManager.h"
 #include "Texture.h"
 #include "DirectoryLocations.h"
-#include "Importers/TGAImporter.h"
-#include "Importers/TextureCompression.h"
 #include "MemoryUtilities.h"
 #include "String/String.h"
 #include "Serialization/MemoryDeserializer.hpp"
@@ -77,31 +75,31 @@ Texture* TextureManager::LoadTexture(MemoryBuffer& textureData, const char* /*te
 	return texture;
 }
 
-Texture* TextureManager::CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* /*textureName*/, ImageFormat format)
-{
-	Texture* texture = Compress(chunkData, textureData, format);
+// Texture* TextureManager::CompressTextureData(const TextureChunk& chunkData, uint8* textureData, const char* /*textureName*/, ImageFormat format)
+// {
+// 	Texture* texture = Compress(chunkData, textureData, format);
+// 
+// 	texturesLoaded.Add(texture);
+// 
+// 	return texture;
+// }
 
-	texturesLoaded.Add(texture);
-
-	return texture;
-}
-
-Texture* TextureManager::CompressTextureData(MemoryBuffer& textureData, const char* /*textureName*/)
-{
-	Texture uncompressed;
-	Texture compressed;
-	MemoryDeserializer deserializer(textureData);
-	Deserialize(deserializer, uncompressed);
-
-	Compression::CompressForGPU(uncompressed, compressed, CompressionFormat::BC7);
-
-	Texture* texture = new Texture;
-	*texture = std::move(compressed);
-
-	texturesLoaded.Add(texture);
-
-	return texture;
-}
+// Texture* TextureManager::CompressTextureData(MemoryBuffer& textureData, const char* /*textureName*/)
+// {
+// 	Texture uncompressed;
+// 	Texture compressed;
+// 	MemoryDeserializer deserializer(textureData);
+// 	Deserialize(deserializer, uncompressed);
+// 
+// 	Compression::CompressForGPU(uncompressed, compressed, CompressionFormat::BC7);
+// 
+// 	Texture* texture = new Texture;
+// 	*texture = std::move(compressed);
+// 
+// 	texturesLoaded.Add(texture);
+// 
+// 	return texture;
+// }
 
 void TextureManager::AddTexture(Texture& tex)
 {
@@ -109,22 +107,22 @@ void TextureManager::AddTexture(Texture& tex)
 	texturesLoaded.Add(&tex);
 }
 
-Texture* TextureManager::Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format)
-{
-	UNUSED(textureData, chunk, format);
-	Texture uncompressed;
-	Texture compressed;
+// Texture* TextureManager::Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format)
+// {
+// 	UNUSED(textureData, chunk, format);
+// 	Texture uncompressed;
+// 	Texture compressed;
 // 	uncompressed.width = chunk.width;
 // 	uncompressed.height = chunk.height;
 // 	uncompressed.format = chunk.format;
 // 	uncompressed.imageData = Array<uint8>(textureData, chunk.size);
 // 	Compression::CompressForGPU(uncompressed, compressed, ImageToCompressionFormat(format));
 // 	compressed.format = format;
-
-	Texture* texture = new Texture;
-	*texture = std::move(compressed);
-	return texture;
-}
+// 
+// 	Texture* texture = new Texture;
+// 	*texture = std::move(compressed);
+// 	return texture;
+// }
 
 // TODO - Get this out of here and into the texture itself as part of initialization...
 void TextureManager::ConfigureNativeTexture(Texture& texture)

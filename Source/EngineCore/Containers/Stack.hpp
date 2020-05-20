@@ -3,9 +3,10 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
+#include "CoreAPI.hpp"
 
 template <typename Type>
-class Stack
+class CORE_TEMPLATE Stack
 {
 public:
 	using ValueType = Type;

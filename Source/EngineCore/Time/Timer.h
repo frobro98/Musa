@@ -2,8 +2,9 @@
 
 #include "Time.h"
 #include "BasicTypes/Uncopyable.hpp"
+#include "CoreAPI.hpp"
 
-class Timer : private Uncopyable
+class CORE_API Timer : private Uncopyable
 {
 public:
 	/*

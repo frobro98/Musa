@@ -3,8 +3,9 @@
 #pragma once
 
 #include "String/String.h"
+#include "CoreAPI.hpp"
 
-class Path
+class CORE_API Path
 {
 public:
 	Path() = default;
@@ -39,15 +40,15 @@ private:
 	bool IsSlash(tchar c) const;
 	bool HasEndingSlash(const String& pathStr) const;
 
-	friend Path operator/(const Path& lhPath, const Path& rhPath);
-	friend Path operator/(const Path& path, const String& str);
-	friend Path operator/(const Path& path, const String& str);
-	friend Path operator/(const String& str, const Path& path);
-	friend Path operator/(const String& str, const Path& path);
-	friend Path operator/(const Path& path, const tchar* str);
-	friend Path operator/(const Path& path, const tchar* str);
-	friend Path operator/(const tchar* str, const Path& path);
-	friend Path operator/(const tchar* str, const Path& path);
+	friend CORE_API Path operator/(const Path& lhPath, const Path& rhPath);
+	friend CORE_API Path operator/(const Path& path, const String& str);
+	friend CORE_API Path operator/(const Path& path, const String& str);
+	friend CORE_API Path operator/(const String& str, const Path& path);
+	friend CORE_API Path operator/(const String& str, const Path& path);
+	friend CORE_API Path operator/(const Path& path, const tchar* str);
+	friend CORE_API Path operator/(const Path& path, const tchar* str);
+	friend CORE_API Path operator/(const tchar* str, const Path& path);
+	friend CORE_API Path operator/(const tchar* str, const Path& path);
 
 private:
 	String path;

@@ -4,6 +4,7 @@
 
 #include "Platform.h"
 #include "ResourceBlob.hpp"
+#include "Serialization/MemoryDeserializer.hpp"
 #include "VulkanGraphicsInterface.hpp"
 #include "VulkanCreateInfos.h"
 #include "VulkanDevice.h"
@@ -24,6 +25,8 @@
 #include "VulkanRenderContext.hpp"
 #include "VulkanTexture.h"
 #include "VulkanDescriptorLayoutManager.h"
+#include "VulkanShaderHeader.hpp"
+#include "VulkanShaders.h"
 
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_GOOGLE_threading",
@@ -114,19 +117,103 @@ void VulkanGraphicsInterface::InitializeGraphics()
 
 	renderContext = new VulkanRenderContext(*logicalDevice);
 
-	GetShaderManager().logicalDevice = logicalDevice.Get();
+	//GetShaderManager().logicalDevice = logicalDevice.Get();
 }
 
 void VulkanGraphicsInterface::DeinitializeGraphics()
 {
 	GetDescriptorLayoutManager().Deinitialize();
-	GetShaderManager().Deinitialize();
+	//GetShaderManager().Deinitialize();
 
 	renderContext.Reset();
 	logicalDevice.Reset();
 	// TODO - add clean up for vulkan classes
 	vkDestroyDebugReportCallbackEXT(instance, debugReportHandle, nullptr);
 	vkDestroyInstance(instance, nullptr);
+}
+
+UniquePtr<NativeVertexShader> VulkanGraphicsInterface::CreateVertexShader(const MemoryBuffer& vertexCode)
+{
+	MemoryDeserializer memoryBuffer(vertexCode);
+
+	VulkanShaderHeader header;
+	DynamicArray<uint32> byteCode;
+
+	Deserialize(memoryBuffer, header);
+	Assert(header.shaderStage == VK_SHADER_STAGE_VERTEX_BIT);
+	Deserialize(memoryBuffer, byteCode);
+
+	return MakeUnique<VulkanVertexShader>(*logicalDevice, header, byteCode);
+}
+
+UniquePtr<NativeFragmentShader> VulkanGraphicsInterface::CreateFragmentShader(const MemoryBuffer& fragmentCode)
+{
+	MemoryDeserializer memoryBuffer(fragmentCode);
+
+	VulkanShaderHeader header;
+	DynamicArray<uint32> byteCode;
+
+	Deserialize(memoryBuffer, header);
+	Assert(header.shaderStage == VK_SHADER_STAGE_FRAGMENT_BIT);
+	Deserialize(memoryBuffer, byteCode);
+
+	return MakeUnique<VulkanFragmentShader>(*logicalDevice, header, byteCode);
+}
+
+UniquePtr<NativeGeometryShader> VulkanGraphicsInterface::CreateGeometryShader(const MemoryBuffer& geometryCode)
+{
+	MemoryDeserializer memoryBuffer(geometryCode);
+
+	VulkanShaderHeader header;
+	DynamicArray<uint32> byteCode;
+
+	Deserialize(memoryBuffer, header);
+	Assert(header.shaderStage == VK_SHADER_STAGE_GEOMETRY_BIT);
+	Deserialize(memoryBuffer, byteCode);
+
+	return MakeUnique<VulkanGeometryShader>(*logicalDevice, header, byteCode);
+}
+
+UniquePtr<NativeTessEvaluationShader> VulkanGraphicsInterface::CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode)
+{
+	MemoryDeserializer memoryBuffer(tessEvalCode);
+
+	VulkanShaderHeader header;
+	DynamicArray<uint32> byteCode;
+
+	Deserialize(memoryBuffer, header);
+	Assert(header.shaderStage == VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT);
+	Deserialize(memoryBuffer, byteCode);
+
+	return MakeUnique<VulkanTessEvaluationShader>(*logicalDevice, header, byteCode);
+}
+
+UniquePtr<NativeTessControlShader> VulkanGraphicsInterface::CreateTessControlShader(const MemoryBuffer& tessCtrlCode)
+{
+	MemoryDeserializer memoryBuffer(tessCtrlCode);
+
+	VulkanShaderHeader header;
+	DynamicArray<uint32> byteCode;
+
+	Deserialize(memoryBuffer, header);
+	Assert(header.shaderStage == VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT);
+	Deserialize(memoryBuffer, byteCode);
+
+	return MakeUnique<VulkanTessControlShader>(*logicalDevice, header, byteCode);
+}
+
+UniquePtr<NativeComputeShader> VulkanGraphicsInterface::CreateComputeShader(const MemoryBuffer& computeCode)
+{
+	MemoryDeserializer memoryBuffer(computeCode);
+
+	VulkanShaderHeader header;
+	DynamicArray<uint32> byteCode;
+	
+	Deserialize(memoryBuffer, header);
+	Assert(header.shaderStage == VK_SHADER_STAGE_COMPUTE_BIT);
+	Deserialize(memoryBuffer, byteCode);
+
+	return MakeUnique<VulkanComputeShader>(*logicalDevice, header, byteCode);
 }
 
 UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(

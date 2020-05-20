@@ -3,9 +3,10 @@
 #pragma once
 
 #include "Platform.h"
+#include "File/FileDll.hpp"
 
 // TODO - Refactor the shit out of this.........
-class File
+class FILE_API File
 {
 public:
 

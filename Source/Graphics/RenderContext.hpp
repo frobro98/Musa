@@ -6,13 +6,14 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "Graphics/GraphicsDll.hpp"
 
 struct RenderTargetDescription;
 struct NativeRenderTargets;
 struct GraphicsPipelineDescription;
 struct ResourceArray;
 
-class RenderContext
+class GRAPHICS_API RenderContext
 {
 public:
 	virtual ~RenderContext() = default;

@@ -3,10 +3,11 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
+#include "CoreAPI.hpp"
 
 // Data Structure that has hash map semantics in a linear, more memory/cache friendly structure
 template <typename TypeA, typename TypeB>
-class ListPair
+class CORE_TEMPLATE ListPair
 {
 public:
 

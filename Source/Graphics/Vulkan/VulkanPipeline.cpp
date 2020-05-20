@@ -5,15 +5,13 @@
 #include "VulkanDescriptorSet.h"
 #include "VulkanDescriptorPool.h"
 #include "VulkanRenderPass.h"
-#include "VulkanShader.h"
+#include "VulkanShaders.h"
 #include "VulkanCommandBuffer.h"
 #include "VulkanUtilities.h"
 #include "VulkanFence.hpp"
 
 #include "DebugOutput.h"
 
-// TODO - The shader resource that lives in the Shader.lib doesn't belong here..
-#include "Shader/ShaderResource.hpp"
 
 VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicArray<VulkanDescriptorSetLayout*>&& layouts)
 	: descriptorSetLayouts(std::move(layouts)),
@@ -101,10 +99,13 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 
 	DynamicArray<VkPipelineShaderStageCreateInfo> shaderStages;
 
+	const VulkanVertexShader& vertexShader = *reinterpret_cast<const VulkanVertexShader*>(init.vertexShader);
+	const VulkanFragmentShader& fragmentShader = *reinterpret_cast<const VulkanFragmentShader*>(init.fragmentShader);
+
 	VkPipelineShaderStageCreateInfo vkShaderStage = {};
 	vkShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	vkShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vkShaderStage.module = init.vertexShader->nativeShader;
+	vkShaderStage.module = vertexShader.GetModule();
 	vkShaderStage.pName = "main";
 	vkShaderStage.pSpecializationInfo;
 	shaderStages.Add(vkShaderStage);
@@ -114,7 +115,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 		vkShaderStage = {};
 		vkShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		vkShaderStage.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-		vkShaderStage.module = init.fragmentShader->nativeShader;
+		vkShaderStage.module = fragmentShader.GetModule();
 		vkShaderStage.pName = "main";
 		vkShaderStage.pSpecializationInfo;
 		shaderStages.Add(vkShaderStage);

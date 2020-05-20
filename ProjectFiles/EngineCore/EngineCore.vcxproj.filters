@@ -246,6 +246,9 @@
     <ClInclude Include="..\..\Source\EngineCore\BasicTypes\FunctionRef.hpp">
       <Filter>Source\BasicTypes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EngineCore\CoreAPI.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\EngineCore\DebugOutput.cpp">

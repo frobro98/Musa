@@ -4,9 +4,10 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Assertion.h"
+#include "CoreAPI.hpp"
 
 template <class Type, uint32 size>
-struct StaticArray
+struct CORE_TEMPLATE StaticArray
 {
 	static_assert(size > 0, "Empty arrays aren't allowed currently!");
 	using ValueType = Type;

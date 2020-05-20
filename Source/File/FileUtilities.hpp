@@ -4,5 +4,6 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Containers/MemoryBuffer.hpp"
+#include "File/FileDll.hpp"
 
-MemoryBuffer LoadFileToMemory(const tchar* filePath);
+FILE_API MemoryBuffer LoadFileToMemory(const tchar* filePath);

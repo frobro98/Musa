@@ -32,7 +32,6 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ToonShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\UnlitShading.cpp" />
-    <ClCompile Include="..\..\Source\Shader\ShaderResource.cpp" />
     <ClCompile Include="..\..\Source\Shader\ThirdParty\spirv_reflect.c" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +41,7 @@
     <ClInclude Include="..\..\Source\Shader\Shader.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderDefinition.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderDll.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderExternal.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\BlinnShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp" />
@@ -54,7 +54,6 @@
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ToonShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\UnlitShading.hpp" />
-    <ClInclude Include="..\..\Source\Shader\ShaderResource.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStages.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStructure.hpp" />
     <ClInclude Include="..\..\Source\Shader\ThirdParty\spirv_reflect.h" />
@@ -124,20 +123,20 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -181,10 +180,11 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026;4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>SHADER_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>File_d.lib;glslangd_64.lib;mcpp_64d.lib</AdditionalDependencies>
@@ -194,9 +194,15 @@
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>EngineCore_d.lib;Graphics_d.lib;Archiver_d.lib;Texture_d.lib;File_d.lib;glslangd_64.lib;mcpp_64d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -209,14 +215,17 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\Shader;$(SolutionDir)\Source;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026;4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>SHADER_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>EngineCore.lib;Graphics.lib;Archiver.lib;Texture.lib;File.lib;glslang_64.lib;mcpp_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>File.lib;glslang_64.lib;mcpp_64.lib</AdditionalDependencies>
@@ -226,8 +235,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -241,14 +251,17 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\Shader;$(SolutionDir)\Source;$(SolutionDir)\Source\Texture;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4514;4668;4710;4711;4201;4588;4587;5039;5045;4625;5026;4251</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>SHADER_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>EngineCore.lib;Graphics.lib;Archiver.lib;Texture.lib;File.lib;glslang_64.lib;mcpp_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>File.lib;glslang_64.lib;mcpp_64.lib</AdditionalDependencies>
@@ -258,8 +271,9 @@ copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
+copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(IntermediateOutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

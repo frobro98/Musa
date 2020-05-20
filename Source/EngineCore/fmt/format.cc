@@ -6,6 +6,7 @@
 // For the license information refer to format.h.
 
 #include "fmt/format-inl.h"
+#include "CoreAPI.hpp"
 
 FMT_BEGIN_NAMESPACE
 namespace internal {
@@ -115,13 +116,13 @@ char* sprintf_format(Double value, internal::buffer<char>& buf,
 }
 }  // namespace internal
 
-template FMT_API char* internal::sprintf_format(double, internal::buffer<char>&,
+template CORE_API char* internal::sprintf_format(double, internal::buffer<char>&,
                                                 sprintf_specs);
-template FMT_API char* internal::sprintf_format(long double,
+template CORE_API char* internal::sprintf_format(long double,
                                                 internal::buffer<char>&,
                                                 sprintf_specs);
 
-template struct FMT_API internal::basic_data<void>;
+template struct internal::basic_data<void>;
 
 // Workaround a bug in MSVC2013 that prevents instantiation of format_float.
 int (*instantiate_format_float)(double, int, internal::float_specs,
@@ -129,48 +130,48 @@ int (*instantiate_format_float)(double, int, internal::float_specs,
     internal::format_float;
 
 #ifndef FMT_STATIC_THOUSANDS_SEPARATOR
-template FMT_API internal::locale_ref::locale_ref(const std::locale& loc);
-template FMT_API std::locale internal::locale_ref::get<std::locale>() const;
+template CORE_API internal::locale_ref::locale_ref(const std::locale& loc);
+template CORE_API std::locale internal::locale_ref::get<std::locale>() const;
 #endif
 
 // Explicit instantiations for char.
 
-template FMT_API std::string internal::grouping_impl<char>(locale_ref);
-template FMT_API char internal::thousands_sep_impl(locale_ref);
-template FMT_API char internal::decimal_point_impl(locale_ref);
+template CORE_API std::string internal::grouping_impl<char>(locale_ref);
+template CORE_API char internal::thousands_sep_impl(locale_ref);
+template CORE_API char internal::decimal_point_impl(locale_ref);
 
-template FMT_API void internal::buffer<char>::append(const char*, const char*);
+template CORE_API void internal::buffer<char>::append(const char*, const char*);
 
-template FMT_API void internal::arg_map<format_context>::init(
+template CORE_API void internal::arg_map<format_context>::init(
     const basic_format_args<format_context>& args);
 
-template FMT_API std::string internal::vformat<char>(
+template CORE_API std::string internal::vformat<char>(
     string_view, basic_format_args<format_context>);
 
-template FMT_API format_context::iterator internal::vformat_to(
+template CORE_API format_context::iterator internal::vformat_to(
     internal::buffer<char>&, string_view, basic_format_args<format_context>);
 
-template FMT_API int internal::snprintf_float(double, int,
+template CORE_API int internal::snprintf_float(double, int,
                                               internal::float_specs,
                                               internal::buffer<char>&);
-template FMT_API int internal::snprintf_float(long double, int,
+template CORE_API int internal::snprintf_float(long double, int,
                                               internal::float_specs,
                                               internal::buffer<char>&);
-template FMT_API int internal::format_float(double, int, internal::float_specs,
+template CORE_API int internal::format_float(double, int, internal::float_specs,
                                             internal::buffer<char>&);
-template FMT_API int internal::format_float(long double, int,
+template CORE_API int internal::format_float(long double, int,
                                             internal::float_specs,
                                             internal::buffer<char>&);
 
 // Explicit instantiations for wchar_t.
 
-template FMT_API std::string internal::grouping_impl<wchar_t>(locale_ref);
-template FMT_API wchar_t internal::thousands_sep_impl(locale_ref);
-template FMT_API wchar_t internal::decimal_point_impl(locale_ref);
+template CORE_API std::string internal::grouping_impl<wchar_t>(locale_ref);
+template CORE_API wchar_t internal::thousands_sep_impl(locale_ref);
+template CORE_API wchar_t internal::decimal_point_impl(locale_ref);
 
-template FMT_API void internal::buffer<wchar_t>::append(const wchar_t*,
+template CORE_API void internal::buffer<wchar_t>::append(const wchar_t*,
                                                         const wchar_t*);
 
-template FMT_API std::wstring internal::vformat<wchar_t>(
+template CORE_API std::wstring internal::vformat<wchar_t>(
     wstring_view, basic_format_args<wformat_context>);
 FMT_END_NAMESPACE

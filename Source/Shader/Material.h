@@ -8,20 +8,20 @@
 #include "Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Shader/MaterialRenderInfo.hpp"
+#include "Shader/ShaderDll.hpp"
 
 struct Texture;
 struct TextureCube;
-struct ShaderResource;
 struct MaterialRenderInfo;
 class ShaderProgram;
 class Matrix4;
 
-class Material
+class SHADER_API Material
 {
 public:
 	Material();
-	Material(ShaderResource& vertShader, ShaderResource& fragShader, const char* textureName, const Color32& color);
-	Material(ShaderResource& vertShader, ShaderResource& fragShader, const Texture* tex, const Color32& color);
+	Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const char* textureName, const Color32& color);
+	Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const Texture* tex, const Color32& color);
 	/*Material(const tchar* vertexShader, const tchar* fragmentShader, const char* textureName, const Color32& color);*/
 
 	void EnableWireframe();
@@ -35,8 +35,8 @@ public:
 	void SetShadingModel(ShadingModel model);
 
 
-	inline ShaderResource* GetVertexShader() const { return vertexShader; }
-	inline ShaderResource* GetFragmentShader() const { return fragmentShader; }
+	inline NativeVertexShader* GetVertexShader() const { return vertexShader; }
+	inline NativeFragmentShader* GetFragmentShader() const { return fragmentShader; }
 	inline const Texture* GetTexture0() const { return texture0; }
 	inline Texture* GetTexture1() const { return texture1; }
 	inline Texture* GetNormalMap() const { return normalMap; }
@@ -59,8 +59,8 @@ private:
 // 	float32 metallic = 0.f;
 
 	UniquePtr<MaterialRenderInfo> materialRendering = new MaterialRenderInfo;
-	ShaderResource* vertexShader;
-	ShaderResource* fragmentShader;
+	NativeVertexShader* vertexShader;
+	NativeFragmentShader* fragmentShader;
 	const Texture* texture0;
 	Texture* texture1 = nullptr;
 	Texture* normalMap = nullptr;

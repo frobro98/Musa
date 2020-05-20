@@ -14,6 +14,13 @@ public:
 	virtual void InitializeGraphics() override;
 	virtual void DeinitializeGraphics() override;
 
+	virtual UniquePtr<NativeVertexShader> CreateVertexShader(const MemoryBuffer& vertexCode) override;
+	virtual UniquePtr<NativeFragmentShader> CreateFragmentShader(const MemoryBuffer& fragmentCode) override;
+	virtual UniquePtr<NativeGeometryShader> CreateGeometryShader(const MemoryBuffer& geometryCode) override;
+	virtual UniquePtr<NativeTessEvaluationShader> CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode) override;
+	virtual UniquePtr<NativeTessControlShader> CreateTessControlShader(const MemoryBuffer& tessCtrlCode) override;
+	virtual UniquePtr<NativeComputeShader> CreateComputeShader(const MemoryBuffer& computeCode) override;
+
 	virtual UniquePtr<NativeViewport> CreateViewport(void* windowHandle, uint32 viewWidth, uint32 viewHeight) override;
 
 	virtual UniquePtr<NativeVertexBuffer> CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const override;
