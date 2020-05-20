@@ -229,14 +229,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -263,11 +266,16 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <CustomBuildStep>
       <Command>copy "$(SolutionDir)Binaries\*.dll" "$(OutputPath)" &gt; nul
 echo         Copied Musa Dlls!
 copy "$(SolutionDir)Binaries\*.pdb" "$(OutputPath)" &gt; nul
 echo         Copied PDBs!</Command>
-    </PreBuildEvent>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -295,11 +303,16 @@ echo         Copied PDBs!</Command>
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <CustomBuildStep>
       <Command>copy "$(SolutionDir)Binaries\*.dll" "$(OutputPath)" &gt; nul
 echo         Copied Musa Dlls!
 copy "$(SolutionDir)Binaries\*.pdb" "$(OutputPath)" &gt; nul
 echo         Copied PDBs!</Command>
-    </PreBuildEvent>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
     <ClCompile>
@@ -332,11 +345,16 @@ echo         Copied PDBs!</Command>
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <CustomBuildStep>
       <Command>copy "$(SolutionDir)Binaries\*.dll" "$(OutputPath)" &gt; nul
 echo         Copied Musa Dlls!
 copy "$(SolutionDir)Binaries\*.pdb" "$(OutputPath)" &gt; nul
 echo         Copied PDBs!</Command>
-    </PreBuildEvent>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
