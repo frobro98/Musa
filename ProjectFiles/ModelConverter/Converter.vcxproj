@@ -85,6 +85,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -154,6 +158,26 @@ echo         Copied Converter.exe!
 copy "$(SolutionDir)ThirdParty\lib\FBX\_Debug\libfbxsdk.dll" "$(SolutionDir)Tools" &gt;nul
 echo         Copied libfbxsdk.dll! </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>set toolsDir=$(SolutionDir)Tools
+mkdir "%toolsDir%" &gt; nul
+
+copy "$(SolutionDir)Binaries\EngineCore*.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File*.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.dll" "$(OutputPath)" &gt; nul
+echo         Copied Converter Dlls!
+copy "$(SolutionDir)Binaries\EngineCore*.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File*.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.pdb" "$(OutputPath)" &gt; nul
+echo         Copied PDBs!</Command>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -201,7 +225,7 @@ echo         Copied libfbxsdk.dll! </Command>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libfbxsdk.lib;Texture.lib;File.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libfbxsdk.lib;EngineCore.lib;Texture.lib;File.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)ThirdParty\lib\FBX\_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -215,6 +239,26 @@ echo         Copied Converter.exe!
 copy "$(SolutionDir)ThirdParty\lib\FBX\_Debug\libfbxsdk.dll" "$(SolutionDir)Tools" &gt;nul
 echo         Copied libfbxsdk.dll! </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>set toolsDir=$(SolutionDir)Tools
+mkdir "%toolsDir%" &gt; nul
+
+copy "$(SolutionDir)Binaries\EngineCore*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.dll" "%toolsDir%" &gt; nul
+echo         Copied Converter Dlls!
+copy "$(SolutionDir)Binaries\EngineCore*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.pdb" "%toolsDir%" &gt; nul
+echo         Copied PDBs!</Command>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Mesh\MeshUtilities.cpp" />

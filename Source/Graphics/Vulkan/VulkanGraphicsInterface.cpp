@@ -116,14 +116,11 @@ void VulkanGraphicsInterface::InitializeGraphics()
 	logicalDevice->Initialize(instance);
 
 	renderContext = new VulkanRenderContext(*logicalDevice);
-
-	//GetShaderManager().logicalDevice = logicalDevice.Get();
 }
 
 void VulkanGraphicsInterface::DeinitializeGraphics()
 {
 	GetDescriptorLayoutManager().Deinitialize();
-	//GetShaderManager().Deinitialize();
 
 	renderContext.Reset();
 	logicalDevice.Reset();

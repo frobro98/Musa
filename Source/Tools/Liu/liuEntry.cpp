@@ -1,8 +1,5 @@
 // Copyright 2020, Nathan Blane
 
-#include <stdio.h>
-#include <string.h>
-
 #include "Containers/MemoryBuffer.hpp"
 
 #include "Archiver/PackageHeader.h"
@@ -18,7 +15,7 @@
 			}										\
 		} while (false)
 
-#define FILE_CHECK_VA(x, errStr, ...)					\
+#define FILE_CHECK_VA(x, errStr, ...)				\
 		do {										\
 			if((!(x)))								\
 			{										\

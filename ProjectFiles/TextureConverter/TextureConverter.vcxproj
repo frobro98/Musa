@@ -47,10 +47,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -71,13 +73,32 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib;$(SolutionDir)ThirdParty\lib\ispc</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)Tools"
-
-copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "$(SolutionDir)Tools" &gt;nul
-echo         Copied ispc_texcomp.dll!
-copy "$(OutputPath)TextureConverter.exe" "$(SolutionDir)Tools" &gt; nul
-echo         Copied TextureConverter.exe!</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+      <Command>set toolsDir=$(SolutionDir)Tools
+mkdir "%toolsDir%" &gt; nul
+
+copy "$(SolutionDir)Binaries\EngineCore*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.dll" "%toolsDir%" &gt; nul
+echo         Copied Texture Converter Dlls!
+copy "$(SolutionDir)Binaries\EngineCore*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.pdb" "%toolsDir%" &gt; nul
+echo         Copied PDBs!
+</Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -102,11 +123,32 @@ echo         Copied TextureConverter.exe!</Command>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)Tools"
-
-copy "$(OutputPath)*.exe" "$(SolutionDir)Tools" &gt; nul
-echo         Copied TextureImporter.exe!</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+      <Command>set toolsDir=$(SolutionDir)Tools
+mkdir "%toolsDir%" &gt; nul
+
+copy "$(SolutionDir)Binaries\EngineCore*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.dll" "%toolsDir%" &gt; nul
+echo         Copied Texture Converter Dlls!
+copy "$(SolutionDir)Binaries\EngineCore*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture*.pdb" "%toolsDir%" &gt; nul
+echo         Copied PDBs!
+</Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Tools\TextureConverter\FastFourierTransform.cpp" />
