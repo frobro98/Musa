@@ -5,7 +5,7 @@
 #pragma warning(push)
 #pragma warning(disable:4307)
 
-#include "Utilities/Hash.hpp"
+#include "Utilities/HashFuncs.hpp"
 #include "ECS/Internal/robin_hood.hpp"
 #include "ECS/Internal/TypenameHashing.hpp"
 

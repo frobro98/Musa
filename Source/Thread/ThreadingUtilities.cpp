@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "ThreadingUtilities.hpp"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "Containers/ConcurrentQueue.hpp"
 
 namespace

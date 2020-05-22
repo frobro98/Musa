@@ -1,6 +1,7 @@
 // Copyright 2020, Nathan Blane
 
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
+#include "Utilities/Array.hpp"
 #include "VulkanDescriptorPool.h"
 #include "VulkanDevice.h"
 #include "VulkanDescriptorSet.h"

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 
 struct ResourceArray final
 {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Platform.h"
 #include "AnimationController.h"
 
 class AnimationClip;

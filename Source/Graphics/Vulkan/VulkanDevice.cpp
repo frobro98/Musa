@@ -2,6 +2,7 @@
 
 #include <mutex>
 
+#include "Utilities/Array.hpp"
 #include "VulkanDevice.h"
 #include "VulkanCreateInfos.h"
 #include "VulkanQueue.h"

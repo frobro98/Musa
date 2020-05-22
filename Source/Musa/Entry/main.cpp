@@ -319,7 +319,6 @@ void FileSerializationTest()
 
 //*/
 
-#include "Platform.h"
 #include <cstdio>
 #include <cstdlib>
 

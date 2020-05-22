@@ -2,7 +2,7 @@
 #include "AnimationClipFactory.h"
 #include "Clip.h"
 #include "Archiver/AnimationHeader.h"
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
 
 AnimationClip* AnimationClipFactory::CreateAnimationClip(uint8* animationData)
 {

@@ -3,8 +3,8 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "EngineCore/Assertion.h"
-#include "EngineCore/Extents.hpp"
+#include "Debugging/Assertion.hpp"
+#include "BasicTypes/Extents.hpp"
 
 struct IntRect;
 

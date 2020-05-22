@@ -1,6 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "TextureProcessing.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Containers/Map.h"
 #include "Path/Path.hpp"
 #include "File/FileUtilities.hpp"
@@ -10,7 +11,6 @@
 #include "Importers/BMPImporter.hpp"
 #include "Importers/TextureCompression.h"
 #include "Math/MathFunctions.hpp"
-#include "Color.hpp"
 
 namespace
 {

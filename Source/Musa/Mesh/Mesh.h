@@ -6,7 +6,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Math/BoundsVolumes.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
-#include "Mesh/GeometryPrimitives.h"
+#include "Graphics/GeometryPrimitives.hpp"
 
 struct NativeVertexBuffer;
 struct NativeIndexBuffer;

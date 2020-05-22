@@ -1,9 +1,8 @@
 // Copyright 2020, Nathan Blane
 
-#include "PlatformDefinitions.h"
 #include "CameraManager.h"
 #include "Camera.h"
-#include "EngineCore/String/CStringUtilities.hpp"
+#include "String/CStringUtilities.hpp"
 
 void CameraManager::AddCamera(Camera* camera, const char* cameraName)
 {

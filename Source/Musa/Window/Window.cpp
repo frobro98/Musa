@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
-#include "EngineCore/Platform.h"
-#include "Assertion.h"
+#include "Platform/Platform.hpp"
+#include "Debugging/Assertion.hpp"
 #include "Window.h"
 #include "Input/InputDefinitions.hpp"
 #include "Input/Internal/InputInternal.hpp"

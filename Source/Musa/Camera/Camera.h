@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include "Math/MathEngine.hpp"
 #include "Math/Rect.hpp"
-#include "Color.hpp"
-#include "EngineCore/Extents.hpp"
+#include "Math/Vector4.hpp"
+#include "Math/Matrix4.hpp"
+#include "BasicTypes/Color.hpp"
+#include "BasicTypes/Extents.hpp"
 
 class Camera final
 {

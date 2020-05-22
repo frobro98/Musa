@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform.h"
+
 #include "Time/Time.h"
 #include "KeyFrame.h"
 

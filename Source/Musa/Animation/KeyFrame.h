@@ -1,13 +1,11 @@
 #pragma once
 
-#include "Platform.h"
-#include "Malloc16Align.h"
 #include "Math/Vector4.hpp"
 #include "Math/Quat.hpp"
 #include "Time/Time.h"
 
 // TODO - Refactor the hell out of these structures...
-struct FrameData : public Malloc16
+struct FrameData// : public Malloc16
 {
 	Vector4 translation;
 	Quat rotation;

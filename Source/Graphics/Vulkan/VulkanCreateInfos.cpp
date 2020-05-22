@@ -3,7 +3,7 @@
 #include "VulkanCreateInfos.h"
 #include "VulkanDevice.h"
 #include "VulkanUtilities.h"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "CoreFlags.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 

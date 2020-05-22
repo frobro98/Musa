@@ -5,7 +5,7 @@
 #include <mutex>
 #include <type_traits>
 
-#include "EngineCore/Assertion.h"
+#include "Debugging/Assertion.hpp"
 
 template <typename Resource, typename T>
 class ResourceLockPtr;

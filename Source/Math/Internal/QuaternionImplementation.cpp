@@ -6,7 +6,6 @@
 #include "MathFunctions.hpp"
 #include "QuaternionImplementation.hpp"
 
-#include "PlatformDefinitions.h"
 // Includes to handle SIMD register types
 WALL_WRN_PUSH
 #include <xmmintrin.h>

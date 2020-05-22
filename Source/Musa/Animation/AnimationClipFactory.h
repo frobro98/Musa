@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Platform.h"
 #include "Containers/DynamicArray.hpp"
 
 class AnimationClip;

@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform.h"
+#include "BasicTypes/Intrinsics.hpp"
 WALL_WRN_PUSH
 #include "libJPEG/jpgd.h"
 WALL_WRN_POP

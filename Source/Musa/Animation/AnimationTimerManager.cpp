@@ -1,5 +1,4 @@
 #include "AnimationTimerManager.h"
-#include "Platform.h"
 #include "AnimationTimeController.h"
 
 void AnimationTimerManager::AddTimer(AnimationTimeController* controller)

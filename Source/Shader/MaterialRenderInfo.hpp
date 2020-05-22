@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"

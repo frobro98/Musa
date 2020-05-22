@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "ScreenView.hpp"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "Math/MatrixUtilities.hpp"
 #include "Camera/Camera.h"
 #include "Shader/ShaderDefinition.hpp"

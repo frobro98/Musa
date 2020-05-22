@@ -5,7 +5,7 @@
 #include "VulkanDefinitions.h"
 #include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
-#include "EngineCore/Extents.hpp"
+#include "BasicTypes/Extents.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
 
 class VulkanDevice;

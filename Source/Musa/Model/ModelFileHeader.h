@@ -3,7 +3,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 #include "Math/BoundsVolumes.hpp"
 
 constexpr uint32 ObjectNameSize = 32;

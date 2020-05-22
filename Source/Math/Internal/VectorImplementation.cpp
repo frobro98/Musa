@@ -1,13 +1,12 @@
 // Copyright 2020, Nathan Blane
 
 #include "VectorImplementation.h"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "Vector4.hpp"
 #include "Vector2.hpp"
 #include "Vector3.hpp"
 #include "MathFunctions.hpp"
 
-#include "PlatformDefinitions.h"
 // Includes to handle SIMD register types
 WALL_WRN_PUSH
 #include <xmmintrin.h>

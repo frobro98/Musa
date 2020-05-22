@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "EngineCore/Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "Quat.hpp"
 #include "Vector4.hpp"
 #include "MathFunctions.hpp"

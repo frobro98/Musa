@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "UserInterfacePipeline.hpp"
-#include "Mesh/GeometryPrimitives.h"
+#include "Graphics/GeometryPrimitives.hpp"
 #include "Font/FontCache.hpp"
 #include "Texture/Texture2D/Texture.h"
 #include "Graphics/RenderContext.hpp"

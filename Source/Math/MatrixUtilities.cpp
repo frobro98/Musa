@@ -2,7 +2,7 @@
 
 #include "MatrixUtilities.hpp"
 #include "MathFunctions.hpp"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 
 namespace Math
 {

@@ -3,9 +3,9 @@
 #pragma once
 
 #include "Math/Vector3.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Containers/DynamicArray.hpp"
-#include "Mesh/GeometryPrimitives.h"
+#include "GeometryPrimitives.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Graphics/GraphicsDll.hpp"
 

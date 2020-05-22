@@ -1,5 +1,6 @@
 // Copyright 2020, Nathan Blane
 
+#include "Utilities/Array.hpp"
 #include "VulkanPipeline.h"
 #include "VulkanDevice.h"
 #include "VulkanDescriptorSet.h"
@@ -10,7 +11,7 @@
 #include "VulkanUtilities.h"
 #include "VulkanFence.hpp"
 
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
 
 
 VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicArray<VulkanDescriptorSetLayout*>&& layouts)

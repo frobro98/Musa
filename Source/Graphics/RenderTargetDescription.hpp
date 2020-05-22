@@ -4,9 +4,9 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Containers/FixedArray.hpp"
-#include "Extents.hpp"
-#include "Utilities/Hash.hpp"
-#include "MemoryUtilities.h"
+#include "BasicTypes/Extents.hpp"
+#include "Utilities/HashFuncs.hpp"
+#include "Utilities/MemoryUtilities.hpp"
 #include "Texture/ImageFormats.h"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"

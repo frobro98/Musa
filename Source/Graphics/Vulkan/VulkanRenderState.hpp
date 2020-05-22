@@ -8,7 +8,7 @@
 #include "Graphics/Vulkan/VulkanIndexBuffer.h"
 #include "Graphics/Vulkan/VulkanVertexBuffer.h"
 
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 
 class VulkanFramebuffer;
 class VulkanPipeline;

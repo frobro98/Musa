@@ -1,9 +1,8 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform.h"
-WALL_WRN_PUSH
+//WALL_WRN_PUSH
 #include <sstream>
-WALL_WRN_POP
+//WALL_WRN_POP
 
 #include "BasicTypes/Uncopyable.hpp"
 #include "ShaderCompiler.h"
@@ -13,9 +12,9 @@ WALL_WRN_POP
 #include "spirv/disassemble.h"
 
 #include "DirectoryLocations.h"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "Path/Path.hpp"
-#include "Utilities/Hash.hpp"
+#include "Utilities/HashFuncs.hpp"
 #include "Serialization/MemorySerializer.hpp"
 
 #include "Graphics/Vulkan/VulkanShaderHeader.hpp"

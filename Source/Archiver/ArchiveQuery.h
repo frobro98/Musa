@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Platform.h"
 #include "ChunkHeader.h"
 #include "Archiver/ArchiverDll.hpp"
 

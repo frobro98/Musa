@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform.h"
+#include "Platform/Platform.hpp"
 #include "PNGImporter.hpp"
 
 #pragma warning(push)

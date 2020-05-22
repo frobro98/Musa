@@ -5,7 +5,7 @@
 
 #include "File/FileCore/File.h"
 #include "Model/ModelFileHeader.h"
-#include "Mesh/GeometryPrimitives.h"
+#include "Graphics/GeometryPrimitives.hpp"
 #include "Mesh/MeshUtilities.hpp"
 #include "Texture/TextureChunk.h"
 

@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "Platform.h"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "CoreFlags.hpp"
 
-WALL_WRN_PUSH
+//WALL_WRN_PUSH
+#define VK_PLATFORM_SURFACE_EXTENSION VK_KHR_WIN32_SURFACE_EXTENSION_NAME
+#define VK_USE_PLATFORM_WIN32_KHR
 #include <vulkan/vulkan.h>
-WALL_WRN_POP
+//WALL_WRN_POP
 
 #define CHECK_VK(expression) Assert(expression == VK_SUCCESS)
 

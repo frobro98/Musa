@@ -3,7 +3,7 @@
 #include "KeyFrame.h"
 #include "AnimationMixer.h"
 #include "String/CStringUtilities.hpp"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 
 AnimationClip::AnimationClip(const tchar* animationName, KeyFrame* frames, uint32 count, Time animationTime, uint32 skelHash, Time::Duration frameRate_)
 	: mixer(new AnimationMixer(frames[0].boneCount)),

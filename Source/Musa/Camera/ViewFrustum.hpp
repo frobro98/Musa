@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineCore/Extents.hpp"
+#include "BasicTypes/Extents.hpp"
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 

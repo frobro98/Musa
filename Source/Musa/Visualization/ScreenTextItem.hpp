@@ -3,7 +3,7 @@
 #pragma once
 
 #include "String/String.h"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Math/Vector2.hpp"
 
 struct ScreenTextItem

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "vulkan/vulkan.h"
+#include "VulkanDefinitions.h"
 #include "GraphicsInterface.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "VulkanDevice.h"

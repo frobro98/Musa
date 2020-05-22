@@ -3,7 +3,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 #include "VulkanDevice.h"
 
 struct VulkanBuffer;

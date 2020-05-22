@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
 #include "Math/IntVector2.hpp"
 #include "BasicTypes/Uncopyable.hpp"
 

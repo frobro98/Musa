@@ -4,7 +4,7 @@
 
 #include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 
 class VulkanDevice;
 class VulkanQueue;

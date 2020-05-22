@@ -3,11 +3,11 @@
 #pragma once
 
 #include "BasicTypes/UniquePtr.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 #include "Mesh/Mesh.h"
 #include "Model/Model.h"
-#include "Color.hpp"
 
 class GameWorld;
 

@@ -1,8 +1,8 @@
 // Copyright 2020, Nathan Blane
 
 #include "fmt/format.h"
+#include "Utilities/Array.hpp"
 
-#include "Platform.h"
 #include "ResourceBlob.hpp"
 #include "Serialization/MemoryDeserializer.hpp"
 #include "VulkanGraphicsInterface.hpp"

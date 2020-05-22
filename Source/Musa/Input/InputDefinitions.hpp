@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
 
 struct Inputs
 {

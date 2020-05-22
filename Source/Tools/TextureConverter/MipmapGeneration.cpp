@@ -4,7 +4,7 @@
 #include "FastFourierTransform.hpp"
 #include "Texture2D/Texture.h"
 #include "Math/MathFunctions.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Texture2D/TextureUtilities.hpp"
 
 namespace

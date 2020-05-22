@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "McppWrapper.hpp"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "String/String.h"
 #include "DirectoryLocations.h"
 #include "File/FileCore/File.h"

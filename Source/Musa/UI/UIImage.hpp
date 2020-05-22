@@ -6,7 +6,7 @@
 // Both UE4 and Unity have an Image UI component, essentially boiling down to this behavior, but it seems weird to associate it with an image...
 
 #include "UI/UIWidget.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 
 namespace UI
 {

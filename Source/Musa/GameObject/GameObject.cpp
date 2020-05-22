@@ -1,5 +1,7 @@
 // Copyright 2020, Nathan Blane
 
+#include "Math/Quat.hpp"
+#include "Math/MathFunctions.hpp"
 #include "GameObject.h"
 #include "Model/Model.h"
 #include "Input/Input.hpp"

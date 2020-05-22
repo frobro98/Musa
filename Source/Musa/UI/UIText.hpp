@@ -4,7 +4,7 @@
 
 #include "UI/UIWidget.hpp"
 #include "String/String.h"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Font/FontCache.hpp"
 
 namespace UI

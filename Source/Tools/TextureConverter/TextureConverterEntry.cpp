@@ -6,7 +6,7 @@
 #include "TextureProcessing.hpp"
 #include "Archiver/FileSerializer.hpp"
 #include "MipmapGeneration.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Math/MathFunctions.hpp"
 
 // TODO - Probably are useful utilities for color manipulation

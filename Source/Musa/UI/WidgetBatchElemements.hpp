@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "Mesh/GeometryPrimitives.h"
+#include "Graphics/GeometryPrimitives.hpp"
 
 struct NativeTexture;
 

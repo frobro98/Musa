@@ -320,9 +320,6 @@
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshUtilities.hpp">
       <Filter>Source\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Mesh\GeometryPrimitives.h">
-      <Filter>Source\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Mesh\Mesh.h">
       <Filter>Source\Mesh</Filter>
     </ClInclude>

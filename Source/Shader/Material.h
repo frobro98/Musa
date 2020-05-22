@@ -2,10 +2,8 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
 #include "BasicTypes/UniquePtr.hpp"
-#include "Math/MathEngine.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Shader/MaterialRenderInfo.hpp"
 #include "Shader/ShaderDll.hpp"

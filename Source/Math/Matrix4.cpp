@@ -4,7 +4,7 @@
 #include "Vector4.hpp"
 #include "Quat.hpp"
 #include "MathFunctions.hpp"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 
 Matrix4::Matrix4()
 	: v0(0.f, 0.f, 0.f, 0.f),

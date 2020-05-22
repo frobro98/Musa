@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Platform.h"
 #include "Containers/DynamicArray.hpp"
 #include "PCSTree/PCSTree.h"
 #include "Animation/Skeleton/SkeletonBone.h"

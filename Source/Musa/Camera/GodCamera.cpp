@@ -1,11 +1,13 @@
 // Copyright 2020, Nathan Blane
 
+#include "Math/Quat.hpp"
+#include "Math/MathFunctions.hpp"
 #include "GodCamera.hpp"
 #include "Camera.h"
 #include "Input/Input.hpp"
 #include "Engine/FrameData.hpp"
 #include "Input/GameInput.hpp"
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
 
 GodCamera::GodCamera(GameWorld& world, Camera& cam)
 	: GameObject(world),

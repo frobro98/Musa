@@ -2,7 +2,7 @@
 
 #include "VulkanRenderContext.hpp"
 #include "VulkanRenderState.hpp"
-#include "EngineCore/Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "VulkanCommandBuffer.h"
 #include "VulkanPipeline.h"
 #include "VulkanDescriptorSet.h"

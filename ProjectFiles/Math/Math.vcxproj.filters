@@ -57,9 +57,6 @@
     <ClInclude Include="..\..\Source\Math\QuatFunctions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math\MathEngine.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Math\MathDefinitions.hpp">
       <Filter>Source</Filter>
     </ClInclude>

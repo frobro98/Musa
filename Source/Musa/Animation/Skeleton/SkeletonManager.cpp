@@ -9,7 +9,7 @@
 #include "PCSTree/PCSNode.h"
 #include "PCSTree/PCSTree.h"
 
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
 
 Skeleton* SkeletonManager::CreateSkeleton(uint8* skeletonData, uint32 hash)
 {

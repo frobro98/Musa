@@ -1,10 +1,10 @@
 // Copyright 2020, Nathan Blane
 
 #include "ResourceBlob.hpp"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 
 ResourceBlob::ResourceBlob(uint8* blobData, size_t blobSize)
 	: size(blobSize)

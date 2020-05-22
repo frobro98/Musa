@@ -4,6 +4,7 @@
 
 #include "Camera/Camera.h"
 #include "Math/Rect.hpp"
+#include "Math/Vector4.hpp"
 #include "ECS/Component.hpp"
 
 struct CameraComponent : public Musa::Component

@@ -13,7 +13,7 @@
 #include "Debugging/MetricInterface.hpp"
 #include "Shader/ShaderObjects/ScreenRendering.hpp"
 
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
 
 DECLARE_METRIC_GROUP(DeferredRender);
 METRIC_STAT(ComposeTargets, DeferredRender);

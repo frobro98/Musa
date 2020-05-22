@@ -5,7 +5,7 @@
 #include <functional>
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "EngineCore/Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "Thread/JobSystem/StealingConcurrentDeque.hpp"
 
 using JobTask = std::function<void()>;

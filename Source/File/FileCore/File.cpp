@@ -1,8 +1,8 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform.h"
+#include "Platform/Platform.hpp"
 #include "File.h"
-#include "EngineCore/Assertion.h"
+#include "Debugging/Assertion.hpp"
 
 unsigned int FileModeToWin32Access(File::Mode mode)
 {

@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "FileDeserializer.hpp"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 
 FileDeserializer::FileDeserializer(const Path& filePath)
 {

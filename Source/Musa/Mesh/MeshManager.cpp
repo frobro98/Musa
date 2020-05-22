@@ -1,8 +1,8 @@
 // Copyright 2020, Nathan Blane
 
+#include "Math/MathFunctions.hpp"
 #include "MeshManager.h"
 #include "Mesh.h"
-#include "PlatformDefinitions.h"
 #include "File/FileCore/File.h"
 #include "Model/ModelFileHeader.h"
 #include "DirectoryLocations.h"

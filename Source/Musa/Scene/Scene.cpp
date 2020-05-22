@@ -1,7 +1,6 @@
 // Copyright 2020, Nathan Blane
 
 #include "Scene.hpp"
-#include "Platform.h"
 #include "ScreenView.hpp"
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"

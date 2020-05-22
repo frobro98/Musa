@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Platform.h"
 #include "String/String.h"
 #include "Containers/DynamicArray.hpp"
 

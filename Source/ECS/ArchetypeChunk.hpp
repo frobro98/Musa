@@ -4,7 +4,7 @@
 
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "EngineCore/MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 #include "Containers/StaticArray.hpp"
 #include "BasicTypes/UniquePtr.hpp"
 #include "ECS/ChunkArray.hpp"

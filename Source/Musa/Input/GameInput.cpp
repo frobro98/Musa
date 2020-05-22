@@ -5,7 +5,7 @@
 #include "Entry/MusaApp.hpp"
 #include "Math/MathFunctions.hpp"
 
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
 
 GameInput::GameInput(MusaEngine& engine)
 	: musaEngine(engine)

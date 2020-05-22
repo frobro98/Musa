@@ -3,7 +3,6 @@
 #include "Mesh.h"
 #include "DirectoryLocations.h"
 #include "File/FileCore/File.h"
-#include "Platform.h"
 #include "Model/ModelFileHeader.h"
 #include "Graphics/GraphicsInterface.hpp"
 

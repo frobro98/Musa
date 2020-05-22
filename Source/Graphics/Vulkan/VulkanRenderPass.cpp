@@ -1,5 +1,6 @@
 // Copyright 2020, Nathan Blane
 
+#include "Utilities/Array.hpp"
 #include "VulkanRenderPass.h"
 #include "VulkanDevice.h"
 #include "VulkanCreateInfos.h"

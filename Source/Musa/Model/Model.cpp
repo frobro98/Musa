@@ -1,7 +1,6 @@
 // Copyright 2020, Nathan Blane
 
 #include "Model.h"
-#include "Platform.h"
 #include "Shader/Material.h"
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshRenderInfo.hpp"

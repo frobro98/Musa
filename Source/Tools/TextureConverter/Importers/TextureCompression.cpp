@@ -1,10 +1,9 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform.h"
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 #include "ImageFormats.h"
 #include "TextureCompression.h"
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 #include "Texture2D/TextureUtilities.hpp"
 WALL_WRN_PUSH
 #include "ispc/ispc_texcomp.h"

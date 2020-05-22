@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
 #include "Containers/DynamicArray.hpp"
 // TODO - Move String up a directory level....or make Core required for every lib
 #include "String/String.h"

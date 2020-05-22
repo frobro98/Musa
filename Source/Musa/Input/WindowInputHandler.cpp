@@ -7,7 +7,7 @@
 #include "Window/Window.h"
 #include "Entry/MusaApp.hpp"
 
-#include "DebugOutput.h"
+#include "Debugging/DebugOutput.hpp"
 
 WindowInputHandler::WindowInputHandler(MusaApp& app, GameInput& input)
 	: gameInput(input),

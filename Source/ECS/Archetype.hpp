@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineCore/Algorithms.hpp"
+#include "Algorithms/Algorithms.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Utilities/TemplateUtils.hpp"

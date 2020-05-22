@@ -2,10 +2,10 @@
 
 #pragma once
 
-#include "Platform.h"
-#include "MemoryUtilities.h"
-#include "Math/MathEngine.hpp"
-#include "Color.hpp"
+#include "BasicTypes/Color.hpp"
+#include "Utilities/MemoryUtilities.hpp"
+#include "Math/Matrix4.hpp"
+#include "Math/Vector4.hpp"
 
 constexpr uint32 MaxBones = 120;
 

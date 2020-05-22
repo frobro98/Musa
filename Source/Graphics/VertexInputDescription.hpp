@@ -3,11 +3,10 @@
 #pragma once
 
 #include <type_traits>
-// TODO - Remove the include of std::array<>...
-#include <array>
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Musa/Mesh/GeometryPrimitives.h"
+#include "Containers/StaticArray.hpp"
+#include "GeometryPrimitives.hpp"
 #include "Utilities/TemplateUtils.hpp"
 
 enum class VertexInputType : uint16
@@ -40,7 +39,7 @@ constexpr uint32 MaxVertexInputDescriptions = 6;
 
 struct VertexInputDescriptionList
 {
-	using InputDescriptionList = std::array<VertexInputDescription, MaxVertexInputDescriptions>;
+	using InputDescriptionList = StaticArray<VertexInputDescription, MaxVertexInputDescriptions>;
 	InputDescriptionList inputDescs;
 	uint32 vertexInputCount;
 

@@ -2,9 +2,8 @@
 
 #pragma once
 
-#include "EngineCore/Platform.h"
-#include "EngineCore/String/String.h"
-#include "EngineCore/DebugOutput.h"
+#include "String/String.h"
+#include "Debugging/DebugOutput.hpp"
 
 template <class TreeType>
 class PCSNode

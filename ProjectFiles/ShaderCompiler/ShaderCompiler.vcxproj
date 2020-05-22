@@ -58,7 +58,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Tools\ShaderCompiler;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source\;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Tools\ShaderCompiler;$(SolutionDir)\Source\Core;$(SolutionDir)\Source\;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4710;4668;4514;5039;5045;4625;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -67,7 +67,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EngineCore_d.lib;Shader_d.lib;File_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_d.lib;Shader_d.lib;File_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -78,23 +78,24 @@
       <Command>set toolsDir=$(SolutionDir)Tools
 mkdir "%toolsDir%" &gt; nul
 
-copy "$(SolutionDir)Binaries\EngineCore*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Core_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.dll" "%toolsDir%" &gt; nul
 echo         Copied Shader Compiler Dlls!
-copy "$(SolutionDir)Binaries\EngineCore*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader*.pdb" "%toolsDir%" &gt; nul
+
+copy "$(SolutionDir)Binaries\Core_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.pdb" "%toolsDir%" &gt; nul
 echo         Copied PDBs!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
@@ -106,7 +107,7 @@ echo         Copied PDBs!</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Tools\ShaderCompiler;$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source\;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Tools\ShaderCompiler;$(SolutionDir)\Source\Core;$(SolutionDir)\Source\;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4710;4668;4514;5039;5045;4625;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -117,7 +118,7 @@ echo         Copied PDBs!</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries</AdditionalLibraryDirectories>
-      <AdditionalDependencies>EngineCore.lib;Shader.lib;File.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core.lib;Shader.lib;File.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -128,23 +129,24 @@ echo         Copied PDBs!</Command>
       <Command>set toolsDir=$(SolutionDir)Tools
 mkdir "%toolsDir%" &gt; nul
 
-copy "$(SolutionDir)Binaries\EngineCore*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Core.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Shader.dll" "%toolsDir%" &gt; nul
 echo         Copied Shader Compiler Dlls!
-copy "$(SolutionDir)Binaries\EngineCore*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader*.pdb" "%toolsDir%" &gt; nul
+
+copy "$(SolutionDir)Binaries\Core.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\File.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Texture.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Shader.pdb" "%toolsDir%" &gt; nul
 echo         Copied PDBs!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>

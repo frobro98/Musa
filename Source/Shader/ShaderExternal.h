@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
+#include "CoreFlags.hpp"
 
 // #if Vulkan
 WALL_WRN_PUSH

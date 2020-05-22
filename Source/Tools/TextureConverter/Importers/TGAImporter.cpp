@@ -3,7 +3,7 @@
 #include "Importers/TGAImporter.h"
 #include "Texture2D/Texture.h"
 
-#include "MemoryUtilities.h"
+#include "Utilities/MemoryUtilities.hpp"
 
 TGAImporter::TGAImporter()
 	: TextureImporter()

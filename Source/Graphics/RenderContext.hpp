@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Color.hpp"
 #include "BasicTypes/Intrinsics.hpp"
+#include "BasicTypes/Color.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Graphics/GraphicsDll.hpp"

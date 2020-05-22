@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Platform.h"
 #include "Texture2D/Texture.h"
 #include "ImageFormats.h"
 

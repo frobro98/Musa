@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Platform.h"
 #include "String/String.h"
 #include "File/FileDll.hpp"
 

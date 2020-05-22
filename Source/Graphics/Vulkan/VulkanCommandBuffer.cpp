@@ -10,7 +10,7 @@
 #include "VulkanIndexBuffer.h"
 #include "VulkanBufferAllocation.hpp"
 
-#include "Assertion.h"
+#include "Debugging/Assertion.hpp"
 
 #include "fmt/format.h"
 

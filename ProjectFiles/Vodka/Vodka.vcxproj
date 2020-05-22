@@ -49,7 +49,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Source\Tools\Vodka;$(SolutionDir)Source\;$(SolutionDir)Source\EngineCore;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Source\Tools\Vodka;$(SolutionDir)Source\;$(SolutionDir)Source\Core</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -63,7 +63,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>EngineCore_d.lib;File_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_d.lib;File_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
@@ -79,11 +79,11 @@
       <Command>set toolsDir=$(SolutionDir)Tools
 mkdir "%toolsDir%" &gt; nul
 
-copy "$(SolutionDir)Binaries\EngineCore*.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math*.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\EngineCore_d.dll" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.dll" "%toolsDir%" &gt; nul
 echo         Copied Vodka Dlls!
-copy "$(SolutionDir)Binaries\EngineCore*.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math*.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\EngineCore_d.pdb" "%toolsDir%" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.pdb" "%toolsDir%" &gt; nul
 echo         Copied PDBs!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>

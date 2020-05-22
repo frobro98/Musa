@@ -113,7 +113,7 @@ void MusaApp::TearDownGameEngine()
 void MusaApp::ApplicationUpdate()
 {
 	frameTick.Lap();
-	const float32 tick = (float32)frameTick.GetSeconds();
+	const float32 tick = .016f; //(float32)frameTick.GetSeconds();
 	frameTick.Start();
 
 	Frame::SetFrameStats({ tick });

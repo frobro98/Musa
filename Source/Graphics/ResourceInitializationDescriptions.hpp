@@ -4,7 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "VertexInputDescription.hpp"
-#include "Utilities/Hash.hpp"
+#include "Utilities/HashFuncs.hpp"
 #include "RenderTargetDescription.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Math/MathFunctions.hpp"

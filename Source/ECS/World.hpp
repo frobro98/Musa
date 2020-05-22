@@ -5,7 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "BasicTypes/Uncopyable.hpp"
 #include "BasicTypes/UniquePtr.hpp"
-#include "Algorithms.hpp"
+#include "Algorithms/Algorithms.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
 #include "ECS/DLLDef.h"

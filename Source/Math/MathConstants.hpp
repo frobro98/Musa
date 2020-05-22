@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "PlatformDefinitions.h"
+#include "BasicTypes/Intrinsics.hpp"
 
 namespace Math
 {

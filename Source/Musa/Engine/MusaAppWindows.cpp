@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform.h"
+#include "Platform/Platform.hpp"
 #include <xinput.h>
 
 #include "MusaAppWindows.hpp"
