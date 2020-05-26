@@ -46,6 +46,9 @@
     <Filter Include="Source\Platform\Windows">
       <UniqueIdentifier>{4ac007c1-f504-4b9b-8b16-238e5c9bf0bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Memory">
+      <UniqueIdentifier>{a449b7b5-ddb1-43f0-ac72-7d265080e1bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\DirectoryLocations.cpp">
@@ -119,6 +122,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Utilities\HashFuncs.cpp">
       <Filter>Source\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryCore.cpp">
+      <Filter>Source\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp">
+      <Filter>Source\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp">
+      <Filter>Source\Platform\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +343,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Utilities\Array.hpp">
       <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Platform\PlatformMemory.hpp">
+      <Filter>Source\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryCore.hpp">
+      <Filter>Source\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryFunctions.hpp">
+      <Filter>Source\Memory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

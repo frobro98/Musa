@@ -83,26 +83,26 @@
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Binaries\Core.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
+      <Command>copy "$(SolutionDir)Binaries\Core_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.dll" "$(OutputPath)" &gt; nul
 echo         Copied Unit Test Dlls!
 
-copy "$(SolutionDir)Binaries\Core.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Core_D.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.pdb" "$(OutputPath)" &gt; nul
 echo         Copied PDBs!</Command>
       <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
     </CustomBuildStep>
@@ -129,26 +129,26 @@ echo         Copied PDBs!</Command>
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Binaries\Core.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
+      <Command>copy "$(SolutionDir)Binaries\Core_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.dll" "$(OutputPath)" &gt; nul
 echo         Copied Unit Test Dlls!
 
-copy "$(SolutionDir)Binaries\Core.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Core_D.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.pdb" "$(OutputPath)" &gt; nul
 echo         Copied PDBs!</Command>
       <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
     </CustomBuildStep>
@@ -176,26 +176,26 @@ echo         Copied PDBs!</Command>
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Binaries\Core.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
+      <Command>copy "$(SolutionDir)Binaries\Core_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.dll" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.dll" "$(OutputPath)" &gt; nul
 echo         Copied Unit Test Dlls!
 
-copy "$(SolutionDir)Binaries\Core.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Core_D.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Math_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\File_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Texture_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\Shader_d.pdb" "$(OutputPath)" &gt; nul
+copy "$(SolutionDir)Binaries\ECS_d.pdb" "$(OutputPath)" &gt; nul
 echo         Copied PDBs!</Command>
       <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
     </CustomBuildStep>

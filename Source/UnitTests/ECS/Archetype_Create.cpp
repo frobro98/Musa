@@ -9,6 +9,8 @@
 #include "TestComponents/Position.hpp"
 #include "TestComponents/Rotation.hpp"
 
+#include "Platform/PlatformMemory.hpp"
+
 using namespace Musa;
 
 TEST(ArchetypeCreateOne, ArchetypeTesting)

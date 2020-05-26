@@ -6,6 +6,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Containers/StaticArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
+#include "Utilities/Array.hpp"
 #include "ECS/Types.hpp"
 #include "ECS/DLLDef.h"
 #include "ECS/ComponentType.hpp"

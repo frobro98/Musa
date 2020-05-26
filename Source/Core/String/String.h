@@ -30,6 +30,8 @@ public:
 	void Replace(const tchar* toFind, const tchar* toReplace);
 	String SubStr(uint32 startIndex) const;
 	String SubStr(uint32 startIndex, uint32 endIndex) const;
+	// TODO - This should return some sort of interface that can be iterated over, not a Dynamic Array...
+	// TODO - This should initially be a free function that gets called by this member function
 	DynamicArray<String> Split(const tchar* charToSplitOn) const;
 	int32 IndexOf(tchar ch) const;
 	tchar CharAt(uint32 index) const;

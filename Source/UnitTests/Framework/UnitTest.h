@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "Platform.h"
-#include "Assertion.h"
-#include "DebugOutput.h"
+#include "Platform/Platform.hpp"
+#include "Debugging/Assertion.hpp"
+#include "Debugging/DebugOutput.hpp"
 #include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/MacroHelpers.hpp"
 #include "Math/MathFunctions.hpp"
+#include "Utilities/Array.hpp"
 
 struct UnitStats
 {

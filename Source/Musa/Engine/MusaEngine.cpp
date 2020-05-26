@@ -408,8 +408,11 @@ static void LoadPakFile(const Path& pakPath)
 #include "GameObject/DemoGameObjects/MoveBetweenObject.hpp"
 #include "GameObject/DemoGameObjects/ScaleChangingObject.hpp"
 
+#include "Platform/PlatformMemory.hpp"
+
 void MusaEngine::LoadContent()
 {
+	NOT_USED Memory::PlatformMemoryInfo info = Memory::GetPlatformMemoryInfo();
 	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
 	GetTextureManager().AddTexture(*WhiteTexture());
 	GetTextureManager().AddTexture(*BlackTexture());

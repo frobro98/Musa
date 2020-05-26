@@ -26,7 +26,10 @@
     <ClCompile Include="..\..\Source\Core\fmt\format.cc" />
     <ClCompile Include="..\..\Source\Core\fmt\os.cc" />
     <ClCompile Include="..\..\Source\Core\GUID\Guid.cpp" />
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryCore.cpp" />
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="..\..\Source\Core\Path\Path.cpp" />
+    <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp" />
     <ClCompile Include="..\..\Source\Core\Serialization\DeserializeBase.cpp" />
     <ClCompile Include="..\..\Source\Core\Serialization\MemoryDeserializer.cpp" />
     <ClCompile Include="..\..\Source\Core\Serialization\MemorySerializer.cpp" />
@@ -86,9 +89,12 @@
     <ClInclude Include="..\..\Source\Core\fmt\printf.h" />
     <ClInclude Include="..\..\Source\Core\fmt\ranges.h" />
     <ClInclude Include="..\..\Source\Core\GUID\Guid.hpp" />
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryCore.hpp" />
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryFunctions.hpp" />
     <ClInclude Include="..\..\Source\Core\Path\Path.hpp" />
     <ClInclude Include="..\..\Source\Core\Platform\Platform.hpp" />
     <ClInclude Include="..\..\Source\Core\Platform\PlatformDefinitions.h" />
+    <ClInclude Include="..\..\Source\Core\Platform\PlatformMemory.hpp" />
     <ClInclude Include="..\..\Source\Core\Platform\Windows\Win32InputDefinitions.h" />
     <ClInclude Include="..\..\Source\Core\Platform\Windows\WindowsDefinitions.h" />
     <ClInclude Include="..\..\Source\Core\Platform\Windows\WindowsTypes.h" />
@@ -173,7 +179,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\EngineCore;$(SolutionDir)\Source;$(SolutionDir)\Source\Graphics;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Source\Core;$(SolutionDir)\Source;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4710;4711;4668;4514;5039;5045;4625;4307;4251</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -197,7 +203,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       </AdditionalLibraryDirectories>
     </Lib>
     <Link>
-      <ProgramDatabaseFile>$(OutDir)$(TargetName)_d.pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
