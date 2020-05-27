@@ -6,7 +6,7 @@
 #include "Containers/MemoryBuffer.hpp"
 #include "Shader/ShaderStructure.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "Shader/ShaderDll.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 
 class SHADER_API ShaderObjectBase

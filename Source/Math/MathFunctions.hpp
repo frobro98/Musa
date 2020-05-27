@@ -7,7 +7,7 @@
 #include "CoreFlags.hpp"
 #include "Math/MathConstants.hpp"
 #include "Math/BitManipulation.hpp"
-#include "Math/MathDll.hpp"
+#include "Math/MathAPI.hpp"
 
 namespace Math
 {
@@ -35,7 +35,7 @@ constexpr forceinline float32 Saturate(float32 val)
 	return Clamp(val, 0.f, 1.f);
 }
 
-constexpr forceinline float64 Saturate(float64 val)
+constexpr forceinline f64 Saturate(f64 val)
 {
 	return Clamp(val, 0., 1.);
 }
@@ -66,7 +66,7 @@ constexpr forceinline float32 Select(float32 fFalse, float32 fTrue, bool expr)
 	return expr ? fTrue : fFalse;
 }
 
-constexpr forceinline float64 Select(float64 fFalse, float64 fTrue, bool expr)
+constexpr forceinline f64 Select(f64 fFalse, f64 fTrue, bool expr)
 {
 	return expr ? fTrue : fFalse;
 }
@@ -103,7 +103,7 @@ constexpr forceinline float32 RadiansToDegrees(float32 rad)
 	return rad * InvPiOver180;
 }
 
-constexpr forceinline float64 RadiansToDegrees(float64 rad)
+constexpr forceinline f64 RadiansToDegrees(f64 rad)
 {
 	return rad * InvPiOver180_dbl;
 }
@@ -113,7 +113,7 @@ constexpr forceinline float32 DegreesToRadians(float32 deg)
 	return deg * PiOver180;
 }
 
-constexpr forceinline float64 DegreesToRadians(float64 deg)
+constexpr forceinline f64 DegreesToRadians(f64 deg)
 {
 	return deg * PiOver180_dbl;
 }
@@ -136,7 +136,7 @@ forceinline float32 Abs(float32 value)
 	return AsFloat32(AsUint32(value) & floatMask);
 }
 
-forceinline float64 Abs(float64 value)
+forceinline f64 Abs(f64 value)
 {
 	constexpr uint64 doubleMask = 0x7fffffffffffffff;
 	return AsFloat64(AsUint64(value) & doubleMask);
@@ -147,7 +147,7 @@ forceinline float32 Floor(float32 val)
 	return floorf(val);
 }
 
-forceinline float64 Floor(float64 val)
+forceinline f64 Floor(f64 val)
 {
 	return floor(val);
 }
@@ -157,7 +157,7 @@ forceinline float32 Ceil(float32 val)
 	return ceilf(val);
 }
 
-forceinline float64 Ceil(float64 val)
+forceinline f64 Ceil(f64 val)
 {
 	return ceil(val);
 }
@@ -167,7 +167,7 @@ forceinline float32 Round(float32 val)
 	return roundf(val);
 }
 
-forceinline float64 Round(float64 val)
+forceinline f64 Round(f64 val)
 {
 	return round(val);
 }
@@ -177,7 +177,7 @@ forceinline float32 Truncate(float32 val)
 	return truncf(val);
 }
 
-forceinline float64 Truncate(float64 val)
+forceinline f64 Truncate(f64 val)
 {
 	return trunc(val);
 }
@@ -187,7 +187,7 @@ forceinline float32 Frac(float32 val)
 	return val - Floor(val);
 }
 
-forceinline float64 Frac(float64 val)
+forceinline f64 Frac(f64 val)
 {
 	return val - Floor(val);
 }
@@ -198,7 +198,7 @@ forceinline float32 Modf(float32 val, float32& i)
 	return val - i;
 }
 
-forceinline float64 Modf(float64 val, float64& i)
+forceinline f64 Modf(f64 val, f64& i)
 {
 	i = Truncate(val);
 	return val - i;
@@ -276,7 +276,7 @@ forceinline float32 Sqrt(float32 num)
 	return sqrtf(num);
 }
 
-forceinline float64 Sqrt(float64 num)
+forceinline f64 Sqrt(f64 num)
 {
 	return sqrt(num);
 }
@@ -286,7 +286,7 @@ forceinline float32 InvSqrt(float32 num)
 	return 1.f / Sqrt(num);
 }
 
-forceinline float64 InvSqrt(float64 num)
+forceinline f64 InvSqrt(f64 num)
 {
 	return 1.f / Sqrt(num);
 }
@@ -331,17 +331,17 @@ forceinline float32 Exp10(float32 x)
 	return Exp(x * NatLogOf10);
 }
 
-forceinline float64 Exp(float64 x)
+forceinline f64 Exp(f64 x)
 {
 	return exp(x);
 }
 
-forceinline float64 Exp2(float64 x)
+forceinline f64 Exp2(f64 x)
 {
 	return Exp(x * NatLogOf2);
 }
 
-forceinline float64 Exp10(float64 x)
+forceinline f64 Exp10(f64 x)
 {
 	return Exp(x * NatLogOf10);
 }

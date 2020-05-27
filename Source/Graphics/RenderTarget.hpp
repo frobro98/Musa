@@ -9,7 +9,7 @@
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Graphics/RenderTargetDescription.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 
 struct RenderTarget
 {

@@ -170,6 +170,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Texture\Texture2D\Texture.cpp" />
     <ClCompile Include="..\..\Source\Texture\Texture2D\TextureManager.cpp" />
+    <ClCompile Include="..\..\Source\Texture\TextureAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Texture\ImageFormats.h" />
@@ -178,7 +179,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureManager.h" />
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureUtilities.hpp" />
     <ClInclude Include="..\..\Source\Texture\TextureChunk.h" />
-    <ClInclude Include="..\..\Source\Texture\TextureDll.hpp" />
+    <ClInclude Include="..\..\Source\Texture\TextureAPI.hpp" />
     <ClInclude Include="..\..\Source\Texture\TextureSampleSettings.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

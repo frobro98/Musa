@@ -7,7 +7,7 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/RenderTarget.hpp"
 #include "Graphics/GraphicsResourceFlags.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 
 class RenderContext;
 struct NativeRenderTargets;

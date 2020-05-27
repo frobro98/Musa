@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\Source\Core\BasicTypes\Color.cpp" />
     <ClCompile Include="..\..\Source\Core\BasicTypes\RefPtr.cpp" />
     <ClCompile Include="..\..\Source\Core\Containers\MemoryBuffer.cpp" />
+    <ClCompile Include="..\..\Source\Core\CoreAPI.cpp" />
     <ClCompile Include="..\..\Source\Core\Debugging\Assertion.cpp" />
     <ClCompile Include="..\..\Source\Core\Debugging\DebugOutput.cpp" />
     <ClCompile Include="..\..\Source\Core\Debugging\MetricInterface.cpp" />
@@ -26,7 +27,6 @@
     <ClCompile Include="..\..\Source\Core\fmt\format.cc" />
     <ClCompile Include="..\..\Source\Core\fmt\os.cc" />
     <ClCompile Include="..\..\Source\Core\GUID\Guid.cpp" />
-    <ClCompile Include="..\..\Source\Core\Memory\MemoryCore.cpp" />
     <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="..\..\Source\Core\Path\Path.cpp" />
     <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp" />
@@ -89,6 +89,7 @@
     <ClInclude Include="..\..\Source\Core\fmt\printf.h" />
     <ClInclude Include="..\..\Source\Core\fmt\ranges.h" />
     <ClInclude Include="..\..\Source\Core\GUID\Guid.hpp" />
+    <ClInclude Include="..\..\Source\Core\MemoryTag.hpp" />
     <ClInclude Include="..\..\Source\Core\Memory\MemoryCore.hpp" />
     <ClInclude Include="..\..\Source\Core\Memory\MemoryFunctions.hpp" />
     <ClInclude Include="..\..\Source\Core\Path\Path.hpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="..\..\Source\Core\Time\Time.h" />
     <ClInclude Include="..\..\Source\Core\Time\Timer.h" />
     <ClInclude Include="..\..\Source\Core\Utilities\Array.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utilities\BitUtilities.hpp" />
     <ClInclude Include="..\..\Source\Core\Utilities\CompileTimeCounter.hpp" />
     <ClInclude Include="..\..\Source\Core\Utilities\HashFuncs.hpp" />
     <ClInclude Include="..\..\Source\Core\Utilities\HashBasicTypes.h" />

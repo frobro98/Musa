@@ -9,7 +9,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Containers/MemoryBuffer.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 
 struct Vertex;
 struct Face;

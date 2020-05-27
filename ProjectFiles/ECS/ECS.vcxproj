@@ -244,6 +244,7 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     <ClCompile Include="..\..\Source\ECS\Archetype.cpp" />
     <ClCompile Include="..\..\Source\ECS\ArchetypeChunk.cpp" />
     <ClCompile Include="..\..\Source\ECS\ChunkComponentAccessor.cpp" />
+    <ClCompile Include="..\..\Source\ECS\ECSAPI.cpp" />
     <ClCompile Include="..\..\Source\ECS\EntityBridge.cpp" />
     <ClCompile Include="..\..\Source\ECS\Query.cpp" />
     <ClCompile Include="..\..\Source\ECS\QueryCache.cpp" />
@@ -258,7 +259,7 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     <ClInclude Include="..\..\Source\ECS\ChunkArray.hpp" />
     <ClInclude Include="..\..\Source\ECS\ChunkComponentAccessor.hpp" />
     <ClInclude Include="..\..\Source\ECS\ComponentType.hpp" />
-    <ClInclude Include="..\..\Source\ECS\DLLDef.h" />
+    <ClInclude Include="..\..\Source\ECS\ECSAPI.hpp" />
     <ClInclude Include="..\..\Source\ECS\Entity.hpp" />
     <ClInclude Include="..\..\Source\ECS\EntityBridge.hpp" />
     <ClInclude Include="..\..\Source\ECS\Query.hpp" />

@@ -6,7 +6,7 @@
 #include "BasicTypes/Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Shader/MaterialRenderInfo.hpp"
-#include "Shader/ShaderDll.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 struct Texture;
 struct TextureCube;

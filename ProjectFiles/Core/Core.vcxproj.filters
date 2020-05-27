@@ -123,14 +123,14 @@
     <ClCompile Include="..\..\Source\Core\Utilities\HashFuncs.cpp">
       <Filter>Source\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Memory\MemoryCore.cpp">
-      <Filter>Source\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp">
       <Filter>Source\Memory</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp">
       <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\CoreAPI.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Memory\MemoryFunctions.hpp">
       <Filter>Source\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\MemoryTag.hpp">
+      <Filter>Source\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utilities\BitUtilities.hpp">
+      <Filter>Source\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

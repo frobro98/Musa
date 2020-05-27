@@ -4,7 +4,7 @@
 
 #include "Math/Vector4.hpp"
 #include "Math/MathDefinitions.hpp"
-#include "Math/MathDll.hpp"
+#include "Math/MathAPI.hpp"
 
 struct Quat;
 

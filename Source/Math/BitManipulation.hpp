@@ -8,7 +8,7 @@ namespace Math
 {
 union BitManip_64
 {
-	float64 floatVal;
+	f64 floatVal;
 	int64 intVal;
 };
 
@@ -46,7 +46,7 @@ forceinline float32 AsFloat32(uint32 val)
 	return AsFloat32((int32)val);
 }
 
-forceinline int64 AsInt64(float64 val)
+forceinline int64 AsInt64(f64 val)
 {
 	BitManip_64 u;
 	u.intVal = 0;
@@ -55,12 +55,12 @@ forceinline int64 AsInt64(float64 val)
 	return u.intVal;
 }
 
-forceinline uint64 AsUint64(float64 val)
+forceinline uint64 AsUint64(f64 val)
 {
 	return (uint64)AsInt64(val);
 }
 
-forceinline float64 AsFloat64(int64 val)
+forceinline f64 AsFloat64(int64 val)
 {
 	BitManip_64 u;
 	u.floatVal = 0;
@@ -69,7 +69,7 @@ forceinline float64 AsFloat64(int64 val)
 	return u.floatVal;
 }
 
-forceinline float64 AsFloat64(uint64 val)
+forceinline f64 AsFloat64(uint64 val)
 {
 	return AsFloat64((int64)val);
 }

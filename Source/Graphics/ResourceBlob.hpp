@@ -3,7 +3,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 
 class SerializeBase;
 class DeserializeBase;

@@ -6,7 +6,7 @@
 #include "ShaderStructure.hpp"
 #include "Containers/Map.h"
 #include "BasicTypes/Uncopyable.hpp"
-#include "Shader/ShaderDll.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 class Path;
 

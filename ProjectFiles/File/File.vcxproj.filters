@@ -21,6 +21,9 @@
     <ClCompile Include="..\..\Source\File\md5.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\File\FileAPI.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\File\FileCore\DirectoryUtilities.h">
@@ -35,7 +38,7 @@
     <ClInclude Include="..\..\Source\File\md5.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\File\FileDll.hpp">
+    <ClInclude Include="..\..\Source\File\FileAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

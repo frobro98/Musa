@@ -6,7 +6,7 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
-#include "Shader/ShaderDll.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 class Material;
 struct NativeVertexShader;

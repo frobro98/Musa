@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Matrix4.hpp"
-#include "Math/MathDll.hpp"
+#include "Math/MathAPI.hpp"
 
 //------------------------------------------------------------------------
 // 

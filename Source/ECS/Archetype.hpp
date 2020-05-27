@@ -8,7 +8,7 @@
 #include "Utilities/TemplateUtils.hpp"
 #include "Utilities/Array.hpp"
 #include "ECS/Types.hpp"
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 #include "ECS/ComponentType.hpp"
 #include "ECS/ArchetypeChunk.hpp"
 

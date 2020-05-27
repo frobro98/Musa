@@ -18,7 +18,7 @@ using uatom8 = std::atomic<uint8>;
 using atom8 = std::atomic<int8>;
 
 using atomf = std::atomic<float32>;
-using atomd = std::atomic <float64>;
+using atomd = std::atomic <f64>;
 
 using uflag = std::atomic_flag;
 

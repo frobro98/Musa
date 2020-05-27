@@ -3,7 +3,7 @@
 #include "CyclePerformance.hpp"
 #include "Platform/Windows/WindowsDefinitions.h"
 
-static float64 InvCyclesPerSec = 0.0;
+static f64 InvCyclesPerSec = 0.0;
 
 Cycles GetCycleCount()
 {
@@ -12,7 +12,7 @@ Cycles GetCycleCount()
 	return (Cycles)cycles.QuadPart;
 }
 
-float64 GetMicrosecondsFrom(Cycles cycles)
+f64 GetMicrosecondsFrom(Cycles cycles)
 {
 	if (InvCyclesPerSec == 0)
 	{
@@ -22,16 +22,16 @@ float64 GetMicrosecondsFrom(Cycles cycles)
 	}
 
 	cycles *= 1000000;
-	float64 microsec = cycles * InvCyclesPerSec;
+	f64 microsec = cycles * InvCyclesPerSec;
 	return microsec;
 }
 
-float64 GetMillisecondsFrom(Cycles cycles)
+f64 GetMillisecondsFrom(Cycles cycles)
 {
 	return GetMicrosecondsFrom(cycles) / 1000.;
 }
 
-float64 GetSecondsFrom(Cycles cycles)
+f64 GetSecondsFrom(Cycles cycles)
 {
 	return GetMicrosecondsFrom(cycles) / 1000000.;
 }

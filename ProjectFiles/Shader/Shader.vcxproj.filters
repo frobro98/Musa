@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.cpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\ShaderAPI.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Shader\Material.h">
@@ -140,7 +143,7 @@
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Shader\ShaderDll.hpp">
+    <ClInclude Include="..\..\Source\Shader\ShaderAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

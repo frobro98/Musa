@@ -179,6 +179,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\File\FileAPI.cpp" />
     <ClCompile Include="..\..\Source\File\FileCore\DirectoryUtilities.cpp" />
     <ClCompile Include="..\..\Source\File\FileCore\File.cpp" />
     <ClCompile Include="..\..\Source\File\FileUtilities.cpp" />
@@ -187,7 +188,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Source\File\FileCore\DirectoryUtilities.h" />
     <ClInclude Include="..\..\Source\File\FileCore\File.h" />
-    <ClInclude Include="..\..\Source\File\FileDll.hpp" />
+    <ClInclude Include="..\..\Source\File\FileAPI.hpp" />
     <ClInclude Include="..\..\Source\File\FileUtilities.hpp" />
     <ClInclude Include="..\..\Source\File\md5.h" />
   </ItemGroup>

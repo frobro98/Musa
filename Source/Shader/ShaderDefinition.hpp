@@ -11,7 +11,7 @@
 #include "Shader/ShaderStructure.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
-#include "Shader/ShaderDll.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 class ShaderObjectBase;
 

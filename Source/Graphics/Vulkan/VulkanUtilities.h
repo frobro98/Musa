@@ -7,7 +7,7 @@
 #include "Texture/ImageFormats.h"
 #include "Graphics/VertexInputDescription.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 // TODO - Remove this shit
 #include "Shader/ShaderStructure.hpp"
 

@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\Source\Shader\MaterialRenderInfo.cpp" />
     <ClCompile Include="..\..\Source\Shader\McppWrapper.cpp" />
     <ClCompile Include="..\..\Source\Shader\Shader.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderAPI.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderCompiler.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderDefinition.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\BlinnShading.cpp" />
@@ -41,7 +42,7 @@
     <ClInclude Include="..\..\Source\Shader\Shader.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderDefinition.hpp" />
-    <ClInclude Include="..\..\Source\Shader\ShaderDll.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderAPI.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderExternal.h" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\BlinnShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp" />

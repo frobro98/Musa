@@ -6,7 +6,7 @@
 #include "Containers/ArrayView.hpp"
 #include "BasicTypes/Uncopyable.hpp"
 #include "ECS/Types.hpp"
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 #include "ECS/ComponentType.hpp"
 #include "ECS/Entity.hpp"
 

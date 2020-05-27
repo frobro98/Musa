@@ -6,7 +6,7 @@
 #include "BasicTypes/Color.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 
 struct RenderTargetDescription;
 struct NativeRenderTargets;

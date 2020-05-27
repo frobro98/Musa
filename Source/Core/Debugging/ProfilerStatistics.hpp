@@ -9,7 +9,7 @@
 
 struct ProfileMetric
 {
-	float64 totalMetricTimeMS;
+	f64 totalMetricTimeMS;
 	const tchar* metricName;
 	const tchar* filename;
 	uint32 lineNumber;

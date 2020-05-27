@@ -4,7 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Math/MathConstants.hpp"
-#include "Math/MathDll.hpp"
+#include "Math/MathAPI.hpp"
 
 struct Vector3;
 struct Vector4;

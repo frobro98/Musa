@@ -75,7 +75,7 @@
     <ClInclude Include="..\..\Source\Math\BitManipulation.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math\MathDll.hpp">
+    <ClInclude Include="..\..\Source\Math\MathAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
@@ -114,6 +114,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Math\MathFunctions.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Math\MathAPI.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,7 +8,7 @@
 #include "Path/Path.hpp"
 #include "Texture/TextureChunk.h"
 #include "Texture/ImageFormats.h"
-#include "Texture/TextureDll.hpp"
+#include "Texture/TextureAPI.hpp"
 
 struct Texture;
 class MemoryBuffer;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "File/FileDll.hpp"
+#include "File/FileAPI.hpp"
 
 //  Order is from low-order byte to high-order byte of digest.
 //   Each byte is printed with high-order hexadecimal digit first.

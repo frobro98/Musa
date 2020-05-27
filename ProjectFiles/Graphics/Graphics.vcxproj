@@ -172,7 +172,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Graphics\BatchCollection.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GeometryPrimitives.hpp" />
-    <ClInclude Include="..\..\Source\Graphics\GraphicsDll.hpp" />
+    <ClInclude Include="..\..\Source\Graphics\GraphicsAPI.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsInterface.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceFlags.hpp" />
@@ -229,6 +229,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Graphics\BatchCollection.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\GraphicsAPI.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsInterface.cpp" />
     <ClCompile Include="..\..\Source\Graphics\RenderContextUtilities.cpp" />
     <ClCompile Include="..\..\Source\Graphics\RenderTarget.cpp" />

@@ -8,7 +8,7 @@
 #include "Texture/ImageFormats.h"
 #include "Texture/Texture2D/MipmapLevel.hpp"
 #include "Texture/TextureSampleSettings.hpp"
-#include "Texture/TextureDll.hpp"
+#include "Texture/TextureAPI.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class SerializeBase;

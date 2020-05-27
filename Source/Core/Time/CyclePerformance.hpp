@@ -8,7 +8,7 @@
 using Cycles = uint64;
 
 CORE_API Cycles GetCycleCount();
-CORE_API float64 GetMicrosecondsFrom(Cycles cycles);
-CORE_API float64 GetMillisecondsFrom(Cycles cycles);
-CORE_API float64 GetSecondsFrom(Cycles cycles);
+CORE_API f64 GetMicrosecondsFrom(Cycles cycles);
+CORE_API f64 GetMillisecondsFrom(Cycles cycles);
+CORE_API f64 GetSecondsFrom(Cycles cycles);
 

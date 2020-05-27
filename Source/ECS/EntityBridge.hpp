@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 #include "ECS/ArchetypeChunk.hpp"
 
 namespace Musa

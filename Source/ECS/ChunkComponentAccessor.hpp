@@ -5,7 +5,7 @@
 #include "Containers/ArrayView.hpp"
 #include "ECS/ArchetypeChunk.hpp"
 #include "ECS/Types.hpp"
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 
 namespace Musa
 {

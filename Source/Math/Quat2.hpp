@@ -2,7 +2,7 @@
 
 #include "Math/Matrix2.hpp"
 #include "Math/MathConstants.hpp"
-#include "Math/MathDll.hpp"
+#include "Math/MathAPI.hpp"
 
 //------------------------------------------------------------------------
 // 

@@ -5,7 +5,7 @@
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 #include "Shader/ShaderDefinition.hpp"
-#include "Shader/ShaderDll.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 class SHADER_API UnlitVert : public ShaderObject<NativeVertexShader>
 {

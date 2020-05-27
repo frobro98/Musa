@@ -7,7 +7,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "GeometryPrimitives.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
-#include "Graphics/GraphicsDll.hpp"
+#include "Graphics/GraphicsAPI.hpp"
 
 class RenderContext;
 struct NativeUniformBuffer;

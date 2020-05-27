@@ -36,6 +36,9 @@
     <ClCompile Include="..\..\Source\ECS\ChunkComponentAccessor.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\ECS\ECSAPI.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\ECS\Archetype.hpp">
@@ -65,9 +68,6 @@
     <ClInclude Include="..\..\Source\ECS\Internal\TypenameHashing.hpp">
       <Filter>Source\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\ECS\DLLDef.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\ECS\ChunkArray.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -90,6 +90,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ECS\ChunkComponentAccessor.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\ECSAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

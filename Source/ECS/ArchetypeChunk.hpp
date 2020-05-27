@@ -9,7 +9,7 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "ECS/ChunkArray.hpp"
 #include "ECS/ComponentType.hpp"
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 
 
 namespace Musa

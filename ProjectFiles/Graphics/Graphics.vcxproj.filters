@@ -171,10 +171,10 @@
     <ClInclude Include="..\..\Source\Graphics\Vulkan\VulkanShaders.h">
       <Filter>Source\Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\GraphicsDll.hpp">
+    <ClInclude Include="..\..\Source\Graphics\GeometryPrimitives.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\GeometryPrimitives.hpp">
+    <ClInclude Include="..\..\Source\Graphics\GraphicsAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
@@ -298,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Vulkan\VulkanShaders.cpp">
       <Filter>Source\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Graphics\GraphicsAPI.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

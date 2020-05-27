@@ -15,6 +15,9 @@
     <ClCompile Include="..\..\Source\Texture\Texture2D\Texture.cpp">
       <Filter>Source\Texture2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Texture\TextureAPI.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureManager.h">
@@ -38,7 +41,7 @@
     <ClInclude Include="..\..\Source\Texture\TextureSampleSettings.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Texture\TextureDll.hpp">
+    <ClInclude Include="..\..\Source\Texture\TextureAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

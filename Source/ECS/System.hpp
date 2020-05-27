@@ -4,7 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Debugging/Assertion.hpp"
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 #include "ECS/QueryDescription.hpp"
 #include "ECS/Query.hpp"
 #include "ECS/ChunkComponentAccessor.hpp"

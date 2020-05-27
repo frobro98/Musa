@@ -28,6 +28,6 @@ using tchar =  ansichar;
 #endif
 
 using float32 = float;
-using float64 = double;
+using f64 = double;
 
-using bool32 = uint32;
+using b32 = uint32;

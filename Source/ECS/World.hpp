@@ -8,7 +8,7 @@
 #include "Algorithms/Algorithms.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
-#include "ECS/DLLDef.h"
+#include "ECS/ECSAPI.hpp"
 #include "ECS/Types.hpp"
 #include "ECS/Entity.hpp"
 #include "ECS/ComponentType.hpp"
