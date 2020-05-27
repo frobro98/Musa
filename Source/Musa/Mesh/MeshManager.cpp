@@ -168,11 +168,11 @@ Mesh* MeshManager::LoadFrustumForCamera(NOT_USED Camera* cam)
 	return mesh;
 }
 
-Mesh* MeshManager::LoadMeshFromPak(uint8* modelData, const char * modelName)
+Mesh* MeshManager::LoadMeshFromPak(u8* modelData, const char * modelName)
 {
 	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
-	uint8* vertPtr = modelData + header->vertBufferOffset;
-	uint8* facePtr = modelData + header->facesBufferOffset;
+	u8* vertPtr = modelData + header->vertBufferOffset;
+	u8* facePtr = modelData + header->facesBufferOffset;
 
 	DynamicArray<Vertex> vertices(header->numVerts);
 	DynamicArray<Face> faces(header->numFaces);
@@ -192,11 +192,11 @@ Mesh* MeshManager::LoadMeshFromPak(uint8* modelData, const char * modelName)
 	return mesh;
 }
 
-Mesh* MeshManager::LoadMeshFromPak(uint8 * modelData, uint8* skinningData, const char * modelName)
+Mesh* MeshManager::LoadMeshFromPak(u8 * modelData, u8* skinningData, const char * modelName)
 {
 	ModelFileHeader* header = reinterpret_cast<ModelFileHeader*>(modelData);
-	uint8* vertPtr = modelData + header->vertBufferOffset;
-	uint8* facePtr = modelData + header->facesBufferOffset;
+	u8* vertPtr = modelData + header->vertBufferOffset;
+	u8* facePtr = modelData + header->facesBufferOffset;
 
 
 	DynamicArray<Vertex> vertices(header->numVerts);
@@ -264,14 +264,14 @@ Mesh* MeshManager::FindMesh(const char * modelName)
 Mesh* MeshManager::LoadSpherePrimitive()
 {
 	DynamicArray<Vertex> vertices;
-	DynamicArray<uint32> indices;
+	DynamicArray<u32> indices;
 
-	constexpr uint32 XSegments = 64;
-	constexpr uint32 YSegments = 64;
+	constexpr u32 XSegments = 64;
+	constexpr u32 YSegments = 64;
 
-	for (uint32 y = 0; y <= YSegments; ++y)
+	for (u32 y = 0; y <= YSegments; ++y)
 	{
-		for (uint32 x = 0; x <= XSegments; ++x)
+		for (u32 x = 0; x <= XSegments; ++x)
 		{
 			float xSeg = (float)x / (float)XSegments;
 			float ySeg = (float)y / (float)YSegments;
@@ -292,20 +292,20 @@ Mesh* MeshManager::LoadSpherePrimitive()
 	
 
 	DynamicArray<Face> faces;
-	for (int32 y = 0; y < YSegments; ++y)
+	for (i32 y = 0; y < YSegments; ++y)
 	{
-		for (int32 x = 0; x < XSegments; ++x)
+		for (i32 x = 0; x < XSegments; ++x)
 		{
 			faces.Add(Face{
-					(uint32)((y + 1) * (XSegments + 1) + x),
-					(uint32)( y		 * (XSegments + 1) + x),
-					(uint32)( y		 * (XSegments + 1) + x + 1)
+					(u32)((y + 1) * (XSegments + 1) + x),
+					(u32)( y		 * (XSegments + 1) + x),
+					(u32)( y		 * (XSegments + 1) + x + 1)
 				});
 
 			faces.Add(Face{
-					(uint32)((y + 1) * (XSegments + 1) + x),
-					(uint32)( y		 * (XSegments + 1) + x + 1),
-					(uint32)((y + 1) * (XSegments + 1) + x + 1)
+					(u32)((y + 1) * (XSegments + 1) + x),
+					(u32)( y		 * (XSegments + 1) + x + 1),
+					(u32)((y + 1) * (XSegments + 1) + x + 1)
 				});
 		}
 	}

@@ -15,7 +15,7 @@ struct FrameData// : public Malloc16
 struct KeyFrame
 {
 	KeyFrame() = default;
-	KeyFrame(uint32 boneCount_)
+	KeyFrame(u32 boneCount_)
 	{
 		boneCount = boneCount_;
 		boneFrameData = new FrameData[boneCount];
@@ -27,7 +27,7 @@ struct KeyFrame
 	}
 
 	FrameData* boneFrameData;
-	uint32 boneCount;
+	u32 boneCount;
 	Time frameTime;
 };
 // 

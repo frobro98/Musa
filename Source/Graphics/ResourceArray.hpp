@@ -14,10 +14,10 @@ struct ResourceArray final
 		delete byteArrayData;
 	}
 
-	const uint32 elementCount;
-	const uint32 elementStride;
-	const uint32 totalByteSize;
-	const uint8* byteArrayData;
+	const u32 elementCount;
+	const u32 elementStride;
+	const u32 totalByteSize;
+	const u8* byteArrayData;
 };
 
 template<typename Res>
@@ -26,7 +26,7 @@ inline ResourceArray::ResourceArray(const DynamicArray<Res>& resCollection)
 	elementStride(sizeof(Res)),
 	totalByteSize(resCollection.SizeInBytes())
 {
-	uint8* collectionBytes = new uint8[totalByteSize];
+	u8* collectionBytes = new u8[totalByteSize];
 	Memcpy(collectionBytes, totalByteSize, resCollection.GetData(), totalByteSize);
 	byteArrayData = collectionBytes;
 }

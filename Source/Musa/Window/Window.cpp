@@ -7,7 +7,7 @@
 #include "Input/Internal/InputInternal.hpp"
 
 
-Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler_, uint32 xPos, uint32 yPos, uint32 w, uint32 h)
+Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler_, u32 xPos, u32 yPos, u32 w, u32 h)
 	: window(nullptr),
 	inputHandler(inputHandler_),
 	position(xPos, yPos),
@@ -80,7 +80,7 @@ void Window::Close()
 	}
 }
 
-void Window::Resize(uint32 w, uint32 h)
+void Window::Resize(u32 w, u32 h)
 {
 	UNUSED(w, h);
 }

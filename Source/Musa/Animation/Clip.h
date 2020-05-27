@@ -9,10 +9,10 @@ class AnimationMixer;
 class AnimationClip
 {
 public:
-	AnimationClip(const tchar* animationName, KeyFrame* frames, uint32 frameCount, Time animationTime, uint32 skelHash, Time::Duration frameRate);
+	AnimationClip(const tchar* animationName, KeyFrame* frames, u32 frameCount, Time animationTime, u32 skelHash, Time::Duration frameRate);
 	~AnimationClip();
 
-	uint32 GetSkeletonHash() const;
+	u32 GetSkeletonHash() const;
 	Time GetTotalAnimationTime() const;
 	Time::Duration GetFrameRate() const;
 	const char* GetName() const;
@@ -31,12 +31,12 @@ private:
 
 	const KeyFrame* keyframeA;
 	const KeyFrame* keyframeB;
-	uint32 currentFrameBIndex;
+	u32 currentFrameBIndex;
 
 	Time totalAnimationTime;
 	const KeyFrame* animationFrames;
-	uint32 skeletonHash;
-	uint32 frameCount;
+	u32 skeletonHash;
+	u32 frameCount;
 
 	Time::Duration frameRate;
 };

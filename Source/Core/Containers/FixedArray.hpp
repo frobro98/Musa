@@ -9,7 +9,7 @@
 #include "Utilities/TemplateUtils.hpp"
 #include "CoreAPI.hpp"
 
-template <typename ElemType, uint32 capacity>
+template <typename ElemType, u32 capacity>
 class CORE_TEMPLATE FixedArray
 {
 	using value_type = ElemType;
@@ -17,27 +17,27 @@ class CORE_TEMPLATE FixedArray
 	using pointer_type = ElemType*;
 public:
 	FixedArray() = default;
-	FixedArray(uint32 startSize);
+	FixedArray(u32 startSize);
 
 	template<typename AddType>
 	void Add(AddType&& elem);
-	void AddRange(const pointer_type range, uint32 rangeSize);
+	void AddRange(const pointer_type range, u32 rangeSize);
 
 	void Remove(reference_type elem);
-	void RemoveAt(uint32 index, uint32 count = 1);
+	void RemoveAt(u32 index, u32 count = 1);
 	
 	template<typename AddType>
 	NODISCARD bool TryAdd(AddType&& elem);
 
-	void Resize(uint32 newSize);
+	void Resize(u32 newSize);
 	void Clear();
 
 
 	NODISCARD bool IsEmpty() const;
 	NODISCARD bool HasRoom() const;
 
-	NODISCARD uint32 Size() const;
-	NODISCARD constexpr uint32 Capacity() const;
+	NODISCARD u32 Size() const;
+	NODISCARD constexpr u32 Capacity() const;
 
 	NODISCARD ElemType* GetData();
 	NODISCARD const ElemType* GetData() const;
@@ -45,23 +45,23 @@ public:
 	// TODO - Find? Sort? Contains?
 
 
-	ElemType& operator[](uint32 index);
-	const ElemType& operator[](uint32 index) const;
+	ElemType& operator[](u32 index);
+	const ElemType& operator[](u32 index) const;
 	
 private:
-	void Destroy(uint32 index, uint32 count);
+	void Destroy(u32 index, u32 count);
 
 	template <typename SrcType, typename DstType>
 	std::enable_if_t<
 		is_memcpy_constructable_v<SrcType, DstType>
 	>
-		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count);
 
 	template <typename SrcType, typename DstType>
 	std::enable_if_t<
 		!is_memcpy_constructable_v<SrcType, DstType>
 	>
-		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count);
 
 	template <typename U>
 	std::enable_if_t<
@@ -76,7 +76,7 @@ private:
 	>
 		DestroyRange(U /*start*/, U /*end*/);
 
-	void MoveBackAt(uint32 index, uint32 count);
+	void MoveBackAt(u32 index, u32 count);
 
 public:
 	class Iterator final
@@ -119,8 +119,8 @@ public:
 
 	private:
 		ElemType* arrData;
-		const uint32 size;
-		uint32 index = 0;
+		const u32 size;
+		u32 index = 0;
 	};
 
 	class ConstIterator final
@@ -163,8 +163,8 @@ public:
 
 	private:
 		const ElemType* arrData;
-		const uint32 size;
-		uint32 index = 0;
+		const u32 size;
+		u32 index = 0;
 	};
 
 private:
@@ -175,18 +175,18 @@ private:
 
 private:
 	ElemType data[capacity] = {};
-	uint32 size = 0;
+	u32 size = 0;
 };
 
 
-template<typename ElemType, uint32 capacity>
-inline FixedArray<ElemType, capacity>::FixedArray(uint32 startSize)
+template<typename ElemType, u32 capacity>
+inline FixedArray<ElemType, capacity>::FixedArray(u32 startSize)
 	: size(startSize)
 {
 	Assert(startSize <= capacity);
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 template<typename AddType>
 inline void FixedArray<ElemType, capacity>::Add(AddType&& elem)
 {
@@ -195,7 +195,7 @@ inline void FixedArray<ElemType, capacity>::Add(AddType&& elem)
 	++size;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 template<typename AddType>
 inline bool FixedArray<ElemType, capacity>::TryAdd(AddType&& elem)
 {
@@ -207,22 +207,22 @@ inline bool FixedArray<ElemType, capacity>::TryAdd(AddType&& elem)
 	return false;
 }
 
-template<typename ElemType, uint32 capacity>
-inline void FixedArray<ElemType, capacity>::AddRange(const pointer_type range, uint32 rangeSize)
+template<typename ElemType, u32 capacity>
+inline void FixedArray<ElemType, capacity>::AddRange(const pointer_type range, u32 rangeSize)
 {
 	Assert(range);
 	Assert(rangeSize > 0);
 	Assert(size + rangeSize < capacity);
 
-	uint32 index = size;
+	u32 index = size;
 	ConstructRangeInPlace(data + index, range, rangeSize);
 	size += rangeSize;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 inline void FixedArray<ElemType, capacity>::Remove(reference_type elem)
 {
-	for (uint32 i = 0; i < size; ++i)
+	for (u32 i = 0; i < size; ++i)
 	{
 		if (data[i] == elem)
 		{
@@ -231,8 +231,8 @@ inline void FixedArray<ElemType, capacity>::Remove(reference_type elem)
 	}
 }
 
-template<typename ElemType, uint32 capacity>
-inline void FixedArray<ElemType, capacity>::RemoveAt(uint32 index, uint32 count)
+template<typename ElemType, u32 capacity>
+inline void FixedArray<ElemType, capacity>::RemoveAt(u32 index, u32 count)
 {
 	Assert(index + count < size);
 	Destroy(index, count);
@@ -240,100 +240,100 @@ inline void FixedArray<ElemType, capacity>::RemoveAt(uint32 index, uint32 count)
 	size -= count;
 }
 
-template<typename ElemType, uint32 capacity>
-inline void FixedArray<ElemType, capacity>::Resize(uint32 newSize)
+template<typename ElemType, u32 capacity>
+inline void FixedArray<ElemType, capacity>::Resize(u32 newSize)
 {
 	Assert(newSize <= capacity);
 	if (size > newSize)
 	{
-		uint32 destroyCount = size - newSize;
+		u32 destroyCount = size - newSize;
 		Destroy(newSize, destroyCount);
 	}
 	size = newSize;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 inline void FixedArray<ElemType, capacity>::Clear()
 {
 	Destroy(0, size);
 	size = 0;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 inline bool FixedArray<ElemType, capacity>::IsEmpty() const
 {
 	return size != 0;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 inline bool FixedArray<ElemType, capacity>::HasRoom() const
 {
 	return size < capacity;
 }
 
-template<typename ElemType, uint32 capacity>
-inline uint32 FixedArray<ElemType, capacity>::Size() const
+template<typename ElemType, u32 capacity>
+inline u32 FixedArray<ElemType, capacity>::Size() const
 {
 	return size;
 }
 
-template<typename ElemType, uint32 capacity>
-inline constexpr uint32 FixedArray<ElemType, capacity>::Capacity() const
+template<typename ElemType, u32 capacity>
+inline constexpr u32 FixedArray<ElemType, capacity>::Capacity() const
 {
 	return capacity;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 inline ElemType* FixedArray<ElemType, capacity>::GetData()
 {
 	return data;
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 inline const ElemType * FixedArray<ElemType, capacity>::GetData() const
 {
 	return data;
 }
 
-template<typename ElemType, uint32 capacity>
-inline ElemType& FixedArray<ElemType, capacity>::operator[](uint32 index)
+template<typename ElemType, u32 capacity>
+inline ElemType& FixedArray<ElemType, capacity>::operator[](u32 index)
 {
 	Assert(index < size);
 	return data[index];
 }
 
-template<typename ElemType, uint32 capacity>
-inline const ElemType& FixedArray<ElemType, capacity>::operator[](uint32 index) const
+template<typename ElemType, u32 capacity>
+inline const ElemType& FixedArray<ElemType, capacity>::operator[](u32 index) const
 {
 	Assert(index < size);
 	return data[index];
 }
 
-template<typename ElemType, uint32 capacity>
-inline void FixedArray<ElemType, capacity>::Destroy(uint32 index, uint32 count)
+template<typename ElemType, u32 capacity>
+inline void FixedArray<ElemType, capacity>::Destroy(u32 index, u32 count)
 {
 	Assert(index + count <= size);
 	DestroyRange(&data[index], &data[index + count]);
 	MoveBackAt(index, count);
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 template <typename SrcType, typename DstType>
 std::enable_if_t<
 	is_memcpy_constructable_v<SrcType, DstType>
 >
-inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count)
+inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count)
 {
-	const uint32 byteCount = sizeof(SrcType) * count;
+	const u32 byteCount = sizeof(SrcType) * count;
 	Memcpy(dst, type, byteCount);
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 template <typename SrcType, typename DstType>
 std::enable_if_t<
 	!is_memcpy_constructable_v<SrcType, DstType>
 >
-inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const SrcType* src, uint32 count)
+inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const SrcType* src, u32 count)
 {
 	while (count > 0)
 	{
@@ -344,7 +344,7 @@ inline FixedArray<ElemType, capacity>::ConstructRangeInPlace(DstType* dst, const
 	}
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 template <typename U>
 std::enable_if_t<
 	std::is_same_v<ElemType*, U> &&
@@ -358,7 +358,7 @@ inline FixedArray<ElemType, capacity>::DestroyRange(U start, U end)
 	}
 }
 
-template<typename ElemType, uint32 capacity>
+template<typename ElemType, u32 capacity>
 template <typename U>
 std::enable_if_t<
 	std::is_same_v<ElemType*, U> &&
@@ -368,12 +368,12 @@ inline FixedArray<ElemType, capacity>::DestroyRange(U /*start*/, U /*end*/)
 {
 }
 
-template<typename ElemType, uint32 capacity>
-inline void FixedArray<ElemType, capacity>::MoveBackAt(uint32 index, uint32 count)
+template<typename ElemType, u32 capacity>
+inline void FixedArray<ElemType, capacity>::MoveBackAt(u32 index, u32 count)
 {
 	Assert(index + count <= size);
-	const uint32 srcIndex = index + count;
-	const uint32 dstIndex = index;
+	const u32 srcIndex = index + count;
+	const u32 dstIndex = index;
 	pointer_type srcLoc = &data[srcIndex];
 	pointer_type dstLoc = &data[dstIndex];
 	size_t memSize = (size - srcIndex) * sizeof(value_type);

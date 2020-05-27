@@ -26,28 +26,28 @@ struct ChunkHeader
 	const ComponentType** types = nullptr;
 	ComponentTypeHash* typeHashes = nullptr;
 	size_t* offsets = nullptr;
-	uint32* versions = nullptr;
-	uint32 componentTypeCount = 0;
-	uint32 entityCount = 0;
+	u32* versions = nullptr;
+	u32 componentTypeCount = 0;
+	u32 entityCount = 0;
 };
 
-constexpr uint32 UsableChunkSize = ArchetypeBlockSize - sizeof(ChunkHeader);
+constexpr u32 UsableChunkSize = ArchetypeBlockSize - sizeof(ChunkHeader);
 
 struct ArchetypeChunk
 {
 	ChunkHeader* header;
-	uint8* data;
+	u8* data;
 };
 
 static constexpr ArchetypeChunk EmptyChunk = { nullptr, nullptr };
 
 
-void ConstructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex);
-void DestructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex);
+void ConstructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex);
+void DestructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex);
 
-NODISCARD uint32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity);
-void RemoveEntityFromChunk(ArchetypeChunk& chunk, uint32 chunkIndex);
-NODISCARD uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChunkIndex, ArchetypeChunk& newChunk);
+NODISCARD u32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity);
+void RemoveEntityFromChunk(ArchetypeChunk& chunk, u32 chunkIndex);
+NODISCARD u32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, u32 oldChunkIndex, ArchetypeChunk& newChunk);
 
 // TODO - Consider not having this function exist, now that there's the ChunkComponentAccessor. The one issue would be World::SetComponentDataOn
 template<typename Comp>
@@ -64,13 +64,13 @@ NODISCARD ECS_TEMPLATE forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk
 		using nonRefType = std::remove_reference_t<Comp>;
 
 		constexpr bool isConst = std::is_const_v<Comp>;
-		constexpr uint64 hash = Musa::Internal::TypenameHash<sanitizedType>();
+		constexpr u64 hash = Musa::Internal::TypenameHash<sanitizedType>();
 		ComponentTypeHash* hashes = chunk.header->typeHashes;
-		const uint32 typeCount = chunk.header->componentTypeCount;
+		const u32 typeCount = chunk.header->componentTypeCount;
 
 		if (typeCount > 0)
 		{
-			for (uint32 i = 0; i < typeCount; ++i)
+			for (u32 i = 0; i < typeCount; ++i)
 			{
 				if (hashes[i].typenameHash == hash)
 				{
@@ -82,7 +82,7 @@ NODISCARD ECS_TEMPLATE forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk
 
 					size_t* offsets = chunk.header->offsets;
 					nonRefType* ptr = reinterpret_cast<nonRefType*>(chunk.data + offsets[i]);
-					const uint32 numEntities = chunk.header->entityCount;
+					const u32 numEntities = chunk.header->entityCount;
 					return ChunkArray<nonRefType>(*ptr, numEntities);
 				}
 			}
@@ -97,8 +97,8 @@ NODISCARD ECS_TEMPLATE forceinline bool DoesChunkContain(const ArchetypeChunk& c
 {
 	static const ComponentType* lookupType = GetComponentTypeFor<Comp>();
 	const ComponentType** types = chunk.header->types;
-	uint32 typeCount = chunk.header->componentTypeCount;
-	for (uint32 i = 0; i < typeCount; ++i)
+	u32 typeCount = chunk.header->componentTypeCount;
+	for (u32 i = 0; i < typeCount; ++i)
 	{
 		if (lookupType == types[i])
 		{
@@ -109,18 +109,18 @@ NODISCARD ECS_TEMPLATE forceinline bool DoesChunkContain(const ArchetypeChunk& c
 }
 
 template <typename Comp>
-NODISCARD ECS_TEMPLATE forceinline int32 GetChunkTypeIndex(const ArchetypeChunk& chunk)
+NODISCARD ECS_TEMPLATE forceinline i32 GetChunkTypeIndex(const ArchetypeChunk& chunk)
 {
 	static const ComponentType* lookupType = GetComponentTypeFor<Comp>();
 
-	int32 typeIndex = -1;
+	i32 typeIndex = -1;
 	const ComponentType** types = chunk.header->types;
-	uint32 typeCount = chunk.header->componentTypeCount;
-	for (uint32 i = 0; i < typeCount; ++i)
+	u32 typeCount = chunk.header->componentTypeCount;
+	for (u32 i = 0; i < typeCount; ++i)
 	{
 		if (lookupType == types[i])
 		{
-			typeIndex = (int32)i;
+			typeIndex = (i32)i;
 			break;
 		}
 	}
@@ -129,16 +129,16 @@ NODISCARD ECS_TEMPLATE forceinline int32 GetChunkTypeIndex(const ArchetypeChunk&
 }
 
 template <typename Comp>
-NODISCARD ECS_TEMPLATE forceinline uint32 GetChunkComponentVersion(const ArchetypeChunk& chunk)
+NODISCARD ECS_TEMPLATE forceinline u32 GetChunkComponentVersion(const ArchetypeChunk& chunk)
 {
-	int32 versionIndex = GetChunkTypeIndex<Comp>(chunk);
+	i32 versionIndex = GetChunkTypeIndex<Comp>(chunk);
 	return chunk.header->versions[versionIndex];
 }
 
 template <typename Comp>
-ECS_TEMPLATE forceinline void SetChunkComponentVersion(ArchetypeChunk& chunk, uint32 newVersion)
+ECS_TEMPLATE forceinline void SetChunkComponentVersion(ArchetypeChunk& chunk, u32 newVersion)
 {
-	int32 versionIndex = GetChunkTypeIndex<Comp>(chunk);
+	i32 versionIndex = GetChunkTypeIndex<Comp>(chunk);
 	chunk.header->versions[versionIndex] = newVersion;
 }
 

@@ -8,7 +8,7 @@ class AnimationClipFactory
 {
 public:
 
-	static AnimationClip* CreateAnimationClip(uint8* animationData);
+	static AnimationClip* CreateAnimationClip(u8* animationData);
 	static void DestroyAnimationClip(AnimationClip* clip);
 
 private:

@@ -93,7 +93,7 @@ static void SaveSPVInformation(const Path& outputShaderFile, const ShaderStructu
 	File::Result result = File::Open(h, outputShaderFile.GetString(), File::Mode::WRITE);
 	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to open file %s\n", outputShaderFile.GetString());
 
-	result = File::Write(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(uint32) * (uint32)shaderInfo.compiledOutput.shaderCode.Size());
+	result = File::Write(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(u32) * (u32)shaderInfo.compiledOutput.shaderCode.Size());
 	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to write file %s\n", outputShaderFile.GetString());
 
 	result = File::Close(h);
@@ -109,7 +109,7 @@ static void SavePreprocessedGLSL(const Path& outputShaderFile, const Preprocesse
 	result = File::Write(h, *output.outputGlsl, output.outputGlsl.Length());
 	if (result != File::Result::SUCCESS)
 	{
-		uint32 err = GetLastError();
+		u32 err = GetLastError();
 		printf("%u\n", err);
 	}
 	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to write file %s\n", outputShaderFile.GetString());
@@ -123,7 +123,7 @@ static void PrintHelp()
 	printf("%s", helpString);
 }
 
-int32 main(int32 argc, char *argv[])
+i32 main(i32 argc, char *argv[])
 {
 	if (argc < 2)
 	{
@@ -141,7 +141,7 @@ int32 main(int32 argc, char *argv[])
 	bool printHelp = false;
 	bool preprocessOnly = false;
 	Map<String, String> preprocessorDefinitions;
-	for (int32 i = 1; i < argc; ++i)
+	for (i32 i = 1; i < argc; ++i)
 	{
 		if (Strcmp("-f", argv[i]) == 0 || Strcmp("-F", argv[i]) == 0)
 		{
@@ -173,8 +173,8 @@ int32 main(int32 argc, char *argv[])
 		else if (Strcmp("-d", argv[i]) == 0 || Strcmp("-D", argv[i]) == 0)
 		{
 			++i;
-			constexpr int32 numDefArgs = 2;
-			for (int32 arg = i; arg < numDefArgs; ++arg)
+			constexpr i32 numDefArgs = 2;
+			for (i32 arg = i; arg < numDefArgs; ++arg)
 			{
 				const tchar* s = Strchr(argv[arg], '-');
 				if (i >= argc || (s != nullptr && strlen(s) == 2))

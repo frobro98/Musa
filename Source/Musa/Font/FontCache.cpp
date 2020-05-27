@@ -48,12 +48,12 @@ Font::~Font()
 
 Map<FontID, Font*> importedFonts;
 
-static constexpr uint32 ftToPixelSpace(uint32 fontSpaceVal)
+static constexpr u32 ftToPixelSpace(u32 fontSpaceVal)
 {
 	return fontSpaceVal >> 6;
 }
 
-static constexpr uint32 ftToFontSpace(uint32 pixelSpaceVal)
+static constexpr u32 ftToFontSpace(u32 pixelSpaceVal)
 {
 	return pixelSpaceVal << 6;
 }
@@ -61,7 +61,7 @@ static constexpr uint32 ftToFontSpace(uint32 pixelSpaceVal)
 Font* ImportTTFont(const Path& path)
 {
 	// Ascii only
-	constexpr uint32 charCount = 256;
+	constexpr u32 charCount = 256;
 
 	FT_Library lib;
 	FT_Error error = FT_Init_FreeType(&lib);
@@ -71,34 +71,34 @@ Font* ImportTTFont(const Path& path)
 	error = FT_New_Face(lib, path.GetString(), 0, &face);
 	Assert(error != FT_Err_Unknown_File_Format);
 
-	constexpr uint32 bitmapWidth = 1024;
-	constexpr uint32 bitmapHeight = 1024;
-	constexpr uint32 bitmapChannels = 4;
-	constexpr uint32 sdfScaleFactor = 1;
-	constexpr uint32 paddingX = 5;
-	constexpr uint32 paddingY = 5;
+	constexpr u32 bitmapWidth = 1024;
+	constexpr u32 bitmapHeight = 1024;
+	constexpr u32 bitmapChannels = 4;
+	constexpr u32 sdfScaleFactor = 1;
+	constexpr u32 paddingX = 5;
+	constexpr u32 paddingY = 5;
 
 	String fontName = "Ariel";
 	Font* font = new Font(fontName);
 
 	MemoryBuffer bitmap(bitmapWidth*bitmapHeight*bitmapChannels);
-	const uint32 sdfHeight = 64 * sdfScaleFactor; // size 16 font with sdf scale
+	const u32 sdfHeight = 64 * sdfScaleFactor; // size 16 font with sdf scale
 	error = FT_Set_Char_Size(face, 0, ftToFontSpace(sdfHeight), 96, 96); // Everything it seems to be in 1/64 units, so we are shifting right to mult by 64
 
-	uint32 acenderInPixels = ftToPixelSpace(FT_MulFix(face->ascender, face->size->metrics.y_scale));
+	u32 acenderInPixels = ftToPixelSpace(FT_MulFix(face->ascender, face->size->metrics.y_scale));
 
 	Texture* t = new Texture;
 	t->name = fontName;
 	t->format = ImageFormat::RGBA_8norm;
 
-	uint32 bitmapWidthOffset = 0;
-	uint32 bitmapHeightOffset = 0;
-	uint32 maxCharHeight = 0;
-	for (uint32 i = 0; i < charCount; ++i)
+	u32 bitmapWidthOffset = 0;
+	u32 bitmapHeightOffset = 0;
+	u32 maxCharHeight = 0;
+	for (u32 i = 0; i < charCount; ++i)
 	{
 		tchar c = (tchar)i;
 
-		uint32 glyphIndex = FT_Get_Char_Index(face, c);
+		u32 glyphIndex = FT_Get_Char_Index(face, c);
 		if (glyphIndex != 0)
 		{
 			FT_Load_Glyph(face, glyphIndex, FT_LOAD_DEFAULT);
@@ -109,10 +109,10 @@ Font* ImportTTFont(const Path& path)
 			// Transfer bitmap information to font cache
 
 			// This is actually how much the draw position should advance, not the width of the glyph
-			uint32 glyphWidth = glyph->bitmap.width;
-			uint32 advance = ftToPixelSpace(glyph->advance.x); // Why do we shift left 6?? Everything it seems to be in 1/64 units, so we are dividing by 64
+			u32 glyphWidth = glyph->bitmap.width;
+			u32 advance = ftToPixelSpace(glyph->advance.x); // Why do we shift left 6?? Everything it seems to be in 1/64 units, so we are dividing by 64
 			glyphWidth *= sdfScaleFactor;
-			uint32 glyphHeight = glyph->bitmap.rows;
+			u32 glyphHeight = glyph->bitmap.rows;
 			glyphHeight *= sdfScaleFactor;
 
 			// Move to next row
@@ -143,15 +143,15 @@ Font* ImportTTFont(const Path& path)
 
 			font->fontCharacterMap.Add(c, desc);
 
-			uint32 bitmapY = glyph->bitmap.rows - 1;
-			for (uint32 y = 0; y < glyph->bitmap.rows; ++y)
+			u32 bitmapY = glyph->bitmap.rows - 1;
+			for (u32 y = 0; y < glyph->bitmap.rows; ++y)
 			{
-				for (uint32 x = 0; x < glyph->bitmap.width; ++x)
+				for (u32 x = 0; x < glyph->bitmap.width; ++x)
 				{
-					const uint8 bitmapVal = glyph->bitmap.buffer[x + bitmapY * glyph->bitmap.width];
-					const uint32 xTexPos = x + bitmapWidthOffset;
-					const uint32 yTexPos = y + bitmapHeightOffset;
-					const uint32 totalArrayPos = (xTexPos + yTexPos * bitmapWidth) * 4;
+					const u8 bitmapVal = glyph->bitmap.buffer[x + bitmapY * glyph->bitmap.width];
+					const u32 xTexPos = x + bitmapWidthOffset;
+					const u32 yTexPos = y + bitmapHeightOffset;
+					const u32 totalArrayPos = (xTexPos + yTexPos * bitmapWidth) * 4;
 
 					// TODO - Because of blending, there needs to be some meaningful alpha value. 
 					// TODO - The alpha lives in the bitmap, so it doesn't really make much sense to store it multiple times. Just keep the alpha for the entire pixel, disregarding the other 3 values

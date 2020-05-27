@@ -26,11 +26,11 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 	Assert(targetDesc.colorAttachments.Size() == renderTextures.colorTargets.Size());
 	nativeTargets = renderTextures;
 
-	uint32 totalTargetCount = targetDesc.hasDepth ? nativeTargets.colorTargets.Size() + 1 : nativeTargets.colorTargets.Size();
-	extents = { (uint32)targetDesc.targetExtents.width, (uint32)targetDesc.targetExtents.height };
+	u32 totalTargetCount = targetDesc.hasDepth ? nativeTargets.colorTargets.Size() + 1 : nativeTargets.colorTargets.Size();
+	extents = { (u32)targetDesc.targetExtents.width, (u32)targetDesc.targetExtents.height };
 
 	viewAttachments.Resize(totalTargetCount);
-	for (uint32 i = 0; i < nativeTargets.colorTargets.Size(); ++i)
+	for (u32 i = 0; i < nativeTargets.colorTargets.Size(); ++i)
 	{
 		const VulkanTexture* colorTex = static_cast<const VulkanTexture*>(renderTextures.colorTargets[i]);
 		viewAttachments[i] = colorTex->image->CreateView();
@@ -81,8 +81,8 @@ bool VulkanFramebuffer::ContainsRTs(const NativeRenderTargets& renderTextures)
 		if (nativeTargets.depthTarget == renderTextures.depthTarget)
 		{
 			bool result = true;
-			uint32 targetCount = nativeTargets.colorTargets.Size();
-			for (uint32 i = 0; i < targetCount; ++i)
+			u32 targetCount = nativeTargets.colorTargets.Size();
+			for (u32 i = 0; i < targetCount; ++i)
 			{
 				result &= nativeTargets.colorTargets[i] == renderTextures.colorTargets[i];
 			}

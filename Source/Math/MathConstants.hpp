@@ -6,15 +6,15 @@
 
 namespace Math
 {
-constexpr float32 Zero = 0.0f;							// ZERO 
-constexpr float32 One = 1.0f;							// ONE 
+constexpr f32 Zero = 0.0f;							// ZERO 
+constexpr f32 One = 1.0f;							// ONE 
 
 constexpr f64 Infinity = 1e+300 * 1e+300;
 
 constexpr f64 NatLogOf2_dbl = 0.693147180559945309;
 constexpr f64 NatLogOf10_dbl = 2.302585092994045684;
-constexpr float32 NatLogOf2 = (float32)NatLogOf2_dbl;
-constexpr float32 NatLogOf10 = (float32)NatLogOf10_dbl;
+constexpr f32 NatLogOf2 = (f32)NatLogOf2_dbl;
+constexpr f32 NatLogOf10 = (f32)NatLogOf10_dbl;
 
 constexpr f64 SqrtOf2_dbl = 1.414213562373095;
 constexpr f64 InvSqrtOf2_dbl = 1.f / SqrtOf2_dbl;
@@ -36,25 +36,25 @@ constexpr f64 SevenPiOver8_dbl = 2.74889357189106908365;
 constexpr f64 PiOver180_dbl = 0.01745329251994329577;
 constexpr f64 InvPiOver180_dbl = 57.2957795130823208768;
 
-constexpr float32 Pi = (float32)Pi_dbl;
-constexpr float32 PiOver2 = (float32)PiOver2_dbl;
-constexpr float32 PiOver3 = (float32)PiOver3_dbl;
-constexpr float32 PiOver4 = (float32)PiOver4_dbl;
-constexpr float32 PiOver8 = (float32)PiOver8_dbl;
+constexpr f32 Pi = (f32)Pi_dbl;
+constexpr f32 PiOver2 = (f32)PiOver2_dbl;
+constexpr f32 PiOver3 = (f32)PiOver3_dbl;
+constexpr f32 PiOver4 = (f32)PiOver4_dbl;
+constexpr f32 PiOver8 = (f32)PiOver8_dbl;
 
-constexpr float32 TwoPi = (float32)TwoPi_dbl;
-constexpr float32 TwoPiOver3 = (float32)TwoPiOver3_dbl;
-constexpr float32 ThreePiOver4 = (float32)ThreePiOver4_dbl;
-constexpr float32 ThreePiOver8 = (float32)ThreePiOver8_dbl;
-constexpr float32 FivePiOver8 = (float32)FivePiOver8_dbl;
-constexpr float32 SevenPiOver8 = (float32)SevenPiOver8_dbl;
+constexpr f32 TwoPi = (f32)TwoPi_dbl;
+constexpr f32 TwoPiOver3 = (f32)TwoPiOver3_dbl;
+constexpr f32 ThreePiOver4 = (f32)ThreePiOver4_dbl;
+constexpr f32 ThreePiOver8 = (f32)ThreePiOver8_dbl;
+constexpr f32 FivePiOver8 = (f32)FivePiOver8_dbl;
+constexpr f32 SevenPiOver8 = (f32)SevenPiOver8_dbl;
 
-constexpr float32 PiOver180 = (float32)PiOver180_dbl;
-constexpr float32 InvPiOver180 = (float32)InvPiOver180_dbl;
+constexpr f32 PiOver180 = (f32)PiOver180_dbl;
+constexpr f32 InvPiOver180 = (f32)InvPiOver180_dbl;
 
-constexpr float32 SqrtOf2 = (float32)SqrtOf2_dbl;
-constexpr float32 InvSqrtOf2 = (float32)InvSqrtOf2_dbl;
+constexpr f32 SqrtOf2 = (f32)SqrtOf2_dbl;
+constexpr f32 InvSqrtOf2 = (f32)InvSqrtOf2_dbl;
 
-constexpr float32 InternalTolerence = 0.0001f;        // constant for internal tolerances
+constexpr f32 InternalTolerence = 0.0001f;        // constant for internal tolerances
 
 }

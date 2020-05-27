@@ -17,10 +17,10 @@ class DeserializeBase;
 struct TEX_API Texture
 {
 	Texture() = default;
-	Texture(uint8 r, uint8 g, uint8 b, uint8 a);
+	Texture(u8 r, u8 g, u8 b, u8 a);
 
-	uint32 GetWidth() const;
-	uint32 GetHeight() const;
+	u32 GetWidth() const;
+	u32 GetHeight() const;
 
 	String name;
 	DynamicArray<MipmapLevel> mipLevels;
@@ -31,7 +31,7 @@ struct TEX_API Texture
 	TextureMipMode mipMode = TextureMipMode::Linear;
 
 	// Texture size including all of the mip map levels
-	uint32 TotalSize() const;
+	u32 TotalSize() const;
 };
 
 ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels);

@@ -11,13 +11,13 @@ Matrix2::Matrix2(const Vector2& row0, const Vector2& row1)
 
 Matrix2::Matrix2(float angle)
 {
-	float32 cosTheta = Math::Cos(angle);
-	float32 sinTheta = Math::Sin(angle);
+	f32 cosTheta = Math::Cos(angle);
+	f32 sinTheta = Math::Sin(angle);
 	v0 = Vector2(cosTheta, sinTheta);
 	v1 = Vector2(-sinTheta, cosTheta);
 }
 
-Matrix2::Matrix2(MatrixScaleType, float32 uniformScale)
+Matrix2::Matrix2(MatrixScaleType, f32 uniformScale)
 	: v0(uniformScale, 0),
 	v1(0, uniformScale)
 {
@@ -43,8 +43,8 @@ Matrix2::Matrix2(const Quat2& q)
 
 void Matrix2::Set(float angle)
 {
-	float32 cosTheta = Math::Cos(angle);
-	float32 sinTheta = Math::Sin(angle);
+	f32 cosTheta = Math::Cos(angle);
+	f32 sinTheta = Math::Sin(angle);
 	v0 = Vector2(cosTheta, sinTheta);
 	v1 = Vector2(-sinTheta, cosTheta);
 }
@@ -55,7 +55,7 @@ void Matrix2::Set(const Quat2& q)
 	v1 = Vector2(-q.imaginary, q.real);
 }
 
-void Matrix2::Set(MatrixScaleType, float32 scale)
+void Matrix2::Set(MatrixScaleType, f32 scale)
 {
 	v0 = Vector2(scale, 0.f);
 	v1 = Vector2(0, scale);
@@ -67,7 +67,7 @@ void Matrix2::Set(MatrixScaleType, const Vector2& scaleVec)
 	v1 = Vector2(0, scaleVec.y);
 }
 
-void Matrix2::Set(MatrixScaleType, float32 sx, float32 sy)
+void Matrix2::Set(MatrixScaleType, f32 sx, f32 sy)
 {
 	v0 = Vector2(sx, 0.f);
 	v1 = Vector2(0, sy);
@@ -86,16 +86,16 @@ float Matrix2::Determinant() const
 
 void Matrix2::Inverse()
 {
-	float32 detScalar = Determinant();
+	f32 detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
 	{
-		float32 invDetScalar = 1.f / detScalar;
+		f32 invDetScalar = 1.f / detScalar;
 
 		// Transposed cofactor of this matrix
-		float32 cofM0 = v1.y; //_m3;
-		float32 cofM3 = v0.x; //_m0;
-		float32 cofM1 = -v1.x; //-_m2;
-		float32 cofM2 = -v0.y; //-_m1;
+		f32 cofM0 = v1.y; //_m3;
+		f32 cofM3 = v0.x; //_m0;
+		f32 cofM1 = -v1.x; //-_m2;
+		f32 cofM2 = -v0.y; //-_m1;
 
 		v0 = Vector2(
 			cofM0 * invDetScalar,
@@ -117,7 +117,7 @@ Matrix2 Matrix2::GetInverse() const
 
 void Matrix2::Transpose()
 {
-	float32 tmp = v0.y;
+	f32 tmp = v0.y;
 	v0.y = v1.x;
 	v1.x = tmp;
 }

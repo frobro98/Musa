@@ -34,7 +34,7 @@ public:
 		++listSize;
 	}
 
-	void RemoveIndex(uint32 index)
+	void RemoveIndex(u32 index)
 	{
 		Assert(listSize > 0);
 		Assert(index < listSize);
@@ -92,9 +92,9 @@ private:
 		}
 	}
 
-	ListNode* FindNode(uint32 i)
+	ListNode* FindNode(u32 i)
 	{
-		uint32 count = 0;
+		u32 count = 0;
 		auto current = listHead;
 		while (current != nullptr)
 		{
@@ -110,9 +110,9 @@ private:
 
 public:
 	// Finds first location of val
-	int32 FindFirst(const T& val)
+	i32 FindFirst(const T& val)
 	{
-		int32 count = 0;
+		i32 count = 0;
 		auto current = listHead;
 		while (current != nullptr)
 		{
@@ -128,9 +128,9 @@ public:
 		return -1;
 	}
 
-	int32 FindLast(const T& val)
+	i32 FindLast(const T& val)
 	{
-		int32 count = listSize-1;
+		i32 count = listSize-1;
 		auto current = listTail;
 		while (current != nullptr)
 		{
@@ -216,5 +216,5 @@ public:
 private:
 	ListNode* listHead = nullptr;
 	ListNode* listTail = nullptr;
-	uint32 listSize = 0;
+	u32 listSize = 0;
 };

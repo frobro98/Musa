@@ -9,9 +9,9 @@ Color32 NormalizeColor(const Color& color)
 
 Color UnnormalizeColor(const Color32& color)
 {
-	uint8 r = static_cast<uint8>(color.r * 255);
-	uint8 g = static_cast<uint8>(color.g * 255);
-	uint8 b = static_cast<uint8>(color.b * 255);
-	uint8 a = static_cast<uint8>(color.a * 255);
+	u8 r = static_cast<u8>(color.r * 255);
+	u8 g = static_cast<u8>(color.g * 255);
+	u8 b = static_cast<u8>(color.b * 255);
+	u8 a = static_cast<u8>(color.a * 255);
 	return Color(r, g, b, a);
 }

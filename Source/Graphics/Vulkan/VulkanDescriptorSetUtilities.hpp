@@ -12,14 +12,14 @@ class VulkanDescriptorSetLayout;
 struct WriteBufferDescriptor final
 {
 	VkDescriptorType descType;
-	uint32 bindingIndex;
+	u32 bindingIndex;
 	VkDescriptorBufferInfo bufferInfo;
 };
 
 struct WriteImageDescriptor final
 {
 	VkDescriptorType descType;
-	uint32 bindingIndex;
+	u32 bindingIndex;
 	VkDescriptorImageInfo imageInfo;
 };
 
@@ -34,8 +34,8 @@ class WriteDescriptorSet final
 public:
 	void SetupWriteDescriptors(const VulkanDescriptorSetLayout& layout);
 
-	void SetBuffer(VkDescriptorType type, const VulkanBuffer& buffer, uint32 bindIndex);
-	void SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex);
+	void SetBuffer(VkDescriptorType type, const VulkanBuffer& buffer, u32 bindIndex);
+	void SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, u32 bindIndex);
 
 	const DynamicArray<WriteDescriptor>& GetWriteDescriptors() const { return writeDescriptors; }
 
@@ -44,6 +44,6 @@ private:
 	DynamicArray<WriteImageDescriptor> imageDescriptors;
 	// Arranged by the binding index
 	DynamicArray<WriteDescriptor> writeDescriptors;
-	uint32 numBuffers = 0;
-	uint32 numImages = 0;
+	u32 numBuffers = 0;
+	u32 numImages = 0;
 };

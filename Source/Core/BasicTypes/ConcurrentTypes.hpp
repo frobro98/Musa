@@ -5,19 +5,19 @@
 #include <atomic>
 #include "BasicTypes/Intrinsics.hpp"
 
-using uatom64 = std::atomic<uint64>;
-using atom64 = std::atomic<int64>;
+using uatom64 = std::atomic<u64>;
+using atom64 = std::atomic<i64>;
 
-using uatom32 = std::atomic<uint32>;
-using atom32 = std::atomic<int32>;
+using uatom32 = std::atomic<u32>;
+using atom32 = std::atomic<i32>;
 
-using uatom16 = std::atomic<uint16>;
-using atom16 = std::atomic<int16>;
+using uatom16 = std::atomic<u16>;
+using atom16 = std::atomic<i16>;
 
-using uatom8 = std::atomic<uint8>;
-using atom8 = std::atomic<int8>;
+using uatom8 = std::atomic<u8>;
+using atom8 = std::atomic<i8>;
 
-using atomf = std::atomic<float32>;
+using atomf = std::atomic<f32>;
 using atomd = std::atomic <f64>;
 
 using uflag = std::atomic_flag;

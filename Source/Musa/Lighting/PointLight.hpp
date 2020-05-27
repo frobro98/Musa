@@ -9,7 +9,7 @@ class PointLight : public Light
 public:
 	virtual LightDescription GetLightDescription() override;
 
-	float32 attenuationRadius;
+	f32 attenuationRadius;
 
 
 };

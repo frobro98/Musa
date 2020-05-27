@@ -14,8 +14,8 @@ struct ArchetypeChunk;
 struct EntityBridge
 {
 	ArchetypeChunk chunk;
-	uint32 version;
-	uint32 chunkIndex;
+	u32 version;
+	u32 chunkIndex;
 };
 
 ECS_API Entity CreateEntityWith(Archetype& archetype);

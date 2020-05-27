@@ -5,7 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "CoreAPI.hpp"
 
-using Cycles = uint64;
+using Cycles = u64;
 
 CORE_API Cycles GetCycleCount();
 CORE_API f64 GetMicrosecondsFrom(Cycles cycles);

@@ -21,7 +21,7 @@ FrameTime GetFrameData()
 	return frameData;
 }
 
-float32 GetTickTimeSeconds()
+f32 GetTickTimeSeconds()
 {
 	return frameData.tickSeconds;
 }

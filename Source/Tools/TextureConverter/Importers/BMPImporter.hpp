@@ -15,9 +15,9 @@ private:
 	void ProcessBMPHeader();
 
 private:
-	uint32 pixelDataOffset;
+	u32 pixelDataOffset;
 
 	// Data that will most likely not be here but in the base class
-	int32 bitDepth;
-	int32 channels;
+	i32 bitDepth;
+	i32 channels;
 };

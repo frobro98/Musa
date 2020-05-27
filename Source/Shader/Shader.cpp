@@ -7,6 +7,6 @@
 
 namespace
 {
-static Map<String, DynamicArray<uint32>> PathToSpvSource;
+static Map<String, DynamicArray<u32>> PathToSpvSource;
 }
 

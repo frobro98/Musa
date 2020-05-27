@@ -57,7 +57,7 @@ private:
 	VulkanDevice& logicalDevice;
 	VulkanSurface* surface;
 	VulkanRenderPass* renderPass;
-	uint32 imageIndex;
-	uint32 pad[1] = { 0 };
+	u32 imageIndex;
+	u32 pad[1] = { 0 };
 };
 

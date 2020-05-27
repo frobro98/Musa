@@ -2,18 +2,18 @@
 
 #include "HashFuncs.hpp"
 
-uint32 xxhash32(const void * buffer, uint32 byteCount, uint32 seed)
+u32 xxhash32(const void * buffer, u32 byteCount, u32 seed)
 {
-	uint32 hashRes = 0;
-	const uint32* intPtr = reinterpret_cast<const uint32*>(buffer);
+	u32 hashRes = 0;
+	const u32* intPtr = reinterpret_cast<const u32*>(buffer);
 
 	hashRes = seed + XXHash32Prime5;
 	if (byteCount >= 16)
 	{
-		uint32 v0 = XXHash32Prime1 + XXHash32Prime2 + seed;
-		uint32 v1 = XXHash32Prime2 + seed;
-		uint32 v2 = 0 + seed;
-		uint32 v3 = seed - XXHash32Prime1;
+		u32 v0 = XXHash32Prime1 + XXHash32Prime2 + seed;
+		u32 v1 = XXHash32Prime2 + seed;
+		u32 v2 = 0 + seed;
+		u32 v3 = seed - XXHash32Prime1;
 
 		int count = byteCount >> 4;
 		for (int i = 0; i < count; ++i)
@@ -29,16 +29,16 @@ uint32 xxhash32(const void * buffer, uint32 byteCount, uint32 seed)
 	hashRes += byteCount;
 
 	// Process bytes less than 16
-	uint32 highBytes = (byteCount >> 2) & 3; // 0 1 1 0 -> 0 1
-	for (uint32 i = 0; i < highBytes; ++i)
+	u32 highBytes = (byteCount >> 2) & 3; // 0 1 1 0 -> 0 1
+	for (u32 i = 0; i < highBytes; ++i)
 	{
 		hashRes += *intPtr++ * XXHash32Prime3;
 		hashRes = xxhashRotl(hashRes, 17) * XXHash32Prime4;
 	}
 
-	const uint8* bytePtr = reinterpret_cast<const uint8*>(intPtr);
-	uint32 lowBytes = byteCount & 3; // 0 1 1 0 -> 1 0
-	for (uint32 i = 0; i < lowBytes; ++i)
+	const u8* bytePtr = reinterpret_cast<const u8*>(intPtr);
+	u32 lowBytes = byteCount & 3; // 0 1 1 0 -> 1 0
+	for (u32 i = 0; i < lowBytes; ++i)
 	{
 		hashRes += *bytePtr++ * XXHash32Prime5;
 		hashRes = xxhashRotl(hashRes, 11) * XXHash32Prime1;

@@ -16,21 +16,21 @@ struct Job
 	JobTask task;
 	Job* parent = nullptr;
 	uatom32 unfinishedChildren{ 0 };
-	const uint32 jobID = 0;
+	const u32 jobID = 0;
 
-	int32 pad[1] = { 0 };
+	i32 pad[1] = { 0 };
 
 	Job() = default;
 
 	template<class Func>
-	Job(Func&& f, uint32 id)
+	Job(Func&& f, u32 id)
 		: task(std::forward<Func>(f)),
 		jobID(id)
 	{
 	}
 
 	template<class Func>
-	Job(Func&& f, uint32 id, Job& par)
+	Job(Func&& f, u32 id, Job& par)
 		: task(std::forward<Func>(f)),
 		parent(&par),
 		jobID(id)

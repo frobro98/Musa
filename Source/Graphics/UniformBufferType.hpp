@@ -27,19 +27,19 @@ struct UniformBufferType
 // Holds the bindIndex of the actual buffer shader side
 struct ShaderParameterType
 {
-	ShaderParameterType(uint32 index)
+	ShaderParameterType(u32 index)
 		: bindIndex(index)
 	{
 	}
 
-	const uint32 bindIndex;
+	const u32 bindIndex;
 	bool isBound = false;
 };
 
 template <typename UniBuffType>
 struct ShaderParameter : public ShaderParameterType
 {
-	ShaderParameter(uint32 index)
+	ShaderParameter(u32 index)
 		: ShaderParameterType(index)
 	{
 	}

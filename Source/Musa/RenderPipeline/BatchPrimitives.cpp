@@ -16,7 +16,7 @@ void BatchLinePrimitive(const BatchedLineDescription& lineDesc)
 	collection.BatchLine(lineDesc);
 }
 
-void BatchLinePrimitives(const BatchedLineDescription* lineDesc, uint32 lineCount)
+void BatchLinePrimitives(const BatchedLineDescription* lineDesc, u32 lineCount)
 {
 	collection.BatchLine(lineDesc, lineCount);
 }

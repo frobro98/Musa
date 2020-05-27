@@ -8,7 +8,7 @@ VulkanQueue::VulkanQueue(VulkanDevice * device)
 {
 }
 
-void VulkanQueue::Initialize(uint32 familyIndex, Type type)
+void VulkanQueue::Initialize(u32 familyIndex, Type type)
 {
 	queueFamilyIndex = familyIndex;
 	queueType = type;

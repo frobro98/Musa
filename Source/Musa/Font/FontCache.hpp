@@ -20,10 +20,10 @@ struct FontID
 		return id0.id == id1.id;
 	}
 
-	const uint32 id;
+	const u32 id;
 };
 
-inline uint32 GetHash(FontID id)
+inline u32 GetHash(FontID id)
 {
 	return id.id;
 }
@@ -31,15 +31,15 @@ inline uint32 GetHash(FontID id)
 struct FontCharDescription
 {
 	// NOTE: These float values are normalized, then scaled up to be around 1 
-	uint32 width;
-	uint32 height;
-	uint32 advance;	
+	u32 width;
+	u32 height;
+	u32 advance;	
 	// Used for chars like g
-	uint32 characterHeightOffset;
+	u32 characterHeightOffset;
 
 	Vector2 normTextureCoords;
-	float32 normCharacterWidth;
-	float32 normCharacterHeight;
+	f32 normCharacterWidth;
+	f32 normCharacterHeight;
 
 	tchar characterCode;
 };
@@ -53,7 +53,7 @@ struct Font
 	Texture* fontTexture = nullptr;
 	String name;
 	// Height applied to the y offset of the text when encountering newlines
-	uint32 newlineHeightOffset = 0;
+	u32 newlineHeightOffset = 0;
 	FontID id;
 };
 

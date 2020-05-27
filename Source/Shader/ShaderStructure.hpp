@@ -32,14 +32,14 @@ enum class ShaderIntrinsics
 struct ShaderVariable
 {
 	String name;
-	uint32 location;
+	u32 location;
 	ShaderIntrinsics variableType;
 };
 
 struct ShaderConstant
 {
 	String name;
-	uint32 binding;
+	u32 binding;
 	ShaderConstantType bindingType;
 };
 
@@ -65,9 +65,9 @@ struct ShaderDebugInfo
 	String spirvByteCode;
 };
 
-using ShaderInputByLocation = Map<uint32, ShaderVariable>;
-using ShaderOutputByLocation = Map<uint32, ShaderVariable>;
-using ShaderConstantByBinding = Map<uint32, ShaderConstant>;
+using ShaderInputByLocation = Map<u32, ShaderVariable>;
+using ShaderOutputByLocation = Map<u32, ShaderVariable>;
+using ShaderConstantByBinding = Map<u32, ShaderConstant>;
 
 struct ShaderCompiledOutput
 {

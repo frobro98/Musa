@@ -107,9 +107,9 @@ public:
 
 	template<typename... Comps>
 	Entity CreateEntity();
-	template<uint32 N>
+	template<u32 N>
 	Entity CreateEntity(const ComponentType* (&types)[N]);
-	Entity CreateEntity(const ComponentType** types, uint32 typeCount);
+	Entity CreateEntity(const ComponentType** types, u32 typeCount);
 
 	Entity CreateEntity(Archetype& archetype);
 	void DestroyEntity(Entity entity);
@@ -136,7 +136,7 @@ public:
 	template <typename Comp>
 	bool HasComponent(Entity entity);
 
-	forceinline uint32 GetSystemVersion()
+	forceinline u32 GetSystemVersion()
 	{
 		return systemVersion;
 	}
@@ -147,22 +147,22 @@ public:
 
 	// stores all of the different archetypes based on their similar  archetypeHashIDs
 	DynamicArray<EntityBridge> entityBridges;
-	DynamicArray<uint32> deadIndices;
+	DynamicArray<u32> deadIndices;
 
 	DynamicArray<UniquePtr<Archetype>> archetypes;
 	DynamicArray<ArchetypeMask> archetypeHashIDs;
 	robin_hood::unordered_flat_map<ArchetypeMask, DynamicArray<Archetype*>> archetypesByHash;
-	uint32 totalLivingEntities = 0;
+	u32 totalLivingEntities = 0;
 
 	QueryCache* queryCache;
 
 private:
-	Entity ConstructEntityInternals(World& world, const ComponentType** types, uint32 typeCount);
+	Entity ConstructEntityInternals(World& world, const ComponentType** types, u32 typeCount);
 	void HookUpComponentType(World& world, Entity entity, const ComponentType* type);
 	void UnhookComponentType(World& world, Entity entity, const ComponentType* type);
 
 private:
-	uint32 systemVersion = 1;
+	u32 systemVersion = 1;
 };
 
 forceinline Archetype& GetEntityArchetype(World& world, Entity entity)
@@ -178,7 +178,7 @@ inline Entity World::CreateEntity()
 	if constexpr (sizeof...(Comps) > 0)
 	{
 		static const ComponentType* types[] = { GetComponentTypeFor<Comps>()... };
-		constexpr uint32 typeCount = (uint32)ArraySize(types);
+		constexpr u32 typeCount = (u32)ArraySize(types);
 		static_assert(typeCount < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
 
 		InsertionSort(types, typeCount);
@@ -191,7 +191,7 @@ inline Entity World::CreateEntity()
 	}
 }
 
-template<uint32 N>
+template<u32 N>
 inline Entity World::CreateEntity(const ComponentType* (&types)[N])
 {
 	static_assert(N < MaxComponentsPerArchetype, "Trying to attach too many components to this Entity!");
@@ -217,7 +217,7 @@ inline void World::DestroySystem()
 {
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	const SystemType* type = GetSystemTypeFor<Sys>();
-	int32 index = systemTypesInWorld.FindFirstIndex(type);
+	i32 index = systemTypesInWorld.FindFirstIndex(type);
 
 	Assert(index >= 0);
 	systems[index]->Deinitialize();

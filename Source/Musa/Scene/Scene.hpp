@@ -24,7 +24,7 @@ struct RenderTarget;
 // There will be a corresponding Scene-like class that exists solely for holding rendering information
 class Scene
 {
-	static constexpr uint32 MaxLights = 3;
+	static constexpr u32 MaxLights = 3;
 public:
 	~Scene();
 

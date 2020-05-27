@@ -16,8 +16,8 @@ static bool ArchetypeContainsRequiredTypes(const Archetype& archetype, const Dyn
 		return false;
 	}
 
-	const uint32 reqCount = requiredTypes.Size();
-	uint32 matchedCount = 0;
+	const u32 reqCount = requiredTypes.Size();
+	u32 matchedCount = 0;
 	for (const auto& reqType : requiredTypes)
 	{
 		for (const auto& type : archetype.types)
@@ -102,7 +102,7 @@ static bool QueryEquals(const QueryDescription& desc, const Query& query)
 		desc.noneComp.Size() == query.none.Size() &&
 		desc.oneOrMoreComps.Size() == query.oneOrMore.Size())
 	{
-		for (uint32 i = 0; i < desc.requiredComps.Size(); ++i)
+		for (u32 i = 0; i < desc.requiredComps.Size(); ++i)
 		{
 			if (desc.requiredComps[i] != query.required[i])
 			{
@@ -110,7 +110,7 @@ static bool QueryEquals(const QueryDescription& desc, const Query& query)
 			}
 		}
 
-		for (uint32 i = 0; i < desc.noneComp.Size(); ++i)
+		for (u32 i = 0; i < desc.noneComp.Size(); ++i)
 		{
 			if (desc.noneComp[i] != query.none[i])
 			{
@@ -118,7 +118,7 @@ static bool QueryEquals(const QueryDescription& desc, const Query& query)
 			}
 		}
 
-		for (uint32 i = 0; i < desc.oneOrMoreComps.Size(); ++i)
+		for (u32 i = 0; i < desc.oneOrMoreComps.Size(); ++i)
 		{
 			if (desc.oneOrMoreComps[i] != query.oneOrMore[i])
 			{
@@ -163,28 +163,28 @@ QueryCache::QueryCache(World& w)
 
 Query& QueryCache::GetOrCreateEntityQuery(const QueryDescription& desc)
 {
-	uint32 queryHash = 0;
-	for (uint32 i = 0; i < desc.requiredComps.Size(); ++i)
+	u32 queryHash = 0;
+	for (u32 i = 0; i < desc.requiredComps.Size(); ++i)
 	{
-		HashCombine(queryHash, (uint32)desc.requiredComps[i]->hash.typenameHash);
+		HashCombine(queryHash, (u32)desc.requiredComps[i]->hash.typenameHash);
 	}
 
-	for (uint32 i = 0; i < desc.oneOrMoreComps.Size(); ++i)
+	for (u32 i = 0; i < desc.oneOrMoreComps.Size(); ++i)
 	{
-		HashCombine(queryHash, (uint32)desc.oneOrMoreComps[i]->hash.typenameHash);
+		HashCombine(queryHash, (u32)desc.oneOrMoreComps[i]->hash.typenameHash);
 	}
 
-	for (uint32 i = 0; i < desc.noneComp.Size(); ++i)
+	for (u32 i = 0; i < desc.noneComp.Size(); ++i)
 	{
-		HashCombine(queryHash, (uint32)desc.noneComp[i]->hash.typenameHash);
+		HashCombine(queryHash, (u32)desc.noneComp[i]->hash.typenameHash);
 	}
 
-	HashCombine(queryHash, (uint32)((desc.requiredMask >> 32) & 0xFFFFFFFF));
-	HashCombine(queryHash, (uint32)(desc.requiredMask & 0xFFFFFFFF));
-	HashCombine(queryHash, (uint32)((desc.oneOrMoreMask >> 32) & 0xFFFFFFFF));
-	HashCombine(queryHash, (uint32)(desc.oneOrMoreMask & 0xFFFFFFFF));
-	HashCombine(queryHash, (uint32)((desc.noneMask >> 32) & 0xFFFFFFFF));
-	HashCombine(queryHash, (uint32)(desc.noneMask & 0xFFFFFFFF));
+	HashCombine(queryHash, (u32)((desc.requiredMask >> 32) & 0xFFFFFFFF));
+	HashCombine(queryHash, (u32)(desc.requiredMask & 0xFFFFFFFF));
+	HashCombine(queryHash, (u32)((desc.oneOrMoreMask >> 32) & 0xFFFFFFFF));
+	HashCombine(queryHash, (u32)(desc.oneOrMoreMask & 0xFFFFFFFF));
+	HashCombine(queryHash, (u32)((desc.noneMask >> 32) & 0xFFFFFFFF));
+	HashCombine(queryHash, (u32)(desc.noneMask & 0xFFFFFFFF));
 
 	Query* query = nullptr;
 	DynamicArray<Query*>* matchedQueries = matchingHashQueries.Find(queryHash);
@@ -215,11 +215,11 @@ Query& QueryCache::GetOrCreateEntityQuery(const QueryDescription& desc)
 	return *query;
 }
 
-void QueryCache::AddNewArchetypeToQueries(Archetype** archetypes, uint32 archetypeCount)
+void QueryCache::AddNewArchetypeToQueries(Archetype** archetypes, u32 archetypeCount)
 {
 	for (auto* query : queries)
 	{
-		for (uint32 i = 0; i < archetypeCount; ++i)
+		for (u32 i = 0; i < archetypeCount; ++i)
 		{
 			Archetype& archetype = *archetypes[i];
 			if (DoesArchetypeMatchQuery(archetype, *query))

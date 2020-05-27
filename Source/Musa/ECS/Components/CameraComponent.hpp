@@ -33,5 +33,5 @@ struct CameraComponent : public Musa::Component
 	Rect nearDimensions = {};
 	Rect farDimensions = {};
 
-	uint32 pad[1] = { 0 };
+	u32 pad[1] = { 0 };
 };

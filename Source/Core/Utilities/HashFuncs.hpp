@@ -7,27 +7,27 @@
 #include "BasicTypes/Intrinsics.hpp"
 
 template <typename T>
-forceinline void HashCombine(uint32& hash, const T& obj)
+forceinline void HashCombine(u32& hash, const T& obj)
 {
-	uint32 objHash = GetHash(obj);
+	u32 objHash = GetHash(obj);
 	HashCombine(hash, objHash);
 }
 
-forceinline void HashCombine(uint32& hash, uint32 val)
+forceinline void HashCombine(u32& hash, u32 val)
 {
 	hash ^= val + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 }
 
-constexpr uint32 fnv32(const void* hashData, uint32 dataSize)
+constexpr u32 fnv32(const void* hashData, u32 dataSize)
 {
-	uint8* byteData = (uint8 *)hashData;
+	u8* byteData = (u8 *)hashData;
 
-	constexpr uint32 offsetBasis = 0x811c9dc5;
-	constexpr uint32 hashPrime = 0x1000193;
+	constexpr u32 offsetBasis = 0x811c9dc5;
+	constexpr u32 hashPrime = 0x1000193;
 
-	uint32 hash = offsetBasis;
+	u32 hash = offsetBasis;
 
-	for (uint32 i = 0; i < dataSize; ++i)
+	for (u32 i = 0; i < dataSize; ++i)
 	{
 		hash ^= *byteData++;
 		hash *= hashPrime;
@@ -36,14 +36,14 @@ constexpr uint32 fnv32(const void* hashData, uint32 dataSize)
 	return hash;
 }
 
-constexpr uint32 fnv32(const tchar* strData)
+constexpr u32 fnv32(const tchar* strData)
 {
-	constexpr uint32 offsetBasis = 0x811c9dc5;
-	constexpr uint32 hashPrime = 0x1000193;
+	constexpr u32 offsetBasis = 0x811c9dc5;
+	constexpr u32 hashPrime = 0x1000193;
 
-	uint32 hash = offsetBasis;
+	u32 hash = offsetBasis;
 
-	uint32 i = 0;
+	u32 i = 0;
 	while (strData[i])
 	{
 		hash ^= strData[i++];
@@ -53,16 +53,16 @@ constexpr uint32 fnv32(const tchar* strData)
 	return hash;
 }
 
-constexpr uint64 fnv64(const void* hashData, uint64 dataSize)
+constexpr u64 fnv64(const void* hashData, u64 dataSize)
 {
-	uint8* byteData = (uint8 *)hashData;
+	u8* byteData = (u8 *)hashData;
 
-	constexpr uint64 offsetBasis = 0xcbf29ce484222325;
-	constexpr uint64 hashPrime = 0x100000001b3;
+	constexpr u64 offsetBasis = 0xcbf29ce484222325;
+	constexpr u64 hashPrime = 0x100000001b3;
 
-	uint64 hash = offsetBasis;
+	u64 hash = offsetBasis;
 
-	for (uint64 i = 0; i < dataSize; ++i)
+	for (u64 i = 0; i < dataSize; ++i)
 	{
 		hash ^= *byteData++;
 		hash *= hashPrime;
@@ -71,80 +71,80 @@ constexpr uint64 fnv64(const void* hashData, uint64 dataSize)
 	return hash;
 }
 
-constexpr uint64 fnv64(const tchar* strData)
+constexpr u64 fnv64(const tchar* strData)
 {
-	constexpr uint64 offsetBasis = 0xcbf29ce484222325;
-	constexpr uint64 hashPrime = 0x100000001b3;
+	constexpr u64 offsetBasis = 0xcbf29ce484222325;
+	constexpr u64 hashPrime = 0x100000001b3;
 
-	uint64 hash = offsetBasis;
+	u64 hash = offsetBasis;
 
-	uint64 i = 0;
+	u64 i = 0;
 	while (strData[i])
 	{
 		hash ^= strData[i++];
-		hash *= static_cast<uint64>(hashPrime);
+		hash *= static_cast<u64>(hashPrime);
 	}
 
 	return hash;
 }
 
 template <class T, typename = std::enable_if_t<!std::is_pointer_v<T>>>
-constexpr uint64 fnvHash(const T& objToHash)
+constexpr u64 fnvHash(const T& objToHash)
 {
 	return fnv64(&objToHash, sizeof(T));
 }
 
 
-constexpr uint32 XXHash32Prime1 = 0x9e3779b1;
-constexpr uint32 XXHash32Prime2 = 0x85ebca77;
-constexpr uint32 XXHash32Prime3 = 0xc2b2ae3d;
-constexpr uint32 XXHash32Prime4 = 0x27d4eb2f;
-constexpr uint32 XXHash32Prime5 = 0x165667b1;
+constexpr u32 XXHash32Prime1 = 0x9e3779b1;
+constexpr u32 XXHash32Prime2 = 0x85ebca77;
+constexpr u32 XXHash32Prime3 = 0xc2b2ae3d;
+constexpr u32 XXHash32Prime4 = 0x27d4eb2f;
+constexpr u32 XXHash32Prime5 = 0x165667b1;
 
-constexpr uint64 XXHash64Prime1 = 0x9e3779b185ebca87;
-constexpr uint64 XXHash64Prime2 = 0xc2b2ae3d27d4eb4f;
-constexpr uint64 XXHash64Prime3 = 0x165667b19e3779f9;
-constexpr uint64 XXHash64Prime4 = 0x85ebca77c2b2ae63;
-constexpr uint64 XXHash64Prime5 = 0x27d4eb2f165667C5;
+constexpr u64 XXHash64Prime1 = 0x9e3779b185ebca87;
+constexpr u64 XXHash64Prime2 = 0xc2b2ae3d27d4eb4f;
+constexpr u64 XXHash64Prime3 = 0x165667b19e3779f9;
+constexpr u64 XXHash64Prime4 = 0x85ebca77c2b2ae63;
+constexpr u64 XXHash64Prime5 = 0x27d4eb2f165667C5;
 
 
 // TODO - Move this rotation to a place that can be reused. Might be useful to have...
-constexpr forceinline uint32 xxhashRotl(uint32 val, uint32 bits)
+constexpr forceinline u32 xxhashRotl(u32 val, u32 bits)
 {
 	return (val << bits) | (val >> (32 - bits));
 }
 
 // TODO - Move this rotation to a place that can be reused. Might be useful to have...
-constexpr forceinline uint64 xxhashRotl(uint64 val, uint64 bits)
+constexpr forceinline u64 xxhashRotl(u64 val, u64 bits)
 {
 	return (val << bits) | (val >> (64 - bits));
 }
 
-constexpr forceinline uint32 xxhashRound32(uint32 input, uint32 accum)
+constexpr forceinline u32 xxhashRound32(u32 input, u32 accum)
 {
-	uint32 res = accum + input * XXHash32Prime2;
+	u32 res = accum + input * XXHash32Prime2;
 	res = xxhashRotl(res, 13);
 	res *= XXHash32Prime1;
 	return res;
 }
 
-constexpr forceinline uint64 xxhashRound64(uint64 input, uint64 accum)
+constexpr forceinline u64 xxhashRound64(u64 input, u64 accum)
 {
-	uint64 res = accum + input * XXHash64Prime2;
+	u64 res = accum + input * XXHash64Prime2;
 	res = xxhashRotl(res, 31);
 	res *= XXHash64Prime1;
 	return res;
 }
 
-constexpr forceinline uint64 xxhashCombineRound(uint64 input, uint64 accum)
+constexpr forceinline u64 xxhashCombineRound(u64 input, u64 accum)
 {
-	uint64 newVal = xxhashRound64(input, 0);
-	uint64 res = accum ^ newVal;
+	u64 newVal = xxhashRound64(input, 0);
+	u64 res = accum ^ newVal;
 	res = res * XXHash64Prime1 + XXHash64Prime4;
 	return res;
 }
 
-uint32 xxhash32(const void* buffer, uint32 byteCount, uint32 seed = 0);
+u32 xxhash32(const void* buffer, u32 byteCount, u32 seed = 0);
 
 
 // Doesn't work currently. Not sure why it doesn't, but the need for a 64 bit hash currently isn't there

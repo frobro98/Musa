@@ -13,7 +13,7 @@ class GRAPHICS_API ResourceBlob final
 {
 public:
 	ResourceBlob() = default;
-	ResourceBlob(uint8* blobData, size_t blobSize);
+	ResourceBlob(u8* blobData, size_t blobSize);
 	ResourceBlob(const ResourceBlob& other);
 	ResourceBlob(ResourceBlob&& other) noexcept;
 	~ResourceBlob();
@@ -23,8 +23,8 @@ public:
 
 	void MergeWith(const ResourceBlob& other);
 
-	inline uint8* GetData() { return data; }
-	inline const uint8* GetData() const { return data; }
+	inline u8* GetData() { return data; }
+	inline const u8* GetData() const { return data; }
 	inline size_t GetSize() const { return size; }
 
 	friend GRAPHICS_API ResourceBlob CombineBlobs(const ResourceBlob& blob0, const ResourceBlob& blob1);
@@ -32,6 +32,6 @@ public:
 	friend GRAPHICS_API void Deserialize(DeserializeBase& ser, ResourceBlob& blob);
 
 private:
-	uint8* data = nullptr;
+	u8* data = nullptr;
 	size_t size = 0;
 };

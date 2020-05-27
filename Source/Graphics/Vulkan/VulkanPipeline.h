@@ -52,5 +52,5 @@ private:
 	const VulkanPipelineLayout* pipelineLayout;
 	const VulkanDevice* logicalDevice;
 	DynamicArray<VulkanDescriptorSet*> descriptorSets;
-	uint32 pad[1] = { 0 };
+	u32 pad[1] = { 0 };
 };

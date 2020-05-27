@@ -23,8 +23,8 @@ private:
 	bool CheckPNGSignature() const;
 
 private:
-	uint32 bufferReadLocation = 0;
-	uint32 bitDepth = 0;
-	uint32 colorType = 0;
+	u32 bufferReadLocation = 0;
+	u32 bitDepth = 0;
+	u32 colorType = 0;
 	bool tRNSAlphaExists;
 };

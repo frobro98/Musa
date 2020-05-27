@@ -56,20 +56,20 @@ InputEvents GameInput::OnKeyDown(Inputs::Type input, bool isRepeated)
 		for (auto index : activeContextIndices)
 		{
 			PlayerInputContext& context = contexts[index];
-			if (int32 actionIndex = context.inputActions.FindFirstIndexUsing([=](const SingleInput& i) {return i.type == input; }); actionIndex >= 0)
+			if (i32 actionIndex = context.inputActions.FindFirstIndexUsing([=](const SingleInput& i) {return i.type == input; }); actionIndex >= 0)
 			{
 				// TODO - This is sort of a hack to get at this information maybe. I'm not too sure if it is or not. If it is, input pressing might need to be done at a higher level?
 				if (Input::IsPressed(input))
 				{
 					events = InputEvents(Handled);
-					contextInputs.actions.AddUnique(&context.inputActions[(uint32)actionIndex]);
+					contextInputs.actions.AddUnique(&context.inputActions[(u32)actionIndex]);
 					break;
 				}
 			}
-			if (int32 stateIndex = context.inputStates.FindFirstIndexUsing([=](const SingleInput& i) {return i.type == input; }); stateIndex >= 0)
+			if (i32 stateIndex = context.inputStates.FindFirstIndexUsing([=](const SingleInput& i) {return i.type == input; }); stateIndex >= 0)
 			{
 				events = InputEvents(Handled);
-				contextInputs.states.AddUnique(&context.inputStates[(uint32)stateIndex]);
+				contextInputs.states.AddUnique(&context.inputStates[(u32)stateIndex]);
 				break;
 			}
 		}
@@ -102,7 +102,7 @@ InputEvents GameInput::OnMouseMove(const IntVector2& /*currentMousePos*/, const 
 	for (auto contextIndex : activeContextIndices)
 	{
 		PlayerInputContext& context = contexts[contextIndex];
-		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& ri) { return ri.input.type == Inputs::Mouse_XAxis; }); index >= 0)
+		if (i32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& ri) { return ri.input.type == Inputs::Mouse_XAxis; }); index >= 0)
 		{
 			mouseFrameMovement.x += delta.x;
 			break;
@@ -112,7 +112,7 @@ InputEvents GameInput::OnMouseMove(const IntVector2& /*currentMousePos*/, const 
 	for (auto contextIndex : activeContextIndices)
 	{
 		PlayerInputContext& context = contexts[contextIndex];
-		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& ri) { return ri.input.type == Inputs::Mouse_YAxis; }); index >= 0)
+		if (i32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& ri) { return ri.input.type == Inputs::Mouse_YAxis; }); index >= 0)
 		{
 			mouseFrameMovement.y += delta.y;
 			break;
@@ -138,7 +138,7 @@ InputEvents GameInput::OnMouseExit(const IntVector2& /*currentMousePos*/, const 
 	return InputEvents();
 }
 
-InputEvents GameInput::OnControllerAnalogChange(uint32 /*controllerIndex*/, Inputs::Type analogInput, float32 analogValue)
+InputEvents GameInput::OnControllerAnalogChange(u32 /*controllerIndex*/, Inputs::Type analogInput, f32 analogValue)
 {
 	if (analogInput == Inputs::Gamepad_RightStick_YAxis)
 	{
@@ -148,9 +148,9 @@ InputEvents GameInput::OnControllerAnalogChange(uint32 /*controllerIndex*/, Inpu
 	for (const auto contextIndex : activeContextIndices)
 	{
 		PlayerInputContext& context = contexts[contextIndex];
-		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) { return i.input.type == analogInput; }); index >= 0)
+		if (i32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) { return i.input.type == analogInput; }); index >= 0)
 		{
-			const RangedInput& rangedInput = context.inputRanges[(uint32)index];
+			const RangedInput& rangedInput = context.inputRanges[(u32)index];
 			
 			InputRangeValue value = {};
 			value.input = &rangedInput.input;
@@ -223,18 +223,18 @@ void GameInput::ProcessGameInputs()
 	for (const auto contextIndex : activeContextIndices)
 	{
 		PlayerInputContext& context = contexts[contextIndex];
-		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) {return i.input.type == Inputs::Mouse_XAxis; }); index >= 0)
+		if (i32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) {return i.input.type == Inputs::Mouse_XAxis; }); index >= 0)
 		{
-			ClampInputToRangeAndStore((float32)mouseFrameMovement.x, context.inputRanges[(uint32)index]);
+			ClampInputToRangeAndStore((f32)mouseFrameMovement.x, context.inputRanges[(u32)index]);
 			break;
 		}
 	}
 	for (const auto contextIndex : activeContextIndices)
 	{
 		PlayerInputContext& context = contexts[contextIndex];
-		if (int32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) {return i.input.type == Inputs::Mouse_YAxis; }); index >= 0)
+		if (i32 index = context.inputRanges.FindFirstIndexUsing([=](const RangedInput& i) {return i.input.type == Inputs::Mouse_YAxis; }); index >= 0)
 		{
-			ClampInputToRangeAndStore((float32)mouseFrameMovement.y, context.inputRanges[(uint32)index]);
+			ClampInputToRangeAndStore((f32)mouseFrameMovement.y, context.inputRanges[(u32)index]);
 			break;
 		}
 	}
@@ -268,26 +268,26 @@ void GameInput::RemoveInputContext(StringView contextName)
 
 void GameInput::PushInputContext(StringView contextName)
 {
-	int32 index = contexts.FindFirstIndexUsing([&contextName](const PlayerInputContext& c) { return c.contextName == contextName; });
+	i32 index = contexts.FindFirstIndexUsing([&contextName](const PlayerInputContext& c) { return c.contextName == contextName; });
 	Assertf(index >= 0, "Trying to push an input context that doesn't exist");
 	
-	activeContextIndices.AddUnique((uint32)index);
+	activeContextIndices.AddUnique((u32)index);
 }
 
 void GameInput::PopInputContext(StringView contextName)
 {
-	int32 index = contexts.FindFirstIndexUsing([&contextName](const PlayerInputContext& c) { return c.contextName == contextName; });
+	i32 index = contexts.FindFirstIndexUsing([&contextName](const PlayerInputContext& c) { return c.contextName == contextName; });
 	Assertf(index >= 0, "Trying to pop an input context that doesn't exist");
-	activeContextIndices.RemoveAll((uint32)index);
+	activeContextIndices.RemoveAll((u32)index);
 }
 
-void GameInput::ClampInputToRangeAndStore(float32 value, const RangedInput& input)
+void GameInput::ClampInputToRangeAndStore(f32 value, const RangedInput& input)
 {
 	const InputRange& range = input.range;
 	value = Math::Clamp(value, range.minRawRange, range.maxRawRange);
 
-	float32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
-	float32 normValue = Math::Lerp(range.minNormalizedRange, range.maxNormalizedRange, lerpT);// (lerpT * (range.maxNormalizedRange - range.minNormalizedRange)) + range.minNormalizedRange;
+	f32 lerpT = (value - range.minRawRange) / (range.maxRawRange - range.minRawRange);
+	f32 normValue = Math::Lerp(range.minNormalizedRange, range.maxNormalizedRange, lerpT);// (lerpT * (range.maxNormalizedRange - range.minNormalizedRange)) + range.minNormalizedRange;
 	InputRangeValue inputValue = {};
 	inputValue.input = &input.input;
 	inputValue.rangeValue = normValue;
@@ -295,10 +295,10 @@ void GameInput::ClampInputToRangeAndStore(float32 value, const RangedInput& inpu
 }
 
 // TODO - This function should be expanded to be a utility
-void GameInput::NormalizeValueToRangeAndStore(float32 normValue, const RangedInput& input)
+void GameInput::NormalizeValueToRangeAndStore(f32 normValue, const RangedInput& input)
 {
 	Assert(normValue >= 0.f && normValue <= 1.f);
-	float32 retVal;
+	f32 retVal;
 	const InputRange& range = input.range;
 	if (Math::IsZero(normValue))
 	{
@@ -306,10 +306,10 @@ void GameInput::NormalizeValueToRangeAndStore(float32 normValue, const RangedInp
 	}
 	else
 	{
-		constexpr float32 oldMin = 0;
-		constexpr float32 oldMax = 1;
-		constexpr float32 oldRange = oldMax - oldMin;
-		const float32 newRange = range.maxRawRange - range.minRawRange;
+		constexpr f32 oldMin = 0;
+		constexpr f32 oldMax = 1;
+		constexpr f32 oldRange = oldMax - oldMin;
+		const f32 newRange = range.maxRawRange - range.minRawRange;
 		retVal = (((normValue - oldMin) * newRange) / oldRange) + range.minRawRange;
 	}
 

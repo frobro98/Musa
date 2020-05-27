@@ -13,7 +13,7 @@ class VulkanSwapchain;
 class VulkanSurface
 {
 public:
-	VulkanSurface(VkInstance instance, VulkanDevice* device, void* windowHandle, uint32 width, uint32 height);
+	VulkanSurface(VkInstance instance, VulkanDevice* device, void* windowHandle, u32 width, u32 height);
 	~VulkanSurface();
 
 	inline VkSurfaceKHR GetNativeHandle() const { return surfaceHandle; }
@@ -22,8 +22,8 @@ public:
 	DynamicArray<VkSurfaceFormatKHR> GetSurfaceFormats() const;
 	VkSurfaceCapabilitiesKHR GetSurfaceCapabilities() const;
 
-	int32 GetSurfaceWidth() const;
-	int32 GetSurfaceHeight() const;
+	i32 GetSurfaceWidth() const;
+	i32 GetSurfaceHeight() const;
 
 private:
 	VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
@@ -34,6 +34,6 @@ private:
 	DynamicArray<VkSurfaceFormatKHR> surfaceFormats;
 	VulkanDevice* logicalDevice;
 	void* windowHandle;
-	uint32 width;
-	uint32 height;
+	u32 width;
+	u32 height;
 };

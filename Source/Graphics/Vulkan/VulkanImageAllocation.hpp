@@ -13,9 +13,9 @@ struct ImageGraphicsAllocation : public GraphicsMemoryAllocation<ImageMemory>
 		VkImage image,
 		VkImageUsageFlags usage,
 		VkMemoryPropertyFlags memProperties,
-		uint32 size,
-		uint32 alignment,
-		uint32 typeIndex,
+		u32 size,
+		u32 alignment,
+		u32 typeIndex,
 		bool canMap, bool cached, bool coherent
 	);
 
@@ -26,8 +26,8 @@ struct ImageGraphicsAllocation : public GraphicsMemoryAllocation<ImageMemory>
 	VkImageUsageFlags usageFlags;
 
 protected:
-	virtual ImageMemory* CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) override;
-	uint32 pad[1] = { 0 };
+	virtual ImageMemory* CreateMemoryRange(VkDeviceSize actualSize, u32 blockSize, u32 alignedOffset, u32 actualOffset) override;
+	u32 pad[1] = { 0 };
 };
 
 class ImageMemory : public GraphicsMemoryRange<ImageGraphicsAllocation>
@@ -37,9 +37,9 @@ public:
 		ImageGraphicsAllocation& owningAlloc, 
 		VkImage image,
 		VkDeviceSize size,
-		uint32 blockSize, 
-		uint32 alignedOffset, 
-		uint32 actualOffset
+		u32 blockSize, 
+		u32 alignedOffset, 
+		u32 actualOffset
 	);
 
 private:

@@ -16,7 +16,7 @@ struct TextInput : public Widget
 
 	String inputText;
 	// Draw location for text as well as where the text will be next inserted
-	uint32 cursorLocation;
+	u32 cursorLocation;
 
 	virtual void UpdateInternal() override;
 	virtual void PrepareForRenderInternal(WidgetBatchElements& widgetElements) override;

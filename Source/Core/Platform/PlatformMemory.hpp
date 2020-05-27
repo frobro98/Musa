@@ -15,10 +15,10 @@ enum class PlatformProtectionKind
 
 struct PlatformMemoryInfo
 {
-	uint64 totalPhys;
-	uint64 totalVirtual;
-	uint32 pageSize; // (4K)
-	uint32 allocationGranularity; // (64K) VirtualAlloc rounds up to this, which essentially means that addresses are essentially aligned
+	u64 totalPhys;
+	u64 totalVirtual;
+	u32 pageSize; // (4K)
+	u32 allocationGranularity; // (64K) VirtualAlloc rounds up to this, which essentially means that addresses are essentially aligned
 };
 
 // Allocate Memory

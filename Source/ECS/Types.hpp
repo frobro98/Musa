@@ -6,12 +6,12 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-using EntityIndex = uint32;
-using EntityVersion = uint32;
+using EntityIndex = u32;
+using EntityVersion = u32;
 
-using ArchetypeMask = uint64;
+using ArchetypeMask = u64;
 
-constexpr uint32 MaxComponentsPerArchetype = 32;
+constexpr u32 MaxComponentsPerArchetype = 32;
 
 namespace Musa
 {

@@ -11,8 +11,8 @@ namespace Musa
 // External reference to group of components
 struct Entity final
 {
-	uint32 id;
-	uint32 version;
+	u32 id;
+	u32 version;
 };
 
 inline bool operator==(const Entity& lhs, const Entity& rhs)

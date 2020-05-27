@@ -81,8 +81,8 @@ TEST(EntityCreateDestroyLoop, EntityCreateDestroy)
 {
 	World w;
 
-	constexpr uint32 loops = 100;
-	for (uint32 i = 0; i < loops; ++i)
+	constexpr u32 loops = 100;
+	for (u32 i = 0; i < loops; ++i)
 	{
 		Entity e = w.CreateEntity<Position, Rotation>();
 
@@ -142,7 +142,7 @@ TEST(EntityCreateMultiple, EntityCreateDestroy)
 	ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
 	CHECK_TRUE(arr.IsValid());
 
-	for (uint32 i = 0; i < arr.size; ++i)
+	for (u32 i = 0; i < arr.size; ++i)
 	{
 		CHECK_EQ(arr[i].id, i);
 		CHECK_EQ(arr[i].version, 1);
@@ -150,7 +150,7 @@ TEST(EntityCreateMultiple, EntityCreateDestroy)
 
 	ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
 	CHECK_TRUE(posArr.IsValid());
-	for (uint32 i = 0; i < posArr.size; ++i)
+	for (u32 i = 0; i < posArr.size; ++i)
 	{
 		CHECK_TRUE(posArr[i].position.IsZero());
 	}
@@ -192,7 +192,7 @@ TEST(EntityCreateMultipleDestroyOne, EntityCreateDestroy)
 		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
 		CHECK_TRUE(arr.IsValid());
 
-		for (uint32 i = 0; i < arr.size; ++i)
+		for (u32 i = 0; i < arr.size; ++i)
 		{
 			CHECK_EQ(arr[i].id, i);
 			CHECK_EQ(arr[i].version, 1);
@@ -200,7 +200,7 @@ TEST(EntityCreateMultipleDestroyOne, EntityCreateDestroy)
 
 		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
 		CHECK_TRUE(posArr.IsValid());
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -235,7 +235,7 @@ TEST(EntityCreateMultipleDestroyOne, EntityCreateDestroy)
 		CHECK_TRUE(posArr.IsValid());
 		CHECK_EQ(posArr.size, 2);
 
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -277,7 +277,7 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
 		CHECK_TRUE(arr.IsValid());
 
-		for (uint32 i = 0; i < arr.size; ++i)
+		for (u32 i = 0; i < arr.size; ++i)
 		{
 			CHECK_EQ(arr[i].id, i);
 			CHECK_EQ(arr[i].version, 1);
@@ -285,7 +285,7 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 
 		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
 		CHECK_TRUE(posArr.IsValid());
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -320,7 +320,7 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 		CHECK_TRUE(posArr.IsValid());
 		CHECK_EQ(posArr.size, 2);
 
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -353,7 +353,7 @@ TEST(EntityCreateMultipleDestroyTwo, EntityCreateDestroy)
 		CHECK_TRUE(posArr.IsValid());
 		CHECK_EQ(posArr.size, 1);
 
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -395,7 +395,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 		ChunkArray<Entity> arr = GetChunkArray<Entity>(chunk);
 		CHECK_TRUE(arr.IsValid());
 
-		for (uint32 i = 0; i < arr.size; ++i)
+		for (u32 i = 0; i < arr.size; ++i)
 		{
 			CHECK_EQ(arr[i].id, i);
 			CHECK_EQ(arr[i].version, 1);
@@ -403,7 +403,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 
 		ChunkArray<Position> posArr = GetChunkArray<Position>(chunk);
 		CHECK_TRUE(posArr.IsValid());
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -438,7 +438,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 		CHECK_TRUE(posArr.IsValid());
 		CHECK_EQ(posArr.size, 2);
 
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -471,7 +471,7 @@ TEST(EntityCreateMultipleDestroyAll, EntityCreateDestroy)
 		CHECK_TRUE(posArr.IsValid());
 		CHECK_EQ(posArr.size, 1);
 
-		for (uint32 i = 0; i < posArr.size; ++i)
+		for (u32 i = 0; i < posArr.size; ++i)
 		{
 			CHECK_TRUE(posArr[i].position.IsZero());
 		}
@@ -523,9 +523,9 @@ TEST(EntityCreateForceNewChunk, EntityCreateDestroy)
 	ArchetypeChunk firstChunk = archetype->chunks[0];
 	CHECK_EQ(firstChunk.header->entityCount, 1);
 
-	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
+	const u32 maxEntitiesPerChunk = archetype->entityCapacity;
 
-	for (uint32 i = 0; i < maxEntitiesPerChunk; ++i)
+	for (u32 i = 0; i < maxEntitiesPerChunk; ++i)
 	{
 		w.CreateEntity(*archetype);
 	}
@@ -556,10 +556,10 @@ TEST(EntityCreateDestroyMakeNotFull, EntityCreateDestroy)
 	ArchetypeChunk firstChunk = archetype->chunks[0];
 	CHECK_EQ(firstChunk.header->entityCount, 1);
 
-	const uint32 maxEntitiesPerChunk = archetype->entityCapacity;
+	const u32 maxEntitiesPerChunk = archetype->entityCapacity;
 
 	Entity e{};
-	for (uint32 i = 0; i < maxEntitiesPerChunk; ++i)
+	for (u32 i = 0; i < maxEntitiesPerChunk; ++i)
 	{
 		e = w.CreateEntity(*archetype);
 	}

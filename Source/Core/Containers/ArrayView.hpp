@@ -17,8 +17,8 @@ class CORE_TEMPLATE ArrayView
 	template <typename OtherType>
 	friend class ArrayView;
 public:
-	constexpr ArrayView(ViewType* dataToView, uint32 dataSize);
-	template <uint32 N>
+	constexpr ArrayView(ViewType* dataToView, u32 dataSize);
+	template <u32 N>
 	constexpr ArrayView(pointer_type (&arr)[N]);
 	template <typename OtherType>
 	constexpr ArrayView(const ArrayView<OtherType>& other) noexcept;
@@ -30,12 +30,12 @@ public:
 	constexpr ViewType& Last() const;
 
 	constexpr ViewType* GetData();
-	constexpr uint32 Size() const;
-	constexpr uint32 SizeInBytes() const;
+	constexpr u32 Size() const;
+	constexpr u32 SizeInBytes() const;
 	constexpr bool IsEmpty() const;
 
-	ViewType& operator[](uint32 index);
-	const ViewType& operator[](uint32 index) const;
+	ViewType& operator[](u32 index);
+	const ViewType& operator[](u32 index) const;
 
 private:
 	friend pointer_type begin(ArrayView& arr) { return arr.viewData; }
@@ -45,18 +45,18 @@ private:
 
 private:
 	pointer_type viewData;
-	uint32 viewSize;
+	u32 viewSize;
 };
 
 template<typename ViewType>
-inline constexpr ArrayView<ViewType>::ArrayView(ViewType* dataToView, uint32 dataSize)
+inline constexpr ArrayView<ViewType>::ArrayView(ViewType* dataToView, u32 dataSize)
 	: viewData(dataToView), viewSize(dataSize)
 {
 }
 
 
 template<typename ViewType>
-template<uint32 N>
+template<u32 N>
 inline constexpr ArrayView<ViewType>::ArrayView(pointer_type(&arr)[N])
 	: viewData(arr), viewSize(N)
 {
@@ -92,13 +92,13 @@ inline constexpr ViewType* ArrayView<ViewType>::GetData()
 }
 
 template<typename ViewType>
-inline constexpr uint32 ArrayView<ViewType>::Size() const
+inline constexpr u32 ArrayView<ViewType>::Size() const
 {
 	return viewSize;
 }
 
 template<typename ViewType>
-inline constexpr uint32 ArrayView<ViewType>::SizeInBytes() const
+inline constexpr u32 ArrayView<ViewType>::SizeInBytes() const
 {
 	return viewSize * sizeof(ViewType);
 }
@@ -110,7 +110,7 @@ inline constexpr bool ArrayView<ViewType>::IsEmpty() const
 }
 
 template<typename ViewType>
-inline ViewType& ArrayView<ViewType>::operator[](uint32 index)
+inline ViewType& ArrayView<ViewType>::operator[](u32 index)
 {
 	Assert(viewData != nullptr);
 	Assert(viewSize != 0);
@@ -120,7 +120,7 @@ inline ViewType& ArrayView<ViewType>::operator[](uint32 index)
 }
 
 template<typename ViewType>
-inline const ViewType& ArrayView<ViewType>::operator[](uint32 index) const
+inline const ViewType& ArrayView<ViewType>::operator[](u32 index) const
 {
 	Assert(viewData != nullptr);
 	Assert(viewSize != 0);

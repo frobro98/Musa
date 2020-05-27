@@ -22,7 +22,7 @@ struct VulkanBackBuffer
 class VulkanViewport final : public NativeViewport
 {
 public:
-	VulkanViewport(VulkanDevice& device, VkInstance instance, void* windowHandle, uint32 viewWidth, uint32 viewHeight);
+	VulkanViewport(VulkanDevice& device, VkInstance instance, void* windowHandle, u32 viewWidth, u32 viewHeight);
 	~VulkanViewport();
 
 	void AcquireBackBuffer();
@@ -30,13 +30,13 @@ public:
 	void PresentFrame();
 
 	inline VulkanTexture& GetBackBuffer() const { return *backBufferTexture; }
-	inline uint32 GetWidth() const { return viewportWidth; }
-	inline uint32 GetHeight() const { return viewportHeight; }
+	inline u32 GetWidth() const { return viewportWidth; }
+	inline u32 GetHeight() const { return viewportHeight; }
 
 private:
 	VulkanTexture* backBufferTexture = nullptr;
 	VulkanDevice& logicalDevice;
 	VulkanSurface* viewSurface;
 	VulkanSwapchain* swapchain;
-	uint32 viewportWidth, viewportHeight;
+	u32 viewportWidth, viewportHeight;
 };

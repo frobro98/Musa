@@ -24,5 +24,5 @@ private:
 private:
 	MemoryBuffer serializedData;
 	File::Handle handle;
-	uint32 bufferWriteIndex = 0;
+	u32 bufferWriteIndex = 0;
 };

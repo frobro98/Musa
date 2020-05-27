@@ -27,7 +27,7 @@ TEST(ArchetypeCreateOne, ArchetypeTesting)
 	CHECK_EQ(archetype->types[0], posType);
 	CHECK_ZERO(archetype->chunks.Size());
 
-	uint32 archCap = archetype->entityCapacity;
+	u32 archCap = archetype->entityCapacity;
 	size_t calcOffset = sizeof(Entity) * archCap;
 	calcOffset += (posType->alignment - (calcOffset % posType->alignment));
 	size_t offset = archetype->offsets[0];
@@ -60,7 +60,7 @@ TEST(ArchetypeCreateTwo, ArchetypeTesting)
 	CHECK_ZERO(archetype0->fullChunkCount);
 
 	// Position Offset Testing
-	uint32 archCap = archetype0->entityCapacity;
+	u32 archCap = archetype0->entityCapacity;
 	size_t calcOffset = sizeof(Entity) * archCap;
 	calcOffset += (posType->alignment - (calcOffset % posType->alignment));
 	size_t offset = archetype0->offsets[0];
@@ -127,7 +127,7 @@ TEST(ArchetypeCreateThree, ArchetypeTesting)
 	CHECK_ZERO(archetype0->fullChunkCount);
 
 	// Position Offset Testing
-	uint32 archCap = archetype0->entityCapacity;
+	u32 archCap = archetype0->entityCapacity;
 	size_t calcOffset = sizeof(Entity) * archCap;
 	calcOffset += (posType->alignment - (calcOffset % posType->alignment));
 	size_t offset = archetype0->offsets[0];
@@ -251,7 +251,7 @@ TEST(ArchetypeGetExisting, ArchetypeTesting)
 	CHECK_ZERO(archetype->chunks.Size());
 	CHECK_ZERO(archetype->fullChunkCount);
 
-	uint32 archCap = archetype->entityCapacity;
+	u32 archCap = archetype->entityCapacity;
 	size_t calcOffset = sizeof(Entity) * archCap;
 	calcOffset += (posType->alignment - (calcOffset % posType->alignment));
 	size_t offset = archetype->offsets[0];

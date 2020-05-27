@@ -129,7 +129,7 @@ void VulkanSwapchain::CreateSwapchain()
 	DynamicArray<VkSurfaceFormatKHR> surfaceFormats = surface->GetSurfaceFormats();
 	DynamicArray<VkPresentModeKHR> presentModes = surface->GetPresentModes();
 
-	uint32 swapchainImageCount = surfaceCapabilites.minImageCount + 1;
+	u32 swapchainImageCount = surfaceCapabilites.minImageCount + 1;
 	if (surfaceCapabilites.maxImageCount > 0 &&
 		swapchainImageCount > surfaceCapabilites.maxImageCount)
 	{
@@ -148,7 +148,7 @@ void VulkanSwapchain::CreateSwapchain()
 	else
 	{
 		// TODO - Add for-each support to my arrays
-		for (uint32 i = 0; i < surfaceFormats.Size(); ++i)
+		for (u32 i = 0; i < surfaceFormats.Size(); ++i)
 		{
 			if (surfaceFormats[i].format == VK_FORMAT_R8G8B8A8_UNORM)
 			{
@@ -165,8 +165,8 @@ void VulkanSwapchain::CreateSwapchain()
 	swapchainFormat = surfaceFormat.format;
 
 	// Set up swapchain extents
-	swapchainExtent = { static_cast<uint32>(surface->GetSurfaceWidth()), static_cast<uint32>(surface->GetSurfaceHeight()) };
-	if (surfaceCapabilites.currentExtent.width != std::numeric_limits<uint32>::max())
+	swapchainExtent = { static_cast<u32>(surface->GetSurfaceWidth()), static_cast<u32>(surface->GetSurfaceHeight()) };
+	if (surfaceCapabilites.currentExtent.width != std::numeric_limits<u32>::max())
 	{
 		swapchainExtent = surfaceCapabilites.currentExtent;
 	}
@@ -239,13 +239,13 @@ void VulkanSwapchain::CreateSwapchain()
 
 void VulkanSwapchain::CacheSwapchainImages()
 {
-	uint32 imageCount;
+	u32 imageCount;
 	vkGetSwapchainImagesKHR(logicalDevice.GetNativeHandle(), swapchainHandle, &imageCount, nullptr);
 	swapchainImages.Resize(imageCount);
 	vkGetSwapchainImagesKHR(logicalDevice.GetNativeHandle(), swapchainHandle, &imageCount, swapchainImages.GetData());
 
 	swapchainImageTargets.Resize(imageCount);
-	for (uint32 i = 0; i < imageCount; ++i)
+	for (u32 i = 0; i < imageCount; ++i)
 	{
 		VulkanImage* img = new VulkanImage;
 		img->device = &logicalDevice;
@@ -262,7 +262,7 @@ void VulkanSwapchain::CacheSwapchainImages()
 void VulkanSwapchain::InitializeRenderTargets()
 {
 	targetDescription.colorAttachments.Resize(1);
-	targetDescription.targetExtents = { (float32)swapchainExtent.width, (float32)swapchainExtent.height };
+	targetDescription.targetExtents = { (f32)swapchainExtent.width, (f32)swapchainExtent.height };
 
 	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
 	colorDesc.format = ImageFormat::RGBA_8norm;

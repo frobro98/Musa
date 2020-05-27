@@ -44,7 +44,7 @@ static NativeUniformBuffer* viewBuffer = nullptr;
 
 DynamicArray<ScreenTextItem> screenTextItems;
 DynamicArray<PrimitiveVertex> stringVerts;
-DynamicArray<uint32> stringTris;
+DynamicArray<u32> stringTris;
 
 static Vector2 GetStartingWorldFromScreen(const View& view, const Vector2& screenPosition)
 {
@@ -90,9 +90,9 @@ EngineStatView statView;
 
 	if (statView.AreStatsVisible())
 	{
-		constexpr float32 width = 250.f;
-		constexpr float32 consoleRectHalfWidth = width / 2.f;
-		const float32 consoleRectHalfHeight = view.description.viewport.height * .5f;
+		constexpr f32 width = 250.f;
+		constexpr f32 consoleRectHalfWidth = width / 2.f;
+		const f32 consoleRectHalfHeight = view.description.viewport.height * .5f;
 		Vector2 topLeft = GetStartingWorldFromScreen(view, Vector2(0, 0));
 		BatchedQuadDescription quadDesc = {};
 		quadDesc.position = Vector3(topLeft.x + consoleRectHalfWidth, topLeft.y - consoleRectHalfHeight, 0);
@@ -114,25 +114,25 @@ EngineStatView statView;
 		FontID id = StringView("Ariel");
 		Font* font = GetLoadedFont(id);
 
-		uint32 startIndex = 0;
+		u32 startIndex = 0;
 
 		BEGIN_TIMED_BLOCK(TextSetup);
 
 		for (const auto& item : screenTextItems)
 		{
 			const String& text = item.text;
-			float32 textScale = item.scale;
+			f32 textScale = item.scale;
 
 			Vector2 currentTextPosition = GetStartingWorldFromScreen(view, item.screenPosition);
-			for (uint32 i = 0; i < text.Length(); ++i)
+			for (u32 i = 0; i < text.Length(); ++i)
 			{
 				tchar character = text[i];
 				FontCharDescription* charDesc = font->fontCharacterMap.Find(character);
 
 				if (charDesc->characterCode != space)
 				{
-					const uint32 texWidth = font->fontTexture->GetWidth();
-					const uint32 texHeight = font->fontTexture->GetHeight();
+					const u32 texWidth = font->fontTexture->GetWidth();
+					const u32 texHeight = font->fontTexture->GetHeight();
 
 					const float halfWidth = charDesc->width * textScale * .5f;
 					const float halfHeight = charDesc->height * textScale * .5f;

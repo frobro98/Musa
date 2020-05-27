@@ -24,7 +24,7 @@ struct VulkanStagingBuffer
 	VkDeviceSize stagingSize;
 	VkDeviceMemory backingAllocation;
 	void* mappedData = nullptr;
-	uint32 pad[1] = { 0 };
+	u32 pad[1] = { 0 };
 };
 
 struct DeferredStageReleaseElement

@@ -19,24 +19,24 @@ public:
 
 	virtual void InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const override;
 
-	virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height, float minDepth, float maxDepth) override;
-	virtual void SetScissor(uint32 offsetX, uint32 offsetY, uint32 width, uint32 height) override;
+	virtual void SetViewport(u32 x, u32 y, u32 width, u32 height, float minDepth, float maxDepth) override;
+	virtual void SetScissor(u32 offsetX, u32 offsetY, u32 width, u32 height) override;
 	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors) override;
 	virtual void SetVertexBuffer(const NativeVertexBuffer& vertexBuffer) override;
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) override;
-	virtual void SetGlobalUniform(const void* uniformData, uint32 dataSize) override;
-	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, uint32 bufferIndex) override;
-	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, uint32 textureIndex) override;
+	virtual void SetGlobalUniform(const void* uniformData, u32 dataSize) override;
+	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, u32 bufferIndex) override;
+	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, u32 textureIndex) override;
 //	virtual void SetStorageBuffer() override;
-	virtual void Draw(uint32 vertexCount, uint32 instanceCount) override;
-	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, uint32 instanceCount) override;
-	virtual void DrawRaw(const ResourceArray& rawVerts, uint32 instanceCount) override;
-	virtual void DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, uint32 instanceCount) override;
+	virtual void Draw(u32 vertexCount, u32 instanceCount) override;
+	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, u32 instanceCount) override;
+	virtual void DrawRaw(const ResourceArray& rawVerts, u32 instanceCount) override;
+	virtual void DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, u32 instanceCount) override;
 
 	virtual NativeTexture* GetBackBuffer() const override;
 
-	virtual void TransitionToWriteState(const NativeTexture** textures, uint32 textureCount) override;
-	virtual void TransitionToReadState(const NativeTexture** textures, uint32 textureCount) override;
+	virtual void TransitionToWriteState(const NativeTexture** textures, u32 textureCount) override;
+	virtual void TransitionToReadState(const NativeTexture** textures, u32 textureCount) override;
 
 
 private:
@@ -46,10 +46,10 @@ private:
 	struct
 	{
 		DynamicArray<const VulkanVertexBuffer*> vertexBuffers;
-		DynamicArray<uint32> vertexBufferOffsets;
+		DynamicArray<u32> vertexBufferOffsets;
 	} vertexBuffersAndOffsets;
 
-	static constexpr uint32 frameTempAllocCount = 2;
+	static constexpr u32 frameTempAllocCount = 2;
 	VulkanFrameTempAllocation* frameTempAlloc[frameTempAllocCount];
 	VulkanFrameTempAllocation* currentFrameTempAlloc = nullptr;
 

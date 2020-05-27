@@ -9,7 +9,7 @@ void AnimationTimerManager::AddTimer(AnimationTimeController* controller)
 void AnimationTimerManager::RemoveTimer(AnimationTimeController * controller)
 {
 	// TODO - add actual find functionality
-	for (uint32 i = 0; i < Instance().timers.Size(); ++i)
+	for (u32 i = 0; i < Instance().timers.Size(); ++i)
 	{
 		if (Instance().timers[i] == controller)
 		{
@@ -21,7 +21,7 @@ void AnimationTimerManager::RemoveTimer(AnimationTimeController * controller)
 
 void AnimationTimerManager::Update(Time frameTime)
 {
-	for (uint32 i = 0; i < Instance().timers.Size(); ++i)
+	for (u32 i = 0; i < Instance().timers.Size(); ++i)
 	{
 		Instance().timers[i]->UpdateTime();
 	}
@@ -35,7 +35,7 @@ AnimationTimerManager& AnimationTimerManager::Instance()
 
 AnimationTimerManager::~AnimationTimerManager()
 {
-	for (uint32 i = 0; i < Instance().timers.Size(); ++i)
+	for (u32 i = 0; i < Instance().timers.Size(); ++i)
 	{
 		delete Instance().timers[i];
 	}

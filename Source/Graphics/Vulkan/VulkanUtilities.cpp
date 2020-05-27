@@ -105,7 +105,7 @@ VkPipelineStageFlags GetStageFor(VkImageLayout layout)
 	return flags;
 }
 
-bool PresentationSupported(GPUHandle gpu, uint32 queueIndex)
+bool PresentationSupported(GPUHandle gpu, u32 queueIndex)
 {
 	return vkGetPhysicalDeviceWin32PresentationSupportKHR((VkPhysicalDevice)gpu, queueIndex);
 }
@@ -114,12 +114,12 @@ void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresou
 {
 	if (images.Size() > 0)
 	{
-		uint32 imageCount = images.Size();
+		u32 imageCount = images.Size();
 		DynamicArray<VkImageMemoryBarrier> imageBarriers;
 		imageBarriers.Reserve(imageCount);
 		VkPipelineStageFlags srcStageFlags = 0;
 		VkPipelineStageFlags dstStageFlags = 0;
-		for (uint32 i = 0; i < imageCount; ++i)
+		for (u32 i = 0; i < imageCount; ++i)
 		{
 			VulkanImage& image = *images[i];
 			if (image.layout != newLayout)
@@ -173,13 +173,13 @@ void CopyToDeviceBuffer(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& stag
 
 void CopyStagingBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanStagingBuffer& buffer, const VulkanImage& image)
 {
-	constexpr uint32 numColorComponents = 4;
+	constexpr u32 numColorComponents = 4;
 	DynamicArray<VkBufferImageCopy> regionsToCopy(image.mipmapLevels);
-	uint32 offset = 0;
-	for (uint32 i = 0; i < image.mipmapLevels; ++i)
+	u32 offset = 0;
+	for (u32 i = 0; i < image.mipmapLevels; ++i)
 	{
-		uint32 width = image.width >> i;
-		uint32 height = image.height >> i;
+		u32 width = image.width >> i;
+		u32 height = image.height >> i;
 
 		VkBufferImageCopy region = {};
 		region.bufferOffset = offset;
@@ -202,13 +202,13 @@ void CopyStagingBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanStagin
 
 void CopyBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& buffer, const VulkanImage& image)
 {
-	constexpr uint32 numColorComponents = 4;
+	constexpr u32 numColorComponents = 4;
 	DynamicArray<VkBufferImageCopy> regionsToCopy(image.mipmapLevels);
-	uint32 offset = 0;
-	for (uint32 i = 0; i < image.mipmapLevels; ++i)
+	u32 offset = 0;
+	for (u32 i = 0; i < image.mipmapLevels; ++i)
 	{
-		uint32 width = image.width >> i;
-		uint32 height = image.height >> i;
+		u32 width = image.width >> i;
+		u32 height = image.height >> i;
 
 		VkBufferImageCopy region = {};
 		region.bufferOffset = offset;
@@ -231,22 +231,22 @@ void CopyBufferToImage(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& buffe
 
 void CopyImage(VulkanCommandBuffer& cmdBuffer, const VulkanImage& srcImage, const VulkanImage& dstImage)
 {
-	constexpr uint32 numColorComponents = 4;
+	constexpr u32 numColorComponents = 4;
 	DynamicArray<VkImageCopy> regionsToCopy(srcImage.mipmapLevels);
-	for (uint32 i = 0; i < srcImage.mipmapLevels; ++i)
+	for (u32 i = 0; i < srcImage.mipmapLevels; ++i)
 	{
-		uint32 width = srcImage.width >> i;
-		uint32 height = srcImage.height >> i;
+		u32 width = srcImage.width >> i;
+		u32 height = srcImage.height >> i;
 
 		VkImageCopy region = {};
 		region.srcOffset = { 0, 0, 0 };
-		region.srcSubresource.aspectMask = srcImage.format != VK_FORMAT_D32_SFLOAT_S8_UINT ? (uint32)VK_IMAGE_ASPECT_COLOR_BIT : (uint32)(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT);
+		region.srcSubresource.aspectMask = srcImage.format != VK_FORMAT_D32_SFLOAT_S8_UINT ? (u32)VK_IMAGE_ASPECT_COLOR_BIT : (u32)(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT);
 		region.srcSubresource.mipLevel = i;
 		region.srcSubresource.baseArrayLayer = 0;
 		region.srcSubresource.layerCount = 1;
 
 		region.dstOffset = { 0, 0, 0 };
-		region.dstSubresource.aspectMask = dstImage.format != VK_FORMAT_D32_SFLOAT_S8_UINT ? (uint32)VK_IMAGE_ASPECT_COLOR_BIT : (uint32)(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT);
+		region.dstSubresource.aspectMask = dstImage.format != VK_FORMAT_D32_SFLOAT_S8_UINT ? (u32)VK_IMAGE_ASPECT_COLOR_BIT : (u32)(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT);
 		region.dstSubresource.mipLevel = i;
 		region.dstSubresource.baseArrayLayer = 0;
 		region.dstSubresource.layerCount = 1;

@@ -45,14 +45,14 @@ Matrix4 ConstructViewMatrix(const Vector4& position, const Vector4& forward, con
 	return view;
 }
 
-Matrix4 ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructPerspectiveMatrix(f32 fovDeg, f32 aspectRatio, f32 nearPlane, f32 farPlane)
 {
 	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
 
-	float32 nearHeight = 2.f * Math::Tan(Math::DegreesToRadians(fovDeg) * .5f) * nearPlane;
-	float32 nearWidth = nearHeight * aspectRatio;
-	float32 doubleNearPlane = 2.f * nearPlane;
-	float32 planeDifference = farPlane - nearPlane;
+	f32 nearHeight = 2.f * Math::Tan(Math::DegreesToRadians(fovDeg) * .5f) * nearPlane;
+	f32 nearWidth = nearHeight * aspectRatio;
+	f32 doubleNearPlane = 2.f * nearPlane;
+	f32 planeDifference = farPlane - nearPlane;
 
 	Matrix4 projection;
 	projection[m0] = doubleNearPlane / nearWidth;//1.f / (aspect * tanHalfFOV);
@@ -80,14 +80,14 @@ Matrix4 ConstructPerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 
 	return projection;
 }
 
-Matrix4 ConstructOrthographicMatrix(float32 width, float32 height, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructOrthographicMatrix(f32 width, f32 height, f32 nearPlane, f32 farPlane)
 {
-	const float32 halfWidth = width * .5f;
-	const float32 halfHeight = height * .5f;
+	const f32 halfWidth = width * .5f;
+	const f32 halfHeight = height * .5f;
 	return ConstructOrthographicMatrix(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
 }
 
-Matrix4 ConstructOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructOrthographicMatrix(f32 left, f32 right, f32 bottom, f32 top, f32 nearPlane, f32 farPlane)
 {
 	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
 	Matrix4 projection;
@@ -116,11 +116,11 @@ Matrix4 ConstructOrthographicMatrix(float32 left, float32 right, float32 bottom,
 	return projection;
 }
 
-Matrix4 ConstructScreenTransformMatrix(float32 screenWidth, float32 screenHeight, float32 worldDepth)
+Matrix4 ConstructScreenTransformMatrix(f32 screenWidth, f32 screenHeight, f32 worldDepth)
 {
-	float32 halfScreenWidth = screenWidth * .5f;
-	float32 halfScreeHeight = screenHeight * .5f;
-	float32 halfDepth = worldDepth * .5f;
+	f32 halfScreenWidth = screenWidth * .5f;
+	f32 halfScreeHeight = screenHeight * .5f;
+	f32 halfDepth = worldDepth * .5f;
 	Matrix4 projection;
 	projection[m0] = halfScreenWidth;
 	projection[m1] = 0;
@@ -180,14 +180,14 @@ Matrix4 ConstructScreenTransformMatrix(float32 screenWidth, float32 screenHeight
 // 	return projection;
 // }
 
-Matrix4 ConstructFastInverseOrthographicMatrix(float32 width, float32 height, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructFastInverseOrthographicMatrix(f32 width, f32 height, f32 nearPlane, f32 farPlane)
 {
-	const float32 halfWidth = width * .5f;
-	const float32 halfHeight = height * .5f;
+	const f32 halfWidth = width * .5f;
+	const f32 halfHeight = height * .5f;
 	return ConstructFastInverseOrthographicMatrix(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
 }
 
-Matrix4 ConstructFastInverseOrthographicMatrix(float32 left, float32 right, float32 bottom, float32 top, float32 nearPlane, float32 farPlane)
+Matrix4 ConstructFastInverseOrthographicMatrix(f32 left, f32 right, f32 bottom, f32 top, f32 nearPlane, f32 farPlane)
 {
 	Matrix4 projection;
 	projection[m0] = (right - left) * .5f;
@@ -214,7 +214,7 @@ Matrix4 ConstructFastInverseOrthographicMatrix(float32 left, float32 right, floa
 	return projection;
 }
 
-Matrix4 ConstructFastInverseScreenMatrix(float32 screenWidth, float32 screenHeight, float32 worldDepth)
+Matrix4 ConstructFastInverseScreenMatrix(f32 screenWidth, f32 screenHeight, f32 worldDepth)
 {
 	Matrix4 projection;
 	projection[m0] = 2.f / screenWidth;

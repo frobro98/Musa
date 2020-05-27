@@ -43,7 +43,7 @@ public:
 	virtual InputEvents OnMouseEnter(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 	virtual InputEvents OnMouseExit(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 
-	virtual InputEvents OnControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogInput, float32 analogValue) override;
+	virtual InputEvents OnControllerAnalogChange(u32 controllerIndex, Inputs::Type analogInput, f32 analogValue) override;
 	
 	// These focus callbacks will refresh settings or disable settings depending on what settings exist
 	virtual InputEvents OnFocusReceived() override;
@@ -69,15 +69,15 @@ public:
 	void PopInputContext(StringView contextName);
 
 private:
-	void ClampInputToRangeAndStore(float32 value, const RangedInput& input);
-	void NormalizeValueToRangeAndStore(float32 value, const RangedInput& input);
+	void ClampInputToRangeAndStore(f32 value, const RangedInput& input);
+	void NormalizeValueToRangeAndStore(f32 value, const RangedInput& input);
 
 private:
 	FrameInputs contextInputs;
 
 	DynamicArray<InputCallback> callbacks;
 	DynamicArray<PlayerInputContext> contexts;
-	DynamicArray<uint32> activeContextIndices;
+	DynamicArray<u32> activeContextIndices;
 
 	InputSettings inputSettings;
 	MusaEngine& musaEngine;

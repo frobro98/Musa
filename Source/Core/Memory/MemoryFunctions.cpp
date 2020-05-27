@@ -48,13 +48,13 @@
 // TODO - Research Virtual memory and understand how it works and how to map a lot of virtual memory space to 
 // physical memory and make it worth while
 
-enum class BlockType : uint32
+enum class BlockType : u32
 {
 	FixedSmallBlock,
 	DynamicBlock
 };
 
-enum OwnedBlockFlag : uint32
+enum OwnedBlockFlag : u32
 {
 	NoBlock = 0xdead,
 	YesBlock = 0xdada
@@ -91,7 +91,7 @@ struct MemoryBlockInfo
 	size_t allocatedSize; // Size of associated block, alignment taken into consideration
 	OwnedBlockFlag flag;
 	BlockType type; // Useful to know what block of memory I'm dealing with
-	uint64 pad[2];
+	u64 pad[2];
 };
 
 static_assert(sizeof(MemoryBlockInfo) == 32);

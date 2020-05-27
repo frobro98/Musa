@@ -11,10 +11,10 @@ public:
 	void Increment();
 	void Decrement();
 
-	inline uint32 GetReferenceCount() const { return count; }
+	inline u32 GetReferenceCount() const { return count; }
 
 private:
-	uint32 count = 1;
+	u32 count = 1;
 };
 
 class ThreadSafeCounter
@@ -30,7 +30,7 @@ public:
 	void Increment();
 	void Decrement();
 
-	inline uint32 GetReferenceCount() const { return count.load(std::memory_order_seq_cst); }
+	inline u32 GetReferenceCount() const { return count.load(std::memory_order_seq_cst); }
 
 private:
 	uatom32 count;

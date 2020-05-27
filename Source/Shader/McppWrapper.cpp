@@ -72,7 +72,7 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 		auto result = File::Open(shaderFile, filename, File::Mode::READ);
 		Assert(result == File::Result::SUCCESS);
 
-		uint32 size;
+		u32 size;
 		File::Size(shaderFile, size);
 
 		if (size > 0)

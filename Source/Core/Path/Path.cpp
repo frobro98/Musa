@@ -39,7 +39,7 @@ bool Path::DoesDirectoryExist() const
 String Path::GetFileExtension() const
 {
 	// TODO - Implement my version of string_view so that I can get at the extension without allocating
-	int32 index = path.FindLast(".");
+	i32 index = path.FindLast(".");
 	if (index != -1)
 	{
 		return String((*path) + index + 1, path.Length()+1 - index);
@@ -56,7 +56,7 @@ String Path::GetFileName() const
 	{
 		--curStr;
 	}
-	uint32 filenameSize = static_cast<uint32>(endStr - curStr);
+	u32 filenameSize = static_cast<u32>(endStr - curStr);
 	return String(curStr, filenameSize);
 }
 
@@ -68,7 +68,7 @@ String Path::GetFileNameWithoutExtension() const
 	{
 		--curStr;
 	}
-	uint32 filenameSize = static_cast<uint32>(endStr - curStr);
+	u32 filenameSize = static_cast<u32>(endStr - curStr);
 	return String(curStr, filenameSize);
 }
 
@@ -87,7 +87,7 @@ Path Path::GetNormalized() const
 void Path::MakeAbsolute()
 {
 	constexpr const tchar* parentDir = "/..";
-	constexpr uint32 parentStrLen = 3;
+	constexpr u32 parentStrLen = 3;
 	if (path[0] != '/' && !IsAlpha(path[0]))
 	{
 		String tempPath(path);
@@ -95,15 +95,15 @@ void Path::MakeAbsolute()
 		*this /= tempPath;
 	}
 
-	int32 index = path.FindFirst(parentDir);
+	i32 index = path.FindFirst(parentDir);
 	while(index != -1)
 	{
-		uint32 prevSlashIndex = static_cast<uint32>(index - 1);
+		u32 prevSlashIndex = static_cast<u32>(index - 1);
 		while (!IsSlash(path[prevSlashIndex]))
 		{
 			--prevSlashIndex;
 		}
-		uint32 relativePathToRemove = index - prevSlashIndex + parentStrLen;
+		u32 relativePathToRemove = index - prevSlashIndex + parentStrLen;
 		path.Remove(prevSlashIndex, relativePathToRemove);
 
 		index = path.FindFirst(parentDir);
@@ -123,7 +123,7 @@ Path Path::GetDirectoryPath() const
 	{
 		const tchar* endStr = *path + (path.Length());
 		const tchar* curStr = endStr;
-		uint32 endIndex = path.Length();
+		u32 endIndex = path.Length();
 		while (!IsSlash(*(curStr - 1)))
 		{
 			--curStr;

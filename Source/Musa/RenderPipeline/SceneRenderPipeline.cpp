@@ -100,7 +100,7 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 	desc.renderTargets = targetDesc;
 	desc.vertexInputs = GetVertexInput<Vertex>();
 	desc.rasterizerDesc = RasterDesc();
-	for (uint32 i = 0; i < desc.renderTargets.colorAttachments.Size(); ++i)
+	for (u32 i = 0; i < desc.renderTargets.colorAttachments.Size(); ++i)
 	{
 		desc.blendingDescs[i] = BlendDesc();
 	}
@@ -136,8 +136,8 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 		SCOPED_TIMED_BLOCK(GBufferRenderPass);
 
 		// TODO - This should be a pipeline helper function
-		uint32 viewWidth = (uint32)view.description.viewport.width;
-		uint32 viewHeight = (uint32)view.description.viewport.height;
+		u32 viewWidth = (u32)view.description.viewport.width;
+		u32 viewHeight = (u32)view.description.viewport.height;
 		context.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
 		context.SetScissor(0, 0, viewWidth, viewHeight);
 

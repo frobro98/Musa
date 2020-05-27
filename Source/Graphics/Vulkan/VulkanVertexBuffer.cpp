@@ -10,7 +10,7 @@
 VulkanVertexBuffer::VulkanVertexBuffer(VulkanDevice& device, const DynamicArray<Vertex>& vertices)
 	: logicalDevice(device)
 {
-	uint32 vertexBufferSize = sizeof(Vertex) * vertices.Size();
+	u32 vertexBufferSize = sizeof(Vertex) * vertices.Size();
 
 	// TODO - Get staging buffers working. Need to cache them until they're used
 	vertexBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(

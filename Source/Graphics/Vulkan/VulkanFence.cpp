@@ -49,7 +49,7 @@ void VulkanFence::ResetFence(bool forceReset)
 	}
 }
 
-bool VulkanFence::WaitFor(uint64 nanoSeconds)
+bool VulkanFence::WaitFor(u64 nanoSeconds)
 {
 	bool signaled = true;
 	if (state != FenceState::Signaled)
@@ -104,8 +104,8 @@ VulkanFence* VulkanFenceManager::CreateFence()
 void VulkanFenceManager::DestroyFence(const VulkanFence& fence)
 {
 	VulkanFence* found = nullptr;
-	uint32 index = 0;
-	for (uint32 i = 0; i < fences.Size(); ++i)
+	u32 index = 0;
+	for (u32 i = 0; i < fences.Size(); ++i)
 	{
 		if (fence.GetNativeHandle() == fences[i]->GetNativeHandle())
 		{

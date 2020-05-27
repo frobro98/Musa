@@ -8,13 +8,13 @@
 struct CORE_API Color
 {
 	constexpr Color() = default;
-	constexpr Color(uint8 red, uint8 green, uint8 blue)
+	constexpr Color(u8 red, u8 green, u8 blue)
 		: r(red),
 		g(green),
 		b(blue)
 	{
 	}
-	constexpr Color(uint8 red, uint8 green, uint8 blue, uint8 alpha)
+	constexpr Color(u8 red, u8 green, u8 blue, u8 alpha)
 		: r(red),
 		g(green),
 		b(blue),
@@ -22,10 +22,10 @@ struct CORE_API Color
 	{
 	}
 
-	uint8 r = 255;
-	uint8 g = 255;
-	uint8 b = 255;
-	uint8 a = 255;
+	u8 r = 255;
+	u8 g = 255;
+	u8 b = 255;
+	u8 a = 255;
 
 	static constexpr Color White()
 	{

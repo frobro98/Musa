@@ -24,8 +24,8 @@ struct DepthStencilTestingDescription
 	StencilOperation backFailOp;
 	StencilOperation backDepthFailOp;
 	CompareOperation backCompareOp;
-	uint8 stencilReadMask;
-	uint8 stencilWriteMask;
+	u8 stencilReadMask;
+	u8 stencilWriteMask;
 	bool pad[1] = { false };
 
 	friend bool operator==(const DepthStencilTestingDescription& lhs, const DepthStencilTestingDescription& rhs)
@@ -60,8 +60,8 @@ template<
 	StencilOperation backFail = StencilOperation::Keep,
 	StencilOperation backDepthFail = StencilOperation::Keep,
 	CompareOperation backCompareOp = CompareOperation::Always,
-	uint8 stencilTestReadMask = 0xf,
-	uint8 stencilTestWriteMask = 0xf
+	u8 stencilTestReadMask = 0xf,
+	u8 stencilTestWriteMask = 0xf
 >
 constexpr DepthStencilTestingDescription DepthTestDesc()
 {
@@ -86,8 +86,8 @@ constexpr DepthStencilTestingDescription DepthTestDesc()
 
 struct RasterizerDescription
 {
-	float32 depthBiasConstant;
-	float32 depthBiasSlope;
+	f32 depthBiasConstant;
+	f32 depthBiasSlope;
 	FillMode fillMode;
 	CullingMode cullMode;
 	
@@ -168,10 +168,10 @@ struct SamplerDescription
 		SamplerAddressMode uAddrMode = SamplerAddressMode::Clamp,
 		SamplerAddressMode vAddrMode = SamplerAddressMode::Clamp,
 		SamplerMipmapMode mipMode_ = SamplerMipmapMode::Linear,
-		float32 anisotropy = 0,
-		float32 minLOD = 0,
-		float32 maxLOD = 1,
-		float32 mipLODBias = 0
+		f32 anisotropy = 0,
+		f32 minLOD = 0,
+		f32 maxLOD = 1,
+		f32 mipLODBias = 0
 	)
 		: maxAnisotropy(anisotropy),
 		minLod(minLOD),
@@ -185,10 +185,10 @@ struct SamplerDescription
 	{
 	}
 
-	float32 maxAnisotropy;
-	float32 minLod;
-	float32 maxLod;
-	float32 mipLodBias;
+	f32 maxAnisotropy;
+	f32 minLod;
+	f32 maxLod;
+	f32 mipLodBias;
 	SamplerFilter filter;
 	SamplerAddressMode addrModeU;
 	SamplerAddressMode addrModeV;
@@ -208,7 +208,7 @@ struct SamplerDescription
 			lhs.enabledAnisotropy == rhs.enabledAnisotropy;
 	}
 
-	friend uint32 GetHash(const SamplerDescription& params)
+	friend u32 GetHash(const SamplerDescription& params)
 	{
 		return fnv32(&params, sizeof(SamplerDescription));
 	}
@@ -219,10 +219,10 @@ template<
 	SamplerAddressMode uAddrMode = SamplerAddressMode::Clamp,
 	SamplerAddressMode vAddrMode = SamplerAddressMode::Clamp,
 	SamplerMipmapMode mipMode = SamplerMipmapMode::Linear,
-	int32 anisotropy = 0,
-	int32 minLOD = 0,
-	int32 maxLOD = 1,
-	int32 mipLODBias = 0
+	i32 anisotropy = 0,
+	i32 minLOD = 0,
+	i32 maxLOD = 1,
+	i32 mipLODBias = 0
 >
 inline NativeSampler* SamplerDesc()
 {
@@ -256,9 +256,9 @@ struct GraphicsPipelineDescription
 	{
 		if (lhs.renderTargets == rhs.renderTargets)
 		{
-			uint32 targetCount = lhs.renderTargets.colorAttachments.Size();
+			u32 targetCount = lhs.renderTargets.colorAttachments.Size();
 			bool result = true;
-			for (uint32 i = 0; i < targetCount; ++i)
+			for (u32 i = 0; i < targetCount; ++i)
 			{
 				result &= lhs.blendingDescs[i] == rhs.blendingDescs[i];
 			}
@@ -282,7 +282,7 @@ struct ComputePipelineInitDescription
 	NativeComputeShader* computeShader;
 };
 
-inline uint32 GetHash(const GraphicsPipelineDescription& desc)
+inline u32 GetHash(const GraphicsPipelineDescription& desc)
 {
 	return fnv32(&desc, sizeof(GraphicsPipelineDescription));
 }

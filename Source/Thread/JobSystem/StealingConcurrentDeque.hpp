@@ -10,12 +10,12 @@
 struct Job;
 
 // Job System data structure probably
-template <uint32 size>
+template <u32 size>
 class WorkStealingDeque
 {
 	static_assert(IsPowerOf2(size), "Size of Collection is restricted to powers of 2!");
 public:
-	WorkStealingDeque(uint64 owningThreadID);
+	WorkStealingDeque(u64 owningThreadID);
 
 	// Push and Pop can only be called from the queue's owning thread
 	bool TryPush(Job& job);
@@ -25,28 +25,28 @@ public:
 	void PrepareQueueForJobs();
 
 private:
-	static constexpr uint32 JobMask = size - 1;
+	static constexpr u32 JobMask = size - 1;
 	Job* jobs[size]{};
 	atom32 topIndex, bottomIndex;
-	const uint64 owningThreadID;
+	const u64 owningThreadID;
 };
 
-template<uint32 size>
-inline WorkStealingDeque<size>::WorkStealingDeque(uint64 owningThreadID_)
+template<u32 size>
+inline WorkStealingDeque<size>::WorkStealingDeque(u64 owningThreadID_)
 	: owningThreadID(owningThreadID_)
 {
 	topIndex.store(0, std::memory_order_seq_cst);
 	bottomIndex.store(0, std::memory_order_seq_cst);
 }
 
-template<uint32 size>
+template<u32 size>
 inline bool WorkStealingDeque<size>::TryPush(Job& job)
 {
 	Assert(GetCurrentThreadID() == owningThreadID);
 	Assert(topIndex.load() <= bottomIndex.load());
 
-	int32 bottom = bottomIndex.load(std::memory_order_acquire);
-	int32 top = topIndex.load(std::memory_order_seq_cst);
+	i32 bottom = bottomIndex.load(std::memory_order_acquire);
+	i32 top = topIndex.load(std::memory_order_seq_cst);
 	if((bottom - top) < size)
 	{
 		jobs[bottom & JobMask] = &job;
@@ -59,11 +59,11 @@ inline bool WorkStealingDeque<size>::TryPush(Job& job)
 	return false;
 }
 
-template<uint32 size>
+template<u32 size>
 inline bool WorkStealingDeque<size>::TrySteal(Job*& job)
 {
-	int32 top = topIndex.load(std::memory_order_seq_cst);
-	int32 bottom = bottomIndex.load(std::memory_order_seq_cst);
+	i32 top = topIndex.load(std::memory_order_seq_cst);
+	i32 bottom = bottomIndex.load(std::memory_order_seq_cst);
 
 	if (top < bottom)
 	{
@@ -78,15 +78,15 @@ inline bool WorkStealingDeque<size>::TrySteal(Job*& job)
 	return false;
 }
 
-template<uint32 size>
+template<u32 size>
 inline bool WorkStealingDeque<size>::TryPop(Job*& job)
 {
 	Assert(GetCurrentThreadID() == owningThreadID);
 
-	int32 popLoc = bottomIndex.load(std::memory_order_acquire) - 1;
+	i32 popLoc = bottomIndex.load(std::memory_order_acquire) - 1;
 	bottomIndex.store(popLoc, std::memory_order_release);
 
-	int32 top = topIndex.load(std::memory_order_seq_cst);
+	i32 top = topIndex.load(std::memory_order_seq_cst);
 	if (top <= popLoc)
 	{
 		if (top != popLoc)
@@ -111,7 +111,7 @@ inline bool WorkStealingDeque<size>::TryPop(Job*& job)
 	return false;
 }
 
-template<uint32 size>
+template<u32 size>
 inline void WorkStealingDeque<size>::PrepareQueueForJobs()
 {
 	// Assert that queue is empty

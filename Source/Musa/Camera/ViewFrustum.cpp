@@ -8,17 +8,17 @@ ViewFrustum::ViewFrustum(
 	const Vector4& origin,
 	const Extents2D& nearExtents,
 	const Extents2D& farExtents,
-	float32 nearPlane,
-	float32 farPlane
+	f32 nearPlane,
+	f32 farPlane
 )
 {
 	Vector4 forward(viewMatrix[m2], viewMatrix[m6], viewMatrix[m10]);
 	Vector4 right(viewMatrix[m0], viewMatrix[m4], viewMatrix[m8]);
 	Vector4 up(viewMatrix[m1], viewMatrix[m5], viewMatrix[m9]);
-	float32 nearWidth = nearExtents.width;
-	float32 nearHeight = nearExtents.height;
-	float32 farWidth = farExtents.width;
-	float32 farHeight = farExtents.height;
+	f32 nearWidth = nearExtents.width;
+	f32 nearHeight = nearExtents.height;
+	f32 farWidth = farExtents.width;
+	f32 farHeight = farExtents.height;
 
 	nearTopLeft = origin - forward * nearPlane + up * nearHeight * 0.5f - right * nearWidth * 0.5f;
 	nearTopRight = origin - forward * nearPlane + up * nearHeight * 0.5f + right * nearWidth * 0.5f;

@@ -36,7 +36,7 @@ Texture ConstructTexture(TextureImporter& importer)
 	baseLevel.width = importer.GetWidth();
 	baseLevel.height = importer.GetHeight();
 	const MemoryBuffer& pixels = importer.GetImportedPixelData();
-	uint8* data = new uint8[pixels.Size()];
+	u8* data = new u8[pixels.Size()];
 	Memcpy(data, pixels.Size(), pixels.GetData(), pixels.Size());
 	baseLevel.mipData = ResourceBlob(data, pixels.Size());
 	tex.mipLevels.Add(std::move(baseLevel));

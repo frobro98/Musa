@@ -9,10 +9,10 @@
 
 struct InputRange
 {
-	float32 minRawRange;
-	float32 maxRawRange;
-	float32 minNormalizedRange;
-	float32 maxNormalizedRange;
+	f32 minRawRange;
+	f32 maxRawRange;
+	f32 minNormalizedRange;
+	f32 maxNormalizedRange;
 };
 
 struct SingleInput
@@ -30,7 +30,7 @@ struct RangedInput
 struct InputRangeValue
 {
 	const SingleInput* input;
-	float32 rangeValue;
+	f32 rangeValue;
 };
 
 struct PlayerInputContext
@@ -39,7 +39,7 @@ struct PlayerInputContext
 	DynamicArray<SingleInput> inputActions;
 	DynamicArray<SingleInput> inputStates;
 	DynamicArray<RangedInput> inputRanges;
-	uint32 nameHash;
+	u32 nameHash;
 
 	friend bool operator==(const PlayerInputContext& pc0, const PlayerInputContext& pc1)
 	{

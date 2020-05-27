@@ -27,12 +27,12 @@ void Swap(Exch& e0, Exch& e1)
 template<class Elem>
 void InsertionSort(DynamicArray<Elem>& arr)
 {
-	int32 size = static_cast<int32>(arr.Size());
-	for (int32 i = 1; i < size; ++i)
+	i32 size = static_cast<i32>(arr.Size());
+	for (i32 i = 1; i < size; ++i)
 	{
-		for (int32 j = i - 1; j >= 0; --j)
+		for (i32 j = i - 1; j >= 0; --j)
 		{
-			uint32 index = static_cast<uint32>(j);
+			u32 index = static_cast<u32>(j);
 			if (arr[index + 1] < arr[index])
 			{
 				Swap(arr[index], arr[index + 1]);
@@ -50,8 +50,8 @@ void InsertionSort(T(&arr)[N])
 {
 	for (size_t i = 1; i < N; ++i)
 	{
-		int64 index = (int64)i;
-		for (int64 j = index - 1; j >= 0; --j)
+		i64 index = (i64)i;
+		for (i64 j = index - 1; j >= 0; --j)
 		{
 			if (arr[j + 1] < arr[j])
 			{
@@ -68,8 +68,8 @@ constexpr void InsertionSort(T* arr, size_t count)
 {
 	for (size_t i = 1; i < count; ++i)
 	{
-		int64 index = (int64)i;
-		for (int64 j = index - 1; j >= 0; --j)
+		i64 index = (i64)i;
+		for (i64 j = index - 1; j >= 0; --j)
 		{
 			if (arr[j + 1] < arr[j])
 			{
@@ -84,7 +84,7 @@ constexpr void InsertionSort(T* arr, size_t count)
 template <typename T, typename Pred>
 constexpr bool IsSorted(const T* arr, size_t count, Pred&& func)
 {
-	for (uint32 i = 1; i < count; ++i)
+	for (u32 i = 1; i < count; ++i)
 	{
 		if (!func(arr[i - 1], arr[i]))
 		{

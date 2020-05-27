@@ -13,28 +13,28 @@
 Color TintColor(const Color& color, const Color& tint)
 {
 	Color tintedColor = color;
-	tintedColor.r += static_cast<uint8>((color.r - tint.r) * .5f);
-	tintedColor.g += static_cast<uint8>((color.g - tint.g) * .5f);
-	tintedColor.b += static_cast<uint8>((color.b - tint.b) * .5f);
+	tintedColor.r += static_cast<u8>((color.r - tint.r) * .5f);
+	tintedColor.g += static_cast<u8>((color.g - tint.g) * .5f);
+	tintedColor.b += static_cast<u8>((color.b - tint.b) * .5f);
 	return Color(tintedColor);
 }
 
-uint8 TintValue(uint8 val, uint8 tint)
+u8 TintValue(u8 val, u8 tint)
 {
 	float tintedValue = Math::Clamp((tint - val) * .5f, 0.f, 255.f);
-	val = val + tintedValue > 255 ? 255u : val + static_cast<uint8>(tintedValue);
+	val = val + tintedValue > 255 ? 255u : val + static_cast<u8>(tintedValue);
 	return val;
 }
 
 void TintMipMapColor(MipmapLevel& texture, const Color& tint)
 {
 
-	constexpr uint32 numChannels = 4;
-	const uint32 rowWidth = numChannels * texture.width;
-	uint8* imageData = texture.mipData.GetData();
-	for (uint32 i = 0; i < texture.height; ++i)
+	constexpr u32 numChannels = 4;
+	const u32 rowWidth = numChannels * texture.width;
+	u8* imageData = texture.mipData.GetData();
+	for (u32 i = 0; i < texture.height; ++i)
 	{
-		for (uint32 j = 0; j < rowWidth; j += 4)
+		for (u32 j = 0; j < rowWidth; j += 4)
 		{
 			imageData[(j + 0) + rowWidth * i] = TintValue(imageData[(j + 0) + rowWidth * i], tint.r);
 			imageData[(j + 1) + rowWidth * i] = TintValue(imageData[(j + 1) + rowWidth * i], tint.g);
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 	CompressionFormat compressionFormat = CompressionFormat::Invalid;
 	MipMapFilter filter = MipMapFilter::Box;
 	bool generateMipMaps = false;
-	for (int32 i = 1; i < argc; i += 2)
+	for (i32 i = 1; i < argc; i += 2)
 	{
 		char* argType = argv[i];
 		if (i + 1 == argc)
@@ -133,11 +133,11 @@ int main(int argc, char* argv[])
 
 	if (generateMipMaps)
 	{
-		uint32 maxGeneratedLevels = GetMaxMipMapLevels(texture.GetWidth(), texture.GetHeight()) - 1;
+		u32 maxGeneratedLevels = GetMaxMipMapLevels(texture.GetWidth(), texture.GetHeight()) - 1;
 		GenerateMipMapLevels(texture, maxGeneratedLevels, filter);
 
 		Color tint = Color::Green();
-		for (uint32 i = 1; i < texture.mipLevels.Size(); ++i)
+		for (u32 i = 1; i < texture.mipLevels.Size(); ++i)
 		{
 			TintMipMapColor(texture.mipLevels[i], tint);
 			if (i == 1)

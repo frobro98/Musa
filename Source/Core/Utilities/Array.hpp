@@ -2,7 +2,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-template <typename T, uint32 N>
+template <typename T, u32 N>
 constexpr size_t ArraySize(NOT_USED const T(&arr)[N])
 {
 	return N;

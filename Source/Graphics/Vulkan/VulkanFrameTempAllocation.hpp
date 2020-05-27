@@ -15,7 +15,7 @@ struct TempAlloc
 	void* allocData;
 	VkBuffer buffer;
 	VkDeviceSize allocSize;
-	uint32 offset;
+	u32 offset;
 };
 
 struct VulkanFrameTempAllocation
@@ -23,7 +23,7 @@ struct VulkanFrameTempAllocation
 	VulkanFrameTempAllocation(const VulkanDevice& device);
 	~VulkanFrameTempAllocation();
 
-	TempAlloc AllocateTempMemory(VkDeviceSize allocSize, uint32 allocAlignment);
+	TempAlloc AllocateTempMemory(VkDeviceSize allocSize, u32 allocAlignment);
 	void ClearSuballocations();
 
 	void* freeAllocPtr;

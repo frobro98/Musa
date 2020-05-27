@@ -12,7 +12,7 @@ public:
 	SkeletonBone();
 	~SkeletonBone();
 
-	void SetIndex(uint32 index);
+	void SetIndex(u32 index);
 	void SetDebug(bool debug);
 	void SetOrientation(const Matrix4& orientation);
 
@@ -25,5 +25,5 @@ public:
 private:
 	Model* debugModel;
 	Matrix4* world;
-	uint32 boneIndex;
+	u32 boneIndex;
 };

@@ -17,11 +17,11 @@ namespace Math
  * is preserved.
  * ====================================================
  */
-float32 Fmod(float32 x, float32 y)
+f32 Fmod(f32 x, f32 y)
 {
 	constexpr double one = 1., ZeroArr[] = { 0.0, -0.0 };
-	int32 n, ix, iy;
-	int64 hx, hy, hz, sx, i;
+	i32 n, ix, iy;
+	i64 hx, hy, hz, sx, i;
 	hx = AsInt64(x);
 	hy = AsInt64(y);
 	sx = hx & UINT64_C(0x8000000000000000);        /* sign of x */
@@ -35,7 +35,7 @@ float32 Fmod(float32 x, float32 y)
 	}
 	if (unlikely(hx <= hy)) {
 		if (hx < hy) return x;        /* |x|<|y| return x */
-		return (float32)ZeroArr[(uint64_t)sx >> 63];        /* |x|=|y| return x*0*/
+		return (f32)ZeroArr[(uint64_t)sx >> 63];        /* |x|=|y| return x*0*/
 	}
 	/* determine ix = ilogb(x) */
 	if (unlikely(hx < UINT64_C(0x0010000000000000)))
@@ -85,7 +85,7 @@ float32 Fmod(float32 x, float32 y)
 		else
 		{
 			if (hz == 0)                /* return sign(x)*0 */
-				return (float32)ZeroArr[(uint64)sx >> 63];
+				return (f32)ZeroArr[(u64)sx >> 63];
 			hx = hz + hz;
 		}
 	}
@@ -95,7 +95,7 @@ float32 Fmod(float32 x, float32 y)
 	/* convert back to floating value and restore the sign */
 	if (hx == 0)                        /* return sign(x)*0 */
 	{
-		return (float32)ZeroArr[(uint64)sx >> 63];
+		return (f32)ZeroArr[(u64)sx >> 63];
 	}
 
 	while (hx < UINT64_C(0x0010000000000000))         /* normalize x */
@@ -106,14 +106,14 @@ float32 Fmod(float32 x, float32 y)
 
 	if (likely(iy >= -1022))         /* normalize output */
 	{
-		hx = ((hx - UINT64_C(0x0010000000000000)) | ((uint64)(iy + 1023) << 52));
-		x = (float32)AsFloat64(hx | sx);
+		hx = ((hx - UINT64_C(0x0010000000000000)) | ((u64)(iy + 1023) << 52));
+		x = (f32)AsFloat64(hx | sx);
 	}
 	else                 /* subnormal output */
 	{
 		n = -1022 - iy;
 		hx >>= n;
-		x = (float32)AsFloat64(hx | sx);
+		x = (f32)AsFloat64(hx | sx);
 		x *= one;                /* create necessary signal */
 	}
 

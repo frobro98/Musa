@@ -18,12 +18,12 @@ public:
 	Query& GetOrCreateEntityQuery(const QueryDescription& desc);
 
 	// Methods to update queries if there are new archetypes in the system
-	void AddNewArchetypeToQueries(Archetype** archetype, uint32 archetypeCount);
+	void AddNewArchetypeToQueries(Archetype** archetype, u32 archetypeCount);
 
 private:
 	// Cache of queries
 	DynamicArray<Query*> queries;
-	Map<uint32, DynamicArray<Query*>> matchingHashQueries;
+	Map<u32, DynamicArray<Query*>> matchingHashQueries;
 	World* world = nullptr;
 };
 }

@@ -8,14 +8,14 @@ namespace
 {
 static JobSystem* jobSystem = new JobSystem;
 
-thread_local uint32 threadIndex;
+thread_local u32 threadIndex;
 
 using NotifyLock = std::unique_lock<std::mutex>;
 }
 
 void JobSystem::Initialize()
 {
-	uint32 numThreads = 1;
+	u32 numThreads = 1;
 	//numThreads = Math::Max(std::thread::hardware_concurrency() - 1, numThreads);
 	//Assert(numThreads > 1);
 
@@ -24,7 +24,7 @@ void JobSystem::Initialize()
 	threadIndex = 0;
 
 	jobThreads.Resize(numThreads);
-	uint32 index = 1;
+	u32 index = 1;
 	for (auto& jobThread : jobThreads)
 	{
 		jobThread = new JobThread(*this, index, systemSleepPrim);
@@ -34,7 +34,7 @@ void JobSystem::Initialize()
 
 void JobSystem::StartSystem()
 {
-	for (uint32 i = 0; i < jobThreads.Size(); ++i)
+	for (u32 i = 0; i < jobThreads.Size(); ++i)
 	{
 		jobThreads[i]->Start();
 	}
@@ -47,7 +47,7 @@ void JobSystem::StartSystem()
 
 void JobSystem::Deinitialize()
 {
-	for (uint32 i = 0; i < jobThreads.Size(); ++i)
+	for (u32 i = 0; i < jobThreads.Size(); ++i)
 	{
 		jobThreads[i]->WaitStop();
 		delete jobThreads[i];
@@ -57,15 +57,15 @@ void JobSystem::Deinitialize()
 	jobQueues.Clear();
 }
 
-void JobSystem::SetJobQueueForIndex(JobQueue& q, uint32 index)
+void JobSystem::SetJobQueueForIndex(JobQueue& q, u32 index)
 {
 	jobQueues[index] = &q;
 	threadIndex = index;
 }
 
-JobQueue& JobSystem::GetRandomQueue(uint32 index) const
+JobQueue& JobSystem::GetRandomQueue(u32 index) const
 {
-	uint32 randIndex;
+	u32 randIndex;
 	do
 	{
 		randIndex = rand() % jobQueues.Size();

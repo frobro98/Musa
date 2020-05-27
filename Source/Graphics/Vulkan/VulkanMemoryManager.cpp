@@ -27,8 +27,8 @@ VulkanMemoryManager::~VulkanMemoryManager()
 }
 
 VulkanImage* VulkanMemoryManager::AllocateImage(
-	uint32 imgWidth, uint32 imgHeight, VkFormat imgFormat,
-	uint32 mipMapLevels, VkImageTiling tiling, VkImageUsageFlags usage,
+	u32 imgWidth, u32 imgHeight, VkFormat imgFormat,
+	u32 mipMapLevels, VkImageTiling tiling, VkImageUsageFlags usage,
 	VkMemoryPropertyFlags memoryProperties
 )
 {
@@ -55,7 +55,7 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 	VkMemoryRequirements memoryRequirements;
 	vkGetImageMemoryRequirements(logicalDevice.GetNativeHandle(), img, &memoryRequirements);
 
-	uint32 memoryTypeIndex = QueryMemoryType(memoryRequirements.memoryTypeBits, memoryProperties);
+	u32 memoryTypeIndex = QueryMemoryType(memoryRequirements.memoryTypeBits, memoryProperties);
 	bool canBeMapped = (properties.memoryTypes[memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) != 0;
 	bool isCached = (properties.memoryTypes[memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT) != 0;
 	bool isCoherent = (properties.memoryTypes[memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) != 0;
@@ -64,8 +64,8 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 		logicalDevice, 
 		img, usage, 
 		memoryProperties, 
-		(uint32)memoryRequirements.size, 
-		(uint32)memoryRequirements.alignment,
+		(u32)memoryRequirements.size, 
+		(u32)memoryRequirements.alignment,
 		memoryTypeIndex,
 		canBeMapped,
 		isCached,
@@ -77,8 +77,8 @@ VulkanImage* VulkanMemoryManager::AllocateImage(
 
 	ImageMemory* memory = nullptr;
 	NOT_USED bool success = allocation->TrySelectMemoryRange(
-		(uint32)memoryRequirements.size,
-		(uint32)memoryRequirements.alignment,
+		(u32)memoryRequirements.size,
+		(u32)memoryRequirements.alignment,
 		memory
 	);
 	Assert(success);
@@ -109,16 +109,16 @@ VulkanBuffer* VulkanMemoryManager::AllocateBuffer(
 	VulkanBuffer* buffer = nullptr;
 
 	const VkPhysicalDeviceLimits& limits = logicalDevice.GetDeviceLimits();
-	uint32 alignment = 1;
+	u32 alignment = 1;
 	// TODO - Helper for bit flag testing validity
 	if ((usageFlags && VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT) != 0)
 	{
-		alignment = Math::Max((uint32)limits.minUniformBufferOffsetAlignment, alignment);
+		alignment = Math::Max((u32)limits.minUniformBufferOffsetAlignment, alignment);
 	}
 	// TODO - Helper for bit flag testing validity
 	if ((usageFlags && VK_BUFFER_USAGE_STORAGE_BUFFER_BIT) != 0)
 	{
-		alignment = Math::Max((uint32)limits.minStorageBufferOffsetAlignment, alignment);
+		alignment = Math::Max((u32)limits.minStorageBufferOffsetAlignment, alignment);
 	}
 	
 	VkDeviceSize buffSize = bufferSize;
@@ -145,12 +145,12 @@ void VulkanMemoryManager::FreePendingAllocations()
 {
 }
 
-VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags)
+VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(VkDeviceSize bufferSize, u32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags)
 {
 	BufferGraphicsAllocation* allocation = &AllocateBufferBlock(bufferSize, usageFlags, memoryFlags);
 	usedBufferAllocations.Add(allocation);
 
-	uint32 suballocationAlignment = Math::Max(alignment, allocation->GetAlignment());
+	u32 suballocationAlignment = Math::Max(alignment, allocation->GetAlignment());
 
 	BufferMemory* memory;
 	NOT_USED bool success = allocation->TrySelectMemoryRange(bufferSize, suballocationAlignment, memory);
@@ -159,12 +159,12 @@ VulkanBuffer* VulkanMemoryManager::CreateNewAllocation(VkDeviceSize bufferSize, 
 	return new VulkanBuffer(logicalDevice, allocation->buffer, *memory);
 }
 
-uint32 VulkanMemoryManager::QueryMemoryType(uint32 typeFilter, VkMemoryPropertyFlags propertyFlags)
+u32 VulkanMemoryManager::QueryMemoryType(u32 typeFilter, VkMemoryPropertyFlags propertyFlags)
 {
-	uint32 typeIndex = 0;
+	u32 typeIndex = 0;
 	VkPhysicalDeviceMemoryProperties memProperties;
 	vkGetPhysicalDeviceMemoryProperties(logicalDevice.GetPhysicalDevice(), &memProperties);
-	for (uint32 i = 0; i < memProperties.memoryTypeCount; ++i)
+	for (u32 i = 0; i < memProperties.memoryTypeCount; ++i)
 	{
 		if ((typeFilter & (1 << i)) &&
 			(memProperties.memoryTypes[i].propertyFlags & propertyFlags) == propertyFlags)
@@ -195,7 +195,7 @@ BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(VkDeviceSize 
 	VkMemoryRequirements memoryRequirements;
 	vkGetBufferMemoryRequirements(logicalDevice.GetNativeHandle(), bufferHandle, &memoryRequirements);
 
-	uint32 memoryTypeIndex = QueryMemoryType(memoryRequirements.memoryTypeBits, memoryFlags);
+	u32 memoryTypeIndex = QueryMemoryType(memoryRequirements.memoryTypeBits, memoryFlags);
 	bool canBeMapped = (properties.memoryTypes[memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) != 0;
 	bool isCached = (properties.memoryTypes[memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT) != 0;
 	bool isCoherent = (properties.memoryTypes[memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) != 0;
@@ -203,8 +203,8 @@ BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(VkDeviceSize 
 	BufferGraphicsAllocation* allocation = new BufferGraphicsAllocation(
 		logicalDevice, bufferHandle,
 		usageFlags, memoryFlags,
-		(uint32)memoryRequirements.size,
-		(uint32)memoryRequirements.alignment,
+		(u32)memoryRequirements.size,
+		(u32)memoryRequirements.alignment,
 		memoryTypeIndex,
 		canBeMapped, isCached, isCoherent
 	);

@@ -24,8 +24,8 @@ public:
 	Mesh* LoadPrimitive(Primitive primitiveMesh);
 	Mesh* LoadFrustumForCamera(class Camera* camera);
 
-	Mesh* LoadMeshFromPak(uint8* modelData, const char* modelName);
-	Mesh* LoadMeshFromPak(uint8* modelData, uint8* skinningData, const char* modelName);
+	Mesh* LoadMeshFromPak(u8* modelData, const char* modelName);
+	Mesh* LoadMeshFromPak(u8* modelData, u8* skinningData, const char* modelName);
 	void UnloadMesh(const char* modelName);
 	Mesh* FindMesh(const char* modelName);
 
@@ -37,8 +37,8 @@ private:
 	Mesh* LoadPlanePrimitive();
 	Mesh* LoadPyramidPrimitive();
 
-	Mesh* LoadMeshInternalPak(uint8* modelData, const char* modelName);
-	Mesh* LoadMeshInternalPak(uint8* modelData, uint8* skinningData, const char* modelName);
+	Mesh* LoadMeshInternalPak(u8* modelData, const char* modelName);
+	Mesh* LoadMeshInternalPak(u8* modelData, u8* skinningData, const char* modelName);
 	void UnloadMeshInternal(const char* modelName);
 
 	struct MeshNode

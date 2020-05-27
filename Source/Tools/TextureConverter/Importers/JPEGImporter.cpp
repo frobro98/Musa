@@ -14,7 +14,7 @@ JPEGImporter::JPEGImporter()
 void JPEGImporter::SetImportData(MemoryBuffer&& data)
 {
 	importData = std::move(data);
-	jpgd::jpeg_decoder_mem_stream jpegMemory(importData.GetData(), (uint32)importData.Size());
+	jpgd::jpeg_decoder_mem_stream jpegMemory(importData.GetData(), (u32)importData.Size());
 	jpgd::jpeg_decoder decoder(&jpegMemory);
 
 	validData = decoder.get_error_code() == jpgd::JPGD_SUCCESS;
@@ -36,12 +36,12 @@ void JPEGImporter::SetImportData(MemoryBuffer&& data)
 
 void JPEGImporter::ProcessImport()
 {
-	int32 numColors;
-	uint8* data = jpgd::decompress_jpeg_image_from_memory(importData.GetData(), static_cast<int32>(importData.Size()), &width, &height, &numColors, numComponents);
+	i32 numColors;
+	u8* data = jpgd::decompress_jpeg_image_from_memory(importData.GetData(), static_cast<i32>(importData.Size()), &width, &height, &numColors, numComponents);
 
 	if (data)
 	{
-		uint32 uncompressedSize = static_cast<uint32>(width * height * numComponents);
+		u32 uncompressedSize = static_cast<u32>(width * height * numComponents);
 		importedImageData.Add(data, uncompressedSize);
 		delete[] data;
 		data = nullptr;

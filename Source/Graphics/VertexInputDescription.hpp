@@ -9,7 +9,7 @@
 #include "GeometryPrimitives.hpp"
 #include "Utilities/TemplateUtils.hpp"
 
-enum class VertexInputType : uint16
+enum class VertexInputType : u16
 {
 	F32_1,
 	F32_2,
@@ -20,10 +20,10 @@ enum class VertexInputType : uint16
 struct VertexInputDescription
 {
 	VertexInputType type;
-	uint16 stride;
-	uint16 offset;
-	uint8 binding;
-	uint8 location;
+	u16 stride;
+	u16 offset;
+	u8 binding;
+	u8 location;
 
 	friend bool operator==(const VertexInputDescription& lhs, const VertexInputDescription& rhs)
 	{
@@ -35,21 +35,21 @@ struct VertexInputDescription
 	}
 };
 
-constexpr uint32 MaxVertexInputDescriptions = 6;
+constexpr u32 MaxVertexInputDescriptions = 6;
 
 struct VertexInputDescriptionList
 {
 	using InputDescriptionList = StaticArray<VertexInputDescription, MaxVertexInputDescriptions>;
 	InputDescriptionList inputDescs;
-	uint32 vertexInputCount;
+	u32 vertexInputCount;
 
 	friend bool operator==(const VertexInputDescriptionList& lhs, const VertexInputDescriptionList& rhs)
 	{
 		if (lhs.vertexInputCount == rhs.vertexInputCount)
 		{
-			uint32 vertexInputCount = lhs.vertexInputCount;
+			u32 vertexInputCount = lhs.vertexInputCount;
 			bool result = true;
-			for (uint32 i = 0; i < vertexInputCount; ++i)
+			for (u32 i = 0; i < vertexInputCount; ++i)
 			{
 				result &= lhs.inputDescs[i] == rhs.inputDescs[i];
 			}

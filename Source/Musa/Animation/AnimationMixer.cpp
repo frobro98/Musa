@@ -4,7 +4,7 @@
 #include "Math/VectorFunctions.hpp"
 #include "Math/QuatFunctions.hpp"
 
-AnimationMixer::AnimationMixer(uint32 skelBoneCount)
+AnimationMixer::AnimationMixer(u32 skelBoneCount)
 	: resultingFrame(new KeyFrame(skelBoneCount))
 {
 }
@@ -19,12 +19,12 @@ void AnimationMixer::InterpolateAnimationFrames(Time deltaTime, const KeyFrame* 
 	resultingFrame->frameTime = deltaTime;
 	float deltaS = (deltaTime - frameA->frameTime) / (frameB->frameTime - frameA->frameTime);
 
-	uint32 totalBones = resultingFrame->boneCount;
+	u32 totalBones = resultingFrame->boneCount;
 	const FrameData* boneA = frameA->boneFrameData;
 	const FrameData* boneB = frameB->boneFrameData;
 	FrameData* resultingBone = resultingFrame->boneFrameData;
 
-	for (uint32 i = 0; i < totalBones; ++i)
+	for (u32 i = 0; i < totalBones; ++i)
 	{
 		resultingBone->translation = Math::Lerp(boneA->translation, boneB->translation, deltaS);
 		resultingBone->rotation = Math::Slerp(boneA->rotation, boneB->rotation, deltaS);

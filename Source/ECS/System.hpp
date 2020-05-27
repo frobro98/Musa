@@ -45,11 +45,11 @@ public:
 
 	NODISCARD DynamicArray<ChunkComponentAccessor> GetQueryChunks(const Query& query);
 
-	forceinline void SetVersion(uint32 currentVersion)
+	forceinline void SetVersion(u32 currentVersion)
 	{
 		prevVersion = currentVersion;
 	}
-	forceinline uint32 GetVersion()
+	forceinline u32 GetVersion()
 	{
 		return prevVersion;
 	}
@@ -64,7 +64,7 @@ private:
 	// all of the world object into memory. Could be a lot to load. Need to split up some behaviors in the world into other structures
 	World* world = nullptr;
 	QueryCache* queryCache = nullptr;
-	uint32 prevVersion = 0;
+	u32 prevVersion = 0;
 };
 
 template<typename ...CompTypes>

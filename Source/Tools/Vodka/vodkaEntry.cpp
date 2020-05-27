@@ -61,14 +61,14 @@ void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk c
 	File::Open(fHandle, inputFile, File::Mode::READ);
 	FILE_CHECK(result == File::Result::SUCCESS, "Input file doesn't exist!\n");
 
-	uint32 fileSize;
+	u32 fileSize;
 	File::Seek(fHandle, File::Location::END, 0);
 	File::Tell(fHandle, fileSize);
 	File::Seek(fHandle, File::Location::BEGIN, 0);
 	FILE_CHECK(fileSize > 0, "Input file doesn't exist!\n");
 
 	MemoryBuffer fileData(fileSize);
-	File::Read(fHandle, fileData.GetData(), fileSize * sizeof(uint8));
+	File::Read(fHandle, fileData.GetData(), fileSize * sizeof(u8));
 	FILE_CHECK(result == File::Result::SUCCESS, "Input file reading error!\n");
 
 	result = File::Close(fHandle);
@@ -80,7 +80,7 @@ void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk c
 	memcpy(header.chunkName, name, nameLen);
 
 	MD5Output output = {};
-	MD5Buffer(fileData.GetData(), static_cast<uint32>(fileSize), output);
+	MD5Buffer(fileData.GetData(), static_cast<u32>(fileSize), output);
 	header.hashNum = output.dWord_3 ^ output.dWord_2 ^ output.dWord_1 ^ output.dWord_0;
 
 	result = File::Open(fHandleOutput, outputFile, File::Mode::WRITE);
@@ -89,7 +89,7 @@ void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk c
 	result = File::Write(fHandleOutput, &header, sizeof(ChunkHeader));
 	FILE_CHECK(result == File::Result::SUCCESS, "Output file writing error!\n");
 
-	result = File::Write(fHandleOutput, fileData.GetData(), fileSize * sizeof(uint8));
+	result = File::Write(fHandleOutput, fileData.GetData(), fileSize * sizeof(u8));
 	FILE_CHECK(result == File::Result::SUCCESS, "Output file writing error!\n");
 
 	File::Close(fHandleOutput);

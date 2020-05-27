@@ -20,8 +20,8 @@ GodCamera::GodCamera(GameWorld& world, Camera& cam)
 
 void GodCamera::Update(float tick)
 {
-	constexpr float32 speed = 5.f;
-	constexpr float32 look = 5.f;
+	constexpr f32 speed = 5.f;
+	constexpr f32 look = 5.f;
 	moveSpeed = speed * tick;
 	lookSpeed = look * tick;
 	
@@ -38,7 +38,7 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 		Debug::Printf("%s\n", *action->inputName);
 	}
 
-	float32 changeX = 0, changeY = 0;
+	f32 changeX = 0, changeY = 0;
 	for (const auto& range : inputs.ranges)
 	{
 		if (Math::IsNonZero(range.rangeValue))
@@ -150,15 +150,15 @@ void GodCamera::MoveCameraDown()
 
 void GodCamera::MoveCameraAlongAxis(const Vector4& axis, bool positive)
 {
-	const float32 dirMod = positive ? 1.f : -1.f;
-	const float32 speedMod = dirMod * moveSpeed;
+	const f32 dirMod = positive ? 1.f : -1.f;
+	const f32 speedMod = dirMod * moveSpeed;
 	position += axis * speedMod;
 	cameraLookAt += axis * speedMod;
 }
 
 void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 {
-	const float32 tick = Frame::GetTickTimeSeconds();
+	const f32 tick = Frame::GetTickTimeSeconds();
 	if (changeX != 0 || changeY != 0)
 	{
 		Quat quatX(ROT_AXIS_ANGLE, camera->GetRight(), -changeY * lookSpeed);

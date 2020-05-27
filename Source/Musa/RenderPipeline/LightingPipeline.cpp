@@ -12,8 +12,8 @@
 #include "Lighting/Light.hpp"
 #include "Math/MatrixUtilities.hpp"
 
-constexpr uint32 ShadowMapWidth = 1024;
-constexpr uint32 ShadowMapHeight = 1024;
+constexpr u32 ShadowMapWidth = 1024;
+constexpr u32 ShadowMapHeight = 1024;
 
 static void SetupLightRender(RenderContext& renderer, const GBuffer& gbuffer)
 {
@@ -60,8 +60,8 @@ void RenderLights(RenderContext& renderer, const Scene& scene, const GBuffer& gb
 	{
 		SetupLightRender(renderer, gbuffer);
 
-		uint32 viewWidth = (uint32)view.description.viewport.width;
-		uint32 viewHeight = (uint32)view.description.viewport.height;
+		u32 viewWidth = (u32)view.description.viewport.width;
+		u32 viewHeight = (u32)view.description.viewport.height;
 		renderer.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
 		renderer.SetScissor(0, 0, viewWidth, viewHeight);
 

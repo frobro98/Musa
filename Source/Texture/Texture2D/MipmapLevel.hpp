@@ -9,6 +9,6 @@
 struct MipmapLevel
 {
 	ResourceBlob mipData;
-	uint32 width = 0;
-	uint32 height = 0;
+	u32 width = 0;
+	u32 height = 0;
 };

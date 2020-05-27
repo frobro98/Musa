@@ -5,7 +5,7 @@
 #include "VulkanSurface.h"
 #include "VulkanSwapchain.h"
 
-VulkanViewport::VulkanViewport(VulkanDevice& device, VkInstance instance, void* windowHandle, uint32 viewWidth, uint32 viewHeight)
+VulkanViewport::VulkanViewport(VulkanDevice& device, VkInstance instance, void* windowHandle, u32 viewWidth, u32 viewHeight)
 	: logicalDevice(device)
 {
 	REF_CHECK(device);

@@ -4,7 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-enum class MemoryTag : uint8
+enum class MemoryTag : u8
 {
 
 };

@@ -17,7 +17,7 @@ static Entity DetermineNewEntity(World& world)
 		bridge.chunk = EmptyChunk;
 		bridge.version = 1;
 
-		uint32 id = world.entityBridges.Size();
+		u32 id = world.entityBridges.Size();
 		world.entityBridges.Add(bridge);
 
 		return Entity{ id, bridge.version };
@@ -25,11 +25,11 @@ static Entity DetermineNewEntity(World& world)
 	else
 	{
 		// Reuse dead entity bridge
-		uint32 deadIndex = world.deadIndices.Last();
+		u32 deadIndex = world.deadIndices.Last();
 		world.deadIndices.RemoveLast(deadIndex);
 
-		uint32 version = world.entityBridges[deadIndex].version;
-		uint32 id = deadIndex;
+		u32 version = world.entityBridges[deadIndex].version;
+		u32 id = deadIndex;
 
 		return Entity{ id, version };
 	}

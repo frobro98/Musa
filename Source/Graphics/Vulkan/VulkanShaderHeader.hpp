@@ -7,13 +7,13 @@
 struct SpirvBuffer
 {
 	VkDescriptorType bufferType;
-	uint32 bindIndex;
+	u32 bindIndex;
 };
 
 struct SpirvSampler
 {
 	VkDescriptorType samplerType;
-	uint32 bindIndex;
+	u32 bindIndex;
 };
 
 struct VulkanShaderHeader
@@ -22,27 +22,27 @@ struct VulkanShaderHeader
 	DynamicArray<SpirvSampler> samplers;
 	String entryPoint;
 	VkShaderStageFlags shaderStage;
-	uint32 bytecodeHash;
+	u32 bytecodeHash;
 };
 
 // Serializing header of a shader
 forceinline void Serialize(SerializeBase& ser, const SpirvBuffer& buf)
 {
-	uint32 type = (uint32)buf.bufferType;
+	u32 type = (u32)buf.bufferType;
 	Serialize(ser, type);
 	Serialize(ser, buf.bindIndex);
 }
 
 forceinline void Serialize(SerializeBase& ser, const SpirvSampler& sampler)
 {
-	uint32 type = (uint32)sampler.samplerType;
+	u32 type = (u32)sampler.samplerType;
 	Serialize(ser, type);
 	Serialize(ser, sampler.bindIndex);
 }
 
 forceinline void Serialize(SerializeBase& ser, const VulkanShaderHeader& shaderHeader)
 {
-	Serialize(ser, (uint32)shaderHeader.shaderStage);
+	Serialize(ser, (u32)shaderHeader.shaderStage);
 	Serialize(ser, shaderHeader.bytecodeHash);
 	Serialize(ser, shaderHeader.buffers);
 	Serialize(ser, shaderHeader.samplers);
@@ -52,7 +52,7 @@ forceinline void Serialize(SerializeBase& ser, const VulkanShaderHeader& shaderH
 // Deserializing header of a shader
 forceinline void Deserialize(DeserializeBase& ser, SpirvBuffer& buf)
 {
-	uint32 type;
+	u32 type;
 	Deserialize(ser, type);
 	buf.bufferType = (VkDescriptorType)type;
 	Deserialize(ser, buf.bindIndex);
@@ -60,7 +60,7 @@ forceinline void Deserialize(DeserializeBase& ser, SpirvBuffer& buf)
 
 forceinline void Deserialize(DeserializeBase& ser, SpirvSampler& sampler)
 {
-	uint32 type;
+	u32 type;
 	Deserialize(ser, type);
 	sampler.samplerType = (VkDescriptorType)type;
 	Deserialize(ser, sampler.bindIndex);
@@ -68,7 +68,7 @@ forceinline void Deserialize(DeserializeBase& ser, SpirvSampler& sampler)
 
 forceinline void Deserialize(DeserializeBase& ser, VulkanShaderHeader& shaderHeader)
 {
-	uint32 stage;
+	u32 stage;
 	Deserialize(ser, stage);
 	shaderHeader.shaderStage = (VkShaderStageFlags)stage;
 	Deserialize(ser, shaderHeader.bytecodeHash);

@@ -17,9 +17,9 @@ bool ProcessPackage(
 		const char* const fileName,
 		Chunk type,
 		const char* const chunkName,
-		uint8* &chunkBuff,
-		uint32& chunkSize,
-		uint32& hash
+		u8* &chunkBuff,
+		u32& chunkSize,
+		u32& hash
 	)
 {
 	chunkBuff = nullptr;
@@ -43,7 +43,7 @@ bool ProcessPackage(
 	File::Close(fHandle);
 
 	char* dataPtr = packageData;
-	for (uint32 i = 0; i < packHeader.numChunks; ++i)
+	for (u32 i = 0; i < packHeader.numChunks; ++i)
 	{
 		ChunkHeader* chunkHeader = reinterpret_cast<ChunkHeader*>(dataPtr);
 		if (chunkHeader->type == type && strcmp(chunkHeader->chunkName, chunkName) == 0)
@@ -69,7 +69,7 @@ bool ProcessPackage(
 	return true;
 }
 
-bool ProcessHash(const char* fileName, Chunk type, const char* chunkName, uint32& hash)
+bool ProcessHash(const char* fileName, Chunk type, const char* chunkName, u32& hash)
 {
 	hash = 0;
 	File::Handle fHandle;
@@ -89,7 +89,7 @@ bool ProcessHash(const char* fileName, Chunk type, const char* chunkName, uint32
 	File::Close(fHandle);
 
 	char* dataPtr = packageData;
-	for (uint32 i = 0; i < packHeader.numChunks; ++i)
+	for (u32 i = 0; i < packHeader.numChunks; ++i)
 	{
 		ChunkHeader* chunkHeader = reinterpret_cast<ChunkHeader*>(dataPtr);
 		if (chunkHeader->type == type && strcmp(chunkHeader->chunkName, chunkName) == 0)

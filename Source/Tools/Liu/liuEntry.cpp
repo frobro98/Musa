@@ -33,7 +33,7 @@ void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLe
 {
 	DirectoryDescription dirDesc = GetAllFileTypesInCurrentDirectory("*.chnk");
 
-	uint32 packageFileSize = 0;
+	u32 packageFileSize = 0;
 	PackageHeader header = {};
 	header.numChunks = dirDesc.numberOfFiles;
 	memcpy(header.packageName, packageName, packageNameLen);
@@ -48,14 +48,14 @@ void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLe
 	result = File::Write(outFileHandle, &header, sizeof(PackageHeader));
 	FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be written to!");
 
-	for (uint32 i = 0; i < dirDesc.numberOfFiles; ++i)
+	for (u32 i = 0; i < dirDesc.numberOfFiles; ++i)
 	{
 		const char* file = *dirDesc.files[i];
 		File::Handle fileHandle;
 		result = File::Open(fileHandle, file, File::Mode::READ);
 		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be opened");
 
-		uint32 fileSize;
+		u32 fileSize;
 		File::Seek(fileHandle, File::Location::END, 0);
 		File::Tell(fileHandle, fileSize);
 		File::Seek(fileHandle, File::Location::BEGIN, 0);
@@ -63,13 +63,13 @@ void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLe
 		packageFileSize += fileSize;
 
 		MemoryBuffer fileData(fileSize);
-		result = File::Read(fileHandle, fileData.GetData(), fileSize * sizeof(uint8));
+		result = File::Read(fileHandle, fileData.GetData(), fileSize * sizeof(u8));
 		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be read");
 
 		result = File::Close(fileHandle);
 		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be closed");
 
-		result = File::Write(outFileHandle, fileData.GetData(), fileSize * sizeof(uint8));
+		result = File::Write(outFileHandle, fileData.GetData(), fileSize * sizeof(u8));
 		FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be written to!");
 	}
 

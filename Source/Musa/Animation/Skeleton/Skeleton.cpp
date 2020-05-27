@@ -6,7 +6,7 @@
 #include "Math/MathConstants.hpp"
 #include "Archiver/SkeletonHeader.h"
 
-Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, uint32 count, uint32 hash, PCSTree<SkeletonBone>&& hierarchy)
+Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 count, u32 hash, PCSTree<SkeletonBone>&& hierarchy)
 	: hierarchyTable(table),
 	poseMatrices(poseList, count),
 	boneHierarchy(std::move(hierarchy)),

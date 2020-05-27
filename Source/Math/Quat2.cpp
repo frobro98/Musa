@@ -6,13 +6,13 @@
 const Quat2 Quat2::Identity = Quat2();
 const Quat2 Quat2::Zero = Quat2(0, 0);
 
-Quat2::Quat2(float32 real_, float32 imag)
+Quat2::Quat2(f32 real_, f32 imag)
 	: real(real_),
 	imaginary(imag)
 {
 }
 
-Quat2::Quat2(float32 angle)
+Quat2::Quat2(f32 angle)
 	: real(Math::Cos(angle)),
 	imaginary(Math::Sin(angle))
 {
@@ -30,7 +30,7 @@ void Quat2::Set(const Matrix2& mat)
 	imaginary = mat[m1];
 }
 
-void Quat2::Set(float32 theta)
+void Quat2::Set(f32 theta)
 {
 	real = Math::Cos(theta);
 	imaginary = Math::Sin(theta);
@@ -43,7 +43,7 @@ float Quat2::GetAngle() const
 
 Quat2& Quat2::Normalize()
 {
-	float32 inverseMag = 1.f / MagnitudeSqr();
+	f32 inverseMag = 1.f / MagnitudeSqr();
 	real *= inverseMag;
 	imaginary *= inverseMag;
 	return *this;
@@ -53,7 +53,7 @@ Quat2 Quat2::GetNormalized() const
 {
 	Quat2 q(real, imaginary);
 
-	float32 inverseMag = 1.f / MagnitudeSqr();
+	f32 inverseMag = 1.f / MagnitudeSqr();
 	q.real *= inverseMag;
 	q.imaginary *= inverseMag;
 
@@ -69,7 +69,7 @@ void Quat2::Inverse()
 {
 	//float32 invMag = InverseMagnitude();
 	//float32 sqInvMag = invMag * invMag;
-	float32 invMagSqr = 1.f / MagnitudeSqr();
+	f32 invMagSqr = 1.f / MagnitudeSqr();
 	Conjugate();
 	real *= invMagSqr;
 	imaginary *= invMagSqr;
@@ -193,16 +193,16 @@ Quat2& Quat2::operator*=(const Quat2& q)
 }
 
 
-Quat2& Quat2::operator*=(float32 val)
+Quat2& Quat2::operator*=(f32 val)
 {
 	real *= val;
 	imaginary *= val;
 	return *this;
 }
 
-Quat2& Quat2::operator/=(float32 val)
+Quat2& Quat2::operator/=(f32 val)
 {
-	float32 mod = 1.f / val;
+	f32 mod = 1.f / val;
 	real *= mod;
 	imaginary *= mod;
 	return *this;
@@ -268,28 +268,28 @@ Vector2 operator*(const Vector2& v, const Quat2& q)
 	return vec;
 }
 
-Quat2 operator*(const Quat2& q, float32 val)
+Quat2 operator*(const Quat2& q, f32 val)
 {
 	Quat2 ret(q);
 	ret *= val;
 	return ret;
 }
 
-Quat2 operator*(float32 val, const Quat2& q)
+Quat2 operator*(f32 val, const Quat2& q)
 {
 	Quat2 ret(q);
 	ret *= val;
 	return ret;
 }
 
-Quat2 operator/(const Quat2& q, float32 val)
+Quat2 operator/(const Quat2& q, f32 val)
 {
 	Quat2 ret(q);
 	ret /= val;
 	return ret;
 }
 
-Quat2 operator/(float32 val, const Quat2& q)
+Quat2 operator/(f32 val, const Quat2& q)
 {
 	Quat2 ret(q);
 	ret /= val;

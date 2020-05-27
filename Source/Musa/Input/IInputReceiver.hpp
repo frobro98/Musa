@@ -10,7 +10,7 @@ class IInputReceiver
 public:
 	virtual ~IInputReceiver() = default;
 
-	virtual InputEvents OnControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogInput, float32 analogValue) = 0;
+	virtual InputEvents OnControllerAnalogChange(u32 controllerIndex, Inputs::Type analogInput, f32 analogValue) = 0;
 	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) = 0;
 	virtual InputEvents OnMouseEnter(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) = 0;
 	virtual InputEvents OnMouseExit(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) = 0;

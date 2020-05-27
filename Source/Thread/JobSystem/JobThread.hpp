@@ -15,7 +15,7 @@ class JobSystem;
 class JobThread : private Uncopyable
 {
 public:
-	JobThread(JobSystem& jobSys, uint32 index, ThreadSleepPrimitive& systemSleepPrim);
+	JobThread(JobSystem& jobSys, u32 index, ThreadSleepPrimitive& systemSleepPrim);
 	~JobThread();
 
 	void Start();
@@ -38,5 +38,5 @@ private:
 	JobSystem& jobSystem;
 	JobQueue* jobQueue = nullptr;
 	uflag threadRunning = ATOMIC_FLAG_INIT;
-	uint32 threadIndex;
+	u32 threadIndex;
 };

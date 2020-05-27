@@ -10,6 +10,6 @@
 
 struct FloatArray : Musa::Component
 {
-	float32 array[64];
+	f32 array[64];
 };
 

@@ -63,7 +63,7 @@ METRIC_STAT(Render, Engine);
 METRIC_STAT(BeginRenderFrame, FrameRender)
 METRIC_STAT(EndRenderFrame, FrameRender)
 
-static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
+static void InitializeGBuffer(GBuffer& gbuffer, u32 width, u32 height)
 {
 	if (!gbuffer.positionTexture)
 	{
@@ -97,7 +97,7 @@ static void InitializeGBuffer(GBuffer& gbuffer, uint32 width, uint32 height)
 	}
 }
 
-static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, uint32 width, uint32 height)
+static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, u32 width, u32 height)
 {
 	if (!sceneTargets.sceneColorTexture)
 	{
@@ -121,7 +121,7 @@ static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, uint32 widt
 	}
 }
 
-static void InitializeUITarget(UniquePtr<RenderTarget>& uiTarget, uint32 width, uint32 height)
+static void InitializeUITarget(UniquePtr<RenderTarget>& uiTarget, u32 width, u32 height)
 {
 	if (!uiTarget)
 	{
@@ -137,7 +137,7 @@ static void InitializeUITarget(UniquePtr<RenderTarget>& uiTarget, uint32 width, 
 
 static void InitializeFrameRenderTargets(FrameRenderTargets& renderTargets, const Viewport& viewport)
 {
-	uint32 width = viewport.GetWidth(), height = viewport.GetHeight();
+	u32 width = viewport.GetWidth(), height = viewport.GetHeight();
 	InitializeGBuffer(renderTargets.gbuffer, width, height);
 	InitializeSceneTargets(renderTargets.sceneTargets, width, height);
 	InitializeUITarget(renderTargets.userInterfaceTarget, width, height);
@@ -171,10 +171,10 @@ void MusaEngine::SetupWindowContext(Window& window)
 void MusaEngine::InitializeSceneView()
 {
 	// TODO - This should be available here, so the width and height should be removed
-	const int32 width = viewport->GetWidth();
-	const int32 height = viewport->GetHeight();
+	const i32 width = viewport->GetWidth();
+	const i32 height = viewport->GetHeight();
 
-	const float32 aspect = (float32)width / (float32)height;
+	const f32 aspect = (f32)width / (f32)height;
 	const IntRect viewportDim = { 0, 0, width, height };
 
 	Camera* mainCamera = new Camera;
@@ -347,7 +347,7 @@ static void LoadPakFile(const Path& pakPath)
 	PackageHeader pakHeader;
 	Deserialize(pakFile, pakHeader);
 	
-	for (uint32 i = 0; i < pakHeader.numChunks; ++i)
+	for (u32 i = 0; i < pakHeader.numChunks; ++i)
 	{
 		ChunkHeader chunkHeader;
 		Deserialize(pakFile, chunkHeader);
@@ -359,7 +359,7 @@ static void LoadPakFile(const Path& pakPath)
 				// TODO - This is sort of gross...there has to be a way to reduce the memory allocation. Allocating from the deserialization
 				// and then one from the mesh manager
 				// TODO - Deserialize the header here
-				uint8* modelData = new uint8[chunkHeader.chunkSize];
+				u8* modelData = new u8[chunkHeader.chunkSize];
 				pakFile.DeserializeData(modelData, chunkHeader.chunkSize);
 				
 				GetMeshManager().LoadMeshFromPak(modelData, chunkHeader.chunkName);
@@ -538,7 +538,7 @@ void MusaEngine::UnloadContent()
 	GetTextureManager().Deinitialize();
 }
 
-void MusaEngine::UpdateAndRender(float32 tick)
+void MusaEngine::UpdateAndRender(f32 tick)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
 

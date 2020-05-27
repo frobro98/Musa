@@ -27,7 +27,7 @@ public:
 
 
 	// UI must implement the IInputReceiver interface to receive all the different input
-	virtual InputEvents OnControllerAnalogChange(uint32 /*controllerIndex*/, Inputs::Type /*analogInput*/, float32 /*analogValue*/) { return InputEvents{}; }
+	virtual InputEvents OnControllerAnalogChange(u32 /*controllerIndex*/, Inputs::Type /*analogInput*/, f32 /*analogValue*/) { return InputEvents{}; }
 	virtual InputEvents OnMouseMove(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/) { return InputEvents{}; }
 	virtual InputEvents OnMouseEnter(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/) { return InputEvents{}; }
 	virtual InputEvents OnMouseExit(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/) { return InputEvents{}; }

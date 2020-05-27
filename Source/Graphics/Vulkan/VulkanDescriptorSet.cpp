@@ -18,7 +18,7 @@ VulkanDescriptorSetLayout::~VulkanDescriptorSetLayout()
 	vkDestroyDescriptorSetLayout(logicalDevice.GetNativeHandle(), descriptorSetLayout, nullptr);
 }
 
-void VulkanDescriptorSetLayout::AddDescriptorBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStages, uint32 binding)
+void VulkanDescriptorSetLayout::AddDescriptorBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStages, u32 binding)
 {
 
 	VkDescriptorSetLayoutBinding layoutBinding = {};
@@ -69,9 +69,9 @@ VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence
 	associatedLayout(layout),
 	associatedFence(fence)
 {
-	uint32 uniformDescriptors = 0;
-	uint32 samplerDescriptors = 0;
-	uint32 storageDescriptors = 0;
+	u32 uniformDescriptors = 0;
+	u32 samplerDescriptors = 0;
+	u32 storageDescriptors = 0;
 	DynamicArray<VkDescriptorSetLayoutBinding> layoutBindings = associatedLayout->GetLayoutBindings();
 	for(auto& binding : layoutBindings)
 	{
@@ -222,7 +222,7 @@ VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence
 void VulkanDescriptorSet::UpdateDescriptorSet(const WriteDescriptorSet& writeDescriptorSet)
 {
 	DynamicArray<WriteDescriptor> descriptors = writeDescriptorSet.GetWriteDescriptors();
-	for (uint32 i = 0; i < descriptors.Size(); ++i)
+	for (u32 i = 0; i < descriptors.Size(); ++i)
 	{
 		WriteDescriptor& descriptor = descriptors[i];
 		VkWriteDescriptorSet& writeDescriptor = descriptorWrites[i];

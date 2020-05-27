@@ -7,7 +7,7 @@
 namespace Musa
 {
 constexpr size_t StaticEntityQuerySize = KilobytesAsBytes(8) / sizeof(Entity);
-static FixedArray<Entity, (uint32)StaticEntityQuerySize> queriedEntityCache;
+static FixedArray<Entity, (u32)StaticEntityQuerySize> queriedEntityCache;
 
 static void StoreQueriedArchetypeEntities(Archetype& archetype)
 {

@@ -19,13 +19,13 @@ public:
 	void HandleMouseDown(Inputs::Type mouseButton);
 	void HandleMouseUp(Inputs::Type mouseButton);
 	void HandleKeyChar(tchar c, bool isRepeated);
-	void HandleMouseMove(uint32 mouseX, uint32 mouseY);
-	void HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 deltaX, int32 deltaY);
-	void HandleControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogType, float32 analogValue);
-	void HandleControllerButtonDown(uint32 controllerIndex, Inputs::Type analogType);
-	void HandleControllerButtonUp(uint32 controllerIndex, Inputs::Type analogType);
+	void HandleMouseMove(u32 mouseX, u32 mouseY);
+	void HandleRawMouseMove(u32 mouseX, u32 mouseY, i32 deltaX, i32 deltaY);
+	void HandleControllerAnalogChange(u32 controllerIndex, Inputs::Type analogType, f32 analogValue);
+	void HandleControllerButtonDown(u32 controllerIndex, Inputs::Type analogType);
+	void HandleControllerButtonUp(u32 controllerIndex, Inputs::Type analogType);
 
-	void HandleWindowResized(uint32 newWidth, uint32 newHeight);
+	void HandleWindowResized(u32 newWidth, u32 newHeight);
 	void HandleWindowClose();
 	void HandleActivationChanged(bool activated);
 
@@ -47,7 +47,7 @@ private:
 	InputEvents ProcessInputReceivers(Func&& receiverFunc)
 	{
 		InputEvents events;
-		for(int32 i = (int32)inputReceivers.Size() - 1; i >= 0 && !events.IsInputHandled(); --i)
+		for(i32 i = (i32)inputReceivers.Size() - 1; i >= 0 && !events.IsInputHandled(); --i)
 		{
 			events = receiverFunc(inputReceivers[i]);
 			HandleInputEvents(events);

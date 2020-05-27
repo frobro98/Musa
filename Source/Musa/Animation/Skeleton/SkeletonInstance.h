@@ -21,7 +21,7 @@ public:
 	SkeletonInstance(const SkeletonInstance&) = delete;
 	SkeletonInstance& operator=(const SkeletonInstance&) = delete;
 
-	void SetCurrentAnimation(uint32 animationIndex);
+	void SetCurrentAnimation(u32 animationIndex);
 	Time QueryDeltaTime() const;
 	void SetDebug(bool isDebug);
 
@@ -31,7 +31,7 @@ public:
 	KeyFrameRange GetFrameRange();
 	KeyFrameRange GetBlendRange();
 	float GetBlendDelta() const;
-	uint32 GetBoneCount() const;
+	u32 GetBoneCount() const;
 	const BoneHierarchyTable& GetHierarchyTable() const;
 	DynamicArray<BonePoseData> GetPose() const;
 	AnimationController* GetController() { return controller; }
@@ -50,5 +50,5 @@ private:
 	class BlendSpace* blendSpace = nullptr;
 	AnimationController* controller;
 	AnimationTimeController* timer;
-	uint32 currentAnimationIndex = 0;
+	u32 currentAnimationIndex = 0;
 };

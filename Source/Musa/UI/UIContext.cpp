@@ -8,7 +8,7 @@
 
 namespace UI
 {
-Context::Context(uint32 screenDimensionX, uint32 screenDimensionY)
+Context::Context(u32 screenDimensionX, u32 screenDimensionY)
 	: screenWidth(screenDimensionX),
 	screenHeight(screenDimensionY)
 {
@@ -22,7 +22,7 @@ void Context::AddWidget(Widget& widget)
 
 void Context::RemoveWidget(Widget & widget)
 {
-	for (uint32 i = 0; i < widgets.Size(); ++i)
+	for (u32 i = 0; i < widgets.Size(); ++i)
 	{
 		if (widgets[i] == &widget)
 		{
@@ -48,7 +48,7 @@ void Context::PrepareUIForRender(WidgetBatchElements& widgetElements)
 	}
 }
 
-Path Context::GetUIPathAt(uint32 screenPosX, uint32 screenPosY) const
+Path Context::GetUIPathAt(u32 screenPosX, u32 screenPosY) const
 {
 	UNUSED(screenPosY, screenPosX);
 	return Path();

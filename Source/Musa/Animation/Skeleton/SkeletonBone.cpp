@@ -20,7 +20,7 @@ SkeletonBone::~SkeletonBone()
 {
 }
 
-void SkeletonBone::SetIndex(uint32 index)
+void SkeletonBone::SetIndex(u32 index)
 {
 	boneIndex = index;
 }

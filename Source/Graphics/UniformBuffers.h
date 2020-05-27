@@ -7,7 +7,7 @@
 #include "Math/Matrix4.hpp"
 #include "Math/Vector4.hpp"
 
-constexpr uint32 MaxBones = 120;
+constexpr u32 MaxBones = 120;
 
 struct TransformationUniformBuffer
 {
@@ -57,7 +57,7 @@ struct LightProperties
 
 struct KeyframeConstanceUniformBuffer
 {
-	uint32 boneCount;
+	u32 boneCount;
 	float deltaTime;
 };
 
@@ -65,8 +65,8 @@ struct BoneHierarchyTable
 {
 	struct BoneTableElement
 	{
-		static constexpr uint32 MaxElementLength = 20;
-		uint32 boneParentHierarchy[MaxElementLength];
+		static constexpr u32 MaxElementLength = 20;
+		u32 boneParentHierarchy[MaxElementLength];
 	};
 
 	BoneTableElement table[MaxBones];

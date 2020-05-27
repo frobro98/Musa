@@ -29,20 +29,20 @@ public:
 	void AddClip(AnimationClip* clip);
 	void SetCurrentClip(const char* clipName);
 	void SetCurrentClip(AnimationClip* clip);
-	void SetCurrentClip(uint32 clipIndex);
+	void SetCurrentClip(u32 clipIndex);
 
-	AnimationTimeController* CreateTimeController(uint32 clipIndex);
+	AnimationTimeController* CreateTimeController(u32 clipIndex);
 	void DestroyTimeController(AnimationTimeController* timer);
 	void SetCurrentTimer(AnimationTimeController& timer);
 
-	BlendSpace* StartBlending(uint32 currentIndex, uint32 newClipIndex);
+	BlendSpace* StartBlending(u32 currentIndex, u32 newClipIndex);
 	void DestroyBlendSpace(BlendSpace* blendSpace);
 
 	void PlayAnimation();
 	void PauseAnimation();
 
 	KeyFrameRange GetFrameRange() const { return keyframeRange; }
-	uint32 GetClipCount() const { return clips.Size(); }
+	u32 GetClipCount() const { return clips.Size(); }
 	
 	KeyFrame* UpdateCurrentAnimation(Time frameTime);
 
@@ -55,7 +55,7 @@ private:
 	AnimationClip* currentClip = nullptr;
 	AnimationTimeController* currentTimer = nullptr;
 	Time::Duration frameRate;
-	uint32 currentClipIndex;
+	u32 currentClipIndex;
 	bool playing = true;
 	bool pad[3] = { false, false, false };
 };

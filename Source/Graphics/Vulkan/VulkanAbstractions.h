@@ -19,9 +19,9 @@ struct VulkanImage
 	VkImageLayout layout;
 	VkFormat format = VK_FORMAT_UNDEFINED;
 	VkImageAspectFlags aspectFlags;
-	uint32 width = 0;
-	uint32 height = 0;
-	uint32 mipmapLevels = 1;
+	u32 width = 0;
+	u32 height = 0;
+	u32 mipmapLevels = 1;
 	ImageMemory* memory;
 	VulkanDevice* device = nullptr;
 

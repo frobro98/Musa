@@ -6,9 +6,9 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<const Ren
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
-		uint32 width = colorTargets[0]->width;
-		uint32 height = colorTargets[0]->height;
-		for (uint32 i = 1; i < colorTargets.Size(); ++i)
+		u32 width = colorTargets[0]->width;
+		u32 height = colorTargets[0]->height;
+		for (u32 i = 1; i < colorTargets.Size(); ++i)
 		{
 			const RenderTarget* rt = colorTargets[i];
 			if (width != rt->width || 
@@ -19,10 +19,10 @@ RenderTargetDescription CreateRenderTargetDescription(const FixedArray<const Ren
 	}, "Dimensions aren't the same for each target!");
 
 	RenderTargetDescription desc = {};
-	uint32 numColorTargets = colorTargets.Size();
+	u32 numColorTargets = colorTargets.Size();
 	desc.colorAttachments.Resize(numColorTargets);
-	desc.targetExtents = { (float32)colorTargets[0]->width,(float32)colorTargets[0]->height };
-	for (uint32 i = 0; i < numColorTargets; ++i)
+	desc.targetExtents = { (f32)colorTargets[0]->width,(f32)colorTargets[0]->height };
+	for (u32 i = 0; i < numColorTargets; ++i)
 	{
 		const RenderTarget* colorTarget = colorTargets[i];
 		RenderTargetAttachment& attachment = desc.colorAttachments[i];
@@ -58,9 +58,9 @@ NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarge
 {
 	// TODO - Check can be made in a more compile time way
 	AssertFunc([&] {
-		uint32 width = colorTargets[0]->width;
-		uint32 height = colorTargets[0]->height;
-		for (uint32 i = 1; i < colorTargets.Size(); ++i)
+		u32 width = colorTargets[0]->width;
+		u32 height = colorTargets[0]->height;
+		for (u32 i = 1; i < colorTargets.Size(); ++i)
 		{
 			const RenderTarget* rt = colorTargets[i];
 			if (width != rt->width ||
@@ -71,9 +71,9 @@ NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarge
 		}, "Dimensions aren't the same for each target!");
 
 	NativeRenderTargets targets = {};
-	uint32 numColorTargets = colorTargets.Size();
+	u32 numColorTargets = colorTargets.Size();
 	targets.colorTargets.Resize(numColorTargets);
-	for (uint32 i = 0; i < numColorTargets; ++i)
+	for (u32 i = 0; i < numColorTargets; ++i)
 	{
 		targets.colorTargets[i] = colorTargets[i]->nativeTarget.Get();
 	}

@@ -20,6 +20,6 @@ private:
 	virtual void ProcessImport() override;
 
 private:
-	int32 numComponents;
-	uint32 pad[1] = { 0 };
+	i32 numComponents;
+	u32 pad[1] = { 0 };
 };

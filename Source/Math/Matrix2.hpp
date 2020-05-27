@@ -19,7 +19,7 @@ public:
 	explicit Matrix2(const Vector2& row0, const Vector2& row1);
 	explicit Matrix2(float angle);
 	//explicit Matrix2(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
-	explicit Matrix2(MatrixScaleType, float32 uniformScale);
+	explicit Matrix2(MatrixScaleType, f32 uniformScale);
 	explicit Matrix2(MatrixScaleType, const Vector2& scaleVec);
 	explicit Matrix2(MatrixScaleType, float sx, float sy);
 	Matrix2(const Quat2& q);
@@ -28,9 +28,9 @@ public:
 	void Set(float angle);
 	//void Set(RotOrientType orientEnum, const Vector4& dof, const Vector4& up);
 	void Set(const Quat2& q);
-	void Set(MatrixScaleType scaleEnum, float32 scale);
+	void Set(MatrixScaleType scaleEnum, f32 scale);
 	void Set(MatrixScaleType scaleEnum, const Vector2& scaleVec);
-	void Set(MatrixScaleType scaleEnum, float32 sx, float32 sy);
+	void Set(MatrixScaleType scaleEnum, f32 sx, f32 sy);
 	void Set(const Vector2& row0, const Vector2& row1);
 
 	// Matrix operations

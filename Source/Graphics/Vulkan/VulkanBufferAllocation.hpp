@@ -14,9 +14,9 @@ public:
 		VkBuffer buffer,
 		VkBufferUsageFlags usage,
 		VkMemoryPropertyFlags memProperties,
-		uint32 size,
-		uint32 alignment,
-		uint32 typeIndex,
+		u32 size,
+		u32 alignment,
+		u32 typeIndex,
 		bool canMap, bool cached, bool coherent
 	);
 
@@ -24,8 +24,8 @@ public:
 	VkBufferUsageFlags usageFlags;
 
 private:
-	virtual BufferMemory* CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset) override;
-	uint32 pad[1] = { 0 };
+	virtual BufferMemory* CreateMemoryRange(VkDeviceSize actualSize, u32 blockSize, u32 alignedOffset, u32 actualOffset) override;
+	u32 pad[1] = { 0 };
 };
 
 class BufferMemory : public GraphicsMemoryRange<BufferGraphicsAllocation>
@@ -35,9 +35,9 @@ public:
 		BufferGraphicsAllocation& owningAlloc, 
 		VkBuffer buffer,
 		VkDeviceSize size,
-		uint32 blockSize,
-		uint32 alignedOffset,
-		uint32 actualOffset
+		u32 blockSize,
+		u32 alignedOffset,
+		u32 actualOffset
 	);
 
 private:

@@ -6,16 +6,16 @@
 #include "Containers/StaticArray.hpp"
 
 // TODO - Move this into a more input centric place...
-constexpr uint32 MaxSupportedControllers = 4;
-constexpr uint32 MaxSupportedControllerButtons = 12;
+constexpr u32 MaxSupportedControllers = 4;
+constexpr u32 MaxSupportedControllerButtons = 12;
 
 struct WindowsGamepadState
 {
 	// Store controller information unnormalized
 	IntVector2 leftStick;
 	IntVector2 rightStick;
-	uint8 leftTrigger;
-	uint8 rightTrigger;
+	u8 leftTrigger;
+	u8 rightTrigger;
 
 	StaticArray<bool, MaxSupportedControllerButtons> buttonStates;
 };
@@ -31,7 +31,7 @@ class MusaAppWindows final : public MusaAppOS
 public:
 	MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler);
 
-	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) override;
+	virtual Window* CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height) override;
 
 	virtual void SetRawMouseInput(bool enabled, const Window& window) override;
 

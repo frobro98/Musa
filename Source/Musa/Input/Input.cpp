@@ -41,7 +41,7 @@ void KeyMessageUpReceived(Inputs::Type key)
 void UpdateInputMap()
 {
 	BEGIN_TIMED_BLOCK(InputMapUpdate);
-	for (uint32 i = 0; i < inputMap.Size(); ++i)
+	for (u32 i = 0; i < inputMap.Size(); ++i)
 	{
 		inputMap[i].previouslyDown = inputMap[i].endedDown;
 	}

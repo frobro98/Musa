@@ -9,7 +9,7 @@ struct View;
 // Define functions to batch specific primitives, like lines, quads, circles, etc
 
 void BatchLinePrimitive(const BatchedLineDescription& lineDesc);
-void BatchLinePrimitives(const BatchedLineDescription* lineDesc, uint32 lineCount);
+void BatchLinePrimitives(const BatchedLineDescription* lineDesc, u32 lineCount);
 
 void BatchTrianglePrimitive(const BatchedTriangleDescription& triDesc);
 void BatchQuadPrimitive(const BatchedQuadDescription& quadDesc);

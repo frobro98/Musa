@@ -6,7 +6,7 @@
 #include "VulkanCreateInfos.h"
 
 
-VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle, uint32 w, uint32 h) 
+VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle, u32 w, u32 h) 
 	: logicalDevice(device), windowHandle(handle),
 	width(w), height(h)
 {
@@ -26,7 +26,7 @@ VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle
 	Assert(presentationSupported == VK_TRUE);
 
 	// Get present modes
-	uint32 presentModeCount;
+	u32 presentModeCount;
 	result = vkGetPhysicalDeviceSurfacePresentModesKHR(gpu, surfaceHandle, &presentModeCount, nullptr);
 	CHECK_VK(result);
 	presentModes.Resize(presentModeCount);
@@ -34,7 +34,7 @@ VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle
 	CHECK_VK(result);
 
 	// Get formats
-	uint32 formatCount = 0;
+	u32 formatCount = 0;
 	result = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, nullptr);
 	CHECK_VK(result);
  	surfaceFormats.Resize(formatCount);
@@ -65,12 +65,12 @@ VkSurfaceCapabilitiesKHR VulkanSurface::GetSurfaceCapabilities() const
 	return surfaceCapabilities;
 }
 
-int32 VulkanSurface::GetSurfaceWidth() const
+i32 VulkanSurface::GetSurfaceWidth() const
 {
 	return width;
 }
 
-int32 VulkanSurface::GetSurfaceHeight() const
+i32 VulkanSurface::GetSurfaceHeight() const
 {
 	return height;
 }

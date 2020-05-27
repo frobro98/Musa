@@ -11,5 +11,5 @@ struct ScreenTextItem
 	String text;
 	Color32 color;
 	Vector2 screenPosition;
-	float32 scale;
+	f32 scale;
 };

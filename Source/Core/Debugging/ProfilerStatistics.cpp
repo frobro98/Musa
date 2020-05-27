@@ -5,7 +5,7 @@
 #include "Debugging/MetricInterface.hpp"
 #include "Containers/Stack.hpp"
 
-static uint32 frameNumber = 0;
+static u32 frameNumber = 0;
 
 static ProfilerStatistics stats;
 
@@ -55,7 +55,7 @@ void ProfilerStatistics::CollectAllFrameMetrics()
 
 const ProfiledFrameMark& ProfilerStatistics::GetPreviousFrame() const 
 {
-	uint32 index = (currentFrameIndex - 1) % frameProfileCount;
+	u32 index = (currentFrameIndex - 1) % frameProfileCount;
 	return frameProfiles[index];
 }
 

@@ -21,20 +21,20 @@ struct MATH_API Quat2 final
 	static const Quat2 Zero;
 
 public:
-	float32 real = 1;
-	float32 imaginary = 0;
+	f32 real = 1;
+	f32 imaginary = 0;
 
 	Quat2() = default;
-	Quat2(float32 real, float32 imag);
+	Quat2(f32 real, f32 imag);
 	//explicit Quat(RotOrientType, const Vector4& dof, const Vector4& up);
-	explicit Quat2(float32 angle);
+	explicit Quat2(f32 angle);
 	explicit Quat2(const Matrix2& mat);
 
 	//Quat2& operator=(const Matrix2& m);
 
 	// Accessors
 	void Set(const Matrix2& mat);
-	void Set(float32 theta);
+	void Set(f32 theta);
 	//void Set(RotOrientType, const Vector4& dof, const Vector4& up);
 
 	float GetAngle() const;
@@ -69,8 +69,8 @@ public:
 	Quat2& operator-=(const Quat2& q);
 	Quat2& operator*=(const Quat2& q);
 
-	Quat2& operator*=(float32 val);
-	Quat2& operator/=(float32 val);
+	Quat2& operator*=(f32 val);
+	Quat2& operator/=(f32 val);
 
 	friend MATH_API Quat2 operator+(const Quat2& q0, const Quat2& q1);
 	friend MATH_API Quat2 operator-(const Quat2& q0, const Quat2& q1);
@@ -83,10 +83,10 @@ public:
 	friend MATH_API Vector2& operator*=(Vector2& v, const Quat2& q);
 	friend MATH_API Vector2 operator*(const Vector2& v, const Quat2& q);
 
-	friend MATH_API Quat2 operator*(const Quat2& q, float32 val);
-	friend MATH_API Quat2 operator*(float32 val, const Quat2& q);
-	friend MATH_API Quat2 operator/(const Quat2& q, float32 val);
-	friend MATH_API Quat2 operator/(float32 val, const Quat2& q);
+	friend MATH_API Quat2 operator*(const Quat2& q, f32 val);
+	friend MATH_API Quat2 operator*(f32 val, const Quat2& q);
+	friend MATH_API Quat2 operator/(const Quat2& q, f32 val);
+	friend MATH_API Quat2 operator/(f32 val, const Quat2& q);
 
 };
 

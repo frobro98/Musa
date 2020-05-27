@@ -10,7 +10,7 @@
 
 namespace Vk
 {
-	VkInstanceCreateInfo InstanceInfo(const tchar* const* instanceLayers, uint32 numLayers, const tchar* const* instanceExtensions, uint32 numExtensions, NOT_USED const void* additionalData)
+	VkInstanceCreateInfo InstanceInfo(const tchar* const* instanceLayers, u32 numLayers, const tchar* const* instanceExtensions, u32 numExtensions, NOT_USED const void* additionalData)
 	{
 		VkInstanceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -26,7 +26,7 @@ namespace Vk
 		return createInfo;
 	}
 
-	VkDeviceQueueCreateInfo DeviceQueueInfo(uint32 queueFamilyIndex, uint32 numQueues, const float32 * queuePriorities)
+	VkDeviceQueueCreateInfo DeviceQueueInfo(u32 queueFamilyIndex, u32 numQueues, const f32 * queuePriorities)
 	{
 		VkDeviceQueueCreateInfo queueInfo = {};
 		queueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
@@ -36,7 +36,7 @@ namespace Vk
 		return queueInfo;
 	}
 
-	VkDeviceCreateInfo DeviceInfo(const VkDeviceQueueCreateInfo* queueInfo, uint32 numQueueInfos, const tchar** deviceExtensions, uint32 numExtensions, const VkPhysicalDeviceFeatures& deviceFeatures)
+	VkDeviceCreateInfo DeviceInfo(const VkDeviceQueueCreateInfo* queueInfo, u32 numQueueInfos, const tchar** deviceExtensions, u32 numExtensions, const VkPhysicalDeviceFeatures& deviceFeatures)
 	{
 		VkDeviceCreateInfo deviceInfo = {};
 		deviceInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -70,7 +70,7 @@ namespace Vk
 	}
 #endif
 
-	VkImageViewCreateInfo ImageViewInfo(VkImage image, uint32 mipLevels, VkFormat format, VkImageAspectFlags aspectFlags)
+	VkImageViewCreateInfo ImageViewInfo(VkImage image, u32 mipLevels, VkFormat format, VkImageAspectFlags aspectFlags)
 	{
 		VkImageViewCreateInfo imageViewInfo = {};
 		imageViewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -90,11 +90,11 @@ namespace Vk
 	}
 
 	VkRenderPassCreateInfo RenderPassInfo(const VkAttachmentDescription* attachments,
-		uint32 numAttachments,
+		u32 numAttachments,
 		const VkSubpassDescription * subpasses,
-		uint32 numSubpasses,
+		u32 numSubpasses,
 		const VkSubpassDependency * dependencies,
-		uint32 numDependencies)
+		u32 numDependencies)
 	{
 		VkRenderPassCreateInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;

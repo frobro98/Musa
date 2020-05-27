@@ -15,12 +15,12 @@ const Time operator*(float ratio, const Time& rhs)
 	return(	Time(static_cast<Time::Representation>((f64)ratio * rhs.privRawTime)) );
 }
 
-const Time operator*(int32 ratio, const Time& rhs)
+const Time operator*(i32 ratio, const Time& rhs)
 {
 	return(Time(ratio * rhs.privRawTime));
 }
 
-const Time operator*(uint32 ratio, const Time& rhs)
+const Time operator*(u32 ratio, const Time& rhs)
 {
 	return(Time(ratio * rhs.privRawTime));
 }
@@ -175,13 +175,13 @@ const Time Time::operator*(float ratio) const
 	return(	Time(static_cast<Representation>((f64)ratio * this->privRawTime)) );
 }
 
-const Time Time::operator*(int32 ratio) const
+const Time Time::operator*(i32 ratio) const
 {
 	// !!! FIXME: Overflow checks
 	return(Time(this->privRawTime * ratio));
 }
 
-const Time Time::operator*(uint32 ratio) const
+const Time Time::operator*(u32 ratio) const
 {
 	// !!! FIXME: Overflow checks
 	return(Time(this->privRawTime * ratio));
@@ -194,14 +194,14 @@ Time& Time::operator*=(float ratio)
 	return(*this);
 }
 
-Time& Time::operator*=(int32 ratio)
+Time& Time::operator*=(i32 ratio)
 {
 	// !!! FIXME: Overflow checks
 	this->privRawTime *= ratio;
 	return(*this);
 }
 
-Time& Time::operator*=(uint32 ratio)
+Time& Time::operator*=(u32 ratio)
 {
 	// !!! FIXME: Overflow checks
 	this->privRawTime *= ratio;

@@ -26,16 +26,16 @@ VulkanFrameTempAllocation::~VulkanFrameTempAllocation()
 	logicalDevice.GetMemoryManager().DeallocateBuffer(*allocBuffer);
 }
 
-TempAlloc VulkanFrameTempAllocation::AllocateTempMemory(VkDeviceSize allocSize, uint32 allocAlignment)
+TempAlloc VulkanFrameTempAllocation::AllocateTempMemory(VkDeviceSize allocSize, u32 allocAlignment)
 {
 	// Assert if the remaining buffer size can fit this new allocation
 	// This is a big deal if it can't, because there isn't a way to handle this sort of issue
-	uint8* dataPtr = Align((uint8*)freeAllocPtr, allocAlignment);
-	Assert(dataPtr + allocSize <= (uint8*)mappedBeginningPtr + allocationSize);
+	u8* dataPtr = Align((u8*)freeAllocPtr, allocAlignment);
+	Assert(dataPtr + allocSize <= (u8*)mappedBeginningPtr + allocationSize);
 
 	// Fill the memory structure up with the data required
 	// TODO - Have a helper function do the pointer difference calc
-	uint32 offset = (uint32)((uint8*)freeAllocPtr - (uint8*)mappedBeginningPtr);
+	u32 offset = (u32)((u8*)freeAllocPtr - (u8*)mappedBeginningPtr);
 	freeAllocPtr = dataPtr + allocSize;
 
 	return TempAlloc

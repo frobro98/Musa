@@ -6,7 +6,7 @@
 #include "Containers/DynamicArray.hpp"
 
 void FastFourier(
-	uint32 numSamples,
+	u32 numSamples,
 	const DynamicArray<float>& realIn, 
 	const DynamicArray<float>& imageIn,
 	DynamicArray<float>& realOut,
@@ -14,7 +14,7 @@ void FastFourier(
 );
 
 void InverseFastFourier(
-	uint32 numSamples,
+	u32 numSamples,
 	const DynamicArray<float>& realIn,
 	const DynamicArray<float>& imageIn,
 	DynamicArray<float>& realOut,

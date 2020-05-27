@@ -1,7 +1,7 @@
 #include "ScaleChangingObject.hpp"
 #include "Math/MathFunctions.hpp"
 
-ScaleChangingObject::ScaleChangingObject(GameWorld& world, float32 scaleA, float32 scaleB, float32 delta_)
+ScaleChangingObject::ScaleChangingObject(GameWorld& world, f32 scaleA, f32 scaleB, f32 delta_)
 	: GameObject(world),
 	A(scaleA, scaleA, scaleA),
 	B(scaleB, scaleB, scaleB),
@@ -12,7 +12,7 @@ ScaleChangingObject::ScaleChangingObject(GameWorld& world, float32 scaleA, float
 	scale = A;
 }
 
-void ScaleChangingObject::Update(float32 tick)
+void ScaleChangingObject::Update(f32 tick)
 {
 	if (totalDelta >= 1.f)
 	{

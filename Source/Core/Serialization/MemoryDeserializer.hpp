@@ -17,5 +17,5 @@ public:
 
 private:
 	const MemoryBuffer& memoryData;
-	uint64 bufferReadLoc = 0;
+	u64 bufferReadLoc = 0;
 };

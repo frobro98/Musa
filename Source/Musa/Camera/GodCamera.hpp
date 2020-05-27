@@ -38,6 +38,6 @@ private:
 	Vector4 cameraUp;
 	Vector4 cameraLookAt;
 	Camera* camera;
-	float32 moveSpeed = 0.f;
-	float32 lookSpeed = 0.f;
+	f32 moveSpeed = 0.f;
+	f32 lookSpeed = 0.f;
 };

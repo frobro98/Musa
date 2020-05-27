@@ -10,7 +10,7 @@ MemoryBuffer LoadFileToMemory(const tchar* filePath)
 	File::Result result = File::Open(handle, filePath, File::Mode::READ);
 	Assert(result == File::Result::SUCCESS);
 
-	uint32 fileSize;
+	u32 fileSize;
 	File::Size(handle, fileSize);
 	MemoryBuffer fileData(fileSize);
 	result = File::Read(handle, fileData.GetData(), fileSize);

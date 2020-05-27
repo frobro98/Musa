@@ -6,7 +6,7 @@
 
 void GenerateMeshTangents(DynamicArray<Vertex>& verts, const DynamicArray<Face>& faces)
 {
-	for (uint32 i = 0; i < faces.Size(); ++i)
+	for (u32 i = 0; i < faces.Size(); ++i)
 	{
 		const Face& face = faces[i];
 		Vertex& v0 = verts[face.v0];

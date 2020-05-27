@@ -7,8 +7,8 @@
 
 struct TextureChunk
 {
-	uint32 width;
-	uint32 height;
-	uint32 size;
+	u32 width;
+	u32 height;
+	u32 size;
 	ImageFormat format;
 };

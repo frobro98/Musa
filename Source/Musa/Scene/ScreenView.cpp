@@ -9,7 +9,7 @@
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffers.h"
 
-ScreenView::ScreenView(int32 screenWidth, int32 screenHeight)
+ScreenView::ScreenView(i32 screenWidth, i32 screenHeight)
 	: width(screenWidth), height(screenHeight)
 {
 	Assert(screenWidth > 0);
@@ -19,12 +19,12 @@ ScreenView::ScreenView(int32 screenWidth, int32 screenHeight)
 	screenFragmentShader = &GetShader<ScreenRenderFrag>()->GetNativeShader();
 }
 
-int32 ScreenView::GetScreenWidth() const
+i32 ScreenView::GetScreenWidth() const
 {
 	return width;
 }
 
-int32 ScreenView::GetScreenHeight() const
+i32 ScreenView::GetScreenHeight() const
 {
 	return height;
 }

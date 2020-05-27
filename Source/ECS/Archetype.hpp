@@ -27,7 +27,7 @@ static forceinline void CheckForSameComponents(const ComponentType** types, size
 
 	NOT_USED auto checkTypes = [types, typeCount] {
 		// Check if type is already on current archetype
-		for (uint32 i = 1; i < typeCount; ++i)
+		for (u32 i = 1; i < typeCount; ++i)
 		{
 			if (types[i] == types[i - 1])
 			{
@@ -63,9 +63,9 @@ struct Archetype
 	ArchetypeComponentOffsetList offsets;
 
 	ArchetypeMask archetypeMask;
-	uint32 totalEntityCount;
-	uint32 entityCapacity;
-	uint32 fullChunkCount;
+	u32 totalEntityCount;
+	u32 entityCapacity;
+	u32 fullChunkCount;
 };
 
 ECS_API Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compTypes, size_t typeCount);

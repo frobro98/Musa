@@ -17,14 +17,14 @@ public:
 
 	forceinline ShaderStage GetShaderStage() const { return stage; }
 
-	friend uint32 GetHash(ShaderObjectBase& so)
+	friend u32 GetHash(ShaderObjectBase& so)
 	{
 		return so.byteCodeHash;
 	}
 
 protected:
 	MemoryBuffer shaderCode;
-	uint32 byteCodeHash;
+	u32 byteCodeHash;
 	ShaderStage stage;
 };
 
@@ -46,7 +46,7 @@ public:
 		return *nativeShader;
 	}
 
-	friend uint32 GetHash(ShaderObject& so)
+	friend u32 GetHash(ShaderObject& so)
 	{
 		return so.byteCodeHash;
 	}

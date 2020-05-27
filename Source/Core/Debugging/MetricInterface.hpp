@@ -12,7 +12,7 @@
 #include "Utilities/MacroHelpers.hpp"
 #include "CoreAPI.hpp"
 
-enum class MetricType : uint32
+enum class MetricType : u32
 {
 	BeginTimedMetric,
 	EndTimedMetric
@@ -21,18 +21,18 @@ enum class MetricType : uint32
 struct MetricEvent
 {
 	// Represents the cycles it took the block to complete
-	uint64 cycleCount;
+	u64 cycleCount;
 	const tchar* metricName;
 	const tchar* filename;
-	uint32 lineCount;
-	uint32 hitCount;
-	uint32 metricID;
+	u32 lineCount;
+	u32 hitCount;
+	u32 metricID;
 	MetricType metricEventType;
 
 	friend bool operator==(const MetricEvent& e0, const MetricEvent& e1) { return e0.metricID == e1.metricID; }
 };
 
-constexpr uint64 MetricTableEntryCount = std::numeric_limits<uint16>::max();
+constexpr u64 MetricTableEntryCount = std::numeric_limits<u16>::max();
 
 class CORE_API MetricTable
 {
@@ -45,9 +45,9 @@ public:
 	void SwapTablesForNewFrame();
 
 private:
-	static constexpr uint32 metricTableCount = 2;
+	static constexpr u32 metricTableCount = 2;
 	StaticArray<TableEntries, metricTableCount> entries;
-	uint32 currentTableIndex = 0;
+	u32 currentTableIndex = 0;
 };
 
 CORE_API MetricTable& GetMetricTable();
@@ -56,26 +56,26 @@ CORE_API MetricTable& GetMetricTable();
 
 // TODO - Think of better names for the metric recording interface
 
-using MetricID = uint32;
+using MetricID = u32;
 
 namespace Musa::Internal
 {
 class CORE_API MetricGroupCounter
 {
 public:
-	static uint32 GetNewMetricID() { return counter++; }
+	static u32 GetNewMetricID() { return counter++; }
 
 private:
-	static uint32 counter;
+	static u32 counter;
 };
 
 class CORE_API MetricCounter
 {
 public:
-	static uint32 GetNewMetricID() { return counter++; }
+	static u32 GetNewMetricID() { return counter++; }
 
 private:
-	static uint32 counter;
+	static u32 counter;
 };
 }
 
@@ -104,7 +104,7 @@ private:
 	DECLARE_METRIC_STRUCT(Name, GroupName);	\
 	static Metric_##Name metric_##Name;
 
-forceinline void BeginTimedBlock(const char* name, uint32 id, const char* fileName, uint32 lineNum)
+forceinline void BeginTimedBlock(const char* name, u32 id, const char* fileName, u32 lineNum)
 {
 	MetricTable& table = GetMetricTable();
 	MetricEvent metric = {};
@@ -118,7 +118,7 @@ forceinline void BeginTimedBlock(const char* name, uint32 id, const char* fileNa
 	table.AddMetric(metric);
 }
 
-forceinline void EndTimedBlock(uint32 id)
+forceinline void EndTimedBlock(u32 id)
 {
 	MetricTable& table = GetMetricTable();					
 	MetricEvent metric = {};
@@ -141,7 +141,7 @@ forceinline void EndTimedBlock(uint32 id)
 class CORE_API ScopedTimeMetric
 {
 public:
-	ScopedTimeMetric(const char* name, uint32 id_, const tchar* filename, uint32 lineNumber)
+	ScopedTimeMetric(const char* name, u32 id_, const tchar* filename, u32 lineNumber)
 		: id(id_)
 	{
 		BeginTimedBlock(name, id, filename, lineNumber);
@@ -153,7 +153,7 @@ public:
 	}
 
 private:
-	uint32 id;
+	u32 id;
 };
 
 #define SCOPED_TIMED_BLOCK(Name)	\

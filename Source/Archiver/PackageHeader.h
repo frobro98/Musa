@@ -6,15 +6,15 @@
 #include "Archiver/FileSerializer.hpp"
 #include "Archiver/FileDeserializer.hpp"
 
-constexpr uint32 PackageVersionSize = 64;
-constexpr uint32 PackageNameSize = 64;
+constexpr u32 PackageVersionSize = 64;
+constexpr u32 PackageNameSize = 64;
 
 struct PackageHeader
 {
 	char	packageName[PackageNameSize];
 	char	versionString[PackageVersionSize];
-	uint32	numChunks;
-	uint32	totalSize;   // size of file (without package header)
+	u32	numChunks;
+	u32	totalSize;   // size of file (without package header)
 };
 
 forceinline void Deserialize(DeserializeBase& ser, PackageHeader& header)

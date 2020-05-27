@@ -3,11 +3,11 @@
 #include "DirectoryUtilities.h"
 #include "Platform/Platform.hpp"
 
-uint32 NumberOfFilesInDirectory(const char* directory)
+u32 NumberOfFilesInDirectory(const char* directory)
 {
 	HANDLE findHandle;
 	WIN32_FIND_DATA data;
-	uint32 fileCount = 0;
+	u32 fileCount = 0;
 
 	findHandle = FindFirstFile(directory, &data);
 	if (findHandle != INVALID_HANDLE_VALUE)
@@ -21,11 +21,11 @@ uint32 NumberOfFilesInDirectory(const char* directory)
 	return fileCount;
 }
 
-uint32 GetRequestedNumFiles(const char* directory, DynamicArray<String>& directoryFiles, uint32 numFilesRequested)
+u32 GetRequestedNumFiles(const char* directory, DynamicArray<String>& directoryFiles, u32 numFilesRequested)
 {
 	HANDLE findHandle;
 	WIN32_FIND_DATA data;
-	uint32 numFound = 0;
+	u32 numFound = 0;
 
 	findHandle = FindFirstFile(directory, &data);
 	if (findHandle != INVALID_HANDLE_VALUE)
@@ -48,7 +48,7 @@ uint32 GetRequestedNumFiles(const char* directory, DynamicArray<String>& directo
 
 DirectoryDescription GetAllFilesInDirectory(const char* directory)
 {
-	uint32 filesInDir = NumberOfFilesInDirectory(directory);
+	u32 filesInDir = NumberOfFilesInDirectory(directory);
 
 	DynamicArray<String> files(filesInDir);
 	GetRequestedNumFiles(directory, files, filesInDir);
@@ -56,11 +56,11 @@ DirectoryDescription GetAllFilesInDirectory(const char* directory)
 	return DirectoryDescription{ std::move(files), filesInDir };
 }
 
-uint32 NumberOfFileTypesInCurrentDirectory(const char* fileExt)
+u32 NumberOfFileTypesInCurrentDirectory(const char* fileExt)
 {
 	HANDLE findHandle;
 	WIN32_FIND_DATA data;
-	uint32 fileCount = 0;
+	u32 fileCount = 0;
 	DWORD error = 0;
 
 	findHandle = FindFirstFile(fileExt, &data);
@@ -76,11 +76,11 @@ uint32 NumberOfFileTypesInCurrentDirectory(const char* fileExt)
 	return fileCount;
 }
 
-static uint32 GetRequestedNumFileTypes(const char* fileType, DynamicArray<String>& directoryFiles, uint32 numFilesRequested)
+static u32 GetRequestedNumFileTypes(const char* fileType, DynamicArray<String>& directoryFiles, u32 numFilesRequested)
 {
 	HANDLE findHandle;
 	WIN32_FIND_DATA data;
-	uint32 numFound = 0;
+	u32 numFound = 0;
 
 	findHandle = FindFirstFile(fileType, &data);
 	if (findHandle != INVALID_HANDLE_VALUE)
@@ -104,7 +104,7 @@ static uint32 GetRequestedNumFileTypes(const char* fileType, DynamicArray<String
 
 DirectoryDescription GetAllFileTypesInCurrentDirectory(const char* fileType)
 {
-	uint32 filesInDir = NumberOfFileTypesInCurrentDirectory(fileType);
+	u32 filesInDir = NumberOfFileTypesInCurrentDirectory(fileType);
 
 	DynamicArray<String> files(filesInDir);
 	GetRequestedNumFileTypes(fileType, files, filesInDir);

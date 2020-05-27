@@ -12,9 +12,9 @@ public:
 
 	virtual LightDescription GetLightDescription() override;
 
-	float32 innerAngleDegrees;
-	float32 outerAngleDegrees;
-	float32 attenuationRadius;
+	f32 innerAngleDegrees;
+	f32 outerAngleDegrees;
+	f32 attenuationRadius;
 
 private:
 	// Eventually, these will be out of here and only calculated when needed. 

@@ -42,7 +42,7 @@ private:
 	void SetupMeshRenderInfo();
 
 private:
-	static constexpr uint32 MaxBones = 120;
+	static constexpr u32 MaxBones = 120;
 
 	Matrix4 boneMats[MaxBones];
 	Matrix4 world;

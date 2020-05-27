@@ -12,9 +12,9 @@ struct ProfileMetric
 	f64 totalMetricTimeMS;
 	const tchar* metricName;
 	const tchar* filename;
-	uint32 lineNumber;
-	uint32 metricHitCount;
-	uint32 frameNumber;
+	u32 lineNumber;
+	u32 metricHitCount;
+	u32 frameNumber;
 };
 
 struct ProfiledFrameMark
@@ -38,9 +38,9 @@ public:
 
 private:
 	// 3 seconds of data for a 60fps locked game
-	static constexpr uint32 frameProfileCount = 300;
+	static constexpr u32 frameProfileCount = 300;
 	StaticArray<ProfiledFrameMark, frameProfileCount> frameProfiles = {};
-	uint32 currentFrameIndex = 0;
+	u32 currentFrameIndex = 0;
 };
 
 CORE_API ProfilerStatistics& GetProfilingStatistics();

@@ -30,9 +30,9 @@ void WriteDescriptorSet::SetupWriteDescriptors(const VulkanDescriptorSetLayout& 
 	writeDescriptors.Resize(numBuffers + numImages);
 	Assert(layoutBindings.Size() == writeDescriptors.Size());
 
-	uint32 imageIndex = 0;
-	uint32 bufferIndex = 0;
-	for (uint32 i = 0; i < writeDescriptors.Size(); ++i)
+	u32 imageIndex = 0;
+	u32 bufferIndex = 0;
+	for (u32 i = 0; i < writeDescriptors.Size(); ++i)
 	{
 		WriteDescriptor desc = {};
 		if (layoutBindings[i].descriptorType == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER ||
@@ -52,7 +52,7 @@ void WriteDescriptorSet::SetupWriteDescriptors(const VulkanDescriptorSetLayout& 
 	}
 }
 
-void WriteDescriptorSet::SetBuffer(VkDescriptorType type, const VulkanBuffer& buffer, uint32 bindIndex)
+void WriteDescriptorSet::SetBuffer(VkDescriptorType type, const VulkanBuffer& buffer, u32 bindIndex)
 {
 	// TODO - Consider why type is being passed in and if it should be used within the function other than an assert
 	UNUSED(type);
@@ -72,7 +72,7 @@ void WriteDescriptorSet::SetBuffer(VkDescriptorType type, const VulkanBuffer& bu
 	}
 }
 
-void WriteDescriptorSet::SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex)
+void WriteDescriptorSet::SetTexture(VkDescriptorType type, const VulkanTexture& texture, const VulkanSampler& sampler, u32 bindIndex)
 {
 	// TODO - Consider why type is being passed in and if it should be used within the function other than an assert
 	UNUSED(type);

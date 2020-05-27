@@ -10,7 +10,7 @@ struct NativeTexture;
 struct BatchElement
 {
 	DynamicArray<PrimitiveVertex> batchedVertices;
-	DynamicArray<uint32> batchedIndices;
+	DynamicArray<u32> batchedIndices;
 	const NativeTexture* batchTexture;
 	//TODO - clipping must be addressed
 	// Either scissor or stencil clipping...?

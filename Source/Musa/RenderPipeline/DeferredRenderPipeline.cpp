@@ -39,7 +39,7 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 
 	RenderTargetDescription targetDescription = {};
 	targetDescription.colorAttachments.Resize(1);
-	targetDescription.targetExtents = { (float32)view.description.viewport.width, (float32)view.description.viewport.height };
+	targetDescription.targetExtents = { (f32)view.description.viewport.width, (f32)view.description.viewport.height };
 	targetDescription.hasDepth = false;
 
 	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
@@ -57,8 +57,8 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 
 	// Render sceneColor and UI to back buffer
 
-	uint32 viewWidth = (uint32)view.description.viewport.width;
-	uint32 viewHeight = (uint32)view.description.viewport.height;
+	u32 viewWidth = (u32)view.description.viewport.width;
+	u32 viewHeight = (u32)view.description.viewport.height;
 	context.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
 	context.SetScissor(0, 0, viewWidth, viewHeight);
 

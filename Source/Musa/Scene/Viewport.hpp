@@ -9,15 +9,15 @@
 class Viewport final
 {
 public:
-	Viewport(void* windowHandle, uint32 width, uint32 height);
+	Viewport(void* windowHandle, u32 width, u32 height);
 
 	inline NativeViewport& GetNativeViewport() const { return *graphicsViewport; }
-	inline uint32 GetWidth() const { return viewWidth; }
-	inline uint32 GetHeight() const { return viewHeight; }
+	inline u32 GetWidth() const { return viewWidth; }
+	inline u32 GetHeight() const { return viewHeight; }
 
 private:
 	UniquePtr<NativeViewport> graphicsViewport;
-	int32 viewWidth;
-	int32 viewHeight;
+	i32 viewWidth;
+	i32 viewHeight;
 	//Color clearColor;
 };

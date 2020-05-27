@@ -4,13 +4,13 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-float32 NormalizeStickValue(int16 stickVal)
+f32 NormalizeStickValue(i16 stickVal)
 {
-	const float32 denomVal = stickVal >= 0 ? 32767.f : 32768.f;
+	const f32 denomVal = stickVal >= 0 ? 32767.f : 32768.f;
 	return stickVal / denomVal;
 }
 
-float32 NormalizeTriggerValue(uint8 triggerValue)
+f32 NormalizeTriggerValue(u8 triggerValue)
 {
 	return triggerValue / 255.f;
 }

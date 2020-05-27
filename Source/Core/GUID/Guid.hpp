@@ -9,18 +9,18 @@
 #include "String/String.h"
 #include "CoreAPI.hpp"
 
-constexpr uint32 GuidSize = 16;
+constexpr u32 GuidSize = 16;
 
 class CORE_API Guid
 {
 public:
 	Guid();
-	Guid(const uint8* data);
+	Guid(const u8* data);
 	Guid(const Guid& other);
 	Guid& operator=(const Guid&);
 
 	String ToString();
-	inline uint32 GetHash() const
+	inline u32 GetHash() const
 	{
 		return hash;
 	}
@@ -59,6 +59,6 @@ private:
 	void ComputeHash();
 
 private:
-	uint8 bytes[GuidSize];
-	uint32 hash = 0;
+	u8 bytes[GuidSize];
+	u32 hash = 0;
 };

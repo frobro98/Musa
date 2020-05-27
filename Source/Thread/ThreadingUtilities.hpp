@@ -16,6 +16,6 @@ struct ThreadSleepPrimitive
 
 void SetThreadName(std::thread& thread, const tchar* threadName);
 void SetCurrentThreadName(const tchar*threadName);
-uint64 GetCurrentThreadID();
+u64 GetCurrentThreadID();
 
-uint32 GetNumberOfProcessors();
+u32 GetNumberOfProcessors();

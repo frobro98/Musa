@@ -3,7 +3,7 @@
 #include "Debugging/DebugOutput.hpp"
 #include "Platform/Platform.hpp"
 
-constexpr uint32 DebugBufferSize = 256;
+constexpr u32 DebugBufferSize = 256;
 
 namespace Debug
 {

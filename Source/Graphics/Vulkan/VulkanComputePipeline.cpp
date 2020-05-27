@@ -51,7 +51,7 @@ void VulkanComputePipeline::BindDescriptorSet(VulkanCommandBuffer* cmdBuffer, Vu
 
 VulkanDescriptorSet * VulkanComputePipeline::GetUnusedDescriptorSet()
 {
-	static uint32 numDescriptorsCreated = 0;
+	static u32 numDescriptorsCreated = 0;
 	VulkanDescriptorSet* descriptorSet = nullptr;
 	if (unusedSetIndex < descriptorSets.Size())
 	{

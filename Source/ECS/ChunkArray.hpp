@@ -10,7 +10,7 @@ template <typename CompType>
 struct ChunkArray
 {
 	ChunkArray() = default;
-	ChunkArray(CompType& compBegin, uint32 count);
+	ChunkArray(CompType& compBegin, u32 count);
 
 	CompType& operator[](size_t index);
 	const CompType& operator[](size_t index) const;
@@ -23,11 +23,11 @@ struct ChunkArray
 	friend const CompType* end(const ChunkArray& arr) { return arr.data + arr.size; }
 
 	CompType* data = nullptr;
-	uint32 size = 0;
+	u32 size = 0;
 };
 
 template <typename CompType>
-ChunkArray<CompType>::ChunkArray(CompType& compBegin, uint32 count)
+ChunkArray<CompType>::ChunkArray(CompType& compBegin, u32 count)
 {
 	REF_CHECK(compBegin);
 	data = &compBegin;

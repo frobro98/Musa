@@ -20,7 +20,7 @@ public:
 	{
 	}
 
-	explicit Map(uint32 bucketAmount)
+	explicit Map(u32 bucketAmount)
 		: buckets(bucketAmount)
 	{
 	}
@@ -80,7 +80,7 @@ public:
 public:
 	ValueType& Add(const KeyType& key, const ValueType& val)
 	{
-		uint32 hash = GetHash(key);
+		u32 hash = GetHash(key);
 		BucketType& bucket = FindBucket(hash);
 		MapType* store = FindPair(bucket, key);
 		if (store)
@@ -90,7 +90,7 @@ public:
 		else
 		{
 			Pair<KeyType, ValueType> pair = { key, val };
-			uint32 index = bucket.Add(pair);
+			u32 index = bucket.Add(pair);
 			store = &bucket[index];
 			++size;
 		}
@@ -101,7 +101,7 @@ public:
 	ValueType* Find(const KeyType& key)
 	{
 		ValueType* value = nullptr;
-		uint32 hash = GetHash(key);
+		u32 hash = GetHash(key);
 		BucketType& bucket = FindBucket(hash);
 		MapType* store = FindPair(bucket, key);
 		if (store)
@@ -114,7 +114,7 @@ public:
 
 	bool TryFind(const KeyType& key, ValueType& value)
 	{
-		uint32 hash = GetHash(key);
+		u32 hash = GetHash(key);
 		BucketType& bucket = FindBucket(hash);
 		MapType* store = FindPair(bucket, key);
 		if (store)
@@ -128,12 +128,12 @@ public:
 
 	bool Remove(const KeyType& key)
 	{
-		uint32 hash = GetHash(key);
+		u32 hash = GetHash(key);
 		BucketType& bucket = FindBucket(hash);
 		return RemoveBucketElement(bucket, key);
 	}
 
-	inline uint32 Size() const
+	inline u32 Size() const
 	{
 		return size;
 	}
@@ -146,7 +146,7 @@ public:
 private:
 	bool RemoveBucketElement(BucketType& bucket, const KeyType& key)
 	{
-		for (uint32 i = 0; i < buckets.Size(); ++i)
+		for (u32 i = 0; i < buckets.Size(); ++i)
 		{
 			if (bucket[i].first == key)
 			{
@@ -158,16 +158,16 @@ private:
 		return false;
 	}
 
-	BucketType& FindBucket(uint32 hash)
+	BucketType& FindBucket(u32 hash)
 	{
-		uint32 bucketIndex = hash % buckets.Size();
+		u32 bucketIndex = hash % buckets.Size();
 		return buckets[bucketIndex];
 	}
 
 	MapType* FindPair(BucketType& bucket, const KeyType& key)
 	{
 		MapType* storage = nullptr;
-		for (uint32 i = 0; i < bucket.Size(); ++i)
+		for (u32 i = 0; i < bucket.Size(); ++i)
 		{
 			MapType& store = bucket[i];
 			if (store.first == key)
@@ -182,14 +182,14 @@ private:
 	template <typename EmplaceType>
 	ValueType& FindOrDefault(EmplaceType&& key)
 	{
-		uint32 hash = GetHash(key);
+		u32 hash = GetHash(key);
 		BucketType& bucket = FindBucket(hash);
 		MapType* storage = FindPair(bucket, key);
 
 		if (!storage)
 		{
 			Pair<KeyType, ValueType> pair = { std::forward<EmplaceType>(key), ValueType() };
-			uint32 index = bucket.Add(pair);
+			u32 index = bucket.Add(pair);
 			storage = &bucket[index];
 		}
 
@@ -216,7 +216,7 @@ public:
 		Iterator(Map<Key, Value>& map)
 			: buckets(&map.buckets)
 		{
-			uint32 i = bucketIndex;
+			u32 i = bucketIndex;
 			for (; i < buckets->Size(); ++i)
 			{
 				if ((*buckets)[i].Size() > 0)
@@ -227,7 +227,7 @@ public:
 			bucketIndex = i;
 		}
 
-		Iterator(Map<Key, Value>& map, uint32 bucketInd)
+		Iterator(Map<Key, Value>& map, u32 bucketInd)
 			: buckets(&map.buckets),
 			bucketIndex(bucketInd)
 		{
@@ -248,7 +248,7 @@ public:
 			if (++bucketElementIndex >= (*buckets)[bucketIndex].Size())
 			{
 				bucketElementIndex = 0;
-				uint32 i = bucketIndex + 1;
+				u32 i = bucketIndex + 1;
 				for (; i < buckets->Size(); ++i)
 				{
 					if ((*buckets)[i].Size() > 0)
@@ -272,8 +272,8 @@ public:
 
 	private:
 		DynamicArray<BucketType>* buckets;
-		uint32 bucketIndex = 0;
-		uint32 bucketElementIndex = 0;
+		u32 bucketIndex = 0;
+		u32 bucketElementIndex = 0;
 
 	};
 
@@ -285,7 +285,7 @@ public:
 		ConstIterator(const Map<Key, Value>& map)
 			: buckets(&map.buckets)
 		{
-			uint32 i = bucketIndex;
+			u32 i = bucketIndex;
 			for (; i < buckets->Size(); ++i)
 			{
 				if ((*buckets)[i].Size() > 0)
@@ -296,7 +296,7 @@ public:
 			bucketIndex = i;
 		}
 
-		ConstIterator(const Map<Key, Value>& map, uint32 bucketInd)
+		ConstIterator(const Map<Key, Value>& map, u32 bucketInd)
 			: buckets(&map.buckets),
 			bucketIndex(bucketInd)
 		{
@@ -317,7 +317,7 @@ public:
 			if (++bucketElementIndex >= (*buckets)[bucketIndex].Size())
 			{
 				bucketElementIndex = 0;
-				uint32 i = bucketIndex + 1;
+				u32 i = bucketIndex + 1;
 				for (; i < buckets->Size(); ++i)
 				{
 					if ((*buckets)[i].Size() > 0)
@@ -341,8 +341,8 @@ public:
 
 	private:
 		const DynamicArray<BucketType>* buckets;
-		uint32 bucketIndex = 0;
-		uint32 bucketElementIndex = 0;
+		u32 bucketIndex = 0;
+		u32 bucketElementIndex = 0;
 
 	};
 
@@ -353,8 +353,8 @@ private:
 	friend ConstIterator end(const Map& map) { return ConstIterator(map, map.buckets.Size()); }
 
 private:
-	static constexpr uint32 DefaultAmountOfBuckets = 32;
+	static constexpr u32 DefaultAmountOfBuckets = 32;
 	DynamicArray<BucketType> buckets;
-	uint32 size = 0;
-	uint32 maxBucketSize = 0;
+	u32 size = 0;
+	u32 maxBucketSize = 0;
 };

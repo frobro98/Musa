@@ -18,8 +18,8 @@ using ComponentDtor = void(*)(void*);
 
 struct ComponentTypeHash
 {
-	uint64 typenameHash;
-	uint64 archetypeBit;
+	u64 typenameHash;
+	u64 archetypeBit;
 };
 
 forceinline bool operator==(const ComponentTypeHash& lhs, const ComponentTypeHash& rhs)
@@ -32,8 +32,8 @@ struct ComponentType
 	ComponentCtor ctor = nullptr;
 	ComponentDtor dtor = nullptr;
 	ComponentTypeHash hash;
-	uint16 size = 0;
-	uint16 alignment = 0;
+	u16 size = 0;
+	u16 alignment = 0;
 };
 
 template <typename Comp>
@@ -44,7 +44,7 @@ forceinline ComponentType MakeComponentTypeFor()
 
 	ComponentType type = {};
 
-	constexpr uint64 hash = Musa::Internal::TypenameHash<Comp>();
+	constexpr u64 hash = Musa::Internal::TypenameHash<Comp>();
 	type.hash = {
 		hash,
 		1ull << (hash % 63ull)
@@ -65,7 +65,7 @@ forceinline ComponentType MakeComponentTypeFor()
 }
 
 // TODO - This should stay around, but there needs to be another way to get at the component types. Perhaps as an index?
-static robin_hood::unordered_node_map<uint64, ComponentType> componentTypeCache;
+static robin_hood::unordered_node_map<u64, ComponentType> componentTypeCache;
 
 template <typename Comp>
 forceinline const ComponentType* GetComponentTypeFor()
@@ -74,7 +74,7 @@ forceinline const ComponentType* GetComponentTypeFor()
 
 	static const ComponentType* type = []
 	{
-		constexpr uint64 typeHash = Musa::Internal::template TypenameHash<Comp>();
+		constexpr u64 typeHash = Musa::Internal::template TypenameHash<Comp>();
 
 		auto typeIter = componentTypeCache.find(typeHash);
 		if (typeIter == componentTypeCache.end())
@@ -89,20 +89,20 @@ forceinline const ComponentType* GetComponentTypeFor()
 	return type;
 }
 
-forceinline const ComponentType* GetComponentTypeFrom(uint64 typeKey)
+forceinline const ComponentType* GetComponentTypeFrom(u64 typeKey)
 {
 	Assert(componentTypeCache.find(typeKey) != componentTypeCache.end());
 	return &componentTypeCache[typeKey];
 }
 
 template <typename Comp>
-constexpr forceinline uint64 GetComponentTypeKeyFor()
+constexpr forceinline u64 GetComponentTypeKeyFor()
 {
 	static_assert(std::is_base_of_v<Component, Comp>, "Type passed in as a template parameter must be derived from Musa::Component");
 	return Musa::Internal::template TypenameHash<Comp>();
 }
 
-forceinline uint64 GetComponentTypeKeyFor(const ComponentType* type)
+forceinline u64 GetComponentTypeKeyFor(const ComponentType* type)
 {
 	return type->hash.typenameHash;
 }

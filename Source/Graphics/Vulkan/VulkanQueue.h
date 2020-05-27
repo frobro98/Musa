@@ -20,13 +20,13 @@ public:
 public:
 	VulkanQueue(VulkanDevice* device);
 
-	void Initialize(uint32 familyIndex, Type type);
+	void Initialize(u32 familyIndex, Type type);
 
-	inline uint32 GetFamilyIndex() const { return queueFamilyIndex; }
+	inline u32 GetFamilyIndex() const { return queueFamilyIndex; }
 	inline VkQueue GetNativeHandle() const { return queue; }
 private:
 	VkQueue queue = VK_NULL_HANDLE;
 	VulkanDevice* logicalDevice = nullptr;
-	uint32 queueFamilyIndex = 0;
+	u32 queueFamilyIndex = 0;
 	Type queueType = Type::Graphics;
 };

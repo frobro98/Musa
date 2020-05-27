@@ -7,12 +7,12 @@
 
 namespace
 {
-uint32 NumberOfBitsNeeded(uint32 samplesPow2)
+u32 NumberOfBitsNeeded(u32 samplesPow2)
 {
 	Assert(IsPowerOf2(samplesPow2));
 	Assert(samplesPow2 >= 2);
 
-	for (uint32 i = 0;; ++i)
+	for (u32 i = 0;; ++i)
 	{
 		if (samplesPow2 & (1 << i))
 		{
@@ -21,10 +21,10 @@ uint32 NumberOfBitsNeeded(uint32 samplesPow2)
 	}
 }
 
-uint32 ReverseBits(uint32 index, uint32 numBits)
+u32 ReverseBits(u32 index, u32 numBits)
 {
-	uint32 revBits = 0;
-	for (uint32 i = 0; i < numBits; ++i)
+	u32 revBits = 0;
+	for (u32 i = 0; i < numBits; ++i)
 	{
 		revBits = (revBits << 1) | (index & 1);
 		index >>= 1;
@@ -33,20 +33,20 @@ uint32 ReverseBits(uint32 index, uint32 numBits)
 }
 }
 
-void FastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const DynamicArray<float>& imaginaryIn, DynamicArray<float>& realOut, DynamicArray<float>& imaginaryOut)
+void FastFourier(u32 numSamples, const DynamicArray<float>& realIn, const DynamicArray<float>& imaginaryIn, DynamicArray<float>& realOut, DynamicArray<float>& imaginaryOut)
 {
 	Assert(IsPowerOf2(numSamples));
-	uint32 numBitsNeeded = NumberOfBitsNeeded(numSamples);
+	u32 numBitsNeeded = NumberOfBitsNeeded(numSamples);
 
-	for (uint32 i = 0; i < numSamples; ++i)
+	for (u32 i = 0; i < numSamples; ++i)
 	{
-		uint32 ind = ReverseBits(i, numBitsNeeded);
+		u32 ind = ReverseBits(i, numBitsNeeded);
 		realOut[ind] = realIn[i];
 		imaginaryOut[ind] = imaginaryIn[i];
 	}
 
-	uint32 blockEnd = 1;
-	for (uint32 blockSize = 2; blockSize <= numSamples; blockSize <<= 1)
+	u32 blockEnd = 1;
+	for (u32 blockSize = 2; blockSize <= numSamples; blockSize <<= 1)
 	{
 		float deltaAngle = Math::TwoPi / blockSize;
 		float sm2 = Math::Sin(-2.f * deltaAngle);
@@ -56,7 +56,7 @@ void FastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const Dyn
 		float w = 2.f * cm1;
 		float ar[3], ai[3];
 
-		for (uint32 i = 0; i < numSamples; i += blockSize)
+		for (u32 i = 0; i < numSamples; i += blockSize)
 		{
 			ar[2] = cm2;
 			ar[1] = cm1;
@@ -64,7 +64,7 @@ void FastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const Dyn
 			ai[2] = sm2;
 			ai[1] = sm1;
 
-			for (uint32 j = i, n = 0; n < blockEnd; j++, n++)
+			for (u32 j = i, n = 0; n < blockEnd; j++, n++)
 			{
 				ar[0] = w * ar[1] - ar[2];
 				ar[2] = ar[1];
@@ -74,7 +74,7 @@ void FastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const Dyn
 				ai[2] = ai[1];
 				ai[1] = ai[0];
 
-				uint32 k = j + blockEnd;
+				u32 k = j + blockEnd;
 				float tr = ar[0] * realOut[k] - ai[0] * imaginaryOut[k];
 				float ti = ar[0] * imaginaryOut[k] + ai[0] * realOut[k];
 
@@ -90,13 +90,13 @@ void FastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const Dyn
 	}
 }
 
-void InverseFastFourier(uint32 numSamples, const DynamicArray<float>& realIn, const DynamicArray<float>& imageIn, DynamicArray<float>& realOut, DynamicArray<float>& imageOut)
+void InverseFastFourier(u32 numSamples, const DynamicArray<float>& realIn, const DynamicArray<float>& imageIn, DynamicArray<float>& realOut, DynamicArray<float>& imageOut)
 {
 	FastFourier(numSamples, realIn, imageIn, realOut, imageOut);
 
 	float denom = static_cast<float>(numSamples);
 
-	for (uint32 i = 0; i < numSamples; ++i)
+	for (u32 i = 0; i < numSamples; ++i)
 	{
 		realOut[i] /= denom;
 		imageOut[i] /= denom;

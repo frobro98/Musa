@@ -10,20 +10,20 @@ struct SamplerDescription;
 namespace Vk
 {
 	VkInstanceCreateInfo InstanceInfo(
-		const tchar* const* instanceLayers, uint32 numLayers,
-		const tchar* const* instanceExtensions, uint32 numExtensions,
+		const tchar* const* instanceLayers, u32 numLayers,
+		const tchar* const* instanceExtensions, u32 numExtensions,
 		const void* additionalData = nullptr
 	);
 
 	VkDeviceQueueCreateInfo DeviceQueueInfo(
-		uint32 queueFamilyIndex, 
-		uint32 numQueues, 
-		const float32* queuePriorities
+		u32 queueFamilyIndex, 
+		u32 numQueues, 
+		const f32* queuePriorities
 	);
 
 	VkDeviceCreateInfo DeviceInfo(
-		const VkDeviceQueueCreateInfo* queueInfo, uint32 numQueueInfos,
-		const tchar** deviceExtensions, uint32 numExtensions,
+		const VkDeviceQueueCreateInfo* queueInfo, u32 numQueueInfos,
+		const tchar** deviceExtensions, u32 numExtensions,
 		const VkPhysicalDeviceFeatures& deviceFeatures
 	);
 
@@ -40,13 +40,13 @@ namespace Vk
 #endif
 
 	VkImageViewCreateInfo ImageViewInfo(
-		VkImage image, uint32 mipLevels, VkFormat format, VkImageAspectFlags aspectFlags
+		VkImage image, u32 mipLevels, VkFormat format, VkImageAspectFlags aspectFlags
 	);
 
 	VkRenderPassCreateInfo RenderPassInfo(
-		const VkAttachmentDescription* attachments, uint32 numAttachments,
-		const VkSubpassDescription* subpasses, uint32 numSubpasses,
-		const VkSubpassDependency* dependencies = nullptr, uint32 numDependencies = 0
+		const VkAttachmentDescription* attachments, u32 numAttachments,
+		const VkSubpassDescription* subpasses, u32 numSubpasses,
+		const VkSubpassDependency* dependencies = nullptr, u32 numDependencies = 0
 	);
 
 	VkSamplerCreateInfo SamplerInfo(const SamplerDescription& params);

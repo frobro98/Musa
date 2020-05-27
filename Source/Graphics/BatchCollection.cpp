@@ -18,10 +18,10 @@ void BatchCollection::BatchLine(const BatchedLineDescription& lineDesc)
 	batchedLines.Add(vert);
 }
 
-void BatchCollection::BatchLine(const BatchedLineDescription* lineDescs, uint32 lineCount)
+void BatchCollection::BatchLine(const BatchedLineDescription* lineDescs, u32 lineCount)
 {
 	Assert(lineDescs);
-	for (uint32 i = 0; i < lineCount; ++i)
+	for (u32 i = 0; i < lineCount; ++i)
 	{
 		BatchLine(lineDescs[i]);
 	}
@@ -108,10 +108,10 @@ void BatchCollection::BatchCircle(const BatchedCircleDescription& circleDesc)
 	const Vector3 center = circleDesc.position;
 	const Vector3 up = circleDesc.up;
 	const Vector3 right = circleDesc.right;
-	const float32 angleIncrement = Math::TwoPi / circleDesc.numSegments;
-	const float32 radius = circleDesc.radius;
-	const float32 diameter = radius * 2.f;
-	float32 delta = 0;
+	const f32 angleIncrement = Math::TwoPi / circleDesc.numSegments;
+	const f32 radius = circleDesc.radius;
+	const f32 diameter = radius * 2.f;
+	f32 delta = 0;
 
 	PrimitiveVertex v0 = {
 		center,
@@ -122,7 +122,7 @@ void BatchCollection::BatchCircle(const BatchedCircleDescription& circleDesc)
 		return center + (Math::Cos(delt) * right + Math::Sin(delt) * up) * radius;
 	};
 
-	for (uint32 i = 0; i < circleDesc.numSegments; ++i)
+	for (u32 i = 0; i < circleDesc.numSegments; ++i)
 	{
 		Vector3 pos = positionCalculation(delta);
 		PrimitiveVertex v1 = {
@@ -212,9 +212,9 @@ void BatchCollection::BatchWireCircle(const BatchedCircleDescription& circleDesc
 	const Vector3 center = circleDesc.position;
 	const Vector3 up = circleDesc.up;
 	const Vector3 right = circleDesc.right;
-	const float32 angleIncrement = Math::TwoPi / circleDesc.numSegments;
-	const float32 radius = circleDesc.radius;
-	float32 delta = 0;
+	const f32 angleIncrement = Math::TwoPi / circleDesc.numSegments;
+	const f32 radius = circleDesc.radius;
+	f32 delta = 0;
 
 	auto positionCalculation = [&](float delt) {
 		return center + (Math::Cos(delt) * right + Math::Sin(delt) * up) * radius;
@@ -225,7 +225,7 @@ void BatchCollection::BatchWireCircle(const BatchedCircleDescription& circleDesc
 	BatchedLineDescription line = {};
 	line.color = circleDesc.color;
 
-	for (uint32 i = 0; i < circleDesc.numSegments; ++i)
+	for (u32 i = 0; i < circleDesc.numSegments; ++i)
 	{
 		Vector3 currVertPos = positionCalculation(delta);
 		line.start = prevVertPos;
@@ -272,10 +272,10 @@ void BatchCollection::RenderTriangleBatches(RenderContext& renderer, const Nativ
 {
 	if (HasTriangleBatches())
 	{
-		uint32 vertCount = batchedTris.Size() * 3;
+		u32 vertCount = batchedTris.Size() * 3;
 		DynamicArray<PrimitiveVertex> totalTriVerts;
 		totalTriVerts.Reserve(vertCount);
-		for (uint32 i = 0; i < batchedTris.Size(); ++i)
+		for (u32 i = 0; i < batchedTris.Size(); ++i)
 		{
 			const PrimitiveTriangle& tri = batchedTris[i];
 			totalTriVerts.Add(tri.v0);

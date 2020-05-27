@@ -191,16 +191,16 @@ void GameObject::InputSetup()
 {
 }
 
-void GameObject::MoveForward(int32 mod)
+void GameObject::MoveForward(i32 mod)
 {
 	position += Vector4((float)mod, 0, 0);
 }
 
-void GameObject::MoveRight(int32 /*mod*/)
+void GameObject::MoveRight(i32 /*mod*/)
 {
 }
 
-void GameObject::MoveUp(int32 /*mod*/)
+void GameObject::MoveUp(i32 /*mod*/)
 {
 }
 

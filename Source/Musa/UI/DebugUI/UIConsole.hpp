@@ -30,9 +30,9 @@ private:
 	void InitializeFont();
 
 private:
-	static constexpr uint32 MaxCharsPerFrame = 4;
+	static constexpr u32 MaxCharsPerFrame = 4;
 	String textOnScreen;
-	uint32 cursorPos = 0;
+	u32 cursorPos = 0;
 
 	// Might not need something this heavy for a console...(?)
 	//UniquePtr<TextInput> consoleInput;

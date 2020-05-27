@@ -14,9 +14,9 @@ public:
 	void StartSystem();
 	void Deinitialize();
 
-	void SetJobQueueForIndex(JobQueue& q, uint32 index);
+	void SetJobQueueForIndex(JobQueue& q, u32 index);
 
-	JobQueue& GetRandomQueue(uint32 index) const;
+	JobQueue& GetRandomQueue(u32 index) const;
 
 	Job* CreateEmptyJob() const;
 	Job* CreateJob(JobTask&& func) const;

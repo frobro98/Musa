@@ -27,8 +27,8 @@ static bool gVerbose = true;
 struct VertexWithFace
 {
 	Vertex v{};
-	uint32 faceIndex = 0;
-	int32 weightIndex = -1;
+	u32 faceIndex = 0;
+	i32 weightIndex = -1;
 
 	bool operator<(const VertexWithFace& vert)
 	{
@@ -41,7 +41,7 @@ struct TexturePath
 	std::string textureFilePath;
 };
 
-constexpr const uint32 ModelNameLength = 32;
+constexpr const u32 ModelNameLength = 32;
 
 struct ModelData
 {
@@ -62,15 +62,15 @@ struct BoneData
 	std::vector<Vector4> translationKeys;
 	std::vector<Quat> rotationKeys;
 	std::vector<Vector4> scaleKeys;
-	std::vector<uint32> timeMSPerKey;
-	uint32 totalAnimTimeMS;
+	std::vector<u32> timeMSPerKey;
+	u32 totalAnimTimeMS;
 	std::string name;
 };
 
 struct PoseData
 {
 	Matrix4 invPoseMat{ IDENTITY };
-	uint32 index = 0;
+	u32 index = 0;
 	std::string boneName = "";
 };
 
@@ -90,14 +90,14 @@ struct Hierarchy
 struct Frame
 {
 	std::vector<FrameData> bonesPerFrame;
-	uint32 frameTime;
+	u32 frameTime;
 };
 
 struct AnimationClip
 {
 	std::string name;
 	std::vector<Frame> frames;
-	uint32 totalTime;
+	u32 totalTime;
 };
 
 struct SkinData
@@ -107,13 +107,13 @@ struct SkinData
 
 struct HierarchyTableElement
 {
-	std::vector<uint32> boneParentHierarchy;
+	std::vector<u32> boneParentHierarchy;
 };
 
 struct HierarchyTableDescription
 {
 	std::vector<HierarchyTableElement> tableElements;
-	uint32 maxElementLength = std::numeric_limits<uint32>::min();
+	u32 maxElementLength = std::numeric_limits<u32>::min();
 };
 }
 
@@ -133,7 +133,7 @@ static std::vector<PoseData> posesCorrect;
 
 static CompressionFormat compressionFormat = CompressionFormat::Invalid;
 
-static void RecurseHierarchy(FbxNode* node, int parentIndex, int& index, std::vector<Hierarchy>& boneHierarchy, uint32 depth = 0)
+static void RecurseHierarchy(FbxNode* node, int parentIndex, int& index, std::vector<Hierarchy>& boneHierarchy, u32 depth = 0)
 {
 	FbxNodeAttribute* attr = node->GetNodeAttribute();
 	if (attr == nullptr)
@@ -151,7 +151,7 @@ static void RecurseHierarchy(FbxNode* node, int parentIndex, int& index, std::ve
 			boneHierarchy.push_back(boneHier);
 
 			std::stringstream stream;
-			for (uint32 i = 0; i < depth; ++i)
+			for (u32 i = 0; i < depth; ++i)
 			{
 				stream << "     ";
 			}
@@ -191,7 +191,7 @@ HierarchyTableDescription ConstructTable(const std::vector<Hierarchy>& hierarchy
 	for (const auto& bone : hierarchy)
 	{
 		HierarchyTableElement boneElement;
-		int32 parentIndex = bone.parentIndex;
+		i32 parentIndex = bone.parentIndex;
 		boneElement.boneParentHierarchy.push_back(bone.index);
 		while (parentIndex >= 0)
 		{
@@ -201,7 +201,7 @@ HierarchyTableDescription ConstructTable(const std::vector<Hierarchy>& hierarchy
 		//std::reverse(boneElement.boneParentHierarchy.begin(), boneElement.boneParentHierarchy.end());
 
 		table.tableElements.push_back(boneElement);
-		table.maxElementLength = Math::Max(table.maxElementLength, (uint32)boneElement.boneParentHierarchy.size());
+		table.maxElementLength = Math::Max(table.maxElementLength, (u32)boneElement.boneParentHierarchy.size());
 	}
 
 	Assert(table.tableElements.size() == hierarchy.size());
@@ -216,8 +216,8 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 	Assert(result == File::Result::SUCCESS);
 
 	SkeletonHeader header;
-	uint32 hierarchyOffset, tableOffset, poseDataOffset;
-	header.boneCount = (uint32)hierarchy.size();
+	u32 hierarchyOffset, tableOffset, poseDataOffset;
+	header.boneCount = (u32)hierarchy.size();
 	result = File::Write(skeletonFile, &header, sizeof(SkeletonHeader));
 	Assert(result == File::Result::SUCCESS);
 
@@ -237,16 +237,16 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 
 	File::Tell(skeletonFile, tableOffset);
 	header.boneTableOffset = tableOffset;
-	result = File::Write(skeletonFile, &hierarchyTable.maxElementLength, sizeof(uint32));
+	result = File::Write(skeletonFile, &hierarchyTable.maxElementLength, sizeof(u32));
 	Assert(result == File::Result::SUCCESS);
 
 	for (const auto& elem : hierarchyTable.tableElements)
 	{
-		uint32 numParents = static_cast<uint32>(elem.boneParentHierarchy.size());
-		result = File::Write(skeletonFile, &numParents, sizeof(uint32));
+		u32 numParents = static_cast<u32>(elem.boneParentHierarchy.size());
+		result = File::Write(skeletonFile, &numParents, sizeof(u32));
 		Assert(result == File::Result::SUCCESS);
 
-		result = File::Write(skeletonFile, elem.boneParentHierarchy.data(), sizeof(uint32) * numParents);
+		result = File::Write(skeletonFile, elem.boneParentHierarchy.data(), sizeof(u32) * numParents);
 		Assert(result == File::Result::SUCCESS);
 	}
 
@@ -275,7 +275,7 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 	Assert(result == File::Result::SUCCESS);
 }
 
-void SaveOutAnimation(uint32 skeletonHash, const std::vector<AnimationClip>& clips, Time::Duration frameRate)
+void SaveOutAnimation(u32 skeletonHash, const std::vector<AnimationClip>& clips, Time::Duration frameRate)
 {
 	for (const auto& clip : clips)
 	{
@@ -289,8 +289,8 @@ void SaveOutAnimation(uint32 skeletonHash, const std::vector<AnimationClip>& cli
 		clip.name.copy(header.animationName, AnimationNameLength);
 		// TODO - figure out how to get this hash
 		header.referenceSkeleton = skeletonHash;
-		header.keyFrameCount = (uint32)clip.frames.size();
-		header.bonesPerFrame = (uint32)clip.frames[0].bonesPerFrame.size();
+		header.keyFrameCount = (u32)clip.frames.size();
+		header.bonesPerFrame = (u32)clip.frames[0].bonesPerFrame.size();
 		header.totalAnimationTime = clip.totalTime;
 		header.frameRate = frameRate;
 
@@ -300,7 +300,7 @@ void SaveOutAnimation(uint32 skeletonHash, const std::vector<AnimationClip>& cli
 		for (const Frame& keyFrame : clip.frames)
 		{
 			KeyFrame frame;
-			frame.boneCount = static_cast<uint32>(keyFrame.bonesPerFrame.size());
+			frame.boneCount = static_cast<u32>(keyFrame.bonesPerFrame.size());
 			frame.frameTime = Time(Time::ONE_MILLISECOND) * keyFrame.frameTime;
 			frame.boneFrameData = nullptr;
 
@@ -325,7 +325,7 @@ void SaveOutAnimation(uint32 skeletonHash, const std::vector<AnimationClip>& cli
 	}
 }
 
-uint32 GetSkeletonHash(const std::string& fileName)
+u32 GetSkeletonHash(const std::string& fileName)
 {
 	File::Handle fHandle;
 	File::Result result = File::Open(fHandle, fileName.c_str(), File::Mode::READ);
@@ -363,7 +363,7 @@ Time::Duration ConvertFbxFrameRate(FbxTime::EMode frameRate)
 	return Time::DWORD;
 }
 
-constexpr const uint32 SystemCallLength = 512;
+constexpr const u32 SystemCallLength = 512;
 
 void PackAndMoveAnimationData(const std::string& fileName)
 {
@@ -453,19 +453,19 @@ static Matrix4 FbxMatToMusaMat(const FbxAMatrix& fbxMat)
 
 std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, const FbxMesh* geometry)
 {
-	int32 controlPointCount = geometry->GetControlPointsCount();
-	uint32 skinCount = geometry->GetDeformerCount(FbxDeformer::eSkin);
+	i32 controlPointCount = geometry->GetControlPointsCount();
+	u32 skinCount = geometry->GetDeformerCount(FbxDeformer::eSkin);
 	Assert(skinCount == 1);
 
 	posesCorrect.resize(bones.size());
 
 	std::vector<SkinData> skinData(controlPointCount);
 
-	for (uint32 i = 0; i < skinCount; ++i)
+	for (u32 i = 0; i < skinCount; ++i)
 	{
 		FbxSkin* skin = reinterpret_cast<FbxSkin*>(geometry->GetDeformer(i, FbxDeformer::eSkin));
-		uint32 clusterCount = skin->GetClusterCount();
-		for (uint32 j = 0; j < clusterCount; ++j)
+		u32 clusterCount = skin->GetClusterCount();
+		for (u32 j = 0; j < clusterCount; ++j)
 		{
 			FbxCluster* cluster = skin->GetCluster(j);
 			auto compareFunc = [&](const Hierarchy& bone)
@@ -476,14 +476,14 @@ std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, c
 			auto boneIter = std::find_if(bones.cbegin(), bones.cend(), compareFunc);
 			Assert(boneIter != bones.end());
 
-			uint32 affectedVertCount = cluster->GetControlPointIndicesCount();
-			int32* affectedVertIndices = cluster->GetControlPointIndices();
+			u32 affectedVertCount = cluster->GetControlPointIndicesCount();
+			i32* affectedVertIndices = cluster->GetControlPointIndices();
 			double* boneWeights = cluster->GetControlPointWeights();
 
 			printf("Bone[%d]: Weights: \n", boneIter->index);
-			for (uint32 k = 0; k < affectedVertCount; ++k)
+			for (u32 k = 0; k < affectedVertCount; ++k)
 			{
-				uint32 vertIndex = affectedVertIndices[k];
+				u32 vertIndex = affectedVertIndices[k];
 				Hierarchy bone = *boneIter;
 				std::pair<int, float> boneWeight(bone.index, static_cast<float>(boneWeights[k]));
 				skinData[vertIndex].bonesWeights.push_back(boneWeight);
@@ -529,10 +529,10 @@ std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, c
 		});
 	}
 
-	for (uint32 i = 0; i < skinData.size(); ++i)
+	for (u32 i = 0; i < skinData.size(); ++i)
 	{
 		SkinData& data = skinData[i];
-		for (uint32 j = 0; j < data.bonesWeights.size(); ++j)
+		for (u32 j = 0; j < data.bonesWeights.size(); ++j)
 		{
 			printf("Vertex %u: Weight %f on Bone #%u\n", 
 				i, data.bonesWeights[j].second, data.bonesWeights[j].first);
@@ -541,7 +541,7 @@ std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, c
 	}
 
 	printf("---POSE DATA---\n");
-	for (uint32 i = 0; i < posesCorrect.size(); ++i)
+	for (u32 i = 0; i < posesCorrect.size(); ++i)
 	{
 		printf("Pose[%u]: %f, %f, %f, %f,\n", i, posesCorrect[i].invPoseMat[m0], posesCorrect[i].invPoseMat[m1], posesCorrect[i].invPoseMat[m2], posesCorrect[i].invPoseMat[m3]);
 		printf("          %f, %f, %f, %f,\n", posesCorrect[i].invPoseMat[m4], posesCorrect[i].invPoseMat[m5], posesCorrect[i].invPoseMat[m6], posesCorrect[i].invPoseMat[m7]);
@@ -559,8 +559,8 @@ std::vector<SkinData> ProcessSkinningData(const std::vector<Hierarchy>& bones, c
 void CompressAnimations(std::vector<AnimationClip>& animations, float errorAngle);
 void ProcessAnimation(FbxScene* scene, std::vector<AnimationDescription>& animations);
 AnimationDescription ProcessAnimationStack(FbxAnimStack* stack, FbxNode* rootNode);
-AnimationDescription ProcessAnimationLayer(FbxNode* rootNode, FbxAnimLayer* layer, uint32 frameCount);
-void ExtractBoneData(FbxNode* boneRootNode, FbxAnimLayer* layer, std::vector<BoneData>& bones, uint32 frameCount);
+AnimationDescription ProcessAnimationLayer(FbxNode* rootNode, FbxAnimLayer* layer, u32 frameCount);
+void ExtractBoneData(FbxNode* boneRootNode, FbxAnimLayer* layer, std::vector<BoneData>& bones, u32 frameCount);
 
 
 int main(int argc, char** argv)
@@ -707,7 +707,7 @@ int main(int argc, char** argv)
 			ChunkHierarchy(fileName);
 
 			// TODO - Create the hash without opening the chunk file...
-			const uint32 skeletonHash = GetSkeletonHash(fileName + "_skel.chnk");
+			const u32 skeletonHash = GetSkeletonHash(fileName + "_skel.chnk");
 
 			// TODO - Save out each animation...
 			std::vector<AnimationDescription> animations;
@@ -720,12 +720,12 @@ int main(int argc, char** argv)
 				AnimationClip clip;
 				clip.name = animation.name;
 				printf("Writing out %s\n", clip.name.c_str());
-				uint32 frameCount = (uint32)animation.bones[0].rotationKeys.size();
+				u32 frameCount = (u32)animation.bones[0].rotationKeys.size();
 				clip.frames.reserve(frameCount);
-				for (uint32 i = 0; i < frameCount; ++i)
+				for (u32 i = 0; i < frameCount; ++i)
 				{
 					Frame frame;
-					for (uint32 j = 0; j < animation.bones.size(); ++j)
+					for (u32 j = 0; j < animation.bones.size(); ++j)
 					{
 						FrameData bone;
 
@@ -800,7 +800,7 @@ static bool IsFrameWithinTolerence(const Frame& newFrame, const Frame& actualFra
 		const FrameData& testCenter = newFrame.bonesPerFrame[0];
 		const FrameData& actualCenter = actualFrame.bonesPerFrame[0];
 		// Loop through and calculate the error angles for each bone using the root
-		for (uint32 i = 1; i < actualFrame.bonesPerFrame.size(); ++i)
+		for (u32 i = 1; i < actualFrame.bonesPerFrame.size(); ++i)
 		{
 			float testAngle = CalculateErrorAngle(newFrame.bonesPerFrame[i], testCenter);
 			float actualAngle = CalculateErrorAngle(actualFrame.bonesPerFrame[i], actualCenter);
@@ -818,15 +818,15 @@ static bool IsFrameWithinTolerence(const Frame& newFrame, const Frame& actualFra
 	return false;
 }
 
-static Frame InterpolateFrame(const Frame& srcFrame, const Frame& tarFrame, uint32 frameTime)
+static Frame InterpolateFrame(const Frame& srcFrame, const Frame& tarFrame, u32 frameTime)
 {
 	Assert(srcFrame.bonesPerFrame.size() == tarFrame.bonesPerFrame.size());
 	Frame resultingFrame;
 	resultingFrame.frameTime = frameTime;
 	float deltaTime = static_cast<float>(frameTime - srcFrame.frameTime) / static_cast<float>(tarFrame.frameTime - srcFrame.frameTime);
 
-	uint32 boneCount = (uint32)srcFrame.bonesPerFrame.size();
-	for (uint32 i = 0; i < boneCount; ++i)
+	u32 boneCount = (u32)srcFrame.bonesPerFrame.size();
+	for (u32 i = 0; i < boneCount; ++i)
 	{
 		FrameData boneData;
 		boneData.translation = Math::Lerp(srcFrame.bonesPerFrame[i].translation, tarFrame.bonesPerFrame[i].translation, deltaTime);
@@ -838,10 +838,10 @@ static Frame InterpolateFrame(const Frame& srcFrame, const Frame& tarFrame, uint
 	return resultingFrame;
 }
 
-static bool IsFrameRangeWithinTolerence(const AnimationClip& animation, uint32 startIndex, uint32 endIndex, float error)
+static bool IsFrameRangeWithinTolerence(const AnimationClip& animation, u32 startIndex, u32 endIndex, float error)
 {
 	float cumulative = 0.f;
-	for (uint32 i = startIndex; i < endIndex; ++i)
+	for (u32 i = startIndex; i < endIndex; ++i)
 	{
 		Frame newFrame = InterpolateFrame(animation.frames[startIndex - 1], animation.frames[endIndex], animation.frames[i].frameTime);
 		if (!IsFrameWithinTolerence(newFrame, animation.frames[i], error, cumulative))
@@ -859,11 +859,11 @@ static AnimationClip ProcessCompression(const AnimationClip& animation, float er
 	newClip.name = animation.name;
 	newClip.totalTime = animation.totalTime;
 
-	for (uint32 i = 0; i < animation.frames.size(); ++i)
+	for (u32 i = 0; i < animation.frames.size(); ++i)
 	{
 		newClip.frames.push_back(animation.frames[i]);
 		// Test each frame against the actual frame to get their validity
-		for (uint32 j = i + 2; j < animation.frames.size(); ++j)
+		for (u32 j = i + 2; j < animation.frames.size(); ++j)
 		{
 			if (!IsFrameRangeWithinTolerence(animation, i+1, j, error))
 			{
@@ -892,7 +892,7 @@ void CompressAnimations(std::vector<AnimationClip>& animations, float error)
 
 void ProcessAnimation(FbxScene* scene, std::vector<AnimationDescription>& animations)
 {
-	for (int32 i = 0; i < scene->GetSrcObjectCount<FbxAnimStack>(); ++i)
+	for (i32 i = 0; i < scene->GetSrcObjectCount<FbxAnimStack>(); ++i)
 	{
 		FbxAnimStack* stack = scene->GetSrcObject<FbxAnimStack>(i);
 		scene->SetCurrentAnimationStack(stack);
@@ -907,7 +907,7 @@ void ProcessAnimation(FbxScene* scene, std::vector<AnimationDescription>& animat
 	}
 }
 
-static uint32 FindMostKeyFrames(FbxNode* node, FbxAnimLayer* layer, uint32 maxFrames = 0)
+static u32 FindMostKeyFrames(FbxNode* node, FbxAnimLayer* layer, u32 maxFrames = 0)
 {
 	int keyCount = 0;
 	int countComp;
@@ -949,7 +949,7 @@ static uint32 FindMostKeyFrames(FbxNode* node, FbxAnimLayer* layer, uint32 maxFr
 		}
 	}
 
-	uint32 frames = keyCount;
+	u32 frames = keyCount;
 	if (frames < maxFrames)
 	{
 		frames = maxFrames;
@@ -969,11 +969,11 @@ AnimationDescription ProcessAnimationStack(FbxAnimStack* stack, FbxNode* rootNod
 	AnimationDescription desc;
 	if (stack->GetMemberCount<FbxAnimLayer>() > 0)
 	{
-		int32 count = static_cast<int32>(stack->GetLocalTimeSpan().GetStop().GetFrameCount(FbxTime::eFrames30));
+		i32 count = static_cast<i32>(stack->GetLocalTimeSpan().GetStop().GetFrameCount(FbxTime::eFrames30));
 		printf("Frame count? %d \n", count);
 		FbxAnimLayer* layer = stack->GetMember<FbxAnimLayer>(0);
 		Assert(layer != nullptr);
-		uint32 maxFrames = count;//FindMostKeyFrames(rootNode, layer);
+		u32 maxFrames = count;//FindMostKeyFrames(rootNode, layer);
 
 		desc = ProcessAnimationLayer(rootNode, layer, maxFrames);
 	}
@@ -982,10 +982,10 @@ AnimationDescription ProcessAnimationStack(FbxAnimStack* stack, FbxNode* rootNod
 	
 }
 
-AnimationDescription ProcessAnimationLayer(FbxNode* rootNode, FbxAnimLayer* layer, uint32 frameCount)
+AnimationDescription ProcessAnimationLayer(FbxNode* rootNode, FbxAnimLayer* layer, u32 frameCount)
 {
 	std::vector<BoneData> boneData;
-	for (int32 i = 0; i < rootNode->GetChildCount(); ++i)
+	for (i32 i = 0; i < rootNode->GetChildCount(); ++i)
 	{
 		if (rootNode->GetChild(i)->GetChildCount())
 		{
@@ -1002,11 +1002,11 @@ AnimationDescription ProcessAnimationLayer(FbxNode* rootNode, FbxAnimLayer* laye
 
 }
 
-static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32 frameCount)
+static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, u32 frameCount)
 {
 	BoneData bone;
 	bone.name = node->GetName();
-	uint32 maxTime = 0;
+	u32 maxTime = 0;
 
 	printf("Node name: %s\n", node->GetName());
 
@@ -1020,7 +1020,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 		if (attr->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 		{
 			FbxAnimCurve* curve = node->LclTranslation.GetCurve(layer, FBXSDK_CURVENODE_COMPONENT_X);
-			for (uint32 i = 0; i < frameCount; ++i)
+			for (u32 i = 0; i < frameCount; ++i)
 			{
 
 				printf("Number of frames: %u\n", frameCount);
@@ -1028,7 +1028,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 				FbxTime keyTime;
 				keyTime.SetTime(0, 0, 0, i, 0, 0, FbxTime::eFrames30);
 
-				uint32 timeMS = static_cast<uint32>(keyTime.GetMilliSeconds());
+				u32 timeMS = static_cast<u32>(keyTime.GetMilliSeconds());
 				bone.timeMSPerKey.push_back(timeMS);
 				if (maxTime < timeMS)
 				{
@@ -1118,7 +1118,7 @@ static BoneData RetrieveBoneCurveData(FbxNode* node, FbxAnimLayer* layer, uint32
 	return bone;
 }
 
-void ExtractBoneData(FbxNode* boneNode, FbxAnimLayer* layer, std::vector<BoneData>& bones, uint32 frameCount)
+void ExtractBoneData(FbxNode* boneNode, FbxAnimLayer* layer, std::vector<BoneData>& bones, u32 frameCount)
 {
 	// Get Data out...
 	BoneData bone = RetrieveBoneCurveData(boneNode, layer, frameCount);
@@ -1127,7 +1127,7 @@ void ExtractBoneData(FbxNode* boneNode, FbxAnimLayer* layer, std::vector<BoneDat
 		bones.push_back(bone);
 	}
 
-	for (int32 i = 0; i < boneNode->GetChildCount(); ++i)
+	for (i32 i = 0; i < boneNode->GetChildCount(); ++i)
 	{
 		ExtractBoneData(boneNode->GetChild(i), layer, bones, frameCount);
 	}
@@ -1157,7 +1157,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 
 			// TODO - allow for multiple meshes to be exported through this converter
 			FbxMesh* mesh = node->GetMesh();
-			int32 polygonCount = mesh->GetPolygonCount();
+			i32 polygonCount = mesh->GetPolygonCount();
 			FbxVector4* controlPoints = mesh->GetControlPoints();
 
 			if (bones.size() > 0)
@@ -1166,15 +1166,15 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 			}
 
 			modelData.faces.Reserve(polygonCount);
-			int32 vertexId = 0;
+			i32 vertexId = 0;
 			Face face;
-			for (int32 i = 0; i < polygonCount; ++i)
+			for (i32 i = 0; i < polygonCount; ++i)
 			{
-				int32 polygonSize = mesh->GetPolygonSize(i);
+				i32 polygonSize = mesh->GetPolygonSize(i);
 				Assert(polygonSize == 3);
-				for (int32 j = 0; j < polygonSize; ++j)
+				for (i32 j = 0; j < polygonSize; ++j)
 				{
-					int32 controlPointIndex = mesh->GetPolygonVertex(i, j);
+					i32 controlPointIndex = mesh->GetPolygonVertex(i, j);
 
 					VertexWithFace vert;
 					FbxVector4 pos(
@@ -1191,7 +1191,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 					vert.weightIndex = controlPointIndex;
 
 					// Finding UVs
-					for (int32 k = 0; k < mesh->GetElementUVCount(); ++k)
+					for (i32 k = 0; k < mesh->GetElementUVCount(); ++k)
 					{
 						FbxGeometryElementUV* uv = mesh->GetElementUV(k);
 						switch (uv->GetMappingMode())
@@ -1207,7 +1207,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 									}break;
 									case FbxGeometryElement::eIndexToDirect:
 									{
-										int32 id = uv->GetIndexArray().GetAt(controlPointIndex);
+										i32 id = uv->GetIndexArray().GetAt(controlPointIndex);
 										vert.v.texCoords.x = static_cast<float>(uv->GetDirectArray().GetAt(id)[0]);
 										vert.v.texCoords.y = static_cast<float>(uv->GetDirectArray().GetAt(id)[1]);
 									}break;
@@ -1219,7 +1219,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 
 							case FbxGeometryElement::eByPolygonVertex:
 							{
-								int32 texUVIndex = mesh->GetTextureUVIndex(i, j);
+								i32 texUVIndex = mesh->GetTextureUVIndex(i, j);
 								switch (uv->GetReferenceMode())
 								{
 									case FbxGeometryElement::eDirect:
@@ -1243,7 +1243,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 						}
 					}
 
-					for (int32 k = 0; k < mesh->GetElementNormalCount(); ++k)
+					for (i32 k = 0; k < mesh->GetElementNormalCount(); ++k)
 					{
 						FbxGeometryElementNormal* normal = mesh->GetElementNormal(k);
 
@@ -1266,7 +1266,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 
 								case FbxGeometryElement::eIndexToDirect:
 								{
-									int32 id = normal->GetIndexArray().GetAt(vertexId);
+									i32 id = normal->GetIndexArray().GetAt(vertexId);
 									vert.v.normal.x = static_cast<float>(normal->GetDirectArray().GetAt(id)[0]);
 									vert.v.normal.y = static_cast<float>(normal->GetDirectArray().GetAt(id)[1]);
 									vert.v.normal.z = static_cast<float>(normal->GetDirectArray().GetAt(id)[2]);
@@ -1280,7 +1280,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 					}
 
 					// TODO - If tangents exist, then they need to be used from the fbx file and not generated!
-					for (int32 k = 0; k < mesh->GetElementTangentCount(); ++i)
+					for (i32 k = 0; k < mesh->GetElementTangentCount(); ++i)
 					{
 						FbxGeometryElementTangent* tangent = mesh->GetElementTangent(k);
 
@@ -1302,7 +1302,7 @@ void ProcessMesh(FbxNode* node, const std::vector<Hierarchy>& bones, std::vector
 								}break;
 								case FbxGeometryElement::eIndexToDirect:
 								{
-									int32 id = tangent->GetIndexArray().GetAt(vertexId);
+									i32 id = tangent->GetIndexArray().GetAt(vertexId);
 									vert.v.normal.x = static_cast<float>(tangent->GetDirectArray().GetAt(id)[0]);
 									vert.v.normal.y = static_cast<float>(tangent->GetDirectArray().GetAt(id)[1]);
 									vert.v.normal.z = static_cast<float>(tangent->GetDirectArray().GetAt(id)[2]);
@@ -1416,14 +1416,14 @@ std::vector<TexturePath> GetTextureData(FbxGeometry* pGeometry)
 static void NormalizeWeights(const std::vector<SkinData>& unnormalizedWeights, std::vector<VertexBoneWeights>& normalizedWeights)
 {
 	normalizedWeights.resize(unnormalizedWeights.size());
-	for (uint32 i = 0; i < unnormalizedWeights.size(); ++i)
+	for (u32 i = 0; i < unnormalizedWeights.size(); ++i)
 	{
 		VertexBoneWeights weights = {};
-		uint32 minSizeBoneList = std::min(weights.MaxWeightInfluences, 
-			static_cast<uint32>(unnormalizedWeights[i].bonesWeights.size()));
+		u32 minSizeBoneList = std::min(weights.MaxWeightInfluences, 
+			static_cast<u32>(unnormalizedWeights[i].bonesWeights.size()));
 
 		float sumWeightsBeforeNorm = 0.f;
-		for (uint32 j = 0; j < minSizeBoneList; ++j)
+		for (u32 j = 0; j < minSizeBoneList; ++j)
 		{
 			auto& boneWeight = unnormalizedWeights[i].bonesWeights[j];
 			weights.boneIndices[j] = boneWeight.first;
@@ -1445,7 +1445,7 @@ static void NormalizeWeights(const std::vector<SkinData>& unnormalizedWeights, s
 
 
 	printf("\n---NORMALIZED WEIGHTS---\n\n");
-	for (uint32 i = 0; i < normalizedWeights.size(); ++i)
+	for (u32 i = 0; i < normalizedWeights.size(); ++i)
 	{
 		printf("Control point[%u]: bone indices{ %u, %u, %u, %u } weights{ %f, %f, %f, %f }\n",
 			i, normalizedWeights[i].boneIndices[0], normalizedWeights[i].boneIndices[1], normalizedWeights[i].boneIndices[2], normalizedWeights[i].boneIndices[3],
@@ -1550,7 +1550,7 @@ static void ChunkWeights(const std::string& fileName)
 	printf("Chunked weights for %s\n", fileName.c_str());
 }
 
-static void ChunkTexture(const std::string& fileName, uint32 textureIndex)
+static void ChunkTexture(const std::string& fileName, u32 textureIndex)
 {
 	char systemCall[SystemCallLength];
 
@@ -1582,7 +1582,7 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		std::vector<VertexWithFace> vertsSorted(verts);
 
 		printf("---UNSORTED VERTS WITH WEIGHT INDICES---\n");
-		for (uint32 i = 0; i < vertsSorted.size(); ++i)
+		for (u32 i = 0; i < vertsSorted.size(); ++i)
 		{
 			VertexWithFace& vert = vertsSorted[i];
 			printf("Vertex: x(%f), y(%f), z(%f) - Weight Index: %u\n",
@@ -1626,7 +1626,7 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		}
 
 		SphereBounds boundingSphere;
-		RitterSphere(boundingSphere, convertedPositions.data(), (uint32)convertedPositions.size());
+		RitterSphere(boundingSphere, convertedPositions.data(), (u32)convertedPositions.size());
 
 		// Save the data
 
@@ -1639,8 +1639,8 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 
 		ModelFileHeader modelHeader;
 		modelHeader.boundingSphere = boundingSphere;
-		modelHeader.numVerts = static_cast<uint32>(modelData.vertices.Size());
-		modelHeader.numFaces = static_cast<uint32>(modelData.faces.Size());
+		modelHeader.numVerts = static_cast<u32>(modelData.vertices.Size());
+		modelHeader.numFaces = static_cast<u32>(modelData.faces.Size());
 		size_t len = modelData.modelName.length();
 		len = len >= ObjectNameSize ? ObjectNameSize - 1 : len;
 		modelData.modelName.copy(modelHeader.objName, len);
@@ -1691,7 +1691,7 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		if (modelData.textures.Size() > 0)
 		{
 			printf("Chunking Textures... \n");
-			for (uint32 i = 0; i < modelData.textures.Size(); ++i)
+			for (u32 i = 0; i < modelData.textures.Size(); ++i)
 			{
 				const TexturePath tex = modelData.textures[i];
 				Path filePath(tex.textureFilePath.c_str());

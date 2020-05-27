@@ -21,7 +21,7 @@ static bool updatedSuccess = true;
 class QuerySystem : public System
 {
 public:
-	QuerySystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	QuerySystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -42,7 +42,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 };
 
 void QuerySystem::Initialize()
@@ -56,7 +56,7 @@ void QuerySystem::Update()
 	CHECK_REF(w);
 
 	Query& q0 = GetQueryFor<Position>();
-	uint32 entities = 0;
+	u32 entities = 0;
 	for (auto& archetype : q0.queriedArchetypes)
 	{
 		CHECK_PTR(archetype);
@@ -84,7 +84,7 @@ void QuerySystem::Deinitialize()
 class QueryDescSystem : public System
 {
 public:
-	QueryDescSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	QueryDescSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -105,7 +105,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 };
 
 void QueryDescSystem::Initialize()
@@ -118,7 +118,7 @@ void QueryDescSystem::Update()
 	World& w = GetWorld();
 	CHECK_REF(w);
 
-	uint32 entities = 0;
+	u32 entities = 0;
 	Query& q = GetQueryFor(
 		DescribeQuery()
 		.Require<Position>());
@@ -146,7 +146,7 @@ void QueryDescSystem::Deinitialize()
 class QueryWithNoneSystem : public System
 {
 public:
-	QueryWithNoneSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	QueryWithNoneSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -167,7 +167,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 };
 
 void QueryWithNoneSystem::Initialize()
@@ -180,7 +180,7 @@ void QueryWithNoneSystem::Update()
 	World& w = GetWorld();
 	CHECK_REF(w);
 
-	uint32 entities = 0;
+	u32 entities = 0;
 	Query& q = GetQueryFor(
 		DescribeQuery()
 		.Require<Position>()
@@ -216,7 +216,7 @@ TEST(SystemQueryOneEntity, SystemQuery)
 
 	Entity e = w.CreateEntity<Position>();
 
-	constexpr uint32 numEntitiesExpected = 1;
+	constexpr u32 numEntitiesExpected = 1;
 	QuerySystem& s = w.CreateSystem<QuerySystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
 	CHECK_REF(s);
 	CHECK_EQ(w.systems.Size(), 1);
@@ -240,7 +240,7 @@ TEST(SystemQueryTwoEntitiesDiffArchetype, SystemQuery)
 	Entity e = w.CreateEntity<Position>();
 	e = w.CreateEntity<Position, Rotation>();
 
-	constexpr uint32 numEntitiesExpected = 2;
+	constexpr u32 numEntitiesExpected = 2;
 	QuerySystem& s = w.CreateSystem<QuerySystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
 	CHECK_REF(s);
 	CHECK_EQ(w.systems.Size(), 1);
@@ -262,7 +262,7 @@ TEST(SystemQueryThreeEntitiesDiffArchetype, SystemQuery)
 	e = w.CreateEntity<Position, Rotation>();
 	e = w.CreateEntity<Position, Movement>();
 
-	constexpr uint32 numEntitiesExpected = 3;
+	constexpr u32 numEntitiesExpected = 3;
 	QuerySystem& s = w.CreateSystem<QuerySystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
 	CHECK_REF(s);
 	CHECK_EQ(w.systems.Size(), 1);
@@ -284,7 +284,7 @@ TEST(SystemQueryThreeEntitiesTwoMatching, SystemQuery)
 	e = w.CreateEntity<Position, Rotation>();
 	e = w.CreateEntity<Movement>();
 
-	constexpr uint32 numEntitiesExpected = 2;
+	constexpr u32 numEntitiesExpected = 2;
 	QuerySystem& s = w.CreateSystem<QuerySystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
 	CHECK_REF(s);
 	CHECK_EQ(w.systems.Size(), 1);
@@ -306,7 +306,7 @@ TEST(SystemQueryUsingDescriptionThreeEntities, SystemQuery)
 	e = w.CreateEntity<Position, Rotation>();
 	e = w.CreateEntity<Position, Movement>();
 
-	constexpr uint32 numEntitiesExpected = 3;
+	constexpr u32 numEntitiesExpected = 3;
 	QueryDescSystem& s = w.CreateSystem<QueryDescSystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
 	CHECK_REF(s);
 	CHECK_EQ(w.systems.Size(), 1);
@@ -328,7 +328,7 @@ TEST(SystemQueryWithNoneQueryThreeEntities, SystemQuery)
 	e = w.CreateEntity<Position, Rotation>();
 	e = w.CreateEntity<Position, Movement>();
 
-	constexpr uint32 numEntitiesExpected = 2;
+	constexpr u32 numEntitiesExpected = 2;
 	QueryWithNoneSystem& s = w.CreateSystem<QueryWithNoneSystem>(numEntitiesExpected, name, _UnitData, _UnitStats);
 	CHECK_REF(s);
 	CHECK_EQ(w.systems.Size(), 1);

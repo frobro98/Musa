@@ -19,7 +19,7 @@ SkeletonInstance::~SkeletonInstance()
 	timer = nullptr;
 }
 
-void SkeletonInstance::SetCurrentAnimation(uint32 animationIndex)
+void SkeletonInstance::SetCurrentAnimation(u32 animationIndex)
 {
 	controller->DestroyTimeController(timer);
 	currentAnimationIndex = animationIndex;
@@ -38,7 +38,7 @@ void SkeletonInstance::SetDebug(bool isDebug)
 
 void SkeletonInstance::Blend()
 {
-	uint32 totalClipCount = controller->GetClipCount();
+	u32 totalClipCount = controller->GetClipCount();
 	controller->SetCurrentTimer(*timer);
 	blendSpace = controller->StartBlending(currentAnimationIndex, (currentAnimationIndex + 1) % totalClipCount);
 	blendSpace->Start();
@@ -65,7 +65,7 @@ float SkeletonInstance::GetBlendDelta() const
 	return blendSpace->GetBlendDelta();
 }
 
-uint32 SkeletonInstance::GetBoneCount() const
+u32 SkeletonInstance::GetBoneCount() const
 {
 	return skeleton.GetBoneCount();
 }
@@ -82,7 +82,7 @@ DynamicArray<BonePoseData> SkeletonInstance::GetPose() const
 
 void SkeletonInstance::GoToNextClip()
 {
-	uint32 totalClipCount = controller->GetClipCount();
+	u32 totalClipCount = controller->GetClipCount();
 	currentAnimationIndex = (currentAnimationIndex + 1) % totalClipCount;
 	controller->DestroyTimeController(timer);
 	timer = controller->CreateTimeController(currentAnimationIndex);

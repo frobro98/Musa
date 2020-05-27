@@ -6,8 +6,8 @@
 
 struct Extents2D
 {
-	float32 width;
-	float32 height;
+	f32 width;
+	f32 height;
 
 	friend bool operator==(const Extents2D& lhs, const Extents2D& rhs)
 	{
@@ -22,8 +22,8 @@ struct Extents2D
 
 struct Extents3D
 {
-	float32 width;
-	float32 height;
-	float32 depth;
+	f32 width;
+	f32 height;
+	f32 depth;
 };
 

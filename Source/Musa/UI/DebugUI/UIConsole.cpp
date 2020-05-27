@@ -64,17 +64,17 @@ void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 	Texture& fontTex = *consoleFont->fontTexture;
 	BatchElement& batchElement = widgetElements.GetBatchElement(fontTex.gpuResource.Get());
 
-	uint32 textSize = textOnScreen.Length();
+	u32 textSize = textOnScreen.Length();
 	Vector2 currentTextPosition;
 	constexpr tchar spaceCode = 0x20;
-	for (uint32 i = 0; i < textSize; ++i)
+	for (u32 i = 0; i < textSize; ++i)
 	{
 		tchar character = textOnScreen[i];
 		FontCharDescription* charDesc = consoleFont->fontCharacterMap.Find(character);
 		if (charDesc->characterCode != spaceCode)
 		{
-			const uint32 texWidth = fontTex.GetWidth();
-			const uint32 texHeight = fontTex.GetHeight();
+			const u32 texWidth = fontTex.GetWidth();
+			const u32 texHeight = fontTex.GetHeight();
 
 			const float halfWidth = charDesc->width * /*textScale **/ .5f;
 			const float halfHeight = charDesc->height * /*textScale **/ .5f;
@@ -91,7 +91,7 @@ void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 
 			Color32 white = Color32::White();
 			DynamicArray<PrimitiveVertex>& vertices = batchElement.batchedVertices;
-			const uint32 startIndex = vertices.Size();
+			const u32 startIndex = vertices.Size();
 			vertices.Add(PrimitiveVertex{
 						Vector3(negX, posY, 0),
 						Vector2(uNormCoord, vNormCoord + vNormSize),
@@ -113,7 +113,7 @@ void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 				white
 				});
 
-			DynamicArray<uint32>& indices = batchElement.batchedIndices;
+			DynamicArray<u32>& indices = batchElement.batchedIndices;
 			indices.Add(startIndex + 0);
 			indices.Add(startIndex + 1);
 			indices.Add(startIndex + 2);

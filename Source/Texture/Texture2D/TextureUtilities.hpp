@@ -7,7 +7,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Math/MathFunctions.hpp"
 
-constexpr uint32 FormatInBytes(ImageFormat format)
+constexpr u32 FormatInBytes(ImageFormat format)
 {
 	switch (format)
 	{
@@ -44,11 +44,11 @@ constexpr uint32 FormatInBytes(ImageFormat format)
 	return 0;
 }
 
-inline DynamicArray<float> NormalizePixelData(const DynamicArray<uint8>& pixelData)
+inline DynamicArray<float> NormalizePixelData(const DynamicArray<u8>& pixelData)
 {
 	DynamicArray<float> normalizedPixelData(pixelData.Size());
 
-	for (uint32 i = 0; i < pixelData.Size(); ++i)
+	for (u32 i = 0; i < pixelData.Size(); ++i)
 	{
 		normalizedPixelData[i] = pixelData[i] / 255.f;
 	}
@@ -56,14 +56,14 @@ inline DynamicArray<float> NormalizePixelData(const DynamicArray<uint8>& pixelDa
 	return normalizedPixelData;
 }
 
-inline DynamicArray<uint8> UnnormalizePixelData(const DynamicArray<float>& normalizedPixelData)
+inline DynamicArray<u8> UnnormalizePixelData(const DynamicArray<float>& normalizedPixelData)
 {
-	DynamicArray<uint8> unnormalizedData(normalizedPixelData.Size());
+	DynamicArray<u8> unnormalizedData(normalizedPixelData.Size());
 
-	for (uint32 i = 0; i < normalizedPixelData.Size(); ++i)
+	for (u32 i = 0; i < normalizedPixelData.Size(); ++i)
 	{
 		float clampedVal = Math::Clamp((normalizedPixelData[i] * 255.f), 0.f, 255.f);
-		unnormalizedData[i] = static_cast<uint8>(clampedVal);
+		unnormalizedData[i] = static_cast<u8>(clampedVal);
 // 		if (unnormalizedData[i] == 0)
 // 		{
 // 			printf("%u ", i);

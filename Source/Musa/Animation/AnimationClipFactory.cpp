@@ -4,14 +4,14 @@
 #include "Archiver/AnimationHeader.h"
 #include "Debugging/DebugOutput.hpp"
 
-AnimationClip* AnimationClipFactory::CreateAnimationClip(uint8* animationData)
+AnimationClip* AnimationClipFactory::CreateAnimationClip(u8* animationData)
 {
 	AnimationHeader* header = reinterpret_cast<AnimationHeader*>(animationData);
-	uint32 skeletonHash = header->referenceSkeleton;
-	uint32 frameCount = header->keyFrameCount;
+	u32 skeletonHash = header->referenceSkeleton;
+	u32 frameCount = header->keyFrameCount;
 	KeyFrame* frames = new KeyFrame[frameCount];
-	uint8* animationFrame = animationData + sizeof(AnimationHeader);
-	for (uint32 i = 0; i < frameCount; ++i)
+	u8* animationFrame = animationData + sizeof(AnimationHeader);
+	for (u32 i = 0; i < frameCount; ++i)
 	{
 		KeyFrame* animFrame = reinterpret_cast<KeyFrame*>(animationFrame);
 		KeyFrame* currentFrame = &frames[i];
@@ -21,7 +21,7 @@ AnimationClip* AnimationClipFactory::CreateAnimationClip(uint8* animationData)
 		
 		animationFrame = animationFrame + sizeof(KeyFrame);
 
-		for (uint32 j = 0; j < animFrame->boneCount; ++j)
+		for (u32 j = 0; j < animFrame->boneCount; ++j)
 		{
 			FrameData* frameData = reinterpret_cast<FrameData*>(animationFrame);
 			FrameData* currentBone = &currentFrame->boneFrameData[j];

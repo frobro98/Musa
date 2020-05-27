@@ -50,7 +50,7 @@ forceinline void Memmove(void* dest, size_t destSize, const void* src, size_t sr
 	memmove_s(dest, destSize, src, srcSize);
 }
 
-forceinline void Memset(void* mem, int8 value, size_t memSize)
+forceinline void Memset(void* mem, i8 value, size_t memSize)
 {
 	memset(mem, value, memSize);
 }
@@ -60,7 +60,7 @@ forceinline void ZeroMem(void* mem, size_t memSize)
 	memset(mem, 0, memSize);
 }
 
-forceinline int32 Memcmp(const void* src1, const void* src2, size_t count)
+forceinline i32 Memcmp(const void* src1, const void* src2, size_t count)
 {
 	return memcmp(src1, src2, count);
 }
@@ -70,7 +70,7 @@ forceinline const void* Memchr(const void* ptr, tchar ch, size_t count)
 	return memchr(ptr, ch, count);
 }
 
-forceinline constexpr bool IsPowerOf2(uint64 num)
+forceinline constexpr bool IsPowerOf2(u64 num)
 {
 	return (!(num == 0)) & ((num & (num - 1)) == 0);
 }
@@ -79,7 +79,7 @@ template <typename AlignType>
 forceinline constexpr AlignType Align(const AlignType ptr, size_t alignment)
 {
 	Assert(IsPowerOf2(alignment));
-	return (AlignType)(((uint64)ptr + (alignment - 1)) & ~(alignment - 1));
+	return (AlignType)(((u64)ptr + (alignment - 1)) & ~(alignment - 1));
 }
 
 forceinline constexpr bool IsAligned(uintptr_t ptrAddr, uintptr_t alignment)

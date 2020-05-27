@@ -83,8 +83,8 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const 
 	Assert(state == CommandBufferState::Began);
 
 	DynamicArray<VkClearValue> vkClearColors(frameBuffer->GetAttachmentCount());
-	uint32 numColorAttachments = frameBuffer->HasDepthAttachment() ? vkClearColors.Size() - 1 : vkClearColors.Size();
-	for (uint32 i = 0; i < numColorAttachments; ++i)
+	u32 numColorAttachments = frameBuffer->HasDepthAttachment() ? vkClearColors.Size() - 1 : vkClearColors.Size();
+	for (u32 i = 0; i < numColorAttachments; ++i)
 	{
 		vkClearColors[i].color = { 
 			clearColors[i].r,
@@ -131,7 +131,7 @@ void VulkanCommandBuffer::End()
 	state = CommandBufferState::PendingSubmit;
 }
 
-void VulkanCommandBuffer::ImageMemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, uint32 imageMemoryBarrierCount, const VkImageMemoryBarrier * pImageMemoryBarriers)
+void VulkanCommandBuffer::ImageMemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, u32 imageMemoryBarrierCount, const VkImageMemoryBarrier * pImageMemoryBarriers)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -151,7 +151,7 @@ void VulkanCommandBuffer::ImageMemoryBarrier(VkPipelineStageFlags srcStageMask, 
 	);
 }
 
-void VulkanCommandBuffer::BufferMemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, uint32 bufferMemoryBarrierCount, const VkBufferMemoryBarrier * pBufferMemoryBarriers)
+void VulkanCommandBuffer::BufferMemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, u32 bufferMemoryBarrierCount, const VkBufferMemoryBarrier * pBufferMemoryBarriers)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -169,7 +169,7 @@ void VulkanCommandBuffer::BufferMemoryBarrier(VkPipelineStageFlags srcStageMask,
 		0, nullptr);
 }
 
-void VulkanCommandBuffer::MemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, uint32 memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers)
+void VulkanCommandBuffer::MemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, u32 memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -188,7 +188,7 @@ void VulkanCommandBuffer::MemoryBarrier(VkPipelineStageFlags srcStageMask, VkPip
 	);
 }
 
-void VulkanCommandBuffer::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uint32 regionCount, const VkBufferCopy * pRegions)
+void VulkanCommandBuffer::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, u32 regionCount, const VkBufferCopy * pRegions)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -202,7 +202,7 @@ void VulkanCommandBuffer::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uin
 	vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, regionCount, pRegions);
 }
 
-void VulkanCommandBuffer::CopyBufferToImage(VkBuffer srcBuffer, VkImage dstImage, VkImageLayout dstLayout, uint32 regionCount, const VkBufferImageCopy * pRegions)
+void VulkanCommandBuffer::CopyBufferToImage(VkBuffer srcBuffer, VkImage dstImage, VkImageLayout dstLayout, u32 regionCount, const VkBufferImageCopy * pRegions)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -215,7 +215,7 @@ void VulkanCommandBuffer::CopyBufferToImage(VkBuffer srcBuffer, VkImage dstImage
 	vkCmdCopyBufferToImage(commandBuffer, srcBuffer, dstImage, dstLayout, regionCount, pRegions);
 }
 
-void VulkanCommandBuffer::CopyImage(VkImage srcImage, VkImageLayout srcLayout, VkImage dstImage, VkImageLayout dstLayout, uint32 regionCount, const VkImageCopy* pRegions)
+void VulkanCommandBuffer::CopyImage(VkImage srcImage, VkImageLayout srcLayout, VkImage dstImage, VkImageLayout dstLayout, u32 regionCount, const VkImageCopy* pRegions)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -228,22 +228,22 @@ void VulkanCommandBuffer::CopyImage(VkImage srcImage, VkImageLayout srcLayout, V
 	vkCmdCopyImage(commandBuffer, srcImage, srcLayout, dstImage, dstLayout, regionCount, pRegions);
 }
 
-void VulkanCommandBuffer::SetViewport(uint32 firstViewport, uint32 viewportCount, const VkViewport * pViewports)
+void VulkanCommandBuffer::SetViewport(u32 firstViewport, u32 viewportCount, const VkViewport * pViewports)
 {
 	vkCmdSetViewport(commandBuffer, firstViewport, viewportCount, pViewports);
 }
 
-void VulkanCommandBuffer::SetScissor(uint32 firstScissor, uint32 scissorCount, const VkRect2D * pScissors)
+void VulkanCommandBuffer::SetScissor(u32 firstScissor, u32 scissorCount, const VkRect2D * pScissors)
 {
 	vkCmdSetScissor(commandBuffer, firstScissor, scissorCount, pScissors);
 }
 
-void VulkanCommandBuffer::Dispatch(uint32 workgroupX, uint32 workgroupY, uint32 workgroupZ)
+void VulkanCommandBuffer::Dispatch(u32 workgroupX, u32 workgroupY, u32 workgroupZ)
 {
 	vkCmdDispatch(commandBuffer, workgroupX, workgroupY, workgroupZ);
 }
 
-void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* vertexBuffers, const uint32* vertexBufferOffsets, uint32 bufferCount)
+void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* vertexBuffers, const u32* vertexBufferOffsets, u32 bufferCount)
 {
 	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
 	{
@@ -252,7 +252,7 @@ void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* ver
 
 	DynamicArray<VkBuffer> nativeHandles(bufferCount);
 	DynamicArray<VkDeviceSize> offsets(bufferCount);
-	for (uint32 i = 0; i < bufferCount; ++i)
+	for (u32 i = 0; i < bufferCount; ++i)
 	{
 		nativeHandles[i] = vertexBuffers[i]->GetBuffer().handle;
 		offsets[i] = vertexBufferOffsets[i];
@@ -261,7 +261,7 @@ void VulkanCommandBuffer::BindVertexBuffers(const VulkanVertexBuffer* const* ver
 	vkCmdBindVertexBuffers(commandBuffer, 0, bufferCount, nativeHandles.GetData(), offsets.GetData());
 }
 
-void VulkanCommandBuffer::BindVertexBuffers(const VkBuffer* vertexBuffers, const uint32* vertexBufferOffsets, uint32 bufferCount)
+void VulkanCommandBuffer::BindVertexBuffers(const VkBuffer* vertexBuffers, const u32* vertexBufferOffsets, u32 bufferCount)
 {
 	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
 	{
@@ -269,7 +269,7 @@ void VulkanCommandBuffer::BindVertexBuffers(const VkBuffer* vertexBuffers, const
 	}
 
 	DynamicArray<VkDeviceSize> offsets(bufferCount);
-	for (uint32 i = 0; i < bufferCount; ++i)
+	for (u32 i = 0; i < bufferCount; ++i)
 	{
 		offsets[i] = vertexBufferOffsets[i];
 	}
@@ -291,7 +291,7 @@ void VulkanCommandBuffer::BindIndexBuffer(const VulkanIndexBuffer& indexBuffer)
 	);
 }
 
-void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, uint32 bufferOffset)
+void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, u32 bufferOffset)
 {
 	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
 	{
@@ -306,21 +306,21 @@ void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, uint32 bufferOff
 }
 
 void VulkanCommandBuffer::DrawIndexed(
-	uint32 indexCount, 
-	uint32 instanceCount, 
-	uint32 firstIndex, 
-	int32 vertexOffset,
-	uint32 firstInstance
+	u32 indexCount, 
+	u32 instanceCount, 
+	u32 firstIndex, 
+	i32 vertexOffset,
+	u32 firstInstance
 )
 {
 	vkCmdDrawIndexed(commandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 }
 
 void VulkanCommandBuffer::Draw(
-	uint32 vertexCount, 
-	uint32 instanceCount, 
-	uint32 firstVertex, 
-	uint32 firstInstance
+	u32 vertexCount, 
+	u32 instanceCount, 
+	u32 firstVertex, 
+	u32 firstInstance
 )
 {
 	vkCmdDraw(commandBuffer, vertexCount, instanceCount, firstVertex, firstInstance);
@@ -330,7 +330,7 @@ void VulkanCommandBuffer::ExecuteCommandBuffers(const DynamicArray<VulkanCommand
 {
 	secondaryWithinCmdBuffer = cmdBuffers;
 	DynamicArray<VkCommandBuffer> nativeBuffers(cmdBuffers.Size());
-	for (uint32 i = 0; i < cmdBuffers.Size(); ++i)
+	for (u32 i = 0; i < cmdBuffers.Size(); ++i)
 	{
 		Assert(cmdBuffers[i]->GetLevel() == VK_COMMAND_BUFFER_LEVEL_SECONDARY);
 		Assert(cmdBuffers[i]->HasEnded());
@@ -513,7 +513,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::CreateTransferCommandBuffer()
 	return cBuffer;
 }
 
-void VulkanCommandBufferManager::AllocateMissingCommandBuffers(uint32 remainingCmdBufs, DynamicArray<VulkanCommandBuffer*>& outCommandBuffers)
+void VulkanCommandBufferManager::AllocateMissingCommandBuffers(u32 remainingCmdBufs, DynamicArray<VulkanCommandBuffer*>& outCommandBuffers)
 {
 	DynamicArray<VkCommandBuffer> buffers(remainingCmdBufs);
 
@@ -525,7 +525,7 @@ void VulkanCommandBufferManager::AllocateMissingCommandBuffers(uint32 remainingC
 	NOT_USED VkResult result = vkAllocateCommandBuffers(logicalDevice.GetNativeHandle(), &cmdAllocInfo, buffers.GetData());
 	CHECK_VK(result);
 
-	for (uint32 i = 0; i < remainingCmdBufs; ++i)
+	for (u32 i = 0; i < remainingCmdBufs; ++i)
 	{
 		VulkanCommandBuffer* cmdBuffer = new VulkanCommandBuffer(logicalDevice, *this);
 		cmdBuffer->Initialize(buffers[i], VK_COMMAND_BUFFER_LEVEL_SECONDARY);
@@ -561,14 +561,14 @@ VulkanCommandBuffer* VulkanCommandBufferManager::GetActiveTransferBuffer()
 	return activeTransferBuffer;
 }
 
-DynamicArray<VulkanCommandBuffer*> VulkanCommandBufferManager::GetSecondaryCommandBuffers(uint32 numCmdBuffers)
+DynamicArray<VulkanCommandBuffer*> VulkanCommandBufferManager::GetSecondaryCommandBuffers(u32 numCmdBuffers)
 {
 	return FindOrCreateSecondaryBuffers(numCmdBuffers);
 }
 
 bool VulkanCommandBufferManager::WaitFor(VulkanCommandBuffer& buffer) const
 {
-	const uint64 nanoSeconds = 10 * 1000000;
+	const u64 nanoSeconds = 10 * 1000000;
 	buffer.GetFence()->WaitFor(nanoSeconds);
 	return false;
 }
@@ -620,7 +620,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::FindOrCreateTransferBuffer()
 	return found;
 }
 
-DynamicArray<VulkanCommandBuffer*> VulkanCommandBufferManager::FindOrCreateSecondaryBuffers(uint32 numCmdBuffers)
+DynamicArray<VulkanCommandBuffer*> VulkanCommandBufferManager::FindOrCreateSecondaryBuffers(u32 numCmdBuffers)
 {
 	DynamicArray<VulkanCommandBuffer*> commandBuffers;
 	commandBuffers.Reserve(numCmdBuffers);
@@ -641,7 +641,7 @@ DynamicArray<VulkanCommandBuffer*> VulkanCommandBufferManager::FindOrCreateSecon
 
 	if (commandBuffers.Size() < numCmdBuffers)
 	{
-		uint32 cmdBuffersToAlloc = numCmdBuffers - commandBuffers.Size();
+		u32 cmdBuffersToAlloc = numCmdBuffers - commandBuffers.Size();
 		AllocateMissingCommandBuffers(cmdBuffersToAlloc, commandBuffers);
 	}
 

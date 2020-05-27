@@ -5,11 +5,11 @@
 #include "VulkanFence.hpp"
 #include "VulkanDevice.h"
 
-static uint32 QueryMemoryType(const VulkanDevice& device, uint32 typeFilter, VkMemoryPropertyFlags propertyFlags)
+static u32 QueryMemoryType(const VulkanDevice& device, u32 typeFilter, VkMemoryPropertyFlags propertyFlags)
 {
-	uint32 typeIndex = 0;
+	u32 typeIndex = 0;
 	const VkPhysicalDeviceMemoryProperties& memoryProperties = device.GetMemoryProperties();
-	for (uint32 i = 0; i < memoryProperties.memoryTypeCount; ++i)
+	for (u32 i = 0; i < memoryProperties.memoryTypeCount; ++i)
 	{
 		if ((typeFilter & (1 << i)) &&
 			(memoryProperties.memoryTypes[i].propertyFlags & propertyFlags) == propertyFlags)
@@ -88,9 +88,9 @@ void VulkanStagingBufferManager::ProcessDeferredReleases()
 		}
 	}
 
-	for (int32 i = (int32)deferredReleaseBuffers.Size() - 1; i >= 0; --i)
+	for (i32 i = (i32)deferredReleaseBuffers.Size() - 1; i >= 0; --i)
 	{
-		uint32 index = (uint32)i;
+		u32 index = (u32)i;
 		if (deferredReleaseBuffers[index].stagingBuffer == nullptr)
 		{
 			deferredReleaseBuffers.Remove(index);

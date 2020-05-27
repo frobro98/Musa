@@ -26,13 +26,13 @@ public:
 	bool ContainsRT(const VulkanTexture& texture);
 	bool ContainsRTs(const NativeRenderTargets& renderTextures);
 
-	uint32 GetAttachmentCount() const { return viewAttachments.Size(); }
+	u32 GetAttachmentCount() const { return viewAttachments.Size(); }
 	bool HasDepthAttachment() const { return nativeTargets.depthTarget != nullptr; }
 
 	inline VkFramebuffer GetNativeHandle() const { return frameBuffer; }
 	inline VulkanRenderPass* GetRenderPass() const { return renderPass; }
-	inline uint32 GetWidth() const { return extents.width; }
-	inline uint32 GetHeight() const { return extents.height; }
+	inline u32 GetWidth() const { return extents.width; }
+	inline u32 GetHeight() const { return extents.height; }
 
 private:
 	NativeRenderTargets nativeTargets{};

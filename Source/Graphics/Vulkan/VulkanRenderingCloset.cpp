@@ -68,7 +68,7 @@ VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const RenderTa
 	VulkanFramebuffer* framebuffer = nullptr;
 	if (frameBuffers)
 	{
-		for (uint32 i = 0; i < frameBuffers->Size(); ++i)
+		for (u32 i = 0; i < frameBuffers->Size(); ++i)
 		{
 			VulkanFramebuffer* fb = (*frameBuffers)[i];
 			if (fb->ContainsRTs(correspondingRTs))

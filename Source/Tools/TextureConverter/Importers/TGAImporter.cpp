@@ -45,11 +45,11 @@ void TGAImporter::ProcessHeader(const MemoryBuffer& data)
 
 void TGAImporter::ModifyBGRImage()
 {
-	uint32 imageSize = width * height * bitDepth;
-	uint8* texDataPtr = importedImageData.GetData();
+	u32 imageSize = width * height * bitDepth;
+	u8* texDataPtr = importedImageData.GetData();
 	// Could be uint32 to allow always having an alpha
 	constexpr size_t tgaHeaderSize = sizeof(TGAFileHeader);
-	for (uint32 i = 0; i < imageSize; ++i)
+	for (u32 i = 0; i < imageSize; ++i)
 	{
 		// Blue
 		*texDataPtr = *importData.Offset(tgaHeaderSize + i);
@@ -72,8 +72,8 @@ void TGAImporter::ModifyBGRImage()
 
 void TGAImporter::ProcessImport()
 {
-	constexpr uint32 correctBitDepth = 4;
-	const uint32 textureSize = width * height * correctBitDepth;
+	constexpr u32 correctBitDepth = 4;
+	const u32 textureSize = width * height * correctBitDepth;
 	importedImageData.IncreaseSize(textureSize);
 	// Vulkan doesn't seem to support 24 bit textures, so here we are
 	if (bitDepth == 3 && tgaFile.imageType < 8) // BGR no alpha

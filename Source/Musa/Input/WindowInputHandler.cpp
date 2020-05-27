@@ -98,7 +98,7 @@ void WindowInputHandler::HandleKeyChar(tchar c, bool isRepeated)
 	}
 }
 
-void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
+void WindowInputHandler::HandleMouseMove(u32 mouseX, u32 mouseY)
 {
 	if (!rawInputTurnedOn)
 	{
@@ -125,7 +125,7 @@ void WindowInputHandler::HandleMouseMove(uint32 mouseX, uint32 mouseY)
 	}
 }
 
-void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 deltaX, int32 deltaY)
+void WindowInputHandler::HandleRawMouseMove(u32 mouseX, u32 mouseY, i32 deltaX, i32 deltaY)
 {
 	IntVector2 delta(deltaX, deltaY);
 	IntVector2 mouseMovePos(mouseX, mouseY);
@@ -149,7 +149,7 @@ void WindowInputHandler::HandleRawMouseMove(uint32 mouseX, uint32 mouseY, int32 
 	}
 }
 
-void WindowInputHandler::HandleControllerAnalogChange(uint32 controllerIndex, Inputs::Type analogType, float32 analogValue)
+void WindowInputHandler::HandleControllerAnalogChange(u32 controllerIndex, Inputs::Type analogType, f32 analogValue)
 {
 	Assert(analogType >= Inputs::Gamepad_LeftTrigger && Inputs::Gamepad_RightStick_YAxis);
 	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
@@ -166,7 +166,7 @@ void WindowInputHandler::HandleControllerAnalogChange(uint32 controllerIndex, In
 
 }
 
-void WindowInputHandler::HandleControllerButtonDown(uint32 /*controllerIndex*/, Inputs::Type analogType)
+void WindowInputHandler::HandleControllerButtonDown(u32 /*controllerIndex*/, Inputs::Type analogType)
 {
 	Internal::KeyMessageDownReceived(analogType, true, false);
 
@@ -183,7 +183,7 @@ void WindowInputHandler::HandleControllerButtonDown(uint32 /*controllerIndex*/, 
 	}
 }
 
-void WindowInputHandler::HandleControllerButtonUp(uint32 /*controllerIndex*/, Inputs::Type analogType)
+void WindowInputHandler::HandleControllerButtonUp(u32 /*controllerIndex*/, Inputs::Type analogType)
 {
 	Internal::KeyMessageUpReceived(analogType);
 
@@ -200,7 +200,7 @@ void WindowInputHandler::HandleControllerButtonUp(uint32 /*controllerIndex*/, In
 	}
 }
 
-void WindowInputHandler::HandleWindowResized(uint32 newWidth, uint32 newHeight)
+void WindowInputHandler::HandleWindowResized(u32 newWidth, u32 newHeight)
 {
 	if (window)
 	{

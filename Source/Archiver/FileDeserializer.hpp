@@ -24,5 +24,5 @@ private:
 private:
 	MemoryBuffer fileData;
 	File::Handle handle;
-	uint32 bufferReadLoc = 0;
+	u32 bufferReadLoc = 0;
 };

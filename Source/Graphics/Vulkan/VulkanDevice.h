@@ -55,7 +55,7 @@ public:
 	}
 
 private:
-	bool IsSuitableGPU(VkPhysicalDevice physicalDevice, uint32& graphicsIndex, uint32& transferIndex);
+	bool IsSuitableGPU(VkPhysicalDevice physicalDevice, u32& graphicsIndex, u32& transferIndex);
 
 	VkPhysicalDeviceProperties gpuProperties;
 	VkPhysicalDeviceMemoryProperties memoryProperties;

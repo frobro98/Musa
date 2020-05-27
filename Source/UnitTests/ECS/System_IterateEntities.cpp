@@ -21,7 +21,7 @@ static bool updatedSuccess = true;
 class IterateEntitySystem : public System
 {
 public:
-	IterateEntitySystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	IterateEntitySystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -36,7 +36,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 };
 
 void IterateEntitySystem::Initialize()
@@ -71,7 +71,7 @@ void IterateEntitySystem::Deinitialize()
 class IterateAndCheckSystem : public System
 {
 public:
-	IterateAndCheckSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	IterateAndCheckSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -92,7 +92,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 };
 
 void IterateAndCheckSystem::Initialize()
@@ -138,8 +138,8 @@ TEST(SystemIterateOver50Entities, SystemIterateEntities)
 	World w;
 	CHECK_REF(w);
 
-	constexpr uint32 numEntitiesExpected = 50;
-	for (uint32 i = 0; i < numEntitiesExpected; ++i)
+	constexpr u32 numEntitiesExpected = 50;
+	for (u32 i = 0; i < numEntitiesExpected; ++i)
 	{
 		NOT_USED Entity e = w.CreateEntity<Position>();
 	}
@@ -160,9 +160,9 @@ TEST(SystemIterateOver40EntitiesDiffArchetypes, SystemIterateEntities)
 	World w;
 	CHECK_REF(w);
 
-	constexpr uint32 numEntitiesToCreate = 40;
-	constexpr uint32 numEntitiesExpected = 30;
-	for (uint32 i = 0; i < numEntitiesToCreate / 4; ++i)
+	constexpr u32 numEntitiesToCreate = 40;
+	constexpr u32 numEntitiesExpected = 30;
+	for (u32 i = 0; i < numEntitiesToCreate / 4; ++i)
 	{
 		Entity e = w.CreateEntity<Position>();
 		e = w.CreateEntity<Movement>();
@@ -186,9 +186,9 @@ TEST(SystemIterateOver40EntitiesCheckData, SystemIterateEntities)
 	World w;
 	CHECK_REF(w);
 
-	constexpr uint32 numEntitiesToCreate = 40;
-	constexpr uint32 numEntitiesExpected = 30;
-	for (uint32 i = 0; i < numEntitiesToCreate / 4; ++i)
+	constexpr u32 numEntitiesToCreate = 40;
+	constexpr u32 numEntitiesExpected = 30;
+	for (u32 i = 0; i < numEntitiesToCreate / 4; ++i)
 	{
 		Vector4 v = Vector4(1, 2, 500, 32456.543f);
 

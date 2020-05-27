@@ -17,11 +17,11 @@ struct MATH_API Vector2
 	static const Vector2 One;
 
 public:
-	float32 x = 0.f;
-	float32 y = 0.f;
+	f32 x = 0.f;
+	f32 y = 0.f;
 
 	Vector2() = default;
-	explicit Vector2(float32 x, float32 y);
+	explicit Vector2(f32 x, f32 y);
 	explicit Vector2(const Vector4& v4);
 	explicit Vector2(const Vector3& v3);
 
@@ -51,9 +51,9 @@ public:
 	Vector2 operator-(const Vector2& other) const;
 	Vector2 operator*(const Vector2& other) const;
 
-	Vector2& operator*=(float32 s);
-	Vector2 operator*(float32 s) const;
-	friend MATH_API Vector2 operator*(float32 s, const Vector2 & vec);
+	Vector2& operator*=(f32 s);
+	Vector2 operator*(f32 s) const;
+	friend MATH_API Vector2 operator*(f32 s, const Vector2 & vec);
 
 	friend MATH_API bool operator==(const Vector2& lhs, const Vector2& rhs)
 	{

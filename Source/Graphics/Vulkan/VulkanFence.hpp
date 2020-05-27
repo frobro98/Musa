@@ -8,7 +8,7 @@
 
 class VulkanDevice;
 
-enum class FenceState : uint32
+enum class FenceState : u32
 {
 	NotSignaled,
 	Signaled
@@ -32,13 +32,13 @@ public:
 		return *fenceManager;
 	}
 
-	inline uint64 GetFenceSignaledCount()
+	inline u64 GetFenceSignaledCount()
 	{
 		return fenceSignaledCount;
 	}
 
 	FenceState CheckFenceStatus();
-	bool WaitFor(uint64 nanoSeconds);
+	bool WaitFor(u64 nanoSeconds);
 	bool IsSignaled();
 
 	// TODO - HACK: This is horrible practice and must essentially take secondary CBs into account...
@@ -46,11 +46,11 @@ public:
 
 private:
 	VkFence fenceHandle;
-	uint64 fenceSignaledCount = 0;
+	u64 fenceSignaledCount = 0;
 	FenceState state;
 	VulkanFenceManager* fenceManager;
 	const VulkanDevice* logicalDevice;
-	uint32 pad[1] = { 0 };
+	u32 pad[1] = { 0 };
 
 };
 

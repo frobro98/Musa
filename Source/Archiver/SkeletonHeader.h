@@ -6,20 +6,20 @@
 
 #include "Math/Matrix4.hpp"
 
-constexpr const uint32 BoneNameLength = 64;
+constexpr const u32 BoneNameLength = 64;
 
 struct SkeletonHeader
 {
-	uint32 boneCount = 0;
-	uint32 boneHierarchyOffset = 0;
-	uint32 boneTableOffset = 0;
-	uint32 bonePoseOffset = 0;
+	u32 boneCount = 0;
+	u32 boneHierarchyOffset = 0;
+	u32 boneTableOffset = 0;
+	u32 bonePoseOffset = 0;
 };
 
 struct SingleBoneData
 {
 	tchar boneName[BoneNameLength];
-	int32 parentIndex;
+	i32 parentIndex;
 };
 
 struct BonePoseData

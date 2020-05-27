@@ -17,7 +17,7 @@ GRAPHICS_API void TransitionTargetsToWrite(RenderContext& renderer, NativeRender
 
 GRAPHICS_API UniquePtr<RenderTarget> CreateRenderTarget(
 	ImageFormat format, 
-	uint32 width, uint32 height,
+	u32 width, u32 height,
 	LoadOperation loadOp, StoreOperation storeOp,
 	LoadOperation stencilLoadOp, StoreOperation stencilStoreOp,
 	TextureUsage::Type usage

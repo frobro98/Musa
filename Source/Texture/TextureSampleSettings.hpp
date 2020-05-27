@@ -5,7 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 
-enum class TextureFilter : uint8
+enum class TextureFilter : u8
 {
 	Linear,
 	Bilinear
@@ -25,7 +25,7 @@ inline SamplerFilter TextureToGraphicsFilter(TextureFilter filter)
 	}
 }
 
-enum class TextureAddress : uint8
+enum class TextureAddress : u8
 {
 	Repeat,
 	Clamp,
@@ -48,7 +48,7 @@ inline SamplerAddressMode TextureToGraphicsAddressMode(TextureAddress addrMode)
 	}
 }
 
-enum class TextureMipMode : uint8
+enum class TextureMipMode : u8
 {
 	Nearest,
 	Linear

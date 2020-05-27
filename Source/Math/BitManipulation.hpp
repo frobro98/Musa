@@ -9,16 +9,16 @@ namespace Math
 union BitManip_64
 {
 	f64 floatVal;
-	int64 intVal;
+	i64 intVal;
 };
 
 union BitManip_32
 {
-	float32 floatVal;
-	int32 intVal;
+	f32 floatVal;
+	i32 intVal;
 };
 
-forceinline int32 AsInt32(float32 val)
+forceinline i32 AsInt32(f32 val)
 {
 	BitManip_32 u;
 	u.intVal = 0;
@@ -27,12 +27,12 @@ forceinline int32 AsInt32(float32 val)
 	return u.intVal;
 }
 
-forceinline uint32 AsUint32(float32 val)
+forceinline u32 AsUint32(f32 val)
 {
-	return (uint32)AsInt32(val);
+	return (u32)AsInt32(val);
 }
 
-forceinline float32 AsFloat32(int32 val)
+forceinline f32 AsFloat32(i32 val)
 {
 	BitManip_32 u;
 	u.floatVal = 0;
@@ -41,12 +41,12 @@ forceinline float32 AsFloat32(int32 val)
 	return u.floatVal;
 }
 
-forceinline float32 AsFloat32(uint32 val)
+forceinline f32 AsFloat32(u32 val)
 {
-	return AsFloat32((int32)val);
+	return AsFloat32((i32)val);
 }
 
-forceinline int64 AsInt64(f64 val)
+forceinline i64 AsInt64(f64 val)
 {
 	BitManip_64 u;
 	u.intVal = 0;
@@ -55,12 +55,12 @@ forceinline int64 AsInt64(f64 val)
 	return u.intVal;
 }
 
-forceinline uint64 AsUint64(f64 val)
+forceinline u64 AsUint64(f64 val)
 {
-	return (uint64)AsInt64(val);
+	return (u64)AsInt64(val);
 }
 
-forceinline f64 AsFloat64(int64 val)
+forceinline f64 AsFloat64(i64 val)
 {
 	BitManip_64 u;
 	u.floatVal = 0;
@@ -69,9 +69,9 @@ forceinline f64 AsFloat64(int64 val)
 	return u.floatVal;
 }
 
-forceinline f64 AsFloat64(uint64 val)
+forceinline f64 AsFloat64(u64 val)
 {
-	return AsFloat64((int64)val);
+	return AsFloat64((i64)val);
 }
 
 

@@ -8,9 +8,9 @@ ImageGraphicsAllocation::ImageGraphicsAllocation(
 	VkImage img,
 	VkImageUsageFlags usage,
 	VkMemoryPropertyFlags memProperties,
-	uint32 size, 
-	uint32 alignment,
-	uint32 typeIndex, 
+	u32 size, 
+	u32 alignment,
+	u32 typeIndex, 
 	bool canMap, bool cached, bool coherent
 )
 	: GraphicsMemoryAllocation(device,memProperties,size,alignment,typeIndex,canMap,cached,coherent),
@@ -21,12 +21,12 @@ ImageGraphicsAllocation::ImageGraphicsAllocation(
 	CHECK_VK(result);
 }
 
-ImageMemory* ImageGraphicsAllocation::CreateMemoryRange(VkDeviceSize actualSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
+ImageMemory* ImageGraphicsAllocation::CreateMemoryRange(VkDeviceSize actualSize, u32 blockSize, u32 alignedOffset, u32 actualOffset)
 {
 	return new ImageMemory(*this, image, actualSize, blockSize, alignedOffset, actualOffset);
 }
 
-ImageMemory::ImageMemory(ImageGraphicsAllocation& owningAlloc, VkImage img, VkDeviceSize imgSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
+ImageMemory::ImageMemory(ImageGraphicsAllocation& owningAlloc, VkImage img, VkDeviceSize imgSize, u32 blockSize, u32 alignedOffset, u32 actualOffset)
 	: GraphicsMemoryRange(owningAlloc, imgSize, blockSize, alignedOffset, actualOffset),
 	associatedImage(img)
 {

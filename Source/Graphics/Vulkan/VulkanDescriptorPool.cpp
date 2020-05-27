@@ -41,7 +41,7 @@ VulkanDescriptorPool::VulkanDescriptorPool(VulkanDevice& device)
 
 	VkDescriptorPoolCreateInfo poolInfo = {};
 	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	poolInfo.poolSizeCount = (uint32)ArraySize(poolSizes);
+	poolInfo.poolSizeCount = (u32)ArraySize(poolSizes);
 	poolInfo.pPoolSizes = poolSizes;
 	// TODO - This is a horrible allocation scheme and it holds onto the memory the entire time. Must be a lot more conservative with my pools...
 	poolInfo.maxSets = 10000;//logicalDevice.GetDeviceLimits().maxBoundDescriptorSets;

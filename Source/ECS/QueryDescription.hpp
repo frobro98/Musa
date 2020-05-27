@@ -55,7 +55,7 @@ struct QueryDescription
 template<typename... Comps>
 inline QueryDescription& QueryDescription::Require()
 {
-	constexpr uint32 CompCount = sizeof...(Comps);
+	constexpr u32 CompCount = sizeof...(Comps);
 	static_assert(CompCount < MaxComponentsPerArchetype,
 		"No Archetype has this many components. Check MaxComponentsPerArchetype for details");
 
@@ -77,7 +77,7 @@ inline QueryDescription& QueryDescription::Require()
 template<typename... Comps>
 inline QueryDescription& QueryDescription::OneOrMore()
 {
-	constexpr uint32 CompCount = sizeof...(Comps);
+	constexpr u32 CompCount = sizeof...(Comps);
 	static_assert(CompCount < MaxComponentsPerArchetype,
 		"No Archetype has this many components. Check MaxComponentsPerArchetype for details");
 
@@ -97,7 +97,7 @@ inline QueryDescription& QueryDescription::OneOrMore()
 template<typename... Comps>
 inline QueryDescription& QueryDescription::None()
 {
-	constexpr uint32 CompCount = sizeof...(Comps);
+	constexpr u32 CompCount = sizeof...(Comps);
 	static_assert(CompCount < MaxComponentsPerArchetype,
 		"No Archetype has this many components. Check MaxComponentsPerArchetype for details");
 

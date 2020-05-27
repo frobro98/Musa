@@ -43,9 +43,9 @@ public:
 	inline Vector4 GetPosition() const { return position; }
 
 	virtual void InputSetup();
-	virtual void MoveForward(int32 mod);
-	virtual void MoveRight(int32 mod);
-	virtual void MoveUp(int32 mod);
+	virtual void MoveForward(i32 mod);
+	virtual void MoveRight(i32 mod);
+	virtual void MoveUp(i32 mod);
 
 	SphereBounds GetCollisionInfo() const;
 
@@ -61,9 +61,9 @@ protected:
 
 	// TODO - This sort of thing should be private...
 	Vector4 position;
-	float32 rotX;
-	float32 rotY;
-	float32 rotZ;
+	f32 rotX;
+	f32 rotY;
+	f32 rotZ;
 	Vector4 scale;
 
 	GameWorld* world;

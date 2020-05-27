@@ -15,7 +15,7 @@
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
 
-constexpr uint32 WindowsKeyInputCount = 0x20c;
+constexpr u32 WindowsKeyInputCount = 0x20c;
 static StaticArray<Inputs::Type, WindowsKeyInputCount> windowsInputs;
 
 static void InitializeWindowsInputArray()
@@ -26,15 +26,15 @@ static void InitializeWindowsInputArray()
 	}
 
 	// Store 0-9 keys
-	constexpr uint32 key0 = 0x30;
-	for (uint32 i = 0; i < 10; ++i)
+	constexpr u32 key0 = 0x30;
+	for (u32 i = 0; i < 10; ++i)
 	{
 		windowsInputs[key0 + i] = (Inputs::Type)(Inputs::Key_0 + i);
 	}
 
 	// Store A-Z keys
-	constexpr uint32 keyA = 0x41;
-	for (uint32 i = 0; i < 26; ++i)
+	constexpr u32 keyA = 0x41;
+	for (u32 i = 0; i < 26; ++i)
 	{
 		windowsInputs[keyA + i] = (Inputs::Type)(Inputs::Key_A + i);
 	}
@@ -72,7 +72,7 @@ static void InitializeWindowsInputArray()
 	windowsInputs[222] = Inputs::Key_Apostrophe;
 
 	// Store Function keys
-	for (uint32 i = 0; i < 12; ++i)
+	for (u32 i = 0; i < 12; ++i)
 	{
 		windowsInputs[VK_F1 + i] = (Inputs::Type)(Inputs::Key_F1 + i);
 	}
@@ -95,7 +95,7 @@ static void InitializeWindowsInputArray()
 
 	// Store numpad keys
 	windowsInputs[VK_NUMLOCK] = Inputs::Key_NumLock;
-	for (uint32 i = 0; i < 10; ++i)
+	for (u32 i = 0; i < 10; ++i)
 	{
 		windowsInputs[VK_NUMPAD0 + i] = (Inputs::Type)(Inputs::Key_Num0 + i);
 	}
@@ -114,7 +114,7 @@ static void InitializeWindowsInputArray()
 
 WPARAM MapWparamLeftRightKeys(WPARAM wparam, LPARAM lparam)
 {
-	uint32 scanCode = (lparam & 0x00ff0000) >> 16;
+	u32 scanCode = (lparam & 0x00ff0000) >> 16;
 	bool extended = (lparam & 0x01000000) != 0;
 	switch (wparam)
 	{
@@ -129,7 +129,7 @@ WPARAM MapWparamLeftRightKeys(WPARAM wparam, LPARAM lparam)
 	}
 }
 
-Inputs::Type ConvertWin32ToMusaInput(uint32 vkCode)
+Inputs::Type ConvertWin32ToMusaInput(u32 vkCode)
 {
 	// TODO - this could be cached to be a static array of initialized vk codes
 	return windowsInputs[vkCode];
@@ -186,8 +186,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			case WM_SIZE:
 			{
-				uint32 width = LOWORD(lParam);
-				uint32 height = HIWORD(lParam);
+				u32 width = LOWORD(lParam);
+				u32 height = HIWORD(lParam);
 				inputHandler->HandleWindowResized(width, height);
 			}break;
 
@@ -219,7 +219,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_KEYDOWN:
 			{
 				wParam = MapWparamLeftRightKeys(wParam, lParam);
-				uint32 vkCode = LOWORD(wParam);
+				u32 vkCode = LOWORD(wParam);
 
 				bool repeated = (lParam & 0x40000000) != 0;
 
@@ -232,7 +232,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_KEYUP:
 			{
 				wParam = MapWparamLeftRightKeys(wParam, lParam);
-				uint32 vkCode = LOWORD(wParam);
+				u32 vkCode = LOWORD(wParam);
 				
 				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
 				Assert(input != Inputs::_INPUT_ENUM_MAX_);
@@ -269,8 +269,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 					{
 						POINT cursorPos;
 						::GetCursorPos(&cursorPos);
-						const int32 deltaX = rawInput->data.mouse.lLastX;
-						const int32 deltaY = rawInput->data.mouse.lLastY;
+						const i32 deltaX = rawInput->data.mouse.lLastX;
+						const i32 deltaY = rawInput->data.mouse.lLastY;
 						inputHandler->HandleRawMouseMove(cursorPos.x, cursorPos.y, deltaX, deltaY);
 					}
 				}
@@ -309,13 +309,13 @@ static const Inputs::Type ControllerButtons[] = {
 	Inputs::Gamepad_YButton,
 };
 
-void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, uint32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
+void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
 {
 	// Deadzone checking
 	if (//state.leftStick.x != xinputGamepad.sThumbLX ||
 		Math::Abs(xinputGamepad.sThumbLX) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 	{
-		float32 normLX = NormalizeStickValue(xinputGamepad.sThumbLX);
+		f32 normLX = NormalizeStickValue(xinputGamepad.sThumbLX);
 		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftStick_XAxis, normLX);
 		state.leftStick.x = xinputGamepad.sThumbLX;
 	}
@@ -323,7 +323,7 @@ void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, uint32 cont
 	if (//state.leftStick.y != xinputGamepad.sThumbLY ||
 		Math::Abs(xinputGamepad.sThumbLY) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 	{
-		float32 normLY = NormalizeStickValue(xinputGamepad.sThumbLY);
+		f32 normLY = NormalizeStickValue(xinputGamepad.sThumbLY);
 		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftStick_YAxis, normLY);
 		state.leftStick.y = xinputGamepad.sThumbLY;
 	}
@@ -331,7 +331,7 @@ void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, uint32 cont
 	if (//state.rightStick.x != xinputGamepad.sThumbRX ||
 		Math::Abs(xinputGamepad.sThumbRX) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 	{
-		float32 normRX = NormalizeStickValue(xinputGamepad.sThumbRX);
+		f32 normRX = NormalizeStickValue(xinputGamepad.sThumbRX);
 		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightStick_XAxis, normRX);
 		state.rightStick.x = xinputGamepad.sThumbRX;
 	}
@@ -339,7 +339,7 @@ void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, uint32 cont
 	if (//state.rightStick.y != xinputGamepad.sThumbRY ||
 		Math::Abs(xinputGamepad.sThumbRY) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 	{
-		float32 normRY = NormalizeStickValue(xinputGamepad.sThumbRY);
+		f32 normRY = NormalizeStickValue(xinputGamepad.sThumbRY);
 		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightStick_YAxis, normRY);
 		state.rightStick.y = xinputGamepad.sThumbRY;
 	}
@@ -347,17 +347,17 @@ void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, uint32 cont
 	// Triggers for axis analog
 	if (Math::Abs(xinputGamepad.bLeftTrigger) > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 	{
-		float32 normLeftTrigger = NormalizeTriggerValue(xinputGamepad.bLeftTrigger);
+		f32 normLeftTrigger = NormalizeTriggerValue(xinputGamepad.bLeftTrigger);
 		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftTrigger, normLeftTrigger);
 	}
 	if (Math::Abs(xinputGamepad.bRightTrigger) > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 	{
-		float32 normRightTrigger = NormalizeTriggerValue(xinputGamepad.bRightTrigger);
+		f32 normRightTrigger = NormalizeTriggerValue(xinputGamepad.bRightTrigger);
 		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightTrigger, normRightTrigger);
 	}
 }
 
-void ProcessControllerButtons(WindowInputHandler& inputHandler, uint32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
+void ProcessControllerButtons(WindowInputHandler& inputHandler, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
 {
 	StaticArray<bool, MaxSupportedControllerButtons> currentButtonState;
 	currentButtonState[0] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0;
@@ -373,7 +373,7 @@ void ProcessControllerButtons(WindowInputHandler& inputHandler, uint32 controlle
 	currentButtonState[10] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
 	currentButtonState[11] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_Y) != 0;
 
-	for (uint32 i = 0; i < MaxSupportedControllerButtons; ++i)
+	for (u32 i = 0; i < MaxSupportedControllerButtons; ++i)
 	{
 		if (currentButtonState[i] != state.buttonStates[i])
 		{
@@ -423,7 +423,7 @@ MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
 	InitializeWindowsInputArray();
 }
 
-Window* MusaAppWindows::CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height)
+Window* MusaAppWindows::CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height)
 {
 	return new Window(instance, *inputHandler, xPos, yPos, width, height);
 }
@@ -433,7 +433,7 @@ void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
 	DWORD riFlags = enabled ? 0 : RIDEV_REMOVE;
 	HWND wnd = enabled ? reinterpret_cast<HWND>(window.GetWindowHandle()) : nullptr;
 
-	constexpr uint32 riMouseUsage = 2;
+	constexpr u32 riMouseUsage = 2;
 	RAWINPUTDEVICE riDev = {};
 	riDev.dwFlags = riFlags;
 	riDev.hwndTarget = wnd;
@@ -482,8 +482,8 @@ void MusaAppWindows::ProcessNativeGamepad()
 	// NOTE - I could check if controllers are actually connected? Don't really know what that gets me though
 
 	// NOTE - This amount of controllers might not be supported on other platforms. Might need to know this info
-	constexpr uint32 MaxControllersSupported = 1;//XUSER_MAX_COUNT;
-	for (uint32 i = 0; i < MaxControllersSupported; ++i)
+	constexpr u32 MaxControllersSupported = 1;//XUSER_MAX_COUNT;
+	for (u32 i = 0; i < MaxControllersSupported; ++i)
 	{
 		XINPUT_STATE state = {};
 		if (XInputGetState(i, &state) == ERROR_SUCCESS)

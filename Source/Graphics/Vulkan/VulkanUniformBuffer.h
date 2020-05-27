@@ -9,7 +9,7 @@
 class VulkanUniformBuffer : public NativeUniformBuffer , private Uncopyable
 {
 public:
-	VulkanUniformBuffer(const VulkanDevice& device, uint32 bufferSize);
+	VulkanUniformBuffer(const VulkanDevice& device, u32 bufferSize);
 	~VulkanUniformBuffer();
 
 	void UpdateUniforms(const void* bufferData);
@@ -25,16 +25,16 @@ private:
 class VulkanGlobalUniformBuffer
 {
 public:
-	VulkanGlobalUniformBuffer(const VulkanDevice& device, uint32 totalMemory);
+	VulkanGlobalUniformBuffer(const VulkanDevice& device, u32 totalMemory);
 	~VulkanGlobalUniformBuffer();
 
-	void AddDataToBuffer(const void* bufferData, uint32 dataSize);
+	void AddDataToBuffer(const void* bufferData, u32 dataSize);
 	inline VulkanBuffer& GetBuffer() const { return *globalBuffer; }
 
 private:
 	const VulkanDevice& logicalDevice;
 	VulkanBuffer* globalBuffer;
-	uint32 bufferPosition;
-	uint32 alignment;
+	u32 bufferPosition;
+	u32 alignment;
 };
 

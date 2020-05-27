@@ -20,7 +20,7 @@ struct Image : public Widget
 
 	Color color = Color::White();
 	// Texture...???
-	uint32 width = 0;
-	uint32 height = 0;
+	u32 width = 0;
+	u32 height = 0;
 };
 }

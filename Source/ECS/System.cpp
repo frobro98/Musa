@@ -21,7 +21,7 @@ Query& System::GetQueryFor(const QueryDescription& qb)
 DynamicArray<ChunkComponentAccessor> System::GetQueryChunks(const Query& query)
 {
 	// TODO - Maybe consider not allocating 
-	uint32 chunkCount = 0;
+	u32 chunkCount = 0;
 	for (auto& archetype : query.queriedArchetypes)
 	{
 		chunkCount += archetype->chunks.Size();
@@ -31,7 +31,7 @@ DynamicArray<ChunkComponentAccessor> System::GetQueryChunks(const Query& query)
 	chunks.Reserve(chunkCount);
 	for (auto& archetype : query.queriedArchetypes)
 	{
-		for (uint32 i = 0; i < archetype->chunks.Size(); ++i)
+		for (u32 i = 0; i < archetype->chunks.Size(); ++i)
 		{
 			chunks.Add(ChunkComponentAccessor(archetype->chunks[i])); 
 		}

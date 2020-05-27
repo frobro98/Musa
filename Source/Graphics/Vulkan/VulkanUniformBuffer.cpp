@@ -5,7 +5,7 @@
 #include "VulkanMemoryManager.hpp"
 #include "VulkanBufferAllocation.hpp"
 
-VulkanUniformBuffer::VulkanUniformBuffer(const VulkanDevice & device, uint32 bufferSize)
+VulkanUniformBuffer::VulkanUniformBuffer(const VulkanDevice & device, u32 bufferSize)
 	: logicalDevice(device)
 {
 	uniformBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
@@ -24,7 +24,7 @@ void VulkanUniformBuffer::UpdateUniforms(const void* bufferData)
 	uniformBuffer->memory->Unlock();
 }
 
-VulkanGlobalUniformBuffer::VulkanGlobalUniformBuffer(const VulkanDevice& device, uint32 totalMemory)
+VulkanGlobalUniformBuffer::VulkanGlobalUniformBuffer(const VulkanDevice& device, u32 totalMemory)
 	: logicalDevice(device)
 {
 	globalBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(totalMemory, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
@@ -36,14 +36,14 @@ VulkanGlobalUniformBuffer::~VulkanGlobalUniformBuffer()
 	logicalDevice.GetMemoryManager().DeallocateBuffer(*globalBuffer);
 }
 
-void VulkanGlobalUniformBuffer::AddDataToBuffer(const void* bufferData, uint32 dataSize)
+void VulkanGlobalUniformBuffer::AddDataToBuffer(const void* bufferData, u32 dataSize)
 {
-	uint32 alignedBufferPos = Align(bufferPosition, alignment);
+	u32 alignedBufferPos = Align(bufferPosition, alignment);
 	if (alignedBufferPos + dataSize >= globalBuffer->memory->blockSize)
 	{
 		alignedBufferPos = 0;
 	}
 	globalBuffer->memory->LockForWrite();
-	Memcpy((uint8*)globalBuffer->memory->GetMappedPtr() + alignedBufferPos, (size_t)dataSize, bufferData, (size_t)dataSize);
+	Memcpy((u8*)globalBuffer->memory->GetMappedPtr() + alignedBufferPos, (size_t)dataSize, bufferData, (size_t)dataSize);
 	globalBuffer->memory->Unlock();
 }

@@ -31,12 +31,12 @@ void FileSerializer::SerializeData(const void* data, size_t dataSize)
 void FileSerializer::Flush()
 {
 	// TODO - Using the low level file writing interface. Should consider not doing this sort of thing because of the limitations for loading large files
-	auto result = File::Write(handle, serializedData.Offset(bufferWriteIndex), (uint32)serializedData.Size() - bufferWriteIndex);
+	auto result = File::Write(handle, serializedData.Offset(bufferWriteIndex), (u32)serializedData.Size() - bufferWriteIndex);
 	Assert(result == File::Result::SUCCESS);
 	if (result != File::Result::SUCCESS)
 	{
 		Assert(false);
 	}
 
-	bufferWriteIndex = (uint32)serializedData.Size();
+	bufferWriteIndex = (u32)serializedData.Size();
 }

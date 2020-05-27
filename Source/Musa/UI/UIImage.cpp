@@ -21,7 +21,7 @@ void Image::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 	Vector2 bottomLeft = Vector2(absolutePosition.x, absolutePosition.y - absoluteScale.y);
 	Vector2 bottomRight = Vector2(absolutePosition.x + absoluteScale.x, absolutePosition.y - absoluteScale.y);
 
-	uint32 indexStart = batchElement.batchedVertices.Size();
+	u32 indexStart = batchElement.batchedVertices.Size();
 	// Need to construct a quad in world space
 	batchElement.batchedVertices.Add(PrimitiveVertex{
 										Vector3(topLeft, 0),	// Position

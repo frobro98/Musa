@@ -21,7 +21,7 @@ public:
 	VulkanDescriptorSetLayout(VulkanDevice& device);
 	~VulkanDescriptorSetLayout();
 
-	void AddDescriptorBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStages, uint32 binding);
+	void AddDescriptorBinding(VkDescriptorType descriptorType, VkShaderStageFlags shaderStages, u32 binding);
 	void BindLayout();
 
 	inline VkDescriptorSetLayout GetNativeHandle() const { return descriptorSetLayout; }
@@ -33,7 +33,7 @@ private:
 
 private:
 	VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
-	Map<uint32, VkDescriptorSetLayoutBinding> layoutBindings;
+	Map<u32, VkDescriptorSetLayoutBinding> layoutBindings;
 	VulkanDevice& logicalDevice;
 };
 
@@ -54,7 +54,7 @@ public:
 
 public:
 	VulkanCommandBuffer* associatedCommandBuffer;
-	uint64 associatedFenceSignal;
+	u64 associatedFenceSignal;
 
 private:
 	VkDescriptorSet descriptorSet;

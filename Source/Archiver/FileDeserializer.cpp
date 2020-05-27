@@ -24,12 +24,12 @@ void FileDeserializer::DeserializeData(void* data, size_t dataSize)
 	// TODO - Doesn't really work for things over 4Gb. Brainstorm ways to fix this
 	Assert(dataSize <= fileData.Size() - bufferReadLoc);
 	Memcpy(data, dataSize, fileData.Offset(bufferReadLoc), dataSize);
-	bufferReadLoc += (uint32)dataSize;
+	bufferReadLoc += (u32)dataSize;
 }
 
 void FileDeserializer::CacheFile()
 {
-	uint32 fileSize;
+	u32 fileSize;
 	File::Size(handle, fileSize);
 	fileData.IncreaseSize(fileSize);
 

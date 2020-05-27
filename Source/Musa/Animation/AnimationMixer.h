@@ -7,7 +7,7 @@ struct KeyFrame;
 class AnimationMixer
 {
 public:
-	AnimationMixer(uint32 skelBoneCount);
+	AnimationMixer(u32 skelBoneCount);
 	~AnimationMixer();
 
 	void InterpolateAnimationFrames(Time deltaTime, const KeyFrame* frameA, const KeyFrame* frameB);

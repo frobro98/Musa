@@ -22,8 +22,8 @@ public:
 	~VulkanMemoryManager();
 
 	VulkanImage* AllocateImage(
-		uint32 imgWidth, uint32 imgHeight, VkFormat imgFormat,
-		uint32 mipMapLevels, VkImageTiling tiling, VkImageUsageFlags usage,
+		u32 imgWidth, u32 imgHeight, VkFormat imgFormat,
+		u32 mipMapLevels, VkImageTiling tiling, VkImageUsageFlags usage,
 		VkMemoryPropertyFlags memoryProperties
 	);
 	void DeallocateImage(VulkanImage& image);
@@ -38,10 +38,10 @@ public:
 
 private:
 	template <class Allocation>
-	bool TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc);
+	bool TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, VkDeviceSize bufferSize, u32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc);
 
-	VulkanBuffer* CreateNewAllocation(VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
-	uint32 QueryMemoryType(uint32 typeFilter, VkMemoryPropertyFlags propertyFlags);
+	VulkanBuffer* CreateNewAllocation(VkDeviceSize bufferSize, u32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
+	u32 QueryMemoryType(u32 typeFilter, VkMemoryPropertyFlags propertyFlags);
 
 	BufferGraphicsAllocation& AllocateBufferBlock(VkDeviceSize bufferSize, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags);
 private:
@@ -56,8 +56,8 @@ private:
 
 	VulkanDevice& logicalDevice;
 
-	uint32 peakAllocationCount = 0;
-	uint32 largestAllocationSize = 0;
+	u32 peakAllocationCount = 0;
+	u32 largestAllocationSize = 0;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ private:
 //////////////////////////////////////////////////////////////////////////
 
 template<class Allocation>
-inline bool VulkanMemoryManager::TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, VkDeviceSize bufferSize, uint32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc)
+inline bool VulkanMemoryManager::TryCreateBufferFrom(const DynamicArray<Allocation*>& allocList, VkDeviceSize bufferSize, u32 alignment, VkBufferUsageFlags usageFlags, VkMemoryPropertyFlags memoryFlags, VulkanBuffer*& subAlloc)
 {
 	for (auto allocation : allocList)
 	{
@@ -75,7 +75,7 @@ inline bool VulkanMemoryManager::TryCreateBufferFrom(const DynamicArray<Allocati
 			(properties & memoryFlags) == memoryFlags)
 		{
 			BufferMemory* bufferMemory;
-			if (allocation->TrySelectMemoryRange((uint32)bufferSize, alignment, bufferMemory))
+			if (allocation->TrySelectMemoryRange((u32)bufferSize, alignment, bufferMemory))
 			{
 				subAlloc = new VulkanBuffer(logicalDevice, allocation->buffer, *bufferMemory);
 				return true;

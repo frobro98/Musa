@@ -57,19 +57,19 @@ void VulkanRenderState::BindState(VulkanCommandBuffer& cmdBuffer)
  	currentPipeline->BindDescriptorSet(&cmdBuffer, ds);
 }
 
-void VulkanRenderState::SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
+void VulkanRenderState::SetUniformBuffer(const VulkanBuffer& buffer, u32 bindIndex)
 {
 	Assert(writeDescriptorSet);
 	writeDescriptorSet->SetBuffer(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, buffer, bindIndex);
 }
 
-void VulkanRenderState::SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex)
+void VulkanRenderState::SetStorageBuffer(const VulkanBuffer& buffer, u32 bindIndex)
 {
 	Assert(writeDescriptorSet);
 	writeDescriptorSet->SetBuffer(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, buffer, bindIndex);
 }
 
-void VulkanRenderState::SetTexture(const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex)
+void VulkanRenderState::SetTexture(const VulkanTexture& texture, const VulkanSampler& sampler, u32 bindIndex)
 {
 	Assert(writeDescriptorSet);
 	writeDescriptorSet->SetTexture(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, texture, sampler, bindIndex);

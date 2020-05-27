@@ -14,7 +14,7 @@ Guid::Guid()
 	ComputeHash();
 }
 
-Guid::Guid(const uint8* data)
+Guid::Guid(const u8* data)
 {
 	Assert(data != nullptr);
 	Memcpy(bytes, GuidSize, data, GuidSize);

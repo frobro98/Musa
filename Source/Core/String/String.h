@@ -20,31 +20,31 @@ public:
 	String& operator=(const String& strObj) = default;
 	String& operator=(String&& strObj) noexcept = default;
 
-	explicit String(const tchar* cStr, uint32 size);
+	explicit String(const tchar* cStr, u32 size);
 	String(const tchar* cStr);
 
 	String& operator=(const tchar* cStr);
 
-	uint32 Length() const;
+	u32 Length() const;
 	String Trim() const;
 	void Replace(const tchar* toFind, const tchar* toReplace);
-	String SubStr(uint32 startIndex) const;
-	String SubStr(uint32 startIndex, uint32 endIndex) const;
+	String SubStr(u32 startIndex) const;
+	String SubStr(u32 startIndex, u32 endIndex) const;
 	// TODO - This should return some sort of interface that can be iterated over, not a Dynamic Array...
 	// TODO - This should initially be a free function that gets called by this member function
 	DynamicArray<String> Split(const tchar* charToSplitOn) const;
-	int32 IndexOf(tchar ch) const;
-	tchar CharAt(uint32 index) const;
-	int32 FindFirst(const tchar* str) const;
-	int32 FindLast(const tchar* str) const;
-	int32 FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const;
-	int32 FindFrom(uint32 index, const tchar* str) const;
+	i32 IndexOf(tchar ch) const;
+	tchar CharAt(u32 index) const;
+	i32 FindFirst(const tchar* str) const;
+	i32 FindLast(const tchar* str) const;
+	i32 FindRange(u32 startIndex, u32 endIndex, const tchar* str) const;
+	i32 FindFrom(u32 index, const tchar* str) const;
 
 	void Add(const tchar* str);
 	void Add(tchar c);
-	void Insert(const tchar* str, uint32 index);
-	void Insert(tchar c, uint32 index);
-	void Remove(uint32 index, uint32 count = 1);
+	void Insert(const tchar* str, u32 index);
+	void Insert(tchar c, u32 index);
+	void Remove(u32 index, u32 count = 1);
 	void RemoveAll(tchar c);
 
 	bool StartsWith(const tchar* cStr) const;
@@ -59,10 +59,10 @@ public:
 	String GetLowerCase() const;
 	void ToLowerCase();
 
-	int32 Compare(const String& str) const;
-	int32 Compare(const tchar* str) const;
-	int32 Compare(const String& str, uint32 numToCompare) const;
-	int32 Compare(const tchar* str, uint32 numToCompare) const;
+	i32 Compare(const String& str) const;
+	i32 Compare(const tchar* str) const;
+	i32 Compare(const String& str, u32 numToCompare) const;
+	i32 Compare(const tchar* str, u32 numToCompare) const;
 
 public:
 	// TODO - Determine whether this makes sense to have in the class or have it as a function somewhere else
@@ -71,11 +71,11 @@ public:
 	{
 		fmt::memory_buffer buf;
 		fmt::format_to(buf, formatStr, args...);
-		return String(buf.data(), (uint32)buf.size());
+		return String(buf.data(), (u32)buf.size());
 	}
 
 public:
-	tchar operator[](uint32 index) const;
+	tchar operator[](u32 index) const;
 	const tchar* operator*() const;
 
 	String& operator+=(const String& strObj);
@@ -114,7 +114,7 @@ public:
 	friend CORE_API bool operator>=(const tchar* left, const String& right);
 	friend CORE_API bool operator<=(const tchar* left, const String& right);
 
-	friend CORE_API uint32 GetHash(const String& str);
+	friend CORE_API u32 GetHash(const String& str);
 	friend CORE_API void Serialize(SerializeBase& ser, const String& str);
 	friend CORE_API void Deserialize(DeserializeBase& ser, String& str);
 };

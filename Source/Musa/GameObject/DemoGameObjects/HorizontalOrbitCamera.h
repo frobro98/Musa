@@ -8,7 +8,7 @@ class HorizontalOrbitCamera : public CameraObject
 {
 public:
 	HorizontalOrbitCamera(const char* camName);
-	HorizontalOrbitCamera(int32 width, int32 height);
+	HorizontalOrbitCamera(i32 width, i32 height);
 	~HorizontalOrbitCamera();
 
 	void SetRotateSpeed(float rotSpeed);
@@ -16,6 +16,6 @@ public:
 	virtual void Update(float tick) override;
 
 private:
-	float32 rotationSpeed;
+	f32 rotationSpeed;
 };
 

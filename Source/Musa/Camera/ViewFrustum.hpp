@@ -15,8 +15,8 @@ class ViewFrustum
 		const Vector4& origin,  
 		const Extents2D& nearExtents,
 		const Extents2D& farExtents,
-		float32 nearPlane,
-		float32 farPlane
+		f32 nearPlane,
+		f32 farPlane
 	);
 
 	bool DoesSphereIntersect(const SphereBounds& bounds);

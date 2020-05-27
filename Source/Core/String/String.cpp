@@ -14,7 +14,7 @@ String::String(const tchar* cStr)
 	size_t len = Strlen(cStr);
 	if (len > 0)
 	{
-		stringData.AddDefault((uint32)len + 1);
+		stringData.AddDefault((u32)len + 1);
 		Memcpy(stringData.GetData(), len * sizeof(tchar), cStr, len * sizeof(tchar));
 	}
 }
@@ -25,32 +25,32 @@ String& String::operator=(const tchar* cStr)
 	size_t len = Strlen(cStr);
 	if (len > 0)
 	{
-		stringData.AddDefault((uint32)len + 1);
+		stringData.AddDefault((u32)len + 1);
 		Memcpy(stringData.GetData(), len * sizeof(tchar), cStr, len * sizeof(tchar));
 	} 
 
 	return *this;
 }
 
-String::String(const tchar* cStr, uint32 size)
+String::String(const tchar* cStr, u32 size)
 {
 	Assert(cStr);
 	if (size > 0)
 	{
-		uint32 adjustedSize = size + 1;
+		u32 adjustedSize = size + 1;
 		stringData.AddDefault(adjustedSize);
 		Memcpy(stringData.GetData(), size * sizeof(tchar), cStr, size * sizeof(tchar));
 	}
 }
 
-uint32 String::Length() const
+u32 String::Length() const
 {
 	return !IsEmpty() ? stringData.Size() - 1 : 0;
 }
 
 String String::Trim() const
 {
-	uint32 numWhitespace = 0;
+	u32 numWhitespace = 0;
 	const tchar* beginning = stringData.GetData();
 	const tchar* ending = beginning + stringData.Size();
 	Assert(*ending == '\0');
@@ -114,17 +114,17 @@ void String::Replace(const tchar* toFind, const tchar* toReplace)
 	}
 }
 
-String String::SubStr(uint32 startIndex) const
+String String::SubStr(u32 startIndex) const
 {
 	Assert(startIndex < stringData.Size());
 	return String(stringData.GetData() + startIndex, stringData.Size() - startIndex);
 }
 
-String String::SubStr(uint32 startIndex, uint32 endIndex) const
+String String::SubStr(u32 startIndex, u32 endIndex) const
 {
 	Assert(startIndex < stringData.Size());
 	Assert(endIndex < stringData.Size() + 1);
-	uint32 diff = startIndex + (stringData.Size() - endIndex);
+	u32 diff = startIndex + (stringData.Size() - endIndex);
 	return String(stringData.GetData() + startIndex, stringData.Size() - diff);
 }
 
@@ -135,9 +135,9 @@ DynamicArray<String> String::Split(const tchar* charToSplitOn) const
 	return DynamicArray<String>();
 }
 
-int32 String::IndexOf(tchar ch) const
+i32 String::IndexOf(tchar ch) const
 {
-	int32 indexOf = 0;
+	i32 indexOf = 0;
 	while (stringData[indexOf] != '\0')
 	{
 		if (stringData[indexOf] == ch)
@@ -150,54 +150,54 @@ int32 String::IndexOf(tchar ch) const
 	return -1;
 }
 
-tchar String::CharAt(uint32 index) const
+tchar String::CharAt(u32 index) const
 {
 	Assert(index < stringData.Size());
 	return stringData[index];
 }
 
-int32 String::FindFirst(const tchar* str) const
+i32 String::FindFirst(const tchar* str) const
 {
 	return FindFirstIn(stringData.GetData(), Length(), str, Strlen(str));
 }
 
-int32 String::FindLast(const tchar* str) const
+i32 String::FindLast(const tchar* str) const
 {
 	return FindLastIn(stringData.GetData(), Length(), str, Strlen(str));
 }
 
-int32 String::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const
+i32 String::FindRange(u32 startIndex, u32 endIndex, const tchar* str) const
 {
 	Assert(str);
 	Assert(startIndex < stringData.Size());
 	Assert(startIndex < endIndex);
 	Assert(endIndex <= stringData.Size());
 	size_t searchStrLen = Strlen(str);
-	int32 foundFirstIndex = FindFirstIn(stringData.GetData() + startIndex, endIndex - startIndex, str, searchStrLen);
+	i32 foundFirstIndex = FindFirstIn(stringData.GetData() + startIndex, endIndex - startIndex, str, searchStrLen);
 	return foundFirstIndex + startIndex;
 }
 
-int32 String::FindFrom(uint32 index, const tchar* str) const
+i32 String::FindFrom(u32 index, const tchar* str) const
 {
 	Assert(str);
 	Assert(index < Length());
 	size_t searchStrLen = Strlen(str);
-	int32 foundFirstIndex = FindFirstIn(stringData.GetData() + index, Length() - index, str, searchStrLen);
+	i32 foundFirstIndex = FindFirstIn(stringData.GetData() + index, Length() - index, str, searchStrLen);
 	return foundFirstIndex + index;
 }
 
 void String::Add(const tchar* str)
 {
-	uint32 oldLen = Length();
+	u32 oldLen = Length();
 	size_t cStrLen = Strlen(str);
-	stringData.Resize(oldLen + (uint32)cStrLen + 1);
+	stringData.Resize(oldLen + (u32)cStrLen + 1);
 	Strcat(stringData.GetData(), stringData.Size(), str, cStrLen);
 }
 
 void String::Add(tchar c)
 {
-	const uint32 oldLen = Length();
-	constexpr uint32 cStrLen = 1;
+	const u32 oldLen = Length();
+	constexpr u32 cStrLen = 1;
 	stringData.Resize(oldLen + cStrLen + 1);
 	stringData[oldLen + 1] = c;
 	stringData.Last() = 0;
@@ -206,12 +206,12 @@ void String::Add(tchar c)
 // void String::Insert(const tchar* str, uint32 index)
 // {
 //
-void String::Insert(tchar c, uint32 index)
+void String::Insert(tchar c, u32 index)
 {
 	stringData.Insert(c, index);
 }
 
-void String::Remove(uint32 index, uint32 count)
+void String::Remove(u32 index, u32 count)
 {
 	Assert(index + count <= Length());
 	stringData.Remove(index, count);
@@ -262,7 +262,7 @@ String String::GetUpperCase() const
 
 void String::ToUpperCase()
 {
-	for (uint32 i = 0; i < Length(); ++i)
+	for (u32 i = 0; i < Length(); ++i)
 	{
 		stringData[i] = ToUpper(stringData[i]);
 	}
@@ -277,33 +277,33 @@ String String::GetLowerCase() const
 
 void String::ToLowerCase()
 {
-	for (uint32 i = 0; i < Length(); ++i)
+	for (u32 i = 0; i < Length(); ++i)
 	{
 		stringData[i] = ToLower(stringData[i]);
 	}
 }
 
-int32 String::Compare(const String& str) const
+i32 String::Compare(const String& str) const
 {
 	return Strcmp(stringData.GetData(), str.stringData.GetData());
 }
 
-int32 String::Compare(const tchar* str) const
+i32 String::Compare(const tchar* str) const
 {
 	return Strcmp(stringData.GetData(), str);
 }
 
-int32 String::Compare(const String& str, uint32 numToCompare) const
+i32 String::Compare(const String& str, u32 numToCompare) const
 {
 	return Strncmp(**this, *str, numToCompare);
 }
 
-int32 String::Compare(const tchar* str, uint32 numToCompare) const
+i32 String::Compare(const tchar* str, u32 numToCompare) const
 {
 	return Strncmp(**this, str, numToCompare);
 }
 
-tchar String::operator[](uint32 index) const
+tchar String::operator[](u32 index) const
 {
 	Assert(index < stringData.Size());
 	return stringData[index];
@@ -311,7 +311,7 @@ tchar String::operator[](uint32 index) const
 
 String& String::operator+=(const String& strObj)
 {
-	uint32 oldLen = stringData.Size();
+	u32 oldLen = stringData.Size();
 	stringData.Resize(oldLen + strObj.Length());
 	Strcat(stringData.GetData(), stringData.Size() + 1, strObj.stringData.GetData(), strObj.stringData.Size());
 
@@ -320,9 +320,9 @@ String& String::operator+=(const String& strObj)
 
 String& String::operator+=(const tchar* strObj)
 {
-	const uint32 oldLen = Length();
+	const u32 oldLen = Length();
 	const size_t cStrLen = Strlen(strObj);
-	stringData.Resize(oldLen + (uint32)cStrLen + 1);
+	stringData.Resize(oldLen + (u32)cStrLen + 1);
 	Strcat(stringData.GetData(), stringData.Size(), strObj, cStrLen);
 
 	return *this;
@@ -330,8 +330,8 @@ String& String::operator+=(const tchar* strObj)
 
 String& String::operator+=(tchar c)
 {
-	const uint32 oldLen = Length();
-	constexpr uint32 cStrLen = 1;
+	const u32 oldLen = Length();
+	constexpr u32 cStrLen = 1;
 	stringData.Resize(oldLen + cStrLen + 1);
 	stringData[oldLen] = c;
 	stringData.Last() = 0;
@@ -458,15 +458,15 @@ bool operator<=(const tchar* left, const String& right)
 // String hash definition
 //////////////////////////////////////////////////////////////////////////
 
-uint32 GetHash(const String& str)
+u32 GetHash(const String& str)
 {
-	return fnv32(str.stringData.GetData(), static_cast<uint32>(str.stringData.Size()));
+	return fnv32(str.stringData.GetData(), static_cast<u32>(str.stringData.Size()));
 }
 
 void Serialize(SerializeBase& ser, const String& str)
 {
 	Serialize(ser, str.Length());
-	for (uint32 i = 0; i < str.Length(); ++i)
+	for (u32 i = 0; i < str.Length(); ++i)
 	{
 		Serialize(ser, str.stringData[i]);
 	}
@@ -474,11 +474,11 @@ void Serialize(SerializeBase& ser, const String& str)
 
 void Deserialize(DeserializeBase& ser, String& str)
 {
-	uint32 stringLen;
+	u32 stringLen;
 	Deserialize(ser, stringLen);
 
 	str.stringData.Resize(stringLen + 1);
-	for (uint32 i = 0; i < stringLen; ++i)
+	for (u32 i = 0; i < stringLen; ++i)
 	{
 		Deserialize(ser, str.stringData[i]);
 	}

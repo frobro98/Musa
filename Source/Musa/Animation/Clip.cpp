@@ -5,7 +5,7 @@
 #include "String/CStringUtilities.hpp"
 #include "Utilities/MemoryUtilities.hpp"
 
-AnimationClip::AnimationClip(const tchar* animationName, KeyFrame* frames, uint32 count, Time animationTime, uint32 skelHash, Time::Duration frameRate_)
+AnimationClip::AnimationClip(const tchar* animationName, KeyFrame* frames, u32 count, Time animationTime, u32 skelHash, Time::Duration frameRate_)
 	: mixer(new AnimationMixer(frames[0].boneCount)),
 	totalAnimationTime(animationTime),
 	animationFrames(frames),
@@ -30,7 +30,7 @@ AnimationClip::~AnimationClip()
 {
 }
 
-uint32 AnimationClip::GetSkeletonHash() const
+u32 AnimationClip::GetSkeletonHash() const
 {
 	return skeletonHash;
 }

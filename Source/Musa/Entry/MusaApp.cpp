@@ -8,8 +8,8 @@
 #include "Shader/ShaderDefinition.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
-constexpr int32 width = 1080;
-constexpr int32 height = 720;
+constexpr i32 width = 1080;
+constexpr i32 height = 720;
 
 MusaApp::MusaApp()
 {
@@ -113,7 +113,7 @@ void MusaApp::TearDownGameEngine()
 void MusaApp::ApplicationUpdate()
 {
 	frameTick.Lap();
-	const float32 tick = .016f; //(float32)frameTick.GetSeconds();
+	const f32 tick = .016f; //(float32)frameTick.GetSeconds();
 	frameTick.Start();
 
 	Frame::SetFrameStats({ tick });

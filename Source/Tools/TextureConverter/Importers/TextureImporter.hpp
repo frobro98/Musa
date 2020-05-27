@@ -13,8 +13,8 @@ public:
 	TextureImporter() = default;
 	virtual ~TextureImporter() = default;
 
-	uint32 GetWidth() const;
-	uint32 GetHeight() const;
+	u32 GetWidth() const;
+	u32 GetHeight() const;
 	ImageFormat GetFormat() const;
 
 	virtual void SetImportData(MemoryBuffer&& compressedData) = 0;
@@ -30,7 +30,7 @@ protected:
 	MemoryBuffer importData;
 	MemoryBuffer importedImageData;
 	ImageFormat format = ImageFormat::Invalid;
-	int32 width = 0;
-	int32 height = 0;
+	i32 width = 0;
+	i32 height = 0;
 	bool validData = false;
 };

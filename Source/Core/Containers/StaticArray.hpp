@@ -6,22 +6,22 @@
 #include "Debugging/Assertion.hpp"
 #include "CoreAPI.hpp"
 
-template <class Type, uint32 size>
+template <class Type, u32 size>
 struct CORE_TEMPLATE StaticArray
 {
 	static_assert(size > 0, "Empty arrays aren't allowed currently!");
 	using ValueType = Type;
 
-	uint32 Size() const;
+	u32 Size() const;
 	Type& First() const;
 	Type& Last() const;
 
-	ValueType& operator[](uint32 index);
-	const ValueType& operator[](uint32 index) const;
+	ValueType& operator[](u32 index);
+	const ValueType& operator[](u32 index) const;
 
 	struct Iterator final
 	{
-		Iterator(ValueType(&arr)[size], uint32 startIndex)
+		Iterator(ValueType(&arr)[size], u32 startIndex)
 			: elems(arr),
 			index(startIndex)
 		{
@@ -45,12 +45,12 @@ struct CORE_TEMPLATE StaticArray
 		}
 
 		ValueType* const elems;
-		uint32 index;
+		u32 index;
 	};
 
 	struct ConstIterator final
 	{
-		ConstIterator(const ValueType (&arr)[size], uint32 startIndex)
+		ConstIterator(const ValueType (&arr)[size], u32 startIndex)
 			: elems(arr),
 			index(startIndex)
 		{
@@ -74,7 +74,7 @@ struct CORE_TEMPLATE StaticArray
 		}
 
 		const ValueType* const elems;
-		uint32 index;
+		u32 index;
 	};
 
 	friend Iterator begin(StaticArray& arr) { return Iterator(arr.internalData, 0); }
@@ -85,33 +85,33 @@ struct CORE_TEMPLATE StaticArray
 	ValueType internalData[size];
 };
 
-template<class Type, uint32 size>
-inline uint32 StaticArray<Type, size>::Size() const
+template<class Type, u32 size>
+inline u32 StaticArray<Type, size>::Size() const
 {
 	return size;
 }
 
-template<class Type, uint32 size>
+template<class Type, u32 size>
 inline Type& StaticArray<Type, size>::First() const
 {
 	return internalData[0];
 }
 
-template<class Type, uint32 size>
+template<class Type, u32 size>
 inline Type& StaticArray<Type, size>::Last() const
 {
 	return internalData[size - 1];
 }
 
-template<class Type, uint32 size>
-inline Type& StaticArray<Type, size>::operator[](uint32 index)
+template<class Type, u32 size>
+inline Type& StaticArray<Type, size>::operator[](u32 index)
 {
 	Assert(index < size);
 	return internalData[index];
 }
 
-template<class Type, uint32 size>
-inline const Type& StaticArray<Type, size>::operator[](uint32 index) const
+template<class Type, u32 size>
+inline const Type& StaticArray<Type, size>::operator[](u32 index) const
 {
 	Assert(index < size);
 	return internalData[index];

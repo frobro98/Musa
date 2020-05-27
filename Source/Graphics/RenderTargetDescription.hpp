@@ -11,10 +11,10 @@
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
-constexpr uint32 GBufferCount = 3;
-constexpr uint32 MaxColorTargetCount = 4;
+constexpr u32 GBufferCount = 3;
+constexpr u32 MaxColorTargetCount = 4;
 
-enum class RenderTargetAccess : uint32
+enum class RenderTargetAccess : u32
 {
 	None,
 	Read,
@@ -28,7 +28,7 @@ struct RenderTargetAttachment
 	LoadOperation stencilLoad;
 	StoreOperation store;
 	StoreOperation stencilStore;
-	uint32 sampleCount;
+	u32 sampleCount;
 	RenderTargetAccess access;
 
 	friend bool operator==(const RenderTargetAttachment& lhs, const RenderTargetAttachment& rhs)
@@ -55,7 +55,7 @@ struct RenderTargetDescription
 			lhs.depthAttachment == rhs.depthAttachment;
 		if (result)
 		{
-			for (uint32 i = 0; i < lhs.colorAttachments.Size(); ++i)
+			for (u32 i = 0; i < lhs.colorAttachments.Size(); ++i)
 			{
 				result &= lhs.colorAttachments[i] == rhs.colorAttachments[i];
 			}
@@ -74,7 +74,7 @@ struct NativeRenderTargets
 	const NativeTexture* depthTarget;
 };
 
-inline uint32 GetHash(const RenderTargetDescription& desc)
+inline u32 GetHash(const RenderTargetDescription& desc)
 {
 	struct HashableTargetDescription
 	{

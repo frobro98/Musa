@@ -129,14 +129,14 @@ void TextureManager::ConfigureNativeTexture(Texture& texture)
 {
 	ResourceBlob textureBlob = ConstructBlobOfMipLevels(texture.mipLevels);
 
-	uint32 width = texture.GetWidth();
-	uint32 height = texture.GetHeight();
+	u32 width = texture.GetWidth();
+	u32 height = texture.GetHeight();
 	texture.gpuResource = GetGraphicsInterface().CreateInitializedTexture2D(textureBlob, width, height, texture.format, texture.mipLevels.Size(), TextureUsage::SampledResource);
 }
 
 void TextureManager::UnloadTexture(const char* textureName)
 {
-	for (uint32 i = 0; i < texturesLoaded.Size(); ++i)
+	for (u32 i = 0; i < texturesLoaded.Size(); ++i)
 	{
 		if (textureName == texturesLoaded[i]->name)
 		{
@@ -149,7 +149,7 @@ void TextureManager::UnloadTexture(const char* textureName)
 
 Texture* TextureManager::FindTexture(const char* textureName)
 {
-	for (uint32 i = 0; i < texturesLoaded.Size(); ++i)
+	for (u32 i = 0; i < texturesLoaded.Size(); ++i)
 	{
 		if (textureName == texturesLoaded[i]->name)
 		{

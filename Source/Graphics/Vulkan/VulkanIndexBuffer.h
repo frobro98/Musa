@@ -17,10 +17,10 @@ public:
 	~VulkanIndexBuffer();
 
 	inline VulkanBuffer& GetBuffer() const { return *indexBuffer; }
-	inline uint32 GetNumberOfIndicies() const { return numIndicies; }
+	inline u32 GetNumberOfIndicies() const { return numIndicies; }
 
 private:
 	VulkanDevice& logicalDevice;
 	VulkanBuffer* indexBuffer;
-	uint32 numIndicies;
+	u32 numIndicies;
 };

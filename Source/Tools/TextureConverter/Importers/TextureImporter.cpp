@@ -3,14 +3,14 @@
 #include "TextureImporter.hpp"
 #include "File/FileUtilities.hpp"
 
-uint32 TextureImporter::GetWidth() const
+u32 TextureImporter::GetWidth() const
 {
-	return static_cast<uint32>(width);
+	return static_cast<u32>(width);
 }
 
-uint32 TextureImporter::GetHeight() const
+u32 TextureImporter::GetHeight() const
 {
-	return static_cast<uint32>(height);
+	return static_cast<u32>(height);
 }
 
 ImageFormat TextureImporter::GetFormat() const

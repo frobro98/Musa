@@ -14,7 +14,7 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 {
 
 	DynamicArray<VkAttachmentReference> attachmentRefs(targets.colorAttachments.Size());
-	for (uint32 i = 0; i < attachmentRefs.Size(); ++i)
+	for (u32 i = 0; i < attachmentRefs.Size(); ++i)
 	{
 		const RenderTargetAttachment& colorDescription = targets.colorAttachments[i];
 		VkAttachmentDescription colorAttachment = {};
@@ -76,8 +76,8 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 		VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
 
 	VkAccessFlags accessFlags = attachmentRefs.Size() > 0 ?
-		(uint32)(VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT) :
-		(uint32)(VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
+		(u32)(VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT) :
+		(u32)(VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
 
 	// TODO - Find out what a subpass dependency means for the pipeline
 	VkSubpassDependency dependencies[2];
@@ -100,7 +100,7 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	dependencies[1].dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 	dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
-	VkRenderPassCreateInfo renderPassInfo = Vk::RenderPassInfo(attachments.GetData(), attachments.Size(), &subpass, 1, dependencies, (uint32)ArraySize(dependencies));
+	VkRenderPassCreateInfo renderPassInfo = Vk::RenderPassInfo(attachments.GetData(), attachments.Size(), &subpass, 1, dependencies, (u32)ArraySize(dependencies));
 	NOT_USED VkResult result = vkCreateRenderPass(logicalDevice->GetNativeHandle(), &renderPassInfo, nullptr, &renderPass);
 	CHECK_VK(result);
 }

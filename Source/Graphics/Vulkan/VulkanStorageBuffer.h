@@ -10,7 +10,7 @@ class VulkanStorageBuffer : private Uncopyable
 public:
 	VulkanStorageBuffer() = default;
 
-	void Initialize(const VulkanDevice& device, uint32 bufferSize);
+	void Initialize(const VulkanDevice& device, u32 bufferSize);
 	void UpdateStorage(const void* bufferData);
 
 	inline VulkanBuffer& GetBuffer() { return *storageBuffer; }

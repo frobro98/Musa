@@ -10,16 +10,16 @@ namespace
 
 ImageFormat DeserializeImageFormat(DeserializeBase& ser)
 {
-	uint32 formatInt;
+	u32 formatInt;
 	Deserialize(ser, formatInt);
 	return static_cast<ImageFormat>(formatInt);
 }
 
 }
 
-Texture::Texture(uint8 r, uint8 g, uint8 b, uint8 a)
+Texture::Texture(u8 r, u8 g, u8 b, u8 a)
 {
-	uint8* pixel = new uint8[4]{ b, g, r, a };
+	u8* pixel = new u8[4]{ b, g, r, a };
 	ResourceBlob blob(pixel, 4);
 	MipmapLevel m;
 	m.mipData = std::move(blob);
@@ -30,7 +30,7 @@ Texture::Texture(uint8 r, uint8 g, uint8 b, uint8 a)
 	format = ImageFormat::BGRA_8norm;
 }
 
-uint32 Texture::GetWidth() const
+u32 Texture::GetWidth() const
 {
 	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...
 	if (mipLevels.Size() > 0)
@@ -44,7 +44,7 @@ uint32 Texture::GetWidth() const
 	
 }
 
-uint32 Texture::GetHeight() const
+u32 Texture::GetHeight() const
 {
 	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...
 	if (mipLevels.Size() > 0)
@@ -57,14 +57,14 @@ uint32 Texture::GetHeight() const
 	}
 }
 
-uint32 Texture::TotalSize() const
+u32 Texture::TotalSize() const
 {
 	size_t totalSize = 0;
 	for (const auto& level : mipLevels)
 	{
 		totalSize += level.mipData.GetSize();
 	}
-	return (uint32)totalSize;
+	return (u32)totalSize;
 }
 
 ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels)
@@ -75,8 +75,8 @@ ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels)
 		totalSize += level.mipData.GetSize();
 	}
 	
-	uint8* data = new uint8[totalSize];
-	uint8* iter = data;
+	u8* data = new u8[totalSize];
+	u8* iter = data;
 	for (const auto& level : levels)
 	{
 		Memcpy(iter, level.mipData.GetSize(), level.mipData.GetData(), level.mipData.GetSize());
@@ -103,7 +103,7 @@ void Deserialize(DeserializeBase& ser, MipmapLevel& level)
 void Serialize(SerializeBase& ser, const Texture& tex)
 {
 	Serialize(ser, tex.name);
-	Serialize(ser, static_cast<uint32>(tex.format));
+	Serialize(ser, static_cast<u32>(tex.format));
 	Serialize(ser, tex.mipLevels);
 }
 

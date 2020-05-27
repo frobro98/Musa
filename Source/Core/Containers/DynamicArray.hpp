@@ -23,8 +23,8 @@ class CORE_TEMPLATE DynamicArray
 
 public:
 	DynamicArray();
-	explicit DynamicArray(uint32 initialSize);
-	DynamicArray(const Type* arr, uint32 elementCount);
+	explicit DynamicArray(u32 initialSize);
+	DynamicArray(const Type* arr, u32 elementCount);
 	DynamicArray(std::initializer_list<Type> list);
 
 	template <size_t N>
@@ -42,49 +42,49 @@ public:
 	DynamicArray& operator=(DynamicArray&& otherArr) noexcept;
 
 	template <typename AddType>
-	uint32 Add(AddType&& newElement);
+	u32 Add(AddType&& newElement);
 	template <typename AddType>
-	uint32 AddUnique(AddType&& newElement);
+	u32 AddUnique(AddType&& newElement);
 
 	// Creates an empty element in the array. Element isn't initialized in any way
-	uint32 AddEmpty(uint32 emptyElements = 1);
-	uint32 AddDefault(uint32 emptyElements = 1);
-	uint32 AddRange(const pointerType range, uint32 rangeSize);
+	u32 AddEmpty(u32 emptyElements = 1);
+	u32 AddDefault(u32 emptyElements = 1);
+	u32 AddRange(const pointerType range, u32 rangeSize);
 
 	template<class... Args>
-	uint32 Emplace(Args... args);
+	u32 Emplace(Args... args);
 
 	template <typename InsertType>
-	void Insert(InsertType&& elem, uint32 index);
+	void Insert(InsertType&& elem, u32 index);
 
 	bool TryRemoveElement(const valueType& elem);
-	void Remove(uint32 index, uint32 count = 1);
+	void Remove(u32 index, u32 count = 1);
 	void RemoveFirst(const valueType& elem);
 	void RemoveLast(const valueType& elem);
 	void RemoveAll(const valueType& elem);
 
 	template<class Pred>
-	int32 FindFirstIndexUsing(Pred&& pred);
+	i32 FindFirstIndexUsing(Pred&& pred);
 	template<class Pred>
-	int32 FindLastIndexUsing(Pred&& pred);
+	i32 FindLastIndexUsing(Pred&& pred);
 	template<class Pred>
 	valueType* FindFirstUsing(Pred&& pred);
 	template<class Pred>
 	valueType* FindLastUsing(Pred&& pred);
 
-	int32 FindFirstIndex(const valueType& obj);
-	int32 FindLastIndex(const valueType& obj);
+	i32 FindFirstIndex(const valueType& obj);
+	i32 FindLastIndex(const valueType& obj);
 	valueType* FindFirst(const valueType& obj);
 	valueType* FindLast(const valueType& obj);
 
-	bool TryFindFirstIndex(const valueType& obj, uint32& foundIndex);
-	bool TryFindLastIndex(const valueType& obj, uint32& foundIndex);
+	bool TryFindFirstIndex(const valueType& obj, u32& foundIndex);
+	bool TryFindLastIndex(const valueType& obj, u32& foundIndex);
 	bool TryFindFirst(const valueType& obj, valueType& foundVal);
 	bool TryFindLast(const valueType& obj, valueType& foundVal);
 
-	void Reserve(uint32 reserveCapacity);
+	void Reserve(u32 reserveCapacity);
 	// TODO - Figure out a better way of going about implementing this resize function...
-	void Resize(uint32 newSize);
+	void Resize(u32 newSize);
 	void Clear();
 	bool IsEmpty() const;
 	template <typename CompareType>
@@ -103,29 +103,29 @@ public:
 		return data;
 	}
 
-	inline uint32 Size() const
+	inline u32 Size() const
 	{
 		return arraySize;
 	}
 
-	inline uint32 SizeInBytes() const
+	inline u32 SizeInBytes() const
 	{
 		return arraySize * sizeof(valueType);
 	}
 
-	inline uint32 Capacity() const
+	inline u32 Capacity() const
 	{
 		return arrayCapacity;
 	}
 
 	// Accessors
-	inline Type& operator[](uint32 index)
+	inline Type& operator[](u32 index)
 	{
 		Assert(index < arraySize);
 		return GetData()[index];
 	}
 
-	inline const Type& operator[](uint32 index) const
+	inline const Type& operator[](u32 index) const
 	{
 		Assert(index < arraySize);
 		return GetData()[index];
@@ -182,7 +182,7 @@ public:
 
 	private:
 		DynamicArray<Type>* arr;
-		uint32 currentIndex = 0;
+		u32 currentIndex = 0;
 	};
 	// Dynamic Array Constant Iterator
 	class ConstIterator final
@@ -222,8 +222,8 @@ public:
 
 	private:
 		const DynamicArray<Type>* arr;
-		uint32 currentIndex = 0;
-		uint32 pad[1] = { 0 };
+		u32 currentIndex = 0;
+		u32 pad[1] = { 0 };
 	};
 
 private:
@@ -236,7 +236,7 @@ private:
 	{
 		Serialize(ser, arr.arraySize);
 
-		for (uint32 i = 0; i < arr.arraySize; ++i)
+		for (u32 i = 0; i < arr.arraySize; ++i)
 		{
 			Serialize(ser, arr.data[i]);
 		}
@@ -244,11 +244,11 @@ private:
 
 	friend void Deserialize(DeserializeBase& ser, DynamicArray& arr)
 	{
-		uint32 size;
+		u32 size;
 		Deserialize(ser, size);
 
 		arr.Resize(size);
-		for (uint32 i = 0; i < arr.arraySize; ++i)
+		for (u32 i = 0; i < arr.arraySize; ++i)
 		{
 			Deserialize(ser, arr[i]);
 		}
@@ -256,9 +256,9 @@ private:
 
 private:
 	template <class OtherType>
-	void CopyData(OtherType* otherData, uint32 dataNum);
-	void Construct(uint32 index);
-	void Construct(uint32 startIndex, uint32 endIndex);
+	void CopyData(OtherType* otherData, u32 dataNum);
+	void Construct(u32 index);
+	void Construct(u32 startIndex, u32 endIndex);
 
 	// TODO - consider moving these operations out so more things could use them?
 	template <typename U>
@@ -278,16 +278,16 @@ private:
 	std::enable_if_t<
 		is_memcpy_constructable_v<SrcType, DstType>
 	>
-		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count);
 
 	template <typename SrcType, typename DstType>
 	std::enable_if_t<
 		!is_memcpy_constructable_v<SrcType, DstType>
 	>
-		ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count);
+		ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count);
 
-	void Destroy(uint32 index);
-	void Destroy(uint32 startIndex, uint32 endIndex);
+	void Destroy(u32 index);
+	void Destroy(u32 startIndex, u32 endIndex);
 
 	template <typename U>
 	std::enable_if_t<
@@ -302,16 +302,16 @@ private:
 	>
 		DestroyRange(U /*start*/, U /*end*/);
 
-	void MoveForward(uint32 startIndex, uint32 count = 1);
-	void MoveBack(uint32 startIndex, uint32 count = 1);
+	void MoveForward(u32 startIndex, u32 count = 1);
+	void MoveBack(u32 startIndex, u32 count = 1);
 
-	void AdjustSizeGeom(uint32 newSize);
+	void AdjustSizeGeom(u32 newSize);
 	void CreateAdjustedSpace();
 
 private:
 	Type* data = nullptr;
-	uint32 arraySize = 0;
-	uint32 arrayCapacity = 0;
+	u32 arraySize = 0;
+	u32 arrayCapacity = 0;
 };
 
 template<class Type>
@@ -323,7 +323,7 @@ DynamicArray<Type>::DynamicArray()
 }
 
 template<class Type>
-DynamicArray<Type>::DynamicArray(uint32 initialSize)
+DynamicArray<Type>::DynamicArray(u32 initialSize)
 	:arraySize(initialSize),
 	arrayCapacity(initialSize)
 {
@@ -335,7 +335,7 @@ DynamicArray<Type>::DynamicArray(uint32 initialSize)
 }
 
 template<class Type>
-DynamicArray<Type>::DynamicArray(const Type* arr, uint32 elementCount)
+DynamicArray<Type>::DynamicArray(const Type* arr, u32 elementCount)
 	: arraySize(elementCount),
 	arrayCapacity(elementCount)
 {
@@ -347,7 +347,7 @@ DynamicArray<Type>::DynamicArray(std::initializer_list<Type> list)
 	: arraySize(0),
 	arrayCapacity(0)
 {
-	Reserve((uint32)list.size());
+	Reserve((u32)list.size());
 	const Type* beginning = list.begin();
 	const Type* ending = list.end();
 	for (; beginning != ending; ++beginning)
@@ -439,9 +439,9 @@ DynamicArray<Type>& DynamicArray<Type>::operator=(DynamicArray&& otherArr) noexc
 
 template<class Type>
 template <typename AddType>
-inline uint32 DynamicArray<Type>::Add(AddType&& newElement)
+inline u32 DynamicArray<Type>::Add(AddType&& newElement)
 {
-	uint32 newSize = arraySize + 1;
+	u32 newSize = arraySize + 1;
 	if (newSize > arrayCapacity)
 	{
 		AdjustSizeGeom(newSize);
@@ -452,61 +452,61 @@ inline uint32 DynamicArray<Type>::Add(AddType&& newElement)
 
 template<class Type>
 template<typename AddType>
-inline uint32 DynamicArray<Type>::AddUnique(AddType&& newElement)
+inline u32 DynamicArray<Type>::AddUnique(AddType&& newElement)
 {
-	int32 index = FindFirstIndex(newElement);
+	i32 index = FindFirstIndex(newElement);
 	if (index < 0)
 	{
 		index = Add(std::forward<AddType>(newElement));
 	}
-	return (uint32)index;
+	return (u32)index;
 }
 
 template<class Type>
-inline uint32 DynamicArray<Type>::AddEmpty(uint32 emptyElements)
+inline u32 DynamicArray<Type>::AddEmpty(u32 emptyElements)
 {
-	uint32 newSize = arraySize + emptyElements;
+	u32 newSize = arraySize + emptyElements;
 	if (newSize > arrayCapacity)
 	{
 		AdjustSizeGeom(newSize);
 	}
 
-	uint32 index = arraySize;
+	u32 index = arraySize;
 	arraySize = newSize;
 	return index;
 }
 
 template<class Type>
-inline uint32 DynamicArray<Type>::AddDefault(uint32 emptyElements)
+inline u32 DynamicArray<Type>::AddDefault(u32 emptyElements)
 {
-	uint32 newSize = arraySize + emptyElements;
+	u32 newSize = arraySize + emptyElements;
 	if (newSize > arrayCapacity)
 	{
 		AdjustSizeGeom(newSize);
 	}
 
-	uint32 index = arraySize;
+	u32 index = arraySize;
 	arraySize = newSize;
 	Construct(index, arraySize);
 	return index;
 }
 
 template<class Type>
-inline uint32 DynamicArray<Type>::AddRange(const pointerType range, uint32 rangeSize)
+inline u32 DynamicArray<Type>::AddRange(const pointerType range, u32 rangeSize)
 {
 	Assert(range);
 	Assert(rangeSize > 0);
 
-	uint32 index = AddEmpty(rangeSize);
+	u32 index = AddEmpty(rangeSize);
 	ConstructRangeInPlace(data + index, range, rangeSize);
 	return index;
 }
 
 template<class Type>
 template <typename InsertType>
-inline void DynamicArray<Type>::Insert(InsertType&& elem, uint32 index)
+inline void DynamicArray<Type>::Insert(InsertType&& elem, u32 index)
 {
-	uint32 newSize = arraySize + 1;
+	u32 newSize = arraySize + 1;
 	if (newSize > arrayCapacity)
 	{
 		AdjustSizeGeom(newSize);
@@ -525,9 +525,9 @@ inline void DynamicArray<Type>::Sort(const Pred& pred)
 	if (arraySize <= 30)
 	{
 		// Insertion sort
-		for (uint32 i = 1; i < arraySize; ++i)
+		for (u32 i = 1; i < arraySize; ++i)
 		{
-			for (int32 j = i; j > 0; --j)
+			for (i32 j = i; j > 0; --j)
 			{
 				if (pred(data[j], data[j - 1]))
 				{
@@ -552,7 +552,7 @@ template<class Type>
 inline bool DynamicArray<Type>::TryRemoveElement(const valueType& elem)
 {
 	bool result = false;
-	for (uint32 i = 0; i < arraySize; ++i)
+	for (u32 i = 0; i < arraySize; ++i)
 	{
 		if (GetData()[i] == elem)
 		{
@@ -566,7 +566,7 @@ inline bool DynamicArray<Type>::TryRemoveElement(const valueType& elem)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::Remove(uint32 index, uint32 count)
+inline void DynamicArray<Type>::Remove(u32 index, u32 count)
 {
 	Assert(index < arraySize);
 	Destroy(index, index + count);
@@ -577,7 +577,7 @@ inline void DynamicArray<Type>::Remove(uint32 index, uint32 count)
 template<class Type>
 inline void DynamicArray<Type>::RemoveFirst(const valueType& elem)
 {
-	for (uint32 i = 0; i < arraySize; ++i)
+	for (u32 i = 0; i < arraySize; ++i)
 	{
 		if (GetData()[i] == elem)
 		{
@@ -590,9 +590,9 @@ inline void DynamicArray<Type>::RemoveFirst(const valueType& elem)
 template<class Type>
 inline void DynamicArray<Type>::RemoveLast(const valueType& elem)
 {
-	for (int32 i = arraySize - 1; i >= 0; --i)
+	for (i32 i = arraySize - 1; i >= 0; --i)
 	{
-		uint32 index = (uint32)i;
+		u32 index = (u32)i;
 		if (GetData()[index] == elem)
 		{
 			Remove(index);
@@ -604,7 +604,7 @@ inline void DynamicArray<Type>::RemoveLast(const valueType& elem)
 template<class Type>
 inline void DynamicArray<Type>::RemoveAll(const valueType& elem)
 {
-	for (uint32 i = 0; i < arraySize; ++i)
+	for (u32 i = 0; i < arraySize; ++i)
 	{
 		if (GetData()[i] == elem)
 		{
@@ -615,14 +615,14 @@ inline void DynamicArray<Type>::RemoveAll(const valueType& elem)
 
 template<class Type>
 template<class Pred>
-inline int32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred)
+inline i32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred)
 {
-	int32 foundIndex = -1;
-	for (uint32 i = 0; i < arraySize; ++i)
+	i32 foundIndex = -1;
+	for (u32 i = 0; i < arraySize; ++i)
 	{
 		if (pred(data[i]))
 		{
-			foundIndex = (int32)i;
+			foundIndex = (i32)i;
 		}
 	}
 	return foundIndex;
@@ -630,10 +630,10 @@ inline int32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred)
 
 template<class Type>
 template<class Pred>
-inline int32 DynamicArray<Type>::FindLastIndexUsing(Pred&& pred)
+inline i32 DynamicArray<Type>::FindLastIndexUsing(Pred&& pred)
 {
-	int32 foundIndex = -1;
-	for (int32 i = static_cast<int32>(arraySize - 1); i > 0; --i)
+	i32 foundIndex = -1;
+	for (i32 i = static_cast<i32>(arraySize - 1); i > 0; --i)
 	{
 		if (pred(data[i]))
 		{
@@ -648,10 +648,10 @@ template<class Pred>
 inline Type* DynamicArray<Type>::FindFirstUsing(Pred&& pred)
 {
 	valueType* found = nullptr;
-	int32 foundIndex = FindFirstIndexUsing(std::move(pred));
+	i32 foundIndex = FindFirstIndexUsing(std::move(pred));
 	if (foundIndex >= 0)
 	{
-		found = &data[(uint32)foundIndex];
+		found = &data[(u32)foundIndex];
 	}
 
 	return found;
@@ -662,23 +662,23 @@ template<class Pred>
 inline Type* DynamicArray<Type>::FindLastUsing(Pred&& pred)
 {
 	valueType* found = nullptr;
-	int32 foundIndex = FindLastIndex(std::move(pred));
+	i32 foundIndex = FindLastIndex(std::move(pred));
 	if (foundIndex >= 0)
 	{
-		found = &data[(uint32)foundIndex];
+		found = &data[(u32)foundIndex];
 	}
 
 	return found;
 }
 
 template<class Type>
-inline int32 DynamicArray<Type>::FindFirstIndex(const valueType& obj)
+inline i32 DynamicArray<Type>::FindFirstIndex(const valueType& obj)
 {
 	return FindFirstIndexUsing([&](const valueType& o) {return obj == o; });
 }
 
 template<class Type>
-inline int32 DynamicArray<Type>::FindLastIndex(const valueType& obj)
+inline i32 DynamicArray<Type>::FindLastIndex(const valueType& obj)
 {
 	return FindLastIndexUsing([&](const valueType& o) {return obj == o; });
 }
@@ -696,10 +696,10 @@ inline Type* DynamicArray<Type>::FindLast(const valueType& obj)
 }
 
 template<class Type>
-inline bool DynamicArray<Type>::TryFindFirstIndex(const valueType& obj, uint32& foundIndex)
+inline bool DynamicArray<Type>::TryFindFirstIndex(const valueType& obj, u32& foundIndex)
 {
 	bool found = false;
-	for (uint32 i = 0; i < arraySize; ++i)
+	for (u32 i = 0; i < arraySize; ++i)
 	{
 		if (data[i] == obj)
 		{
@@ -712,10 +712,10 @@ inline bool DynamicArray<Type>::TryFindFirstIndex(const valueType& obj, uint32& 
 }
 
 template<class Type>
-inline bool DynamicArray<Type>::TryFindLastIndex(const valueType& obj, uint32& foundIndex)
+inline bool DynamicArray<Type>::TryFindLastIndex(const valueType& obj, u32& foundIndex)
 {
 	bool found = false;
-	for (int32 i = static_cast<int32>(arraySize - 1); i > 0; --i)
+	for (i32 i = static_cast<i32>(arraySize - 1); i > 0; --i)
 	{
 		if (data[i] == obj)
 		{
@@ -730,7 +730,7 @@ inline bool DynamicArray<Type>::TryFindLastIndex(const valueType& obj, uint32& f
 template<class Type>
 inline bool DynamicArray<Type>::TryFindFirst(const valueType& obj, valueType& foundVal)
 {
-	uint32 i;
+	u32 i;
 	bool found = TryFindFirstIndex(obj, i);
 	if (found)
 	{
@@ -743,7 +743,7 @@ inline bool DynamicArray<Type>::TryFindFirst(const valueType& obj, valueType& fo
 template<class Type>
 inline bool DynamicArray<Type>::TryFindLast(const valueType& obj, valueType& foundVal)
 {
-	uint32 i;
+	u32 i;
 	bool found = TryFindLastIndex(obj, i);
 	if (found)
 	{
@@ -754,7 +754,7 @@ inline bool DynamicArray<Type>::TryFindLast(const valueType& obj, valueType& fou
 }
 
 template<class Type>
-inline void DynamicArray<Type>::Reserve(uint32 reserveCapacity)
+inline void DynamicArray<Type>::Reserve(u32 reserveCapacity)
 {
 	if (arrayCapacity < reserveCapacity)
 	{
@@ -765,13 +765,13 @@ inline void DynamicArray<Type>::Reserve(uint32 reserveCapacity)
 
 // TODO - Figure out a better way of going about implementing this resize function...
 template<class Type>
-inline void DynamicArray<Type>::Resize(uint32 newSize)
+inline void DynamicArray<Type>::Resize(u32 newSize)
 {
 	if (newSize != arraySize)
 	{
 		if (newSize < arraySize)
 		{
-			const uint32 sizeDiff = arraySize - newSize;
+			const u32 sizeDiff = arraySize - newSize;
 			Destroy(newSize, arraySize);
 			arraySize = newSize;
 
@@ -783,14 +783,14 @@ inline void DynamicArray<Type>::Resize(uint32 newSize)
 				arrayCapacity = newSize;
 				CreateAdjustedSpace();
 
-				uint32 oldSize = arraySize;
+				u32 oldSize = arraySize;
 				arraySize = newSize;
 				Construct(oldSize, newSize);
 			}
 			else
 			{
 
-				uint32 oldSize = arraySize;
+				u32 oldSize = arraySize;
 				arraySize = newSize;
 				Construct(oldSize, newSize);
 			}
@@ -816,9 +816,9 @@ inline bool DynamicArray<Type>::IsEmpty() const
 
 template<class Type>
 template<class... Args>
-inline uint32 DynamicArray<Type>::Emplace(Args... args)
+inline u32 DynamicArray<Type>::Emplace(Args... args)
 {
-	uint32 index = AddEmpty();
+	u32 index = AddEmpty();
 	new(GetData() + index) Type(std::forward<Args>(args)...);
 	return index;
 }
@@ -828,7 +828,7 @@ template<typename CompareType>
 inline bool DynamicArray<Type>::Contains(const CompareType& obj) const
 {
 	bool found = false;
-	for (uint32 i = 0; i < arraySize; ++i)
+	for (u32 i = 0; i < arraySize; ++i)
 	{
 		if (data[i] == obj)
 		{
@@ -844,7 +844,7 @@ inline bool DynamicArray<Type>::Contains(const CompareType& obj) const
 //////////////////////////////////////////////////////////////////////////
 template<class Type>
 template <class OtherType>
-inline void DynamicArray<Type>::CopyData(OtherType* otherData, uint32 dataNum)
+inline void DynamicArray<Type>::CopyData(OtherType* otherData, u32 dataNum)
 {
 	if (dataNum > 0)
 	{
@@ -862,14 +862,14 @@ inline void DynamicArray<Type>::CopyData(OtherType* otherData, uint32 dataNum)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::Construct(uint32 index)
+inline void DynamicArray<Type>::Construct(u32 index)
 {
 	Assert(index >= 0 && index < arraySize);
 	ConstructRange(data + index, data + (index + 1));
 }
 
 template<class Type>
-inline void DynamicArray<Type>::Construct(uint32 startIndex, uint32 endIndex)
+inline void DynamicArray<Type>::Construct(u32 startIndex, u32 endIndex)
 {
 	Assert(startIndex < arraySize);
 	Assert(endIndex >= startIndex && endIndex <= arraySize);
@@ -884,8 +884,8 @@ std::enable_if_t<
 >
 inline DynamicArray<Type>::ConstructRange(U start, U end)
 {
-	uint8* const beginning = reinterpret_cast<uint8*>(start);
-	uint8* const ending = reinterpret_cast<uint8*>(end);
+	u8* const beginning = reinterpret_cast<u8*>(start);
+	u8* const ending = reinterpret_cast<u8*>(end);
 	Memset(beginning, 0, static_cast<size_t>(ending - beginning));
 }
 
@@ -908,9 +908,9 @@ template <typename SrcType, typename DstType>
 std::enable_if_t<
 	is_memcpy_constructable_v<SrcType, DstType>
 >
-inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* type, uint32 count)
+inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count)
 {
-	const uint32 byteCount = sizeof(SrcType) * count;
+	const u32 byteCount = sizeof(SrcType) * count;
 	Memcpy(dst, type, byteCount);
 }
 
@@ -919,7 +919,7 @@ template <typename SrcType, typename DstType>
 std::enable_if_t<
 	!is_memcpy_constructable_v<SrcType, DstType>
 >
-	inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* src, uint32 count)
+	inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* src, u32 count)
 {
 	while (count > 0)
 	{
@@ -931,14 +931,14 @@ std::enable_if_t<
 }
 
 template<class Type>
-inline void DynamicArray<Type>::Destroy(uint32 index)
+inline void DynamicArray<Type>::Destroy(u32 index)
 {
 	Assert(index >= 0 && index < arraySize);
 	DestroyRange(data + index, data + (index + 1));
 }
 
 template<class Type>
-inline void DynamicArray<Type>::Destroy(uint32 startIndex, uint32 endIndex)
+inline void DynamicArray<Type>::Destroy(u32 startIndex, u32 endIndex)
 {
 	Assert(startIndex < arraySize);
 	Assert(endIndex >= startIndex && endIndex <= arraySize);
@@ -970,7 +970,7 @@ inline DynamicArray<Type>::DestroyRange(U /*start*/, U /*end*/)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::MoveForward(uint32 startIndex, uint32 count)
+inline void DynamicArray<Type>::MoveForward(u32 startIndex, u32 count)
 {
 	Assert(startIndex + count < arraySize);
 	pointerType origLoc = GetData() + startIndex;
@@ -980,7 +980,7 @@ inline void DynamicArray<Type>::MoveForward(uint32 startIndex, uint32 count)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::MoveBack(uint32 startIndex, uint32 count)
+inline void DynamicArray<Type>::MoveBack(u32 startIndex, u32 count)
 {
 	Assert(startIndex > 0);
 	Assert(startIndex >= count);
@@ -994,12 +994,12 @@ inline void DynamicArray<Type>::MoveBack(uint32 startIndex, uint32 count)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::AdjustSizeGeom(uint32 newSize)
+inline void DynamicArray<Type>::AdjustSizeGeom(u32 newSize)
 {
-	uint32 sizeAdjust = 3;
+	u32 sizeAdjust = 3;
 	if (newSize > arrayCapacity || arrayCapacity > 0)
 	{
-		sizeAdjust = static_cast<uint32>(newSize * 1.5f);
+		sizeAdjust = static_cast<u32>(newSize * 1.5f);
 	}
 	arrayCapacity += sizeAdjust;
 	CreateAdjustedSpace();
@@ -1016,9 +1016,9 @@ inline void DynamicArray<Type>::CreateAdjustedSpace()
 
 //////////////////////////////////////////////////////////////////////////
 template<typename Elem>
-inline uint32 GetHash(const DynamicArray<Elem>& arr)
+inline u32 GetHash(const DynamicArray<Elem>& arr)
 {
-	uint32 hash = 0;
+	u32 hash = 0;
 	for (const auto& elem : arr)
 	{
 		HashCombine(hash, elem);

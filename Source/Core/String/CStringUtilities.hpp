@@ -11,7 +11,7 @@ CORE_API tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src);
 CORE_API tchar* Strcat(tchar* dest, size_t sizeDest, const tchar* src, size_t sizeSrc) noexcept;
 
 template<size_t sizeDest>
-forceinline tchar* Strcat(tchar(&dest)[sizeDest], const tchar* src, uint32 sizeSrc) noexcept
+forceinline tchar* Strcat(tchar(&dest)[sizeDest], const tchar* src, u32 sizeSrc) noexcept
 {
 	return Strcat(dest, sizeDest, src, sizeSrc);
 }
@@ -30,7 +30,7 @@ constexpr size_t Strlen(const tchar* str) noexcept
 	return len;
 }
 
-constexpr int32 Strcmp(const tchar* str1, const tchar* str2) noexcept
+constexpr i32 Strcmp(const tchar* str1, const tchar* str2) noexcept
 {
 	if (str1 == nullptr)
 	{
@@ -57,7 +57,7 @@ constexpr int32 Strcmp(const tchar* str1, const tchar* str2) noexcept
 	return 0;
 }
 
-constexpr int32 Strncmp(const tchar* str1, const tchar* str2, size_t count) noexcept
+constexpr i32 Strncmp(const tchar* str1, const tchar* str2, size_t count) noexcept
 {
 	for (; count; --count, ++str1, ++str2)
 	{
@@ -164,7 +164,7 @@ constexpr tchar* Strstr(tchar* str, const tchar* findStr) noexcept
 	return res;
 }
 
-constexpr int32 FindFirstIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
+constexpr i32 FindFirstIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
 {
 	Assert(str);
 	Assert(findStr);
@@ -180,16 +180,16 @@ constexpr int32 FindFirstIn(const tchar* str, size_t strLen, const tchar* findSt
 		{
 			return -1;
 		}
-		size_t iterLen = strLen - static_cast<uint32>(iter - str);
+		size_t iterLen = strLen - static_cast<u32>(iter - str);
 		size_t count = iterLen < findStrLen ? iterLen : findStrLen;
 		if (Strncmp(iter, findStr, count) == 0)
 		{
-			return static_cast<int32>(iter - str);
+			return static_cast<i32>(iter - str);
 		}
 	}
 }
 
-constexpr int32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
+constexpr i32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
 {
 	Assert(str);
 	Assert(findStr);
@@ -201,7 +201,7 @@ constexpr int32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr
 	const tchar* const endPos = str + strLen;
 	for (const tchar* iter = endPos - findStrLen; iter != (str - 1); --iter)
 	{
-		uint32 i = 0;
+		u32 i = 0;
 		for (; i < findStrLen; ++i)
 		{
 			if (iter[i] != findStr[i])
@@ -212,7 +212,7 @@ constexpr int32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr
 
 		if (findStr[i] == '\0')
 		{
-			return static_cast<int32>(iter - str);
+			return static_cast<i32>(iter - str);
 		}
 	}
 
@@ -248,7 +248,7 @@ constexpr bool EndsWith(const tchar* str, size_t strLen, const tchar* endStr, si
 	// account for null terminator
 	const tchar* strData = str + strLen - 1;
 	const tchar* endStrData = endStr + endStrLen - 1;
-	int32 chCount = static_cast<int32>(endStrLen);
+	i32 chCount = static_cast<i32>(endStrLen);
 
 	while (chCount > 0)
 	{

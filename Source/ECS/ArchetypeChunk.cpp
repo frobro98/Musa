@@ -8,12 +8,12 @@
 namespace Musa
 {
 
-static forceinline size_t GetComponentIndex(uint32 typeSize, uint32 compIndex)
+static forceinline size_t GetComponentIndex(u32 typeSize, u32 compIndex)
 {
 	return typeSize * compIndex;
 }
 
-static forceinline void CheckIfFullChunk(ArchetypeChunk& chunk, uint32 capacity)
+static forceinline void CheckIfFullChunk(ArchetypeChunk& chunk, u32 capacity)
 {
 	if (chunk.header->entityCount == capacity)
 	{
@@ -36,13 +36,13 @@ static forceinline void CheckIfWasFullChunk(ArchetypeChunk& chunk, bool wasFull)
 }
 
 // Fixes Entity indices into their owning chunk
-static void ReconcileEntityChunkChanges(World& world, ArchetypeChunk& changedChunk, uint32 startChunkIndex)
+static void ReconcileEntityChunkChanges(World& world, ArchetypeChunk& changedChunk, u32 startChunkIndex)
 {
 	DynamicArray<EntityBridge>& entityBridges = world.entityBridges;
 	ChunkArray<Entity> entities = GetChunkArray<Entity>(changedChunk);
 	Assert(entities.IsValid());
 
-	for (uint32 i = startChunkIndex; i < entities.size; ++i)
+	for (u32 i = startChunkIndex; i < entities.size; ++i)
 	{
 		Entity e = entities[i];
 		EntityBridge& bridge = entityBridges[e.id];
@@ -50,32 +50,32 @@ static void ReconcileEntityChunkChanges(World& world, ArchetypeChunk& changedChu
 	}
 }
 
-static void FillGapInChunkEntities(ArchetypeChunk& chunk, uint32 entityIndex)
+static void FillGapInChunkEntities(ArchetypeChunk& chunk, u32 entityIndex)
 {
-	uint8* chunkBuffer = chunk.data;
+	u8* chunkBuffer = chunk.data;
 	
 	// TODO - Cache miss!
 	// NOTE - This works because numEntities already accounts for the removed entity
-	uint32 entitiesToMove = chunk.header->entityCount - entityIndex;
+	u32 entitiesToMove = chunk.header->entityCount - entityIndex;
 
 	if (entitiesToMove > 0)
 	{
 		// Move Entity array over starting with entityIndex + 1
-		uint8* dstEntityLoc = chunkBuffer + sizeof(Entity) * entityIndex;
-		uint8* srcEntityLoc = dstEntityLoc + sizeof(Entity);
+		u8* dstEntityLoc = chunkBuffer + sizeof(Entity) * entityIndex;
+		u8* srcEntityLoc = dstEntityLoc + sizeof(Entity);
 		size_t moveSize = entitiesToMove * sizeof(Entity);
 		Memcpy(dstEntityLoc, srcEntityLoc, moveSize);
 
 		// Move Components over starting with entityIndex + 1
 		size_t* offsets = chunk.header->offsets;
 		const ComponentType** types = chunk.header->types;
-		const uint32 numComponents = chunk.header->componentTypeCount;
-		for (uint32 i = 0; i < numComponents; ++i)
+		const u32 numComponents = chunk.header->componentTypeCount;
+		for (u32 i = 0; i < numComponents; ++i)
 		{
 			size_t offset = offsets[i];
-			uint32 size = types[i]->size;
-			uint8* dstCompLoc = chunkBuffer + offset + (size * entityIndex);
-			uint8* srcCompLoc = dstCompLoc + size;
+			u32 size = types[i]->size;
+			u8* dstCompLoc = chunkBuffer + offset + (size * entityIndex);
+			u8* srcCompLoc = dstCompLoc + size;
 			size_t compMoveSize = entitiesToMove * size;
 
 			Memcpy(dstCompLoc, srcCompLoc, compMoveSize);
@@ -87,28 +87,28 @@ static void FillGapInChunkEntities(ArchetypeChunk& chunk, uint32 entityIndex)
 namespace
 {
 struct SameComponentType {
-	uint32 size;
-	uint32 oldIndex;
-	uint32 newIndex;
+	u32 size;
+	u32 oldIndex;
+	u32 newIndex;
 };
 }
 
 // Returns how many types matched up
-static uint32 AssociateSameComponentTypes(
+static u32 AssociateSameComponentTypes(
 	SameComponentType* typeIndexArray,
 	const ComponentType** oldTypes,
 	const ComponentType** newTypes,
-	uint32 oldCount, uint32 newCount
+	u32 oldCount, u32 newCount
 )
 {
-	uint32 sameTypeCount = 0;
+	u32 sameTypeCount = 0;
 
-	uint32 biggerTypeIndex = 0;
-	const uint32 smallCount = /*Math::Max()*/ oldCount < newCount ? oldCount : newCount;
-	const uint32 biggerCount = /*Math::Max()*/ oldCount > newCount ? oldCount : newCount;
+	u32 biggerTypeIndex = 0;
+	const u32 smallCount = /*Math::Max()*/ oldCount < newCount ? oldCount : newCount;
+	const u32 biggerCount = /*Math::Max()*/ oldCount > newCount ? oldCount : newCount;
 	const ComponentType** smallList = /*Math::Select()*/ oldCount < newCount ? oldTypes : newTypes;
 	const ComponentType** biggerList = /*Math::Select()*/ oldCount > newCount ? oldTypes : newTypes;
-	for (uint32 smallTypeIndex = 0;
+	for (u32 smallTypeIndex = 0;
 		smallTypeIndex < smallCount && biggerTypeIndex < biggerCount;
 		++smallTypeIndex, ++biggerTypeIndex)
 	{
@@ -135,15 +135,15 @@ static uint32 AssociateSameComponentTypes(
 	return sameTypeCount;
 }
 
-void ConstructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex)
+void ConstructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex)
 {
 	Assert(chunk.header->entityCount > entityIndex);
 	size_t* offsets= chunk.header->offsets;
 	const ComponentType** types = chunk.header->types;
-	uint32 typeCount = chunk.header->componentTypeCount;
+	u32 typeCount = chunk.header->componentTypeCount;
 
 	// Initialize memory using construstor
-	for(uint32 i = 0; i < typeCount; ++i)
+	for(u32 i = 0; i < typeCount; ++i)
 	//for (const auto& compOffset : *offsetList)
 	{
 		const ComponentType* compType = types[i];
@@ -156,15 +156,15 @@ void ConstructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex)
 	}
 }
 
-void DestructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex)
+void DestructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex)
 {
 	Assert(chunk.header->entityCount > entityIndex);
 	size_t* offsets = chunk.header->offsets;
 	const ComponentType** types = chunk.header->types;
-	uint32 typeCount = chunk.header->componentTypeCount;
+	u32 typeCount = chunk.header->componentTypeCount;
 
 	// Deinitialize memory using destrustor
-	for (uint32 i = 0; i < typeCount; ++i)
+	for (u32 i = 0; i < typeCount; ++i)
 	{
 		const ComponentType* compType = types[i];
 		size_t componentOffset = offsets[i];
@@ -177,16 +177,16 @@ void DestructEntityInChunk(ArchetypeChunk& chunk, uint32 entityIndex)
 }
 
 // Returns the new chunk index
-uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChunkIndex, ArchetypeChunk& newChunk)
+u32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, u32 oldChunkIndex, ArchetypeChunk& newChunk)
 {
-	uint32 oldComponentCount = oldChunk.header->componentTypeCount;
-	uint32 newComponentCount = newChunk.header->componentTypeCount;
+	u32 oldComponentCount = oldChunk.header->componentTypeCount;
+	u32 newComponentCount = newChunk.header->componentTypeCount;
 	const ComponentType** oldTypes = oldChunk.header->types;
 	const ComponentType** newTypes = newChunk.header->types;
 	size_t* oldOffsets = oldChunk.header->offsets;
 	size_t* newOffsets = newChunk.header->offsets;
 
-	uint32 newChunkIndex = AddEntityToChunk(newChunk, entity);
+	u32 newChunkIndex = AddEntityToChunk(newChunk, entity);
 
 
 	//copy all data from old chunk into new chunk
@@ -194,18 +194,18 @@ uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChu
 
 	SameComponentType sameTypes[MaxComponentsPerArchetype];
 
-	uint32 sameTypeCount = AssociateSameComponentTypes(
+	u32 sameTypeCount = AssociateSameComponentTypes(
 		sameTypes,
 		oldTypes, 
 		newTypes, 
 		oldComponentCount, 
 		newComponentCount);
 
-	for (uint32 i = 0; i < sameTypeCount; ++i)
+	for (u32 i = 0; i < sameTypeCount; ++i)
 	{
-		uint32 oldIndex = sameTypes[i].oldIndex;
-		uint32 newIndex = sameTypes[i].newIndex;
-		uint32 compSize = sameTypes[i].size;
+		u32 oldIndex = sameTypes[i].oldIndex;
+		u32 newIndex = sameTypes[i].newIndex;
+		u32 compSize = sameTypes[i].size;
 		
 		void* oldAddr = oldChunk.data + oldOffsets[oldIndex] + GetComponentIndex(compSize, oldChunkIndex);
 		void* newAddr = newChunk.data + newOffsets[newIndex] + GetComponentIndex(compSize, newChunkIndex);
@@ -216,14 +216,14 @@ uint32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, uint32 oldChu
 	return newChunkIndex;
 }
 
-uint32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity)
+u32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity)
 {
 	REF_CHECK(chunk, entity);
 
-	uint32 archetypeCapacity = chunk.header->archetype->entityCapacity;
+	u32 archetypeCapacity = chunk.header->archetype->entityCapacity;
 	Assert(chunk.header->entityCount < archetypeCapacity);
 
-	uint32 entityIndex = chunk.header->entityCount;
+	u32 entityIndex = chunk.header->entityCount;
 	++chunk.header->entityCount;
 	++chunk.header->archetype->totalEntityCount;
 
@@ -234,7 +234,7 @@ uint32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity)
 
 	return entityIndex;
 }
-void RemoveEntityFromChunk(ArchetypeChunk& chunk, uint32 chunkIndex)
+void RemoveEntityFromChunk(ArchetypeChunk& chunk, u32 chunkIndex)
 {
 	Assert(chunk.header->entityCount > chunkIndex);
 

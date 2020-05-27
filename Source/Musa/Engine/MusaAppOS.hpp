@@ -17,7 +17,7 @@ public:
 	MusaAppOS(UniquePtr<WindowInputHandler>&& inputHandler);
 	virtual ~MusaAppOS() = default;
 
-	virtual Window* CreateGameWindow(uint32 xPos, uint32 yPos, uint32 width, uint32 height) = 0;
+	virtual Window* CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height) = 0;
 	
 	virtual void SetRawMouseInput(bool enabled, const Window& window) = 0;
 

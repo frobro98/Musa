@@ -7,7 +7,7 @@
 
 class WindowInputHandler;
 
-enum class WindowMode : uint32
+enum class WindowMode : u32
 {
 	Windowed = 0,
 	Fullscreen = 1,
@@ -17,7 +17,7 @@ enum class WindowMode : uint32
 class Window : private Uncopyable
 {
 public:
-	Window(HINSTANCE instance, WindowInputHandler& inputHandler, uint32 xPos, uint32 yPos, uint32 width, uint32 height);
+	Window(HINSTANCE instance, WindowInputHandler& inputHandler, u32 xPos, u32 yPos, u32 width, u32 height);
 	~Window();
 
 	void SetWindowMode(WindowMode mode);
@@ -29,11 +29,11 @@ public:
 
 	void SetAsActiveWindow();
 	void Close();
-	void Resize(uint32 width, uint32 height);
+	void Resize(u32 width, u32 height);
 
 	inline IntVector2 GetPosition() const { return position; }
-	inline int32 GetWidth() const { return width; }
-	inline int32 GetHeight() const { return height; }
+	inline i32 GetWidth() const { return width; }
+	inline i32 GetHeight() const { return height; }
 	inline WindowInputHandler& GetInputHandler() const { return inputHandler; }
 
 private:
@@ -41,9 +41,9 @@ private:
 	HWND window;
 	WindowInputHandler& inputHandler;
 	IntVector2 position;
-	int32 width;
-	int32 height;
+	i32 width;
+	i32 height;
 	WindowMode windowMode;
-	uint32 isShown : 1;
-	uint32 isActive : 1;
+	u32 isShown : 1;
+	u32 isActive : 1;
 };

@@ -19,8 +19,8 @@ struct ViewDescription
 	Vector4 origin;
 	Vector4 direction;
 	Rect viewport;
-	float32 fieldOfView = 0;
-	float32 aspectRatio = 0;
+	f32 fieldOfView = 0;
+	f32 aspectRatio = 0;
 };
 
 struct ViewTransforms
@@ -43,10 +43,10 @@ struct View
 class ScreenView
 {
 public:
-	ScreenView(int32 screenWidth, int32 screenHeight);
+	ScreenView(i32 screenWidth, i32 screenHeight);
 
-	int32 GetScreenWidth() const;
-	int32 GetScreenHeight() const;
+	i32 GetScreenWidth() const;
+	i32 GetScreenHeight() const;
 	NativeVertexShader* GetScreenVertexShader() const;
 	NativeFragmentShader* GetScreenFragmentShader() const;
 
@@ -58,6 +58,6 @@ public:
 private:
 	NativeVertexShader* screenVertexShader = nullptr;
 	NativeFragmentShader* screenFragmentShader = nullptr;
-	int32 width;
-	int32 height;
+	i32 width;
+	i32 height;
 };

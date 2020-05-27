@@ -8,9 +8,9 @@ BufferGraphicsAllocation::BufferGraphicsAllocation(
 	VkBuffer buff, 
 	VkBufferUsageFlags usage,
 	VkMemoryPropertyFlags memProperties,
-	uint32 size, 
-	uint32 alignment,
-	uint32 typeIndex, 
+	u32 size, 
+	u32 alignment,
+	u32 typeIndex, 
 	bool canMap, bool cached, bool coherent)
 	: GraphicsMemoryAllocation(
 		device,
@@ -26,12 +26,12 @@ BufferGraphicsAllocation::BufferGraphicsAllocation(
 	CHECK_VK(result);
 }
 
-BufferMemory* BufferGraphicsAllocation::CreateMemoryRange(VkDeviceSize bufferSize, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
+BufferMemory* BufferGraphicsAllocation::CreateMemoryRange(VkDeviceSize bufferSize, u32 blockSize, u32 alignedOffset, u32 actualOffset)
 {
 	return new BufferMemory(*this, buffer, bufferSize, blockSize, alignedOffset, actualOffset);
 }
 
-BufferMemory::BufferMemory(BufferGraphicsAllocation& owningAlloc, VkBuffer buffer, VkDeviceSize size, uint32 blockSize, uint32 alignedOffset, uint32 actualOffset)
+BufferMemory::BufferMemory(BufferGraphicsAllocation& owningAlloc, VkBuffer buffer, VkDeviceSize size, u32 blockSize, u32 alignedOffset, u32 actualOffset)
 	: GraphicsMemoryRange(owningAlloc, size, blockSize, alignedOffset, actualOffset),
 	associatedBuffer(buffer)
 {

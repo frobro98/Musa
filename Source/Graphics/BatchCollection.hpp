@@ -50,7 +50,7 @@ class GRAPHICS_API BatchCollection
 {
 public:
 	void BatchLine(const BatchedLineDescription& lineDesc);
-	void BatchLine(const BatchedLineDescription* lineDescs, uint32 lineCount);
+	void BatchLine(const BatchedLineDescription* lineDescs, u32 lineCount);
 
 	void BatchTriangle(const BatchedTriangleDescription& triDesc);
 	void BatchQuad(const BatchedQuadDescription& quadDesc);

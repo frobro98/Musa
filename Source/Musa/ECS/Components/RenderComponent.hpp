@@ -9,5 +9,5 @@ struct RenderComponent : public Musa::Component
 	//DECLARE_COMPONENT(RenderComponent);
 
 
-	uint32 pad[2] = { 0, 0 };
+	u32 pad[2] = { 0, 0 };
 };

@@ -28,11 +28,11 @@ class SpvReadBuf : public std::stringbuf, private Uncopyable
 public:
 	SpvReadBuf() = default;
 
-	virtual int32 sync() override
+	virtual i32 sync() override
 	{
 		char* p = pbase();
 		char* end = pptr();
-		uint32 size = (uint32)(end - p);
+		u32 size = (u32)(end - p);
 		spvBuffer.Clear();
 		spvBuffer.Reserve(size);
 		for (; p != end; ++p)
@@ -224,12 +224,12 @@ static void RemoveLinePreprocessorDirectives(String& preprocessedShader)
 {
 	do
 	{
-		int32 index = preprocessedShader.FindFirst("#line");
+		i32 index = preprocessedShader.FindFirst("#line");
 		if (index >= 0)
 		{
-			uint32 usIndex = (uint32)index;
-			int32 newLineIndex = preprocessedShader.FindFrom(usIndex, "\n");
-			uint32 removeCount = (uint32)(newLineIndex - index + 1); // Remove the newline as well
+			u32 usIndex = (u32)index;
+			i32 newLineIndex = preprocessedShader.FindFrom(usIndex, "\n");
+			u32 removeCount = (u32)(newLineIndex - index + 1); // Remove the newline as well
 			preprocessedShader.Remove(usIndex, removeCount);
 		}
 
@@ -301,7 +301,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 		{
 			Assert(program.getIntermediate(stage));
 			program.buildReflection();
-			std::vector<uint32> spirv;
+			std::vector<u32> spirv;
 			spv::SpvBuildLogger logger;
 			glslang::GlslangToSpv(*program.getIntermediate(stage), spirv, &logger);
 			// Log the messages from logger...
@@ -309,7 +309,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 			// Reflection
 			SpvReflectShaderModule module = {};
 			NOT_USED SpvReflectResult spvResult = spvReflectCreateShaderModule(
-				spirv.size() * sizeof(uint32), spirv.data(), &module);
+				spirv.size() * sizeof(u32), spirv.data(), &module);
 			Assert(spvResult == SPV_REFLECT_RESULT_SUCCESS);
 
 			VulkanShaderHeader shaderHeader;
@@ -321,7 +321,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 			// Inputs
 			{
-				uint32 count;
+				u32 count;
 				result = spvReflectEnumerateInputVariables(&module, &count, nullptr);
 				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
@@ -341,7 +341,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 			// Outputs
 			{
-				uint32 count;
+				u32 count;
 				result = spvReflectEnumerateOutputVariables(&module, &count, nullptr);
 				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
@@ -362,7 +362,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 			// Constants
 			{
-				uint32 count;
+				u32 count;
 				result = spvReflectEnumerateDescriptorBindings(&module, &count, nullptr);
 				Assert(result == SPV_REFLECT_RESULT_SUCCESS);
 
@@ -406,8 +406,8 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 			spvReflectDestroyShaderModule(&module);
 
 			// Shader code output
-			size_t compiledCodeSize = spirv.size() * sizeof(uint32);
-			DynamicArray<uint32> spirvBytecode((uint32)spirv.size());
+			size_t compiledCodeSize = spirv.size() * sizeof(u32);
+			DynamicArray<u32> spirvBytecode((u32)spirv.size());
 			Memcpy(spirvBytecode.GetData(), compiledCodeSize, spirv.data(), compiledCodeSize);
 			shaderHeader.bytecodeHash = fnv32(spirvBytecode.GetData(), spirvBytecode.SizeInBytes());
 

@@ -16,7 +16,7 @@ class Matrix4;
 class Skeleton
 {
 public:
-	Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, uint32 boneCount, uint32 skeletonHash, PCSTree<SkeletonBone>&& hierarchy);
+	Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 boneCount, u32 skeletonHash, PCSTree<SkeletonBone>&& hierarchy);
 	~Skeleton();
 
 	Skeleton(const Skeleton&) = delete;
@@ -24,11 +24,11 @@ public:
 
 	KeyFrameRange GetFrameRange() const { return controller->GetFrameRange(); }
 	SkeletonBone* GetSkeletonBoneList() const { return bones; }
-	uint32 GetBoneCount() const { return boneCount; }
+	u32 GetBoneCount() const { return boneCount; }
 	DynamicArray<BonePoseData> GetPose() const { return poseMatrices; }
 	const BoneHierarchyTable& GetHierarchyTable() const { return hierarchyTable; }
 
-	uint32 GetHash() const { return skeletonHash; }
+	u32 GetHash() const { return skeletonHash; }
 
 	bool IsAnimationDirty() const;
 
@@ -52,8 +52,8 @@ private:
 	SkeletonBone* bones;
 	Matrix4* skeletonWorld;
 	AnimationController* controller = nullptr;
-	uint32 boneCount;
-	uint32 skeletonHash;
+	u32 boneCount;
+	u32 skeletonHash;
 	bool isDebug;
 
 };

@@ -5,8 +5,8 @@
 
 namespace Musa::Internal
 {
-	uint32 MetricGroupCounter::counter = 0;
-	uint32 MetricCounter::counter = 0;
+	u32 MetricGroupCounter::counter = 0;
+	u32 MetricCounter::counter = 0;
 }
 
 static MetricTable metricTable;

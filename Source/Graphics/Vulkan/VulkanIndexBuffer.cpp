@@ -12,7 +12,7 @@ VulkanIndexBuffer::VulkanIndexBuffer(VulkanDevice& device, const DynamicArray<Fa
 	: logicalDevice(device),
 	numIndicies(indices.Size() * 3)
 {
-	uint32 indexBufferSize = sizeof(Face) * indices.Size();
+	u32 indexBufferSize = sizeof(Face) * indices.Size();
 
 	// TODO - Get staging buffers working. Need to cache them until they're used
 	indexBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(

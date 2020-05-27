@@ -9,7 +9,7 @@ namespace
 {
 jmp_buf jmpBuf;
 
-constexpr uint32 PNGSignatureByteSize = sizeof(png_size_t);
+constexpr u32 PNGSignatureByteSize = sizeof(png_size_t);
 
 static void PNGErrorFunction(png_structp png_ptr, png_const_charp error_msg)
 {
@@ -34,7 +34,7 @@ void PNGImporter::PNGReadFunc(png_structp png_ptr, png_bytep data, png_size_t si
 	MemoryBuffer& compData = importer->importData;
 	Memcpy(data, size, compData.Offset(importer->bufferReadLocation), size);
 	// TODO - x64: Figure out how to handle size_t
-	importer->bufferReadLocation += (uint32)size;
+	importer->bufferReadLocation += (u32)size;
 }
 
 void PNGImporter::SetImportData(MemoryBuffer&& data)
@@ -55,8 +55,8 @@ void PNGImporter::ProcessPNGHeader()
 		png_set_read_fn(png, this, &PNGImporter::PNGReadFunc);
 		png_read_info(png, pngInfo);
 
-		width = static_cast<int32>(pngInfo->width);
-		height = static_cast<int32>(pngInfo->height);
+		width = static_cast<i32>(pngInfo->width);
+		height = static_cast<i32>(pngInfo->height);
 		bitDepth = pngInfo->bit_depth;
 		colorType = pngInfo->color_type;
 		format = (colorType & PNG_COLOR_MASK_COLOR) != 0 ? ImageFormat::RGBA_8u : ImageFormat::Gray_8u;
@@ -91,7 +91,7 @@ void PNGImporter::ProcessImport()
 	}
 
 	// Configure Transform
-	int32 pngTransform = PNG_TRANSFORM_IDENTITY;
+	i32 pngTransform = PNG_TRANSFORM_IDENTITY;
 	if (bitDepth == 16)
 	{
 #ifdef PNG_READ_SCALE_16_TO_8_SUPPORTED
@@ -102,13 +102,13 @@ void PNGImporter::ProcessImport()
 	}
 
 	// Read
-	const uint32 channels = 4;
-	const uint32 pixelBytes = bitDepth * channels / 8;
-	const uint32 bytesPerRow = pixelBytes * width;
+	const u32 channels = 4;
+	const u32 pixelBytes = bitDepth * channels / 8;
+	const u32 bytesPerRow = pixelBytes * width;
 	importedImageData.IncreaseSize(width * height * pixelBytes);
 
 	png_bytep* pngRows = reinterpret_cast<png_bytep*>(png_malloc(png, sizeof(png_bytep) * height));
-	for (int32 i = 0; i < height; ++i)
+	for (i32 i = 0; i < height; ++i)
 	{
 		pngRows[i] = importedImageData.Offset(i * bytesPerRow);
 	}

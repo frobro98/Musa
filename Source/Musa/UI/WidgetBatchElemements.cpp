@@ -11,7 +11,7 @@ BatchElement& WidgetBatchElements::GetBatchElement(const NativeTexture* batchTex
 
 	if (elem == nullptr)
 	{
-		uint32 i = batchElements.AddDefault();
+		u32 i = batchElements.AddDefault();
 		elem = &batchElements[i];
 		elem->batchTexture = batchTexture;
 	}

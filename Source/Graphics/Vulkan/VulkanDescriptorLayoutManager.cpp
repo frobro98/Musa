@@ -12,7 +12,7 @@ VulkanDescriptorSetLayout* VulkanDescriptorLayoutManager::CreateSetLayout()
 
 void VulkanDescriptorLayoutManager::Deinitialize()
 {
-	for (uint32 i = 0; i < layouts.Size(); ++i)
+	for (u32 i = 0; i < layouts.Size(); ++i)
 	{
 		delete layouts[i];
 	}

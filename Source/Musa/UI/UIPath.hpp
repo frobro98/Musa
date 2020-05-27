@@ -15,7 +15,7 @@ public:
 	Path() = default;
 	Path(DynamicArray<Widget*>&& widgetPath);
 
-	uint32 Size() const;
+	u32 Size() const;
 	bool ContainsWidget(const Widget& widget) const;
 
 public:
@@ -24,7 +24,7 @@ public:
 	public:
 		Iterator(Path& path)
 			: widgets(path.path.GetData()),
-			currentIndex((int32)path.Size() - 1)
+			currentIndex((i32)path.Size() - 1)
 		{
 		}
 
@@ -61,7 +61,7 @@ public:
 
 	private:
 		Widget** widgets;
-		int32 currentIndex;
+		i32 currentIndex;
 	};
 
 private:

@@ -19,7 +19,7 @@ static void ClearEntityBridge(World& world, Entity entity)
 
 //////////////////////////////////////////////////////////////////////////
 
-Entity World::ConstructEntityInternals(World& world, const ComponentType** types, uint32 typeCount)
+Entity World::ConstructEntityInternals(World& world, const ComponentType** types, u32 typeCount)
 {
 	Assert(IsSorted(types, typeCount, Less<const ComponentType*>{}));
 	Archetype* archetype = GetOrCreateArchetypeFrom(world, types, typeCount);
@@ -36,11 +36,11 @@ void World::HookUpComponentType(World& world, Entity entity, const ComponentType
 	Archetype& currentArchetype = GetEntityArchetype(world, entity);
 	ArchetypeComponentList& currentTypes = currentArchetype.types;
 
-	uint32 totalTypes = currentTypes.Size();
+	u32 totalTypes = currentTypes.Size();
 	Assert(totalTypes < MaxComponentsPerArchetype);
 
 	// Check if type is already on current archetype
-	for (uint32 i = 0; i < totalTypes; ++i)
+	for (u32 i = 0; i < totalTypes; ++i)
 	{
 		componentTypes[i] = currentTypes[i];
 	}
@@ -64,12 +64,12 @@ void World::UnhookComponentType(World& world, Entity entity, const ComponentType
 	Archetype& currentArchetype = GetEntityArchetype(world, entity);
 	ArchetypeComponentList& currentTypes = currentArchetype.types;
 
-	uint32 totalTypes = currentTypes.Size();
+	u32 totalTypes = currentTypes.Size();
 	Assert(totalTypes < MaxComponentsPerArchetype);
 
 	bool typeFound = false;
 	// Check if type is already on current archetype
-	for (uint32 i = 0; i < totalTypes; ++i)
+	for (u32 i = 0; i < totalTypes; ++i)
 	{
 		componentTypes[i] = currentTypes[i];
 
@@ -96,7 +96,7 @@ World::World()
 {
 }
 
-Entity World::CreateEntity(const ComponentType ** types, uint32 typeCount)
+Entity World::CreateEntity(const ComponentType ** types, u32 typeCount)
 {
 	Assert(typeCount < MaxComponentsPerArchetype);
 	InsertionSort(types, typeCount);

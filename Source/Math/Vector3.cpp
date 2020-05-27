@@ -12,7 +12,7 @@ const Vector3 Vector3::ForwardAxis(0, 0, 1);
 const Vector3 Vector3::Zero(0, 0, 0);
 const Vector3 Vector3::One(1, 1, 1);
 
-Vector3::Vector3(float32 x_, float32 y_, float32 z_)
+Vector3::Vector3(f32 x_, f32 y_, f32 z_)
 	: x(x_), y(y_), z(z_)
 {
 }
@@ -22,7 +22,7 @@ Vector3::Vector3(const Vector4& v4)
 {
 }
 
-Vector3::Vector3(const Vector2& v2, float32 inZ)
+Vector3::Vector3(const Vector2& v2, f32 inZ)
 	: x(v2.x), y(v2.y), z(inZ)
 {
 }
@@ -114,20 +114,20 @@ Vector3 Vector3::operator-(const Vector3& other) const
 	return v -= other;
 }
 
-Vector3 & Vector3::operator*=(float32 s)
+Vector3 & Vector3::operator*=(f32 s)
 {
 	Internal::VectorMultiTo(*this, s);
 	return *this;
 }
 
-Vector3 Vector3::operator*(float32 s) const
+Vector3 Vector3::operator*(f32 s) const
 {
 	Vector3 v(*this);
 	v *= s;
 	return v;
 }
 
-Vector3 operator*(float32 s, const Vector3& vec)
+Vector3 operator*(f32 s, const Vector3& vec)
 {
 	Vector3 v(vec);
 	v *= s;

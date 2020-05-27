@@ -8,7 +8,7 @@
 
 // TODO - Move this file out of the Archiver project
 
-constexpr uint32 AnimationNameLength = 64;
+constexpr u32 AnimationNameLength = 64;
 
 struct AnimationHeader
 {
@@ -18,10 +18,10 @@ struct AnimationHeader
 	}
 
 	tchar animationName[AnimationNameLength];
-	uint32 referenceSkeleton;
-	uint32 keyFrameCount;
-	uint32 bonesPerFrame;
-	uint32 totalAnimationTime;
+	u32 referenceSkeleton;
+	u32 keyFrameCount;
+	u32 bonesPerFrame;
+	u32 totalAnimationTime;
 	Time::Duration frameRate;
 };
 
@@ -32,7 +32,7 @@ forceinline void Deserialize(DeserializeBase& ser, AnimationHeader& header)
 	Deserialize(ser, header.keyFrameCount);
 	Deserialize(ser, header.bonesPerFrame);
 	Deserialize(ser, header.totalAnimationTime);
-	uint32 duration;
+	u32 duration;
 	Deserialize(ser, duration);
 	header.frameRate = (Time::Duration)duration;
 }

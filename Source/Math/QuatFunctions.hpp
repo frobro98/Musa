@@ -50,7 +50,7 @@ namespace Math
     
 	inline void SlerpArray(Quat *result, const Quat *source, const Quat *target, const float slerpFactor, const int numQuats)
 	{
-		for (int32 i = 0; i < numQuats; ++i)
+		for (i32 i = 0; i < numQuats; ++i)
 		{
 			result[i] = Slerp(source[i], target[i], slerpFactor);
 		}

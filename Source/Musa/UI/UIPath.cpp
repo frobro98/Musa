@@ -7,7 +7,7 @@ UI::Path::Path(DynamicArray<Widget*>&& widgetPath)
 {
 }
 
-uint32 UI::Path::Size() const
+u32 UI::Path::Size() const
 {
 	return path.Size();
 }

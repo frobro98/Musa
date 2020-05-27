@@ -16,7 +16,7 @@
 // 	VulkanMemory::DeallocateBuffer(storageBuffer);
 // }
 
-void VulkanStorageBuffer::Initialize(const VulkanDevice& device, uint32 bufferSize)
+void VulkanStorageBuffer::Initialize(const VulkanDevice& device, u32 bufferSize)
 {
 	storageBuffer = device.GetMemoryManager().AllocateBuffer(bufferSize, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);

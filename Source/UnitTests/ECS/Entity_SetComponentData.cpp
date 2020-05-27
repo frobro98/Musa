@@ -106,7 +106,7 @@ TEST(SetTwoEntityComponents, EntitySetComponentData)
 
 	w.SetComponentDataOn(e1, Rotation{ {}, testQuat });
 
-	for (uint32 i = 0; i < posArr.size; ++i)
+	for (u32 i = 0; i < posArr.size; ++i)
 	{
 		if (i == 0)
 		{
@@ -127,9 +127,9 @@ TEST(Set50EntityComponentsEveryOther, EntitySetComponentData)
 {
 	World w;
 
-	constexpr uint32 EntityCount = 50;
+	constexpr u32 EntityCount = 50;
 
-	for (uint32 i = 0; i < EntityCount; ++i)
+	for (u32 i = 0; i < EntityCount; ++i)
 	{
 		Entity e = w.CreateEntity<Position, Rotation>();
 		CHECK_TRUE(w.IsEntityValid(e));
@@ -145,11 +145,11 @@ TEST(Set50EntityComponentsEveryOther, EntitySetComponentData)
 
 	CHECK_EQ(w.entityBridges.Size(), EntityCount);
 
-	auto IsEven = [](uint32 num) {
+	auto IsEven = [](u32 num) {
 		return num % 2 == 0;
 	};
 
-	for (uint32 i = 0; i < EntityCount; ++i)
+	for (u32 i = 0; i < EntityCount; ++i)
 	{
 		Entity e{ i, 1 };
 		CHECK_TRUE(w.IsEntityValid(e));
@@ -171,7 +171,7 @@ TEST(Set50EntityComponentsEveryOther, EntitySetComponentData)
 	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 	CHECK_EQ(rotArr.size, EntityCount);
 
-	for (uint32 i = 0; i < EntityCount; ++i)
+	for (u32 i = 0; i < EntityCount; ++i)
 	{
 		if (IsEven(i))
 		{
@@ -286,7 +286,7 @@ TEST(GetAndSetTwoEntityComponents, EntitySetComponentData)
 	Rotation& r = w.GetComponentDataOn<Rotation>(e1);
 	r.rotation = testQuat;
 
-	for (uint32 i = 0; i < posArr.size; ++i)
+	for (u32 i = 0; i < posArr.size; ++i)
 	{
 		if (i == 0)
 		{
@@ -307,9 +307,9 @@ TEST(GetAndSet50EntityComponentsEveryOther, EntitySetComponentData)
 {
 	World w;
 
-	constexpr uint32 EntityCount = 50;
+	constexpr u32 EntityCount = 50;
 
-	for (uint32 i = 0; i < EntityCount; ++i)
+	for (u32 i = 0; i < EntityCount; ++i)
 	{
 		Entity e = w.CreateEntity<Position, Rotation>();
 		CHECK_TRUE(w.IsEntityValid(e));
@@ -325,11 +325,11 @@ TEST(GetAndSet50EntityComponentsEveryOther, EntitySetComponentData)
 
 	CHECK_EQ(w.entityBridges.Size(), EntityCount);
 
-	auto IsEven = [](uint32 num) {
+	auto IsEven = [](u32 num) {
 		return num % 2 == 0;
 	};
 
-	for (uint32 i = 0; i < EntityCount; ++i)
+	for (u32 i = 0; i < EntityCount; ++i)
 	{
 		Entity e{ i, 1 };
 		CHECK_TRUE(w.IsEntityValid(e));
@@ -353,7 +353,7 @@ TEST(GetAndSet50EntityComponentsEveryOther, EntitySetComponentData)
 	ChunkArray<Rotation> rotArr = GetChunkArray<Rotation>(a->chunks[0]);
 	CHECK_EQ(rotArr.size, EntityCount);
 
-	for (uint32 i = 0; i < EntityCount; ++i)
+	for (u32 i = 0; i < EntityCount; ++i)
 	{
 		if (IsEven(i))
 		{

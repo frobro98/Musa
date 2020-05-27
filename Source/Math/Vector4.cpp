@@ -17,12 +17,12 @@ Vector4::Vector4(float x_, float y_, float z_, float w_)
 {
 }
 
-Vector4::Vector4(const Vector3& v, float32 w_)
+Vector4::Vector4(const Vector3& v, f32 w_)
 	: x(v.x), y(v.y), z(v.z), w(w_)
 {
 }
 
-Vector4::Vector4(const Vector2 & v, float32 z_, float32 w_)
+Vector4::Vector4(const Vector2 & v, f32 z_, f32 w_)
 	: x(v.x), y(v.y), z(z_), w(w_)
 {
 }

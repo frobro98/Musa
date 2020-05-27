@@ -134,7 +134,7 @@ UniquePtr<NativeVertexShader> VulkanGraphicsInterface::CreateVertexShader(const 
 	MemoryDeserializer memoryBuffer(vertexCode);
 
 	VulkanShaderHeader header;
-	DynamicArray<uint32> byteCode;
+	DynamicArray<u32> byteCode;
 
 	Deserialize(memoryBuffer, header);
 	Assert(header.shaderStage == VK_SHADER_STAGE_VERTEX_BIT);
@@ -148,7 +148,7 @@ UniquePtr<NativeFragmentShader> VulkanGraphicsInterface::CreateFragmentShader(co
 	MemoryDeserializer memoryBuffer(fragmentCode);
 
 	VulkanShaderHeader header;
-	DynamicArray<uint32> byteCode;
+	DynamicArray<u32> byteCode;
 
 	Deserialize(memoryBuffer, header);
 	Assert(header.shaderStage == VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -162,7 +162,7 @@ UniquePtr<NativeGeometryShader> VulkanGraphicsInterface::CreateGeometryShader(co
 	MemoryDeserializer memoryBuffer(geometryCode);
 
 	VulkanShaderHeader header;
-	DynamicArray<uint32> byteCode;
+	DynamicArray<u32> byteCode;
 
 	Deserialize(memoryBuffer, header);
 	Assert(header.shaderStage == VK_SHADER_STAGE_GEOMETRY_BIT);
@@ -176,7 +176,7 @@ UniquePtr<NativeTessEvaluationShader> VulkanGraphicsInterface::CreateTessEvaluat
 	MemoryDeserializer memoryBuffer(tessEvalCode);
 
 	VulkanShaderHeader header;
-	DynamicArray<uint32> byteCode;
+	DynamicArray<u32> byteCode;
 
 	Deserialize(memoryBuffer, header);
 	Assert(header.shaderStage == VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT);
@@ -190,7 +190,7 @@ UniquePtr<NativeTessControlShader> VulkanGraphicsInterface::CreateTessControlSha
 	MemoryDeserializer memoryBuffer(tessCtrlCode);
 
 	VulkanShaderHeader header;
-	DynamicArray<uint32> byteCode;
+	DynamicArray<u32> byteCode;
 
 	Deserialize(memoryBuffer, header);
 	Assert(header.shaderStage == VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT);
@@ -204,7 +204,7 @@ UniquePtr<NativeComputeShader> VulkanGraphicsInterface::CreateComputeShader(cons
 	MemoryDeserializer memoryBuffer(computeCode);
 
 	VulkanShaderHeader header;
-	DynamicArray<uint32> byteCode;
+	DynamicArray<u32> byteCode;
 	
 	Deserialize(memoryBuffer, header);
 	Assert(header.shaderStage == VK_SHADER_STAGE_COMPUTE_BIT);
@@ -214,10 +214,10 @@ UniquePtr<NativeComputeShader> VulkanGraphicsInterface::CreateComputeShader(cons
 }
 
 UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(
-	uint32 width, 
-	uint32 height, 
+	u32 width, 
+	u32 height, 
 	ImageFormat textureFormat, 
-	uint32 mipLevels,
+	u32 mipLevels,
 	TextureUsage::Type usage
 )
 {
@@ -248,9 +248,9 @@ UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(
 
 UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateInitializedTexture2D(
 	const ResourceBlob& textureBlob, 
-	uint32 width, uint32 height, 
+	u32 width, u32 height, 
 	ImageFormat textureFormat, 
-	uint32 mipLevels, 
+	u32 mipLevels, 
 	TextureUsage::Type usage)
 {
 	VkFormat imageFormat = MusaFormatToVkFormat(textureFormat);
@@ -293,7 +293,7 @@ NativeSampler* VulkanGraphicsInterface::CreateTextureSampler(const SamplerDescri
 	return new VulkanSampler(*logicalDevice, params);
 }
 
-UniquePtr<NativeViewport> VulkanGraphicsInterface::CreateViewport(void * windowHandle, uint32 viewWidth, uint32 viewHeight)
+UniquePtr<NativeViewport> VulkanGraphicsInterface::CreateViewport(void * windowHandle, u32 viewWidth, u32 viewHeight)
 {
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
@@ -308,7 +308,7 @@ UniquePtr<NativeIndexBuffer> VulkanGraphicsInterface::CreateIndexBuffer(const Dy
 	return new VulkanIndexBuffer(*logicalDevice, faces);
 }
 
-UniquePtr<NativeUniformBuffer> VulkanGraphicsInterface::CreateUniformBuffer(uint32 bufferSize) const
+UniquePtr<NativeUniformBuffer> VulkanGraphicsInterface::CreateUniformBuffer(u32 bufferSize) const
 {
 	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
 }
@@ -338,14 +338,14 @@ void VulkanGraphicsInterface::CreateInstance()
 		VK_DEBUG_REPORT_ERROR_BIT_EXT |
 		VK_DEBUG_REPORT_DEBUG_BIT_EXT;
 
-	uint32 layerCount;
+	u32 layerCount;
 	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 	DynamicArray<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.GetData());
 
 	VkDebugReportCallbackCreateInfoEXT debugInfo = Vk::DebugReportCallbackInfo(VulkanDebugCallback, debugFlags, this);
-	VkInstanceCreateInfo instanceInfo = Vk::InstanceInfo(validationLayers, (uint32)ArraySize(validationLayers),
-		instanceExtensions, (uint32)ArraySize(instanceExtensions), &debugInfo);
+	VkInstanceCreateInfo instanceInfo = Vk::InstanceInfo(validationLayers, (u32)ArraySize(validationLayers),
+		instanceExtensions, (u32)ArraySize(instanceExtensions), &debugInfo);
 	NOT_USED VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
 	CHECK_VK(result);
 

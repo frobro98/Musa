@@ -29,5 +29,5 @@ private:
 	const VulkanPipelineLayout* pipelineLayout = nullptr;
 	VulkanDevice& logicalDevice;
 	DynamicArray<VulkanDescriptorSet*> descriptorSets;
-	uint32 unusedSetIndex;
+	u32 unusedSetIndex;
 };

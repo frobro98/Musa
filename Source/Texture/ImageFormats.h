@@ -4,7 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-enum class ImageFormat : uint32
+enum class ImageFormat : u32
 {
 	RGB_8norm,
 	RGB_8u,
@@ -24,7 +24,7 @@ enum class ImageFormat : uint32
 	Invalid
 };
 
-enum class CompressionFormat : uint32
+enum class CompressionFormat : u32
 {
 	Invalid,
 	BC1,

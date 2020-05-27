@@ -6,9 +6,9 @@
 #include "Utilities/MemoryUtilities.hpp"
 #include "Math/BoundsVolumes.hpp"
 
-constexpr uint32 ObjectNameSize = 32;
-constexpr uint32 TextureNameSize = 32;
-constexpr uint32 TextureCount = 5;
+constexpr u32 ObjectNameSize = 32;
+constexpr u32 TextureNameSize = 32;
+constexpr u32 TextureCount = 5;
 
 #pragma pack(push, 1)
 struct ModelFileHeader
@@ -17,12 +17,12 @@ struct ModelFileHeader
 	char         objName[ObjectNameSize];
 
 	// vertex buffer
-	uint32 numVerts;
-	uint32 vertBufferOffset;
+	u32 numVerts;
+	u32 vertBufferOffset;
 
 	// trilist index 
-	uint32 numFaces;
-	uint32 facesBufferOffset;
+	u32 numFaces;
+	u32 facesBufferOffset;
 
 	SphereBounds boundingSphere;
 

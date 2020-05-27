@@ -35,15 +35,15 @@ VulkanDevice::~VulkanDevice()
 
 void VulkanDevice::Initialize(VkInstance inst)
 {
-	uint32 physicalDeviceCount = 0;
+	u32 physicalDeviceCount = 0;
 	VkResult result = vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, nullptr);
 	CHECK_VK(result);
 	DynamicArray<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
 	result = vkEnumeratePhysicalDevices(inst, &physicalDeviceCount, physicalDevices.GetData());
 	CHECK_VK(result);
 
-	uint32 graphicsFamilyIndex = std::numeric_limits<uint32>::max();
-	uint32 transferFamilyIndex = std::numeric_limits<uint32>::max();
+	u32 graphicsFamilyIndex = std::numeric_limits<u32>::max();
+	u32 transferFamilyIndex = std::numeric_limits<u32>::max();
 	for(const auto& physicalDevice : physicalDevices)
 	{
 		if (IsSuitableGPU(physicalDevice, graphicsFamilyIndex, transferFamilyIndex))
@@ -53,10 +53,10 @@ void VulkanDevice::Initialize(VkInstance inst)
 		}
 	}
 
-	Assert(graphicsFamilyIndex != std::numeric_limits<uint32>::max());
-	Assert(transferFamilyIndex != std::numeric_limits<uint32>::max());
+	Assert(graphicsFamilyIndex != std::numeric_limits<u32>::max());
+	Assert(transferFamilyIndex != std::numeric_limits<u32>::max());
 
-	float32 priorities[] = { 1.0f };
+	f32 priorities[] = { 1.0f };
 	VkDeviceQueueCreateInfo queueInfos[] =
 	{
 		Vk::DeviceQueueInfo(graphicsFamilyIndex, 1, priorities),
@@ -105,7 +105,7 @@ void VulkanDevice::Initialize(VkInstance inst)
 	Assert(enabledGPUFeatures.geometryShader);
 	Assert(enabledGPUFeatures.textureCompressionBC);
 
-	VkDeviceCreateInfo deviceInfo = Vk::DeviceInfo(queueInfos, (uint32)ArraySize(queueInfos), deviceExtensions, (uint32)ArraySize(deviceExtensions), enabledGPUFeatures);
+	VkDeviceCreateInfo deviceInfo = Vk::DeviceInfo(queueInfos, (u32)ArraySize(queueInfos), deviceExtensions, (u32)ArraySize(deviceExtensions), enabledGPUFeatures);
 	vkCreateDevice(gpu, &deviceInfo, nullptr, &vulkanDevice);
 
 	graphicsQueue = new VulkanQueue(this);
@@ -134,7 +134,7 @@ VkFormat VulkanDevice::QuerySupportedFormat(DynamicArray<VkFormat> possibleForma
 	Assert(vulkanDevice);
 
 	VkFormat supportedFormat = VK_FORMAT_UNDEFINED;
-	for (uint32 i = 0; i < possibleFormats.Size(); ++i)
+	for (u32 i = 0; i < possibleFormats.Size(); ++i)
 	{
 		VkFormat format = possibleFormats[i];
 		VkFormatProperties formatProperties;
@@ -178,7 +178,7 @@ ResourceLockPtr<VulkanRenderingCloset*> VulkanDevice::GetRenderingStorage() cons
 	return ResourceLockPtr<VulkanRenderingCloset*>(storage, renderStorageMut);
 }
 
-bool VulkanDevice::IsSuitableGPU(VkPhysicalDevice physicalDevice, uint32& graphicsIndex, uint32& transferIndex)
+bool VulkanDevice::IsSuitableGPU(VkPhysicalDevice physicalDevice, u32& graphicsIndex, u32& transferIndex)
 {
 	VkPhysicalDeviceProperties deviceProperties;
 
@@ -191,13 +191,13 @@ bool VulkanDevice::IsSuitableGPU(VkPhysicalDevice physicalDevice, uint32& graphi
 		// TODO - Check what limits are important for a gpu
 		Assert(deviceProperties.limits.maxImageDimension2D >= 4096);
 
-		uint32 queueFamilyCount = 0;
+		u32 queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
 		Assert(queueFamilyCount > 0);
 		DynamicArray<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilyProperties.GetData());
 
-		for (uint32 i = 0; i < queueFamilyCount; ++i)
+		for (u32 i = 0; i < queueFamilyCount; ++i)
 		{
 			VkBool32 presentationSupported = PresentationSupported(physicalDevice, i);
 
@@ -205,7 +205,7 @@ bool VulkanDevice::IsSuitableGPU(VkPhysicalDevice physicalDevice, uint32& graphi
 				queueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT &&
 				queueFamilyProperties[i].queueFlags & VK_QUEUE_COMPUTE_BIT)
 			{
-				if (graphicsIndex == std::numeric_limits<uint32>::max())
+				if (graphicsIndex == std::numeric_limits<u32>::max())
 				{
 					graphicsIndex = i;
 				}
@@ -218,7 +218,7 @@ bool VulkanDevice::IsSuitableGPU(VkPhysicalDevice physicalDevice, uint32& graphi
 			else if (queueFamilyProperties[i].queueCount > 0 &&
 				queueFamilyProperties[i].queueFlags & VK_QUEUE_TRANSFER_BIT)
 			{
-				if (transferIndex == std::numeric_limits<uint32>::max())
+				if (transferIndex == std::numeric_limits<u32>::max())
 				{
 					transferIndex = i;
 				}

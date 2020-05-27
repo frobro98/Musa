@@ -63,7 +63,7 @@ void MemoryBuffer::Add(const void* data, size_t dataSize)
 	memSize += dataSize;
 }
 
-uint8 * MemoryBuffer::Offset(size_t offset) const
+u8 * MemoryBuffer::Offset(size_t offset) const
 {
 	Assert(offset < memSize);
 	return memData + offset;
@@ -75,7 +75,7 @@ void MemoryBuffer::IncreaseSize(size_t sizeToIncreaseBy)
 	memSize += sizeToIncreaseBy;
 }
 
-uint8* MemoryBuffer::GetData() const
+u8* MemoryBuffer::GetData() const
 {
 	return memData;
 }
@@ -85,20 +85,20 @@ size_t MemoryBuffer::Size() const
 	return memSize;
 }
 
-void MemoryBuffer::Copy(uint8* data, size_t size)
+void MemoryBuffer::Copy(u8* data, size_t size)
 {
 	Memcpy(memData, data, size);
 }
 
 void MemoryBuffer::AllocMem()
 {
-	memData = (uint8*)malloc(memSize);
+	memData = (u8*)malloc(memSize);
 }
 
 void MemoryBuffer::ReallocMem(size_t newSize)
 {
-	uint8* tmp = memData;
-	uint8* newData = (uint8*)malloc(newSize);
+	u8* tmp = memData;
+	u8* newData = (u8*)malloc(newSize);
 	memData = newData;
 	Memcpy(memData, memSize, tmp, memSize);
 	free(tmp);

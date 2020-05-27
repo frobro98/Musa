@@ -15,14 +15,14 @@ public:
 
 public:
 	Stack() = default;
-	Stack(uint32 startStack);
+	Stack(u32 startStack);
 
 	template<typename PushType>
 	void Push(PushType&& item);
 	Type Pop();
 	Type& Peek();
 
-	uint32 Size() const;
+	u32 Size() const;
 	bool IsEmpty() const;
 
 private:
@@ -30,7 +30,7 @@ private:
 };
 
 template<typename Type>
-inline Stack<Type>::Stack(uint32 startStack)
+inline Stack<Type>::Stack(u32 startStack)
 {
 	stackSpace.Reserve(startStack);
 }
@@ -57,7 +57,7 @@ inline Type& Stack<Type>::Peek()
 }
 
 template<typename Type>
-inline uint32 Stack<Type>::Size() const
+inline u32 Stack<Type>::Size() const
 {
 	return stackSpace.Size();
 }

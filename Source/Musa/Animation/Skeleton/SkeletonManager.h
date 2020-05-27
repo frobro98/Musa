@@ -8,9 +8,9 @@ class Skeleton;
 class SkeletonManager
 {
 public:
-	static Skeleton* CreateSkeleton(uint8* skeletonData, uint32 hash);
+	static Skeleton* CreateSkeleton(u8* skeletonData, u32 hash);
 	static void RemoveSkeleton(Skeleton* skeleton);
-	static Skeleton* FindSkeleton(uint32 hash);
+	static Skeleton* FindSkeleton(u32 hash);
 
 private:
 	void AddSkeleton(Skeleton* skeleton);

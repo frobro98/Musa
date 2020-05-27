@@ -10,7 +10,7 @@ using NotifyLock = std::unique_lock<std::mutex>;
 
 }
 
-JobThread::JobThread(JobSystem& jobSys, uint32 index, ThreadSleepPrimitive& systemSleepPrim)
+JobThread::JobThread(JobSystem& jobSys, u32 index, ThreadSleepPrimitive& systemSleepPrim)
 	: systemNotifier(systemSleepPrim),
 	jobSystem(jobSys),
 	threadIndex(index)

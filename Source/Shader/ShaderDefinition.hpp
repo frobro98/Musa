@@ -23,7 +23,7 @@ using TypesAreStringPairs = typename std::enable_if_t<
 	//>::value
 >;
 
-static uint32 definitionCounter = 0;
+static u32 definitionCounter = 0;
 
 // Contains shader meta data and used to uniquely identify a shader
 // Similar to the component type
@@ -37,7 +37,7 @@ struct SHADER_API ShaderDefinition final : private Uncopyable
 	inline const ShaderCompilerDefinitions& GetCompilerDefines() const { return definitions; }
 	inline ShaderObjectBase* GetCompiledShaderObject(const ShaderCompiledOutput& output) const { return compiledShaderFunc(output); }
 
-	friend uint32 GetHash(const ShaderDefinition* def)
+	friend u32 GetHash(const ShaderDefinition* def)
 	{
 		return def->definitionHash;
 	}
@@ -57,7 +57,7 @@ public:
 	const InitializeWithCompiledOutputFunc compiledShaderFunc;
 	const tchar* const shaderEntryName;
 	const ShaderStage shaderStage;
-	const uint32 definitionHash;
+	const u32 definitionHash;
 
 private:
 	ShaderCompilerDefinitions definitions;

@@ -66,7 +66,7 @@ public:
 	* Example:
 	*    const Time fourMinutes = 4 * Time(ONE_MINUTE);
 	*/
-	friend CORE_API const Time operator*(int32, const Time&);
+	friend CORE_API const Time operator*(i32, const Time&);
 
 	/*
 	* return: The product of the specified integer and Time.
@@ -74,7 +74,7 @@ public:
 	* Example:
 	*    const Time fourMinutes = 4 * Time(ONE_MINUTE);
 	*/
-	friend CORE_API const Time operator*(uint32, const Time&);
+	friend CORE_API const Time operator*(u32, const Time&);
 
 	//-----------------------------------------------------------------
 	// Constructors / Destructors / Assignment
@@ -235,7 +235,7 @@ public:
 	*  Example:
 	*    const Time fourMinutes = Time(ONE_MINUTE) * 4;
 	*/
-	const Time operator*(int32) const;
+	const Time operator*(i32) const;
 
 	/*
 	* return: The product of this Time and the specified integer.
@@ -243,7 +243,7 @@ public:
 	*  Example:
 	*    const Time fourMinutes = Time(ONE_MINUTE) * 4;
 	*/
-	const Time operator*(uint32) const;
+	const Time operator*(u32) const;
 
 	/*
 	* Multiplies this Time by the specified float.
@@ -269,7 +269,7 @@ public:
 	*       t *= 2;
 	*    }
 	*/
-	Time& operator*=(int32);
+	Time& operator*=(i32);
 
 	/*
 	* Multiplies this Time by the specified unsigned integer.
@@ -282,7 +282,7 @@ public:
 	*       t *= 2;
 	*    }
 	*/
-	Time& operator*=(uint32);
+	Time& operator*=(u32);
 
 	//-----------------------------------------------------------------
 	// name: Division

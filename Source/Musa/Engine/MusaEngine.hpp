@@ -36,7 +36,7 @@ public:
 	void LoadContent();
 	void UnloadContent();
 	
-	void UpdateAndRender(float32 tick);
+	void UpdateAndRender(f32 tick);
 	void GatherFrameMetrics();
 
 private:

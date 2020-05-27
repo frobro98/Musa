@@ -19,25 +19,25 @@ static constexpr ArchetypeMask BuildArchetypeHash(const ComponentType** types, s
 
 static void FillOutTypeInformation(Archetype& archetype, const ComponentType** compTypes, size_t count)
 {
-	uint32 componentSetSize = sizeof(Entity);
+	u32 componentSetSize = sizeof(Entity);
 	for (size_t i = 0; i < count; ++i)
 	{
 		componentSetSize += compTypes[i]->size;
 	}
 
-	constexpr uint32 usableSpace = Musa::UsableChunkSize;
+	constexpr u32 usableSpace = Musa::UsableChunkSize;
 	// slack just pads chunk for safety.
 	// TODO - Investigate if this is actually necessary...
-	constexpr uint32 slack = 2;
-	const uint32 archetypeEntityCap = usableSpace / componentSetSize - slack;
+	constexpr u32 slack = 2;
+	const u32 archetypeEntityCap = usableSpace / componentSetSize - slack;
 	archetype.entityCapacity = archetypeEntityCap;
 
 	auto& typeList = archetype.types;
 	auto& typeHashList = archetype.typeHashes;
 	auto& typeOffsetList = archetype.offsets;
-	typeList.Reserve((uint32)count);
-	typeHashList.Reserve((uint32)count);
-	typeOffsetList.Reserve((uint32)count);
+	typeList.Reserve((u32)count);
+	typeHashList.Reserve((u32)count);
+	typeOffsetList.Reserve((u32)count);
 
 
 	size_t offset = sizeof(Entity) * archetypeEntityCap;
@@ -61,10 +61,10 @@ static void FillOutTypeInformation(Archetype& archetype, const ComponentType** c
 
 static forceinline ArchetypeChunk CreateNewChunkFor(Archetype& archetype)
 {
-	uint8* chunkBlock = new uint8[ArchetypeBlockSize];
+	u8* chunkBlock = new u8[ArchetypeBlockSize];
 	ChunkHeader* header = new(chunkBlock) ChunkHeader;
-	uint8* chunkData = chunkBlock + sizeof(ChunkHeader);
-	uint32* versions = reinterpret_cast<uint32*>(chunkData);
+	u8* chunkData = chunkBlock + sizeof(ChunkHeader);
+	u32* versions = reinterpret_cast<u32*>(chunkData);
 
 	ArchetypeChunk chunk;
 	chunk.header = header;
@@ -75,13 +75,13 @@ static forceinline ArchetypeChunk CreateNewChunkFor(Archetype& archetype)
 	header->offsets = archetype.offsets.GetData();
 	header->versions = versions;
 
-	uint32 typeCount = header->componentTypeCount;
-	for (uint32 i = 0; i < typeCount; ++i)
+	u32 typeCount = header->componentTypeCount;
+	for (u32 i = 0; i < typeCount; ++i)
 	{
 		versions[i] = 1;
 	}
 
-	chunkData = reinterpret_cast<uint8*>(versions + typeCount);
+	chunkData = reinterpret_cast<u8*>(versions + typeCount);
 	chunk.data = chunkData;
 	archetype.chunks.Add(chunk);
 
@@ -104,7 +104,7 @@ static Archetype* FindMatchingArchetype(World& world, ArchetypeMask hashId, cons
 			if (compCount == typeCount)
 			{
 				bool found = true;
-				for (uint32 j = 0; j < compCount; ++j)
+				for (u32 j = 0; j < compCount; ++j)
 				{
 					if (typeList[j] != compTypes[j])
 					{
@@ -128,7 +128,7 @@ static void AssociateNewEntityTo(Archetype& archetype, Entity entity)
 {
 	// New entity means finding a free data chunk and putting itself in it
 	ArchetypeChunk chunk = GetOrCreateFreeArchetypeChunk(archetype);
-	uint32 chunkIndex = AddEntityToChunk(chunk, entity);
+	u32 chunkIndex = AddEntityToChunk(chunk, entity);
 	ConstructEntityInChunk(chunk, chunkIndex);
 	archetype.world->entityBridges[entity.id].chunk = chunk;
 	archetype.world->entityBridges[entity.id].chunkIndex = chunkIndex;
@@ -140,11 +140,11 @@ static void MoveEntityTo(Archetype& archetype, Entity entity)
 	ArchetypeChunk oldChunk = world.entityBridges[entity.id].chunk;
 	REF_CHECK(oldChunk);
 
-	uint32 oldChunkIndex = world.entityBridges[entity.id].chunkIndex;
+	u32 oldChunkIndex = world.entityBridges[entity.id].chunkIndex;
 
 	ArchetypeChunk newChunk = GetOrCreateFreeArchetypeChunk(archetype);
 
-	uint32 newChunkIndex = MoveEntityToChunk(entity, oldChunk, oldChunkIndex, newChunk);
+	u32 newChunkIndex = MoveEntityToChunk(entity, oldChunk, oldChunkIndex, newChunk);
 
 	RemoveEntityFromChunk(oldChunk, oldChunkIndex);
 
@@ -217,14 +217,14 @@ void SortChunksForFullness(Archetype& archetype)
 	// TODO - This implementation is essentially std::partition. Consider the use of turning this into a general impl
 	// TODO - Could support find if and find if not algos
 
-	const uint32 maxSize = archetype.entityCapacity;
+	const u32 maxSize = archetype.entityCapacity;
 	auto& chunks = archetype.chunks;
 	auto isChunkFull = [maxSize](ArchetypeChunk& chunk) {
 		return chunk.header->entityCount == maxSize;
 	};
 
 	// Find if not
-	uint32 first;
+	u32 first;
 	for (first = 0; first < chunks.Size(); ++first)
 	{
 		if (!isChunkFull(chunks[first]))
@@ -233,7 +233,7 @@ void SortChunksForFullness(Archetype& archetype)
 		}
 	}
 
-	for (uint32 index = first + 1; index < chunks.Size(); ++index)
+	for (u32 index = first + 1; index < chunks.Size(); ++index)
 	{
 		if (isChunkFull(chunks[index]))
 		{

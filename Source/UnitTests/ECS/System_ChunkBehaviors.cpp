@@ -22,7 +22,7 @@ static bool updatedSuccess = true;
 class IterateChunkSystem : public System
 {
 public:
-	IterateChunkSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	IterateChunkSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -37,7 +37,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 };
 
 void IterateChunkSystem::Initialize()
@@ -61,7 +61,7 @@ void IterateChunkSystem::Update()
 	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
 	CHECK_GT(chunks.Size(), 0);
 
-	uint32 numEntitiesInChunks = 0;
+	u32 numEntitiesInChunks = 0;
 	for (auto& chunk : chunks)
 	{
 		numEntitiesInChunks += chunk.GetEntityCount();
@@ -83,7 +83,7 @@ void IterateChunkSystem::Deinitialize()
 class CheckChunkVersionSystem : public System
 {
 public:
-	CheckChunkVersionSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	CheckChunkVersionSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -98,7 +98,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 	bool versionUpdate = false;
 };
 
@@ -119,7 +119,7 @@ void CheckChunkVersionSystem::Update()
 	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
 	CHECK_GT(chunks.Size(), 0);
 
-	uint32 numEntitiesInChunks = 0;
+	u32 numEntitiesInChunks = 0;
 	for (auto& chunk : chunks)
 	{
 		numEntitiesInChunks += chunk.GetEntityCount();
@@ -154,7 +154,7 @@ void CheckChunkVersionSystem::Deinitialize()
 class ModifyChunkSystem : public System
 {
 public:
-	ModifyChunkSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	ModifyChunkSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -169,7 +169,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 	bool versionUpdated = false;
 };
 
@@ -190,7 +190,7 @@ void ModifyChunkSystem::Update()
 	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
 	CHECK_GT(chunks.Size(), 0);
 
-	uint32 numEntitiesInChunks = 0;
+	u32 numEntitiesInChunks = 0;
 	for (auto& chunk : chunks)
 	{
 		numEntitiesInChunks += chunk.GetEntityCount();
@@ -228,7 +228,7 @@ void ModifyChunkSystem::Deinitialize()
 class CheckAfterModificationkSystem : public System
 {
 public:
-	CheckAfterModificationkSystem(uint32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
+	CheckAfterModificationkSystem(u32 expectedEntityCount, const char* n, UnitData& data, UnitStats& stats)
 		: name(n), _UnitData(data), _UnitStats(stats), numEntitiesExpected(expectedEntityCount)
 	{}
 
@@ -243,7 +243,7 @@ private:
 	const char* name;
 	UnitData& _UnitData;
 	UnitStats& _UnitStats;
-	uint32 numEntitiesExpected;
+	u32 numEntitiesExpected;
 	bool versionUpdated = false;
 };
 
@@ -264,7 +264,7 @@ void CheckAfterModificationkSystem::Update()
 	DynamicArray<ChunkComponentAccessor> chunks = GetQueryChunks(q0);
 	CHECK_GT(chunks.Size(), 0);
 
-	uint32 numEntitiesInChunks = 0;
+	u32 numEntitiesInChunks = 0;
 	for (auto& chunk : chunks)
 	{
 		numEntitiesInChunks += chunk.GetEntityCount();
@@ -303,13 +303,13 @@ TEST(IterateQueriedChunks, SystemChunkBehaviors)
 	World w;
 	CHECK_REF(w);
 
-	constexpr uint32 numEntitiesExpected = 50;
-	for (uint32 i = 0; i < numEntitiesExpected / 2; ++i)
+	constexpr u32 numEntitiesExpected = 50;
+	for (u32 i = 0; i < numEntitiesExpected / 2; ++i)
 	{
 		NOT_USED Entity e = w.CreateEntity<Position>();
 	}
 
-	for (uint32 i = 0; i < numEntitiesExpected / 2; ++i)
+	for (u32 i = 0; i < numEntitiesExpected / 2; ++i)
 	{
 		NOT_USED Entity e = w.CreateEntity<Rotation>();
 	}
@@ -333,8 +333,8 @@ TEST(CheckVersionQueriedChunk, SystemChunkBehaviors)
 	World w;
 	CHECK_REF(w);
 
-	constexpr uint32 numEntitiesExpected = 50;
-	for (uint32 i = 0; i < numEntitiesExpected; ++i)
+	constexpr u32 numEntitiesExpected = 50;
+	for (u32 i = 0; i < numEntitiesExpected; ++i)
 	{
 		NOT_USED Entity e = w.CreateEntity<Position, Rotation>();
 	}
@@ -358,8 +358,8 @@ TEST(ModifyAndCheckVersionQueriedChunk, SystemChunkBehaviors)
 	World w;
 	CHECK_REF(w);
 
-	constexpr uint32 numEntitiesExpected = 50;
-	for (uint32 i = 0; i < numEntitiesExpected; ++i)
+	constexpr u32 numEntitiesExpected = 50;
+	for (u32 i = 0; i < numEntitiesExpected; ++i)
 	{
 		NOT_USED Entity e = w.CreateEntity<Position, Rotation>();
 	}

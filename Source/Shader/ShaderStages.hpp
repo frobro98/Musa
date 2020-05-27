@@ -2,7 +2,7 @@
 
 #pragma once
 
-enum class ShaderStage : uint32
+enum class ShaderStage : u32
 {
 	Vertex = 0,
 	Fragment = 1,

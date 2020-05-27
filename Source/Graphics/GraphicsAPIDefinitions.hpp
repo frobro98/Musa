@@ -5,7 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 
 // TODO - move this enum to a better place
-enum class LoadOperation : uint8
+enum class LoadOperation : u8
 {
 	Load,
 	Clear,
@@ -13,13 +13,13 @@ enum class LoadOperation : uint8
 };
 
 // TODO - move this enum to a better place
-enum class StoreOperation : uint8
+enum class StoreOperation : u8
 {
 	Store,
 	DontCare
 };
 
-enum class CompareOperation : uint8
+enum class CompareOperation : u8
 {
 	None,
 	Equal,
@@ -31,7 +31,7 @@ enum class CompareOperation : uint8
 	Always
 };
 
-enum class StencilOperation : uint8
+enum class StencilOperation : u8
 {
 	Keep,
 	Zero,
@@ -43,7 +43,7 @@ enum class StencilOperation : uint8
 	DecrementAndWrap
 };
 
-enum class PrimitiveTopology : uint32
+enum class PrimitiveTopology : u32
 {
 	TriangleList,
 	TriangleStrip,
@@ -53,7 +53,7 @@ enum class PrimitiveTopology : uint32
 	PointList
 };
 
-enum class CullingMode : uint32
+enum class CullingMode : u32
 {
 	None,
 	Back,
@@ -61,20 +61,20 @@ enum class CullingMode : uint32
 	FrontAndBack
 };
 
-enum class ShadingModel : uint32
+enum class ShadingModel : u32
 {
 	Lit,
 	Unlit
 };
 
-enum class FillMode : uint32
+enum class FillMode : u32
 {
 	Full,
 	Wireframe,
 	Point
 };
 
-enum class ColorMask : uint8
+enum class ColorMask : u8
 {
 	Red = 0x1,
 	Green = 0x2,
@@ -85,14 +85,14 @@ enum class ColorMask : uint8
 	RGBA = Red | Green | Blue | Alpha
 };
 
-enum class BlendOperation : uint8
+enum class BlendOperation : u8
 {
 	None,
 	Add,
 	Subtract,
 };
 
-enum class BlendFactor : uint8
+enum class BlendFactor : u8
 {
 	Zero,
 	One,
@@ -112,23 +112,23 @@ enum class BlendFactor : uint8
 
 inline ColorMask operator|(ColorMask e0, ColorMask e1)
 {
-	return (ColorMask)((uint32)e0 | (uint32)e1);
+	return (ColorMask)((u32)e0 | (u32)e1);
 }
 
-enum class SamplerAddressMode : uint8
+enum class SamplerAddressMode : u8
 {
 	Repeat,
 	Clamp,
 	Mirror
 };
 
-enum class SamplerFilter : uint8
+enum class SamplerFilter : u8
 {
 	Nearest,
 	Linear
 };
 
-enum class SamplerMipmapMode : uint8
+enum class SamplerMipmapMode : u8
 {
 	Nearest,
 	Linear

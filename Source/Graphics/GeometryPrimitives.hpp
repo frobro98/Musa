@@ -58,15 +58,15 @@ struct PrimitiveVertex
 
 struct VertexBoneWeights
 {
-	static constexpr uint32 MaxWeightInfluences = 4;
+	static constexpr u32 MaxWeightInfluences = 4;
 
 	float weights[MaxWeightInfluences] = { 0.f, 0.f, 0.f, 0.f };
-	uint32 boneIndices[MaxWeightInfluences] = { 0, 0, 0, 0 };
+	u32 boneIndices[MaxWeightInfluences] = { 0, 0, 0, 0 };
 };
 
 struct Face
 {
-	uint32 v0;
-	uint32 v1;
-	uint32 v2;
+	u32 v0;
+	u32 v1;
+	u32 v2;
 };

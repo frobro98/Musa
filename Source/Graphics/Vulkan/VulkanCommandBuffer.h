@@ -53,7 +53,7 @@ public:
 		VkPipelineStageFlags srcStageMask,
 		VkPipelineStageFlags dstStageMask,
 		VkDependencyFlags dependencyFlags,
-		uint32 imageMemoryBarrierCount,
+		u32 imageMemoryBarrierCount,
 		const VkImageMemoryBarrier* pImageMemoryBarriers
 	);
 
@@ -61,7 +61,7 @@ public:
 		VkPipelineStageFlags srcStageMask,
 		VkPipelineStageFlags dstStageMask,
 		VkDependencyFlags dependencyFlags,
-		uint32 bufferMemoryBarrierCount,
+		u32 bufferMemoryBarrierCount,
 		const VkBufferMemoryBarrier* pBufferMemoryBarriers
 	);
 
@@ -69,21 +69,21 @@ public:
 		VkPipelineStageFlags srcStageMask, 
 		VkPipelineStageFlags dstStageMask, 
 		VkDependencyFlags dependencyFlags, 
-		uint32 memoryBarrierCount, 
+		u32 memoryBarrierCount, 
 		const VkMemoryBarrier* pMemoryBarriers
 	);
 
 	void CopyBuffer(
 		VkBuffer srcBuffer,
 		VkBuffer dstBuffer,
-		uint32 regionCount,
+		u32 regionCount,
 		const VkBufferCopy* pRegions
 	);
 	void CopyBufferToImage(
 		VkBuffer srcBuffer,
 		VkImage dstImage,
 		VkImageLayout dstLayout,
-		uint32 regionCount,
+		u32 regionCount,
 		const VkBufferImageCopy* pRegions
 	);
 	void CopyImage(
@@ -91,38 +91,38 @@ public:
 		VkImageLayout srcLayout, 
 		VkImage dstImage, 
 		VkImageLayout dstLayout, 
-		uint32 regionCount, 
+		u32 regionCount, 
 		const VkImageCopy* pRegions
 	);
 
 	void SetViewport(
-		uint32 firstViewport,
-		uint32 viewportCount,
+		u32 firstViewport,
+		u32 viewportCount,
 		const VkViewport* pViewports
 	);
 
 	void SetScissor(
-		uint32 firstScissor,
-		uint32 scissorCount,
+		u32 firstScissor,
+		u32 scissorCount,
 		const VkRect2D* pScissors
 	);
 
 	void Dispatch(
-		uint32 workgroupX, 
-		uint32 workgroupY, 
-		uint32 workgroupZ
+		u32 workgroupX, 
+		u32 workgroupY, 
+		u32 workgroupZ
 	);
 
 	void BindVertexBuffers(
 		const VulkanVertexBuffer* const* vertexBuffers,
-		const uint32* vertexBufferOffsets,
-		uint32 bufferCount
+		const u32* vertexBufferOffsets,
+		u32 bufferCount
 	);
 
 	void BindVertexBuffers(
 		const VkBuffer* vertexBuffers,
-		const uint32* vertexBufferOffsets,
-		uint32 bufferCount
+		const u32* vertexBufferOffsets,
+		u32 bufferCount
 	);
 
 	void BindIndexBuffer(
@@ -131,22 +131,22 @@ public:
 
 	void BindIndexBuffer(
 		VkBuffer indexBuffer,
-		uint32 bufferOffset
+		u32 bufferOffset
 	);
 
 	void DrawIndexed(
-		uint32 indexCount,
-		uint32 instanceCount,
-		uint32 firstIndex,
-		int32 vertexOffset,
-		uint32 firstInstance
+		u32 indexCount,
+		u32 instanceCount,
+		u32 firstIndex,
+		i32 vertexOffset,
+		u32 firstInstance
 	);
 
 	void Draw(
-		uint32 vertexCount,
-		uint32 instanceCount,
-		uint32 firstVertex,
-		uint32 firstInstance
+		u32 vertexCount,
+		u32 instanceCount,
+		u32 firstVertex,
+		u32 firstInstance
 	);
 
 	inline bool ContainsCommands() const { return state != CommandBufferState::Initialized && state != CommandBufferState::Submitted; }
@@ -200,7 +200,7 @@ public:
 	VulkanCommandBuffer* GetActiveGraphicsBuffer();
 	VulkanCommandBuffer* GetActiveTransferBuffer();
 
-	DynamicArray<VulkanCommandBuffer*> GetSecondaryCommandBuffers(uint32 numCmdBuffers);
+	DynamicArray<VulkanCommandBuffer*> GetSecondaryCommandBuffers(u32 numCmdBuffers);
 
 private:
 	void SubmitCommandBuffer(
@@ -215,10 +215,10 @@ private:
 
 	VulkanCommandBuffer* FindOrCreateGraphicsBuffer();
 	VulkanCommandBuffer* FindOrCreateTransferBuffer();
-	DynamicArray<VulkanCommandBuffer*> FindOrCreateSecondaryBuffers(uint32 numCmdBuffers);
+	DynamicArray<VulkanCommandBuffer*> FindOrCreateSecondaryBuffers(u32 numCmdBuffers);
 	VulkanCommandBuffer* CreateGraphicsCommandBuffer();
 	VulkanCommandBuffer* CreateTransferCommandBuffer();
-	void AllocateMissingCommandBuffers(uint32 remainingCmdBufs, DynamicArray<VulkanCommandBuffer*>& outCommandBuffers);
+	void AllocateMissingCommandBuffers(u32 remainingCmdBufs, DynamicArray<VulkanCommandBuffer*>& outCommandBuffers);
 
 private:
 	VkCommandPool graphicsCmdPool = VK_NULL_HANDLE;

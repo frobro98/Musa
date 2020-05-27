@@ -15,13 +15,13 @@ enum class Chunk
 	TEXTURE_TYPE
 };
 
-constexpr uint32 ChunkNameSize = 64;
+constexpr u32 ChunkNameSize = 64;
 
 struct ChunkHeader
 {
 	char     chunkName[ChunkNameSize];
-	uint32   chunkSize;
-	uint32   hashNum;
+	u32   chunkSize;
+	u32   hashNum;
 	Chunk	 type;
 };
 
@@ -30,7 +30,7 @@ forceinline void Deserialize(DeserializeBase& ser, ChunkHeader& header)
 	ser.DeserializeData(header.chunkName, ChunkNameSize);
 	Deserialize(ser, header.chunkSize);
 	Deserialize(ser, header.hashNum);
-	uint32 e;
+	u32 e;
 	Deserialize(ser, e);
 	// TODO - There needs to be some sort of serialization scheme for enum types
 	header.type = (Chunk)e;

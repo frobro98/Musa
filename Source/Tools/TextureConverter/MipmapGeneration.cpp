@@ -11,23 +11,23 @@ namespace
 {
 struct ImageDividedChannels
 {
-	DynamicArray<uint8> redChannel;
-	DynamicArray<uint8> greenChannel;
-	DynamicArray<uint8> blueChannel;
+	DynamicArray<u8> redChannel;
+	DynamicArray<u8> greenChannel;
+	DynamicArray<u8> blueChannel;
 };
 
 void SplitTextureIntoChannels(const MipmapLevel& texture, ImageDividedChannels& image)
 {
-	constexpr uint32 numChannels = 4;
-	const uint32 rowSize = texture.width * numChannels;
-	const uint8* mipData = texture.mipData.GetData();
+	constexpr u32 numChannels = 4;
+	const u32 rowSize = texture.width * numChannels;
+	const u8* mipData = texture.mipData.GetData();
 
 	image.redChannel.Reserve(texture.width * texture.height);
 	image.greenChannel.Reserve(texture.width * texture.height);
 	image.blueChannel.Reserve(texture.width * texture.height);
-	for (uint32 i = 0; i < texture.height; ++i)
+	for (u32 i = 0; i < texture.height; ++i)
 	{
-		for (uint32 j = 0; j < texture.width * numChannels; j += 4)
+		for (u32 j = 0; j < texture.width * numChannels; j += 4)
 		{
 			image.redChannel.Add(mipData[(j + rowSize * i) + 0]);
 			image.greenChannel.Add(mipData[(j + rowSize * i) + 1]);
@@ -38,28 +38,28 @@ void SplitTextureIntoChannels(const MipmapLevel& texture, ImageDividedChannels& 
 
 void CombineImageChannels(const ImageDividedChannels& image, MipmapLevel& level)
 {
-	constexpr uint32 numChannels = 4;
-	const uint32 rowSize = level.width * numChannels;
-	const uint32 mipLevelSize = rowSize * level.height;
-	uint8* mipData = new uint8[mipLevelSize];
+	constexpr u32 numChannels = 4;
+	const u32 rowSize = level.width * numChannels;
+	const u32 mipLevelSize = rowSize * level.height;
+	u8* mipData = new u8[mipLevelSize];
 	ZeroMem(mipData, mipLevelSize);
 
-	uint8* iter = mipData;
-	for (uint32 i = 0; i < level.height; ++i)
+	u8* iter = mipData;
+	for (u32 i = 0; i < level.height; ++i)
 	{
-		for (uint32 j = 0; j < level.width; ++j)
+		for (u32 j = 0; j < level.width; ++j)
 		{
 			*iter++ = (image.redChannel[j + level.width * i]);
 			*iter++ = (image.greenChannel[j + level.width * i]);
 			*iter++ = (image.blueChannel[j + level.width * i]);
-			*iter++ = ((uint8)255);
+			*iter++ = ((u8)255);
 		}
 	}
 
 	level.mipData = ResourceBlob(mipData, mipLevelSize);
 }
 
-constexpr uint32 GoodKaiserWidth = 32;
+constexpr u32 GoodKaiserWidth = 32;
 
 float bessel0Function(float x)
 {
@@ -90,25 +90,25 @@ float kaiserFunction(float alpha, float halfWidth, float x)
 	return kaiser;
 }
 
-template<uint32 N>
+template<u32 N>
 struct ImageFilter
 {
 	float data[N] = {};
 };
 
-template<uint32 N>
+template<u32 N>
 void NormalizeFilter(ImageFilter<N>& filter)
 {
 	float sum = 0.f;
 
-	for (uint32 i = 0; i < N; ++i)
+	for (u32 i = 0; i < N; ++i)
 	{
 		sum += filter.data[i];
 	}
 
 	Assert(sum != 0);
 
-	for (uint32 i = 0; i < N; ++i)
+	for (u32 i = 0; i < N; ++i)
 	{
 		filter.data[i] /= sum;
 	}
@@ -134,7 +134,7 @@ ImageFilter<GoodKaiserWidth> InitializeKaiserFilter()
 	const float stretch = 1.f;
 	const float alpha = 4.f;
 
-	for (uint32 i = 0; i < GoodKaiserWidth; ++i)
+	for (u32 i = 0; i < GoodKaiserWidth; ++i)
 	{
 		const float x = (i + offset) + nudge;
 		const float xStretchAdjust = x * stretch;
@@ -149,26 +149,26 @@ ImageFilter<GoodKaiserWidth> InitializeKaiserFilter()
 	return kaiserFilter;
 }
 
-uint32 Get1DColorIndex(int32 i, int32 j, uint32 width, uint32 height)
+u32 Get1DColorIndex(i32 i, i32 j, u32 width, u32 height)
 {
-	Assert(i >= 0 && i < ((int32)width));
-	Assert(j >= 0 && j < ((int32)height));
+	Assert(i >= 0 && i < ((i32)width));
+	Assert(j >= 0 && j < ((i32)height));
 
-	return static_cast<uint32>(i + j * width);
+	return static_cast<u32>(i + j * width);
 }
 
-uint32 AdjustIndexforFiltering(int32 i, int32 j, uint32 width, uint32 height)
+u32 AdjustIndexforFiltering(i32 i, i32 j, u32 width, u32 height)
 {
-	while ((i < 0) || (i > ((int32)width - 1)))
+	while ((i < 0) || (i > ((i32)width - 1)))
 	{
 		if (i < 0) i = -i;
-		if (i >= (int32)(width)) i = (int32)(width + width) - i - 1;
+		if (i >= (i32)(width)) i = (i32)(width + width) - i - 1;
 	}
 
-	while ((j < 0) || (j > ((int32)height - 1)))
+	while ((j < 0) || (j > ((i32)height - 1)))
 	{
 		if (j < 0) j = -j;
-		if (j >= (int32)height) j = (int32)(height + height) - j - 1;
+		if (j >= (i32)height) j = (i32)(height + height) - j - 1;
 	}
 
 	return Get1DColorIndex(i, j, width, height);
@@ -177,30 +177,30 @@ uint32 AdjustIndexforFiltering(int32 i, int32 j, uint32 width, uint32 height)
 // template<uint32 N>
 // void ApplyFilterToLevel(const ImageFilter<N>& filter, const MipMapLevel& parent, MipMapLevel& level)
 
-template<uint32 N>
-void ApplyFilterToLevel(const ImageFilter<N>& filter,uint32 parentWidth, uint32 parentHeight, const DynamicArray<uint8>& channelData, DynamicArray<uint8>& processedChannelData)
+template<u32 N>
+void ApplyFilterToLevel(const ImageFilter<N>& filter,u32 parentWidth, u32 parentHeight, const DynamicArray<u8>& channelData, DynamicArray<u8>& processedChannelData)
 {
 	static_assert(N != 1, "Width of a filter must be usable");
 
 	DynamicArray<float> normalizedPixelData = NormalizePixelData(channelData);
 	DynamicArray<float> tmpData(normalizedPixelData.Size());
-	int32 filterOffset = -static_cast<int32>((N / 2) - 1);
+	i32 filterOffset = -static_cast<i32>((N / 2) - 1);
 
-	uint32 levelWidth = parentWidth >> 1;
-	uint32 levelHeight = parentHeight >> 1;
+	u32 levelWidth = parentWidth >> 1;
+	u32 levelHeight = parentHeight >> 1;
 	DynamicArray<float> normalizedResult(levelWidth * levelHeight);
 
-	for (int32 y = 0; y < (int32)parentHeight; ++y)
+	for (i32 y = 0; y < (i32)parentHeight; ++y)
 	{
-		for (int32 x = 0; x < (int32)parentWidth; x += 2)
+		for (i32 x = 0; x < (i32)parentWidth; x += 2)
 		{
-			uint32 resultingIndex = Get1DColorIndex(x >> 1, y, parentWidth, parentHeight);
+			u32 resultingIndex = Get1DColorIndex(x >> 1, y, parentWidth, parentHeight);
 			float sum = 0;
 
-			for (int32 k = 0; k < N; ++k)
+			for (i32 k = 0; k < N; ++k)
 			{
-				int32 srcX = x + k + filterOffset;
-				uint32 colorIndex = AdjustIndexforFiltering(srcX, y, parentWidth, parentHeight);
+				i32 srcX = x + k + filterOffset;
+				u32 colorIndex = AdjustIndexforFiltering(srcX, y, parentWidth, parentHeight);
 				const float color = normalizedPixelData[colorIndex];
 				sum += filter.data[k] * color;
 			}
@@ -209,18 +209,18 @@ void ApplyFilterToLevel(const ImageFilter<N>& filter,uint32 parentWidth, uint32 
 		}
 	}
 
-	uint32 numColorsTouched = 0;
-	for (int32 x = 0; x < (int32)(parentWidth >> 1); ++x)
+	u32 numColorsTouched = 0;
+	for (i32 x = 0; x < (i32)(parentWidth >> 1); ++x)
 	{
-		for (int32 y = 0; y < (int32)parentHeight; y += 2)
+		for (i32 y = 0; y < (i32)parentHeight; y += 2)
 		{
-			uint32 resultingIndex = Get1DColorIndex(x, y >> 1, levelWidth, levelHeight);
+			u32 resultingIndex = Get1DColorIndex(x, y >> 1, levelWidth, levelHeight);
 			float sum = 0;
 
-			for (int32 k = 0; k < N; ++k)
+			for (i32 k = 0; k < N; ++k)
 			{
-				int32 srcY = y + k + filterOffset;
-				uint32 colorIndex = AdjustIndexforFiltering(x, srcY, parentWidth, parentHeight);
+				i32 srcY = y + k + filterOffset;
+				u32 colorIndex = AdjustIndexforFiltering(x, srcY, parentWidth, parentHeight);
 				const float channelColor = tmpData[colorIndex];
 				sum += filter.data[k] * channelColor;
 			}
@@ -233,7 +233,7 @@ void ApplyFilterToLevel(const ImageFilter<N>& filter,uint32 parentWidth, uint32 
 	processedChannelData = UnnormalizePixelData(normalizedResult);
 }
 
-template<uint32 N>
+template<u32 N>
 MipmapLevel ProcessIndividualLevel(const ImageFilter<N>& filter, const MipmapLevel& parentLevel)
 {
 	MipmapLevel currentLevel;
@@ -253,17 +253,17 @@ MipmapLevel ProcessIndividualLevel(const ImageFilter<N>& filter, const MipmapLev
 	return currentLevel;
 }
 
-void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const DynamicArray<uint8>& channelData, DynamicArray<uint8>& processedChannel)
+void ApplyFFTToLevel(u32 parentWidth, u32 parentHeight, const DynamicArray<u8>& channelData, DynamicArray<u8>& processedChannel)
 {
 	DynamicArray<float> normalizedPixelData = NormalizePixelData(channelData);
 	
-	uint32 pixelDataSize = normalizedPixelData.Size();
+	u32 pixelDataSize = normalizedPixelData.Size();
 	DynamicArray<float> tmpReal(pixelDataSize);
 	DynamicArray<float> tmpImaginary(pixelDataSize);
 	DynamicArray<float> freqReal(pixelDataSize);
 	DynamicArray<float> freqImaginary(pixelDataSize);
 
-	uint32 maxDimension = parentWidth;
+	u32 maxDimension = parentWidth;
 	if (parentHeight > maxDimension)
 	{
 		maxDimension = parentHeight;
@@ -278,25 +278,25 @@ void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const DynamicArray
 	// this we first do a horizontal pass, then a vertical
 	// pass.
 
-	int32 parentWidthAsInt = static_cast<int32>(parentWidth);
-	int32 parentHeightAsInt = static_cast<int32>(parentHeight);
+	i32 parentWidthAsInt = static_cast<i32>(parentWidth);
+	i32 parentHeightAsInt = static_cast<i32>(parentHeight);
 	// Horizontal pass.
-	for (int32 y = 0; y < parentHeightAsInt; ++y)
+	for (i32 y = 0; y < parentHeightAsInt; ++y)
 	{
-		for (int32 x = 0; x < parentWidthAsInt; ++x)
+		for (i32 x = 0; x < parentWidthAsInt; ++x)
 		{
-			uint32 src = static_cast<uint32>(x);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 src = static_cast<u32>(x);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			inputReal[src] = normalizedPixelData[index];
 			inputImaginary[src] = 0.f;
 		}
 
 		FastFourier(parentWidth, inputReal, inputImaginary, outputReal, outputImaginary);
 
-		for (int32 x = 0; x < parentWidthAsInt; ++x)
+		for (i32 x = 0; x < parentWidthAsInt; ++x)
 		{
-			uint32 dest = static_cast<uint32>(x);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 dest = static_cast<u32>(x);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			tmpReal[index] = outputReal[dest];
 			tmpImaginary[index] = outputImaginary[dest];
 		}
@@ -304,43 +304,43 @@ void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const DynamicArray
 
 	// Vertical Pass
 
-	for (int32 x = 0; x < parentWidthAsInt; ++x)
+	for (i32 x = 0; x < parentWidthAsInt; ++x)
 	{
-		for (int32 y = 0; y < parentHeightAsInt; ++y)
+		for (i32 y = 0; y < parentHeightAsInt; ++y)
 		{
-			uint32 src = static_cast<uint32>(y);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 src = static_cast<u32>(y);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			inputReal[src] = tmpReal[index];
 			inputImaginary[src] = tmpImaginary[index];
 		}
 
 		FastFourier(parentHeight, inputReal, inputImaginary, outputReal, outputImaginary);
 
-		for (int32 y = 0; y < parentHeightAsInt; ++y)
+		for (i32 y = 0; y < parentHeightAsInt; ++y)
 		{
-			uint32 dest = static_cast<uint32>(y);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 dest = static_cast<u32>(y);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			freqReal[index] = outputReal[dest];
 			freqImaginary[index] = outputImaginary[dest];
 		}
 	}
 
-	int32 halfwidth = parentWidthAsInt / 2;
-	int32 quarterwidth = parentWidthAsInt / 4;
+	i32 halfwidth = parentWidthAsInt / 2;
+	i32 quarterwidth = parentWidthAsInt / 4;
 
-	int32 halfheight = parentHeightAsInt / 2;
-	int32 quarterheight = parentHeightAsInt / 4;
+	i32 halfheight = parentHeightAsInt / 2;
+	i32 quarterheight = parentHeightAsInt / 4;
 
-	int32 x0 = quarterwidth;
-	int32 x1 = halfwidth + quarterwidth;
-	int32 y0 = quarterheight;
-	int32 y1 = halfheight + quarterheight;
+	i32 x0 = quarterwidth;
+	i32 x1 = halfwidth + quarterwidth;
+	i32 y0 = quarterheight;
+	i32 y1 = halfheight + quarterheight;
 
-	for (int32 y = 0; y < parentHeightAsInt; ++y)
+	for (i32 y = 0; y < parentHeightAsInt; ++y)
 	{
-		for (int32 x = 0; x < parentWidthAsInt; ++x)
+		for (i32 x = 0; x < parentWidthAsInt; ++x)
 		{
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			if ((x >= x0 && x < x1) || (y >= y0 && y < y1))
 			{
 				freqReal[index] = 0;
@@ -353,59 +353,59 @@ void ApplyFFTToLevel(uint32 parentWidth, uint32 parentHeight, const DynamicArray
 	// then horizontal pass, though the order should not matter.
 
 	// Vertical pass.
-	for (int32 x = 0; x < parentWidthAsInt; ++x)
+	for (i32 x = 0; x < parentWidthAsInt; ++x)
 	{
-		for (int32 y = 0; y < parentHeightAsInt; ++y)
+		for (i32 y = 0; y < parentHeightAsInt; ++y)
 		{
-			uint32 src = static_cast<uint32>(y);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 src = static_cast<u32>(y);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			inputReal[src] = freqReal[index];
 			inputImaginary[src] = freqImaginary[index];
 		}
 
 		InverseFastFourier(parentHeight, inputReal, inputImaginary, outputReal, outputImaginary);
 
-		for (int32 y = 0; y < parentHeightAsInt; ++y)
+		for (i32 y = 0; y < parentHeightAsInt; ++y)
 		{
-			uint32 dest = static_cast<uint32>(y);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 dest = static_cast<u32>(y);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			tmpReal[index] = outputReal[dest];
 			tmpImaginary[index] = outputImaginary[dest];
 		}
 	}
 
 	// Horizontal Pass
-	for (int32 y = 0; y < parentHeightAsInt; ++y)
+	for (i32 y = 0; y < parentHeightAsInt; ++y)
 	{
-		for (int32 x = 0; x < parentWidthAsInt; ++x)
+		for (i32 x = 0; x < parentWidthAsInt; ++x)
 		{
-			uint32 src = static_cast<uint32>(x);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 src = static_cast<u32>(x);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			inputReal[src] = tmpReal[index];
 			inputImaginary[src] = tmpImaginary[index];
 		}
 
 		InverseFastFourier(parentWidth, inputReal, inputImaginary, outputReal, outputImaginary);
 
-		for (int32 x = 0; x < parentWidthAsInt; ++x)
+		for (i32 x = 0; x < parentWidthAsInt; ++x)
 		{
-			uint32 dest = static_cast<uint32>(x);
-			uint32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 dest = static_cast<u32>(x);
+			u32 index = Get1DColorIndex(x, y, parentWidth, parentHeight);
 			tmpReal[index] = outputReal[dest];
 			// outputImaginary is discarded.  Should be 0 within roundoff error.
 		}
 	}
 
-	uint32 levelWidth = parentWidth >> 1;
-	uint32 levelHeight = parentHeight >> 1;
+	u32 levelWidth = parentWidth >> 1;
+	u32 levelHeight = parentHeight >> 1;
 	DynamicArray<float> normalizedResult(levelWidth * levelHeight);
 
-	for (int32 y = 0; y < parentHeightAsInt; y += 2)
+	for (i32 y = 0; y < parentHeightAsInt; y += 2)
 	{
-		for (int32 x = 0; x < parentWidthAsInt; ++x)
+		for (i32 x = 0; x < parentWidthAsInt; ++x)
 		{
-			uint32 srcIndex = Get1DColorIndex(x, y, parentWidth, parentHeight);
-			uint32 destIndex = Get1DColorIndex(x >> 1, y >> 1, levelWidth, levelHeight);
+			u32 srcIndex = Get1DColorIndex(x, y, parentWidth, parentHeight);
+			u32 destIndex = Get1DColorIndex(x >> 1, y >> 1, levelWidth, levelHeight);
 			normalizedResult[destIndex] = tmpReal[srcIndex];
 		}
 	}
@@ -433,11 +433,11 @@ MipmapLevel ProcessIndividualLevelWithFFT(const MipmapLevel& parentLevel)
 	return currentLevel;
 }
 
-template<uint32 N>
-void ProcessMipLevels(const ImageFilter<N>& filter, DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
+template<u32 N>
+void ProcessMipLevels(const ImageFilter<N>& filter, DynamicArray<MipmapLevel>& mipMapLevels, u32 levelsToGen)
 {
 	const MipmapLevel* parentLevel = &mipMapLevels[0];
-	for (uint32 i = 1; i < levelsToGen; ++i)
+	for (u32 i = 1; i < levelsToGen; ++i)
 	{
 		mipMapLevels.Add(ProcessIndividualLevel(filter, *parentLevel));
 		parentLevel = &mipMapLevels[i];
@@ -447,22 +447,22 @@ void ProcessMipLevels(const ImageFilter<N>& filter, DynamicArray<MipmapLevel>& m
 static auto boxFilter = InitializeBoxFilter();
 static auto kaiserFilter = InitializeKaiserFilter();
 
-void ProcessMipLevelsWithBoxFilter(DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevelsWithBoxFilter(DynamicArray<MipmapLevel>& mipMapLevels, u32 levelsToGen)
 {
 	const auto& filter = boxFilter;
 	ProcessMipLevels(filter, mipMapLevels, levelsToGen);
 }
 
-void ProcessMipLevelsWithKaiserFilter(DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevelsWithKaiserFilter(DynamicArray<MipmapLevel>& mipMapLevels, u32 levelsToGen)
 {
 	const auto& filter = kaiserFilter;
 	ProcessMipLevels(filter, mipMapLevels, levelsToGen);
 }
 
-void ProcessMipLevelsWithFFT(DynamicArray<MipmapLevel>& mipMapLevels, uint32 levelsToGen)
+void ProcessMipLevelsWithFFT(DynamicArray<MipmapLevel>& mipMapLevels, u32 levelsToGen)
 {
 	const MipmapLevel* parentLevel = &mipMapLevels[0];
-	for (uint32 i = 1; i < levelsToGen; ++i)
+	for (u32 i = 1; i < levelsToGen; ++i)
 	{
 		mipMapLevels.Add(ProcessIndividualLevelWithFFT(*parentLevel));
 		parentLevel = &mipMapLevels[i];
@@ -471,18 +471,18 @@ void ProcessMipLevelsWithFFT(DynamicArray<MipmapLevel>& mipMapLevels, uint32 lev
 
 }
 
-uint32 GetMaxMipMapLevels(uint32 width, uint32 height)
+u32 GetMaxMipMapLevels(u32 width, u32 height)
 {
 	float maxDimention = static_cast<float>(Math::Max(width, height));
-	uint32 numPossibleLevels = 1 + static_cast<uint32>(Math::Floor(Math::Log2(maxDimention)));
+	u32 numPossibleLevels = 1 + static_cast<u32>(Math::Floor(Math::Log2(maxDimention)));
 	return numPossibleLevels;
 }
 
-bool GenerateMipMapLevels(Texture& texture, uint32 levelsToGen, MipMapFilter filter)
+bool GenerateMipMapLevels(Texture& texture, u32 levelsToGen, MipMapFilter filter)
 {
 	Assert(texture.mipLevels.Size() > 0);
-	uint32 width = texture.GetWidth();
-	uint32 height = texture.GetHeight();
+	u32 width = texture.GetWidth();
+	u32 height = texture.GetHeight();
 	Assert(levelsToGen < GetMaxMipMapLevels(width, height));
 
 	switch (filter)

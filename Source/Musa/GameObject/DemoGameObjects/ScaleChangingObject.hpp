@@ -6,14 +6,14 @@
 class ScaleChangingObject : public GameObject
 {
 public:
-	ScaleChangingObject(GameWorld& world, float32 scaleA, float32 scaleB, float32 delta);
+	ScaleChangingObject(GameWorld& world, f32 scaleA, f32 scaleB, f32 delta);
 
-	virtual void Update(float32 tick) override;
+	virtual void Update(f32 tick) override;
 
 private:
 	Vector4 A, B;
 	Vector4* srcVec;
 	Vector4* dstVec;
-	float32 delta;
-	float32 totalDelta = 0.f;
+	f32 delta;
+	f32 totalDelta = 0.f;
 };

@@ -9,8 +9,8 @@ ARCHIVE_API bool ProcessPackage(
 	const char * const filePath,
 	Chunk type,
 	const char * const chunkName,
-	uint8* &chunkBuff,
-	uint32& chunkSize,
-	uint32& hash
+	u8* &chunkBuff,
+	u32& chunkSize,
+	u32& hash
 );
 

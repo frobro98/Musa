@@ -57,14 +57,14 @@ void SetCurrentThreadName(const tchar* threadName)
 	}
 }
 
-uint64 GetCurrentThreadID()
+u64 GetCurrentThreadID()
 {
 	return std::hash<std::thread::id>()(std::this_thread::get_id());
 }
 
-uint32 GetNumberOfProcessors()
+u32 GetNumberOfProcessors()
 {
-	uint32 cores = std::thread::hardware_concurrency();
+	u32 cores = std::thread::hardware_concurrency();
 //	Assert(cores > 0);
 	return cores;
 }

@@ -14,36 +14,36 @@ class StringView
 {
 public:
 	constexpr StringView(const tchar* str);
-	constexpr explicit StringView(const tchar* str, uint32 len);
+	constexpr explicit StringView(const tchar* str, u32 len);
 
-	constexpr StringView SubStr(uint32 startIndex) const;
-	constexpr StringView SubStr(uint32 startIndex, uint32 endIndex) const;
+	constexpr StringView SubStr(u32 startIndex) const;
+	constexpr StringView SubStr(u32 startIndex, u32 endIndex) const;
 
 	constexpr bool StartsWith(const tchar* cStr) const;
 	constexpr bool StartsWith(tchar ch) const;
 	constexpr bool EndsWith(const tchar* cStr) const;
 	constexpr bool EndsWith(tchar ch) const;
-	constexpr int32 FindFirst(const tchar* str) const;
-	constexpr int32 FindLast(const tchar* str) const;
-	constexpr int32 FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const;
-	constexpr int32 FindFrom(uint32 index, const tchar* str) const;
+	constexpr i32 FindFirst(const tchar* str) const;
+	constexpr i32 FindLast(const tchar* str) const;
+	constexpr i32 FindRange(u32 startIndex, u32 endIndex, const tchar* str) const;
+	constexpr i32 FindFrom(u32 index, const tchar* str) const;
 
 	constexpr bool IsEmpty() const;
 	constexpr bool Contains(const tchar* str) const;
-	constexpr uint32 Length() const;
+	constexpr u32 Length() const;
 
-	constexpr int32 IndexOf(tchar ch) const;
-	constexpr tchar CharAt(uint32 index) const;
-	constexpr tchar operator[](uint32 index) const;
+	constexpr i32 IndexOf(tchar ch) const;
+	constexpr tchar CharAt(u32 index) const;
+	constexpr tchar operator[](u32 index) const;
 
 	constexpr const tchar* operator*() const;
 
-	constexpr int32 Compare(const StringView& sv) const;
-	constexpr int32 Compare(const String& s) const;
-	constexpr int32 Compare(const tchar* cs) const;
-	constexpr int32 Compare(const StringView& sv, uint32 compLen) const;
-	constexpr int32 Compare(const String& s, uint32 compLen) const;
-	constexpr int32 Compare(const tchar* cs, uint32 compLen) const;
+	constexpr i32 Compare(const StringView& sv) const;
+	constexpr i32 Compare(const String& s) const;
+	constexpr i32 Compare(const tchar* cs) const;
+	constexpr i32 Compare(const StringView& sv, u32 compLen) const;
+	constexpr i32 Compare(const String& s, u32 compLen) const;
+	constexpr i32 Compare(const tchar* cs, u32 compLen) const;
 
 	friend constexpr bool operator==(const StringView& s0, const StringView& s1);
 	friend constexpr bool operator==(const String& s, const StringView& sv);
@@ -59,9 +59,9 @@ public:
 
 private:
 	const tchar* string;
-	uint32 stringLen;
+	u32 stringLen;
 
-	friend uint32 GetHash(const StringView& str)
+	friend u32 GetHash(const StringView& str)
 	{
 		return fnv32(str.string, str.stringLen);
 	}
@@ -69,12 +69,12 @@ private:
 
 constexpr StringView::StringView(const tchar* str)
 	: string(str),
-	stringLen((uint32)Strlen(str))
+	stringLen((u32)Strlen(str))
 {
 	Assert(string != nullptr);
 }
 
-constexpr StringView::StringView(const tchar* str, uint32 len)
+constexpr StringView::StringView(const tchar* str, u32 len)
 	: string(str),
 	stringLen(len)
 {
@@ -82,13 +82,13 @@ constexpr StringView::StringView(const tchar* str, uint32 len)
 	Assert(Strlen(str) >= len);
 }
 
-constexpr StringView StringView::SubStr(uint32 startIndex) const
+constexpr StringView StringView::SubStr(u32 startIndex) const
 {
 	Assert(startIndex < stringLen);
 	return StringView(string + startIndex);
 }
 
-constexpr StringView StringView::SubStr(uint32 startIndex, uint32 endIndex) const
+constexpr StringView StringView::SubStr(u32 startIndex, u32 endIndex) const
 {
 	Assert(startIndex < stringLen);
 	Assert(startIndex < endIndex);
@@ -116,33 +116,33 @@ constexpr bool StringView::EndsWith(tchar ch) const
 	return string[stringLen - 1] == ch;
 }
 
-constexpr int32 StringView::FindFirst(const tchar* str) const
+constexpr i32 StringView::FindFirst(const tchar* str) const
 {
 	return FindFirstIn(string, stringLen, str, Strlen(str));
 }
 
-constexpr int32 StringView::FindLast(const tchar* str) const
+constexpr i32 StringView::FindLast(const tchar* str) const
 {
 	return FindLastIn(string, stringLen, str, Strlen(str));
 }
 
-constexpr int32 StringView::FindRange(uint32 startIndex, uint32 endIndex, const tchar* str) const
+constexpr i32 StringView::FindRange(u32 startIndex, u32 endIndex, const tchar* str) const
 {
 	Assert(str);
 	Assert(startIndex < stringLen);
 	Assert(startIndex < endIndex);
 	Assert(endIndex <= stringLen);
 	size_t searchStrLen = Strlen(str);
-	int32 foundFirstIndex = FindFirstIn(string + startIndex, endIndex - startIndex, str, searchStrLen);
+	i32 foundFirstIndex = FindFirstIn(string + startIndex, endIndex - startIndex, str, searchStrLen);
 	return foundFirstIndex + startIndex;
 }
 
-constexpr int32 StringView::FindFrom(uint32 index, const tchar* str) const
+constexpr i32 StringView::FindFrom(u32 index, const tchar* str) const
 {
 	Assert(str);
 	Assert(index < Length());
 	size_t searchStrLen = Strlen(str);
-	int32 foundFirstIndex = FindFirstIn(string + index, stringLen - index, str, searchStrLen);
+	i32 foundFirstIndex = FindFirstIn(string + index, stringLen - index, str, searchStrLen);
 	return foundFirstIndex + index;
 }
 
@@ -156,14 +156,14 @@ constexpr bool StringView::Contains(const tchar* str) const
 	return Strstr(string, str);
 }
 
-constexpr uint32 StringView::Length() const
+constexpr u32 StringView::Length() const
 {
 	return stringLen;
 }
 
-constexpr int32 StringView::IndexOf(tchar ch) const
+constexpr i32 StringView::IndexOf(tchar ch) const
 {
-	int32 indexOf = 0;
+	i32 indexOf = 0;
 	while (string[indexOf] != '\0')
 	{
 		if (string[indexOf] == ch)
@@ -176,13 +176,13 @@ constexpr int32 StringView::IndexOf(tchar ch) const
 	return -1;
 }
 
-constexpr tchar StringView::CharAt(uint32 index) const
+constexpr tchar StringView::CharAt(u32 index) const
 {
 	Assert(index < stringLen);
 	return string[index];
 }
 
-constexpr tchar StringView::operator[](uint32 index) const
+constexpr tchar StringView::operator[](u32 index) const
 {
 	Assert(index < stringLen);
 	return string[index];
@@ -193,32 +193,32 @@ constexpr const tchar* StringView::operator*() const
 	return string;
 }
 
-constexpr int32 StringView::Compare(const StringView& sv) const
+constexpr i32 StringView::Compare(const StringView& sv) const
 {
 	return Strcmp(string, sv.string);
 }
 
-constexpr int32 StringView::Compare(const String& s) const
+constexpr i32 StringView::Compare(const String& s) const
 {
 	return Strcmp(string, *s);
 }
 
-constexpr int32 StringView::Compare(const tchar* cs) const
+constexpr i32 StringView::Compare(const tchar* cs) const
 {
 	return Strcmp(string, cs);
 }
 
-constexpr int32 StringView::Compare(const StringView& sv, uint32 compLen) const
+constexpr i32 StringView::Compare(const StringView& sv, u32 compLen) const
 {
 	return Strncmp(string, sv.string, compLen);
 }
 
-constexpr int32 StringView::Compare(const String& s, uint32 compLen) const
+constexpr i32 StringView::Compare(const String& s, u32 compLen) const
 {
 	return Strncmp(string, *s, compLen);
 }
 
-constexpr int32 StringView::Compare(const tchar* cs, uint32 compLen) const
+constexpr i32 StringView::Compare(const tchar* cs, u32 compLen) const
 {
 	return Strncmp(string, cs, compLen);
 }

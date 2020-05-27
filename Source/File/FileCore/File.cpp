@@ -67,7 +67,7 @@ File::Result File::Close( const File::Handle fh )
 	return 	Result::SUCCESS;
 }
 
-File::Result File::Write( File::Handle fh, const void* const buffer, uint32 inSize )
+File::Result File::Write( File::Handle fh, const void* const buffer, u32 inSize )
 {
 	if (buffer == nullptr || inSize == (size_t)-1)
 	{
@@ -84,7 +84,7 @@ File::Result File::Write( File::Handle fh, const void* const buffer, uint32 inSi
 	return 	Result::SUCCESS;
 }
 
-File::Result File::Read( File::Handle fh,  void* const buffer, uint32 inSize )
+File::Result File::Read( File::Handle fh,  void* const buffer, u32 inSize )
 {
 	if (buffer == nullptr)
 	{
@@ -102,7 +102,7 @@ File::Result File::Read( File::Handle fh,  void* const buffer, uint32 inSize )
 	return Result::SUCCESS;
 }
 
-File::Result File::Size(File::Handle fh, uint32& fileSize)
+File::Result File::Size(File::Handle fh, u32& fileSize)
 {
 	// Assumes file is at the beginning!
 	File::Result result = File::Seek(fh, Location::END, 0);
@@ -115,7 +115,7 @@ File::Result File::Size(File::Handle fh, uint32& fileSize)
 	return result;
 }
 
-File::Result File::Seek( File::Handle fh, File::Location location, int32 offset )
+File::Result File::Seek( File::Handle fh, File::Location location, i32 offset )
 {
 	DWORD moveMethod = FileLocationToWin32FP(location);
 	DWORD result = SetFilePointer(fh, offset, nullptr, moveMethod);
@@ -127,7 +127,7 @@ File::Result File::Seek( File::Handle fh, File::Location location, int32 offset 
 	return 	Result::SUCCESS;
 }
 
-File::Result File::Tell( File::Handle fh, uint32 &offset )
+File::Result File::Tell( File::Handle fh, u32 &offset )
 {
 	offset = SetFilePointer(fh, 0, nullptr, FILE_CURRENT);
 	if (offset == INVALID_SET_FILE_POINTER)

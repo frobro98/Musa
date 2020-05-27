@@ -13,13 +13,13 @@ enum class MipMapFilter
 	FFT
 };
 
-uint32 GetMaxMipMapLevels(
-	uint32 width, 
-	uint32 height
+u32 GetMaxMipMapLevels(
+	u32 width, 
+	u32 height
 );
 
 bool GenerateMipMapLevels(
 	Texture& texture,
-	uint32 levelsToGen,
+	u32 levelsToGen,
 	MipMapFilter generationFilter
 );

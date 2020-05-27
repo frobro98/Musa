@@ -36,9 +36,9 @@ public:
 	void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDescription);
 	void BindState(VulkanCommandBuffer& cmdBuffer);
 
-	void SetUniformBuffer(const VulkanBuffer& buffer, uint32 bindIndex);
-	void SetStorageBuffer(const VulkanBuffer& buffer, uint32 bindIndex);
-	void SetTexture(const VulkanTexture& texture, const VulkanSampler& sampler, uint32 bindIndex);
+	void SetUniformBuffer(const VulkanBuffer& buffer, u32 bindIndex);
+	void SetStorageBuffer(const VulkanBuffer& buffer, u32 bindIndex);
+	void SetTexture(const VulkanTexture& texture, const VulkanSampler& sampler, u32 bindIndex);
 
 	bool IsTextureInRender(const VulkanTexture& texture);
 

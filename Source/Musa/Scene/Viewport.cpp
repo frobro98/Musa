@@ -4,7 +4,7 @@
 #include "Graphics/GraphicsInterface.hpp"
 
 
-Viewport::Viewport(void* windowHandle, uint32 width, uint32 height)
+Viewport::Viewport(void* windowHandle, u32 width, u32 height)
 	: viewWidth(width),
 	viewHeight(height)
 {

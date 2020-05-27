@@ -14,9 +14,9 @@
 struct RenderTarget
 {
 	UniquePtr<NativeTexture> nativeTarget;
-	uint32 width;
-	uint32 height;
-	uint32 sampleCount;
+	u32 width;
+	u32 height;
+	u32 sampleCount;
 	ImageFormat format;
 	LoadOperation load;
 	LoadOperation stencilLoad;

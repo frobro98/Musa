@@ -26,7 +26,7 @@ void AnimationController::AddClip(AnimationClip* clip)
 void AnimationController::SetCurrentClip(const char* clipName)
 {
 	bool found = false;
-	for (uint32 i = 0; i < clips.Size(); ++i)
+	for (u32 i = 0; i < clips.Size(); ++i)
 	{
 		if (Strcmp(clipName, clips[i]->GetName()) == 0)
 		{
@@ -43,7 +43,7 @@ void AnimationController::SetCurrentClip(const char* clipName)
 void AnimationController::SetCurrentClip(AnimationClip* clip)
 {
 	bool found = false;
-	for (uint32 i = 0; i < clips.Size(); ++i)
+	for (u32 i = 0; i < clips.Size(); ++i)
 	{
 		if (clip == clips[i])
 		{
@@ -57,13 +57,13 @@ void AnimationController::SetCurrentClip(AnimationClip* clip)
 	Assert(found);
 }
 
-void AnimationController::SetCurrentClip(uint32 clipIndex)
+void AnimationController::SetCurrentClip(u32 clipIndex)
 {
 	Assert(clipIndex < clips.Size());
 	currentClip = clips[clipIndex];
 }
 
-AnimationTimeController* AnimationController::CreateTimeController(uint32 clipIndex)
+AnimationTimeController* AnimationController::CreateTimeController(u32 clipIndex)
 {
 	Assert(clipIndex < clips.Size());
 
@@ -85,7 +85,7 @@ void AnimationController::SetCurrentTimer(AnimationTimeController& newTimer)
 	currentTimer = &newTimer;
 }
 
-BlendSpace* AnimationController::StartBlending(uint32 currentIndex, uint32 newClipIndex)
+BlendSpace* AnimationController::StartBlending(u32 currentIndex, u32 newClipIndex)
 {
 	BlendSpace* blend = new BlendSpace();
 	blend->SetBlendTargets(*clips[currentIndex], *currentTimer, *clips[newClipIndex]);

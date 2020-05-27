@@ -21,7 +21,7 @@ VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicAr
 	DynamicArray<VkDescriptorSetLayout> layoutHandles;
 	layoutHandles.Reserve(descriptorSetLayouts.Size());
 	// TODO - Make arrays for each loop able
-	for (uint32 i = 0; i < descriptorSetLayouts.Size(); ++i)
+	for (u32 i = 0; i < descriptorSetLayouts.Size(); ++i)
 	{
 		VkDescriptorSetLayout handle = descriptorSetLayouts[i]->GetNativeHandle();
 		Assert(handle != VK_NULL_HANDLE);
@@ -59,13 +59,13 @@ VulkanPipeline::~VulkanPipeline()
 void SetupInputs(GraphicsPipelineDescription& initInfo, DynamicArray<VkVertexInputBindingDescription>& inputBindings, DynamicArray<VkVertexInputAttributeDescription>& inputAttribs)
 {
 	VertexInputDescriptionList& inputs = initInfo.vertexInputs;
-	uint32 count = inputs.vertexInputCount;
+	u32 count = inputs.vertexInputCount;
 
 	if (count > 0)
 	{
-		uint32 stride = inputs.inputDescs[0].stride;
-		uint32 currentHighestBinding = 0;
-		for (uint32 i = 0; i < count; ++i)
+		u32 stride = inputs.inputDescs[0].stride;
+		u32 currentHighestBinding = 0;
+		for (u32 i = 0; i < count; ++i)
 		{
 			VkVertexInputAttributeDescription desc = {};
 			desc.location = inputs.inputDescs[i].location;
@@ -81,7 +81,7 @@ void SetupInputs(GraphicsPipelineDescription& initInfo, DynamicArray<VkVertexInp
 			inputAttribs.Add(desc);
 		}
 
-		for (uint32 i = 0; i < currentHighestBinding + 1; ++i)
+		for (u32 i = 0; i < currentHighestBinding + 1; ++i)
 		{
 			VkVertexInputBindingDescription desc = {};
 			desc.binding = i;
@@ -173,7 +173,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 
 	// Blending states
 	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(init.renderTargets.colorAttachments.Size());
-	for (uint32 i = 0; i < colorBlendAttachments.Size(); ++i)
+	for (u32 i = 0; i < colorBlendAttachments.Size(); ++i)
 	{
 		BlendingDescription& desc = init.blendingDescs[i];
 		VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
@@ -193,7 +193,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	// Color blend state info
 	VkPipelineColorBlendStateCreateInfo colorBlendInfo = {};
 	colorBlendInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-	colorBlendInfo.attachmentCount = (uint32)colorBlendAttachments.Size();
+	colorBlendInfo.attachmentCount = (u32)colorBlendAttachments.Size();
 	colorBlendInfo.pAttachments = colorBlendAttachments.GetData();
 	colorBlendInfo.blendConstants[0] = 1.0f;
 	colorBlendInfo.blendConstants[1] = 1.0f;
@@ -215,7 +215,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	// Dynamic state info
 	VkPipelineDynamicStateCreateInfo dynamicStateInfo = {};
 	dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-	dynamicStateInfo.dynamicStateCount = (uint32)ArraySize(dynamicStates);
+	dynamicStateInfo.dynamicStateCount = (u32)ArraySize(dynamicStates);
 	dynamicStateInfo.pDynamicStates = dynamicStates;
 
 	VkGraphicsPipelineCreateInfo pipelineInfo = {};

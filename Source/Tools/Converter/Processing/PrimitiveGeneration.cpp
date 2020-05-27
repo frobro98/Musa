@@ -3,7 +3,7 @@
 #include "Math/MathFunctions.hpp"
 #include "PrimitiveGeneration.h"
 
-void MostSeparatedPointsOnAABB(int &min, int &max, Vector4 *pt, uint32 numPts)
+void MostSeparatedPointsOnAABB(int &min, int &max, Vector4 *pt, u32 numPts)
 {
 	// First find most extreme points along principal axes
 	int minx = 0;
@@ -13,7 +13,7 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Vector4 *pt, uint32 numPts)
 	int minz = 0;
 	int maxz = 0;
 
-	for (uint32 i = 1; i < numPts; i++)
+	for (u32 i = 1; i < numPts; i++)
 	{
 		if (pt[i].x < pt[minx].x)
 			minx = i;
@@ -97,7 +97,7 @@ void SphereOfSphereAndPt(SphereBounds &s, Vector4 &p)
 	}
 }
 
-void SphereFromDistantPoints(SphereBounds &s, Vector4 *pt, uint32 numPts)
+void SphereFromDistantPoints(SphereBounds &s, Vector4 *pt, u32 numPts)
 {
 	// Find the most separated point pair defining the encompassing AABB
 	int min, max;
@@ -110,13 +110,13 @@ void SphereFromDistantPoints(SphereBounds &s, Vector4 *pt, uint32 numPts)
 }
 
 
-void RitterSphere(SphereBounds &s, Vector4 *pt, uint32 numPts)
+void RitterSphere(SphereBounds &s, Vector4 *pt, u32 numPts)
 {
 	// Get sphere encompassing two approximately most distant points
 	SphereFromDistantPoints(s, pt, numPts);
 
 	// Grow sphere to include all points
-	for (uint32 i = 0; i < numPts; i++)
+	for (u32 i = 0; i < numPts; i++)
 	{
 		SphereOfSphereAndPt(s, pt[i]);
 	}

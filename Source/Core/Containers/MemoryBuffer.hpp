@@ -19,13 +19,13 @@ public:
 
 	void Add(const void* data, size_t dataSize);
 
-	uint8* Offset(size_t offset) const;
+	u8* Offset(size_t offset) const;
 	void IncreaseSize(size_t sizeToIncreaseBy);
 
-	uint8* GetData() const;
+	u8* GetData() const;
 	size_t Size() const;
 
-	void Copy(uint8* data, size_t size);
+	void Copy(u8* data, size_t size);
 
 private:
 	void AllocMem();
@@ -33,6 +33,6 @@ private:
 	void DeallocMem();
 
 private:
-	uint8* memData = nullptr;
+	u8* memData = nullptr;
 	size_t memSize = 0;
 };

@@ -11,7 +11,7 @@ const Vector2 Vector2::UpAxis(0, 1);
 const Vector2 Vector2::Zero(0, 0);
 const Vector2 Vector2::One(1, 1);
 
-Vector2::Vector2(float32 x_, float32 y_)
+Vector2::Vector2(f32 x_, f32 y_)
 	:x(x_), y(y_)
 {
 }
@@ -117,20 +117,20 @@ Vector2 Vector2::operator*(const Vector2 & other) const
 	return v;
 }
 
-Vector2& Vector2::operator*=(float32 s)
+Vector2& Vector2::operator*=(f32 s)
 {
 	Internal::VectorMultiTo(*this, s);
 	return *this;
 }
 
-Vector2 Vector2::operator*(float32 s) const
+Vector2 Vector2::operator*(f32 s) const
 {
 	Vector2 v(*this);
 	v *= s;
 	return v;
 }
 
-Vector2 operator*(float32 s, const Vector2& vec)
+Vector2 operator*(f32 s, const Vector2& vec)
 {
 	Vector2 v(vec);
 	v *= s;

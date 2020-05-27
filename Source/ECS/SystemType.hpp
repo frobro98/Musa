@@ -11,11 +11,11 @@ class System;
 
 struct SystemType
 {
-	uint64 typenameHash;
+	u64 typenameHash;
 };
 
 // TODO - I'm not entirely sure why this might be needed. Consider refactoring this out
-static robin_hood::unordered_node_map<uint64, SystemType> systemTypeCache;
+static robin_hood::unordered_node_map<u64, SystemType> systemTypeCache;
 
 template <class Sys>
 forceinline const SystemType MakeSystemTypeFor()
@@ -34,7 +34,7 @@ forceinline const SystemType* GetSystemTypeFor()
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	static const SystemType* type = []
 	{
-		constexpr uint64 typenameHash = Musa::Internal::template TypenameHash<Sys>();
+		constexpr u64 typenameHash = Musa::Internal::template TypenameHash<Sys>();
 		auto typeIter = systemTypeCache.find(typenameHash);
 		if (typeIter == systemTypeCache.end())
 		{
@@ -48,20 +48,20 @@ forceinline const SystemType* GetSystemTypeFor()
 	return type;
 }
 
-forceinline const SystemType* GetSystemTypeFrom(uint64 typeKey)
+forceinline const SystemType* GetSystemTypeFrom(u64 typeKey)
 {
 	Assert(systemTypeCache.find(typeKey) != systemTypeCache.end());
 	return &systemTypeCache[typeKey];
 }
 
 template <class Sys>
-constexpr forceinline uint64 GetSystemTypeKeyFor()
+constexpr forceinline u64 GetSystemTypeKeyFor()
 {
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	return Musa::Internal::template TypenameHash<Sys>();
 }
 
-forceinline uint64 GetSystemTypeKeyFor(const SystemType* type)
+forceinline u64 GetSystemTypeKeyFor(const SystemType* type)
 {
 	return type->typenameHash;
 }

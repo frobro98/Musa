@@ -24,33 +24,33 @@ enum class BMPCompressionMethod
 #pragma pack(push, 1)
 struct BMPFileHeader
 {
-	uint16 bmpHeaderField;
-	uint32 bmpFileSize;
-	uint16 reserved[2]; // 2 reserved fields
-	uint32 imageDataOffset;
+	u16 bmpHeaderField;
+	u32 bmpFileSize;
+	u16 reserved[2]; // 2 reserved fields
+	u32 imageDataOffset;
 };
 #pragma pack(pop)
 
 #pragma pack(push, 1)
 struct BMPInfoHeader
 {
-	uint32 headerSize;
-	int32  bmpWidth;
-	int32  bmpHeight;
-	uint16 colorPlaneCount = 1;
-	uint16 bmpBitDepth;
+	u32 headerSize;
+	i32  bmpWidth;
+	i32  bmpHeight;
+	u16 colorPlaneCount = 1;
+	u16 bmpBitDepth;
 	BMPCompressionMethod compression;
-	uint32 bmpImageSize;
-	int32  resolutionX; // pixels per meter
-	int32  resolutionY; // pixels per meter
-	uint32 numColorsInPalette;
-	uint32 numImportantColors;
+	u32 bmpImageSize;
+	i32  resolutionX; // pixels per meter
+	i32  resolutionY; // pixels per meter
+	u32 numColorsInPalette;
+	u32 numImportantColors;
 };
 #pragma pack(pop)
 
-bool BMPFileValid(uint16 fileCode)
+bool BMPFileValid(u16 fileCode)
 {
-	const uint8* fileCodeBytes = reinterpret_cast<uint8*>(&fileCode);
+	const u8* fileCodeBytes = reinterpret_cast<u8*>(&fileCode);
 	return fileCodeBytes[0] == 'B' && fileCodeBytes[1] == 'M';
 }
 }
@@ -67,9 +67,9 @@ void BMPImporter::ProcessImport()
 	const bool isHeightNegative = height < 0;
 	height = Math::Abs(height);
 
-	const int32 bytesPerRowAligned = Align(width * channels, 4);
-	const uint8* pixelData = importData.GetData() + pixelDataOffset;
-	int32 rowAdvance = -bytesPerRowAligned;
+	const i32 bytesPerRowAligned = Align(width * channels, 4);
+	const u8* pixelData = importData.GetData() + pixelDataOffset;
+	i32 rowAdvance = -bytesPerRowAligned;
 	if (isHeightNegative)
 	{
 		rowAdvance *= -1;
@@ -79,13 +79,13 @@ void BMPImporter::ProcessImport()
 		pixelData += (uintptr_t)(bytesPerRowAligned * (height - 1));
 	}
 	// Get at the pixel data
-	uint8* importedPixels = importedImageData.GetData();
+	u8* importedPixels = importedImageData.GetData();
 	if (channels == 3)
 	{
-		for (uint32 i = 0; i < static_cast<uint32>(height); ++i)
+		for (u32 i = 0; i < static_cast<u32>(height); ++i)
 		{
-			const uint8* rowData = pixelData;
-			for (uint32 j = 0; j < static_cast<uint32>(width); ++j)
+			const u8* rowData = pixelData;
+			for (u32 j = 0; j < static_cast<u32>(width); ++j)
 			{
 				*importedPixels = *rowData;
 				++importedPixels;
@@ -108,10 +108,10 @@ void BMPImporter::ProcessImport()
 	}
 	else if (channels == 4)
 	{
-		for (uint32 i = 0; i < static_cast<uint32>(height); ++i)
+		for (u32 i = 0; i < static_cast<u32>(height); ++i)
 		{
-			const uint8* rowData = pixelData;
-			for (uint32 j = 0; j < static_cast<uint32>(width); ++j)
+			const u8* rowData = pixelData;
+			for (u32 j = 0; j < static_cast<u32>(width); ++j)
 			{
 				*importedPixels = *rowData;
 				++importedPixels;
