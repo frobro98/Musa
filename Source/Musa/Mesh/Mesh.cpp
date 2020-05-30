@@ -18,8 +18,8 @@ Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList)
 }
 
 Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, const SphereBounds& colInfo)
-	: vertices(vertList),
-	faces(faceList),
+	: vertices(std::move(vertList)),
+	faces(std::move(faceList)),
 	vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertices)),
 	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faces)),
 	boundingSphere(colInfo)
@@ -27,8 +27,8 @@ Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, const
 }
 
 Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, DynamicArray<VertexBoneWeights>&& weights, const SphereBounds& colInfo)
-	: vertices(vertList),
-	faces(faceList),
+	: vertices(std::move(vertList)),
+	faces(std::move(faceList)),
 	skinWeights(weights),
 	vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertices)),
 	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faces)),

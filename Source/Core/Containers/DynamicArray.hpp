@@ -8,6 +8,7 @@
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
 #include "Utilities/TemplateUtils.hpp"
+#include "Memory/MemoryFunctions.hpp"
 #include "CoreAPI.hpp"
 
 template<class Type>
@@ -329,7 +330,7 @@ DynamicArray<Type>::DynamicArray(u32 initialSize)
 {
 	if (initialSize > 0)
 	{
-		data = reinterpret_cast<Type*>(malloc(sizeof(Type) * initialSize));
+		data = reinterpret_cast<Type*>(Memory::Malloc(sizeof(Type) * initialSize));
 		Construct(0, arraySize);
 	}
 }
@@ -370,7 +371,7 @@ DynamicArray<Type>::~DynamicArray()
 {
 	DestroyRange(data, data + arraySize);
 
-	free(data);
+	Memory::Free(data);
 	arrayCapacity = 0;
 	arraySize = 0;
 }
@@ -394,7 +395,7 @@ template<class Type>
 DynamicArray<Type>::DynamicArray(DynamicArray&& otherArr) noexcept
 {
 	DestroyRange(data, data + arraySize);
-	free(data);
+	Memory::Free(data);
 
 	data = otherArr.data;
 	arraySize = otherArr.arraySize;
@@ -423,7 +424,7 @@ DynamicArray<Type>& DynamicArray<Type>::operator=(DynamicArray&& otherArr) noexc
 	if (this != &otherArr)
 	{
 		DestroyRange(data, data + arraySize);
-		free(data);
+		Memory::Free(data);
 
 		data = otherArr.data;
 		arraySize = otherArr.arraySize;
@@ -849,7 +850,7 @@ inline void DynamicArray<Type>::CopyData(OtherType* otherData, u32 dataNum)
 	if (dataNum > 0)
 	{
 		arraySize = dataNum;
-		data = reinterpret_cast<Type*>(malloc(dataNum * sizeof(Type)));
+		data = reinterpret_cast<Type*>(Memory::Malloc(dataNum * sizeof(Type)));
 		Type* ptrIndex = data;
 		while (dataNum > 0)
 		{
@@ -886,7 +887,7 @@ inline DynamicArray<Type>::ConstructRange(U start, U end)
 {
 	u8* const beginning = reinterpret_cast<u8*>(start);
 	u8* const ending = reinterpret_cast<u8*>(end);
-	Memset(beginning, 0, static_cast<size_t>(ending - beginning));
+	Memory::Memzero(beginning, static_cast<size_t>(ending - beginning));
 }
 
 template<class Type>
@@ -911,7 +912,7 @@ std::enable_if_t<
 inline DynamicArray<Type>::ConstructRangeInPlace(DstType* dst, const SrcType* type, u32 count)
 {
 	const u32 byteCount = sizeof(SrcType) * count;
-	Memcpy(dst, type, byteCount);
+	Memory::Memcpy(dst, type, byteCount);
 }
 
 template<class Type>
@@ -976,7 +977,7 @@ inline void DynamicArray<Type>::MoveForward(u32 startIndex, u32 count)
 	pointerType origLoc = GetData() + startIndex;
 	pointerType destLoc = GetData() + startIndex + count;
 	size_t memSize = (arraySize - startIndex) * sizeof(valueType);
-	Memmove(destLoc, memSize, origLoc, memSize);
+	Memory::Memmove(destLoc, origLoc, memSize);
 }
 
 template<class Type>
@@ -989,7 +990,7 @@ inline void DynamicArray<Type>::MoveBack(u32 startIndex, u32 count)
 		pointerType origLoc = GetData() + startIndex;
 		pointerType destLoc = GetData() + startIndex - count;
 		size_t memSize = (arraySize - startIndex) * sizeof(valueType);
-		Memmove(destLoc, memSize, origLoc, memSize);
+		Memory::Memmove(destLoc, origLoc, memSize);
 	}
 }
 
@@ -1008,10 +1009,8 @@ inline void DynamicArray<Type>::AdjustSizeGeom(u32 newSize)
 template<class Type>
 inline void DynamicArray<Type>::CreateAdjustedSpace()
 {
-	Type* tmpData = reinterpret_cast<Type*>(malloc(sizeof(Type) * arrayCapacity));
-	Memcpy(tmpData, sizeof(Type) * arrayCapacity, data, arraySize * sizeof(Type));
-	free(data);
-	data = tmpData;
+	// This honestly should just be realloc...
+	data = (Type*)Memory::Realloc(data, sizeof(Type) * arrayCapacity);
 }
 
 //////////////////////////////////////////////////////////////////////////

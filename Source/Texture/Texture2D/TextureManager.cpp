@@ -49,9 +49,10 @@ void TextureManager::Deinitialize()
 	}
 }
 
-Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const String& /*textureName*/)
+Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const String& textureName)
 {
 	Texture* texture = new Texture;
+	texture->name = textureName;
 	FileDeserializer deserializer(textureFilePath);
 	Deserialize(deserializer, *texture);
 
@@ -62,9 +63,10 @@ Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const 
 	return texture;
 }
 
-Texture* TextureManager::LoadTexture(MemoryBuffer& textureData, const char* /*textureName*/)
+Texture* TextureManager::LoadTexture(MemoryBuffer& textureData, const char* textureName)
 {
 	Texture* texture = new Texture;
+	texture->name = textureName;
 	MemoryDeserializer deserializer(textureData);
 	Deserialize(deserializer, *texture);
 

@@ -7,7 +7,7 @@
 
 #include "Archiver/SkeletonHeader.h"
 #include "PCSTree/PCSNode.h"
-#include "PCSTree/PCSTree.h"
+//#include "PCSTree/PCSTree.h"
 
 #include "Debugging/DebugOutput.hpp"
 
@@ -16,7 +16,7 @@ Skeleton* SkeletonManager::CreateSkeleton(u8* skeletonData, u32 hash)
 	Skeleton* skel = FindSkeleton(hash);
 	if (skel == nullptr)
 	{
-		PCSTree<SkeletonBone> boneHierarchy;
+		//PCSTree<SkeletonBone> boneHierarchy;
 		SkeletonHeader* header = reinterpret_cast<SkeletonHeader*>(skeletonData);
 		u32 boneCount = header->boneCount;
 		u8* boneHierarchyData = skeletonData + header->boneHierarchyOffset;
@@ -27,14 +27,14 @@ Skeleton* SkeletonManager::CreateSkeleton(u8* skeletonData, u32 hash)
 		{
 			if (boneData[i].parentIndex < 0)
 			{
-				bones[i].name = boneData[i].boneName;
-				boneHierarchy.Insert(&bones[i], nullptr);
+				//bones[i].name = boneData[i].boneName;
+				//boneHierarchy.Insert(&bones[i], nullptr);
 			}
 			else
 			{
-				bones[i].name = boneData[i].boneName;
-				i32 parentIndex = boneData[i].parentIndex;
-				boneHierarchy.Insert(&bones[i], &bones[parentIndex]);
+				//bones[i].name = boneData[i].boneName;
+				//i32 parentIndex = boneData[i].parentIndex;
+				//boneHierarchy.Insert(&bones[i], &bones[parentIndex]);
 			}
 			bones[i].SetIndex(i);
 		}
@@ -75,7 +75,7 @@ Skeleton* SkeletonManager::CreateSkeleton(u8* skeletonData, u32 hash)
 			Memcpy(poses, poseCountBytes, poseData, poseCountBytes);
 		}
 
-		skel = new Skeleton(bones, poses, table, boneCount, hash, std::move(boneHierarchy));
+		skel = new Skeleton(bones, poses, table, boneCount, hash/*, std::move(boneHierarchy)*/);
 
 		Instance().AddSkeleton(skel);
 

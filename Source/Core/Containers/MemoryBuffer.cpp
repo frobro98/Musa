@@ -3,6 +3,7 @@
 #include "MemoryBuffer.hpp"
 #include "Debugging/Assertion.hpp"
 #include "Utilities/MemoryUtilities.hpp"
+#include "Memory/MemoryFunctions.hpp"
 
 MemoryBuffer::MemoryBuffer(size_t size)
 	: memSize(size)
@@ -92,21 +93,17 @@ void MemoryBuffer::Copy(u8* data, size_t size)
 
 void MemoryBuffer::AllocMem()
 {
-	memData = (u8*)malloc(memSize);
+	memData = (u8*)Memory::Malloc(memSize);
 }
 
 void MemoryBuffer::ReallocMem(size_t newSize)
 {
-	u8* tmp = memData;
-	u8* newData = (u8*)malloc(newSize);
-	memData = newData;
-	Memcpy(memData, memSize, tmp, memSize);
-	free(tmp);
+	memData = (u8*)Memory::Realloc(memData, newSize);
 }
 
 void MemoryBuffer::DeallocMem()
 {
-	free(memData);
+	Memory::Free(memData);
 	memData = nullptr;
 }
 

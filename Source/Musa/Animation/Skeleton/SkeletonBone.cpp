@@ -40,20 +40,20 @@ Matrix4 SkeletonBone::GetWorld() const
 	return *world;
 }
 
-void SkeletonBone::UpdateAnimationTransform(FrameData* boneData)
+void SkeletonBone::UpdateAnimationTransform(FrameData* /*boneData*/)
 {
-	Assert(parent != nullptr);
+	//Assert(parent != nullptr);
 
-	Matrix4 parentWorld = *parent->world;
-
-	FrameData* correctData = &boneData[boneIndex];
-	Matrix4 trans = Matrix4(TRANS, correctData->translation);
-	Quat rotation = correctData->rotation;
-	Matrix4 scale = Matrix4(SCALE, correctData->scale);
-
-	*world = scale * rotation * trans * parentWorld;
-
-	debugModel->SetWorld(*world);
+// 	Matrix4 parentWorld = *parent->world;
+// 
+// 	FrameData* correctData = &boneData[boneIndex];
+// 	Matrix4 trans = Matrix4(TRANS, correctData->translation);
+// 	Quat rotation = correctData->rotation;
+// 	Matrix4 scale = Matrix4(SCALE, correctData->scale);
+// 
+// 	*world = scale * rotation * trans * parentWorld;
+// 
+// 	debugModel->SetWorld(*world);
 }
 
 void SkeletonBone::UpdateRootAnimationTransform(FrameData* boneData, const Matrix4& par)

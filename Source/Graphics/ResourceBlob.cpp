@@ -4,6 +4,7 @@
 #include "Utilities/MemoryUtilities.hpp"
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
+#include "Memory/MemoryFunctions.hpp"
 #include "Debugging/Assertion.hpp"
 
 ResourceBlob::ResourceBlob(u8* blobData, size_t blobSize)
@@ -11,8 +12,8 @@ ResourceBlob::ResourceBlob(u8* blobData, size_t blobSize)
 {
 	Assert(blobData != nullptr);
 	Assert(blobSize > 0);
-	data = new u8[blobSize];
-	Memcpy(data, size, blobData, blobSize);
+	data = (u8*)Memory::Malloc(blobSize);
+	Memory::Memcpy(data, blobData, blobSize);
 }
 
 ResourceBlob::ResourceBlob(const ResourceBlob& other)
@@ -62,7 +63,7 @@ ResourceBlob& ResourceBlob::operator=(ResourceBlob&& other) noexcept
 void ResourceBlob::MergeWith(const ResourceBlob& other)
 {
 	size_t newSize = size + other.size;
-	u8* tmp = new u8[newSize];
+	u8* tmp = (u8*)Memory::Malloc(newSize);
 
 	Memcpy(tmp, size, data, size);
 	Memcpy(tmp + size, other.size, other.data, other.size);
@@ -75,7 +76,7 @@ void ResourceBlob::MergeWith(const ResourceBlob& other)
 ResourceBlob CombineBlobs(const ResourceBlob& blob0, const ResourceBlob& blob1)
 {
 	size_t newSize = blob0.size + blob1.size;
-	u8* data = new u8[newSize];
+	u8* data = (u8*)Memory::Malloc(newSize);
 
 	Memcpy(data, blob0.size, blob0.data, blob0.size);
 	Memcpy(data + blob0.size, blob1.size, blob1.data, blob1.size);

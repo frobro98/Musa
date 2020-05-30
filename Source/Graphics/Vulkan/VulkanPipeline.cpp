@@ -291,7 +291,6 @@ VulkanDescriptorSet* VulkanPipeline::GetUnusedDescriptorSet(VulkanCommandBuffer&
 		descriptorSets.Add(descriptorSet);
 		descriptorSet->associatedCommandBuffer = &cmdBuffer;
 		descriptorSet->associatedFenceSignal = cmdBuffer.GetFence()->GetFenceSignaledCount();
-		Debug::Printf("DescriptorSet Count:  {}\n", descriptorSets.Size());
 	}
 
 	return descriptorSet;

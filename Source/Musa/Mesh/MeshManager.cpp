@@ -263,12 +263,11 @@ Mesh* MeshManager::FindMesh(const char * modelName)
 // u is longitude [0, 2PI] and v is latitude [0, PI] (note the difference in their range)
 Mesh* MeshManager::LoadSpherePrimitive()
 {
-	DynamicArray<Vertex> vertices;
-	DynamicArray<u32> indices;
-
 	constexpr u32 XSegments = 64;
 	constexpr u32 YSegments = 64;
 
+	DynamicArray<Vertex> vertices;
+	vertices.Reserve((XSegments + 1) * (YSegments + 1));
 	for (u32 y = 0; y <= YSegments; ++y)
 	{
 		for (u32 x = 0; x <= XSegments; ++x)
@@ -292,6 +291,7 @@ Mesh* MeshManager::LoadSpherePrimitive()
 	
 
 	DynamicArray<Face> faces;
+	faces.Reserve(XSegments * YSegments * 2);
 	for (i32 y = 0; y < YSegments; ++y)
 	{
 		for (i32 x = 0; x < XSegments; ++x)

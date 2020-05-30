@@ -1,12 +1,13 @@
 #pragma once
 
-#include "PCSTree/PCSNode.h"
+//#include "PCSTree/PCSNode.h"
+#include "BasicTypes/Intrinsics.hpp"
 
 class Matrix4;
 class Model;
 struct FrameData;
 
-class SkeletonBone : public PCSNode<SkeletonBone>
+class SkeletonBone// : public PCSNode<SkeletonBone>
 {
 public:
 	SkeletonBone();

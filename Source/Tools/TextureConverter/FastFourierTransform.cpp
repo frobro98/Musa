@@ -4,6 +4,7 @@
 #include "Math/MathConstants.hpp"
 #include "Math/MathFunctions.hpp"
 #include "FastFourierTransform.hpp"
+#include "Utilities/BitUtilities.hpp"
 
 namespace
 {

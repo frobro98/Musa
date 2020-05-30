@@ -8,77 +8,77 @@
 
 enum class KeyInput;
 
-constexpr forceinline uint32 GetHash(uint8 b)
+constexpr forceinline u32 GetHash(u8 b)
 {
-	return static_cast<uint32>(b);
+	return static_cast<u32>(b);
 }
 
-constexpr forceinline uint32 GetHash(int8 b)
+constexpr forceinline u32 GetHash(i8 b)
 {
-	return static_cast<uint32>(b);
+	return static_cast<u32>(b);
 }
 
-constexpr forceinline uint32 GetHash(uint16 s)
+constexpr forceinline u32 GetHash(u16 s)
 {
-	return static_cast<uint32>(s);
+	return static_cast<u32>(s);
 }
 
-constexpr forceinline uint32 GetHash(int16 s)
+constexpr forceinline u32 GetHash(i16 s)
 {
-	return static_cast<uint32>(s);
+	return static_cast<u32>(s);
 }
 
-constexpr forceinline uint32 GetHash(uint32 i)
+constexpr forceinline u32 GetHash(u32 i)
 {
 	return i;
 }
 
-constexpr forceinline uint32 GetHash(int32 i)
+constexpr forceinline u32 GetHash(i32 i)
 {
-	return static_cast<uint32>(i);
+	return static_cast<u32>(i);
 }
 
-constexpr forceinline uint32 GetHash(uint64 i)
+constexpr forceinline u32 GetHash(u64 i)
 {
-	return fnv32(&i, sizeof(uint64));
+	return fnv32(&i, sizeof(u64));
 }
 
-constexpr forceinline uint32 GetHash(int64 i)
+constexpr forceinline u32 GetHash(i64 i)
 {
-	return fnv32(&i, sizeof(int64));
+	return fnv32(&i, sizeof(i64));
 }
 
-forceinline uint32 GetHash(float f)
+forceinline u32 GetHash(float f)
 {
-	return *reinterpret_cast<uint32*>(&f);
+	return *reinterpret_cast<u32*>(&f);
 }
 
-inline uint32 GetHash(double d)
+inline u32 GetHash(double d)
 {
 	return fnv32(&d, sizeof(double));
 }
 
-constexpr forceinline uint32 GetHash(const void* p)
+constexpr forceinline u32 GetHash(const void* p)
 {
 	return fnv32(p, sizeof(p));
 }
 
-constexpr forceinline uint32 GetHash(void* p)
+constexpr forceinline u32 GetHash(void* p)
 {
 	return fnv32(p, sizeof(p));
 }
 
-constexpr forceinline uint32 GetHash(const tchar* cStr)
+constexpr forceinline u32 GetHash(const tchar* cStr)
 {
 	return fnv32(cStr);
 }
 
-constexpr forceinline uint32 GetHash(KeyInput key)
+constexpr forceinline u32 GetHash(KeyInput key)
 {
-	return static_cast<uint32>(key);
+	return static_cast<u32>(key);
 }
 
-forceinline uint32 GetHash(const Guid& guid)
+forceinline u32 GetHash(const Guid& guid)
 {
 	return guid.GetHash();
 }

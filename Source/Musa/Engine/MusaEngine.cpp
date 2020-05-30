@@ -52,6 +52,10 @@
 #include "Animation/Skeleton/Skeleton.h"
 #include "DirectoryLocations.h"
 
+#include "Memory/MemoryCore.hpp"
+
+GLOBAL_OPERATOR_NEW_DELETE_OVERLOADS
+
 
 DECLARE_METRIC_GROUP(Engine);
 DECLARE_METRIC_GROUP(FrameRender);
@@ -443,10 +447,10 @@ void MusaEngine::LoadContent()
 	NativeFragmentShader& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
 
 	GameObject* gethObject = world->CreateGameObject<GameObject>();
-	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D", Color32::White())));
+	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())));
 
 	GameObject* go = world->CreateGameObject<OrbitOtherObject>(*gethObject, 5.5f, Vector4::RightAxis);
-	go->SetModel(ModelFactory::CreateModel(astro_boy, new Material(vertShader, fragShader, "astroboy", Color32::White())));
+	go->SetModel(ModelFactory::CreateModel(astro_boy, new Material(vertShader, fragShader, "astroboy_t0", Color32::White())));
 	go->SetPos(Vector4(-1.5f, 2.5f, 0));
 	
 	go = world->CreateGameObject<OrbitOtherObject>(*go, 2.f, Vector4::UpAxis);

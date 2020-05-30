@@ -70,30 +70,3 @@ forceinline const void* Memchr(const void* ptr, tchar ch, size_t count)
 	return memchr(ptr, ch, count);
 }
 
-forceinline constexpr bool IsPowerOf2(u64 num)
-{
-	return (!(num == 0)) & ((num & (num - 1)) == 0);
-}
-
-template <typename AlignType>
-forceinline constexpr AlignType Align(const AlignType ptr, size_t alignment)
-{
-	Assert(IsPowerOf2(alignment));
-	return (AlignType)(((u64)ptr + (alignment - 1)) & ~(alignment - 1));
-}
-
-forceinline constexpr bool IsAligned(uintptr_t ptrAddr, uintptr_t alignment)
-{
-	return !(ptrAddr % alignment);
-}
-
-forceinline bool IsAligned(const void* ptrAddr, uintptr_t alignment)
-{
-	uintptr_t ptr = reinterpret_cast<uintptr_t>(ptrAddr);
-	return !(ptr % alignment);
-}
-
-forceinline size_t* GetSecretPointer(const void* data)
-{
-	return (size_t*)(*(size_t*)((size_t)data - sizeof(size_t)));
-}

@@ -45,7 +45,6 @@ VulkanDescriptorPool::VulkanDescriptorPool(VulkanDevice& device)
 	poolInfo.pPoolSizes = poolSizes;
 	// TODO - This is a horrible allocation scheme and it holds onto the memory the entire time. Must be a lot more conservative with my pools...
 	poolInfo.maxSets = 10000;//logicalDevice.GetDeviceLimits().maxBoundDescriptorSets;
-	Debug::Printf("Max bound ds count: {}\n", poolInfo.maxSets);
 	// TODO - Figure out what this flag specifically does
 	poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
 	NOT_USED VkResult result = vkCreateDescriptorPool(logicalDevice.GetNativeHandle(), &poolInfo, nullptr, &descriptorPool);

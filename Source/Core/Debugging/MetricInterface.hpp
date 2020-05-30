@@ -85,7 +85,7 @@ private:
 #define DECLARE_METRIC_GROUP_STRUCT(Name)					\
 	struct MetricGroup_##Name										\
 	{																\
-		static inline uint32 GetGroupID() { static const uint32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }			\
+		static inline u32 GetGroupID() { static const u32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }			\
 		static inline const char* GetGroupName() { return #Name; }	\
 	}
 
@@ -94,7 +94,7 @@ private:
 	{														\
 		using MetricGroup = METRIC_GROUP_NAME(GroupName);	\
 		inline const char* GetName() { return #Name; }		\
-		inline uint32 GetID() { static uint32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }	\
+		inline u32 GetID() { static u32 id = Musa::Internal::MetricGroupCounter::GetNewMetricID(); return id; }	\
 	}
 
 #define DECLARE_METRIC_GROUP(Name)	\

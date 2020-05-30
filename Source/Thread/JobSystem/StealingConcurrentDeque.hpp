@@ -5,6 +5,7 @@
 #include "BasicTypes/ConcurrentTypes.hpp"
 #include "Thread/JobSystem/Job.hpp"
 #include "Utilities/MemoryUtilities.hpp"
+#include "Utilities/BitUtilities.hpp"
 #include "Thread/ThreadingUtilities.hpp"
 
 struct Job;

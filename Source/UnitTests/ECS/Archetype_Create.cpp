@@ -3,13 +3,13 @@
 #include "Framework/UnitTest.h"
 #include "ECS/Archetype.hpp"
 #include "ECS/World.hpp"
+#include "Memory/MemoryCore.hpp"
 
 #include "TestComponents/FloatArray.hpp"
 #include "TestComponents/Movement.hpp"
 #include "TestComponents/Position.hpp"
 #include "TestComponents/Rotation.hpp"
 
-#include "Platform/PlatformMemory.hpp"
 
 using namespace Musa;
 

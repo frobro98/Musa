@@ -8,44 +8,44 @@ void Serialize(SerializeBase & ser, tchar c)
 	ser.SerializeData(&c, sizeof(tchar));
 }
 
-void Serialize(SerializeBase& ser, u8 u8)
+void Serialize(SerializeBase& ser, u8 u)
 {
-	ser.SerializeData(&u8, sizeof(u8));
+	ser.SerializeData(&u, sizeof(u8));
 }
 
-void Serialize(SerializeBase& ser, i8 i8)
+void Serialize(SerializeBase& ser, i8 i)
 {
-	ser.SerializeData(&i8, sizeof(i8));
+	ser.SerializeData(&i, sizeof(i8));
 }
 
-void Serialize(SerializeBase& ser, u16 u16)
+void Serialize(SerializeBase& ser, u16 u)
 {
-	ser.SerializeData(&u16, sizeof(u16));
+	ser.SerializeData(&u, sizeof(u16));
 }
 
-void Serialize(SerializeBase& ser, i16 i16)
+void Serialize(SerializeBase& ser, i16 i)
 {
-	ser.SerializeData(&i16, sizeof(i16));
+	ser.SerializeData(&i, sizeof(i16));
 }
 
-void Serialize(SerializeBase& ser, u32 u32)
+void Serialize(SerializeBase& ser, u32 u)
 {
-	ser.SerializeData(&u32, sizeof(u32));
+	ser.SerializeData(&u, sizeof(u32));
 }
 
-void Serialize(SerializeBase& ser, i32 i32)
+void Serialize(SerializeBase& ser, i32 i)
 {
-	ser.SerializeData(&i32, sizeof(i32));
+	ser.SerializeData(&i, sizeof(i32));
 }
 
-void Serialize(SerializeBase& ser, u64 u64)
+void Serialize(SerializeBase& ser, u64 u)
 {
-	ser.SerializeData(&u64, sizeof(u64));
+	ser.SerializeData(&u, sizeof(u64));
 }
 
-void Serialize(SerializeBase& ser, i64 i64)
+void Serialize(SerializeBase& ser, i64 i)
 {
-	ser.SerializeData(&i64, sizeof(i64));
+	ser.SerializeData(&i, sizeof(i64));
 }
 
 void Serialize(SerializeBase& ser, float f)
@@ -65,70 +65,70 @@ void Serialize(SerializeBase& ser, const tchar* c, size_t size)
 	ser.SerializeData(c, size);
 }
 
-void Serialize(SerializeBase& ser, const u8* u8, size_t size)
+void Serialize(SerializeBase& ser, const u8* u, size_t size)
 {
-	Assert(u8 != nullptr);
+	Assert(u != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(u8, size);
+	ser.SerializeData(u, size);
 }
 
-void Serialize(SerializeBase& ser, const i8* i8, size_t size)
+void Serialize(SerializeBase& ser, const i8* i, size_t size)
 {			
-	Assert(i8 != nullptr);
+	Assert(i != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(i8, size);
+	ser.SerializeData(i, size);
 }							
 							
-void Serialize(SerializeBase& ser, const u16* u16, size_t size)
+void Serialize(SerializeBase& ser, const u16* u, size_t size)
 {			
-	Assert(u16 != nullptr);
+	Assert(u != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(u16, size);
+	ser.SerializeData(u, size);
 }							
 							
-void Serialize(SerializeBase& ser, const i16* i16, size_t size)
+void Serialize(SerializeBase& ser, const i16* i, size_t size)
 {			
-	Assert(i16 != nullptr);
+	Assert(i != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(i16, size);
+	ser.SerializeData(i, size);
 }							
 							
-void Serialize(SerializeBase& ser, const u32* u32, size_t size)
+void Serialize(SerializeBase& ser, const u32* u, size_t size)
 {			
-	Assert(u32 != nullptr);
+	Assert(u != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(u32, size);
+	ser.SerializeData(u, size);
 }							
 							
-void Serialize(SerializeBase& ser, const i32* i32, size_t size)
+void Serialize(SerializeBase& ser, const i32* i, size_t size)
 {		
-	Assert(i32 != nullptr);
+	Assert(i != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(i32, size);
+	ser.SerializeData(i, size);
 }							
 							
-void Serialize(SerializeBase& ser, const u64* u64, size_t size)
+void Serialize(SerializeBase& ser, const u64* u, size_t size)
 {		
-	Assert(u64 != nullptr);
+	Assert(u != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(u64, size);
+	ser.SerializeData(u, size);
 }							
 							
-void Serialize(SerializeBase& ser, const i64* i64, size_t size)
+void Serialize(SerializeBase& ser, const i64* i, size_t size)
 {		
-	Assert(i64 != nullptr);
+	Assert(i != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
-	ser.SerializeData(i64, size);
+	ser.SerializeData(i, size);
 }							
 							
-void Serialize(SerializeBase& ser, const float* f, size_t size)
+void Serialize(SerializeBase& ser, const f32* f, size_t size)
 {			
 	Assert(f != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));
 	ser.SerializeData(f, size);
 }							
 							
-void Serialize(SerializeBase& ser, const double* d, size_t size)
+void Serialize(SerializeBase& ser, const f64* d, size_t size)
 {
 	Assert(d != nullptr);
 	ser.SerializeData(&size, sizeof(size_t));

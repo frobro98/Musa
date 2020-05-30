@@ -1,5 +1,6 @@
 // Copyright 2020, Nathan Blane
 
+#include "Memory/MemoryCore.hpp"
 #include "VulkanFrameTempAllocation.hpp"
 #include "VulkanMemoryManager.hpp"
 #include "VulkanAbstractions.h"

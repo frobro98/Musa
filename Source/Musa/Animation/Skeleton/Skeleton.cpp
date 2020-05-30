@@ -6,10 +6,10 @@
 #include "Math/MathConstants.hpp"
 #include "Archiver/SkeletonHeader.h"
 
-Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 count, u32 hash, PCSTree<SkeletonBone>&& hierarchy)
+Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 count, u32 hash/*, PCSTree<SkeletonBone>&& hierarchy*/)
 	: hierarchyTable(table),
 	poseMatrices(poseList, count),
-	boneHierarchy(std::move(hierarchy)),
+	//boneHierarchy(std::move(hierarchy)),
 	bones(boneList),
 	skeletonWorld(new Matrix4(IDENTITY)),
 	boneCount(count),
@@ -51,32 +51,32 @@ AnimationController * Skeleton::GetController() const
 	return controller;
 }
 
-void Skeleton::SetDebug(bool debug)
+void Skeleton::SetDebug(bool /*debug*/)
 {
-	PCSTree<SkeletonBone>::ForwardIterator iter(boneHierarchy.GetRoot());
-	while (!iter.IsDone())
-	{
-		SkeletonBone* bone = *iter;
-		Assert(bone != nullptr);
-		bone->SetDebug(debug);
-
-		++iter;
-	}
+// 	PCSTree<SkeletonBone>::ForwardIterator iter(boneHierarchy.GetRoot());
+// 	while (!iter.IsDone())
+// 	{
+// 		SkeletonBone* bone = *iter;
+// 		Assert(bone != nullptr);
+// 		bone->SetDebug(debug);
+// 
+// 		++iter;
+// 	}
 
 }
 
 void Skeleton::SetDebugBonePoses()
 {
-	PCSTree<SkeletonBone>::ForwardIterator iter(boneHierarchy.GetRoot());
-	while (!iter.IsDone())
-	{
-		SkeletonBone* bone = *iter;
-		Assert(bone != nullptr);
-		
-		SetDebugBonePose(bone);
-
-		++iter;
-	}
+// 	PCSTree<SkeletonBone>::ForwardIterator iter(boneHierarchy.GetRoot());
+// 	while (!iter.IsDone())
+// 	{
+// 		SkeletonBone* bone = *iter;
+// 		Assert(bone != nullptr);
+// 		
+// 		SetDebugBonePose(bone);
+// 
+// 		++iter;
+// 	}
 }
 
 void Skeleton::SetDebugBonePose(SkeletonBone* bone)
@@ -84,11 +84,11 @@ void Skeleton::SetDebugBonePose(SkeletonBone* bone)
 	Assert(bone != nullptr);
 
 	const SkeletonBone* parentBone = nullptr;
-	if (bone->parent != nullptr)
-	{
-		parentBone = bone->parent;
-		Assert(parentBone);
-	}
+// 	if (bone->parent != nullptr)
+// 	{
+// 		parentBone = bone->parent;
+// 		Assert(parentBone);
+// 	}
 
 	if (parentBone != nullptr)
 	{

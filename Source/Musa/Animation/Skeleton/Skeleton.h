@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.hpp"
-#include "PCSTree/PCSTree.h"
+//#include "PCSTree/PCSTree.h"
 #include "Animation/Skeleton/SkeletonBone.h"
 #include "Time/Time.h"
 #include "Animation/AnimationController.h"
@@ -16,7 +16,7 @@ class Matrix4;
 class Skeleton
 {
 public:
-	Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 boneCount, u32 skeletonHash, PCSTree<SkeletonBone>&& hierarchy);
+	Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 boneCount, u32 skeletonHash/*, PCSTree<SkeletonBone>&& hierarchy*/);
 	~Skeleton();
 
 	Skeleton(const Skeleton&) = delete;
@@ -48,7 +48,7 @@ private:
 private:
 	const BoneHierarchyTable hierarchyTable;
 	DynamicArray<BonePoseData> poseMatrices;
-	PCSTree<SkeletonBone> boneHierarchy;
+	//PCSTree<SkeletonBone> boneHierarchy;
 	SkeletonBone* bones;
 	Matrix4* skeletonWorld;
 	AnimationController* controller = nullptr;

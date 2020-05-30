@@ -2,6 +2,7 @@
 
 #include "BMPImporter.hpp"
 #include "Math/MathFunctions.hpp"
+#include "Memory/MemoryCore.hpp"
 
 namespace
 {
