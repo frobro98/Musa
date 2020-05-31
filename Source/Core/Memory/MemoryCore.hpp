@@ -3,7 +3,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Memory/MemoryFunctions.hpp"
+#include "Memory/MemoryAllocation.hpp"
 #include "Utilities/BitUtilities.hpp"
 #include "Debugging/Assertion.hpp"
 

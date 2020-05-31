@@ -3,7 +3,7 @@
 #include "MemoryBuffer.hpp"
 #include "Debugging/Assertion.hpp"
 #include "Utilities/MemoryUtilities.hpp"
-#include "Memory/MemoryFunctions.hpp"
+#include "Memory/MemoryAllocation.hpp"
 
 MemoryBuffer::MemoryBuffer(size_t size)
 	: memSize(size)

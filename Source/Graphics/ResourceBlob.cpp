@@ -4,6 +4,7 @@
 #include "Utilities/MemoryUtilities.hpp"
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
+#include "Memory/MemoryAllocation.hpp"
 #include "Memory/MemoryFunctions.hpp"
 #include "Debugging/Assertion.hpp"
 

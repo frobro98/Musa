@@ -8,6 +8,7 @@
 #include "Serialization/SerializeBase.hpp"
 #include "Serialization/DeserializeBase.hpp"
 #include "Utilities/TemplateUtils.hpp"
+#include "Memory/MemoryAllocation.hpp"
 #include "Memory/MemoryFunctions.hpp"
 #include "CoreAPI.hpp"
 

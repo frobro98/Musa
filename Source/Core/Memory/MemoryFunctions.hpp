@@ -10,15 +10,6 @@
 
 namespace Memory
 {
-// Defaulted to 16 because of vector intrinsics
-constexpr size_t DefaultAlignment = 16;
-
-CORE_API void* Malloc(size_t size, size_t alignment = DefaultAlignment);
-
-CORE_API void* Realloc(void* ptr, size_t size, size_t alignment = DefaultAlignment);
-
-CORE_API void Free(void* p);
-
 forceinline void Memcpy(void* dst, const void* src, size_t size)
 {
 	memcpy(dst, src, size);

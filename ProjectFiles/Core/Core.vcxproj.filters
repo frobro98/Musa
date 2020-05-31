@@ -49,6 +49,9 @@
     <Filter Include="Source\Memory">
       <UniqueIdentifier>{a449b7b5-ddb1-43f0-ac72-7d265080e1bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Memory\Internal">
+      <UniqueIdentifier>{d3d6ec9f-af8f-4e8d-ac3d-87143a68a249}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\DirectoryLocations.cpp">
@@ -123,14 +126,14 @@
     <ClCompile Include="..\..\Source\Core\Utilities\HashFuncs.cpp">
       <Filter>Source\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp">
-      <Filter>Source\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp">
       <Filter>Source\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\CoreAPI.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryAllocation.cpp">
+      <Filter>Source\Memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +361,24 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Utilities\BitUtilities.hpp">
       <Filter>Source\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\Internal\MemoryAllocationInternal.hpp">
+      <Filter>Source\Memory\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryAllocation.hpp">
+      <Filter>Source\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\Internal\MemoryBlockInfoTable.hpp">
+      <Filter>Source\Memory\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\Internal\MemoryFixedBlock.hpp">
+      <Filter>Source\Memory\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryDefinitions.hpp">
+      <Filter>Source\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\Internal\MemoryInternalDefinitions.hpp">
+      <Filter>Source\Memory\Internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
