@@ -48,14 +48,6 @@ struct FreedBlock
 };
 static_assert(sizeof(FreedBlock) == 16);
 
-// 
-struct FixedBlockPool
-{
-	FreedBlock* blocksWithinPool = nullptr;
-	FixedBlockPool* next = nullptr;
-	u16 blocksInUse = 0;
-};
-
 // Where does this live???
 // Could live in another page of memory
 // What happens when that memory is exhausted??
