@@ -28,6 +28,7 @@
     <ClCompile Include="..\..\Source\Core\fmt\os.cc" />
     <ClCompile Include="..\..\Source\Core\GUID\Guid.cpp" />
     <ClCompile Include="..\..\Source\Core\Memory\MemoryAllocation.cpp" />
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="..\..\Source\Core\Path\Path.cpp" />
     <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp" />
     <ClCompile Include="..\..\Source\Core\Serialization\DeserializeBase.cpp" />

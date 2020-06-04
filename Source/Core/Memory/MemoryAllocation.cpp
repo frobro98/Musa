@@ -86,6 +86,7 @@ void* Memory::Realloc(void* ptr, size_t size, size_t alignment)
 	if (size > 0)
 	{
 		// Reallocing a fixed block
+		// More likely this branch because more allocations are fixed block than not
 		if (!IsAllocationFromOS(ptr))
 		{
 			FreedBlock* fixedHeader = GetFixedBlockHeader(ptr);

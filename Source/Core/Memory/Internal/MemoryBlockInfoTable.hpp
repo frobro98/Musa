@@ -8,6 +8,8 @@
 
 namespace Memory::Internal
 {
+struct FixedBlockPool;
+
 enum class BlockType : u32
 {
 	Untyped,
@@ -21,13 +23,14 @@ enum class OwnedBlockFlag : u32
 	YesBlock = 0xdada
 };
 
-// 32 bytes
+// Needs to be 16 byte aligned, so sizeof(MemoryBlockInfo) must equal 32 bytes
 struct MemoryBlockInfo
 {
 	size_t allocatedSize = 0; // Size of associated block, alignment taken into consideration
 	OwnedBlockFlag flag = OwnedBlockFlag::NoBlock;
 	BlockType type = BlockType::Untyped; // Useful to know what block of memory I'm dealing with
-	u64 pad[2] = {};
+	FixedBlockPool* associatedPool;
+	u64 pad[1] = {};
 };
 static_assert(sizeof(MemoryBlockInfo) == 32);
 

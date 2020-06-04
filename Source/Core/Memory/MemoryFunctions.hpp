@@ -25,6 +25,8 @@ forceinline void Memset(void* mem, i8 value, size_t memSize)
 	memset(mem, value, memSize);
 }
 
+CORE_API void Memfill(void* mem, u32 value, size_t memSize);
+
 forceinline void Memzero(void* mem, size_t memSize)
 {
 	Memset(mem, 0, memSize);

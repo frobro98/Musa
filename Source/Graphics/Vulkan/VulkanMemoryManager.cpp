@@ -209,7 +209,7 @@ BufferGraphicsAllocation& VulkanMemoryManager::AllocateBufferBlock(VkDeviceSize 
 		canBeMapped, isCached, isCoherent
 	);
 
-	allocations.Add(allocation);
+	allocations.Add(reinterpret_cast<GraphicsAllocation*>(allocation));
 
 	return *allocation;
 }

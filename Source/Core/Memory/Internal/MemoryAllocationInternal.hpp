@@ -52,6 +52,7 @@ static forceinline void InitializeFixedBlockTable()
 	for (u32 i = 0; i < TotalSmallFixedTableSizes; ++i)
 	{
 		fixedBlockTable[i].fixedBlockSize = SmallFixedTableSizes[i];
+		fixedBlockTable[i].blocksPerPage = GetAdjustedFreeBlocksFor(SmallFixedTableSizes[i]);
 	}
 
 	// initialize size -> table element array
@@ -201,22 +202,31 @@ forceinline void* MallocFixedBlock(size_t size)
 	u8 tableIndex = FixedSizeToTableIndex(size);
 
 	FixedBlockTableElement& tableElement = fixedBlockTable[tableIndex];
-	if (tableElement.activeFront == nullptr)
+	
+	FixedBlockPool* pool = tableElement.availablePools;
+	if (pool == nullptr)
 	{
 		// Create pool and link it to front and back
-		FreedBlock* newBlock = AllocateNewPoolFor(tableElement, tableIndex);
+		pool = AllocateNewPoolFor(tableElement, tableIndex);
 		memoryStats.allocatedFixedMemory += PageAllocationSize;
 
-		MemoryBlockInfo& blockInfo = InitializeOrFindMemoryInfo(newBlock, BlockType::FixedSmallBlock);
+		MemoryBlockInfo& blockInfo = InitializeOrFindMemoryInfo(pool->nextFreeBlock, BlockType::FixedSmallBlock);
 		blockInfo.allocatedSize = tableElement.fixedBlockSize;
 	}
+	Assert(pool);
 
 	// Allocate block from fixed block pool
-	void* p = AllocateFromFreedBlock(*tableElement.activeFront);
-	if (tableElement.activeFront->numFreeBlocks == 0)
+	void* p = AllocateFromFreedBlock(*pool);
+	if (pool->blocksInUse == tableElement.blocksPerPage)
 	{
-		tableElement.activeFront = tableElement.activeFront->nextBlock;
-		--tableElement.totalFreeBlockCount;
+		tableElement.availablePools = pool->next;
+		pool->next = tableElement.emptyPools;
+		pool->prev = nullptr;
+		if (tableElement.emptyPools)
+		{
+			tableElement.emptyPools->prev = pool;
+		}
+		tableElement.emptyPools = pool;
 	}
 	memoryStats.usedFixedMemory += tableElement.fixedBlockSize;
 	return p;
@@ -248,18 +258,72 @@ forceinline void FreeFixedBlock(void* p)
 	FixedBlockTableElement& tableElement = fixedBlockTable[tableIndex];
 
 	FreedBlock* freeBlock = (FreedBlock*)p;
+#if M_DEBUG
+	Memfill(freeBlock, 0xdeaddead, fixedBlockHeader->blockSize);
+#endif
 	freeBlock->blockSize = fixedBlockHeader->blockSize;
 	freeBlock->headerID = FreedBlock::BlockTag;
 	freeBlock->numFreeBlocks = 1;
 	freeBlock->nextBlock = nullptr;
 
-	tableElement.activeBack->nextBlock = freeBlock;
-	tableElement.activeBack = freeBlock;
-	++tableElement.totalFreeBlockCount;
-
+	FixedBlockPool* pool = PushFreeBlockToPool(tableElement, freeBlock);
+	Assert(pool);
 	memoryStats.usedFixedMemory -= tableElement.fixedBlockSize;
 
-	// NOTE - Don't need to get the Memory Block Info header here
+	// If pool was previously empty, then move it to available list
+	if (pool->blocksInUse == (tableElement.blocksPerPage - 1))
+	{
+		if (pool->prev)
+		{
+			pool->prev->next = pool->next;
+		}
+		if (pool->next)
+		{
+			pool->next->prev = pool->prev;
+		}
+		if (pool == tableElement.emptyPools)
+		{
+			tableElement.emptyPools = pool->next;
+		}
+		pool->next = tableElement.availablePools;
+		pool->prev = nullptr;
+		if (tableElement.availablePools)
+		{
+			tableElement.availablePools->prev = pool;
+		}
+		tableElement.availablePools = pool;
+	}
+	// If pool doesn't have any blocks in use, free it up baby
+	else if (pool->blocksInUse == 0)
+	{
+#if M_DEBUG
+		Memfill(fixedBlockHeader, 0xdeaddead, PageAllocationSize);
+#endif
+
+		Memory::PlatformFree(fixedBlockHeader);
+		memoryStats.allocatedFixedMemory -= PageAllocationSize;
+
+		// Reset blockInfo
+		MemoryBlockInfo* blockInfo = FindExistingMemoryInfo(p);
+		Assert(blockInfo);
+		DeinitializeMemoryInfo(*blockInfo);
+
+		// Unlink pool from list of pools
+		if (pool->prev)
+		{
+			pool->prev->next = pool->next;
+		}
+		if (pool->next)
+		{
+			pool->next->prev = pool->prev;
+		}
+		if (pool == tableElement.availablePools)
+		{
+			tableElement.availablePools = pool->next;
+		}
+
+		poolManager.ReturnPoolNode(*pool);
+	}
 }
 
 forceinline void FreeLargeBlock(void* p)

@@ -54,7 +54,7 @@ public:
 	u32 AddRange(const pointerType range, u32 rangeSize);
 
 	template<class... Args>
-	u32 Emplace(Args... args);
+	u32 Emplace(Args&&... args);
 
 	template <typename InsertType>
 	void Insert(InsertType&& elem, u32 index);
@@ -818,7 +818,7 @@ inline bool DynamicArray<Type>::IsEmpty() const
 
 template<class Type>
 template<class... Args>
-inline u32 DynamicArray<Type>::Emplace(Args... args)
+inline u32 DynamicArray<Type>::Emplace(Args&&... args)
 {
 	u32 index = AddEmpty();
 	new(GetData() + index) Type(std::forward<Args>(args)...);

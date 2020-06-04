@@ -5,29 +5,38 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "Platform/PlatformMemory.hpp"
 #include "Memory/MemoryDefinitions.hpp"
-#include "Internal/MemoryBlockInfoTable.hpp"
+#include "Memory/MemoryFunctions.hpp"
+#include "Internal/MemoryInternalDefinitions.hpp"
 #include "Utilities/Array.hpp"
 
 namespace Memory::Internal
 {
+
+static forceinline bool ShouldAdjustBlockCountForHeader(u16 numFreeBlocks, u16 blockSize)
+{
+	return (numFreeBlocks * blockSize + AllocationDefaultAlignment) > PageAllocationSize;
+}
+
+static forceinline u16 GetAdjustedFreeBlocksFor(u16 blockSize)
+{
+	u16 numFreeBlocks = (u16)(PageAllocationSize / blockSize);
+	if (ShouldAdjustBlockCountForHeader(numFreeBlocks, blockSize))
+	{
+		--numFreeBlocks;
+	}
+	return numFreeBlocks;
+}
 // Header of the entire page of fixed block memory
+// Must be 16 bytes because it needs to fit into the smallest block size
 struct FreedBlock
 {
 	static constexpr u8 BlockTag = 0xfe;
-	static forceinline bool ShouldAdjustForHeader(u16 numFreeBlocks, u16 blockSize)
-	{
-		return (numFreeBlocks * blockSize + AllocationDefaultAlignment) > PageAllocationSize;
-	}
 
 	FreedBlock(u16 blockSize_, u8 tableIndex_)
 		: tableIndex(tableIndex_),
 		blockSize(blockSize_)
 	{
-		numFreeBlocks = (u16)(PageAllocationSize / blockSize);
-		if (ShouldAdjustForHeader(numFreeBlocks, blockSize))
-		{
-			--numFreeBlocks;
-		}
+		numFreeBlocks = GetAdjustedFreeBlocksFor(blockSize);
 	}
 
 	// This block is a pointer to the next block outside of the contiguous memory within this block
@@ -37,19 +46,159 @@ struct FreedBlock
 	u16 blockSize;
 	u16 numFreeBlocks;
 };
+static_assert(sizeof(FreedBlock) == 16);
 
+// 
 struct FixedBlockPool
 {
-	FreedBlock* blocksWithinPool;
+	FreedBlock* blocksWithinPool = nullptr;
+	FixedBlockPool* next = nullptr;
 	u16 blocksInUse = 0;
 };
 
+// Where does this live???
+// Could live in another page of memory
+// What happens when that memory is exhausted??
+// Can't realloc the memory because that destroys all pointers to the data
+// Could have some sort of manager structure that keeps track of some sort of next/prev headers?
+struct FixedBlockPool
+{
+	FixedBlockPool* next = nullptr;
+	FixedBlockPool* prev = nullptr;
+	// TODO - This is sort of hacky
+	// If freed list is empty, store address to check against
+	union
+	{
+		FreedBlock* nextFreeBlock = nullptr;
+		uptr addr;
+	};
+	u16 blocksInUse = 0;
+};
+static_assert(sizeof(FixedBlockPool) == 32);
+
+struct PoolPageHeader
+{
+	static constexpr u16 PoolPageHeaderFlag = 0xb00f;
+	PoolPageHeader* next = nullptr;
+	PoolPageHeader* prev = nullptr;
+	FixedBlockPool* frontPoolNode = nullptr;
+	u16 currentPoolHeaders = 0;
+	u16 headerFlag = PoolPageHeaderFlag;
+};
+static_assert(sizeof(PoolPageHeader) == 32);
+
+static forceinline PoolPageHeader* GetPoolPageHeader(void* p)
+{
+	return (PoolPageHeader*)((uptr)p & OSAllocationBitMask);
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Pool Header Manager
+//////////////////////////////////////////////////////////////////////////
+
+struct PoolHeaderManager
+{
+	static constexpr u32 TotalPoolHeaders = (PageAllocationSize / sizeof(FixedBlockPool)) - 1; // Accounting for header
+
+	static forceinline FixedBlockPool* GetNewPoolFromHeader(PoolPageHeader& header)
+	{
+		Assert(header.currentPoolHeaders < TotalPoolHeaders);
+		FixedBlockPool* pool = nullptr;
+		++header.currentPoolHeaders;
+		if (header.frontPoolNode != nullptr)
+		{
+			// Order is very important here....
+			pool = header.frontPoolNode;
+			header.frontPoolNode = header.frontPoolNode->next;
+			pool->next = nullptr;
+		}
+		else
+		{
+			u8* ptr = (u8*)(&header) + PageAllocationSize
+				- (header.currentPoolHeaders) * sizeof(FixedBlockPool);
+			pool = new(ptr) FixedBlockPool; // Moving back to front of the pool chunks
+		}
+
+		return pool;
+	}
+
+	// Gets available pool for free block management
+	forceinline FixedBlockPool* GetAvailablePoolNode()
+	{
+		PoolPageHeader* poolHeader = availablePoolPages;
+		if (poolHeader == nullptr)
+		{
+			void* alloc = Memory::PlatformAlloc(PageAllocationSize);
+			Memory::Memzero(alloc, PageAllocationSize);
+			poolHeader = new(alloc) PoolPageHeader;
+			availablePoolPages = poolHeader;
+		}
+		Assert(poolHeader);
+
+		FixedBlockPool* pool = GetNewPoolFromHeader(*poolHeader);
+		Assert(pool);
+
+		if (poolHeader->currentPoolHeaders == TotalPoolHeaders)
+		{
+			availablePoolPages = availablePoolPages->next;
+			availablePoolPages->prev = nullptr;
+
+			poolHeader->next = emptyPoolPages;
+			poolHeader->prev = nullptr;
+			emptyPoolPages->prev = poolHeader;
+			emptyPoolPages = poolHeader;
+		}
+		return pool;
+	}
+
+	forceinline void ReturnPoolNode(FixedBlockPool& pool)
+	{
+		REF_CHECK(pool);
+
+		Memzero(&pool, sizeof(FixedBlockPool));
+
+		PoolPageHeader* header = GetPoolPageHeader(&pool);
+		Assert(header->headerFlag == PoolPageHeader::PoolPageHeaderFlag);
+
+		// Put pool in list
+		pool.next = header->frontPoolNode;
+		header->frontPoolNode = &pool;
+		--header->currentPoolHeaders;
+
+		// Bring it back from empty to available
+		if (header->currentPoolHeaders == (TotalPoolHeaders - 1))
+		{
+			if (header->prev)
+			{
+				header->prev->next = header->next;
+			}
+			if (header->next)
+			{
+				header->next->prev = header->prev;
+			}
+
+			header->next = availablePoolPages;
+			header->prev = nullptr;
+			availablePoolPages->prev = header;
+			availablePoolPages = header;
+		}
+	}
+
+	PoolPageHeader* availablePoolPages = nullptr;
+	PoolPageHeader* emptyPoolPages = nullptr;
+};
+
+static PoolHeaderManager poolManager;
+
+//////////////////////////////////////////////////////////////////////////
+// Fixed Block Table
+//////////////////////////////////////////////////////////////////////////
 struct FixedBlockTableElement
 {
-	FreedBlock* activeFront = nullptr;
-	FreedBlock* activeBack = nullptr;
+	FixedBlockPool* availablePools = nullptr;
+	FixedBlockPool* emptyPools = nullptr;
 	size_t fixedBlockSize = 0;
-	u32 totalFreeBlockCount = 0;
+	size_t blocksPerPage = 0;
 };
 
 constexpr u16 SmallFixedTableSizes[] = {
@@ -88,34 +237,133 @@ static forceinline u16 TableIndexToFixedSize(u8 tableIndex)
 	return ReversedSmallFixedTableSizes[TotalSmallFixedTableSizes - tableIndex - 1];
 }
 
-static forceinline FreedBlock* AllocateNewPoolFor(FixedBlockTableElement& tableElement, u8 tableIndex)
+static forceinline void ValidatePool(NOT_USED FixedBlockPool* pool)
 {
+#if M_DEBUG
+	FreedBlock* block = pool->nextFreeBlock;
+	while (block != nullptr)
+	{
+		if (block->nextBlock == nullptr)
+		{
+			Assert(IsAllocationFromOS(block));
+			//Assert(block->numFreeBlocks > 0); // Acceptable because of addr/pointer union
+		}
+		else
+		{
+			Assert(block->numFreeBlocks == 1);
+		}
+
+		block = block->nextBlock;
+	}
+#endif // M_DEBUG
+}
+
+static forceinline FixedBlockPool* AllocateNewPoolFor(FixedBlockTableElement& tableElement, u8 tableIndex)
+{
+	FixedBlockPool* pool = poolManager.GetAvailablePoolNode();
+
 	void* alloc = Memory::PlatformAlloc(PageAllocationSize);
 	// TODO - Check for out of memory issues
 	FreedBlock* block = new(alloc) FreedBlock((u16)tableElement.fixedBlockSize, tableIndex);
-	tableElement.activeFront = block;
-	tableElement.activeBack = block;
-	tableElement.totalFreeBlockCount = 1;
+	pool->nextFreeBlock = block;
+	pool->next = tableElement.availablePools;
+	if (tableElement.availablePools)
+	{
+		tableElement.availablePools->prev = pool;
+	}
+	tableElement.availablePools = pool;
 
-	return block;
+	return pool;
 }
 
-static forceinline void* AllocateFromFreedBlock(FreedBlock& block)
+static forceinline void* AllocateFromFreedBlock(FixedBlockPool& pool)
 {
-	--block.numFreeBlocks;
-	if (IsAllocationFromOS(&block))
+	FreedBlock* block = pool.nextFreeBlock;
+	void* ret;
+	--block->numFreeBlocks;
+	if (IsAllocationFromOS(block))
 	{
-		return (u8*)&block + PageAllocationSize - (block.numFreeBlocks + 1) * block.blockSize;
+		ret = (u8*)block + PageAllocationSize - (block->numFreeBlocks + 1) * block->blockSize;
 	}
 	else
 	{
-		return &block;
+		Assert(block->numFreeBlocks == 0);
+		ret = block;
 	}
-	//--block.numFreeBlocks;
+
+	if (block->numFreeBlocks == 0)
+	{
+		if (block->nextBlock != nullptr)
+		{
+			pool.nextFreeBlock = block->nextBlock;
+		}
+		else
+		{
+			pool.addr = reinterpret_cast<uptr>(block);
+		}
+	}
+
+	ValidatePool(&pool);
+
+	++pool.blocksInUse;
+	return ret;
 }
 
 static forceinline FreedBlock* GetFixedBlockHeader(void* p)
 {
 	return (FreedBlock*)((uptr)p & OSAllocationBitMask);
+}
+
+static forceinline bool IsAddressWithinPool(FixedBlockPool& pool, void* p)
+{
+	Assert(p);
+	// Can't store address start range within pool, so have to do this
+	// This is probably faster than what I was doing before anyways
+	uptr addr = reinterpret_cast<uptr>(p);
+	uptr blockAddr = reinterpret_cast<uptr>(pool.nextFreeBlock);
+	return (blockAddr & OSAllocationBitMask) == (addr & OSAllocationBitMask);
+}
+
+static forceinline FixedBlockPool* PushFreeBlockToPool(FixedBlockTableElement& tableElement, FreedBlock* block)
+{
+	Assert(block);
+	Assert(block->numFreeBlocks == 1);
+
+	bool found = false;
+	FixedBlockPool* curr = tableElement.emptyPools;
+	while (curr != nullptr)
+	{
+		if (IsAddressWithinPool(*curr, block))
+		{
+			block->nextBlock = curr->nextFreeBlock;
+			curr->nextFreeBlock = block;
+			found = true;
+			break;
+		}
+		curr = curr->next;
+	}
+
+	if (!found)
+	{
+		curr = tableElement.availablePools;
+		while (curr != nullptr)
+		{
+			if (IsAddressWithinPool(*curr, block))
+			{
+				block->nextBlock = curr->nextFreeBlock;
+				curr->nextFreeBlock = block;
+				found = true;
+				break;
+			}
+			curr = curr->next;
+		}
+	}
+	Assert(found);
+
+	ValidatePool(curr);
+
+	Assert(curr->blocksInUse >= 1);
+	--curr->blocksInUse;
+	return curr;
 }
 }

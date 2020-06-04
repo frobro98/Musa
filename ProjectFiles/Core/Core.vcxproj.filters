@@ -135,6 +135,9 @@
     <ClCompile Include="..\..\Source\Core\Memory\MemoryAllocation.cpp">
       <Filter>Source\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp">
+      <Filter>Source\Memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\DirectoryLocations.h">
