@@ -97,7 +97,13 @@ copy "$(SolutionDir)Binaries\Graphics_d.pdb" "%toolsDir%" &gt; nul
 copy "$(SolutionDir)Binaries\Archiver_d.pdb" "%toolsDir%" &gt; nul
 copy "$(SolutionDir)Binaries\Texture_d.pdb" "%toolsDir%" &gt; nul
 echo         Copied PDBs!
-</Command>
+
+copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "%toolsDir%" &gt; nul
+echo         Copied ispc DLL!
+
+copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
+copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
+echo         Copied Texture Converter!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,7 +154,13 @@ copy "$(SolutionDir)Binaries\Graphics.pdb" "%toolsDir%" &gt; nul
 copy "$(SolutionDir)Binaries\Archiver.pdb" "%toolsDir%" &gt; nul
 copy "$(SolutionDir)Binaries\Texture.pdb" "%toolsDir%" &gt; nul
 echo         Copied PDBs!
-</Command>
+
+copy "$(SolutionDir)ThirdParty\lib\ispc\ispc_texcomp.dll" "%toolsDir%" &gt; nul
+echo         Copied ispc DLL!
+
+copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
+copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
+echo         Copied Texture Converter!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>

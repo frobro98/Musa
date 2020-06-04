@@ -84,7 +84,11 @@ copy "$(SolutionDir)Binaries\Math_d.dll" "%toolsDir%" &gt; nul
 echo         Copied Vodka Dlls!
 copy "$(SolutionDir)Binaries\Core_d.pdb" "%toolsDir%" &gt; nul
 copy "$(SolutionDir)Binaries\Math_d.pdb" "%toolsDir%" &gt; nul
-echo         Copied PDBs!</Command>
+echo         Copied PDBs!
+
+copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
+copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
+echo         Copied Vodka!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

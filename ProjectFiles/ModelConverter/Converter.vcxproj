@@ -150,13 +150,8 @@ echo         Copied libfbxsdk.dll! </Command>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)Tools"
-
-
-copy "$(OutDir)$(ProjectName).exe" "$(SolutionDir)Tools" &gt; nul
-echo         Copied Converter.exe!
-copy "$(SolutionDir)ThirdParty\lib\FBX\_Debug\libfbxsdk.dll" "$(SolutionDir)Tools" &gt;nul
-echo         Copied libfbxsdk.dll! </Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>set toolsDir=$(SolutionDir)Tools
@@ -175,7 +170,14 @@ copy "$(SolutionDir)Binaries\Math_d.pdb" "$(OutputPath)" &gt; nul
 copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
 copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
 copy "$(SolutionDir)Binaries\Texture_d.pdb" "$(OutputPath)" &gt; nul
-echo         Copied PDBs!</Command>
+echo         Copied PDBs!
+
+copy "$(SolutionDir)ThirdParty\lib\FBX\_Debug\libfbxsdk.dll" "%toolsDir%" &gt; nul
+echo         Copied Fbx DLL!
+
+copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
+copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
+echo         Copied Converter!</Command>
       <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
@@ -232,12 +234,8 @@ echo         Copied libfbxsdk.dll! </Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)Tools"
-
-copy "$(OutDir)$(ProjectName).exe" "$(SolutionDir)Tools" &gt; nul
-echo         Copied Converter.exe!
-copy "$(SolutionDir)ThirdParty\lib\FBX\_Debug\libfbxsdk.dll" "$(SolutionDir)Tools" &gt;nul
-echo         Copied libfbxsdk.dll! </Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>set toolsDir=$(SolutionDir)Tools
@@ -256,7 +254,14 @@ copy "$(SolutionDir)Binaries\Math.pdb" "$(OutputPath)" &gt; nul
 copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
 copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
 copy "$(SolutionDir)Binaries\Texture.pdb" "$(OutputPath)" &gt; nul
-echo         Copied PDBs!</Command>
+echo         Copied PDBs!
+
+copy "$(SolutionDir)ThirdParty\lib\FBX\_Release\libfbxsdk.dll" "%toolsDir%" &gt; nul
+echo         Copied Fbx DLL!
+
+copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
+copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
+echo         Copied Converter!</Command>
       <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>

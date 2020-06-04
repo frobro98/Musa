@@ -80,7 +80,11 @@ copy "$(SolutionDir)Binaries\File_d.dll" "%toolsDir%" &gt; nul
 echo         Copied Liu Dlls!
 copy "$(SolutionDir)Binaries\Core_d.pdb" "%toolsDir%" &gt; nul
 copy "$(SolutionDir)Binaries\File_d.pdb" "%toolsDir%" &gt; nul
-echo         Copied PDBs!</Command>
+echo         Copied PDBs!
+
+copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
+copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
+echo         Copied Liu!</Command>
       <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
