@@ -57,6 +57,8 @@
 
 using namespace Memory::Internal;
 
+#define USE_MALLOC 0
+
 namespace Memory
 {
 void* Memory::Malloc(size_t size, size_t alignment)
@@ -64,6 +66,9 @@ void* Memory::Malloc(size_t size, size_t alignment)
 	Assert(isInitialized);
 	Assert(IsPowerOf2(alignment));
 
+#if USE_MALLOC
+	return _aligned_malloc(size, alignment);
+#else
 	if (ShouldUseFixedBlocks(size, alignment))
 	{
 		return MallocFixedBlock(size);
@@ -72,6 +77,7 @@ void* Memory::Malloc(size_t size, size_t alignment)
 	{
 		return MallocLargeBlock(size, alignment);
 	}
+#endif 
 }
 
 // Checks the actual size of the memory within the ptrs current allocation
@@ -82,6 +88,9 @@ void* Memory::Realloc(void* ptr, size_t size, size_t alignment)
 	Assert(isInitialized);
 	Assert(IsPowerOf2(alignment));
 
+#if USE_MALLOC
+	return _aligned_realloc(ptr, size, alignment);
+#else
 	// TODO - Lots of branching. See if it can be less
 	if (size > 0)
 	{
@@ -149,12 +158,16 @@ void* Memory::Realloc(void* ptr, size_t size, size_t alignment)
 	// Size is 0, so we free ptr
 	Free(ptr);
 	return nullptr;
+#endif
 }
 
 void Memory::Free(void* p)
 {
 	Assert(isInitialized);
 
+#if USE_MALLOC
+	_aligned_free(p);
+#else
 	if (!IsAllocationFromOS(p))
 	{
 		FreeFixedBlock(p);
@@ -164,6 +177,7 @@ void Memory::Free(void* p)
 	{
 		FreeLargeBlock(p);
 	}
+#endif 
 }
 }
 

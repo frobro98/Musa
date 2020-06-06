@@ -121,6 +121,7 @@ struct PoolHeaderManager
 		if (poolHeader == nullptr)
 		{
 			void* alloc = Memory::PlatformAlloc(PageAllocationSize);
+			Assert(alloc);
 			Memory::Memzero(alloc, PageAllocationSize);
 			poolHeader = new(alloc) PoolPageHeader;
 			availablePoolPages = poolHeader;
@@ -231,7 +232,7 @@ static forceinline u16 TableIndexToFixedSize(u8 tableIndex)
 
 static forceinline void ValidatePool(NOT_USED FixedBlockPool* pool)
 {
-#if M_DEBUG
+#if 0
 	FreedBlock* block = pool->nextFreeBlock;
 	while (block != nullptr)
 	{
@@ -255,6 +256,7 @@ static forceinline FixedBlockPool* AllocateNewPoolFor(FixedBlockTableElement& ta
 	FixedBlockPool* pool = poolManager.GetAvailablePoolNode();
 
 	void* alloc = Memory::PlatformAlloc(PageAllocationSize);
+	Assert(alloc);
 	// TODO - Check for out of memory issues
 	FreedBlock* block = new(alloc) FreedBlock((u16)tableElement.fixedBlockSize, tableIndex);
 	pool->nextFreeBlock = block;

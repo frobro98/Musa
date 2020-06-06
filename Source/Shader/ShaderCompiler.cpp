@@ -238,6 +238,18 @@ static void RemoveLinePreprocessorDirectives(String& preprocessedShader)
 
 }
 
+void SHADER_API InitializeCompiler()
+{
+	glslang::InitializeProcess();
+	glslangInitialized = true;
+}
+
+void SHADER_API DeinitializeCompiler()
+{
+	Assert(glslangInitialized);
+	glslang::FinalizeProcess();
+}
+
 bool Preprocess(const tchar* pathToShader, const ShaderCompilerDefinitions& inputs, PreprocessedShaderOutput& preprocessedOutput)
 {
 	ShaderPreprocessor preprocessor(inputs.shaderStage, inputs.definitions);
@@ -259,6 +271,8 @@ bool Preprocess(const tchar* pathToShader, const ShaderCompilerDefinitions& inpu
 
 bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompilerDefinitions& inputs, ShaderStructure& output)
 {
+	Assert(glslangInitialized);
+
 	PreprocessedShaderOutput preprocessedShader;
 	if (!Preprocess(pathToFile, inputs, preprocessedShader))
 	{
@@ -269,8 +283,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 	if (!glslangInitialized)
 	{
 		// TODO - glslang is initialized, however, it's not finalized at any point. This must be fixed somehow
-		glslang::InitializeProcess();
-		glslangInitialized = true;
+
 	}
 	bool result = false;
 	EShLanguage stage = GetGlslangStage(inputs.shaderStage);

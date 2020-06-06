@@ -33,7 +33,7 @@ ResourceBlob::ResourceBlob(ResourceBlob&& other) noexcept
 
 ResourceBlob::~ResourceBlob()
 {
-	delete data;
+	Memory::Free(data);
 }
 
 ResourceBlob& ResourceBlob::operator=(const ResourceBlob& other)

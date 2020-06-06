@@ -34,10 +34,12 @@ static void CompileAssociatedShader(const ShaderDefinition& definition)
 
 void InitializeShaders()
 {
+	InitializeCompiler();
 	for (const auto& shaderDefinition : *shaderDefinitions)
 	{
 		CompileAssociatedShader(*shaderDefinition);
 	}
+	DeinitializeCompiler();
 }
 
 ShaderObjectBase* GetAssociatedShader(const ShaderDefinition& definition)

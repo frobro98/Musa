@@ -40,9 +40,9 @@ VulkanSwapchain::~VulkanSwapchain()
 void VulkanSwapchain::Initialize()
 {
 	CreateSwapchain();
-	CacheSwapchainImages();
 	InitializeRenderTargets();
 	InitializeSwapchainSyncronization();
+	CacheSwapchainImages();
 }
 
 void VulkanSwapchain::Terminate()
@@ -66,7 +66,7 @@ void VulkanSwapchain::SubmitFrame()
 	BEGIN_TIMED_BLOCK(SubmitFrame);
 
 	VulkanCommandBufferManager& cmdBufferManager = logicalDevice.GetCmdBufferManager();
-	//cmdBufferManager.GetActiveGraphicsBuffer()->EndRenderPass();
+	cmdBufferManager.GetActiveGraphicsBuffer()->EndRenderPass();
 
 	VkImageSubresourceRange range = {};
 	range.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
@@ -99,6 +99,16 @@ void VulkanSwapchain::Present()
 	presentInfo.pSwapchains = &swapchainHandle;
 	presentInfo.pImageIndices = &imageIndex;
 	presentInfo.pResults = nullptr;
+
+	// NOTE - For some reason, Vulkan, on Desktop, is not getting the correct handles to the swapchain images.
+	// It still renders, but throws errors and warnings. Calling vkGetSwapchainImagesKHR also gives climbing
+	// image handle values (e.g. 1st: 0x74, Next: 0x77, etc.). Don't know why this happens... nor how to stop
+	// it
+
+// 	u32 imageCount;
+// 	vkGetSwapchainImagesKHR(logicalDevice.GetNativeHandle(), swapchainHandle, &imageCount, nullptr);
+// 	swapchainImages.Resize(imageCount);
+// 	vkGetSwapchainImagesKHR(logicalDevice.GetNativeHandle(), swapchainHandle, &imageCount, swapchainImages.GetData());
 
 	VkResult result = vkQueuePresentKHR(presentQueue->GetNativeHandle(), &presentInfo);
 	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
@@ -193,28 +203,28 @@ void VulkanSwapchain::CreateSwapchain()
 
 	// Set up presentation mode
 	VkPresentModeKHR presentMode = VK_PRESENT_MODE_IMMEDIATE_KHR;
-// 	for (uint32 i = 0; i < presentModes.Size(); ++i)
-// 	{
-// 		// Only checking against the mode with lowest latency and still has V-Sync
-// 		//if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR)
-// 		//{
-// 		//	presentMode = presentModes[i];
-// 		//	break;
-// 		//}
-// 		//if(presentModes[i] == VK_PRESENT_MODE_FIFO_KHR)
-// 		//{
-// 		//	presentMode = presentModes[i];
-// 		//}
-// 		if (presentModes[i] == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
-// 		{
-// 			presentMode = presentModes[i];
-// 		}
-// 		else if (presentModes[i] == VK_PRESENT_MODE_IMMEDIATE_KHR)
-// 		{
-// 			presentMode = presentModes[i];
-// 			break;
-// 		}
-// 	}
+	for (u32 i = 0; i < presentModes.Size(); ++i)
+	{
+		// Only checking against the mode with lowest latency and still has V-Sync
+		//if (presentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR)
+		//{
+		//	presentMode = presentModes[i];
+		//	break;
+		//}
+		//if(presentModes[i] == VK_PRESENT_MODE_FIFO_KHR)
+		//{
+		//	presentMode = presentModes[i];
+		//}
+		if (presentModes[i] == VK_PRESENT_MODE_FIFO_RELAXED_KHR)
+		{
+			presentMode = presentModes[i];
+		}
+		else if (presentModes[i] == VK_PRESENT_MODE_IMMEDIATE_KHR)
+		{
+			presentMode = presentModes[i];
+			break;
+		}
+	}
 
 	VkSwapchainCreateInfoKHR swapchainInfo = {};
 	swapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -250,7 +260,7 @@ void VulkanSwapchain::CacheSwapchainImages()
 	{
 		VulkanImage* img = new VulkanImage;
 		img->device = &logicalDevice;
-		img->handle = swapchainImages[i];
+		img->handle = swapchainImages[i]; //(VkImage)(0xc+(u64)i);
 		img->width = swapchainExtent.width;
 		img->height = swapchainExtent.height;
 		img->format = swapchainFormat;

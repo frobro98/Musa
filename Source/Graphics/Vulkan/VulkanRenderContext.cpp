@@ -43,6 +43,7 @@ void VulkanRenderContext::BeginRenderFrame(NativeViewport& renderViewport)
 
 void VulkanRenderContext::EndRenderFrame(NativeViewport& renderViewport)
 {
+
 	VulkanViewport* vp = static_cast<VulkanViewport*>(&renderViewport);
 	vp->SubmitFrame();
 	vp->PresentFrame();

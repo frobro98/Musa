@@ -134,7 +134,6 @@
     <PostBuildEvent>
       <Command>@echo off
 mkdir "$(SolutionDir)\Binaries" &gt; nul
-del "$(SolutionDir)\Binaries\ECS*"
 copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
@@ -202,7 +201,6 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     <PostBuildEvent>
       <Command>@echo off
 mkdir "$(SolutionDir)\Binaries" &gt; nul
-del "$(SolutionDir)\Binaries\ECS*"
 copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
@@ -234,7 +232,6 @@ copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>
     <PostBuildEvent>
       <Command>@echo off
 mkdir "$(SolutionDir)\Binaries" &gt; nul
-del "$(SolutionDir)\Binaries\ECS*"
 copy "$(OutputPath)\ECS*.dll" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\ECS*.lib" "$(SolutionDir)\Binaries\." &gt; nul
 copy "$(OutputPath)\ECS*.pdb" "$(SolutionDir)\Binaries\." &gt; nul</Command>

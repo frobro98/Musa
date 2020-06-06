@@ -78,6 +78,6 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 
 	context.Draw(3, 1);
 
-	TransitionTargetsToRead(context, backBufferTarget);
+	//TransitionTargetsToRead(context, backBufferTarget);
 }
 }

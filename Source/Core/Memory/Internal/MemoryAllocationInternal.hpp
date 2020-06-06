@@ -77,6 +77,7 @@ static forceinline void InitializeMemoryInfoTable()
 	// However, it'll only fuck with virtual address space. So if I want to reserve and commit 4K, I do below...
 	//constexpr size_t bucketMemorySize = Align(memoryBucketCount * sizeof(MemoryBlockInfoBucket), KilobytesAsBytes(4));
 	blockInfoHashTable = (MemoryBlockInfoBucket*)Memory::PlatformAlloc(MemoryBucketCount * sizeof(MemoryBlockInfoBucket));
+	Assert(blockInfoHashTable);
 
 	for (u32 i = 0; i < MemoryBucketCount; ++i)
 	{
@@ -129,6 +130,7 @@ static forceinline MemoryBlockInfo& InitializeOrFindMemoryInfo(void* p, BlockTyp
 	if (bucket.blockInfo == nullptr)
 	{
 		bucket.blockInfo = (MemoryBlockInfo*)Memory::PlatformAlloc(PageAllocationSize);
+		Assert(bucket.blockInfo);
 		for (u32 i = 0; i < BlockInfosPerBucket; ++i)
 		{
 			new(&bucket.blockInfo[i]) MemoryBlockInfo;
@@ -237,6 +239,7 @@ forceinline void* MallocLargeBlock(size_t size, size_t alignment)
 	size_t alignedSize = Align(size, alignment);
 	// Do big boi allocation from OS
 	void* ret = PlatformAlloc(alignedSize);
+	Assert(ret);
 	MemoryBlockInfo& blockInfo = InitializeOrFindMemoryInfo(ret, BlockType::FixedSmallBlock);
 	blockInfo.allocatedSize = alignedSize;
 
@@ -249,6 +252,8 @@ forceinline void* MallocLargeBlock(size_t size, size_t alignment)
 //////////////////////////////////////////////////////////////////////////
 // Free Functions
 //////////////////////////////////////////////////////////////////////////
+
+// TODO - Cache a certain amount of pages to prevent OS free calls happening a bunch
 forceinline void FreeFixedBlock(void* p)
 {
 	// We know now that this is a fixed block allocation. We need to get back to the main "FreedBlock" header
