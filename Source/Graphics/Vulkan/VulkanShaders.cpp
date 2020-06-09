@@ -1,9 +1,9 @@
 // Copyright 2020, Nathan Blane
 
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 
 #include "String/String.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 
 #include "VulkanShaders.h"
 #include "VulkanDevice.h"

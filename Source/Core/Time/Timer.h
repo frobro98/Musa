@@ -1,31 +1,42 @@
 #pragma once
 
-#include "Time.h"
 #include "BasicTypes/Uncopyable.hpp"
+#include "Time/CyclePerformance.hpp"
 #include "CoreAPI.hpp"
 
 class CORE_API Timer : private Uncopyable
 {
 public:
-	/*
-	* Marks the moment in time that toc() will get measured against.
-	* Call tic() to mark the beginning of the segment of time that
-	* you want to measure.
-	*/
-	void Tic();
+	forceinline void Start()
+	{
+		startCycles = GetCycleCount();
+	}
 
-	/*
-	* return: The duration of Time that has elapsed since tic() was
-	* called.  Returns Time::Time() zero if tic() has
-	* never been called on this Timer.
-	*/
-	const Time Toc() const;
+	forceinline f64 Mark()
+	{
+		markedCycles = GetCycleCount();
+		return GetElapsedMilliseconds();
+	}
 
+	forceinline f64 GetElapsedMicroseconds() const
+	{
+		Cycles elapsedCycles = markedCycles - startCycles;
+		return GetMicrosecondsFrom(elapsedCycles);
+	}
+	forceinline f64 GetElapsedMilliseconds() const
+	{
+		Cycles elapsedCycles = markedCycles - startCycles;
+		return GetMillisecondsFrom(elapsedCycles);
+	}
+	forceinline f64 GetElapsedSeconds() const
+	{
+		Cycles elapsedCycles = markedCycles - startCycles;
+		return GetSecondsFrom(elapsedCycles);
+	}
 
 private:
-	// static method
-	static const Time privGetSystemTime();
-
-	// Data
-	Time privTicMark{ Time::MAX };
+	u64 startCycles;
+	u64 markedCycles;
 };
+
+

@@ -3,7 +3,7 @@
 #include "Common/Common.h"
 
 
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 #include "Model/ModelFileHeader.h"
 #include "Graphics/GeometryPrimitives.hpp"
 #include "Mesh/MeshUtilities.hpp"
@@ -14,7 +14,7 @@
 #include "Processing/PrimitiveGeneration.h"
 #include "Archiver/AnimationHeader.h"
 #include "Archiver/ChunkHeader.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 
 #include "Math/MathFunctions.hpp"
 #include "Math/QuatFunctions.hpp"

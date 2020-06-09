@@ -2,7 +2,7 @@
 
 #include "ShaderDefinition.hpp"
 #include "ShaderCompiler.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 #include "Shader/ShaderObjects/ShaderObject.hpp"
 
 namespace 

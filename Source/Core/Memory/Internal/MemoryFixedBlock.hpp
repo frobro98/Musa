@@ -120,7 +120,7 @@ struct PoolHeaderManager
 		PoolPageHeader* poolHeader = availablePoolPages;
 		if (poolHeader == nullptr)
 		{
-			void* alloc = Memory::PlatformAlloc(PageAllocationSize);
+			void* alloc = PlatformMemory::PlatformAlloc(PageAllocationSize);
 			Assert(alloc);
 			Memory::Memzero(alloc, PageAllocationSize);
 			poolHeader = new(alloc) PoolPageHeader;
@@ -255,7 +255,7 @@ static forceinline FixedBlockPool* AllocateNewPoolFor(FixedBlockTableElement& ta
 {
 	FixedBlockPool* pool = poolManager.GetAvailablePoolNode();
 
-	void* alloc = Memory::PlatformAlloc(PageAllocationSize);
+	void* alloc = PlatformMemory::PlatformAlloc(PageAllocationSize);
 	Assert(alloc);
 	// TODO - Check for out of memory issues
 	FreedBlock* block = new(alloc) FreedBlock((u16)tableElement.fixedBlockSize, tableIndex);

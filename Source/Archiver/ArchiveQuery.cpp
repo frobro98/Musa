@@ -6,7 +6,7 @@
 #include "ChunkHeader.h"
 #include "PackageHeader.h"
 
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 
 //---------------------------------------------------------------------------
 // Leave this signature - do your EAT magic here

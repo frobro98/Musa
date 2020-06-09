@@ -50,7 +50,7 @@
 #include "Animation/Clip.h"
 #include "Animation/Skeleton/SkeletonManager.h"
 #include "Animation/Skeleton/Skeleton.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 
 #include "Memory/MemoryCore.hpp"
 
@@ -416,7 +416,7 @@ static void LoadPakFile(const Path& pakPath)
 
 void MusaEngine::LoadContent()
 {
-	NOT_USED Memory::PlatformMemoryInfo info = Memory::GetPlatformMemoryInfo();
+	NOT_USED PlatformMemory::PlatformMemoryInfo info = PlatformMemory::GetPlatformMemoryInfo();
 	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
 	GetTextureManager().AddTexture(*WhiteTexture());
 	GetTextureManager().AddTexture(*BlackTexture());

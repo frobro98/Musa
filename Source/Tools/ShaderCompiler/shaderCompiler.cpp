@@ -4,7 +4,7 @@
 
 #include "Path/Path.hpp"
 #include "String/CStringUtilities.hpp"
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 
 #include "Shader/ShaderCompiler.h"
 #include "Shader/ShaderStructure.hpp"

@@ -7,7 +7,7 @@
 
 #include "Archiver/ChunkHeader.h"
 #include "File/md5.h"
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 
 #define FILE_CHECK(x, errStr)		\
 		do {						\

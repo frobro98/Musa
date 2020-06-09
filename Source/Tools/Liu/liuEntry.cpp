@@ -3,8 +3,8 @@
 #include "Containers/MemoryBuffer.hpp"
 
 #include "Archiver/PackageHeader.h"
-#include "File/FileCore/DirectoryUtilities.h"
-#include "File/FileCore/File.h"
+#include "File/DirectoryUtilities.hpp"
+#include "File/FileSys.hpp"
 
 #define FILE_CHECK(x, errStr)						\
 		do {										\

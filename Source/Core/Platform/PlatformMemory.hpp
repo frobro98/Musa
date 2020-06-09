@@ -3,7 +3,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "CoreAPI.hpp"
 
-namespace Memory
+namespace PlatformMemory
 {
 enum class PlatformProtectionKind
 {

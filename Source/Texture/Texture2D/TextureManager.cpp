@@ -2,7 +2,7 @@
 
 #include "TextureManager.h"
 #include "Texture.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 #include "Utilities/MemoryUtilities.hpp"
 #include "String/String.h"
 #include "Serialization/MemoryDeserializer.hpp"

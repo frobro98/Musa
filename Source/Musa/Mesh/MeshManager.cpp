@@ -3,9 +3,9 @@
 #include "Math/MathFunctions.hpp"
 #include "MeshManager.h"
 #include "Mesh.h"
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 #include "Model/ModelFileHeader.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 #include "Camera/Camera.h"
 #include "MeshUtilities.hpp"
 

@@ -2,7 +2,7 @@
 #include "Platform/Platform.hpp"
 #include "Platform/PlatformMemory.hpp"
 
-namespace Memory
+namespace PlatformMemory
 {
 void* PlatformAlloc(size_t size)
 {
@@ -19,19 +19,19 @@ bool PlatformProtect(void* p, size_t size, PlatformProtectionKind procKind)
 	DWORD mode = 0;
 	switch (procKind)
 	{
-		case Memory::PlatformProtectionKind::ReadWrite:
-		case Memory::PlatformProtectionKind::Write:
+		case PlatformProtectionKind::ReadWrite:
+		case PlatformProtectionKind::Write:
 		{
 			mode = PAGE_READWRITE;
 		}break;
 
-		case Memory::PlatformProtectionKind::NoAccess:
+		case PlatformProtectionKind::NoAccess:
 		default:
 		{
 			mode = PAGE_NOACCESS;
 		}break;
 
-		case Memory::PlatformProtectionKind::Read:
+		case PlatformProtectionKind::Read:
 		{
 			mode = PAGE_READONLY;
 		}break;

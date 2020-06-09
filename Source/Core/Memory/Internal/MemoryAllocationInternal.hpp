@@ -76,7 +76,7 @@ static forceinline void InitializeMemoryInfoTable()
 	// Apparently, VirtualAlloc allocates virtual pages when asking for memory less, or even more, than a single page.
 	// However, it'll only fuck with virtual address space. So if I want to reserve and commit 4K, I do below...
 	//constexpr size_t bucketMemorySize = Align(memoryBucketCount * sizeof(MemoryBlockInfoBucket), KilobytesAsBytes(4));
-	blockInfoHashTable = (MemoryBlockInfoBucket*)Memory::PlatformAlloc(MemoryBucketCount * sizeof(MemoryBlockInfoBucket));
+	blockInfoHashTable = (MemoryBlockInfoBucket*)PlatformMemory::PlatformAlloc(MemoryBucketCount * sizeof(MemoryBlockInfoBucket));
 	Assert(blockInfoHashTable);
 
 	for (u32 i = 0; i < MemoryBucketCount; ++i)
@@ -93,7 +93,7 @@ static bool isInitialized = false;
 static void InitializeMemory()
 {
 	Assert(!isInitialized);
-	NOT_USED Memory::PlatformMemoryInfo memInfo = Memory::GetPlatformMemoryInfo();
+	NOT_USED PlatformMemory::PlatformMemoryInfo memInfo = PlatformMemory::GetPlatformMemoryInfo();
 
 	// Use memory info to generate however many allocation meta data buckets there are, forever
 
@@ -129,7 +129,7 @@ static forceinline MemoryBlockInfo& InitializeOrFindMemoryInfo(void* p, BlockTyp
 	MemoryBlockInfoBucket& bucket = blockInfoHashTable[memoryBucketIndex];
 	if (bucket.blockInfo == nullptr)
 	{
-		bucket.blockInfo = (MemoryBlockInfo*)Memory::PlatformAlloc(PageAllocationSize);
+		bucket.blockInfo = (MemoryBlockInfo*)PlatformMemory::PlatformAlloc(PageAllocationSize);
 		Assert(bucket.blockInfo);
 		for (u32 i = 0; i < BlockInfosPerBucket; ++i)
 		{
@@ -238,7 +238,7 @@ forceinline void* MallocLargeBlock(size_t size, size_t alignment)
 {
 	size_t alignedSize = Align(size, alignment);
 	// Do big boi allocation from OS
-	void* ret = PlatformAlloc(alignedSize);
+	void* ret = PlatformMemory::PlatformAlloc(alignedSize);
 	Assert(ret);
 	MemoryBlockInfo& blockInfo = InitializeOrFindMemoryInfo(ret, BlockType::FixedSmallBlock);
 	blockInfo.allocatedSize = alignedSize;
@@ -305,7 +305,7 @@ forceinline void FreeFixedBlock(void* p)
 		Memfill(fixedBlockHeader, 0xdeaddead, PageAllocationSize);
 #endif
 
-		Memory::PlatformFree(fixedBlockHeader);
+		PlatformMemory::PlatformFree(fixedBlockHeader);
 		memoryStats.allocatedFixedMemory -= PageAllocationSize;
 
 		// Reset blockInfo
@@ -337,7 +337,7 @@ forceinline void FreeLargeBlock(void* p)
 	MemoryBlockInfo* blockInfo = FindExistingMemoryInfo(p);
 	Assert(blockInfo);
 
-	PlatformFree(p);
+	PlatformMemory::PlatformFree(p);
 
 	memoryStats.allocatedBigMemory -= blockInfo->allocatedSize;
 	memoryStats.usedBigMemory -= blockInfo->allocatedSize;

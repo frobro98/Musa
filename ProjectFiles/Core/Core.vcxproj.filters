@@ -52,21 +52,21 @@
     <Filter Include="Source\Memory\Internal">
       <UniqueIdentifier>{d3d6ec9f-af8f-4e8d-ac3d-87143a68a249}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Threading">
+      <UniqueIdentifier>{5216726e-ef49-44d2-a3dc-7831924580e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Threading\Windows">
+      <UniqueIdentifier>{c46bce56-b762-4761-b7bf-8fbc09c7cdb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Logging\Sinks">
+      <UniqueIdentifier>{149bfef3-f759-41a1-8923-1c581931c343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\File">
+      <UniqueIdentifier>{386ea910-a1fb-4058-8455-9a41468bb04b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Core\DirectoryLocations.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Time\EngineTick.cpp">
-      <Filter>Source\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Time\Time.cpp">
-      <Filter>Source\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Time\Timer.cpp">
-      <Filter>Source\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Time\Timer_win32.cpp">
       <Filter>Source\Time</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Time\CyclePerformance.cpp">
@@ -138,11 +138,56 @@
     <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp">
       <Filter>Source\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Logging\LogCore.cpp">
+      <Filter>Source\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\NativeThread.cpp">
+      <Filter>Source\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32NativeThread.cpp">
+      <Filter>Source\Threading\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32SyncEvent.cpp">
+      <Filter>Source\Threading\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32Threading.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32CriticalSection.cpp">
+      <Filter>Source\Threading\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32Semaphore.cpp">
+      <Filter>Source\Threading\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Logging\Sinks\ConsoleWindowSink.cpp">
+      <Filter>Source\Logging\Sinks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Logging\Sinks\DebugOutputWindowSink.cpp">
+      <Filter>Source\Logging\Sinks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\File\FileUtilities.cpp">
+      <Filter>Source\File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\File\md5.cpp">
+      <Filter>Source\File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\File\FileSys.cpp">
+      <Filter>Source\File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\File\DirectoryUtilities.cpp">
+      <Filter>Source\File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Logging\Sinks\LogFileSink.cpp">
+      <Filter>Source\Logging\Sinks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Time\Time.cpp">
+      <Filter>Source\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\File\DirectoryLocations.cpp">
+      <Filter>Source\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Core\DirectoryLocations.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Version.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -165,9 +210,6 @@
       <Filter>Source\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Time\EngineTick.h">
-      <Filter>Source\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Time\Time.h">
       <Filter>Source\Time</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Time\Timer.h">
@@ -359,9 +401,6 @@
     <ClInclude Include="..\..\Source\Core\Memory\MemoryFunctions.hpp">
       <Filter>Source\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\MemoryTag.hpp">
-      <Filter>Source\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Utilities\BitUtilities.hpp">
       <Filter>Source\Utilities</Filter>
     </ClInclude>
@@ -382,6 +421,84 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Memory\Internal\MemoryInternalDefinitions.hpp">
       <Filter>Source\Memory\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogCore.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogSink.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Platform\PlatformThreading.hpp">
+      <Filter>Source\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\IThreadBody.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\NativeThread.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\Windows\Win32NativeThread.hpp">
+      <Filter>Source\Threading\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\ISyncEvent.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\Windows\Win32SyncEvent.hpp">
+      <Filter>Source\Threading\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\BasicTypes\Limits.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LoggingThread.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\CriticalSection.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\Semaphore.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\ScopedLock.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\Sinks\DebugOutputWindowSink.hpp">
+      <Filter>Source\Logging\Sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\Sinks\ConsoleWindowSink.hpp">
+      <Filter>Source\Logging\Sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\Sinks\LogFileSink.hpp">
+      <Filter>Source\Logging\Sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogEntry.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogSlot.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogLevel.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\File\FileUtilities.hpp">
+      <Filter>Source\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\File\md5.h">
+      <Filter>Source\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\File\DirectoryUtilities.hpp">
+      <Filter>Source\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\File\FileSys.hpp">
+      <Filter>Source\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Time\Time.h">
+      <Filter>Source\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Memory\MemoryTag.hpp">
+      <Filter>Source\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\File\DirectoryLocations.hpp">
+      <Filter>Source\File</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

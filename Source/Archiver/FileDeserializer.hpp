@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Path/Path.hpp"
-#include "File/FileCore/File.h"
+#include "File/FileSys.hpp"
 #include "Containers/MemoryBuffer.hpp"
 #include "Serialization/DeserializeBase.hpp"
 #include "Archiver/ArchiverDll.hpp"

@@ -29,6 +29,10 @@ public:
 	Path GetDirectoryPath() const;
 	DynamicArray<String> Split() const;
 	const tchar* GetString() const;
+	forceinline bool IsEmpty() const
+	{
+		return path.IsEmpty();
+	}
 
 	// Operators
 	Path& operator/=(const Path& otherPath);

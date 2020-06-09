@@ -2,7 +2,7 @@
 
 #include "Path.hpp"
 #include "String/CStringUtilities.hpp"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 
 namespace
 {
