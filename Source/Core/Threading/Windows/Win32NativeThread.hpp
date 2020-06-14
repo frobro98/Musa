@@ -11,7 +11,7 @@ public:
 	Win32NativeThread() = default;
 	~Win32NativeThread();
 
-	virtual void StartWithBody(const tchar* threadName, ThreadPriority threadPriority, IThreadBody& execution) override;
+	virtual void StartWithBody(const tchar* threadName, ThreadPriority threadPriority, IThreadExecution& execution) override;
 	virtual void WaitStop() override;
 	virtual void WaitJoin() override;
 	virtual void SetPriority(ThreadPriority priority) override;

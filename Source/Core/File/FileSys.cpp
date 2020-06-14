@@ -34,6 +34,7 @@ unsigned int FileLocationToWin32FP(File::Location location)
 	}
 }
 
+// TODO - There needs to be some way to pass in flags that dictate the file behavior. This is pretty simplistic
 File::Result File::Open( File::Handle &fh, const tchar * const fileName, File::Mode mode )
 {
 	DWORD fileAccess = FileModeToWin32Access(mode);

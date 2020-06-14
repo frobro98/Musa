@@ -186,6 +186,12 @@
     <ClCompile Include="..\..\Source\Core\File\DirectoryLocations.cpp">
       <Filter>Source\File</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Logging\LoggingThread.cpp">
+      <Filter>Source\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\IThreadExecution.cpp">
+      <Filter>Source\Threading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Version.hpp">
@@ -431,9 +437,6 @@
     <ClInclude Include="..\..\Source\Core\Platform\PlatformThreading.hpp">
       <Filter>Source\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Threading\IThreadBody.hpp">
-      <Filter>Source\Threading</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Threading\NativeThread.hpp">
       <Filter>Source\Threading</Filter>
     </ClInclude>
@@ -470,12 +473,6 @@
     <ClInclude Include="..\..\Source\Core\Logging\Sinks\LogFileSink.hpp">
       <Filter>Source\Logging\Sinks</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Logging\LogEntry.hpp">
-      <Filter>Source\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\Logging\LogSlot.hpp">
-      <Filter>Source\Logging</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Logging\LogLevel.hpp">
       <Filter>Source\Logging</Filter>
     </ClInclude>
@@ -499,6 +496,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\File\DirectoryLocations.hpp">
       <Filter>Source\File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogChannel.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\IThreadExecution.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogLineEntry.hpp">
+      <Filter>Source\Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

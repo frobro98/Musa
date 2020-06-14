@@ -10,7 +10,7 @@ LogFileSink::~LogFileSink()
 {
 }
 
-void LogFileSink::OutputFormattedString(const LogEntry& entry)
+void LogFileSink::OutputFormattedString(const LogLineEntry& entry)
 {
 	UNUSED(entry);
 }

@@ -262,7 +262,7 @@ void GameInput::RemoveInputContext(StringView contextName)
 	PlayerInputContext* context = contexts.FindFirstUsing([&contextName](const PlayerInputContext& c) { return c.contextName == contextName; });
 	if (context != nullptr)
 	{
-		contexts.RemoveFirst(*context);
+		contexts.RemoveFirstOf(*context);
 	}
 }
 

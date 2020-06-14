@@ -15,30 +15,45 @@
 #include "Containers/DynamicArray.hpp"
 #include "fmt/format.h"
 #include "CoreAPI.hpp"
-#include "Logging/LogSlot.hpp"
+#include "Logging/LogChannel.hpp"
 #include "Logging/LogLevel.hpp"
 #include "Logging/LogSink.hpp"
 
 class LoggingThread;
 
-DEFINE_LOG_SLOT(DefaultLog);
+DEFINE_LOG_CHANNEL(DefaultLog);
 
 class CORE_API Logger
 {
 public:
+	~Logger();
+
 	template <typename... Args>
-	void Log(LogLevel level, const tchar* msg, Args&&... args)
+	forceinline void LogFormat(LogLevel level, const tchar* msg, Args&&... args)
 	{
-		Log(DefaultLog, level, msg, args...);
+		LogFormat(DefaultLog, level, msg, args...);
 	}
 	template <typename... Args>
-	void Log(const LogSlot& logSlot, LogLevel level, const tchar* msg, Args&&... args)
+	forceinline void LogFormat(const LogChannel& logSlot, LogLevel level, const tchar* msg, Args&&... args)
 	{
 		if (ShouldLogAtLevel(level))
 		{
 			fmt::format_to(formatBuf, msg, args...);
-			//LogToSinks(logSlot, formatBuf.data(), formatBuf.size());
+
 			formatBuf.clear();
+		}
+	}
+
+	forceinline void Log(LogLevel level, const tchar* msg)
+	{
+		Log(DefaultLog, level, msg);
+	}
+
+	forceinline void Log(const LogChannel& logChannel, LogLevel level, const tchar* msg)
+	{
+		if (ShouldLogAtLevel(level))
+		{
+			PushLineToLog(logChannel, logLevel, msg, Strlen(msg));
 		}
 	}
 
@@ -56,17 +71,16 @@ public:
 		return logLevel;
 	}
 
-	void AddLogSink(LogSink* sink);
-	void RemoveLogSink(LogSink* sink);
+	void AddLogSink(LogSink& sink);
+	void RemoveLogSink(LogSink& sink);
 
 private:
-	//void LogToSinks(const LogSystemSlot& logSlot, const tchar* msg, size_t msgSize);
+	void PushLineToLog(const LogChannel& logChannel, LogLevel level, const tchar* msg, size_t msgSize);
 
 	friend CORE_API void InitializeLogger(LogLevel level);
 private:
 	// Threading!
 	LoggingThread* loggingThread = nullptr;
-	DynamicArray<UniquePtr<LogSink>> logOutputSinks;
 	fmt::memory_buffer formatBuf;
 	LogLevel logLevel;
 };
@@ -76,13 +90,13 @@ CORE_API void DeinitializeLogger();
 CORE_API Logger& GetLogger();
 
 
-#define MUSA_LOG(LogSlot, level, msg, ...) GetLogger().Log(level, msg, _VA_ARGS_)
+#define MUSA_LOG(LogSlot, level, msg, ...) GetLogger().Log(level, msg, ##__VA_ARGS__)
 
-#define MUSA_DEBUG(LogSlot, msg, ...) MUSA_LOG(Logger::Level::Debug, msg, _VA_ARGS_)
-#define MUSA_INFO(LogSlot, msg, ...) MUSA_LOG(Logger::Level::Info, msg, _VA_ARGS_)
-#define MUSA_WARN(LogSlot, msg, ...) MUSA_LOG(Logger::Level::Warning, msg, _VA_ARGS_)
-#define MUSA_ERR(LogSlot, msg, ...) MUSA_LOG(Logger::Level::Error, msg, _VA_ARGS_)
-#define MUSA_FATAL(LogSlot, msg, ...) MUSA_LOG(Logger::Level::Fatal, msg, _VA_ARGS_)
+#define MUSA_DEBUG(LogSlot, msg, ...) MUSA_LOG(LogSlot, LogLevel::Debug, msg, ##__VA_ARGS__)
+#define MUSA_INFO(LogSlot, msg, ...) MUSA_LOG(LogSlot, LogLevel::Info, msg, ##__VA_ARGS__)
+#define MUSA_WARN(LogSlot, msg, ...) MUSA_LOG(LogSlot, LogLevel::Warning, msg, ##__VA_ARGS__)
+#define MUSA_ERR(LogSlot, msg, ...) MUSA_LOG(LogSlot, LogLevel::Error, msg, ##__VA_ARGS__)
+#define MUSA_FATAL(LogSlot, msg, ...) MUSA_LOG(LogSlot, LogLevel::Fatal, msg, ##__VA_ARGS__)
 
 
 

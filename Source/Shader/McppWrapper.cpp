@@ -3,7 +3,7 @@
 #include "McppWrapper.hpp"
 #include "Debugging/Assertion.hpp"
 #include "String/String.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 #include "File/FileSys.hpp"
 #include "Path/Path.hpp"
 

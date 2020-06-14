@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "Mesh.h"
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 #include "File/FileSys.hpp"
 #include "Model/ModelFileHeader.h"
 #include "Graphics/GraphicsInterface.hpp"

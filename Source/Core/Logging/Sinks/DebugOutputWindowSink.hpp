@@ -6,7 +6,7 @@
 class DebugOutputWindowSink : public LogSink
 {
 public:
-	virtual void OutputFormattedString(const LogEntry& entry) override;
+	virtual void OutputFormattedString(const LogLineEntry& entry) override;
 private:
 
 };

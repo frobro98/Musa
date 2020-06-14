@@ -2,7 +2,7 @@
 
 #include "String/String.h"
 
-class IThreadBody;
+class IThreadExecution;
 
 enum class ThreadPriority
 {
@@ -16,7 +16,7 @@ class NativeThread
 public:
 	virtual ~NativeThread() {}
 
-	virtual void StartWithBody(const tchar* threadName, ThreadPriority threadPriority, IThreadBody& execution) = 0;
+	virtual void StartWithBody(const tchar* threadName, ThreadPriority threadPriority, IThreadExecution& execution) = 0;
 	virtual void SetPriority(ThreadPriority priority) = 0;
 	virtual void ResumeThread() = 0;
 	virtual void SuspendThread() = 0;
@@ -35,7 +35,7 @@ public:
 
 protected:
 	String threadName;
-	IThreadBody* executionBody = nullptr;
+	IThreadExecution* executionBody = nullptr;
 	ThreadPriority threadPriority;
 	u32 threadId = 0;
 };

@@ -1,6 +1,6 @@
 #include "ConsoleWindowSink.hpp"
 
-void ConsoleWindowSink::OutputFormattedString(const LogEntry& entry)
+void ConsoleWindowSink::OutputFormattedString(const LogLineEntry& entry)
 {
 	UNUSED(entry);
 }

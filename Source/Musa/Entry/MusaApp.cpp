@@ -7,6 +7,7 @@
 #include "Input/Internal/InputInternal.hpp"
 #include "Shader/ShaderDefinition.hpp"
 #include "Graphics/GraphicsInterface.hpp"
+#include "Logging/LogCore.hpp"
 
 constexpr i32 width = 1080;
 constexpr i32 height = 720;
@@ -19,6 +20,8 @@ MusaApp::MusaApp()
 
 void MusaApp::LaunchApplication()
 {
+	InitializeLogger(LogLevel::Debug);
+	MUSA_DEBUG(DefaultLog, "Log has been initialized!!");
 	InitializeOSInput();
 	InitializeApplicationWindow();
 

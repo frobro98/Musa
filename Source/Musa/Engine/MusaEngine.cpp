@@ -423,13 +423,16 @@ void MusaEngine::LoadContent()
 
 	GetMeshManager().Initialize();
 
-	Path bunnyPakPath(EngineAssetPath() + "Models/stanford-bunny.pak");
+	Path bunnyPakPath(EngineAssetPath());
+	bunnyPakPath /= "Models/stanford-bunny.pak";
 	LoadPakFile(bunnyPakPath);
 
-	Path astroPakPath(EngineAssetPath() + "Models/astro-boy.pak");
+	Path astroPakPath(EngineAssetPath());
+	astroPakPath /= "Models/astro-boy.pak";
 	LoadPakFile(astroPakPath);
 
-	Path gethPakPath(EngineAssetPath() + "Models/geth-trooper.pak");
+	Path gethPakPath(EngineAssetPath());
+	gethPakPath /= "Models/geth-trooper.pak";
 	LoadPakFile(gethPakPath);
 
 	CreateInputContext(*gameInput);

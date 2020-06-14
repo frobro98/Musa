@@ -1,5 +1,5 @@
 #include "Win32NativeThread.hpp"
-#include "Threading/IThreadBody.hpp"
+#include "Threading/IThreadExecution.hpp"
 #include "Threading/ISyncEvent.hpp"
 #include "Platform/PlatformThreading.hpp"
 
@@ -59,7 +59,7 @@ Win32NativeThread::~Win32NativeThread()
 	}
 }
 
-void Win32NativeThread::StartWithBody(const tchar* name, ThreadPriority priority, IThreadBody& execution)
+void Win32NativeThread::StartWithBody(const tchar* name, ThreadPriority priority, IThreadExecution& execution)
 {
 	REF_CHECK(execution);
 	executionBody = &execution;
@@ -70,7 +70,8 @@ void Win32NativeThread::StartWithBody(const tchar* name, ThreadPriority priority
 	Assert(threadHandle);
 
 	syncEvent = PlatformThreading::CreateSyncEvent(true);
-	
+	Assert(syncEvent);
+
 	// Thread starts suspended
 	ResumeThread();
 	// TODO - Might want to keep these somewhere to pool them? Somewhere on StackOverflow, it says that these
@@ -104,7 +105,7 @@ void Win32NativeThread::WaitStop()
 {
 	if (executionBody)
 	{
-		executionBody->ThreadStop();
+		executionBody->RequestStop();
 
 		WaitJoin();
 
@@ -129,15 +130,12 @@ u32 Win32NativeThread::StartRun()
 	Assert(executionBody);
 	Assert(syncEvent);
 
-	executionBody->ThreadStart();
-	running = true;
+	executionBody->ThreadInit();
 	syncEvent->Set();
 
-	while (running)
-	{
-		executionBody->ThreadBody();
-	}
-	executionBody->ThreadStop();
+	executionBody->ThreadBody();
+
+	executionBody->ThreadExit();
 
 	return exitCode;
 }

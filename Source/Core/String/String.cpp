@@ -14,6 +14,7 @@ String::String(const tchar* cStr)
 	size_t len = Strlen(cStr);
 	if (len > 0)
 	{
+		stringData.Clear();
 		stringData.AddDefault((u32)len + 1);
 		Memcpy(stringData.GetData(), len * sizeof(tchar), cStr, len * sizeof(tchar));
 	}
@@ -25,6 +26,7 @@ String& String::operator=(const tchar* cStr)
 	size_t len = Strlen(cStr);
 	if (len > 0)
 	{
+		stringData.Clear();
 		stringData.AddDefault((u32)len + 1);
 		Memcpy(stringData.GetData(), len * sizeof(tchar), cStr, len * sizeof(tchar));
 	} 

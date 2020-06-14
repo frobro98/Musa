@@ -9,46 +9,46 @@
 // TODO - Add actual Path and Directory creation classes
 //namespace Internal
 //{
-CORE_API String EngineExeFullPath();
+CORE_API const tchar* EngineExeFullPath();
 
-inline String EngineRootPath()
+inline const tchar* EngineRootPath()
 {
 	return "../../../";
 }
 
-inline String EngineAssetPath()
+inline const tchar* EngineAssetPath()
 {
-	return EngineRootPath() + "Assets/";
+	return "../../../Assets/";
 }
 
-inline String EngineFontPath()
+inline const tchar* EngineFontPath()
 {
-	return EngineAssetPath() + "Fonts/";
+	return "../../../Assets/Fonts/";
 }
 
-inline String EngineLogPath()
+inline const tchar* EngineLogPath()
 {
-	return EngineRootPath() + "Logs/";
+	return "../../../Logs/";
 }
 
-inline String EngineShaderSrcPath()
+inline const tchar* EngineShaderSrcPath()
 {
-	return EngineAssetPath() + "Shaders/";
+	return "../../../Assets/Shaders/";
 }
 
-inline String EngineGeneratedShaderPath()
+inline const tchar* EngineGeneratedShaderPath()
 {
-	return EngineAssetPath() + "Shaders/Generated/";
+	return "../../../Assets/Shaders/Generated/";
 }
 
-inline String EngineSourcePath()
+inline const tchar* EngineSourcePath()
 {
-	return EngineRootPath() + "Source/";
+	return "../../../Source/";
 }
 
-inline String EngineTexturePath()
+inline const tchar* EngineTexturePath()
 {
-	return EngineAssetPath() + "Textures/";
+	return "../../../Assets/Textures/";
 }
 
 //}

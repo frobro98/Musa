@@ -11,7 +11,7 @@
 #include "McppWrapper.hpp"
 #include "spirv/disassemble.h"
 
-#include "DirectoryLocations.h"
+#include "File/DirectoryLocations.hpp"
 #include "Debugging/Assertion.hpp"
 #include "Path/Path.hpp"
 #include "Utilities/HashFuncs.hpp"

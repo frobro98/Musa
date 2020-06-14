@@ -14,11 +14,9 @@ public:
 	virtual void Set() override;
 	virtual bool Reset() override;
 	virtual bool IsManualReset() const override;
-	virtual bool IsSet() const override;
 	virtual bool IsValid() const override;
 
 private:
 	HANDLE eventHandle = nullptr;
 	bool isManualReset = false;
-	bool isSet = false;
 };

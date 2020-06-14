@@ -32,6 +32,7 @@
     <ClCompile Include="..\..\Source\Core\fmt\os.cc" />
     <ClCompile Include="..\..\Source\Core\GUID\Guid.cpp" />
     <ClCompile Include="..\..\Source\Core\Logging\LogCore.cpp" />
+    <ClCompile Include="..\..\Source\Core\Logging\LoggingThread.cpp" />
     <ClCompile Include="..\..\Source\Core\Logging\Sinks\ConsoleWindowSink.cpp" />
     <ClCompile Include="..\..\Source\Core\Logging\Sinks\DebugOutputWindowSink.cpp" />
     <ClCompile Include="..\..\Source\Core\Logging\Sinks\LogFileSink.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="..\..\Source\Core\String\CStringUtilities.cpp" />
     <ClCompile Include="..\..\Source\Core\String\String.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\NativeThread.cpp" />
+    <ClCompile Include="..\..\Source\Core\Threading\IThreadExecution.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32CriticalSection.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32NativeThread.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32Semaphore.cpp" />
@@ -108,11 +110,11 @@
     <ClInclude Include="..\..\Source\Core\fmt\ranges.h" />
     <ClInclude Include="..\..\Source\Core\GUID\Guid.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogCore.hpp" />
-    <ClInclude Include="..\..\Source\Core\Logging\LogEntry.hpp" />
+    <ClInclude Include="..\..\Source\Core\Logging\LogLineEntry.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LoggingThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogLevel.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogSink.hpp" />
-    <ClInclude Include="..\..\Source\Core\Logging\LogSlot.hpp" />
+    <ClInclude Include="..\..\Source\Core\Logging\LogChannel.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\Sinks\ConsoleWindowSink.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\Sinks\DebugOutputWindowSink.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\Sinks\LogFileSink.hpp" />
@@ -141,7 +143,7 @@
     <ClInclude Include="..\..\Source\Core\String\String.h" />
     <ClInclude Include="..\..\Source\Core\String\StringView.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\CriticalSection.hpp" />
-    <ClInclude Include="..\..\Source\Core\Threading\IThreadBody.hpp" />
+    <ClInclude Include="..\..\Source\Core\Threading\IThreadExecution.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\NativeThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\ISyncEvent.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\ScopedLock.hpp" />

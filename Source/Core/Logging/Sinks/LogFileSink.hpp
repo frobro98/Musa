@@ -13,7 +13,7 @@ public:
 	LogFileSink();
 	~LogFileSink();
 
-	virtual void OutputFormattedString(const LogEntry& entry) override;
+	virtual void OutputFormattedString(const LogLineEntry& entry) override;
 
 private:
 	File::Handle logFileHandle;

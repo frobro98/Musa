@@ -26,7 +26,7 @@ static Entity DetermineNewEntity(World& world)
 	{
 		// Reuse dead entity bridge
 		u32 deadIndex = world.deadIndices.Last();
-		world.deadIndices.RemoveLast(deadIndex);
+		world.deadIndices.RemoveLastOf(deadIndex);
 
 		u32 version = world.entityBridges[deadIndex].version;
 		u32 id = deadIndex;

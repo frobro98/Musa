@@ -14,6 +14,5 @@ public:
 	virtual void Set() = 0;
 	virtual bool Reset() = 0;
 	virtual bool IsManualReset() const = 0;
-	virtual bool IsSet() const = 0;
 	virtual bool IsValid() const = 0;
 };

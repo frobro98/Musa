@@ -12,7 +12,7 @@ Win32SyncEvent::~Win32SyncEvent()
 void Win32SyncEvent::Create(bool manualReset)
 {
 	isManualReset = manualReset;
-	CreateEvent(nullptr, isManualReset, 0, nullptr);
+	eventHandle = CreateEvent(nullptr, isManualReset, 0, nullptr);
 }
 
 bool Win32SyncEvent::Wait(u32 waitTime)
@@ -32,18 +32,12 @@ bool Win32SyncEvent::Reset()
 {
 	Assert(eventHandle);
 	bool hasReset = ::ResetEvent(eventHandle);
-	isSet = !hasReset;
 	return hasReset;
 }
 
 bool Win32SyncEvent::IsManualReset() const
 {
 	return isManualReset;
-}
-
-bool Win32SyncEvent::IsSet() const
-{
-	return isSet;
 }
 
 bool Win32SyncEvent::IsValid() const

@@ -13,6 +13,7 @@ class String;
 class StringView
 {
 public:
+	constexpr StringView() = default;
 	constexpr StringView(const tchar* str);
 	constexpr explicit StringView(const tchar* str, u32 len);
 
@@ -58,8 +59,8 @@ public:
 	friend constexpr bool operator!=(const StringView& sv, const tchar* cs);
 
 private:
-	const tchar* string;
-	u32 stringLen;
+	const tchar* string = 0;
+	u32 stringLen = 0;
 
 	friend u32 GetHash(const StringView& str)
 	{

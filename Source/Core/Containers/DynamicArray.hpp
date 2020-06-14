@@ -61,8 +61,10 @@ public:
 
 	bool TryRemoveElement(const valueType& elem);
 	void Remove(u32 index, u32 count = 1);
-	void RemoveFirst(const valueType& elem);
-	void RemoveLast(const valueType& elem);
+	void RemoveFirstOf(const valueType& elem);
+	void RemoveLastOf(const valueType& elem);
+	void RemoveFirst();
+	void RemoveLast();
 	void RemoveAll(const valueType& elem);
 
 	template<class Pred>
@@ -577,7 +579,7 @@ inline void DynamicArray<Type>::Remove(u32 index, u32 count)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::RemoveFirst(const valueType& elem)
+inline void DynamicArray<Type>::RemoveFirstOf(const valueType& elem)
 {
 	for (u32 i = 0; i < arraySize; ++i)
 	{
@@ -590,7 +592,7 @@ inline void DynamicArray<Type>::RemoveFirst(const valueType& elem)
 }
 
 template<class Type>
-inline void DynamicArray<Type>::RemoveLast(const valueType& elem)
+inline void DynamicArray<Type>::RemoveLastOf(const valueType& elem)
 {
 	for (i32 i = arraySize - 1; i >= 0; --i)
 	{
@@ -600,6 +602,25 @@ inline void DynamicArray<Type>::RemoveLast(const valueType& elem)
 			Remove(index);
 			break;
 		}
+	}
+}
+
+template<class Type>
+inline void DynamicArray<Type>::RemoveFirst()
+{
+	if (arraySize > 0)
+	{
+		Remove(0);
+	}
+}
+
+template<class Type>
+inline void DynamicArray<Type>::RemoveLast()
+{
+	if (arraySize > 0)
+	{
+		Destroy(arraySize - 1);
+		--arraySize;
 	}
 }
 

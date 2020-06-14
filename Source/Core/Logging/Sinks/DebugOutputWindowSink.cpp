@@ -1,6 +1,6 @@
 #include "DebugOutputWindowSink.hpp"
 
-void DebugOutputWindowSink::OutputFormattedString(const LogEntry& entry)
+void DebugOutputWindowSink::OutputFormattedString(const LogLineEntry& entry)
 {
 	UNUSED(entry);
 }

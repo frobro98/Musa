@@ -46,7 +46,7 @@ template<typename Type>
 inline Type Stack<Type>::Pop()
 {
 	ValueType popped = stackSpace.Last();
-	stackSpace.RemoveLast(popped);
+	stackSpace.RemoveLastOf(popped);
 	return popped;
 }
 

@@ -2,10 +2,10 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-struct LogEntry;
+struct LogLineEntry;
 
 class LogSink
 {
 public:
-	virtual void OutputFormattedString(const LogEntry& entry) = 0;
+	virtual void OutputFormattedString(const LogLineEntry& entry) = 0;
 };

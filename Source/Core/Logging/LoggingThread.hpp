@@ -1,17 +1,53 @@
 #pragma once
 
-#include "Threading/IThreadBody.hpp"
+#include "Threading/IThreadExecution.hpp"
 #include "Threading/NativeThread.hpp"
+#include "Threading/ScopedLock.hpp"
+#include "BasicTypes/UniquePtr.hpp"
+#include "Logging/LogSink.hpp"
+#include "Logging/LogLineEntry.hpp"
+#include "Time/Timer.h"
+#include "File/FileSys.hpp"
+
+class ISyncEvent;
 
 // Should own all structures that contain their portions to write to. 
 // This should be all of the log sinks are put here instead of the logger. 
 // Logger just funnels messages to this logging body
-
-class LoggingThread : IThreadBody
+class LoggingThread : IThreadExecution
 {
 public:
-	virtual void ThreadBody() override;
+	LoggingThread(DynamicArray<LogSink*>&& sinks);
+	~LoggingThread();
+
+	void AddLogSink(LogSink& sink);
+	void RemoveSink(LogSink& sink);
+
+	void PushLogLine(const LogLineEntry& logLine);
 
 private:
+	// Thread methods
+	virtual void ThreadInit() override;
+	virtual void ThreadBody() override;
+	virtual void ThreadExit() override;
+	virtual void RequestStop() override;
+
+private:
+	CriticalSection sinksCriticalSection;
+	DynamicArray<LogSink*> logOutputSinks;
+
+	CriticalSection unprocessedCriticalSection;
+	DynamicArray<LogLineEntry> entriesToProcess;
+
+	DynamicArray<LogLineEntry> logLineEntries;
 	NativeThread* logThread;
+
+	ISyncEvent* linePushedEvent;
+
+	Timer loggingTimings;
+
+	File::Handle logFileHandle;
+
+	// TODO - This needs to be an atomic type of some sort
+	volatile bool stopRequested = false;
 };
