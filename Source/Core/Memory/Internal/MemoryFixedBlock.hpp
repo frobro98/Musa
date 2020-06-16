@@ -7,6 +7,7 @@
 #include "Memory/MemoryDefinitions.hpp"
 #include "Memory/MemoryFunctions.hpp"
 #include "Internal/MemoryInternalDefinitions.hpp"
+#include "Threading/CriticalSection.hpp"
 #include "Utilities/Array.hpp"
 
 namespace Memory::Internal
@@ -188,6 +189,7 @@ static PoolHeaderManager poolManager;
 //////////////////////////////////////////////////////////////////////////
 struct FixedBlockTableElement
 {
+	CriticalSection critSection;
 	FixedBlockPool* availablePools = nullptr;
 	FixedBlockPool* emptyPools = nullptr;
 	size_t fixedBlockSize = 0;

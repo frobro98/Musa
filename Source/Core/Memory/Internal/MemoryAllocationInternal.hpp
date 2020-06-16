@@ -4,9 +4,13 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Memory/MemoryCore.hpp"
+#include "Threading/CriticalSection.hpp"
 #include "Internal/MemoryFixedBlock.hpp"
 #include "Internal/MemoryBlockInfoTable.hpp"
 #include "Platform/PlatformMemory.hpp"
+#include "Threading/ScopedLock.hpp"
+
+// TODO - This will be replaced with logging
 #include "Debugging/DebugOutput.hpp"
 
 namespace Memory::Internal
@@ -108,6 +112,7 @@ static void DeinitializeMemory()
 {
 	Assert(isInitialized);
 
+	// TODO - Replace these with a possible log output
 	Debug::Printf("Big memory allocations: {}\n", memoryStats.allocatedBigMemory);
 	Debug::Printf("Fixed memory allocations: {}\n", memoryStats.allocatedFixedMemory);
 
@@ -119,6 +124,14 @@ static void DeinitializeMemory()
 //////////////////////////////////////////////////////////////////////////
 static forceinline MemoryBlockInfo& InitializeOrFindMemoryInfo(void* p, BlockType blockType)
 {
+	// TODO - This might need some sort of synchronization
+	// First thoughts are that it doesn't because the addresses coming from the OS
+	// are all unique, so there wouldn't be any kind of issue accessing the same bucket.
+	//
+	// If there are, in fact, possible collisions that could happen because of "similar" addresses,
+	// That kind of thing needs to be addressed. Might need a lock for that kind of thing.
+	// Consult Hacky's implementation of NetherRealm's lock free behaviors and even lock
+	// locations
 	Assert(p);
 	uptr addr = reinterpret_cast<uptr>(p);
 	uptr preprocessedAddr = addr >> BitsInPageAllocation;
@@ -203,8 +216,11 @@ forceinline void* MallocFixedBlock(size_t size)
 	// Do fixed block allocation
 	u8 tableIndex = FixedSizeToTableIndex(size);
 
+	// TODO - Critical Section per table element
 	FixedBlockTableElement& tableElement = fixedBlockTable[tableIndex];
 	
+	ScopedLock poolLock(tableElement.critSection);
+
 	FixedBlockPool* pool = tableElement.availablePools;
 	if (pool == nullptr)
 	{
@@ -271,6 +287,7 @@ forceinline void FreeFixedBlock(void* p)
 	freeBlock->numFreeBlocks = 1;
 	freeBlock->nextBlock = nullptr;
 
+	ScopedLock poolLock(tableElement.critSection);
 	FixedBlockPool* pool = PushFreeBlockToPool(tableElement, freeBlock);
 	Assert(pool);
 	memoryStats.usedFixedMemory -= tableElement.fixedBlockSize;
