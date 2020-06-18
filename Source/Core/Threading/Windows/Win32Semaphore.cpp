@@ -17,9 +17,17 @@ static bool WaitOnSemaphore(HANDLE semaphore, u32 msWait)
 	}
 }
 
-Semaphore::Semaphore(u32 startingCount, u32 maxCount)
-	: semaphore((void*)::CreateSemaphore(nullptr, (i32)startingCount, (i32)maxCount, nullptr))
+Semaphore::Semaphore(i32 startingCount)
+	: semaphore((void*)::CreateSemaphore(nullptr, startingCount, I32Max, nullptr))
 {
+	Assert(startingCount >= 0);
+}
+
+Semaphore::Semaphore(i32 startingCount, i32 maxCount)
+	: semaphore((void*)::CreateSemaphore(nullptr, startingCount, maxCount, nullptr))
+{
+	Assert(startingCount >= 0);
+	Assert(maxCount >= 0);
 }
 
 Semaphore::~Semaphore()

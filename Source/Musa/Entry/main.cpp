@@ -330,24 +330,6 @@ int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	int /*nCmdShow*/)
 
 {
-	//*
-	FILE* stdOut = nullptr;
-	{
-		AllocConsole();
-		freopen_s(&stdOut, "CONOUT$", "w", stdout);
-	
-		HWND console = GetConsoleWindow();
-		RECT rect = {};
-		GetWindowRect(console, &rect);
-		SetWindowPos(console, console, rect.left + (rect.left / 2), rect.top, rect.right - rect.left, rect.bottom - rect.top, 0);
-	}
-	//*/
-
-	//LoadShaderTest();
-	//MCppTest();
-	//StringTest();
-	//DataStructureTest();
-	//FileSerializationTest();
 	MusaApp app;
 	app.LaunchApplication();
 

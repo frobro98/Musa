@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
-#include "fmt/format.h"
 #include "Utilities/Array.hpp"
+#include "Logging/LogCore.hpp"
 
 #include "ResourceBlob.hpp"
 #include "Serialization/MemoryDeserializer.hpp"
@@ -27,6 +27,8 @@
 #include "VulkanDescriptorLayoutManager.h"
 #include "VulkanShaderHeader.hpp"
 #include "VulkanShaders.h"
+
+DEFINE_LOG_CHANNEL(VkValidation);
 
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_GOOGLE_threading",
@@ -54,29 +56,23 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
 
 	if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT)
 	{
-		fmt::print("WARNING: ");
-		fmt::print("@[{}]: {}\n", layerPrefix, msg);
+		MUSA_WARN(VkValidation, "@{}: {}", layerPrefix, msg);
 	}
 	if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT)
 	{
-		fmt::print("PERFORMANCE: ");
-		fmt::print("@[{}]: {}\n", layerPrefix, msg);
+		MUSA_WARN(VkValidation, "PERF - @{}: {}", layerPrefix, msg);
 	}
 	if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT)
 	{
-		fmt::print("ERROR: ");
-		fmt::print("@[{}]: {}\n", layerPrefix, msg);
+		MUSA_ERR(VkValidation, "@{}: {}", layerPrefix, msg);
 	}
 	if (flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT)
 	{
-		fmt::print("DEBUG: ");
-		fmt::print("@[{}]: {}\n", layerPrefix, msg);
+		MUSA_DEBUG(VkValidation, "@{}: {}", layerPrefix, msg);
 	}
-
 	if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT)
 	{
-		fmt::print("INFO: ");
-		fmt::print("@[{}]: {}\n", layerPrefix, msg);
+		MUSA_INFO(VkValidation, "@{}: {}", layerPrefix, msg);
 	}
 
 //#endif // M_DEBUG

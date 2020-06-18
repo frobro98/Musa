@@ -9,7 +9,7 @@
 #include "Time/Timer.h"
 #include "File/FileSys.hpp"
 
-class ISyncEvent;
+class Semaphore;
 
 // Should own all structures that contain their portions to write to. 
 // This should be all of the log sinks are put here instead of the logger. 
@@ -42,7 +42,7 @@ private:
 	DynamicArray<LogLineEntry> logLineEntries;
 	NativeThread* logThread;
 
-	ISyncEvent* linePushedEvent;
+	Semaphore* linePushedSemaphore;
 
 	Timer loggingTimings;
 

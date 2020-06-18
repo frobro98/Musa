@@ -591,7 +591,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::FindOrCreateGraphicsBuffer()
 	{
 		found = CreateGraphicsCommandBuffer();
 		graphicsCommandBuffers.Add(found);
-		fmt::print("# graphics command buffers: {}\n", graphicsCommandBuffers.Size());
+		// TODO - Log debug info about adding new command buffer maybe?
 	}
 
 	return found;
@@ -614,7 +614,7 @@ VulkanCommandBuffer* VulkanCommandBufferManager::FindOrCreateTransferBuffer()
 	{
 		found = CreateTransferCommandBuffer();
 		transferCommandBuffers.Add(found);
-		fmt::print("# transfer command buffers: {}\n", transferCommandBuffers.Size());
+		// TODO - Log debug info about adding new command buffer maybe?
 	}
 
 	return found;

@@ -10,7 +10,7 @@
 class LogFileSink final : public LogSink
 {
 public:
-	LogFileSink();
+	LogFileSink(const Path& filePath);
 	~LogFileSink();
 
 	virtual void OutputFormattedString(const LogLineEntry& entry) override;

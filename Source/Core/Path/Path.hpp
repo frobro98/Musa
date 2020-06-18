@@ -5,6 +5,9 @@
 #include "String/String.h"
 #include "CoreAPI.hpp"
 
+// TODO - Path doesn't necessarily need to contain a String. That's wasteful and the OS also
+//		  has a max path size limit. Once I know this limit, I can optimize this to use a fixed
+//		  array of characters
 class CORE_API Path
 {
 public:

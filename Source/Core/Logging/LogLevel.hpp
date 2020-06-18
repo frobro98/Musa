@@ -1,15 +1,22 @@
 #pragma once
 
-enum class LogLevel
+struct LogLevel
 {
-	Debug,
-	Info,
-	Warning,
-	Error,
-	Fatal
-};
+	enum Type
+	{
+		Debug,
+		Info,
+		Warning,
+		Error,
+		Fatal,
 
-forceinline const tchar* ToString(LogLevel level)
+		Max
+	};
+};
+static_assert(LogLevel::Max == LogLevel::Fatal + 1);
+
+
+forceinline const tchar* ToString(LogLevel::Type level)
 {
 	// TODO - Implement enum strings with macro tricks?
 	switch (level)

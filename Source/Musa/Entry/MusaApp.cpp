@@ -41,7 +41,8 @@ void MusaApp::LaunchApplication()
 
 	// TODO - image views are trying to be destroyed when still in use by command buffer in flight...
 	GetGraphicsInterface().DeinitializeGraphics();
-	
+
+	DeinitializeLogger();
 }
 
 void MusaApp::LockCursor()

@@ -10,5 +10,5 @@ struct LogLineEntry
 {
 	String logMsg;
 	StringView logSlot;
-	LogLevel level;
+	LogLevel::Type level;
 };

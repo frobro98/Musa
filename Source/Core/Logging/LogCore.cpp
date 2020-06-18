@@ -1,20 +1,23 @@
 
 #include "LogCore.hpp"
 #include "LoggingThread.hpp"
+#include "File/DirectoryLocations.hpp"
 #include "Sinks/ConsoleWindowSink.hpp"
 #include "Sinks/DebugOutputWindowSink.hpp"
 #include "Sinks/LogFileSink.hpp"
 
 static Logger* logger = nullptr;
 
-void InitializeLogger(LogLevel level)
+void InitializeLogger(LogLevel::Type level)
 {
+	Path logFilePath = Path(EngineLogPath()) / "musa.log";
+
 	logger = new Logger;
 	logger->logLevel = level;
 	DynamicArray<LogSink*> logSinks(3);
 	logSinks[0] = new ConsoleWindowSink;
 	logSinks[1] = new DebugOutputWindowSink;
-	logSinks[2] = new LogFileSink;
+	logSinks[2] = new LogFileSink(logFilePath);
 	logger->loggingThread = new LoggingThread(std::move(logSinks));
 	logger->Log(LogLevel::Info, "Log Initialized!");
 }
@@ -22,17 +25,13 @@ void InitializeLogger(LogLevel level)
 void DeinitializeLogger()
 {
 	delete logger;
+	logger = nullptr;
 }
 
 Logger& GetLogger()
 {
 	Assert(logger);
 	return *logger;
-}
-
-Logger::~Logger()
-{
-	delete loggingThread;
 }
 
 void Logger::AddLogSink(LogSink& sink)
@@ -45,7 +44,7 @@ void Logger::RemoveLogSink(LogSink& sink)
 	loggingThread->RemoveSink(sink);
 }
 
-void Logger::PushLineToLog(const LogChannel& logChannel, LogLevel level, const tchar* msg, size_t msgSize)
+void Logger::PushLineToLog(const LogChannel& logChannel, LogLevel::Type level, const tchar* msg, size_t msgSize)
 {
 	// TODO - need to figure out if I don't format here or if I format here and then later not format
 	LogLineEntry entry;

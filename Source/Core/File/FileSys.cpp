@@ -42,7 +42,7 @@ File::Result File::Open( File::Handle &fh, const tchar * const fileName, File::M
 	fh = CreateFile(
 		fileName, 
 		fileAccess, 
-		0u, 
+		FILE_SHARE_READ, 
 		nullptr, 
 		mode == Mode::READ ? OPEN_EXISTING : (DWORD)OPEN_ALWAYS,
 		mode == Mode::READ ? FILE_ATTRIBUTE_READONLY : (DWORD)FILE_ATTRIBUTE_NORMAL,
