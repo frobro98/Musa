@@ -21,7 +21,7 @@ MusaApp::MusaApp()
 void MusaApp::LaunchApplication()
 {
 	InitializeLogger(LogLevel::Debug);
-	MUSA_DEBUG(DefaultLog, "Log has been initialized!!");
+	MUSA_INFO(DefaultLog, "Log has been initialized!!");
 	InitializeOSInput();
 	InitializeApplicationWindow();
 

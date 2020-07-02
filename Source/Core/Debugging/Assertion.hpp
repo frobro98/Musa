@@ -25,6 +25,7 @@ namespace Debug
 	template<typename... Args>
 	forceinline void AssertionFailed(const tchar* expr, const tchar* file, i32 line, const tchar* desc, NOT_USED Args... args)
 	{
+
 		UNUSED(expr, file, line, desc);
 		// TODO - Platform level break
 		DebugBreak();

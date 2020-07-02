@@ -29,7 +29,7 @@ public:
 	void EndOfFrame();
 
 private:
-	ThreadSleepPrimitive systemSleepPrim;
+//	ThreadSleepPrimitive systemSleepPrim;
 	DynamicArray<JobThread*> jobThreads;
 	DynamicArray<JobQueue*> jobQueues;
 };

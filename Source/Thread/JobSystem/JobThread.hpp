@@ -15,7 +15,7 @@ class JobSystem;
 class JobThread : private Uncopyable
 {
 public:
-	JobThread(JobSystem& jobSys, u32 index, ThreadSleepPrimitive& systemSleepPrim);
+	JobThread(JobSystem& jobSys, u32 index/*, ThreadSleepPrimitive& systemSleepPrim*/);
 	~JobThread();
 
 	void Start();
@@ -33,8 +33,8 @@ private:
 
 	// TODO - Should probably use native threads...
 	std::thread jobThread;
-	ThreadSleepPrimitive jobNotify;
-	ThreadSleepPrimitive& systemNotifier;
+// 	ThreadSleepPrimitive jobNotify;
+// 	ThreadSleepPrimitive& systemNotifier;
 	JobSystem& jobSystem;
 	JobQueue* jobQueue = nullptr;
 	uflag threadRunning = ATOMIC_FLAG_INIT;

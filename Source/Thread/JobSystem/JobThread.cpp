@@ -10,8 +10,8 @@ using NotifyLock = std::unique_lock<std::mutex>;
 
 }
 
-JobThread::JobThread(JobSystem& jobSys, u32 index, ThreadSleepPrimitive& systemSleepPrim)
-	: systemNotifier(systemSleepPrim),
+JobThread::JobThread(JobSystem& jobSys, u32 index/*, ThreadSleepPrimitive& systemSleepPrim*/)
+	: //systemNotifier(systemSleepPrim),
 	jobSystem(jobSys),
 	threadIndex(index)
 {
@@ -39,8 +39,8 @@ void JobThread::WaitStop()
 
 void JobThread::WakeUp()
 {
-	NotifyLock lock(jobNotify.mut);
-	jobNotify.condVar.notify_one();
+// 	NotifyLock lock(jobNotify.mut);
+// 	jobNotify.condVar.notify_one();
 }
 
 JobQueue& JobThread::GetWorkQueue() const
@@ -54,8 +54,8 @@ void JobThread::ThreadLoop()
 	jobQueue = new JobQueue(GetCurrentThreadID());
 	jobSystem.SetJobQueueForIndex(*jobQueue, threadIndex);
 	{
-		NotifyLock lock(systemNotifier.mut);
-		systemNotifier.condVar.wait(lock);
+// 		NotifyLock lock(systemNotifier.mut);
+// 		systemNotifier.condVar.wait(lock);
 	}
 
 	threadRunning.test_and_set(std::memory_order_relaxed);

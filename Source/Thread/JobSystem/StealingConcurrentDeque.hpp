@@ -6,7 +6,8 @@
 #include "Thread/JobSystem/Job.hpp"
 #include "Utilities/MemoryUtilities.hpp"
 #include "Utilities/BitUtilities.hpp"
-#include "Thread/ThreadingUtilities.hpp"
+#include "Platform/PlatformThreading.hpp"
+//#include "Thread/ThreadingUtilities.hpp"
 
 struct Job;
 
@@ -43,7 +44,7 @@ inline WorkStealingDeque<size>::WorkStealingDeque(u64 owningThreadID_)
 template<u32 size>
 inline bool WorkStealingDeque<size>::TryPush(Job& job)
 {
-	Assert(GetCurrentThreadID() == owningThreadID);
+	Assert(PlatformThreading::GetCurrentThreadID() == owningThreadID);
 	Assert(topIndex.load() <= bottomIndex.load());
 
 	i32 bottom = bottomIndex.load(std::memory_order_acquire);
@@ -82,7 +83,7 @@ inline bool WorkStealingDeque<size>::TrySteal(Job*& job)
 template<u32 size>
 inline bool WorkStealingDeque<size>::TryPop(Job*& job)
 {
-	Assert(GetCurrentThreadID() == owningThreadID);
+	Assert(PlatformThreading::GetCurrentThreadID() == owningThreadID);
 
 	i32 popLoc = bottomIndex.load(std::memory_order_acquire) - 1;
 	bottomIndex.store(popLoc, std::memory_order_release);

@@ -11,6 +11,8 @@ namespace PlatformThreading
 {
 NativeThread* CreateThread();
 ISyncEvent* CreateSyncEvent(bool isManualReset);
+u32 GetCurrentThreadID();
+u32 GetNumberOfHWThreads();
 
 // Atomic operations
 i8  InterlockedExchange(volatile i8* dest, i8 value);

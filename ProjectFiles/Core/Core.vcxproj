@@ -50,6 +50,7 @@
     <ClCompile Include="..\..\Source\Core\Threading\IThreadExecution.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32CriticalSection.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32NativeThread.cpp" />
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32ReadWriteLock.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32Semaphore.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32SyncEvent.cpp" />
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32Threading.cpp" />
@@ -142,12 +143,17 @@
     <ClInclude Include="..\..\Source\Core\String\CStringUtilities.hpp" />
     <ClInclude Include="..\..\Source\Core\String\String.h" />
     <ClInclude Include="..\..\Source\Core\String\StringView.hpp" />
+    <ClInclude Include="..\..\Source\Core\Threading\Containers\ConcurrentQueue.hpp" />
+    <ClInclude Include="..\..\Source\Core\Threading\Containers\LockingQueue.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\CriticalSection.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\IThreadExecution.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\NativeThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\ISyncEvent.hpp" />
+    <ClInclude Include="..\..\Source\Core\Threading\ScopedReadLock.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\ScopedLock.hpp" />
+    <ClInclude Include="..\..\Source\Core\Threading\ScopedWriteLock.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\Semaphore.hpp" />
+    <ClInclude Include="..\..\Source\Core\Threading\ReadWriteLock.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\Windows\Win32NativeThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\Windows\Win32SyncEvent.hpp" />
     <ClInclude Include="..\..\Source\Core\Time\CyclePerformance.hpp" />

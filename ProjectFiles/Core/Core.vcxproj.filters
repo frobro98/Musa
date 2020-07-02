@@ -64,6 +64,9 @@
     <Filter Include="Source\File">
       <UniqueIdentifier>{386ea910-a1fb-4058-8455-9a41468bb04b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Threading\Containers">
+      <UniqueIdentifier>{d250f1e3-4b02-442f-b1b4-b5c45af1d2be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Time\EngineTick.cpp">
@@ -191,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Threading\IThreadExecution.cpp">
       <Filter>Source\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32ReadWriteLock.cpp">
+      <Filter>Source\Threading\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +511,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Logging\LogLineEntry.hpp">
       <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\Containers\ConcurrentQueue.hpp">
+      <Filter>Source\Threading\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\Containers\LockingQueue.hpp">
+      <Filter>Source\Threading\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\ReadWriteLock.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\ScopedReadLock.hpp">
+      <Filter>Source\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Threading\ScopedWriteLock.hpp">
+      <Filter>Source\Threading</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

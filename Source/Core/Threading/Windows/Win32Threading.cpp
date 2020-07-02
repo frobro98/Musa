@@ -22,6 +22,19 @@ ISyncEvent* CreateSyncEvent(bool isManualReset)
 	return event;
 }
 
+u32 GetCurrentThreadID()
+{
+	return ::GetCurrentThreadId();
+}
+
+u32 GetNumberOfHWThreads()
+{
+	// TODO - This call is probably something we can cache...
+	SYSTEM_INFO sysInfo;
+	::GetSystemInfo(&sysInfo);
+	return sysInfo.dwNumberOfProcessors;
+}
+
 i8  InterlockedExchange(volatile i8* dest, i8 value)
 {
 	return ::_InterlockedExchange8((volatile char*)dest, value);

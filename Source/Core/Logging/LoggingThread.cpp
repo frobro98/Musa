@@ -16,7 +16,6 @@ LoggingThread::~LoggingThread()
 {
 	// TODO - If I am to cache OS sync events, I should push it back here
 	RequestStop();
-	linePushedSemaphore->Signal();
 }
 
 void LoggingThread::AddLogSink(LogSink& sink)
@@ -91,4 +90,5 @@ void LoggingThread::RequestStop()
 {
 	// TODO - This needs to be an atomic operation...
 	stopRequested = true;
+	linePushedSemaphore->Signal();
 }

@@ -27,7 +27,7 @@ void JobSystem::Initialize()
 	u32 index = 1;
 	for (auto& jobThread : jobThreads)
 	{
-		jobThread = new JobThread(*this, index, systemSleepPrim);
+		//jobThread = new JobThread(*this, index, systemSleepPrim);
 		++index;
 	}
 }
@@ -40,8 +40,8 @@ void JobSystem::StartSystem()
 	}
 
 	{
-		NotifyLock lock(systemSleepPrim.mut);
-		systemSleepPrim.condVar.notify_all();
+		//NotifyLock lock(systemSleepPrim.mut);
+		//systemSleepPrim.condVar.notify_all();
 	}
 }
 

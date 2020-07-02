@@ -48,13 +48,13 @@ public:
 	{
 		if (ShouldLogAtLevel(level))
 		{
-			PushLineToLog(logChannel, logLevel, msg, Strlen(msg));
+			PushLineToLog(logChannel, level, msg, Strlen(msg));
 		}
 	}
 
 	forceinline bool ShouldLogAtLevel(LogLevel::Type level)
 	{
-		return level <= logLevel;
+		return level >= logLevel;
 	}
 
 	forceinline void SetLogLevel(LogLevel::Type level)
