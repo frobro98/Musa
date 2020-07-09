@@ -201,6 +201,11 @@ echo         Copied PDBs!</Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_AddRemove.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_Find.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_InsertEmplace.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_Query.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\Containers\Queue_PushPop.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Archetype_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_AddComp.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\Entity_CreateDestroy.cpp" />

@@ -31,6 +31,9 @@
     <Filter Include="UnitTests\ECS\TestComponents">
       <UniqueIdentifier>{95fcee8f-da54-4bbc-8cf7-344c789cd7ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UnitTests\Containers">
+      <UniqueIdentifier>{28e69071-d203-429c-9464-8f4436350ae3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\UnitTests\UnitTestMain.cpp" />
@@ -144,6 +147,21 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\UnitTests\ECS\System_ChunkBehaviors.cpp">
       <Filter>UnitTests\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_AddRemove.cpp">
+      <Filter>UnitTests\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_InsertEmplace.cpp">
+      <Filter>UnitTests\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_Find.cpp">
+      <Filter>UnitTests\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\Containers\DynamicArray_Query.cpp">
+      <Filter>UnitTests\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UnitTests\Containers\Queue_PushPop.cpp">
+      <Filter>UnitTests\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

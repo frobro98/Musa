@@ -36,10 +36,7 @@ void LoggingThread::RemoveSink(LogSink& sink)
 
 void LoggingThread::PushLogLine(const LogLineEntry& logLine)
 {
-	{
-		ScopedLock logEntryLock(unprocessedCriticalSection);
-		entriesToProcess.Add(logLine);
-	}
+	entriesToProcess.Push(logLine);
 	linePushedSemaphore->Signal();
 }
 
@@ -59,12 +56,8 @@ void LoggingThread::ThreadBody()
 	{
 
 		LogLineEntry entry;
-		{
-			ScopedLock logEntryLock(unprocessedCriticalSection);
-			REF_CHECK(entriesToProcess.Last());
-			entry = entriesToProcess.Last();
-			entriesToProcess.RemoveLast();
-		}
+		Assert(!entriesToProcess.IsEmpty());
+		entry = entriesToProcess.Pop();
 
 		{
 			ScopedLock sinkLock(sinksCriticalSection);

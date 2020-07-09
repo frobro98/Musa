@@ -3,6 +3,7 @@
 #include "Threading/IThreadExecution.hpp"
 #include "Threading/NativeThread.hpp"
 #include "Threading/ScopedLock.hpp"
+#include "Threading/Containers/LockingQueue.hpp"
 #include "BasicTypes/UniquePtr.hpp"
 #include "Logging/LogSink.hpp"
 #include "Logging/LogLineEntry.hpp"
@@ -36,8 +37,7 @@ private:
 	CriticalSection sinksCriticalSection;
 	DynamicArray<LogSink*> logOutputSinks;
 
-	CriticalSection unprocessedCriticalSection;
-	DynamicArray<LogLineEntry> entriesToProcess;
+	LockingQueue<LogLineEntry> entriesToProcess;
 
 	DynamicArray<LogLineEntry> logLineEntries;
 	NativeThread* logThread;
