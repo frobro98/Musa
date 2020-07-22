@@ -305,32 +305,26 @@ void VulkanGraphicsInterface::PushTextureData(NativeTexture& texture, const Reso
 
 NativeSampler* VulkanGraphicsInterface::CreateTextureSampler(const SamplerDescription& params)
 {
-	MUSA_DEBUG(VulkanLog, "Creating Texture Sampler");
 	return new VulkanSampler(*logicalDevice, params);
 }
 
 UniquePtr<NativeViewport> VulkanGraphicsInterface::CreateViewport(void * windowHandle, u32 viewWidth, u32 viewHeight)
 {
-	MUSA_DEBUG(VulkanLog, "Creating Viewport");
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
 UniquePtr<NativeVertexBuffer> VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
 {
-	MUSA_DEBUG(VulkanLog, "Creating Vertex Buffer");
 	return new VulkanVertexBuffer(*logicalDevice, vertices);
 }
 
 UniquePtr<NativeIndexBuffer> VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
 {
-	MUSA_DEBUG(VulkanLog, "Creating Index Buffer");
 	return new VulkanIndexBuffer(*logicalDevice, faces);
 }
 
 UniquePtr<NativeUniformBuffer> VulkanGraphicsInterface::CreateUniformBuffer(u32 bufferSize) const
 {
-	MUSA_DEBUG(VulkanLog, "Creating Uniform Buffer");
-
 	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
 }
 

@@ -203,7 +203,6 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			case WM_SETCURSOR:
 			{
-				MUSA_DEBUG(Win32, "Window Set Cursor Event");
 				// If the DefWindowProc processes this, it doesn't update the cursor for some reason
 				return 0;
 			}
