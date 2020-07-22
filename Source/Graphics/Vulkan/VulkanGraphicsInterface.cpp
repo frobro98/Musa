@@ -28,6 +28,7 @@
 #include "VulkanShaderHeader.hpp"
 #include "VulkanShaders.h"
 
+DEFINE_LOG_CHANNEL(VulkanLog);
 DEFINE_LOG_CHANNEL(VkValidation);
 
 constexpr const tchar* validationLayers[] = {
@@ -104,6 +105,7 @@ static void UploadTextureBlob(VulkanDevice& logicalDevice, const ResourceBlob& b
 
 void VulkanGraphicsInterface::InitializeGraphics()
 {
+	MUSA_INFO(VulkanLog, "Vulkan Graphics is used");
 	CreateInstance();
 
 	logicalDevice = new VulkanDevice();
@@ -114,6 +116,8 @@ void VulkanGraphicsInterface::InitializeGraphics()
 
 void VulkanGraphicsInterface::DeinitializeGraphics()
 {
+	MUSA_INFO(VulkanLog, "Vulkan Graphics deinitialized");
+
 	GetDescriptorLayoutManager().Deinitialize();
 
 	renderContext.Reset();
@@ -125,6 +129,7 @@ void VulkanGraphicsInterface::DeinitializeGraphics()
 
 UniquePtr<NativeVertexShader> VulkanGraphicsInterface::CreateVertexShader(const MemoryBuffer& vertexCode)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Vertex Shader");
 	MemoryDeserializer memoryBuffer(vertexCode);
 
 	VulkanShaderHeader header;
@@ -139,6 +144,8 @@ UniquePtr<NativeVertexShader> VulkanGraphicsInterface::CreateVertexShader(const 
 
 UniquePtr<NativeFragmentShader> VulkanGraphicsInterface::CreateFragmentShader(const MemoryBuffer& fragmentCode)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Fragment Shader");
+
 	MemoryDeserializer memoryBuffer(fragmentCode);
 
 	VulkanShaderHeader header;
@@ -153,6 +160,8 @@ UniquePtr<NativeFragmentShader> VulkanGraphicsInterface::CreateFragmentShader(co
 
 UniquePtr<NativeGeometryShader> VulkanGraphicsInterface::CreateGeometryShader(const MemoryBuffer& geometryCode)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Geometry Shader");
+
 	MemoryDeserializer memoryBuffer(geometryCode);
 
 	VulkanShaderHeader header;
@@ -167,6 +176,8 @@ UniquePtr<NativeGeometryShader> VulkanGraphicsInterface::CreateGeometryShader(co
 
 UniquePtr<NativeTessEvaluationShader> VulkanGraphicsInterface::CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Tessellation Evaluation Shader");
+
 	MemoryDeserializer memoryBuffer(tessEvalCode);
 
 	VulkanShaderHeader header;
@@ -181,6 +192,8 @@ UniquePtr<NativeTessEvaluationShader> VulkanGraphicsInterface::CreateTessEvaluat
 
 UniquePtr<NativeTessControlShader> VulkanGraphicsInterface::CreateTessControlShader(const MemoryBuffer& tessCtrlCode)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Tessellation Control Shader");
+
 	MemoryDeserializer memoryBuffer(tessCtrlCode);
 
 	VulkanShaderHeader header;
@@ -195,6 +208,8 @@ UniquePtr<NativeTessControlShader> VulkanGraphicsInterface::CreateTessControlSha
 
 UniquePtr<NativeComputeShader> VulkanGraphicsInterface::CreateComputeShader(const MemoryBuffer& computeCode)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Compute Shader");
+
 	MemoryDeserializer memoryBuffer(computeCode);
 
 	VulkanShaderHeader header;
@@ -215,6 +230,8 @@ UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(
 	TextureUsage::Type usage
 )
 {
+	MUSA_DEBUG(VulkanLog, "Creating Empty Texture 2D");
+
 	VkFormat imageFormat = MusaFormatToVkFormat(textureFormat);
 
 	VkImageUsageFlags usageFlags = 0;
@@ -247,6 +264,10 @@ UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateInitializedTexture2D(
 	u32 mipLevels, 
 	TextureUsage::Type usage)
 {
+	// TODO - Figure out why there are different paths for creating a texture and if I can just set texture data myself later on...
+
+	MUSA_DEBUG(VulkanLog, "Creating Initialized Texture 2D");
+
 	VkFormat imageFormat = MusaFormatToVkFormat(textureFormat);
 
 	VkImageUsageFlags usageFlags = 0;
@@ -284,26 +305,32 @@ void VulkanGraphicsInterface::PushTextureData(NativeTexture& texture, const Reso
 
 NativeSampler* VulkanGraphicsInterface::CreateTextureSampler(const SamplerDescription& params)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Texture Sampler");
 	return new VulkanSampler(*logicalDevice, params);
 }
 
 UniquePtr<NativeViewport> VulkanGraphicsInterface::CreateViewport(void * windowHandle, u32 viewWidth, u32 viewHeight)
 {
+	MUSA_DEBUG(VulkanLog, "Creating Viewport");
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
 UniquePtr<NativeVertexBuffer> VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
 {
+	MUSA_DEBUG(VulkanLog, "Creating Vertex Buffer");
 	return new VulkanVertexBuffer(*logicalDevice, vertices);
 }
 
 UniquePtr<NativeIndexBuffer> VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
 {
+	MUSA_DEBUG(VulkanLog, "Creating Index Buffer");
 	return new VulkanIndexBuffer(*logicalDevice, faces);
 }
 
 UniquePtr<NativeUniformBuffer> VulkanGraphicsInterface::CreateUniformBuffer(u32 bufferSize) const
 {
+	MUSA_DEBUG(VulkanLog, "Creating Uniform Buffer");
+
 	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
 }
 
@@ -325,6 +352,8 @@ RenderContext* VulkanGraphicsInterface::GetRenderContext()
 
 void VulkanGraphicsInterface::CreateInstance()
 {
+	MUSA_DEBUG(VulkanLog, "Instance Creation");
+
 	VkDebugReportFlagsEXT debugFlags =
 		//VK_DEBUG_REPORT_INFORMATION_BIT_EXT |
 		VK_DEBUG_REPORT_WARNING_BIT_EXT |

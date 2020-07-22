@@ -28,6 +28,8 @@ DEFINE_LOG_CHANNEL(DefaultLog);
 class CORE_API Logger
 {
 public:
+	void InitLogging(LogLevel::Type level);
+
 	template <typename... Args>
 	forceinline void Log(const LogChannel& logChannel, LogLevel::Type level, const tchar* msg, Args&&... args)
 	{
@@ -66,13 +68,12 @@ public:
 		return logLevel;
 	}
 
-	void AddLogSink(LogSink& sink);
-	void RemoveLogSink(LogSink& sink);
+	void AddLogSink(LogSink* sink);
+	void RemoveLogSink(LogSink* sink);
 
 private:
 	void PushLineToLog(const LogChannel& logChannel, LogLevel::Type level, const tchar* msg, size_t msgSize);
 
-	friend CORE_API void InitializeLogger(LogLevel::Type level);
 private:
 	// Threading!
 	LoggingThread* loggingThread = nullptr;
@@ -81,7 +82,6 @@ private:
 };
 
 CORE_API void InitializeLogger(LogLevel::Type level);
-CORE_API void DeinitializeLogger();
 CORE_API Logger& GetLogger();
 
 

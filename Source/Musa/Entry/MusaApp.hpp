@@ -26,6 +26,7 @@ public:
 	IntVector2 GetMousePosition() const;
 
 private:
+	void InitializeAppLogging();
 	void InitializeOSInput();
 	void InitializeApplicationWindow();
 	void SetupGameEngine();

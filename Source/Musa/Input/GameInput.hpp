@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "BasicTypes/Function.hpp"
 #include "Input/IInputReceiver.hpp"
 #include "Input/InputSettings.hpp"
 #include "Input/PlayerInputContext.hpp"

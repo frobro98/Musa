@@ -89,13 +89,15 @@
       <AdditionalDependencies>File_d.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Core_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
@@ -119,7 +121,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
@@ -127,10 +129,12 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalDependencies>File.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -152,7 +156,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
@@ -160,10 +164,12 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalDependencies>File.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

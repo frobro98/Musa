@@ -18,7 +18,7 @@ class Semaphore;
 class LoggingThread : IThreadExecution
 {
 public:
-	LoggingThread(DynamicArray<LogSink*>&& sinks);
+	LoggingThread();
 	~LoggingThread();
 
 	void AddLogSink(LogSink& sink);

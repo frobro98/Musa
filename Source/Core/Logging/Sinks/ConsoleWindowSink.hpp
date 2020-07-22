@@ -5,7 +5,7 @@
 #include "Logging/LogLevel.hpp"
 
 // TODO - This is very much windows specific, so there needs to be some way to get at this without actually creating Win32Console stuff...
-class ConsoleWindowSink final : public LogSink
+class CORE_API ConsoleWindowSink final : public LogSink
 {
 public:
 	ConsoleWindowSink();

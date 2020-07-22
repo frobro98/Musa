@@ -194,14 +194,16 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\." &gt; nul
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalDependencies>Core_d.lib;Graphics_d.lib;Archiver_d.lib;Texture_d.lib;glslangd_64.lib;mcpp_64d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
@@ -227,7 +229,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Core.lib;Graphics.lib;Archiver.lib;Texture.lib;glslang_64.lib;mcpp_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>File.lib;glslang_64.lib;mcpp_64.lib</AdditionalDependencies>
@@ -236,10 +238,12 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\." &gt; nul
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -263,7 +267,7 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Core.lib;Graphics.lib;Archiver.lib;Texture.lib;glslang_64.lib;mcpp_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>File.lib;glslang_64.lib;mcpp_64.lib</AdditionalDependencies>
@@ -272,10 +276,12 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\." &gt; nul
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -64,6 +64,7 @@
     <ClInclude Include="..\..\Source\Core\BasicTypes\Color.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\ConcurrentTypes.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Extents.hpp" />
+    <ClInclude Include="..\..\Source\Core\BasicTypes\Function.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\FunctionRef.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Intrinsics.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Limits.hpp" />
@@ -241,10 +242,12 @@
       <PreprocessorDefinitions>CORE_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>
@@ -279,10 +282,12 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>
@@ -314,10 +319,12 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>

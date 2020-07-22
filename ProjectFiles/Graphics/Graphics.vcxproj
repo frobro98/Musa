@@ -92,14 +92,16 @@
       <AdditionalDependencies>vulkan-1.lib;EngineCore_d.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalDependencies>Core_d.lib;Math_d.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
@@ -123,17 +125,19 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Core.lib;Math.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;EngineCore.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -156,17 +160,19 @@ copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Core.lib;Math.lib;vulkan-1.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;C:\VulkanSDK\1.0.39.1\Bin\</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;EngineCore.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>mkdir "$(SolutionDir)\Binaries" &gt; nul
-copy "$(OutputPath)\*.dll" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.lib" "$(SolutionDir)\Binaries\."
-copy "$(OutputPath)\*.pdb" "$(SolutionDir)\Binaries\."</Command>
+      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
+
+mkdir %targetDir% &gt; nul
+copy "$(OutputPath)\*.dll" %targetDir%
+copy "$(OutputPath)\*.lib" %targetDir%
+copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

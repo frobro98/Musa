@@ -3,7 +3,9 @@
 #include "Framework/UnitTest.h"
 #include "Logging/LogCore.hpp"
 
-int main()
+
+
+int main(int argc,  char** argv)
 {
 	//InitializeLogger(LogLevel::Info);
 

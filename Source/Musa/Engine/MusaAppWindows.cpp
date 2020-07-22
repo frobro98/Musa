@@ -11,6 +11,9 @@
 #include "Input/Internal/ControllerInputUtilities.hpp"
 #include "Math/MathFunctions.hpp"
 #include "Containers/MemoryBuffer.hpp"
+#include "Logging/LogCore.hpp"
+
+DEFINE_LOG_CHANNEL(Win32);
 
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
@@ -167,6 +170,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 		{
 			case WM_ACTIVATEAPP:
 			{
+				MUSA_DEBUG(Win32, "Windows App Activated");
+
 				// Deactivating the app allows for the mouse to move freely again. This is done because the app isn't "active"
 				// Because of this, most of the input behavior won't happen, like setting the position to be the middle of the screen 
 				// or whatever every frame. This is the main thing that's prevented the mouse from moving outside of the engine....
@@ -177,15 +182,20 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			case  WM_CLOSE:
 			{
+				MUSA_DEBUG(Win32, "Window Close Event");
+
 				inputHandler->HandleWindowClose();
 			}break;
 
 			case WM_DESTROY:
 			{
+				MUSA_DEBUG(Win32, "Window Destroy Event");
 			}break;
 
 			case WM_SIZE:
 			{
+				MUSA_DEBUG(Win32, "Window Resize Event");
+
 				u32 width = LOWORD(lParam);
 				u32 height = HIWORD(lParam);
 				inputHandler->HandleWindowResized(width, height);
@@ -193,6 +203,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			case WM_SETCURSOR:
 			{
+				MUSA_DEBUG(Win32, "Window Set Cursor Event");
 				// If the DefWindowProc processes this, it doesn't update the cursor for some reason
 				return 0;
 			}
@@ -405,6 +416,8 @@ void ProcessControllerButtons(WindowInputHandler& inputHandler, u32 controllerIn
 MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
 	: MusaAppOS(std::move(inputHandler))
 {
+	MUSA_INFO(Win32, "Initializing Windows Application");
+
 	instance = (HINSTANCE)GetModuleHandle(nullptr);
 
 	WNDCLASSEX windowClass = {};
@@ -425,6 +438,9 @@ MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
 
 Window* MusaAppWindows::CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height)
 {
+	MUSA_DEBUG(Win32, "Create Win32 Window (x: {} y: {} w: {} h: {}",
+		xPos, yPos, width, height);
+
 	return new Window(instance, *inputHandler, xPos, yPos, width, height);
 }
 
@@ -446,6 +462,8 @@ void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
 
 void MusaAppWindows::ShowCursor(bool showCursor)
 {
+	MUSA_DEBUG(Win32, "ShowCursor: {}", showCursor);
+
 	::ShowCursor(showCursor);
 }
 
@@ -464,6 +482,9 @@ IntVector2 MusaAppWindows::GetMousePosition() const
 
 void MusaAppWindows::LockCursorToRect(const IntRect& rect)
 {
+	MUSA_DEBUG(Win32, "Locked Cursor to Rect (x: {} y: {} w: {} h: {}",
+		rect.x, rect.y, rect.width, rect.height);
+
 	RECT r = {};
 	r.left = rect.x;
 	r.top = rect.y;
@@ -474,6 +495,7 @@ void MusaAppWindows::LockCursorToRect(const IntRect& rect)
 
 void MusaAppWindows::UnlockCursorFromRect()
 {
+	MUSA_DEBUG(Win32, "Unlocked Cursor");
 	::ClipCursor(nullptr);
 }
 

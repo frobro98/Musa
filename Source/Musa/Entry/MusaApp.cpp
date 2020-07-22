@@ -1,6 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "MusaApp.hpp"
+#include "File/DirectoryLocations.hpp"
 #include "Engine/MusaAppWindows.hpp"
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
@@ -8,6 +9,11 @@
 #include "Shader/ShaderDefinition.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Logging/LogCore.hpp"
+#include "Logging/Sinks/ConsoleWindowSink.hpp"
+#include "Logging/Sinks/DebugOutputWindowSink.hpp"
+#include "Logging/Sinks/LogFileSink.hpp"
+
+DEFINE_LOG_CHANNEL(AppLog);
 
 constexpr i32 width = 1080;
 constexpr i32 height = 720;
@@ -20,11 +26,12 @@ MusaApp::MusaApp()
 
 void MusaApp::LaunchApplication()
 {
-	InitializeLogger(LogLevel::Debug);
-	MUSA_INFO(DefaultLog, "Log has been initialized!!");
+	InitializeAppLogging();
+	MUSA_INFO(AppLog, "Initializing Application");
 	InitializeOSInput();
 	InitializeApplicationWindow();
 
+	MUSA_INFO(AppLog, "Initializing Graphics Layer");
 	GetGraphicsInterface().InitializeGraphics();
 	InitializeShaders();
 
@@ -41,8 +48,6 @@ void MusaApp::LaunchApplication()
 
 	// TODO - image views are trying to be destroyed when still in use by command buffer in flight...
 	GetGraphicsInterface().DeinitializeGraphics();
-
-	DeinitializeLogger();
 }
 
 void MusaApp::LockCursor()
@@ -76,6 +81,23 @@ IntVector2 MusaApp::GetMousePosition() const
 	return osApp->GetMousePosition();
 }
 
+void MusaApp::InitializeAppLogging()
+{
+	// TODO - This should be named whatever the game name is determined to be
+	Path logFilePath = Path(EngineLogPath()) / "musa.log";
+
+#if M_DEBUG
+	GetLogger().InitLogging(LogLevel::Debug);
+#else
+	GetLogger().InitLogging(LogLevel::Info);
+#endif
+
+	GetLogger().AddLogSink(new ConsoleWindowSink);
+	GetLogger().AddLogSink(new DebugOutputWindowSink);
+	GetLogger().AddLogSink(new LogFileSink(logFilePath));
+
+}
+
 void MusaApp::InitializeOSInput()
 {
 	Input::InitializeInput(*this);
@@ -86,10 +108,12 @@ void MusaApp::InitializeOSInput()
 
 void MusaApp::InitializeApplicationWindow()
 {
+	MUSA_INFO(AppLog, "Initializing App Window");
 	Assert(osApp);
 	appWindow = osApp->CreateGameWindow(0, 0, width, height);
 	Assert(appWindow.IsValid());
 
+	MUSA_DEBUG(AppLog, "Hooking up Input to Window");
 	osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
 	uiContext->SetWindow(*appWindow);
 }

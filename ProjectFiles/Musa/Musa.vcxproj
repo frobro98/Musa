@@ -226,19 +226,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
-    <OutDir>$(SolutionDir)Game\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -256,7 +259,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>freetyped.lib;Core_d.lib;ECS_d.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Math_d.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>MSVCRT;LIBCMTD</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
@@ -269,28 +272,10 @@
       </Command>
     </PreBuildEvent>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Binaries\Core_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader_d.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS_d.dll" "$(OutputPath)" &gt; nul
-echo         Copied Musa Dlls!
-
-copy "$(SolutionDir)Binaries\Core_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader_d.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS_d.pdb" "$(OutputPath)" &gt; nul
-echo         Copied PDBs!</Command>
-      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -311,7 +296,7 @@ echo         Copied PDBs!</Command>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;Core.lib;ECS.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Math.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -323,28 +308,10 @@ echo         Copied PDBs!</Command>
       </Command>
     </PreBuildEvent>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Binaries\Core.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
-echo         Copied Musa Dlls!
-
-copy "$(SolutionDir)Binaries\Core.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
-echo         Copied PDBs!</Command>
-      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'">
@@ -368,7 +335,7 @@ echo         Copied PDBs!</Command>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;Core.lib;ECS.lib;Graphics.lib;Archiver.lib;Shader.lib;Texture.lib;Math.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -382,28 +349,10 @@ echo         Copied PDBs!</Command>
       </Command>
     </PreBuildEvent>
     <CustomBuildStep>
-      <Command>copy "$(SolutionDir)Binaries\Core.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.dll" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.dll" "$(OutputPath)" &gt; nul
-echo         Copied Musa Dlls!
-
-copy "$(SolutionDir)Binaries\Core.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Math.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\File.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.pdb" "$(OutputPath)" &gt; nul
-copy "$(SolutionDir)Binaries\ECS.pdb" "$(OutputPath)" &gt; nul
-echo         Copied PDBs!</Command>
-      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

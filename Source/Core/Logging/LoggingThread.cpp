@@ -3,8 +3,7 @@
 #include "Threading/Semaphore.hpp"
 #include "BasicTypes/Limits.hpp"
 
-LoggingThread::LoggingThread(DynamicArray<LogSink*>&& sinks)
-	: logOutputSinks(std::move(sinks))
+LoggingThread::LoggingThread()
 {
 	linePushedSemaphore = new Semaphore(0, I32Max);
 	// NOTE - These calls shouldn't be combined

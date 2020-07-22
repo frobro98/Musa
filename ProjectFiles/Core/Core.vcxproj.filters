@@ -527,5 +527,8 @@
     <ClInclude Include="..\..\Source\Core\Threading\ScopedWriteLock.hpp">
       <Filter>Source\Threading</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\BasicTypes\Function.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

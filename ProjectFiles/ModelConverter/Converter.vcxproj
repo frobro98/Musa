@@ -145,7 +145,7 @@ echo         Copied libfbxsdk.dll! </Command>
     <Link>
       <AdditionalDependencies>Core_d.lib;Texture_d.lib;libfbxsdk.lib;Math_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)ThirdParty\lib\FBX\_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib\FBX\_Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -229,7 +229,7 @@ echo         Copied libfbxsdk.dll! </Command>
     <Link>
       <AdditionalDependencies>libfbxsdk.lib;Core.lib;Texture.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries;$(SolutionDir)ThirdParty\lib\FBX\_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib\FBX\_Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
