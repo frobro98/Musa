@@ -9,9 +9,12 @@
 #include "Internal/MemoryBlockInfoTable.hpp"
 #include "Platform/PlatformMemory.hpp"
 #include "Threading/ScopedLock.hpp"
+//#include "Logging/LogCore.hpp"
 
 // TODO - This will be replaced with logging
 #include "Debugging/DebugOutput.hpp"
+
+//DEFINE_LOG_CHANNEL(MemInternal);
 
 namespace Memory::Internal
 {

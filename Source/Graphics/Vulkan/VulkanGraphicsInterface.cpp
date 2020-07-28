@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "Utilities/Array.hpp"
-#include "Logging/LogCore.hpp"
+#include "Logging/LogFunctions.hpp"
 
 #include "ResourceBlob.hpp"
 #include "Serialization/MemoryDeserializer.hpp"

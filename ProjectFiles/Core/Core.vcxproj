@@ -111,7 +111,9 @@
     <ClInclude Include="..\..\Source\Core\fmt\printf.h" />
     <ClInclude Include="..\..\Source\Core\fmt\ranges.h" />
     <ClInclude Include="..\..\Source\Core\GUID\Guid.hpp" />
+    <ClInclude Include="..\..\Source\Core\Logging\CoreLogChannels.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogCore.hpp" />
+    <ClInclude Include="..\..\Source\Core\Logging\LogFunctions.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogLineEntry.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LoggingThread.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogLevel.hpp" />

@@ -7,17 +7,17 @@
 MemoryBuffer LoadFileToMemory(const tchar* filePath)
 {
 	File::Handle handle;
-	File::Result result = File::Open(handle, filePath, File::Mode::READ);
-	Assert(result == File::Result::SUCCESS);
+	FileResult result = File::Open(handle, filePath, FileMode::Read);
+	Assert(result == FileResult::Success);
 
 	u32 fileSize;
 	File::Size(handle, fileSize);
 	MemoryBuffer fileData(fileSize);
 	result = File::Read(handle, fileData.GetData(), fileSize);
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	result = File::Close(handle);
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	return fileData;
 }

@@ -20,8 +20,8 @@ static fmt::memory_buffer logLineEntryBuffer;
 
 LogFileSink::LogFileSink(const Path& filePath)
 {
-	File::Result result = File::Open(logFileHandle, filePath.GetString(), File::Mode::WRITE);
-	Assert(result == File::Result::SUCCESS);
+	FileResult result = File::Open(logFileHandle, filePath.GetString(), FileMode::Write);
+	Assert(result == FileResult::Success);
 
 	fmt::memory_buffer logHeader;
 	FormatDateAndTime(logHeader);
@@ -31,12 +31,12 @@ LogFileSink::LogFileSink(const Path& filePath)
 LogFileSink::~LogFileSink()
 {
 	const tchar* endLogText = "Log closed, application terminated\n";
-	File::Result result = File::Write(logFileHandle, endLogText, (u32)Strlen(endLogText));
-	Assert(result == File::Result::SUCCESS);
+	FileResult result = File::Write(logFileHandle, endLogText, (u32)Strlen(endLogText));
+	Assert(result == FileResult::Success);
 
 	// TODO - Say when we closed it, just so we know when the thread terminated...
 	result = File::Close(logFileHandle);
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 }
 
 void LogFileSink::OutputFormattedString(const LogLineEntry& entry)
@@ -46,8 +46,8 @@ void LogFileSink::OutputFormattedString(const LogLineEntry& entry)
 	fmt::format_to(logLineEntryBuffer, "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
 		ToString(entry.level), *entry.logSlot, entry.logSlot.Length(), *entry.logMsg);
 
-	NOT_USED File::Result result = File::Write(logFileHandle, logLineEntryBuffer.data(), (u32)logLineEntryBuffer.size());
-	Assert(result == File::Result::SUCCESS);
+	NOT_USED FileResult result = File::Write(logFileHandle, logLineEntryBuffer.data(), (u32)logLineEntryBuffer.size());
+	Assert(result == FileResult::Success);
 
 	logLineEntryBuffer.clear();
 }

@@ -67,6 +67,9 @@
     <Filter Include="Source\Threading\Containers">
       <UniqueIdentifier>{d250f1e3-4b02-442f-b1b4-b5c45af1d2be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\File\Windows">
+      <UniqueIdentifier>{84a0cea5-5610-43dd-8374-675f0177504b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Time\EngineTick.cpp">
@@ -529,6 +532,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\BasicTypes\Function.hpp">
       <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\CoreLogChannels.hpp">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Logging\LogFunctions.hpp">
+      <Filter>Source\Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

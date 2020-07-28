@@ -212,14 +212,14 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 {
 	std::string file = fileName + ".skel";
 	File::Handle skeletonFile;
-	File::Result result = File::Open(skeletonFile, file.c_str(), File::Mode::WRITE);
-	Assert(result == File::Result::SUCCESS);
+	FileResult result = File::Open(skeletonFile, file.c_str(), FileMode::Write);
+	Assert(result == FileResult::Success);
 
 	SkeletonHeader header;
 	u32 hierarchyOffset, tableOffset, poseDataOffset;
 	header.boneCount = (u32)hierarchy.size();
 	result = File::Write(skeletonFile, &header, sizeof(SkeletonHeader));
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	File::Tell(skeletonFile, hierarchyOffset);
 	header.boneHierarchyOffset = hierarchyOffset;
@@ -232,22 +232,22 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 		data.parentIndex = hier.parentIndex;
 
 		result = File::Write(skeletonFile, &data, sizeof(SingleBoneData));
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 	}
 
 	File::Tell(skeletonFile, tableOffset);
 	header.boneTableOffset = tableOffset;
 	result = File::Write(skeletonFile, &hierarchyTable.maxElementLength, sizeof(u32));
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	for (const auto& elem : hierarchyTable.tableElements)
 	{
 		u32 numParents = static_cast<u32>(elem.boneParentHierarchy.size());
 		result = File::Write(skeletonFile, &numParents, sizeof(u32));
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 
 		result = File::Write(skeletonFile, elem.boneParentHierarchy.data(), sizeof(u32) * numParents);
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 	}
 
 	
@@ -263,16 +263,16 @@ void SaveHierarchy(const std::string& fileName, const std::vector<Hierarchy>& hi
 			data.inversePoseMatrix = pose.invPoseMat;
 
 			result = File::Write(skeletonFile, &data, sizeof(BonePoseData));
-			Assert(result == File::Result::SUCCESS);
+			Assert(result == FileResult::Success);
 		}
 	}
 
-	File::Seek(skeletonFile, File::Location::BEGIN, 0);
+	File::Seek(skeletonFile, FileLocation::Begin, 0);
 	result = File::Write(skeletonFile, &header, sizeof(SkeletonHeader));
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	result = File::Close(skeletonFile);
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 }
 
 void SaveOutAnimation(u32 skeletonHash, const std::vector<AnimationClip>& clips, Time::Duration frameRate)
@@ -282,8 +282,8 @@ void SaveOutAnimation(u32 skeletonHash, const std::vector<AnimationClip>& clips,
 		printf("\n\nSAVING OUT THE DATA\\n\n");
 		std::string file = clip.name + ".anim";
 		File::Handle animationFile;
-		File::Result result = File::Open(animationFile, file.c_str(), File::Mode::WRITE);
-		Assert(result == File::Result::SUCCESS);
+		FileResult result = File::Open(animationFile, file.c_str(), FileMode::Write);
+		Assert(result == FileResult::Success);
 
 		AnimationHeader header;
 		clip.name.copy(header.animationName, AnimationNameLength);
@@ -295,7 +295,7 @@ void SaveOutAnimation(u32 skeletonHash, const std::vector<AnimationClip>& clips,
 		header.frameRate = frameRate;
 
 		result = File::Write(animationFile, &header, sizeof(AnimationHeader));
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 
 		for (const Frame& keyFrame : clip.frames)
 		{
@@ -305,7 +305,7 @@ void SaveOutAnimation(u32 skeletonHash, const std::vector<AnimationClip>& clips,
 			frame.boneFrameData = nullptr;
 
 			result = File::Write(animationFile, &frame, sizeof(KeyFrame));
-			Assert(result == File::Result::SUCCESS);
+			Assert(result == FileResult::Success);
 
 			for (const FrameData& data : keyFrame.bonesPerFrame)
 			{
@@ -316,27 +316,27 @@ void SaveOutAnimation(u32 skeletonHash, const std::vector<AnimationClip>& clips,
 				);
 
 				result = File::Write(animationFile, &data, sizeof(FrameData));
-				Assert(result == File::Result::SUCCESS);
+				Assert(result == FileResult::Success);
 			}
 		}
 
 		result = File::Close(animationFile);
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 	}
 }
 
 u32 GetSkeletonHash(const std::string& fileName)
 {
 	File::Handle fHandle;
-	File::Result result = File::Open(fHandle, fileName.c_str(), File::Mode::READ);
-	Assert(result == File::Result::SUCCESS);
+	FileResult result = File::Open(fHandle, fileName.c_str(), FileMode::Read);
+	Assert(result == FileResult::Success);
 
 	ChunkHeader header;
 	result = File::Read(fHandle, &header, sizeof(ChunkHeader));
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	result = File::Close(fHandle);
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	return header.hashNum;
 }
@@ -1634,8 +1634,8 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		std::string file = modelData.modelName + ".model";
 
 		File::Handle modelHandle;
-		File::Result result = File::Open(modelHandle, file.c_str(), File::Mode::WRITE);
-		Assert(result == File::Result::SUCCESS);
+		FileResult result = File::Open(modelHandle, file.c_str(), FileMode::Write);
+		Assert(result == FileResult::Success);
 
 		ModelFileHeader modelHeader;
 		modelHeader.boundingSphere = boundingSphere;
@@ -1646,23 +1646,23 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 		modelData.modelName.copy(modelHeader.objName, len);
 
 		result = File::Write(modelHandle, &modelHeader, sizeof(ModelFileHeader));
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 
 		File::Tell(modelHandle, modelHeader.vertBufferOffset);
 
 		result = File::Write(modelHandle, modelData.vertices.GetData(), sizeof(Vertex) * modelData.vertices.Size());
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 		File::Tell(modelHandle, modelHeader.facesBufferOffset);
 
 		result = File::Write(modelHandle, modelData.faces.GetData(), sizeof(Face) * modelData.faces.Size());
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 
-		File::Seek(modelHandle, File::Location::BEGIN, 0);
+		File::Seek(modelHandle, FileLocation::Begin, 0);
 		result = File::Write(modelHandle, &modelHeader, sizeof(ModelFileHeader));
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 
 		result = File::Close(modelHandle);
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 
 		printf("Chunking Model Data... \n");
 		ChunkModel(modelData.modelName);
@@ -1673,14 +1673,14 @@ void ReduceAndSaveModelData(const std::vector<VertexWithFace>& verts, const std:
 			// Chunk out the weights for the skin
 			file = modelData.modelName + ".wghts";
 			File::Handle weightsFile;
-			result = File::Open(weightsFile, file.c_str(), File::Mode::WRITE);
-			Assert(result == File::Result::SUCCESS);
+			result = File::Open(weightsFile, file.c_str(), FileMode::Write);
+			Assert(result == FileResult::Success);
 
 			result = File::Write(weightsFile, modelData.weights.GetData(), sizeof(VertexBoneWeights) * modelData.weights.Size());
-			Assert(result == File::Result::SUCCESS);
+			Assert(result == FileResult::Success);
 
 			result = File::Close(weightsFile);
-			Assert(result == File::Result::SUCCESS);
+			Assert(result == FileResult::Success);
 
 			printf("Chunking Skin Data for mesh %s... \n", modelData.modelName.c_str());
 			ChunkWeights(modelData.modelName);

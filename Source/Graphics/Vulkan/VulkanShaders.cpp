@@ -18,18 +18,16 @@ MemoryBuffer LoadSPVShader(const tchar* shaderFile)
 	String filePath(EngineShaderSrcPath());
 	filePath += shaderFile;
 	File::Handle fHandle;
-	File::Result result  = File::Open(fHandle, *filePath, File::Mode::READ);
+	FileResult result  = File::Open(fHandle, *filePath, FileMode::Read);
 	// TODO - This probably shouldn't be an assert. This should look in other places and then assert if it can't find files in the other places as well
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	u32 fileSize;
-	File::Seek(fHandle, File::Location::END, 0);
-	File::Tell(fHandle, fileSize);
-	File::Seek(fHandle, File::Location::BEGIN, 0);
+	File::Size(fHandle, fileSize);
 
 	MemoryBuffer fileData(fileSize);
 	result = File::Read(fHandle, fileData.GetData(), fileSize);
-	Assert(result == File::Result::SUCCESS);
+	Assert(result == FileResult::Success);
 
 	File::Close(fHandle);
 

@@ -27,9 +27,9 @@ bool ProcessPackage(
 	hash = 0;
 
 	File::Handle fHandle;
-	File::Result result = File::Result::SUCCESS;
-	result = File::Open(fHandle, fileName, File::Mode::READ);
-	if (result != File::Result::SUCCESS)
+	FileResult result = FileResult::Success;
+	result = File::Open(fHandle, fileName, FileMode::Read);
+	if (result != FileResult::Success)
 	{
 		return false;
 	}
@@ -73,9 +73,8 @@ bool ProcessHash(const char* fileName, Chunk type, const char* chunkName, u32& h
 {
 	hash = 0;
 	File::Handle fHandle;
-	File::Result result = File::Result::SUCCESS;
-	result = File::Open(fHandle, fileName, File::Mode::READ);
-	if (result != File::Result::SUCCESS)
+	FileResult result = File::Open(fHandle, fileName, FileMode::Read);
+	if (result != FileResult::Success)
 	{
 		return false;
 	}

@@ -1,0 +1,9 @@
+// Copyright 2020, Nathan Blane
+
+#pragma once
+
+#include "Logging/LogChannel.hpp"
+
+DEFINE_LOG_CHANNEL(SerializationLog);
+DEFINE_LOG_CHANNEL(DeserializationLog);
+

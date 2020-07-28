@@ -8,7 +8,7 @@
 #include "Input/Internal/InputInternal.hpp"
 #include "Shader/ShaderDefinition.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "Logging/LogCore.hpp"
+#include "Logging/LogFunctions.hpp"
 #include "Logging/Sinks/ConsoleWindowSink.hpp"
 #include "Logging/Sinks/DebugOutputWindowSink.hpp"
 #include "Logging/Sinks/LogFileSink.hpp"

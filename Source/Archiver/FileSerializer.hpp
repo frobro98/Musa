@@ -23,6 +23,7 @@ private:
 
 private:
 	MemoryBuffer serializedData;
+	Path pathToFile;
 	File::Handle handle;
 	u32 bufferWriteIndex = 0;
 };

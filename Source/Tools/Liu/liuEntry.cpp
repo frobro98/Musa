@@ -41,43 +41,41 @@ void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLe
 
 
 	File::Handle outFileHandle;
-	File::Result result = File::Result::SUCCESS;
-	result = File::Open(outFileHandle, outputFile, File::Mode::WRITE);
-	FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be opened!");
+	FileResult result = FileResult::Success;
+	result = File::Open(outFileHandle, outputFile, FileMode::Write);
+	FILE_CHECK(result == FileResult::Success, "Output file couldn't be opened!");
 
 	result = File::Write(outFileHandle, &header, sizeof(PackageHeader));
-	FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be written to!");
+	FILE_CHECK(result == FileResult::Success, "Output file couldn't be written to!");
 
 	for (u32 i = 0; i < dirDesc.numberOfFiles; ++i)
 	{
 		const char* file = *dirDesc.files[i];
 		File::Handle fileHandle;
-		result = File::Open(fileHandle, file, File::Mode::READ);
-		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be opened");
+		result = File::Open(fileHandle, file, FileMode::Read);
+		FILE_CHECK(result == FileResult::Success, "Intermediate File couldn't be opened");
 
 		u32 fileSize;
-		File::Seek(fileHandle, File::Location::END, 0);
-		File::Tell(fileHandle, fileSize);
-		File::Seek(fileHandle, File::Location::BEGIN, 0);
+		File::Size(fileHandle, fileSize);
 		FILE_CHECK_VA(fileSize > 0, "%s doesn't exist!\n", file);
 		packageFileSize += fileSize;
 
 		MemoryBuffer fileData(fileSize);
 		result = File::Read(fileHandle, fileData.GetData(), fileSize * sizeof(u8));
-		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be read");
+		FILE_CHECK(result == FileResult::Success, "Intermediate File couldn't be read");
 
 		result = File::Close(fileHandle);
-		FILE_CHECK(result == File::Result::SUCCESS, "Intermediate File couldn't be closed");
+		FILE_CHECK(result == FileResult::Success, "Intermediate File couldn't be closed");
 
 		result = File::Write(outFileHandle, fileData.GetData(), fileSize * sizeof(u8));
-		FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be written to!");
+		FILE_CHECK(result == FileResult::Success, "Output file couldn't be written to!");
 	}
 
 	header.totalSize = packageFileSize;
 
-	File::Seek(outFileHandle, File::Location::BEGIN, 0);
+	File::Seek(outFileHandle, FileLocation::Begin, 0);
 	File::Write(outFileHandle, &header, sizeof(PackageHeader));
-	FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be written to!");
+	FILE_CHECK(result == FileResult::Success, "Output file couldn't be written to!");
 
 	File::Close(outFileHandle);
 }

@@ -90,32 +90,32 @@ static const char* DetermineSPVExtensionFrom(ShaderStage stage)
 static void SaveSPVInformation(const Path& outputShaderFile, const ShaderStructure& shaderInfo)
 {
 	File::Handle h;
-	File::Result result = File::Open(h, outputShaderFile.GetString(), File::Mode::WRITE);
-	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to open file %s\n", outputShaderFile.GetString());
+	FileResult result = File::Open(h, outputShaderFile.GetString(), FileMode::Write);
+	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to open file %s\n", outputShaderFile.GetString());
 
 	result = File::Write(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(u32) * (u32)shaderInfo.compiledOutput.shaderCode.Size());
-	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to write file %s\n", outputShaderFile.GetString());
+	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to write file %s\n", outputShaderFile.GetString());
 
 	result = File::Close(h);
-	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to close file %s\n", outputShaderFile.GetString());
+	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to close file %s\n", outputShaderFile.GetString());
 }
 
 static void SavePreprocessedGLSL(const Path& outputShaderFile, const PreprocessedShaderOutput& output)
 {
 	File::Handle h;
-	File::Result result = File::Open(h, outputShaderFile.GetString(), File::Mode::WRITE);
-	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to open file %s\n", outputShaderFile.GetString());
+	FileResult result = File::Open(h, outputShaderFile.GetString(), FileMode::Write);
+	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to open file %s\n", outputShaderFile.GetString());
 
 	result = File::Write(h, *output.outputGlsl, output.outputGlsl.Length());
-	if (result != File::Result::SUCCESS)
+	if (result != FileResult::Success)
 	{
 		u32 err = GetLastError();
 		printf("%u\n", err);
 	}
-	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to write file %s\n", outputShaderFile.GetString());
+	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to write file %s\n", outputShaderFile.GetString());
 
 	result = File::Close(h);
-	FILE_CHECK_VA(result == File::Result::SUCCESS, "Error when trying to close file %s\n", outputShaderFile.GetString());
+	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to close file %s\n", outputShaderFile.GetString());
 }
 
 static void PrintHelp()

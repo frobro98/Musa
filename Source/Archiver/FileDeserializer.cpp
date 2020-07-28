@@ -2,21 +2,29 @@
 
 #include "FileDeserializer.hpp"
 #include "Utilities/MemoryUtilities.hpp"
+#include "Logging/CoreLogChannels.hpp"
+#include "Logging/LogFunctions.hpp"
 
 FileDeserializer::FileDeserializer(const Path& filePath)
+	: pathToFile(filePath)
 {
-	auto result = File::Open(handle, filePath.GetString(), File::Mode::READ);
-	Assert(result == File::Result::SUCCESS);
-	if (result != File::Result::SUCCESS)
+	auto result = File::Open(handle, pathToFile.GetString(), FileMode::Read);
+	if (result != FileResult::Success)
 	{
-		Assert(false);
+		// TODO - Logging
+		MUSA_ERR(DeserializationLog, "Failed to open file {}", *pathToFile.GetFileName());
 	}
 	CacheFile();
 }
 
 FileDeserializer::~FileDeserializer()
 {
-	File::Close(handle);
+	auto result = File::Close(handle);
+	if (result != FileResult::Success)
+	{
+		// TODO - GetLastError
+		MUSA_ERR(DeserializationLog, "Failed to close file {}", *pathToFile.GetFileName());
+	}
 }
 
 void FileDeserializer::DeserializeData(void* data, size_t dataSize)
@@ -33,5 +41,10 @@ void FileDeserializer::CacheFile()
 	File::Size(handle, fileSize);
 	fileData.IncreaseSize(fileSize);
 
-	File::Read(handle, fileData.GetData(), fileSize);
+	FileResult result = File::Read(handle, fileData.GetData(), fileSize);
+	if (result != FileResult::Success)
+	{
+		// TODO - GetLastError
+		MUSA_ERR(DeserializationLog, "Failed to read from file {}", *pathToFile.GetFileName());
+	}
 }

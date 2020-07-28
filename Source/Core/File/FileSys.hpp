@@ -6,48 +6,47 @@
 #include "Path/Path.hpp"
 #include "CoreAPI.hpp"
 
-// TODO - Refactor the shit out of this.........
+enum class FileMode : u32
+{
+	Read,
+	Write,
+	ReadWrite
+};
+
+enum class FileLocation : u32
+{
+	Begin,
+	Current,
+	End
+};
+
+enum class FileResult : u32
+{
+	Success,
+	OpenFail,
+	CloseFail,
+	WriteFail,
+	ReadFail,
+	SeekFail,
+	TellFail,
+	FlushFail
+};
+
 class CORE_API File
 {
 public:
 
 	typedef void* Handle;
 
-	enum class Mode : u32
-	{
-		READ,
-		WRITE,
-		READ_WRITE
-	};
-
-	enum class Location : u32
-	{
-		BEGIN,
-		CURRENT,
-		END
-	};
-
-	enum class Result : u32
-	{
-		SUCCESS,
-		OPEN_FAIL,
-		CLOSE_FAIL,
-		WRITE_FAIL,
-		READ_FAIL,
-		SEEK_FAIL,
-		TELL_FAIL,
-		FLUSH_FAIL
-	};
-
 public:
-   static File::Result Open( File::Handle &fh, const tchar * const fileName, File::Mode mode );
-   static File::Result Close( File::Handle fh );
-   static File::Result Write( File::Handle fh, const void * const buffer, u32 inSize );
-   static File::Result Read( File::Handle fh, void * const _buffer, u32 _size );
-   static File::Result Size(File::Handle fh, u32& fileSize);
-   static File::Result Seek( File::Handle fh, File::Location location, i32 offset );
-   static File::Result Tell( File::Handle fh, u32 &offset );
-   static File::Result Flush( File::Handle fh );
+   static FileResult Open( File::Handle &fh, const tchar * const fileName, FileMode mode );
+   static FileResult Close( File::Handle fh );
+   static FileResult Write( File::Handle fh, const void * const buffer, u32 inSize );
+   static FileResult Read( File::Handle fh, void * const _buffer, u32 _size );
+   static FileResult Size(File::Handle fh, u32& fileSize);
+   static FileResult Seek( File::Handle fh, FileLocation location, i32 offset );
+   static FileResult Tell( File::Handle fh, u32 &offset );
+   static FileResult Flush( File::Handle fh );
 
    static bool DoesDirectoryExist(const Path& path);
    static bool DoesFileExist(const Path& path);

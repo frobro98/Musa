@@ -69,8 +69,8 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 	if (!fileContents)
 	{
 		File::Handle shaderFile = 0;
-		auto result = File::Open(shaderFile, filename, File::Mode::READ);
-		Assert(result == File::Result::SUCCESS);
+		auto result = File::Open(shaderFile, filename, FileMode::Read);
+		Assert(result == FileResult::Success);
 
 		u32 size;
 		File::Size(shaderFile, size);
@@ -79,7 +79,7 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 		{
 			DynamicArray<tchar> data(size + 1);
 			result = File::Read(shaderFile, data.GetData(), size);
-			Assert(result == File::Result::SUCCESS);
+			Assert(result == FileResult::Success);
 
 			data[size] = 0;
 			fileContentsMap.Add(path, data);
@@ -88,7 +88,7 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 		}
 
 		result = File::Close(shaderFile);
-		Assert(result == File::Result::SUCCESS);
+		Assert(result == FileResult::Success);
 	}
 
 	if (outContents)

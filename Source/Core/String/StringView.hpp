@@ -5,7 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "Debugging/Assertion.hpp"
 #include "CStringUtilities.hpp"
-#include "String.h"
+#include "String/String.h"
 #include "Utilities/HashFuncs.hpp"
 
 class String;

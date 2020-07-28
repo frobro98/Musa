@@ -11,7 +11,7 @@
 #include "Input/Internal/ControllerInputUtilities.hpp"
 #include "Math/MathFunctions.hpp"
 #include "Containers/MemoryBuffer.hpp"
-#include "Logging/LogCore.hpp"
+#include "Logging/LogFunctions.hpp"
 
 DEFINE_LOG_CHANNEL(Win32);
 

@@ -23,6 +23,7 @@ private:
 
 private:
 	MemoryBuffer fileData;
+	Path pathToFile;
 	File::Handle handle;
 	u32 bufferReadLoc = 0;
 };

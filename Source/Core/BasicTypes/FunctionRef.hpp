@@ -4,8 +4,6 @@
 
 #include <type_traits>
 
-#include "Assertion.h"
-
 template <typename Sig>
 class FunctionRef;
 

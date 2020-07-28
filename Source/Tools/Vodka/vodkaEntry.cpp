@@ -55,24 +55,24 @@ bool StrToChunkType(const char* type, Chunk& chunkType)
 
 void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk chunkType, const char* name, size_t nameLen)
 {
-	File::Result result = File::Result::SUCCESS;
+	FileResult result = FileResult::Success;
 	File::Handle fHandle;
 	File::Handle fHandleOutput;
-	File::Open(fHandle, inputFile, File::Mode::READ);
-	FILE_CHECK(result == File::Result::SUCCESS, "Input file doesn't exist!\n");
+	File::Open(fHandle, inputFile, FileMode::Read);
+	FILE_CHECK(result == FileResult::Success, "Input file doesn't exist!\n");
 
 	u32 fileSize;
-	File::Seek(fHandle, File::Location::END, 0);
+	File::Seek(fHandle, FileLocation::End, 0);
 	File::Tell(fHandle, fileSize);
-	File::Seek(fHandle, File::Location::BEGIN, 0);
+	File::Seek(fHandle, FileLocation::Begin, 0);
 	FILE_CHECK(fileSize > 0, "Input file doesn't exist!\n");
 
 	MemoryBuffer fileData(fileSize);
 	File::Read(fHandle, fileData.GetData(), fileSize * sizeof(u8));
-	FILE_CHECK(result == File::Result::SUCCESS, "Input file reading error!\n");
+	FILE_CHECK(result == FileResult::Success, "Input file reading error!\n");
 
 	result = File::Close(fHandle);
-	FILE_CHECK(result == File::Result::SUCCESS, "Input file closing error!\n");
+	FILE_CHECK(result == FileResult::Success, "Input file closing error!\n");
 
 	ChunkHeader header = {};
 	header.type = chunkType;
@@ -83,14 +83,14 @@ void CreateFileWithHeader(const char* inputFile, const char* outputFile, Chunk c
 	MD5Buffer(fileData.GetData(), static_cast<u32>(fileSize), output);
 	header.hashNum = output.dWord_3 ^ output.dWord_2 ^ output.dWord_1 ^ output.dWord_0;
 
-	result = File::Open(fHandleOutput, outputFile, File::Mode::WRITE);
-	FILE_CHECK(result == File::Result::SUCCESS, "Output file couldn't be opened!\n");
+	result = File::Open(fHandleOutput, outputFile, FileMode::Write);
+	FILE_CHECK(result == FileResult::Success, "Output file couldn't be opened!\n");
 
 	result = File::Write(fHandleOutput, &header, sizeof(ChunkHeader));
-	FILE_CHECK(result == File::Result::SUCCESS, "Output file writing error!\n");
+	FILE_CHECK(result == FileResult::Success, "Output file writing error!\n");
 
 	result = File::Write(fHandleOutput, fileData.GetData(), fileSize * sizeof(u8));
-	FILE_CHECK(result == File::Result::SUCCESS, "Output file writing error!\n");
+	FILE_CHECK(result == FileResult::Success, "Output file writing error!\n");
 
 	File::Close(fHandleOutput);
 }
