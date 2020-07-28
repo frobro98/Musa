@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "Platform/Platform.hpp"
-#include "FileSys.hpp"
+#include "FileSystem.hpp"
 #include "Debugging/Assertion.hpp"
 
 unsigned int FileModeToWin32Access(FileMode mode)
@@ -35,7 +35,7 @@ unsigned int FileLocationToWin32FP(FileLocation location)
 }
 
 // TODO - There needs to be some way to pass in flags that dictate the file behavior. This is pretty simplistic
-FileResult File::Open( File::Handle &fh, const tchar * const fileName, FileMode mode )
+bool FileSystem::OpenFile( FileSystem::Handle &fh, const tchar * const fileName, FileMode mode )
 {
 	DWORD fileAccess = FileModeToWin32Access(mode);
 
@@ -48,109 +48,95 @@ FileResult File::Open( File::Handle &fh, const tchar * const fileName, FileMode 
 		mode == FileMode::Read ? FILE_ATTRIBUTE_READONLY : (DWORD)FILE_ATTRIBUTE_NORMAL,
 		nullptr
 	);
-
-	if (fh == INVALID_HANDLE_VALUE)
-	{
-		//DWORD err = GetLastError();
-		return FileResult::OpenFail;
-	}
-
-	return 	FileResult::Success;
+	return fh != INVALID_HANDLE_VALUE;
 }
 
-FileResult File::Close( const File::Handle fh )
+bool FileSystem::CloseFile( FileSystem::Handle fh )
 {
-	if (!CloseHandle(fh))
-	{
-		return FileResult::CloseFail;
-	}
-
-	return 	FileResult::Success;
+	return CloseHandle(fh);
 }
 
-FileResult File::Write( File::Handle fh, const void* const buffer, u32 inSize )
+bool FileSystem::WriteFile( FileSystem::Handle fh, const void* buffer, u32 inSize )
 {
-	if (buffer == nullptr || inSize == (size_t)-1)
-	{
-		return FileResult::WriteFail;
-	}
+	Assert(buffer);
 
 	DWORD bytesWritten;
-	bool result = WriteFile(fh, buffer, inSize, &bytesWritten, nullptr);
+	bool result = ::WriteFile(fh, buffer, inSize, &bytesWritten, nullptr);
 	if (result == false)
 	{
-		return FileResult::WriteFail;
+		// TODO - Logging
 	}
 
-	return 	FileResult::Success;
-}
-
-FileResult File::Read( File::Handle fh,  void* const buffer, u32 inSize )
-{
-	if (buffer == nullptr)
-	{
-		return FileResult::ReadFail;
-	}
-
-	DWORD bytesRead;
-	bool result = ReadFile(fh, buffer, inSize, &bytesRead, nullptr);
-
-	if (result == false)
-	{
-		return FileResult::ReadFail;
-	}
-
-	return FileResult::Success;
-}
-
-FileResult File::Size(File::Handle fh, u32& fileSize)
-{
-	// Assumes file is at the beginning!
-	FileResult result = File::Seek(fh, FileLocation::End, 0);
-	Assert(result == FileResult::Success);
-
-	result = File::Tell(fh, fileSize);
-	Assert(result == FileResult::Success);
-
-	result = File::Seek(fh, FileLocation::Begin, 0);
 	return result;
 }
 
-FileResult File::Seek( File::Handle fh, FileLocation location, i32 offset )
+bool FileSystem::ReadFile( FileSystem::Handle fh,  void* buffer, u32 size)
+{
+	Assert(buffer);
+
+	DWORD bytesRead;
+	bool result = ::ReadFile(fh, buffer, size, &bytesRead, nullptr);
+
+	if (result == false)
+	{
+		// TODO - Logging
+	}
+
+	return result;
+}
+
+u64 FileSystem::FileSize(FileSystem::Handle fh)
+{
+	LARGE_INTEGER fileSize;
+	GetFileSizeEx(fh, &fileSize);
+	return fileSize.QuadPart;
+}
+
+bool FileSystem::SeekFile( FileSystem::Handle fh, FileLocation location, i32 offset )
 {
 	DWORD moveMethod = FileLocationToWin32FP(location);
 	DWORD result = SetFilePointer(fh, offset, nullptr, moveMethod);
 	if (result == INVALID_SET_FILE_POINTER)
 	{
-		return FileResult::SeekFail;
+		// TODO - Logging
 	}
 
-	return 	FileResult::Success;
+	return result != INVALID_SET_FILE_POINTER;
 }
 
-FileResult File::Tell( File::Handle fh, u32 &offset )
+u32 FileSystem::TellFile( FileSystem::Handle fh)
 {
-	offset = SetFilePointer(fh, 0, nullptr, FILE_CURRENT);
+	u32 offset = SetFilePointer(fh, 0, nullptr, FILE_CURRENT);
 	if (offset == INVALID_SET_FILE_POINTER)
 	{
-		return FileResult::TellFail;
+		// TODO - Logging
 	}
 
-	return FileResult::Success;
+	return offset;
 }
 
-FileResult File::Flush( File::Handle fh )
+bool FileSystem::FlushFile( FileSystem::Handle fh )
 {
 	bool result = FlushFileBuffers(fh);
 	if (result == false)
 	{
-		return FileResult::FlushFail;
+		// TODO - Logging
 	}
 
-	return 	FileResult::Success;
+	return result;
 }
 
-bool File::DoesDirectoryExist(const Path& path)
+bool FileSystem::MakeDirectory(const Path& path)
+{
+	return ::CreateDirectory(path.GetString(), nullptr);
+}
+
+bool FileSystem::RemoveDirectory(const Path& path)
+{
+	return ::RemoveDirectory(path.GetString());
+}
+
+bool FileSystem::DoesDirectoryExist(const Path& path)
 {
 	if (!path.IsEmpty())
 	{
@@ -161,7 +147,7 @@ bool File::DoesDirectoryExist(const Path& path)
 	return false;
 }
 
-bool File::DoesFileExist(const Path& path)
+bool FileSystem::DoesFileExist(const Path& path)
 {
 	if (!path.IsEmpty())
 	{

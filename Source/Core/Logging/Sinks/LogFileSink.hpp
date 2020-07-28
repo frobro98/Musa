@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Logging/LogSink.hpp"
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 
 // TODO - This currently doesn't make sense to use outside of the logger
 // This doesn't really offer much except logging the entire log to a file. 
@@ -16,5 +16,5 @@ public:
 	virtual void OutputFormattedString(const LogLineEntry& entry) override;
 
 private:
-	File::Handle logFileHandle;
+	FileSystem::Handle logFileHandle;
 };

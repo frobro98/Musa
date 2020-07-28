@@ -177,9 +177,6 @@
     <ClCompile Include="..\..\Source\Core\File\md5.cpp">
       <Filter>Source\File</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\File\FileSys.cpp">
-      <Filter>Source\File</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\File\DirectoryUtilities.cpp">
       <Filter>Source\File</Filter>
     </ClCompile>
@@ -200,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Threading\Windows\Win32ReadWriteLock.cpp">
       <Filter>Source\Threading\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\File\FileSystem.cpp">
+      <Filter>Source\File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,9 +494,6 @@
     <ClInclude Include="..\..\Source\Core\File\DirectoryUtilities.hpp">
       <Filter>Source\File</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Core\File\FileSys.hpp">
-      <Filter>Source\File</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Time\Time.h">
       <Filter>Source\Time</Filter>
     </ClInclude>
@@ -538,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Logging\LogFunctions.hpp">
       <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\File\FileSystem.hpp">
+      <Filter>Source\File</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

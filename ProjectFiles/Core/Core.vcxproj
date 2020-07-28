@@ -25,7 +25,7 @@
     <ClCompile Include="..\..\Source\Core\Debugging\ProfilerStatistics.cpp" />
     <ClCompile Include="..\..\Source\Core\File\DirectoryLocations.cpp" />
     <ClCompile Include="..\..\Source\Core\File\DirectoryUtilities.cpp" />
-    <ClCompile Include="..\..\Source\Core\File\FileSys.cpp" />
+    <ClCompile Include="..\..\Source\Core\File\FileSystem.cpp" />
     <ClCompile Include="..\..\Source\Core\File\FileUtilities.cpp" />
     <ClCompile Include="..\..\Source\Core\File\md5.cpp" />
     <ClCompile Include="..\..\Source\Core\fmt\format.cc" />
@@ -95,7 +95,7 @@
     <ClInclude Include="..\..\Source\Core\Debugging\ProfilerStatistics.hpp" />
     <ClInclude Include="..\..\Source\Core\File\DirectoryLocations.hpp" />
     <ClInclude Include="..\..\Source\Core\File\DirectoryUtilities.hpp" />
-    <ClInclude Include="..\..\Source\Core\File\FileSys.hpp" />
+    <ClInclude Include="..\..\Source\Core\File\FileSystem.hpp" />
     <ClInclude Include="..\..\Source\Core\File\FileUtilities.hpp" />
     <ClInclude Include="..\..\Source\Core\File\md5.h" />
     <ClInclude Include="..\..\Source\Core\fmt\chrono.h" />

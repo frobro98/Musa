@@ -2,22 +2,21 @@
 
 #include "Debugging/Assertion.hpp"
 #include "FileUtilities.hpp"
-#include "FileSys.hpp"
+#include "FileSystem.hpp"
 
 MemoryBuffer LoadFileToMemory(const tchar* filePath)
 {
-	File::Handle handle;
-	FileResult result = File::Open(handle, filePath, FileMode::Read);
-	Assert(result == FileResult::Success);
+	FileSystem::Handle handle;
+	bool result = FileSystem::OpenFile(handle, filePath, FileMode::Read);
+	Assert(result);
 
-	u32 fileSize;
-	File::Size(handle, fileSize);
+	u64 fileSize = FileSystem::FileSize(handle);
 	MemoryBuffer fileData(fileSize);
-	result = File::Read(handle, fileData.GetData(), fileSize);
-	Assert(result == FileResult::Success);
+	result = FileSystem::ReadFile(handle, fileData.GetData(), (u32)fileSize);
+	Assert(result);
 
-	result = File::Close(handle);
-	Assert(result == FileResult::Success);
+	result = FileSystem::CloseFile(handle);
+	Assert(result);
 
 	return fileData;
 }

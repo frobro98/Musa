@@ -4,7 +4,7 @@
 #include "Debugging/Assertion.hpp"
 #include "String/String.h"
 #include "File/DirectoryLocations.hpp"
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 #include "Path/Path.hpp"
 
 static void AddDefinition(const String& macro, const String& macroDef, String& definitions)
@@ -68,18 +68,17 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 	fileContents = fileContentsMap.Find(path);
 	if (!fileContents)
 	{
-		File::Handle shaderFile = 0;
-		auto result = File::Open(shaderFile, filename, FileMode::Read);
-		Assert(result == FileResult::Success);
+		FileSystem::Handle shaderFile = 0;
+		bool result = FileSystem::OpenFile(shaderFile, filename, FileMode::Read);
+		Assert(result);
 
-		u32 size;
-		File::Size(shaderFile, size);
+		u32 size = (u32)FileSystem::FileSize(shaderFile);
 
 		if (size > 0)
 		{
 			DynamicArray<tchar> data(size + 1);
-			result = File::Read(shaderFile, data.GetData(), size);
-			Assert(result == FileResult::Success);
+			result = FileSystem::ReadFile(shaderFile, data.GetData(), size);
+			Assert(result);
 
 			data[size] = 0;
 			fileContentsMap.Add(path, data);
@@ -87,8 +86,8 @@ int ShaderPreprocessor::Mcpp_Process(void* userData, const char* filename, const
 			Assert(fileContents);
 		}
 
-		result = File::Close(shaderFile);
-		Assert(result == FileResult::Success);
+		result = FileSystem::CloseFile(shaderFile);
+		Assert(result);
 	}
 
 	if (outContents)

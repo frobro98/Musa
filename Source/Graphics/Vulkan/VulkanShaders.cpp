@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 
 #include "String/String.h"
 #include "File/DirectoryLocations.hpp"
@@ -17,19 +17,18 @@ MemoryBuffer LoadSPVShader(const tchar* shaderFile)
 {
 	String filePath(EngineShaderSrcPath());
 	filePath += shaderFile;
-	File::Handle fHandle;
-	FileResult result  = File::Open(fHandle, *filePath, FileMode::Read);
+	FileSystem::Handle fHandle;
+	bool result  = FileSystem::OpenFile(fHandle, *filePath, FileMode::Read);
 	// TODO - This probably shouldn't be an assert. This should look in other places and then assert if it can't find files in the other places as well
-	Assert(result == FileResult::Success);
+	Assert(result);
 
-	u32 fileSize;
-	File::Size(fHandle, fileSize);
+	u64 fileSize = FileSystem::FileSize(fHandle);
 
 	MemoryBuffer fileData(fileSize);
-	result = File::Read(fHandle, fileData.GetData(), fileSize);
-	Assert(result == FileResult::Success);
+	result = FileSystem::ReadFile(fHandle, fileData.GetData(), (u32)fileSize);
+	Assert(result);
 
-	File::Close(fHandle);
+	FileSystem::CloseFile(fHandle);
 
 	return fileData;
 }

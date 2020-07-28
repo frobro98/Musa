@@ -8,8 +8,8 @@
 FileDeserializer::FileDeserializer(const Path& filePath)
 	: pathToFile(filePath)
 {
-	auto result = File::Open(handle, pathToFile.GetString(), FileMode::Read);
-	if (result != FileResult::Success)
+	bool result = FileSystem::OpenFile(handle, pathToFile.GetString(), FileMode::Read);
+	if (!result)
 	{
 		// TODO - Logging
 		MUSA_ERR(DeserializationLog, "Failed to open file {}", *pathToFile.GetFileName());
@@ -19,8 +19,8 @@ FileDeserializer::FileDeserializer(const Path& filePath)
 
 FileDeserializer::~FileDeserializer()
 {
-	auto result = File::Close(handle);
-	if (result != FileResult::Success)
+	bool result = FileSystem::CloseFile(handle);
+	if (!result)
 	{
 		// TODO - GetLastError
 		MUSA_ERR(DeserializationLog, "Failed to close file {}", *pathToFile.GetFileName());
@@ -37,12 +37,11 @@ void FileDeserializer::DeserializeData(void* data, size_t dataSize)
 
 void FileDeserializer::CacheFile()
 {
-	u32 fileSize;
-	File::Size(handle, fileSize);
+	u64 fileSize = FileSystem::FileSize(handle);
 	fileData.IncreaseSize(fileSize);
 
-	FileResult result = File::Read(handle, fileData.GetData(), fileSize);
-	if (result != FileResult::Success)
+	bool result = FileSystem::ReadFile(handle, fileData.GetData(), (u32)fileSize);
+	if (!result)
 	{
 		// TODO - GetLastError
 		MUSA_ERR(DeserializationLog, "Failed to read from file {}", *pathToFile.GetFileName());

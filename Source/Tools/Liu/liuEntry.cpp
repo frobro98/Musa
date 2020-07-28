@@ -4,7 +4,7 @@
 
 #include "Archiver/PackageHeader.h"
 #include "File/DirectoryUtilities.hpp"
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 
 #define FILE_CHECK(x, errStr)						\
 		do {										\
@@ -40,44 +40,43 @@ void PackFilesTogether(char* outputFile, char* packageName, size_t packageNameLe
 	memcpy(header.versionString, packageVersion, versionLen);
 
 
-	File::Handle outFileHandle;
-	FileResult result = FileResult::Success;
-	result = File::Open(outFileHandle, outputFile, FileMode::Write);
-	FILE_CHECK(result == FileResult::Success, "Output file couldn't be opened!");
+	FileSystem::Handle outFileHandle;
+	bool result = FileSystem::OpenFile(outFileHandle, outputFile, FileMode::Write);
+	FILE_CHECK(result, "Output file couldn't be opened!");
 
-	result = File::Write(outFileHandle, &header, sizeof(PackageHeader));
-	FILE_CHECK(result == FileResult::Success, "Output file couldn't be written to!");
+	result = FileSystem::WriteFile(outFileHandle, &header, sizeof(PackageHeader));
+	FILE_CHECK(result, "Output file couldn't be written to!");
 
 	for (u32 i = 0; i < dirDesc.numberOfFiles; ++i)
 	{
 		const char* file = *dirDesc.files[i];
-		File::Handle fileHandle;
-		result = File::Open(fileHandle, file, FileMode::Read);
-		FILE_CHECK(result == FileResult::Success, "Intermediate File couldn't be opened");
+		FileSystem::Handle fileHandle;
+		result = FileSystem::OpenFile(fileHandle, file, FileMode::Read);
+		FILE_CHECK(result, "Intermediate File couldn't be opened");
 
 		u32 fileSize;
-		File::Size(fileHandle, fileSize);
+		fileSize = (u32)FileSystem::FileSize(fileHandle);
 		FILE_CHECK_VA(fileSize > 0, "%s doesn't exist!\n", file);
 		packageFileSize += fileSize;
 
 		MemoryBuffer fileData(fileSize);
-		result = File::Read(fileHandle, fileData.GetData(), fileSize * sizeof(u8));
-		FILE_CHECK(result == FileResult::Success, "Intermediate File couldn't be read");
+		result = FileSystem::ReadFile(fileHandle, fileData.GetData(), fileSize * sizeof(u8));
+		FILE_CHECK(result, "Intermediate File couldn't be read");
 
-		result = File::Close(fileHandle);
-		FILE_CHECK(result == FileResult::Success, "Intermediate File couldn't be closed");
+		result = FileSystem::CloseFile(fileHandle);
+		FILE_CHECK(result, "Intermediate File couldn't be closed");
 
-		result = File::Write(outFileHandle, fileData.GetData(), fileSize * sizeof(u8));
-		FILE_CHECK(result == FileResult::Success, "Output file couldn't be written to!");
+		result = FileSystem::WriteFile(outFileHandle, fileData.GetData(), fileSize * sizeof(u8));
+		FILE_CHECK(result, "Output file couldn't be written to!");
 	}
 
 	header.totalSize = packageFileSize;
 
-	File::Seek(outFileHandle, FileLocation::Begin, 0);
-	File::Write(outFileHandle, &header, sizeof(PackageHeader));
-	FILE_CHECK(result == FileResult::Success, "Output file couldn't be written to!");
+	FileSystem::SeekFile(outFileHandle, FileLocation::Begin, 0);
+	FileSystem::WriteFile(outFileHandle, &header, sizeof(PackageHeader));
+	FILE_CHECK(result, "Output file couldn't be written to!");
 
-	File::Close(outFileHandle);
+	FileSystem::CloseFile(outFileHandle);
 }
 
 int main(int argc, char *argv[])

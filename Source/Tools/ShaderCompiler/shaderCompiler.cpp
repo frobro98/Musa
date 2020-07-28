@@ -4,7 +4,7 @@
 
 #include "Path/Path.hpp"
 #include "String/CStringUtilities.hpp"
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 
 #include "Shader/ShaderCompiler.h"
 #include "Shader/ShaderStructure.hpp"
@@ -89,33 +89,33 @@ static const char* DetermineSPVExtensionFrom(ShaderStage stage)
 
 static void SaveSPVInformation(const Path& outputShaderFile, const ShaderStructure& shaderInfo)
 {
-	File::Handle h;
-	FileResult result = File::Open(h, outputShaderFile.GetString(), FileMode::Write);
-	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to open file %s\n", outputShaderFile.GetString());
+	FileSystem::Handle h;
+	bool result = FileSystem::OpenFile(h, outputShaderFile.GetString(), FileMode::Write);
+	FILE_CHECK_VA(result, "Error when trying to open file %s\n", outputShaderFile.GetString());
 
-	result = File::Write(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(u32) * (u32)shaderInfo.compiledOutput.shaderCode.Size());
-	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to write file %s\n", outputShaderFile.GetString());
+	result = FileSystem::WriteFile(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(u32) * (u32)shaderInfo.compiledOutput.shaderCode.Size());
+	FILE_CHECK_VA(result, "Error when trying to write file %s\n", outputShaderFile.GetString());
 
-	result = File::Close(h);
-	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to close file %s\n", outputShaderFile.GetString());
+	result = FileSystem::CloseFile(h);
+	FILE_CHECK_VA(result, "Error when trying to close file %s\n", outputShaderFile.GetString());
 }
 
 static void SavePreprocessedGLSL(const Path& outputShaderFile, const PreprocessedShaderOutput& output)
 {
-	File::Handle h;
-	FileResult result = File::Open(h, outputShaderFile.GetString(), FileMode::Write);
-	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to open file %s\n", outputShaderFile.GetString());
+	FileSystem::Handle h;
+	bool result = FileSystem::OpenFile(h, outputShaderFile.GetString(), FileMode::Write);
+	FILE_CHECK_VA(result, "Error when trying to open file %s\n", outputShaderFile.GetString());
 
-	result = File::Write(h, *output.outputGlsl, output.outputGlsl.Length());
-	if (result != FileResult::Success)
+	result = FileSystem::WriteFile(h, *output.outputGlsl, output.outputGlsl.Length());
+	if (!result)
 	{
 		u32 err = GetLastError();
 		printf("%u\n", err);
 	}
-	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to write file %s\n", outputShaderFile.GetString());
+	FILE_CHECK_VA(result, "Error when trying to write file %s\n", outputShaderFile.GetString());
 
-	result = File::Close(h);
-	FILE_CHECK_VA(result == FileResult::Success, "Error when trying to close file %s\n", outputShaderFile.GetString());
+	result = FileSystem::CloseFile(h);
+	FILE_CHECK_VA(result, "Error when trying to close file %s\n", outputShaderFile.GetString());
 }
 
 static void PrintHelp()

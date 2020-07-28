@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Path/Path.hpp"
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 #include "Containers/MemoryBuffer.hpp"
 #include "Serialization/SerializeBase.hpp"
 #include "Archiver/ArchiverDll.hpp"
@@ -24,6 +24,6 @@ private:
 private:
 	MemoryBuffer serializedData;
 	Path pathToFile;
-	File::Handle handle;
+	FileSystem::Handle handle;
 	u32 bufferWriteIndex = 0;
 };

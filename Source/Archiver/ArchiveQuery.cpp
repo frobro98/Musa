@@ -6,7 +6,7 @@
 #include "ChunkHeader.h"
 #include "PackageHeader.h"
 
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 
 //---------------------------------------------------------------------------
 // Leave this signature - do your EAT magic here
@@ -26,21 +26,20 @@ bool ProcessPackage(
 	chunkSize = 0;
 	hash = 0;
 
-	File::Handle fHandle;
-	FileResult result = FileResult::Success;
-	result = File::Open(fHandle, fileName, FileMode::Read);
-	if (result != FileResult::Success)
+	FileSystem::Handle fHandle;
+	bool result = FileSystem::OpenFile(fHandle, fileName, FileMode::Read);
+	if (!result)
 	{
 		return false;
 	}
 
 	PackageHeader packHeader = {};
-	File::Read(fHandle, &packHeader, sizeof(PackageHeader));
+	FileSystem::ReadFile(fHandle, &packHeader, sizeof(PackageHeader));
 
 	char* packageData = new char[packHeader.totalSize];
-	File::Read(fHandle, packageData, packHeader.totalSize);
+	FileSystem::ReadFile(fHandle, packageData, packHeader.totalSize);
 
-	File::Close(fHandle);
+	FileSystem::CloseFile(fHandle);
 
 	char* dataPtr = packageData;
 	for (u32 i = 0; i < packHeader.numChunks; ++i)
@@ -72,20 +71,21 @@ bool ProcessPackage(
 bool ProcessHash(const char* fileName, Chunk type, const char* chunkName, u32& hash)
 {
 	hash = 0;
-	File::Handle fHandle;
-	FileResult result = File::Open(fHandle, fileName, FileMode::Read);
-	if (result != FileResult::Success)
+	FileSystem::Handle fHandle;
+	bool result = FileSystem::OpenFile(fHandle, fileName, FileMode::Read);
+	if (!result)
 	{
+		// TODO - Logging
 		return false;
 	}
 
 	PackageHeader packHeader = {};
-	File::Read(fHandle, &packHeader, sizeof(PackageHeader));
+	FileSystem::ReadFile(fHandle, &packHeader, sizeof(PackageHeader));
 
 	char* packageData = new char[packHeader.totalSize];
-	File::Read(fHandle, packageData, packHeader.totalSize);
+	FileSystem::ReadFile(fHandle, packageData, packHeader.totalSize);
 
-	File::Close(fHandle);
+	FileSystem::CloseFile(fHandle);
 
 	char* dataPtr = packageData;
 	for (u32 i = 0; i < packHeader.numChunks; ++i)

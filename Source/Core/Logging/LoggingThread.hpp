@@ -8,7 +8,7 @@
 #include "Logging/LogSink.hpp"
 #include "Logging/LogLineEntry.hpp"
 #include "Time/Timer.h"
-#include "File/FileSys.hpp"
+#include "File/FileSystem.hpp"
 
 class Semaphore;
 
@@ -46,7 +46,7 @@ private:
 
 	Timer loggingTimings;
 
-	File::Handle logFileHandle;
+	FileSystem::Handle logFileHandle;
 
 	// TODO - This needs to be an atomic type of some sort
 	volatile bool stopRequested = false;
