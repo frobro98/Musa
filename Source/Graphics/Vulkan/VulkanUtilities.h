@@ -18,7 +18,7 @@ struct VulkanStagingBuffer;
 VkAccessFlags GetAccessFlagsFor(VkImageLayout layout);
 VkPipelineStageFlags GetStageFor(VkImageLayout layout);
 
-bool PresentationSupported(GPUHandle gpu, u32 queueIndex);
+bool PresentationSupported(VkPhysicalDevice gpu, u32 queueIndex);
 
 void ImageLayoutTransition(VulkanCommandBuffer& cmdBuffer, const VkImageSubresourceRange& resourceRange, VkImageLayout newLayouts, const DynamicArray<VulkanImage*>& images);
 void CopyToDeviceBuffer(VulkanCommandBuffer& cmdBuffer, const VulkanBuffer& stagingBuffer, const VulkanBuffer& dstBuffer);
@@ -40,7 +40,7 @@ VkAttachmentLoadOp MusaLoadToVk(LoadOperation op);
 VkAttachmentStoreOp MusaStoreToVk(StoreOperation op);
 VkBlendOp MusaBlendOpToVk(BlendOperation op);
 VkBlendFactor MusaBlendFactorToVk(BlendFactor factor);
-GRAPHICS_API VkShaderStageFlagBits MusaStageToVkStage(ShaderStage shaderStage);
+GRAPHICS_API VkShaderStageFlagBits MusaStageToVkStage(ShaderStage::Type shaderStage);
 VkFilter MusaFilterToVkFilter(SamplerFilter filter);
 VkSamplerAddressMode MusaAddressModeToVkAddressMode(SamplerAddressMode addrMode);
 VkSamplerMipmapMode MusaMipModeToVkMipMode(SamplerMipmapMode mipMode);

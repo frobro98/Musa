@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Platform.h"
-#include "Utilities/Hash.hpp"
+#include "Platform/Platform.hpp"
+#include "Utilities/HashFuncs.hpp"
 #include "String/CStringUtilities.hpp"
 #include "GUID/Guid.hpp"
 

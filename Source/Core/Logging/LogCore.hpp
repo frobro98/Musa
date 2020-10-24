@@ -10,11 +10,9 @@
 // open file for writing, in-game console, etc.
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "BasicTypes/UniquePtr.hpp"
-#include "String/StringView.hpp"
-#include "Containers/DynamicArray.hpp"
 #include "fmt/format.h"
 #include "CoreAPI.hpp"
+#include "String/CStringUtilities.hpp"
 #include "Logging/LogChannel.hpp"
 #include "Logging/LogLevel.hpp"
 #include "Logging/LogSink.hpp"

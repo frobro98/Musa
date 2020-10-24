@@ -105,7 +105,7 @@ VkPipelineStageFlags GetStageFor(VkImageLayout layout)
 	return flags;
 }
 
-bool PresentationSupported(GPUHandle gpu, u32 queueIndex)
+bool PresentationSupported(VkPhysicalDevice gpu, u32 queueIndex)
 {
 	return vkGetPhysicalDeviceWin32PresentationSupportKHR((VkPhysicalDevice)gpu, queueIndex);
 }
@@ -265,15 +265,15 @@ VkDescriptorType MusaConstantToDescriptorType(ShaderConstant constant)
 {
 	switch (constant.bindingType)
 	{
-		case ShaderConstantType::StorageBuffer:
+		case ShaderResourceType::StorageBuffer:
 			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-		case ShaderConstantType::StorageDynamicBuffer:
+		case ShaderResourceType::StorageDynamicBuffer:
 			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
-		case ShaderConstantType::TextureSampler:
+		case ShaderResourceType::TextureSampler:
 			return VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		case ShaderConstantType::UniformBuffer:
+		case ShaderResourceType::UniformBuffer:
 			return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		case ShaderConstantType::UniformDynamicBuffer:
+		case ShaderResourceType::UniformDynamicBuffer:
 			return VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
 		default:
 			Assert(false);
@@ -512,7 +512,7 @@ VkBlendFactor MusaBlendFactorToVk(BlendFactor factor)
 	}
 }
 
-VkShaderStageFlagBits MusaStageToVkStage(ShaderStage shaderStage)
+VkShaderStageFlagBits MusaStageToVkStage(ShaderStage::Type shaderStage)
 {
 	switch (shaderStage)
 	{

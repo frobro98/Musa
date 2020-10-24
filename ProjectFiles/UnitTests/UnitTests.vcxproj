@@ -170,6 +170,7 @@
     <ClCompile Include="..\..\Source\UnitTests\ECS\System_CreateDestroy.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\System_IterateEntities.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\System_Query.cpp" />
+    <ClCompile Include="..\..\Source\UnitTests\ECS\System_QueryUpdating.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\World_Create.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\ECS\World_SystemUpdate.cpp" />
     <ClCompile Include="..\..\Source\UnitTests\Framework\UnitTest.cpp" />

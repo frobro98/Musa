@@ -38,9 +38,11 @@ public:
 
 private:
 	void CreateInstance();
+	void SetupDebugUtilsFunctions();
 
 private:
-	VkDebugReportCallbackEXT debugReportHandle = VK_NULL_HANDLE;
+	VkDebugUtilsMessengerEXT debugMessengerHandle = VK_NULL_HANDLE;
+	//VkDebugReportCallbackEXT debugReportHandle = VK_NULL_HANDLE;
 	VkInstance instance = VK_NULL_HANDLE;
 
 	UniquePtr<RenderContext> renderContext;

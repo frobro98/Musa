@@ -15,12 +15,12 @@
 
 DEFINE_LOG_CHANNEL(AppLog);
 
-constexpr i32 width = 1080;
-constexpr i32 height = 720;
+constexpr i32 windowWidth = 1080;
+constexpr i32 windowHeight = 720;
 
 MusaApp::MusaApp()
 {
-	uiContext = MakeUnique<UI::Context>(width, height);
+	uiContext = MakeUnique<UI::Context>(windowWidth, windowHeight);
 	gameEngine = MakeUnique<MusaEngine>(*uiContext);
 }
 
@@ -53,7 +53,7 @@ void MusaApp::LaunchApplication()
 void MusaApp::LockCursor()
 {
 	IntVector2 position = appWindow->GetPosition();
-	IntRect rect = {};
+	Recti rect = {};
 	rect.x = position.x;
 	rect.y = position.y;
 	rect.width = appWindow->GetWidth();
@@ -110,7 +110,7 @@ void MusaApp::InitializeApplicationWindow()
 {
 	MUSA_INFO(AppLog, "Initializing App Window");
 	Assert(osApp);
-	appWindow = osApp->CreateGameWindow(0, 0, width, height);
+	appWindow = osApp->CreateGameWindow(0, 0, windowWidth, windowHeight);
 	Assert(appWindow.IsValid());
 
 	MUSA_DEBUG(AppLog, "Hooking up Input to Window");

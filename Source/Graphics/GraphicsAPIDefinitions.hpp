@@ -74,6 +74,12 @@ enum class FillMode : u32
 	Point
 };
 
+enum BlendMode : u32
+{
+	Opaque,
+	Transparent
+};
+
 enum class ColorMask : u8
 {
 	Red = 0x1,

@@ -14,7 +14,7 @@ public:
 	Camera() = default;
 
 	void SetPerspective(float fovDeg, float aspectRatio, float nearPlane, float farPlane);
-	void SetViewport(const IntRect& vp);
+	void SetViewport(const Recti& vp);
 	void SetOrientationAndPosition(const Vector4& lookAt, const Vector4& pos, const Vector4& up);
 
 	Vector4 GetPosition() const;
@@ -39,7 +39,7 @@ public:
 	float GetFarPlane() const;
 	void SetFarPlane(float far);
 
-	IntRect GetCameraViewport() const;
+	Recti GetCameraViewport() const;
 
 private:
 	Matrix4 projection;
@@ -53,7 +53,7 @@ private:
 	Vector4 position;
 	Vector4 lookAt;
 
-	IntRect viewport;
+	Recti viewport;
 
 	Color clearColor{ Color::Black() };
 

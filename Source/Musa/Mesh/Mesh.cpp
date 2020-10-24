@@ -8,30 +8,23 @@
 
 #define offset(s, m) ((void *)((unsigned int)(&s[0].m) - (unsigned int)(s)))
 
-Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList)
-	: vertices(std::move(vertList)),
-	faces(std::move(faceList)),
-	vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertices)),
-	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faces))
+Mesh::Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList)
+	: vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertList)),
+	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faceList))
 {
 
 }
 
-Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, const SphereBounds& colInfo)
-	: vertices(std::move(vertList)),
-	faces(std::move(faceList)),
-	vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertices)),
-	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faces)),
+Mesh::Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList, const SphereBounds& colInfo)
+	: vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertList)),
+	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faceList)),
 	boundingSphere(colInfo)
 {
 }
 
-Mesh::Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, DynamicArray<VertexBoneWeights>&& weights, const SphereBounds& colInfo)
-	: vertices(std::move(vertList)),
-	faces(std::move(faceList)),
-	skinWeights(weights),
-	vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertices)),
-	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faces)),
+Mesh::Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList, const DynamicArray<VertexBoneWeights>& /*weights*/, const SphereBounds& colInfo)
+	: vertexBuffer(GetGraphicsInterface().CreateVertexBuffer(vertList)),
+	indexBuffer(GetGraphicsInterface().CreateIndexBuffer(faceList)),
 	boundingSphere(colInfo)
 {
 }

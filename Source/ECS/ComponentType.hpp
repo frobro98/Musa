@@ -34,13 +34,14 @@ struct ComponentType
 	ComponentTypeHash hash;
 	u16 size = 0;
 	u16 alignment = 0;
+	bool readOnly = false;
 };
 
 template <typename Comp>
-forceinline ComponentType MakeComponentTypeFor()
+constexpr forceinline ComponentType MakeComponentTypeFor()
 {
 	static_assert(std::is_base_of_v<Component, Comp>, "Type passed in as a template parameter must be derived from Musa::Component");
-	static_assert(!std::is_empty_v<Comp>, "A component can't be size 0");
+	static_assert(!std::is_const_v<Comp>, "ComponentType doesn't support const or read only types yet");
 
 	ComponentType type = {};
 
@@ -49,8 +50,19 @@ forceinline ComponentType MakeComponentTypeFor()
 		hash,
 		1ull << (hash % 63ull)
 	};
-	type.size = sizeof(Comp);
-	type.alignment = alignof(Comp);
+
+	if constexpr (std::is_empty_v<Comp>)
+	{
+		type.size = 0;
+		type.alignment = 0;
+	}
+	else
+	{
+		type.size = sizeof(Comp);
+		type.alignment = alignof(Comp);
+	}
+
+	type.readOnly = std::is_const_v<Comp>;
 
 	type.ctor = [](void* ptr)
 	{

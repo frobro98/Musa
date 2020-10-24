@@ -188,9 +188,21 @@ InputEvents GameInput::OnFocusLost()
 	return InputEvents{};
 }
 
-void GameInput::OnActivationChanged(bool activated)
+InputEvents GameInput::OnActivationChanged(bool activated)
 {
-	UNUSED(activated);
+	InputEvents events;
+	if (activated)
+	{
+		events.LockCursor(inputSettings.lockCursorToGame);
+		events.ShowCursor(inputSettings.cursorShown);
+	}
+	else
+	{
+		events.LockCursor(false);
+		events.ShowCursor(true);
+	}
+
+	return events;
 }
 
 void GameInput::OnWindowClose()

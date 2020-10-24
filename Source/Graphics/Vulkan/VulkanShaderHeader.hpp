@@ -4,14 +4,17 @@
 #include "Graphics/Vulkan/VulkanAbstractions.h"
 #include "String/String.h"
 
+constexpr u32 ShaderConstantNameLen = 64;
 struct SpirvBuffer
 {
+	String name;
 	VkDescriptorType bufferType;
 	u32 bindIndex;
 };
 
 struct SpirvSampler
 {
+	String name;
 	VkDescriptorType samplerType;
 	u32 bindIndex;
 };

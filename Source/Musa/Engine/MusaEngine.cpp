@@ -13,7 +13,7 @@
 #include "GameObject/GameObjectManager.h"
 #include "GameObject/GameObject.h"
 #include "Lighting/SpotLight.hpp"
-#include "Shader/Material.h"
+#include "Shader/Material.hpp"
 #include "Model/ModelFactory.h"
 #include "Camera/GodCamera.hpp"
 
@@ -39,8 +39,16 @@
 #include "Graphics/RenderContextUtilities.hpp"
 #include "Graphics/RenderContext.hpp"
 
+// ECS ---------------------
+#include "ECS/Components/CameraComponent.hpp"
+#include "ECS/Components/MeshRenderComponent.hpp"
+#include "ECS/Components/TranslationComponent.hpp"
+#include "ECS/Components/RotationComponent.hpp"
+#include "ECS/Components/InputComponent.hpp"
+// -------------------------
+
 // NOTE - This is for deserializing PAK files.
-// TODO - The way pak files are deserialized, or even structured, needs to either change or be reexampined
+// TODO - The way pak files are deserialized, or even structured, needs to either change or be reexamined
 #include "Archiver/FileDeserializer.hpp"
 #include "Archiver/PackageHeader.h"
 #include "Archiver/ChunkHeader.h"
@@ -179,7 +187,7 @@ void MusaEngine::InitializeSceneView()
 	const i32 height = viewport->GetHeight();
 
 	const f32 aspect = (f32)width / (f32)height;
-	const IntRect viewportDim = { 0, 0, width, height };
+	const Recti viewportDim = { 0, 0, width, height };
 
 	Camera* mainCamera = new Camera;
 	mainCamera->SetViewport(viewportDim);
@@ -448,6 +456,14 @@ void MusaEngine::LoadContent()
 
 	NativeVertexShader& vertShader = GetShader<UnlitVert>()->GetNativeShader();
 	NativeFragmentShader& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
+
+	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
+	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
+			{},
+			geth,
+			new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())
+		}
+	);
 
 	GameObject* gethObject = world->CreateGameObject<GameObject>();
 	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())));

@@ -13,7 +13,7 @@ class Path;
 class SHADER_API ShaderPreprocessor : private Uncopyable
 {
 public:
-	ShaderPreprocessor(ShaderStage stage, const Map<String, String>& definitions);
+	ShaderPreprocessor(ShaderStage::Type stage, const Map<String, String>& definitions);
 
 	void Preprocess(const Path& pathToShader);
 	const char* ErrorString() const;
@@ -30,6 +30,6 @@ private:
 	String preprocessedOutput;
 	String preprocessError;
 	const Map<String, String>& preprocessorDefinitions;
-	ShaderStage shaderStage;
-	int mcppCode = 0;
+	i32 mcppCode = 0;
+	ShaderStage::Type shaderStage;
 };

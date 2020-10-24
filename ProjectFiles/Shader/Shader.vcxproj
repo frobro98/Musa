@@ -17,10 +17,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\Shader\Material.cpp" />
     <ClCompile Include="..\..\Source\Shader\MaterialRenderInfo.cpp" />
+    <ClCompile Include="..\..\Source\Shader\MaterialShader.cpp" />
     <ClCompile Include="..\..\Source\Shader\McppWrapper.cpp" />
     <ClCompile Include="..\..\Source\Shader\Shader.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderAPI.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderCompiler.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderConstantHandles.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderDefinition.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\BlinnShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.cpp" />
@@ -33,17 +35,25 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ToonShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\UnlitShading.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderConstantNameMap.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderTables.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderResource.cpp" />
     <ClCompile Include="..\..\Source\Shader\ThirdParty\spirv_reflect.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Shader\Material.h" />
+    <ClInclude Include="..\..\Source\Shader\Material.hpp" />
     <ClInclude Include="..\..\Source\Shader\MaterialRenderInfo.hpp" />
+    <ClInclude Include="..\..\Source\Shader\MaterialShader.hpp" />
     <ClInclude Include="..\..\Source\Shader\McppWrapper.hpp" />
     <ClInclude Include="..\..\Source\Shader\Shader.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderCompiledOutput.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h" />
+    <ClInclude Include="..\..\Source\Shader\ShaderConstantHandles.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderDefinition.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderAPI.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderExternal.h" />
+    <ClInclude Include="..\..\Source\Shader\ShaderHeader.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderID.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\BlinnShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\DeferredLightingShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.hpp" />
@@ -55,6 +65,9 @@
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\SimplePrimitiveRendering.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ToonShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\UnlitShading.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderConstantNameMap.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderTables.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderResource.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStages.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStructure.hpp" />
     <ClInclude Include="..\..\Source\Shader\ThirdParty\spirv_reflect.h" />

@@ -50,7 +50,7 @@ public:
 	virtual InputEvents OnFocusReceived() override;
 	virtual InputEvents OnFocusLost() override;
 
-	virtual void OnActivationChanged(bool activated) override;
+	virtual InputEvents OnActivationChanged(bool activated) override;
 
 // 	virtual IInputReceiver* GetParentInput() const override { return nullptr; }
 // 	virtual IInputReceiver* GetChildInput() const override { return nullptr; }

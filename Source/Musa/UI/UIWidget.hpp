@@ -39,7 +39,7 @@ public:
 	virtual InputEvents OnFocusReceived() { return InputEvents{}; }
 	virtual InputEvents OnFocusLost() { return InputEvents{}; }
 
-	virtual void OnActivationChanged(bool /*activated*/) {}
+	virtual InputEvents OnActivationChanged(bool /*activated*/) { return InputEvents{}; }
 
 	// Widget public interface
 	

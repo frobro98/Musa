@@ -4,7 +4,7 @@
 #include "Model/Model.h"
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshManager.h"
-#include "Shader/Material.h"
+#include "Shader/Material.hpp"
 #include "Math/Matrix4.hpp"
 #include "Model/ModelFactory.h"
 

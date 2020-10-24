@@ -16,7 +16,7 @@ void main()
 {
 	texCoords = uvCoords;
 	outColor = color;
-	vec4 pos = projection * view * vec4(position, 1);
+	vec4 pos = view.projection * view.worldToView * vec4(position, 1);
 	gl_Position = VulkanProjectionModification(pos);
 
 }

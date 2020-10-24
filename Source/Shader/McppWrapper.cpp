@@ -13,7 +13,7 @@ static void AddDefinition(const String& macro, const String& macroDef, String& d
 	definitions += macro + "=" + macroDef;
 }
 
-ShaderPreprocessor::ShaderPreprocessor(ShaderStage stage, const Map<String, String>& definitions)
+ShaderPreprocessor::ShaderPreprocessor(ShaderStage::Type stage, const Map<String, String>& definitions)
 	: preprocessorDefinitions(definitions),
 	shaderStage(stage)
 {

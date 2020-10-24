@@ -72,13 +72,16 @@ static void FillGapInChunkEntities(ArchetypeChunk& chunk, u32 entityIndex)
 		const u32 numComponents = chunk.header->componentTypeCount;
 		for (u32 i = 0; i < numComponents; ++i)
 		{
-			size_t offset = offsets[i];
 			u32 size = types[i]->size;
-			u8* dstCompLoc = chunkBuffer + offset + (size * entityIndex);
-			u8* srcCompLoc = dstCompLoc + size;
-			size_t compMoveSize = entitiesToMove * size;
+			if (size > 0)
+			{
+				size_t offset = offsets[i];
+				u8* dstCompLoc = chunkBuffer + offset + (size * entityIndex);
+				u8* srcCompLoc = dstCompLoc + size;
+				size_t compMoveSize = entitiesToMove * size;
 
-			Memcpy(dstCompLoc, srcCompLoc, compMoveSize);
+				Memcpy(dstCompLoc, srcCompLoc, compMoveSize);
+			}
 		}
 	}
 }
@@ -113,7 +116,6 @@ static u32 AssociateSameComponentTypes(
 		++smallTypeIndex, ++biggerTypeIndex)
 	{
 		const ComponentType* smallType = smallList[smallTypeIndex];
-		Assert(smallType->size != 0);
 		const ComponentType* biggerType = biggerList[biggerTypeIndex];
 
 		while (smallType != biggerType &&
@@ -144,15 +146,16 @@ void ConstructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex)
 
 	// Initialize memory using construstor
 	for(u32 i = 0; i < typeCount; ++i)
-	//for (const auto& compOffset : *offsetList)
 	{
 		const ComponentType* compType = types[i];
 		size_t componentOffset = offsets [i];
 
-		// TODO - Support empty classes because of tagging
-		Assert(compType->size > 0);
-		void* compAddr = chunk.data + componentOffset + GetComponentIndex(compType->size, entityIndex);
-		compType->ctor(compAddr);
+		// TODO - Figure out if component size being non-zero is actually likely or not
+		if (likely(compType->size > 0))
+		{
+			void* compAddr = chunk.data + componentOffset + GetComponentIndex(compType->size, entityIndex);
+			compType->ctor(compAddr);
+		}
 	}
 }
 
@@ -169,10 +172,12 @@ void DestructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex)
 		const ComponentType* compType = types[i];
 		size_t componentOffset = offsets[i];
 
-		// TODO - Support empty classes because of tagging
-		Assert(compType->size > 0);
-		void* compAddr = chunk.data + componentOffset + GetComponentIndex(compType->size, entityIndex);
-		compType->dtor(compAddr);
+		// TODO - Figure out if component size being non-zero is actually likely or not
+		if (likely(compType->size > 0))
+		{
+			void* compAddr = chunk.data + componentOffset + GetComponentIndex(compType->size, entityIndex);
+			compType->dtor(compAddr);
+		}
 	}
 }
 
@@ -203,14 +208,17 @@ u32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, u32 oldChunkInde
 
 	for (u32 i = 0; i < sameTypeCount; ++i)
 	{
-		u32 oldIndex = sameTypes[i].oldIndex;
-		u32 newIndex = sameTypes[i].newIndex;
 		u32 compSize = sameTypes[i].size;
-		
-		void* oldAddr = oldChunk.data + oldOffsets[oldIndex] + GetComponentIndex(compSize, oldChunkIndex);
-		void* newAddr = newChunk.data + newOffsets[newIndex] + GetComponentIndex(compSize, newChunkIndex);
+		if (compSize > 0)
+		{
+			u32 oldIndex = sameTypes[i].oldIndex;
+			u32 newIndex = sameTypes[i].newIndex;
 
-		Memcpy(newAddr, compSize, oldAddr, compSize);
+			void* oldAddr = oldChunk.data + oldOffsets[oldIndex] + GetComponentIndex(compSize, oldChunkIndex);
+			void* newAddr = newChunk.data + newOffsets[newIndex] + GetComponentIndex(compSize, newChunkIndex);
+
+			Memcpy(newAddr, compSize, oldAddr, compSize);
+		}
 	}
 
 	return newChunkIndex;

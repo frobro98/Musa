@@ -3,7 +3,6 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Debugging/Assertion.hpp"
 #include "CoreAPI.hpp"
 
 // C-string functions
@@ -164,10 +163,11 @@ constexpr tchar* Strstr(tchar* str, const tchar* findStr) noexcept
 	return res;
 }
 
+// TODO - Move this into a header that is essentially only consumed by String
 constexpr i32 FindFirstIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
 {
-	Assert(str);
-	Assert(findStr);
+// 	Assert(str);
+// 	Assert(findStr);
 	if (findStrLen == 0 || findStrLen > strLen)
 	{
 		return -1;
@@ -189,10 +189,11 @@ constexpr i32 FindFirstIn(const tchar* str, size_t strLen, const tchar* findStr,
 	}
 }
 
+// TODO - Move this into a header that is essentially only consumed by String
 constexpr i32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr, size_t findStrLen)
 {
-	Assert(str);
-	Assert(findStr);
+// 	Assert(str);
+// 	Assert(findStr);
 	if (findStrLen == 0 || findStrLen > strLen)
 	{
 		return -1;
@@ -219,6 +220,7 @@ constexpr i32 FindLastIn(const tchar* str, size_t strLen, const tchar* findStr, 
 	return -1;
 }
 
+// TODO - Move this into a header that is essentially only consumed by String
 constexpr bool StartsWith(const tchar* str, size_t strLen, const tchar* startStr, size_t startStrLen)
 {
 	if (startStrLen > strLen)
@@ -238,6 +240,7 @@ constexpr bool StartsWith(const tchar* str, size_t strLen, const tchar* startStr
 	return true;
 }
 
+// TODO - Move this into a header that is essentially only consumed by String
 constexpr bool EndsWith(const tchar* str, size_t strLen, const tchar* endStr, size_t endStrLen)
 {
 	if (endStrLen > strLen)

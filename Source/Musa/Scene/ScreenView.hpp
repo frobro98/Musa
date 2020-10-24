@@ -18,7 +18,7 @@ struct ViewDescription
 {
 	Vector4 origin;
 	Vector4 direction;
-	Rect viewport;
+	Rectf viewport;
 	f32 fieldOfView = 0;
 	f32 aspectRatio = 0;
 };

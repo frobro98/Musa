@@ -44,7 +44,7 @@ void LogFileSink::OutputFormattedString(const LogLineEntry& entry)
 	// TODO - Get time difference from the start of the program execution
 		// Format goes: Time since start up, log level, log channel, log msg
 	fmt::format_to(logLineEntryBuffer, "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
-		ToString(entry.level), *entry.logSlot, entry.logSlot.Length(), *entry.logMsg);
+		ToString(entry.level), entry.logSlot, Strlen(entry.logSlot), *entry.logMsg);
 
 	NOT_USED bool result = FileSystem::WriteFile(logFileHandle, logLineEntryBuffer.data(), (u32)logLineEntryBuffer.size());
 	Assert(result);

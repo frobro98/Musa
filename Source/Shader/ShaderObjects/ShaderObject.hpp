@@ -4,10 +4,10 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Containers/MemoryBuffer.hpp"
-#include "Shader/ShaderStructure.hpp"
+#include "Shader/ShaderCompiledOutput.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Shader/ShaderAPI.hpp"
-
+#include "Shader/ShaderHeader.hpp"
 
 class SHADER_API ShaderObjectBase
 {
@@ -15,7 +15,7 @@ public:
 	ShaderObjectBase(const ShaderCompiledOutput& compiledOutput);
 	virtual ~ShaderObjectBase() = default;
 
-	forceinline ShaderStage GetShaderStage() const { return stage; }
+	forceinline ShaderStage::Type GetShaderStage() const { return stage; }
 
 	friend u32 GetHash(ShaderObjectBase& so)
 	{
@@ -23,9 +23,10 @@ public:
 	}
 
 protected:
+	ShaderHeader header;
 	MemoryBuffer shaderCode;
 	u32 byteCodeHash;
-	ShaderStage stage;
+	ShaderStage::Type stage;
 };
 
 // Corresponds to a shader the exists in the engine.
@@ -36,7 +37,6 @@ class SHADER_TEMPLATE ShaderObject : public ShaderObjectBase
 public:
 	ShaderObject(const ShaderCompiledOutput& compiledOutput);
 
-	forceinline ShaderStage GetShaderStage() const { return stage; }
 	forceinline ShaderType& GetNativeShader()
 	{
 		if (!nativeShader.IsValid())

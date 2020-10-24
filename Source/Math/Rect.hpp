@@ -6,33 +6,33 @@
 #include "Debugging/Assertion.hpp"
 #include "BasicTypes/Extents.hpp"
 
-struct IntRect;
+struct Recti;
 
-struct Rect
+struct Rectf
 {
 	f32 x = 0;
 	f32 y = 0;
 	f32 width = 0;
 	f32 height = 0;
 
-	constexpr Rect() = default;
+	constexpr Rectf() = default;
 
-	constexpr Rect(f32 x_, f32 y_, f32 width_, f32 height_)
+	constexpr Rectf(f32 x_, f32 y_, f32 width_, f32 height_)
 		: x(x_), y(y_), width(width_), height(height_)
 	{
 	}
 };
 
-struct IntRect
+struct Recti
 {
 	i32 x = 0;
 	i32 y = 0;
 	i32 width = 0;
 	i32 height = 0;
 
-	constexpr IntRect() = default;
+	constexpr Recti() = default;
 
-	constexpr IntRect(i32 x_, i32 y_, i32 width_, i32 height_)
+	constexpr Recti(i32 x_, i32 y_, i32 width_, i32 height_)
 		: x(x_), y(y_), width(width_), height(height_)
 	{
 	}
@@ -60,13 +60,13 @@ struct NormalizedRect
 	}
 };
 
-constexpr NormalizedRect Normalize(const Rect& rect, const Extents2D& bounds)
+constexpr NormalizedRect Normalize(const Rectf& rect, const Extents2D& bounds)
 {
 	return NormalizedRect(rect.x / bounds.width, rect.y / bounds.height, rect.width / bounds.width, rect.height / bounds.height);
 }
 
-constexpr Rect ToRect(const IntRect& rect)
+constexpr Rectf ToRect(const Recti& rect)
 {
-	return Rect((f32)rect.x, (f32)rect.y,
+	return Rectf((f32)rect.x, (f32)rect.y,
 		(f32)rect.width, (f32)rect.height);
 }

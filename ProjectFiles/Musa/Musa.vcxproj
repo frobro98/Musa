@@ -31,11 +31,8 @@
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\CameraComponent.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\InputComponent.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\MovementComponent.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\RenderComponent.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\TransformComponent.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CullingSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp" />
@@ -109,9 +106,13 @@
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\MovementComponent.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderComponent.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\TransformComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\SpriteRenderComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\TranslationComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\MeshRenderComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\RotationComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\ScaleComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CullingSystem.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />
@@ -251,7 +252,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\Core;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -287,7 +288,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\Core;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -323,7 +324,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\include\freetype;$(SolutionDir)Source\Musa;$(SolutionDir)Source\;$(SolutionDir)Source\Core;$(SolutionDir)\ThirdParty\include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4201;4251</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4251;4307</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>

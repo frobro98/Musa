@@ -8,7 +8,7 @@
 #include "String/String.h"
 #include "Path/Path.hpp"
 #include "Shader/ShaderStages.hpp"
-#include "Shader/ShaderStructure.hpp"
+#include "Shader/ShaderCompiledOutput.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Utilities/TemplateUtils.hpp"
 #include "Shader/ShaderAPI.hpp"
@@ -32,7 +32,7 @@ struct SHADER_API ShaderDefinition final : private Uncopyable
 	using InitializeWithCompiledOutputFunc = ShaderObjectBase* (&)(const ShaderCompiledOutput& compiledOutput);
 
 	template <typename... ShaderDefs>
-	ShaderDefinition(ShaderStage stage, const tchar* relativeSourcePath, const tchar* entryPoint, InitializeWithCompiledOutputFunc shaderObjFunc, ShaderDefs... defines);
+	ShaderDefinition(ShaderStage::Type stage, const tchar* relativeSourcePath, const tchar* entryPoint, InitializeWithCompiledOutputFunc shaderObjFunc, ShaderDefs... defines);
 
 	inline const ShaderCompilerDefinitions& GetCompilerDefines() const { return definitions; }
 	inline ShaderObjectBase* GetCompiledShaderObject(const ShaderCompiledOutput& output) const { return compiledShaderFunc(output); }
@@ -56,8 +56,8 @@ public:
 	const Path sourcePath;
 	const InitializeWithCompiledOutputFunc compiledShaderFunc;
 	const tchar* const shaderEntryName;
-	const ShaderStage shaderStage;
 	const u32 definitionHash;
+	const ShaderStage::Type shaderStage;
 
 private:
 	ShaderCompilerDefinitions definitions;
@@ -79,7 +79,7 @@ const DynamicArray<ShaderDefinition*>& GetDefinitionList();
 //////////////////////////////////////////////////////////////////////////
 
 template<typename ...ShaderDefs>
-ShaderDefinition::ShaderDefinition(ShaderStage stage, const tchar* relativeSourcePath, const tchar* entryPoint, InitializeWithCompiledOutputFunc shaderObjFunc, ShaderDefs... defines)
+ShaderDefinition::ShaderDefinition(ShaderStage::Type stage, const tchar* relativeSourcePath, const tchar* entryPoint, InitializeWithCompiledOutputFunc shaderObjFunc, ShaderDefs... defines)
 	: sourcePath(relativeSourcePath),
 	compiledShaderFunc(shaderObjFunc),
 	shaderEntryName(entryPoint),

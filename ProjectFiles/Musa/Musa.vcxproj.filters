@@ -147,21 +147,6 @@
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\CameraComponent.cpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\InputComponent.cpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\MovementComponent.cpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\RenderComponent.cpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Components\TransformComponent.cpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.cpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
@@ -297,6 +282,12 @@
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.cpp">
       <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CullingSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -378,15 +369,6 @@
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\MovementComponent.hpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderComponent.hpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\TransformComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp">
@@ -574,6 +556,27 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Mesh\MeshRenderInfo.hpp">
       <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\RotationComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\ScaleComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\TranslationComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CullingSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\SpriteRenderComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\MeshRenderComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

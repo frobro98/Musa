@@ -1,13 +1,11 @@
 #pragma once
 
-#include "String/StringView.hpp"
-
 struct CORE_API LogChannel
 {
 	LogChannel(const tchar* name) : logName(name) {}
 
 	// TODO - Need to move to a compile time/"Name" system for strings
-	StringView logName;
+	const tchar* logName;
 	// TODO - Figure out if I need anything else to allow for log filtering down the line
 
 };

@@ -7,7 +7,7 @@
 #include "File/FileSystem.hpp"
 
 #include "Shader/ShaderCompiler.h"
-#include "Shader/ShaderStructure.hpp"
+#include "Shader/ShaderCompiledOutput.hpp"
 #include "Shader/ShaderStages.hpp"
 
 constexpr const char* helpString =
@@ -40,7 +40,7 @@ constexpr const char* helpString =
 			}										\
 		} while (false)
 
-static ShaderStage DetermineStageBasedOnExtension(const String& ext)
+static ShaderStage::Type DetermineStageBasedOnExtension(const String& ext)
 {
 	if (ext == "vert")
 	{
@@ -63,10 +63,10 @@ static ShaderStage DetermineStageBasedOnExtension(const String& ext)
 		printf("Invalid extension! Couldn't associate shader stage with \"%s\"\n", *ext);
 	}
 
-	return static_cast<ShaderStage>(-1);
+	return ShaderStage::MAX_WORD_SIZE;
 }
 
-static const char* DetermineSPVExtensionFrom(ShaderStage stage)
+static const char* DetermineSPVExtensionFrom(ShaderStage::Type stage)
 {
 	switch (stage)
 	{
@@ -224,7 +224,7 @@ i32 main(i32 argc, char *argv[])
 		String extension = shaderPath.GetFileExtension();
 
 		String tmp;
-		ShaderStage stage;
+		ShaderStage::Type stage;
 		if (preprocessorDefinitions.TryFind("FRAG_SHADER", tmp))
 		{
 			stage = ShaderStage::Fragment;

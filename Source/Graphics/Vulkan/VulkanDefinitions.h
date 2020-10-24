@@ -13,26 +13,35 @@
 
 #define CHECK_VK(expression) Assert(expression == VK_SUCCESS)
 
-// vkCreateDebugReportCallbackEXT call replication
-#define VK_CREATE_DEBUG_REPORT(funcName) VkResult (VKAPI_PTR *funcName)(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback)
-typedef VK_CREATE_DEBUG_REPORT(vk_create_debug_report);
-static vk_create_debug_report vkCreateDebugReportCallbackEXT_ = nullptr;
-//#if M_DEBUG
-#define vkCreateDebugReportCallbackEXT vkCreateDebugReportCallbackEXT_
-//#else
-//#define vkCreateDebugReportCallbackEXT 
-//#endif
+static PFN_vkCreateDebugUtilsMessengerEXT vkCreateDebugUtilsMessengerEXT_ = nullptr;
+#define vkCreateDebugUtilsMessengerEXT vkCreateDebugUtilsMessengerEXT_
 
-// vkDestroyDebugReportCallbackEXT call replication
-#define VK_DESTROY_DEBUG_REPORT(funcName) VkResult (VKAPI_PTR *funcName)(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator)
-typedef VK_DESTROY_DEBUG_REPORT(vk_destroy_debug_report);
-static vk_destroy_debug_report vkDestroyDebugReportCallbackEXT_ = nullptr;
-//#if M_DEBUG
-#define vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallbackEXT_
-//#else
-//#define vkDestroyDebugReportCallbackEXT 
-//#endif
+static PFN_vkDestroyDebugUtilsMessengerEXT vkDestroyDebugUtilsMessengerEXT_ = nullptr;
+#define vkDestroyDebugUtilsMessengerEXT vkDestroyDebugUtilsMessengerEXT_
 
-using GPUHandle = VkPhysicalDevice;
+static PFN_vkSetDebugUtilsObjectNameEXT vkSetDebugUtilsObjectNameEXT_ = nullptr;
+#define vkSetDebugUtilsObjectNameEXT vkSetDebugUtilsObjectNameEXT_
+
+static PFN_vkSetDebugUtilsObjectTagEXT vkSetDebugUtilsObjectTagEXT_ = nullptr;
+#define vkSetDebugUtilsObjectTagEXT vkSetDebugUtilsObjectTagEXT_
+
+static PFN_vkQueueBeginDebugUtilsLabelEXT vkQueueBeginDebugUtilsLabelEXT_ = nullptr;
+#define vkQueueBeginDebugUtilsLabelEXT vkQueueBeginDebugUtilsLabelEXT_
+
+static PFN_vkQueueEndDebugUtilsLabelEXT vkQueueEndDebugUtilsLabelEXT_ = nullptr;
+#define vkQueueEndDebugUtilsLabelEXT vkQueueEndDebugUtilsLabelEXT_
+
+static PFN_vkQueueInsertDebugUtilsLabelEXT vkQueueInsertDebugUtilsLabelEXT_ = nullptr;
+#define vkQueueInsertDebugUtilsLabelEXT vkQueueEndDebugUtilsLabelEXT_
+
+static PFN_vkCmdBeginDebugUtilsLabelEXT vkCmdBeginDebugUtilsLabelEXT_ = nullptr;
+#define vkCmdBeginDebugUtilsLabelEXT vkCmdBeginDebugUtilsLabelEXT_
+
+static PFN_vkCmdEndDebugUtilsLabelEXT vkCmdEndDebugUtilsLabelEXT_ = nullptr;
+#define vkCmdEndDebugUtilsLabelEXT vkCmdEndDebugUtilsLabelEXT_
+
+static PFN_vkCmdInsertDebugUtilsLabelEXT vkCmdInsertDebugUtilsLabelEXT_ = nullptr;
+#define vkCmdInsertDebugUtilsLabelEXT vkCmdInsertDebugUtilsLabelEXT_
+
 
 // TODO - Create vulkan allocator for hook into my memory system

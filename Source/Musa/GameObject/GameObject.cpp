@@ -6,7 +6,7 @@
 #include "Model/Model.h"
 #include "Input/Input.hpp"
 
-#include "Shader/Material.h"
+#include "Shader/Material.hpp"
 #include "Model/ModelFactory.h"
 
 #include "Archiver/SkeletonHeader.h"

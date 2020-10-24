@@ -14,7 +14,7 @@ void Camera::SetPerspective(float fovDeg, float aspect, float near, float far)
 	farPlane = far;
 }
 
-void Camera::SetViewport(const IntRect& vp)
+void Camera::SetViewport(const Recti& vp)
 {
 	viewport = vp;
 }
@@ -127,7 +127,7 @@ void Camera::SetFarPlane(float far)
 // 	return Extents2D{ farWidth, farHeight };
 // }
 
-IntRect Camera::GetCameraViewport() const
+Recti Camera::GetCameraViewport() const
 {
 	return viewport;
 }

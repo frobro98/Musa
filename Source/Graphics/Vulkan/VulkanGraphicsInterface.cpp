@@ -31,52 +31,77 @@
 DEFINE_LOG_CHANNEL(VulkanLog);
 DEFINE_LOG_CHANNEL(VkValidation);
 
+// TODO - Eventually, VK_LAYER_KHRONOS_validation will exist and should be the preferred way of enabling validation...
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_GOOGLE_threading",
 	"VK_LAYER_LUNARG_parameter_validation",
 	"VK_LAYER_LUNARG_object_tracker",
 	"VK_LAYER_LUNARG_core_validation",
-	"VK_LAYER_GOOGLE_unique_objects"
+	"VK_LAYER_GOOGLE_unique_objects",
 };
 
 constexpr const tchar* instanceExtensions[] = {
 	VK_KHR_SURFACE_EXTENSION_NAME,
 	VK_PLATFORM_SURFACE_EXTENSION,
-	VK_EXT_DEBUG_REPORT_EXTENSION_NAME
+	VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 };
 
-static VKAPI_ATTR VkBool32 VKAPI_CALL VulkanDebugCallback(
-	VkDebugReportFlagsEXT flags,
-	VkDebugReportObjectTypeEXT objType,
-	uint64_t srcObj, size_t location, int32_t msgCode,
-	const char* layerPrefix, const char* msg,
-	void* userData)
+static VkBool32 VulkanDebugMessengerCallback(
+	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+	VkDebugUtilsMessageTypeFlagsEXT messageType,
+	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+	void* /*pUserData*/
+)
 {
-	UNUSED(flags, objType, srcObj, location, msgCode, layerPrefix, msg, userData);
-//#if M_DEBUG
+	if (pCallbackData->pMessageIdName)
+	{
+		bool shouldLog = Strncmp(pCallbackData->pMessageIdName, "UNASSIGNED", 10) != 0 &&
+			Strncmp(pCallbackData->pMessageIdName, "Loader", 6) != 0;
+		if (shouldLog)
+		{
+			UNUSED(messageType);
+			const char* typeStr = "";
+			if (messageType & VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
+			{
+				typeStr = "GEN";
+			}
+			else
+			{
+				if (messageType & VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
+				{
+					typeStr = "VALID";
+				}
+				if (messageType & VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT)
+				{
+					if (messageType & VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
+					{
+						typeStr = "VALID|PERF";
+					}
+					else
+					{
+						typeStr = "PERF";
+					}
+				}
+			}
 
-	if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT)
-	{
-		MUSA_WARN(VkValidation, "@{}: {}", layerPrefix, msg);
+			if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
+			{
+				MUSA_ERR(VkValidation, " {} : VUID({}): {}", typeStr, pCallbackData->pMessageIdName, pCallbackData->pMessage);
+			}
+			else if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+			{
+				MUSA_WARN(VkValidation, " {} : VUID({}): {}", typeStr, pCallbackData->pMessageIdName, pCallbackData->pMessage);
+			}
+			else if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
+			{
+				MUSA_INFO(VkValidation, " {} : VUID({}): {}", typeStr, pCallbackData->pMessageIdName, pCallbackData->pMessage);
+			}
+			else // VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT 
+			{
+				MUSA_DEBUG(VkValidation, " {} : VUID({}): {}", typeStr, pCallbackData->pMessageIdName, pCallbackData->pMessage);
+			}
+		}
 	}
-	if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT)
-	{
-		MUSA_WARN(VkValidation, "PERF - @{}: {}", layerPrefix, msg);
-	}
-	if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT)
-	{
-		MUSA_ERR(VkValidation, "@{}: {}", layerPrefix, msg);
-	}
-	if (flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT)
-	{
-		MUSA_DEBUG(VkValidation, "@{}: {}", layerPrefix, msg);
-	}
-	if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT)
-	{
-		MUSA_INFO(VkValidation, "@{}: {}", layerPrefix, msg);
-	}
-
-//#endif // M_DEBUG
 
 	return false;
 }
@@ -123,7 +148,7 @@ void VulkanGraphicsInterface::DeinitializeGraphics()
 	renderContext.Reset();
 	logicalDevice.Reset();
 	// TODO - add clean up for vulkan classes
-	vkDestroyDebugReportCallbackEXT(instance, debugReportHandle, nullptr);
+	vkDestroyDebugUtilsMessengerEXT(instance, debugMessengerHandle, nullptr);
 	vkDestroyInstance(instance, nullptr);
 }
 
@@ -348,32 +373,73 @@ void VulkanGraphicsInterface::CreateInstance()
 {
 	MUSA_DEBUG(VulkanLog, "Instance Creation");
 
-	VkDebugReportFlagsEXT debugFlags =
-		//VK_DEBUG_REPORT_INFORMATION_BIT_EXT |
-		VK_DEBUG_REPORT_WARNING_BIT_EXT |
-		VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT |
-		VK_DEBUG_REPORT_ERROR_BIT_EXT |
-		VK_DEBUG_REPORT_DEBUG_BIT_EXT;
+// 	VkDebugReportFlagsEXT debugFlags =
+// 		//VK_DEBUG_REPORT_INFORMATION_BIT_EXT |
+// 		VK_DEBUG_REPORT_WARNING_BIT_EXT |
+// 		VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT |
+// 		VK_DEBUG_REPORT_ERROR_BIT_EXT //|
+// 		//VK_DEBUG_REPORT_DEBUG_BIT_EXT
+// 		;
 
 	u32 layerCount;
 	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 	DynamicArray<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.GetData());
 
-	VkDebugReportCallbackCreateInfoEXT debugInfo = Vk::DebugReportCallbackInfo(VulkanDebugCallback, debugFlags, this);
+	for (const auto& layer : availableLayers)
+	{
+		MUSA_INFO(VulkanLog, "Instance Layer: {}", layer.layerName);
+	}
+
+	u32 extensionCount;
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+	DynamicArray<VkExtensionProperties> availableExtensions(extensionCount);
+	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, availableExtensions.GetData());
+
+	for (const auto& extension : availableExtensions)
+	{
+		MUSA_INFO(VulkanLog, "Instance Extension: {}", extension.extensionName);
+	}
+
+	VkDebugUtilsMessengerCreateInfoEXT debugInfo = {};
+	debugInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	debugInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT;
+	debugInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	debugInfo.pUserData = this;
+	debugInfo.pfnUserCallback = &VulkanDebugMessengerCallback;
+
+
+	//VkDebugReportCallbackCreateInfoEXT debugInfo = Vk::DebugReportCallbackInfo(VulkanDebugCallback, debugFlags, this);
 	VkInstanceCreateInfo instanceInfo = Vk::InstanceInfo(validationLayers, (u32)ArraySize(validationLayers),
-		instanceExtensions, (u32)ArraySize(instanceExtensions), &debugInfo);
+		instanceExtensions, (u32)ArraySize(instanceExtensions)/*, &debugInfo*/);
 	NOT_USED VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
 	CHECK_VK(result);
 
 	// Trying to get around warnings
 //#if M_DEBUG
-	void* createDebugFunc = vkGetInstanceProcAddr(instance, "vkCreateDebugReportCallbackEXT");
-	void* destroyDebugFunc = vkGetInstanceProcAddr(instance, "vkDestroyDebugReportCallbackEXT");
-	vkCreateDebugReportCallbackEXT = reinterpret_cast<vk_create_debug_report>(createDebugFunc);
-	vkDestroyDebugReportCallbackEXT = reinterpret_cast<vk_destroy_debug_report>(destroyDebugFunc);
+	SetupDebugUtilsFunctions();
 
-	result = vkCreateDebugReportCallbackEXT(instance, &debugInfo, nullptr, &debugReportHandle);
+	result = vkCreateDebugUtilsMessengerEXT(instance, &debugInfo, nullptr, &debugMessengerHandle);
 	CHECK_VK(result);
+
 //#endif
+}
+
+void VulkanGraphicsInterface::SetupDebugUtilsFunctions()
+{
+	vkCreateDebugUtilsMessengerEXT_ = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+	vkDestroyDebugUtilsMessengerEXT_ = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+	vkSetDebugUtilsObjectNameEXT_ = (PFN_vkSetDebugUtilsObjectNameEXT)vkGetInstanceProcAddr(instance, "vkSetDebugUtilsObjectNameEXT");
+	vkSetDebugUtilsObjectTagEXT_ = (PFN_vkSetDebugUtilsObjectTagEXT)vkGetInstanceProcAddr(instance, "vkSetDebugUtilsObjectTagEXT");
+	vkQueueBeginDebugUtilsLabelEXT_ = (PFN_vkQueueBeginDebugUtilsLabelEXT)vkGetInstanceProcAddr(instance, "vkQueueBeginDebugUtilsLabelEXT");
+	vkQueueEndDebugUtilsLabelEXT_ = (PFN_vkQueueEndDebugUtilsLabelEXT)vkGetInstanceProcAddr(instance, "vkQueueEndDebugUtilsLabelEXT");
+	vkQueueInsertDebugUtilsLabelEXT_ = (PFN_vkQueueInsertDebugUtilsLabelEXT)vkGetInstanceProcAddr(instance, "vkQueueInsertDebugUtilsLabelEXT");
+	vkCmdBeginDebugUtilsLabelEXT_ = (PFN_vkCmdBeginDebugUtilsLabelEXT)vkGetInstanceProcAddr(instance, "vkCmdBeginDebugUtilsLabelEXT");
+	vkCmdEndDebugUtilsLabelEXT_ = (PFN_vkCmdEndDebugUtilsLabelEXT)vkGetInstanceProcAddr(instance, "vkCmdEndDebugUtilsLabelEXT");
+	vkCmdInsertDebugUtilsLabelEXT_ = (PFN_vkCmdInsertDebugUtilsLabelEXT)vkGetInstanceProcAddr(instance, "vkCmdInsertDebugUtilsLabelEXT");
 }

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "HashBasicTypes.h"
+#include "Utilities/HashBasicTypes.h"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Pair.h"
 #include "CoreAPI.hpp"
@@ -110,6 +110,12 @@ public:
 		}
 
 		return value;
+	}
+
+	const ValueType* Find(const KeyType& key) const
+	{
+		// TODO - This is awful and really shouldn't be like this. Find a way without a const_cast
+		return const_cast<Map*>(this)->Find(key);
 	}
 
 	bool TryFind(const KeyType& key, ValueType& value)
@@ -351,6 +357,16 @@ private:
 	friend ConstIterator begin(const Map& map) { return ConstIterator(map); }
 	friend Iterator end(Map& map) { return Iterator(map, map.buckets.Size()); }
 	friend ConstIterator end(const Map& map) { return ConstIterator(map, map.buckets.Size()); }
+
+	friend void Serialize(SerializeBase& ser, const Map& map)
+	{
+		Serialize(ser, map.buckets);
+	}
+
+	friend void Deserialize(DeserializeBase& ser, Map& map)
+	{
+		Deserialize(ser, map.buckets);
+	}
 
 private:
 	static constexpr u32 DefaultAmountOfBuckets = 32;

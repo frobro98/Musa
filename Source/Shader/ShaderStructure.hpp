@@ -9,7 +9,7 @@
 #include "String/String.h"
 
 // TODO - Move this into the Graphics dll
-enum class ShaderConstantType
+enum class ShaderResourceType : u16
 {
 	UniformBuffer,
 	UniformDynamicBuffer,
@@ -40,7 +40,7 @@ struct ShaderConstant
 {
 	String name;
 	u32 binding;
-	ShaderConstantType bindingType;
+	ShaderResourceType bindingType;
 };
 
 struct ShaderCompilerDefinitions
@@ -50,7 +50,7 @@ struct ShaderCompilerDefinitions
 	// Preprocessing Definitions
 	Map<String, String> definitions;
 	// Stage
-	ShaderStage shaderStage;
+	ShaderStage::Type shaderStage;
 };
 
 struct PreprocessedShaderOutput
@@ -63,26 +63,4 @@ struct ShaderDebugInfo
 {
 	String glslProcessedCode;
 	String spirvByteCode;
-};
-
-using ShaderInputByLocation = Map<u32, ShaderVariable>;
-using ShaderOutputByLocation = Map<u32, ShaderVariable>;
-using ShaderConstantByBinding = Map<u32, ShaderConstant>;
-
-struct ShaderCompiledOutput
-{
-	ShaderInputByLocation locationToInputs;
-	ShaderOutputByLocation locationToOutputs;
-
-	ShaderConstantByBinding bindingToConstants;
-	MemoryBuffer shaderCode;
-	const tchar* shaderEntryPoint;
-	
-	ShaderStage stage;
-};
-
-struct ShaderStructure
-{
-	ShaderCompiledOutput compiledOutput;
-	ShaderDebugInfo readableShaderInfo;
 };

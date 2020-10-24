@@ -5,6 +5,7 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Scene/GameWorld.hpp"
 #include "Math/IntVector2.hpp"
+#include "ECS/World.hpp"
 
 #include "Engine/FrameRenderTargets.hpp"
 
@@ -51,6 +52,8 @@ private:
 	UniquePtr<Viewport> viewport;
 	UniquePtr<GameInput> gameInput;
 	UI::Context* uiContext = nullptr;
+	// TODO - This and the other "world" aren't really needed...
+	Musa::World ecsWorld;
 
 	bool running = false;
 };

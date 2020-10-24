@@ -41,7 +41,7 @@ void CameraManager::Resize(int width, int height, float aspectRatio)
 	for (auto& camera : cameras)
 	{
 		Camera& cam = *camera.second;
-		IntRect viewport = { 0, 0, width, height };
+		Recti viewport = { 0, 0, width, height };
 		cam.SetViewport(viewport);
 		cam.SetAspectRatio(aspectRatio);
 	}

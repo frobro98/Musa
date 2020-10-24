@@ -14,13 +14,14 @@ struct NativeFragmentShader;
 
 struct SHADER_API MaterialRenderInfo
 {
-	Color32 baseColor = Color32::White();
 	UniquePtr<NativeUniformBuffer> materialProperties;
+	Color32 baseColor = Color32::White();
 	NativeTexture* baseTexture = nullptr;
-	NativeTexture* normalMap = nullptr;
+	//NativeTexture* normalMap = nullptr;
 	NativeVertexShader* vertexShader = nullptr;
 	NativeFragmentShader* fragmentShader = nullptr;
 	ShadingModel shadingModel = ShadingModel::Lit;
-
-	void UpdateRenderMaterial(const Material& material);
+	CullingMode cullMode = CullingMode::Back;
+	FillMode fillMode = FillMode::Full;
+	BlendMode blendMode = BlendMode::Opaque;
 };

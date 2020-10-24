@@ -6,4 +6,5 @@
 
 DEFINE_LOG_CHANNEL(SerializationLog);
 DEFINE_LOG_CHANNEL(DeserializationLog);
+DEFINE_LOG_CHANNEL(AssertionLog);
 

@@ -9,20 +9,13 @@
 
 struct CameraComponent : public Musa::Component
 {
-	//DECLARE_COMPONENT(CameraComponent);
-
-	CameraComponent();
-
-	Matrix4 projection;
-	Matrix4 view;
-
 	Vector4 right;
 	Vector4 up = Vector4(0, 1, 0);
 	Vector4 forward;
 
 	Vector4 position = Vector4();
 	Vector4 lookAt = Vector4(0, 0, 1);
-	IntRect viewport;
+	Recti viewport;
 
 	Color clearColor = Color::Black();
 
@@ -30,8 +23,6 @@ struct CameraComponent : public Musa::Component
 	float farPlane;
 	float fov;
 	float aspectRatio;
-	Rect nearDimensions = {};
-	Rect farDimensions = {};
-
-	u32 pad[1] = { 0 };
+	Rectf nearDimensions = {};
+	Rectf farDimensions = {};
 };

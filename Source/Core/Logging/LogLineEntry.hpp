@@ -9,6 +9,6 @@
 struct LogLineEntry
 {
 	String logMsg;
-	StringView logSlot;
+	const tchar* logSlot;
 	LogLevel::Type level;
 };

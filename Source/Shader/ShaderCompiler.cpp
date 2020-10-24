@@ -6,7 +6,7 @@
 
 #include "BasicTypes/Uncopyable.hpp"
 #include "ShaderCompiler.h"
-#include "ShaderStructure.hpp"
+#include "Shader/ShaderCompiledOutput.hpp"
 #include "ShaderExternal.h"
 #include "McppWrapper.hpp"
 #include "spirv/disassemble.h"
@@ -150,7 +150,7 @@ static const TBuiltInResource DefaultTBuiltInResource =
 	/* .generalConstantMatrixVectorIndexing = */ 1,
 } };
 
-static EShLanguage GetGlslangStage(ShaderStage stage)
+static EShLanguage GetGlslangStage(ShaderStage::Type stage)
 {
 	switch (stage)
 	{
@@ -198,23 +198,23 @@ static ShaderIntrinsics GetShaderIntrinsic(SpvOp operation)
 	return static_cast<ShaderIntrinsics>(-1);
 }
 
-static ShaderConstantType GetShaderConstantType(SpvReflectDescriptorType type)
+static ShaderResourceType GetShaderConstantType(SpvReflectDescriptorType type)
 {
 	switch (type)
 	{
 		case SPV_REFLECT_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
-			return ShaderConstantType::TextureSampler;
+			return ShaderResourceType::TextureSampler;
 		case SPV_REFLECT_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
-			return ShaderConstantType::UniformBuffer;
+			return ShaderResourceType::UniformBuffer;
 		case SPV_REFLECT_DESCRIPTOR_TYPE_STORAGE_BUFFER:
-			return ShaderConstantType::StorageBuffer;
+			return ShaderResourceType::StorageBuffer;
 		case SPV_REFLECT_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
-			return ShaderConstantType::UniformDynamicBuffer;
+			return ShaderResourceType::UniformDynamicBuffer;
 		case SPV_REFLECT_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
-			return ShaderConstantType::StorageDynamicBuffer;
+			return ShaderResourceType::StorageDynamicBuffer;
 	}
 
-	return static_cast<ShaderConstantType>(-1);
+	return static_cast<ShaderResourceType>(-1);
 }
 #pragma warning(pop)
 
@@ -393,19 +393,21 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 					switch (constant.bindingType)
 					{
-						case ShaderConstantType::UniformBuffer:
-						case ShaderConstantType::StorageBuffer:
-						case ShaderConstantType::UniformDynamicBuffer:
-						case ShaderConstantType::StorageDynamicBuffer:
+						case ShaderResourceType::UniformBuffer:
+						case ShaderResourceType::StorageBuffer:
+						case ShaderResourceType::UniformDynamicBuffer:
+						case ShaderResourceType::StorageDynamicBuffer:
 						{
-							SpirvBuffer buffer;
+							SpirvBuffer buffer = {};
+							buffer.name = binding->name;
 							buffer.bufferType = MusaConstantToDescriptorType(constant);
 							buffer.bindIndex = binding->binding;
 							shaderHeader.buffers.Add(buffer);
 						}break;
-						case ShaderConstantType::TextureSampler:
+						case ShaderResourceType::TextureSampler:
 						{
 							SpirvSampler sampler;
+							sampler.name = binding->name;
 							sampler.samplerType = MusaConstantToDescriptorType(constant);
 							sampler.bindIndex = binding->binding;
 							shaderHeader.samplers.Add(sampler);

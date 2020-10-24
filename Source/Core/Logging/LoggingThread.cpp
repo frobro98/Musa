@@ -47,13 +47,10 @@ void LoggingThread::ThreadInit()
 
 void LoggingThread::ThreadBody()
 {
-	fmt::memory_buffer logLineEntryBuffer;
-
 	linePushedSemaphore->Wait();
 
 	while (!stopRequested)
 	{
-
 		LogLineEntry entry;
 		Assert(!entriesToProcess.IsEmpty());
 		entry = entriesToProcess.Pop();

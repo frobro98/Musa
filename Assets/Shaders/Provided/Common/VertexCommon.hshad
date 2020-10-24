@@ -22,22 +22,22 @@ layout(location = 3) out vec3 Tangent;
 
 vec3 GetWorldPosition()
 {
-	return vec3(world * position);
+	return vec3(geometry.world * position);
 }
 
 vec3 GetWorldNormal()
 {
-	return (transpose(inverse(world)) * vec4(normal, 0)).xyz;
+	return (transpose(inverse(geometry.world)) * vec4(normal, 0)).xyz;
 }
 
 vec3 GetWorldTangent()
 {
-	return (transpose(inverse(world)) * vec4(tangent, 0)).xyz;
+	return (transpose(inverse(geometry.world)) * vec4(tangent, 0)).xyz;
 }
 
 vec4 GetClipSpacePosition()
 {
-	vec4 clipPos = projection * view * world * position;
+	vec4 clipPos = view.projection * view.worldToView * geometry.world * position;
 	return VulkanProjectionModification(clipPos);
 }
 

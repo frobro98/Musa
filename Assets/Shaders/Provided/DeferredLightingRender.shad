@@ -29,7 +29,7 @@ layout(binding = 2) uniform sampler2D albedoGBuffer;
 layout(binding = 4) uniform LightDescriptions
 {
 	Light lights;
-};
+} lighting;
 
 void main()
 {
@@ -45,15 +45,15 @@ void main()
 	{
 		if(shadingModel == PHONG)
 		{
-			col = PhongModel(lights, viewPosition.xyz, position, normal, albedo);
+			col = PhongModel(lighting.lights, view.position.xyz, position, normal, albedo);
 		}
 		else if(shadingModel == BLINN)
 		{
-			col = BlinnModel(lights, viewPosition.xyz, position, normal, albedo);
+			col = BlinnModel(lighting.lights, view.position.xyz, position, normal, albedo);
 		}
 		else if(shadingModel == TOON)
 		{
-			col = ToonShadingModel(lights, position, normal, albedo);
+			col = ToonShadingModel(lighting.lights, position, normal, albedo);
 		}
 	}
 

@@ -22,7 +22,7 @@ public:
 	virtual InputEvents OnFocusReceived() = 0;
 	virtual InputEvents OnFocusLost() = 0;
 
-	virtual void OnActivationChanged(bool activated) = 0;
+	virtual InputEvents OnActivationChanged(bool activated) = 0;
 
 	// These functions aren't actually going to be needed because the input system will only contain the current UI path
 };

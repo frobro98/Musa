@@ -4,7 +4,8 @@
 #include "Graphics/Vulkan/VulkanShaderManager.h"
 
 ShaderObjectBase::ShaderObjectBase(const ShaderCompiledOutput& compiledOutput)
-	: shaderCode(compiledOutput.shaderCode),
+	: header(compiledOutput.header),
+	shaderCode(compiledOutput.shaderCode),
 	stage(compiledOutput.stage),
 	// TODO - Need to actually compute the hash for the data
 	byteCodeHash()

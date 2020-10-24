@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Material.h"
+#include "Material.hpp"
 #include "Texture2D/TextureManager.h"
 #include "Texture2D/Texture.h"
 #include "ShaderObjects/UnlitShading.hpp"
@@ -11,7 +11,7 @@ Material::Material()
 {
 	vertexShader = &GetShader<UnlitVert>()->GetNativeShader();
 	fragmentShader = &GetShader<UnlitFrag>()->GetNativeShader();
-	texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
+	texture[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
 	diffuseColor = Color32::Magenta();
 
 	ConfigureMaterialInfo();
@@ -26,11 +26,11 @@ Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragSha
 
 	if (textureName != nullptr)
 	{
-		texture0 = GetTextureManager().FindTexture(textureName);
+		texture[0] = GetTextureManager().FindTexture(textureName);
 	}
 	else
 	{
-		texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
+		texture[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
 	}
 
     ConfigureMaterialInfo();
@@ -43,59 +43,15 @@ Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragSha
 {
 	REF_CHECK(vertShader, fragShader, color);
 
-	texture0 = tex;
+	texture[0] = tex;
 
     ConfigureMaterialInfo();
 }
 
-// Material::Material(const tchar* vertShaderName, const tchar* fragShaderName, const char * textureName, const Color32& color)
-// {
-// 	Assert(vertShaderName);
-// 	Assert(fragShaderName);
-// 	//vertexShader = GetShaderManager().CreateShader(vertShaderName, ShaderStage::Vertex);
-// 	//fragmentShader = GetShaderManager().CreateShader(fragShaderName, ShaderStage::Fragment);
-// 
-// 	if (textureName != nullptr)
-// 	{
-// 		texture0 = GetTextureManager().FindTexture(textureName);
-// 	}
-// 	else
-// 	{
-// 		texture0 = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
-// 	}
-// 	diffuseColor = color;
-// 
-// 	ConfigureMaterialInfo();
-// }
-
-void Material::EnableWireframe()
-{
-	fillMode = FillMode::Wireframe;
-}
-
-void Material::DisableWireframe()
-{
-	fillMode = FillMode::Full;
-}
-
-void Material::SetTexture0(Texture& tex0)
+void Material::SetTexture(Texture& tex0)
 {
 	REF_CHECK(tex0);
-	texture0 = &tex0;
-	ConfigureMaterialInfo();
-}
-
-void Material::SetTexture1(Texture& tex1)
-{
-	REF_CHECK(tex1);
-	texture1 = &tex1;
-	ConfigureMaterialInfo();
-}
-
-void Material::SetNormalMap(Texture& normMap)
-{
-	REF_CHECK(normMap);
-	normalMap = &normMap;
+	texture[0] = &tex0;
 	ConfigureMaterialInfo();
 }
 
@@ -115,10 +71,10 @@ void Material::SetShadingModel(ShadingModel model)
 void Material::ConfigureMaterialInfo()
 {
 	materialRendering->baseColor = diffuseColor;
-	materialRendering->baseTexture = texture0 ? texture0->gpuResource.Get() : nullptr;
+	materialRendering->baseTexture = texture[0] ? texture[0]->gpuResource.Get() : nullptr;
 	materialRendering->vertexShader = vertexShader;
 	materialRendering->fragmentShader = fragmentShader;
-	materialRendering->normalMap = normalMap ? normalMap->gpuResource.Get() : nullptr;
+	//materialRendering->normalMap = normalMap ? normalMap->gpuResource.Get() : nullptr;
 	materialRendering->shadingModel = shadingModel;
 	materialRendering->materialProperties = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 }

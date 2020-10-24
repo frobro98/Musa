@@ -219,12 +219,17 @@ void WindowInputHandler::HandleWindowClose()
 
 void WindowInputHandler::HandleActivationChanged(bool activated)
 {
-	for (auto& receiver : inputReceivers)
-	{
-		receiver->OnActivationChanged(activated);
-	}
+	InputEvents events = ProcessInputReceivers([&](IInputReceiver* receiver)
+		{
+			Assert(receiver);
+			return receiver->OnActivationChanged(activated);
+		});
 
-	gameInput.OnActivationChanged(activated);
+	if (!events.IsInputHandled())
+	{
+		events = gameInput.OnActivationChanged(activated);
+		HandleInputEvents(events);
+	}
 }
 
 void WindowInputHandler::SetInputFocusToGame()

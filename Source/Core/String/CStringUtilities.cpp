@@ -1,6 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "CStringUtilities.hpp"
+#include "Debugging/Assertion.hpp"
 
 tchar* Strcpy(tchar* dest, size_t destSize, const tchar* src)
 {

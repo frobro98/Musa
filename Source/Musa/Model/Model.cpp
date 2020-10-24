@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "Model.h"
-#include "Shader/Material.h"
+#include "Shader/Material.hpp"
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshRenderInfo.hpp"
 // #include "Animation/Skeleton/SkeletonBone.h"

@@ -20,22 +20,22 @@ public:
 	static constexpr const char* PyramidName = "Primitive-Pyramid";
 
 public:
-	Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList);
-	Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, const SphereBounds& colInfo);
-	Mesh(DynamicArray<Vertex>&& vertList, DynamicArray<Face>&& faceList, DynamicArray<VertexBoneWeights>&& skinningWeights, const SphereBounds& colInfo);
+	Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList);
+	Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList, const SphereBounds& colInfo);
+	Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList, const DynamicArray<VertexBoneWeights>& skinningWeights, const SphereBounds& colInfo);
 
-	inline DynamicArray<Vertex> GetVertices() const { return vertices; }
-	inline DynamicArray<VertexBoneWeights> GetSkinWeights() const { return skinWeights; }
-	inline DynamicArray<Face> GetFaces() const { return faces; }
+// 	inline DynamicArray<Vertex> GetVertices() const { return vertices; }
+// 	inline DynamicArray<VertexBoneWeights> GetSkinWeights() const { return skinWeights; }
+// 	inline DynamicArray<Face> GetFaces() const { return faces; }
 	inline SphereBounds GetCollitionInfo() const { return boundingSphere; }
 
 	inline NativeVertexBuffer& GetVertexBuffer() { return *vertexBuffer; }
 	inline NativeIndexBuffer& GetIndexBuffer() { return *indexBuffer; }
 
 private:
-	DynamicArray<Vertex> vertices;
-	DynamicArray<Face> faces;
-	DynamicArray<VertexBoneWeights> skinWeights;
+// 	DynamicArray<Vertex> vertices;
+// 	DynamicArray<Face> faces;
+// 	DynamicArray<VertexBoneWeights> skinWeights;
 
 	UniquePtr<NativeVertexBuffer> vertexBuffer;
 	UniquePtr<NativeIndexBuffer> indexBuffer;

@@ -53,7 +53,10 @@ static void FillOutTypeInformation(Archetype& archetype, const ComponentType** c
 		typeHashList.Add(type->hash);
 		typeOffsetList.Add(offset);
 
-		offset += type->size * archetypeEntityCap;
+		if (type->size > 0)
+		{
+			offset += type->size * archetypeEntityCap;
+		}
 	}
 
 	Assert(offset <= Musa::ArchetypeBlockSize);
@@ -177,6 +180,7 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 		world.archetypeHashIDs.Add(upArchetype->archetypeMask);
 		world.archetypesByHash[hashId].Add(upArchetype.Get());
 		world.archetypes.Add(std::move(upArchetype));
+		world.queryCache->AddNewArchetypeToQueries(&archetype, 1);
 	}
 
 	return archetype;

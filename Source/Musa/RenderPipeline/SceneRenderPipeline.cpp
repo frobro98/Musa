@@ -11,7 +11,7 @@
 #include "Texture/Texture2D/Texture.h"
 #include "Mesh/MeshRenderInfo.hpp"
 #include "Mesh/Mesh.h"
-#include "Shader/Material.h"
+#include "Shader/Material.hpp"
 #include "Shader/ShaderObjects/ScreenRendering.hpp"
 
 #include "Archiver/SkeletonHeader.h"
@@ -50,28 +50,28 @@ METRIC_STAT(RenderToScreen, SceneRender);
 METRIC_STAT(TextDisplayRender, SceneRender);
 
 
-static void RenderWithNormalMap(RenderContext& renderer, const RenderObject& object, const View& view)
-{
-	SCOPED_TIMED_BLOCK(NormalMapRender);
-	// Set Transform Data
-	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
-
-	// Set View information
-	renderer.SetUniformBuffer(*view.viewBuffer, 1);
-
-	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
-	if (matInfo->baseTexture != nullptr)
-	{
-		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
-	}
-
-	// Set Material Data
-	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
-
-	// Set Normal Map
-	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
-}
+// static void RenderWithNormalMap(RenderContext& renderer, const RenderObject& object, const View& view)
+// {
+// 	SCOPED_TIMED_BLOCK(NormalMapRender);
+// 	// Set Transform Data
+// 	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
+// 
+// 	// Set View information
+// 	renderer.SetUniformBuffer(*view.viewBuffer, 1);
+// 
+// 	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
+// 	if (matInfo->baseTexture != nullptr)
+// 	{
+// 		// Set Texture Data
+// 		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
+// 	}
+// 
+// 	// Set Material Data
+// 	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
+// 
+// 	// Set Normal Map
+// 	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
+// }
 
 static void RenderNormally(RenderContext& renderer, const RenderObject& object, const View& view)
 {
@@ -153,11 +153,11 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 			pipelineDesc.fragmentShader = matInfo->fragmentShader;
 			context.SetGraphicsPipeline(pipelineDesc);
 
-			if (matInfo->normalMap != nullptr)
-			{
-				RenderWithNormalMap(context, *info, view);
-			}
-			else
+// 			if (matInfo->normalMap != nullptr)
+// 			{
+// 				RenderWithNormalMap(context, *info, view);
+// 			}
+// 			else
 			{
 				RenderNormally(context, *info, view);
 			}

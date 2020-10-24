@@ -4,6 +4,8 @@
 
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Map.h"
+#include "Algorithms/Algorithms.hpp"
+#include "Utilities/Array.hpp"
 #include "ECS/ComponentType.hpp"
 #include "ECS/Types.hpp"
 

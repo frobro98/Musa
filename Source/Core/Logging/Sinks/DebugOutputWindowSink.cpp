@@ -9,7 +9,7 @@ void DebugOutputWindowSink::OutputFormattedString(const LogLineEntry& entry)
 	tchar outputStr[outputLen] = {};
 
 	fmt::format_to(logLineEntryBuffer, "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
-		ToString(entry.level), *entry.logSlot, entry.logSlot.Length(), *entry.logMsg);
+		ToString(entry.level), entry.logSlot, Strlen(entry.logSlot), *entry.logMsg);
 
 	size_t len = logLineEntryBuffer.size() >= outputLen ? outputLen - 1 : logLineEntryBuffer.size();
 	Memory::Memcpy(outputStr, logLineEntryBuffer.data(), len);

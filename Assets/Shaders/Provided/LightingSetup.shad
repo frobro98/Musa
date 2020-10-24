@@ -15,7 +15,7 @@ void main()
 #endif
 
 	vec4 cubeMapAlbedo = GetCubeMapAlbedo(FragPosition);
-	vec4 diffuse = texture(matTexture, TexCoords) * cubeMapAlbedo * matDiffuse;
+	vec4 diffuse = texture(matTexture, TexCoords) * cubeMapAlbedo * materialProperties.diffuse;
 #if defined(UNLIT_MODEL)
 	position = vec4(0, 0, 0, lightModel);
 	normal = vec4(0, 0, 0, 0);

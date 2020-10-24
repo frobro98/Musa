@@ -4,6 +4,8 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Platform/Platform.hpp"
+#include "Logging/LogFunctions.hpp"
+#include "Logging/CoreLogChannels.hpp"
 
 namespace Debug
 {
@@ -25,9 +27,10 @@ namespace Debug
 	template<typename... Args>
 	forceinline void AssertionFailed(const tchar* expr, const tchar* file, i32 line, const tchar* desc, NOT_USED Args... args)
 	{
+		fmt::memory_buffer buffer;
+		fmt::format_to(buffer, desc, args...);
 
-		UNUSED(expr, file, line, desc);
-		// TODO - Platform level break
+		MUSA_LOG(AssertionLog, LogLevel::Fatal, "{} failed! File {}, Line {}. {}", expr, file, line, buffer.data());
 		DebugBreak();
 	}
 

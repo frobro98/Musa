@@ -2,12 +2,20 @@
 
 #pragma once
 
-enum class ShaderStage : u32
+struct ShaderStage
 {
-	Vertex = 0,
-	Fragment = 1,
-	Geometry = 2,
-	TessalationEval = 3,
-	TessalationControl = 4,
-	Compute = 5
+	enum Type
+	{
+		Vertex = 0,
+		Fragment = 1,
+		Geometry = 2,
+		TessalationEval = 3,
+		TessalationControl = 4,
+		Compute = 5,
+
+		GfxStageCount = 5,
+		StageCount = 6,
+
+		MAX_WORD_SIZE = 0x7FFF
+	};
 };
