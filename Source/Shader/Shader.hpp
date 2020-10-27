@@ -5,6 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "Shader/ShaderResourceManager.hpp"
 #include "Shader/ShaderID.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 // In the process of refactoring the material system, shaders need to obviously be considered in this endeavor.
 // One of the issues with shaders is that there isn't just a type of shader. From a high level, you can't just
@@ -17,7 +18,7 @@
 // comes from the MaterialShader class, which wraps around this shader type
 namespace Shader
 {
-ShaderID FindOrLoadShaderFile(const tchar* shaderFile);
+SHADER_API ShaderID FindOrLoadShaderFile(const tchar* shaderFile);
 //void UnloadShader(ShaderID id);
 //void IsShaderLoaded(ShaderID id);
 }

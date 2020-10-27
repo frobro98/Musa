@@ -3,18 +3,17 @@
 #include "ShaderResource.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 
-ShaderResource::ShaderResource(const ShaderHeader& header_, const MemoryBuffer& codeBuffer, ShaderStage::Type stage_)
+ShaderResource::ShaderResource(const ShaderHeader& header_, const MemoryBuffer& codeBuffer)
 	: header(header_),
-	code(codeBuffer),
-	stage(stage_)
+	code(codeBuffer)
 {
-	if (stage == ShaderStage::Vertex)
+	if (header.stage == ShaderStage::Vertex)
 	{
 		vertexShader = GetGraphicsInterface().CreateVertexShader(codeBuffer);
 	}
-	else if (stage == ShaderStage::Fragment)
+	else if (header.stage == ShaderStage::Fragment)
 	{
-		//fragmentShader = GetGraphicsInterface().CreateFragmentShader(codeBuffer);
+		fragmentShader = GetGraphicsInterface().CreateFragmentShader(codeBuffer);
 	}
 	else
 	{

@@ -14,7 +14,7 @@ struct NativeFragmentShader;
 class ShaderResource
 {
 public:
-	ShaderResource(const ShaderHeader& header, const MemoryBuffer& codeBuffer, ShaderStage::Type stage);
+	ShaderResource(const ShaderHeader& header, const MemoryBuffer& codeBuffer);
 
 	forceinline NativeVertexShader* GetVertexShader()
 	{

@@ -2,8 +2,9 @@
 
 #include "ShaderResourceManager.hpp"
 #include "ShaderResource.hpp"
-
-
+#include "File/DirectoryLocations.hpp"
+#include "Path/Path.hpp"
+#include "Archiver/FileDeserializer.hpp"
 
 ShaderResourceManager::~ShaderResourceManager()
 {
@@ -13,8 +14,19 @@ ShaderResourceManager::~ShaderResourceManager()
 ShaderID ShaderResourceManager::LoadShaderFile(const tchar* shaderName)
 {
 	Assert(pathToIdMap.Find(shaderName) == nullptr);
+	Path shaderPath = Path(EngineGeneratedShaderPath()) / shaderName;
 
-	return ShaderID{};
+	FileDeserializer deserializer(shaderPath);
+	
+	ShaderHeader header;
+	Deserialize(deserializer, header);
+	MemoryBuffer buffer;
+	Deserialize(deserializer, buffer);
+
+	pathToIdMap.Add(shaderName, header.id);
+	resourceMap.Add(header.id, new ShaderResource(header, buffer));
+
+	return header.id;
 }
 
 bool ShaderResourceManager::TryFindShaderID(const tchar* shaderName, ShaderID& id)

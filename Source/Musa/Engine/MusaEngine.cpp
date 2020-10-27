@@ -39,6 +39,8 @@
 #include "Graphics/RenderContextUtilities.hpp"
 #include "Graphics/RenderContext.hpp"
 
+#include "Shader/Shader.hpp"
+
 // ECS ---------------------
 #include "ECS/Components/CameraComponent.hpp"
 #include "ECS/Components/MeshRenderComponent.hpp"
@@ -430,6 +432,8 @@ void MusaEngine::LoadContent()
 	GetTextureManager().AddTexture(*BlackTexture());
 
 	GetMeshManager().Initialize();
+
+	Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
 
 	Path bunnyPakPath(EngineAssetPath());
 	bunnyPakPath /= "Models/stanford-bunny.pak";

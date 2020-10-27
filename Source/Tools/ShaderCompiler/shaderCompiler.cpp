@@ -187,7 +187,7 @@ i32 main(/*i32 argc, char *argv[]*/)
 	}
 	else
 	{
-		shaderPath = "../../../Assets/Shaders/Provided/DeferredViewRender.vert";
+		shaderPath = "../../../Assets/Shaders/Provided/DeferredBlinn.frag";
 		String name = shaderPath.GetFileName();
 		String nameNoExt = shaderPath.GetFileNameWithoutExtension();
 		Path generatedShadersPath = shaderPath.GetDirectoryPath() / "../Generated/";

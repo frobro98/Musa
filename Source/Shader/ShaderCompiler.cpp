@@ -450,6 +450,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 					header.resourceNames.AddShaderResource(*shaderConst.name, info);
 				}
 				header.resourceTable = ConstructShaderConstantTable(header.resourceNames);
+				header.stage = inputs.shaderStage;
 			}
 
 			SpvReadBuf buf;

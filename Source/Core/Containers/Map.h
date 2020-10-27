@@ -360,11 +360,15 @@ private:
 
 	friend void Serialize(SerializeBase& ser, const Map& map)
 	{
+		Serialize(ser, map.size);
+		Serialize(ser, map.maxBucketSize);
 		Serialize(ser, map.buckets);
 	}
 
 	friend void Deserialize(DeserializeBase& ser, Map& map)
 	{
+		Deserialize(ser, map.size);
+		Deserialize(ser, map.maxBucketSize);
 		Deserialize(ser, map.buckets);
 	}
 

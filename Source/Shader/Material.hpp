@@ -58,13 +58,13 @@ public:
 		return TextureSamplerShaderConstant{ index };
 	}
 
-	void SetUniformBufferResource(UniformBufferShaderConstant res, NativeUniformBuffer& uniformBuffer)
+	forceinline void SetUniformBufferResource(UniformBufferShaderConstant res, NativeUniformBuffer& uniformBuffer)
 	{
 		REF_CHECK(uniformBuffer);
 		shader.SetUniformBufferResource(res.resourceIndex, uniformBuffer);
 	}
 
-	void SetTextureSamplerResource(TextureSamplerShaderConstant res, NativeTexture& texture, NativeSampler& sampler)
+	forceinline void SetTextureSamplerResource(TextureSamplerShaderConstant res, NativeTexture& texture, NativeSampler& sampler)
 	{
 		shader.SetTextureSamplerResource(res.resourceIndex, texture, sampler);
 	}
