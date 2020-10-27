@@ -5,6 +5,9 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "CoreAPI.hpp"
 
+class SerializeBase;
+class DeserializeBase;
+
 // TODO - It makes sense for this to be copyable, but just make sure it makes sense later...
 // Container used to store 64 bit sized data
 class CORE_API MemoryBuffer final
@@ -32,7 +35,11 @@ private:
 	void ReallocMem(size_t newSize);
 	void DeallocMem();
 
+	friend CORE_API void Serialize(SerializeBase& ser, const MemoryBuffer& buffer);
+	friend CORE_API void Deserialize(DeserializeBase& ser, MemoryBuffer& buffer);
 private:
 	u8* memData = nullptr;
 	size_t memSize = 0;
 };
+
+

@@ -1,12 +1,17 @@
 // Copyright 2020, Nathan Blane
 
-#include "ShaderCompiler.h"
+#include "Shader.hpp"
+#include "ShaderResourceManager.hpp"
 
-#include "Containers/Map.h"
-#include "String/String.h"
+static ShaderResourceManager shaderManager;
 
-namespace
+ShaderID Shader::FindOrLoadShaderFile(const tchar* shaderFile)
 {
-static Map<String, DynamicArray<u32>> PathToSpvSource;
-}
+	ShaderID id;
+	if (!shaderManager.TryFindShaderID(shaderFile, id))
+	{
+		id = shaderManager.LoadShaderFile(shaderFile);
+	}
 
+	return id;
+}

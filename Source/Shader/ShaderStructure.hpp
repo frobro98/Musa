@@ -40,6 +40,7 @@ struct ShaderConstant
 {
 	String name;
 	u32 binding;
+	u32 size;
 	ShaderResourceType bindingType;
 };
 

@@ -4,6 +4,8 @@
 #include "Debugging/Assertion.hpp"
 #include "Utilities/MemoryUtilities.hpp"
 #include "Memory/MemoryAllocation.hpp"
+#include "Serialization/SerializeBase.hpp"
+#include "Serialization/DeserializeBase.hpp"
 
 MemoryBuffer::MemoryBuffer(size_t size)
 	: memSize(size)
@@ -64,7 +66,7 @@ void MemoryBuffer::Add(const void* data, size_t dataSize)
 	memSize += dataSize;
 }
 
-u8 * MemoryBuffer::Offset(size_t offset) const
+u8* MemoryBuffer::Offset(size_t offset) const
 {
 	Assert(offset < memSize);
 	return memData + offset;
@@ -105,5 +107,15 @@ void MemoryBuffer::DeallocMem()
 {
 	Memory::Free(memData);
 	memData = nullptr;
+}
+
+void Serialize(SerializeBase& ser, const MemoryBuffer& buffer)
+{
+	Serialize(ser, buffer.memData, buffer.memSize);
+}
+
+void Deserialize(DeserializeBase& ser, MemoryBuffer& buffer)
+{
+	Deserialize(ser, buffer.memData, buffer.memSize);
 }
 

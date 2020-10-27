@@ -5,9 +5,8 @@
 #include <type_traits>
 
 #include "CoreAPI.hpp"
-
-#pragma warning(push)
-#pragma warning(disable : 4820)
+#include "Serialization/DeserializeBase.hpp"
+#include "Serialization/SerializeBase.hpp"
 
 template <typename T1, typename T2>
 struct CORE_TEMPLATE Pair
@@ -99,6 +98,18 @@ struct CORE_TEMPLATE Pair
 
 	FirstType first;
 	SecondType second;
+
+	friend void Serialize(SerializeBase& ser, const Pair& pair)
+	{
+		Serialize(ser, pair.first);
+		Serialize(ser, pair.second);
+	}
+
+	friend void Deserialize(DeserializeBase& ser, Pair& pair)
+	{
+		Deserialize(ser, pair.first);
+		Deserialize(ser, pair.second);
+	}
 };
 
 template <typename T1, typename T2>
@@ -106,7 +117,3 @@ bool operator==(const Pair<T1, T2>& pair1, const Pair<T1, T2>& pair2)
 {
 	return pair1.first == pair2.first && pair1.second == pair2.second;
 }
-
-
-
-#pragma warning(pop)

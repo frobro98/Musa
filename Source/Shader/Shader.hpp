@@ -3,8 +3,8 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Shader/ShaderStages.hpp"
-#include "BasicTypes/Uncopyable.hpp"
+#include "Shader/ShaderResourceManager.hpp"
+#include "Shader/ShaderID.hpp"
 
 // In the process of refactoring the material system, shaders need to obviously be considered in this endeavor.
 // One of the issues with shaders is that there isn't just a type of shader. From a high level, you can't just
@@ -15,11 +15,12 @@
 
 // This is a high level shader type. It just holds data, doesn't actually contain any behavior. The behavior
 // comes from the MaterialShader class, which wraps around this shader type
-// struct Shader : private Uncopyable
-// {
-// 	ShaderStage stage;
-// 	u32 byteCodeHash;
-// };
+namespace Shader
+{
+ShaderID FindOrLoadShaderFile(const tchar* shaderFile);
+//void UnloadShader(ShaderID id);
+//void IsShaderLoaded(ShaderID id);
+}
 
 // Material Shader
 //	- Internal to Material class

@@ -43,14 +43,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <CustomBuildBeforeTargets>Build</CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -67,40 +69,17 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core_d.lib;Shader_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core_d.lib;Archiver_d.lib;Shader_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
-      <Command>set toolsDir=$(SolutionDir)Tools
-mkdir "%toolsDir%" &gt; nul
-
-copy "$(SolutionDir)Binaries\Core_d.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math_d.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File_d.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics_d.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver_d.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture_d.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader_d.dll" "%toolsDir%" &gt; nul
-echo         Copied Shader Compiler Dlls!
-
-copy "$(SolutionDir)Binaries\Core_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture_d.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader_d.pdb" "%toolsDir%" &gt; nul
-echo         Copied PDBs!
-
-copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
-copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
-echo         Copied Shader Compiler!</Command>
+      <Outputs>
+      </Outputs>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,40 +101,17 @@ echo         Copied Shader Compiler!</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core.lib;Shader.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core.lib;Archiver.lib;Shader.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
       </Command>
     </PostBuildEvent>
     <CustomBuildStep>
-      <Outputs>$(SolutionDir)prevent_build.txt;%(Outputs)</Outputs>
-      <Command>set toolsDir=$(SolutionDir)Tools
-mkdir "%toolsDir%" &gt; nul
-
-copy "$(SolutionDir)Binaries\Core.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.dll" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.dll" "%toolsDir%" &gt; nul
-echo         Copied Shader Compiler Dlls!
-
-copy "$(SolutionDir)Binaries\Core.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Math.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\File.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Graphics.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Archiver.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Texture.pdb" "%toolsDir%" &gt; nul
-copy "$(SolutionDir)Binaries\Shader.pdb" "%toolsDir%" &gt; nul
-echo         Copied PDBs!
-
-copy "$(OutputPath)\*.exe" "%toolsDir%" &gt; nul
-copy "$(OutputPath)\*.pdb" "%toolsDir%" &gt; nul
-echo         Copied Shader Compiler!</Command>
+      <Outputs>
+      </Outputs>
+      <Command>
+      </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>

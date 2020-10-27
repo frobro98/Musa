@@ -344,11 +344,14 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 				for (const auto& input : shaderInputs)
 				{
-					ShaderVariable var = {};
-					var.name = input->name;
-					var.variableType = GetShaderIntrinsic(input->type_description->op);
-					var.location = input->location;
-					output.compiledOutput.locationToInputs.Add(var.location, var);
+					if (input->format != SPV_REFLECT_FORMAT_UNDEFINED)
+					{
+						ShaderVariable var = {};
+						var.name = input->name;
+						var.variableType = GetShaderIntrinsic(input->type_description->op);
+						var.location = input->location;
+						output.compiledOutput.locationToInputs.Add(var.location, var);
+					}
 				}
 			}
 
@@ -364,11 +367,14 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 
 				for (const auto& out : shaderOutputs)
 				{
-					ShaderVariable var = {};
-					var.name = out->name;
-					var.variableType = GetShaderIntrinsic(out->type_description->op);
-					var.location = out->location;
-					output.compiledOutput.locationToOutputs.Add(var.location, var);
+					if (out->format != SPV_REFLECT_FORMAT_UNDEFINED)
+					{
+						ShaderVariable var = {};
+						var.name = out->name;
+						var.variableType = GetShaderIntrinsic(out->type_description->op);
+						var.location = out->location;
+						output.compiledOutput.locationToOutputs.Add(var.location, var);
+					}
 				}
 			}
 
@@ -389,6 +395,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 					constant.name = binding->name;
 					constant.bindingType = GetShaderConstantType(binding->descriptor_type);
 					constant.binding = binding->binding;
+					constant.size = binding->block.size;
 					output.compiledOutput.bindingToConstants.Add(constant.binding, constant);
 
 					switch (constant.bindingType)
@@ -430,7 +437,20 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 			Serialize(memorySer, shaderHeader);
 			Serialize(memorySer, spirvBytecode);
 
-
+			// setup shader header
+			{
+				ShaderHeader& header = output.compiledOutput.header;
+				for (const auto& constant : output.compiledOutput.bindingToConstants)
+				{
+					const ShaderConstant& shaderConst = constant.second;
+					ShaderResourceInfo info = {};
+					info.bindIndex = (u16)shaderConst.binding;
+					info.size = (u16)shaderConst.size;
+					info.type = shaderConst.bindingType;
+					header.resourceNames.AddShaderResource(*shaderConst.name, info);
+				}
+				header.resourceTable = ConstructShaderConstantTable(header.resourceNames);
+			}
 
 			SpvReadBuf buf;
 			std::ostream stream(&buf);

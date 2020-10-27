@@ -40,12 +40,12 @@ struct ShaderConstantNameMap
 
 	friend void Serialize(SerializeBase& ser, const ShaderConstantNameMap& nameMap)
 	{
-		Serialize(ser, nameMap);
+		Serialize(ser, nameMap.map);
 	}
 
 	friend void Deserialize(DeserializeBase& ser, ShaderConstantNameMap& nameMap)
 	{
-		Deserialize(ser, nameMap);
+		Deserialize(ser, nameMap.map);
 	}
 
 	Map<String, ShaderResourceInfo> map;

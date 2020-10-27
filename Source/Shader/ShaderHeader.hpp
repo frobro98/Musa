@@ -11,6 +11,7 @@
 struct ShaderHeader
 {
 	ShaderID id;
+	// TODO - This doesn't contain the inputs and outputs of the shader. Put this data into the shader header
 	ShaderConstantTable resourceTable;
 	ShaderConstantNameMap resourceNames;
 };

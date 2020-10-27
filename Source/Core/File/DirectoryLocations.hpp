@@ -36,6 +36,11 @@ inline const tchar* EngineShaderSrcPath()
 	return "../../../Assets/Shaders/";
 }
 
+inline const tchar* EngineShaderProvidedPath()
+{
+	return "../../../Assets/Shaders/Provided/";
+}
+
 inline const tchar* EngineGeneratedShaderPath()
 {
 	return "../../../Assets/Shaders/Generated/";

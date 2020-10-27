@@ -36,6 +36,7 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\ToonShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\UnlitShading.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderConstantNameMap.cpp" />
+    <ClCompile Include="..\..\Source\Shader\ShaderResourceManager.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderTables.cpp" />
     <ClCompile Include="..\..\Source\Shader\ShaderResource.cpp" />
     <ClCompile Include="..\..\Source\Shader\ThirdParty\spirv_reflect.c" />
@@ -66,6 +67,7 @@
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\ToonShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\UnlitShading.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderConstantNameMap.hpp" />
+    <ClInclude Include="..\..\Source\Shader\ShaderResourceManager.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderTables.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderResource.hpp" />
     <ClInclude Include="..\..\Source\Shader\ShaderStages.hpp" />

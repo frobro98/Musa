@@ -93,6 +93,9 @@
     <ClCompile Include="..\..\Source\Shader\ShaderConstantHandles.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\ShaderResourceManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Shader\ShaderCompiler.h">
@@ -183,6 +186,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Shader\ShaderConstantHandles.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\ShaderResourceManager.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

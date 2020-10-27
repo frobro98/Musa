@@ -4,7 +4,7 @@
 layout(binding = WORLD_BOUND) uniform Transformations
 {
 	mat4 world;
-} geometry;
+} prim;
 #endif // defined(WORLD_BOUND)
 
 #if defined(VIEW_BOUND)

@@ -4,7 +4,8 @@
 
 #include "Path/Path.hpp"
 #include "String/CStringUtilities.hpp"
-#include "File/FileSystem.hpp"
+#include "Archiver/FileSerializer.hpp"
+#include "File/DirectoryLocations.hpp"
 
 #include "Shader/ShaderCompiler.h"
 #include "Shader/ShaderCompiledOutput.hpp"
@@ -71,132 +72,133 @@ static const char* DetermineSPVExtensionFrom(ShaderStage::Type stage)
 	switch (stage)
 	{
 		case ShaderStage::Vertex:
-			return "vs.spv";
+			return ".mvs";
 		case ShaderStage::Fragment:
-			return "fs.spv";
+			return ".mfs";
 		case ShaderStage::Geometry:
-			return "gs.spv";
+			return ".mgs";
 		case ShaderStage::TessalationEval:
-			return "te.spv";
+			return ".mte";
 		case ShaderStage::TessalationControl:
-			return "tc.spv";
+			return ".mtc";
 		case ShaderStage::Compute:
-			return "cs.spv";
+			return ".mcs";
 		default:
 			return "";
 	}
 }
 
-static void SaveSPVInformation(const Path& outputShaderFile, const ShaderStructure& shaderInfo)
-{
-	FileSystem::Handle h;
-	bool result = FileSystem::OpenFile(h, outputShaderFile.GetString(), FileMode::Write);
-	FILE_CHECK_VA(result, "Error when trying to open file %s\n", outputShaderFile.GetString());
-
-	result = FileSystem::WriteFile(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(u32) * (u32)shaderInfo.compiledOutput.shaderCode.Size());
-	FILE_CHECK_VA(result, "Error when trying to write file %s\n", outputShaderFile.GetString());
-
-	result = FileSystem::CloseFile(h);
-	FILE_CHECK_VA(result, "Error when trying to close file %s\n", outputShaderFile.GetString());
-}
-
-static void SavePreprocessedGLSL(const Path& outputShaderFile, const PreprocessedShaderOutput& output)
-{
-	FileSystem::Handle h;
-	bool result = FileSystem::OpenFile(h, outputShaderFile.GetString(), FileMode::Write);
-	FILE_CHECK_VA(result, "Error when trying to open file %s\n", outputShaderFile.GetString());
-
-	result = FileSystem::WriteFile(h, *output.outputGlsl, output.outputGlsl.Length());
-	if (!result)
-	{
-		u32 err = GetLastError();
-		printf("%u\n", err);
-	}
-	FILE_CHECK_VA(result, "Error when trying to write file %s\n", outputShaderFile.GetString());
-
-	result = FileSystem::CloseFile(h);
-	FILE_CHECK_VA(result, "Error when trying to close file %s\n", outputShaderFile.GetString());
-}
+// static void SaveSPVInformation(const Path& outputShaderFile, const ShaderStructure& shaderInfo)
+// {
+// 	FileSystem::Handle h;
+// 	bool result = FileSystem::OpenFile(h, outputShaderFile.GetString(), FileMode::Write);
+// 	FILE_CHECK_VA(result, "Error when trying to open file %s\n", outputShaderFile.GetString());
+// 
+// 	result = FileSystem::WriteFile(h, shaderInfo.compiledOutput.shaderCode.GetData(), sizeof(u32) * (u32)shaderInfo.compiledOutput.shaderCode.Size());
+// 	FILE_CHECK_VA(result, "Error when trying to write file %s\n", outputShaderFile.GetString());
+// 
+// 	result = FileSystem::CloseFile(h);
+// 	FILE_CHECK_VA(result, "Error when trying to close file %s\n", outputShaderFile.GetString());
+// }
+// 
+// static void SavePreprocessedGLSL(const Path& outputShaderFile, const PreprocessedShaderOutput& output)
+// {
+// 	FileSystem::Handle h;
+// 	bool result = FileSystem::OpenFile(h, outputShaderFile.GetString(), FileMode::Write);
+// 	FILE_CHECK_VA(result, "Error when trying to open file %s\n", outputShaderFile.GetString());
+// 
+// 	result = FileSystem::WriteFile(h, *output.outputGlsl, output.outputGlsl.Length());
+// 	if (!result)
+// 	{
+// 		u32 err = GetLastError();
+// 		printf("%u\n", err);
+// 	}
+// 	FILE_CHECK_VA(result, "Error when trying to write file %s\n", outputShaderFile.GetString());
+// 
+// 	result = FileSystem::CloseFile(h);
+// 	FILE_CHECK_VA(result, "Error when trying to close file %s\n", outputShaderFile.GetString());
+// }
 
 static void PrintHelp()
 {
 	printf("%s", helpString);
 }
 
-i32 main(i32 argc, char *argv[])
+// The shader compiler should compile the shader, but also serialize a header of metadata
+i32 main(/*i32 argc, char *argv[]*/)
 {
-	if (argc < 2)
-	{
-		printf("You must pass in arguments describing what shaders to compile!\n\n");
-		PrintHelp();
-		return -1;
-	}
+// 	if (argc < 2)
+// 	{
+// 		printf("You must pass in arguments describing what shaders to compile!\n\n");
+// 		PrintHelp();
+// 		return -1;
+// 	}
 
 // 	bool status = true;
 // 	while (status) {}
 
 	Path shaderPath;
-	const char* inputFile = nullptr;
-	const char* outputFile = nullptr;
+	//const char* inputFile = nullptr;
+	//const char* outputFile = nullptr;
 	bool printHelp = false;
 	bool preprocessOnly = false;
 	Map<String, String> preprocessorDefinitions;
-	for (i32 i = 1; i < argc; ++i)
-	{
-		if (Strcmp("-f", argv[i]) == 0 || Strcmp("-F", argv[i]) == 0)
-		{
-			++i;
-			const tchar* s = Strchr(argv[i], '-');
-			if (i >= argc || (s != nullptr && strlen(s) == 2))
-			{
-				printf("You must pass a correct type when using the -f option!\n");
-				return -1;
-			}
-
-			inputFile = argv[i];
-		}
-		else if (Strcmp("-o", argv[i]) == 0 || Strcmp("-O", argv[i]) == 0)
-		{
-			++i;
-			const tchar* s = Strchr(argv[i], '-');
-			if (i >= argc || (s != nullptr && strlen(s) == 2))
-			{
-				printf("You must pass a correct type when using the -o option!\n");
-				return -1;
-			}
-			outputFile = argv[i];
-		}
-		else if (Strcmp("-p", argv[i]) == 0 || Strcmp("-P", argv[i]) == 0)
-		{
-			preprocessOnly = true;
-		}
-		else if (Strcmp("-d", argv[i]) == 0 || Strcmp("-D", argv[i]) == 0)
-		{
-			++i;
-			constexpr i32 numDefArgs = 2;
-			for (i32 arg = i; arg < numDefArgs; ++arg)
-			{
-				const tchar* s = Strchr(argv[arg], '-');
-				if (i >= argc || (s != nullptr && strlen(s) == 2))
-				{
-					printf("Invalid preprocessor definition argument \"%s\"\n", argv[arg]);
-					return -1;
-				}
-			}
-
-			preprocessorDefinitions.Add(argv[i], argv[i + 1]);
-			++i;
-		}
-		else if (Strcmp("-h", argv[i]) == 0 || Strcmp("-H", argv[i]) == 0)
-		{
-			printHelp = true;
-			break;
-		}
-		else
-		{
-			printf("Unknown argument \"%s\" was passed in\n", argv[i]);
-		}
-	}
+// 	for (i32 i = 1; i < argc; ++i)
+// 	{
+// 		if (Strcmp("-f", argv[i]) == 0 || Strcmp("-F", argv[i]) == 0)
+// 		{
+// 			++i;
+// 			const tchar* s = Strchr(argv[i], '-');
+// 			if (i >= argc || (s != nullptr && strlen(s) == 2))
+// 			{
+// 				printf("You must pass a correct type when using the -f option!\n");
+// 				return -1;
+// 			}
+// 
+// 			inputFile = argv[i];
+// 		}
+// 		else if (Strcmp("-o", argv[i]) == 0 || Strcmp("-O", argv[i]) == 0)
+// 		{
+// 			++i;
+// 			const tchar* s = Strchr(argv[i], '-');
+// 			if (i >= argc || (s != nullptr && strlen(s) == 2))
+// 			{
+// 				printf("You must pass a correct type when using the -o option!\n");
+// 				return -1;
+// 			}
+// 			outputFile = argv[i];
+// 		}
+// 		else if (Strcmp("-p", argv[i]) == 0 || Strcmp("-P", argv[i]) == 0)
+// 		{
+// 			preprocessOnly = true;
+// 		}
+// 		else if (Strcmp("-d", argv[i]) == 0 || Strcmp("-D", argv[i]) == 0)
+// 		{
+// 			++i;
+// 			constexpr i32 numDefArgs = 2;
+// 			for (i32 arg = i; arg < numDefArgs; ++arg)
+// 			{
+// 				const tchar* s = Strchr(argv[arg], '-');
+// 				if (i >= argc || (s != nullptr && strlen(s) == 2))
+// 				{
+// 					printf("Invalid preprocessor definition argument \"%s\"\n", argv[arg]);
+// 					return -1;
+// 				}
+// 			}
+// 
+// 			preprocessorDefinitions.Add(argv[i], argv[i + 1]);
+// 			++i;
+// 		}
+// 		else if (Strcmp("-h", argv[i]) == 0 || Strcmp("-H", argv[i]) == 0)
+// 		{
+// 			printHelp = true;
+// 			break;
+// 		}
+// 		else
+// 		{
+// 			printf("Unknown argument \"%s\" was passed in\n", argv[i]);
+// 		}
+// 	}
 
 	if (printHelp)
 	{
@@ -204,16 +206,18 @@ i32 main(i32 argc, char *argv[])
 	}
 	else
 	{
-		if (inputFile == nullptr)
-		{
-			printf("File to compile wasn't passed in!\n");
-			return -1;
-		}
+// 		if (inputFile == nullptr)
+// 		{
+// 			printf("File to compile wasn't passed in!\n");
+// 			return -1;
+// 		}
 
-		shaderPath = Path(inputFile);
+		//shaderPath = Path(inputFile);
+		shaderPath = "../../../Assets/Shaders/Provided/DeferredBlinn.frag";
 		String name = shaderPath.GetFileName();
 		String nameNoExt = shaderPath.GetFileNameWithoutExtension();
 		Path pathWithoutFile = shaderPath.GetDirectoryPath();
+		pathWithoutFile /= "../Generated/";
 		// Getting information out of the file name
 		if (!shaderPath.DoesFileExist())
 		{
@@ -222,35 +226,17 @@ i32 main(i32 argc, char *argv[])
 		}
 
 		String extension = shaderPath.GetFileExtension();
+		ShaderStage::Type stage = DetermineStageBasedOnExtension(extension);
 
-		String tmp;
-		ShaderStage::Type stage;
-		if (preprocessorDefinitions.TryFind("FRAG_SHADER", tmp))
-		{
-			stage = ShaderStage::Fragment;
-		}
-		else if (preprocessorDefinitions.TryFind("VERT_SHADER", tmp))
-		{
-			stage = ShaderStage::Vertex;
-		}
-		else
-		{
-			stage = DetermineStageBasedOnExtension(extension);
-		}
-
-		Path outfile;
-		if (outputFile == nullptr)
-		{
-			outfile = pathWithoutFile / (nameNoExt + "." + DetermineSPVExtensionFrom(stage));
-		}
-		else
-		{
-			outfile = outputFile;
-		}
+		String processedShaderFileName = nameNoExt + DetermineSPVExtensionFrom(stage);
+		u32 filenameHash = fnv32(*processedShaderFileName);
+		Path outfile = pathWithoutFile / processedShaderFileName;
 
 		ShaderCompilerDefinitions settings;
 		settings.shaderStage = stage;
 		settings.definitions = preprocessorDefinitions;
+
+		InitializeCompiler();
 
 		if (preprocessOnly)
 		{
@@ -262,7 +248,7 @@ i32 main(i32 argc, char *argv[])
 				return -1;
 			}
 
-			SavePreprocessedGLSL(outfile, output);
+			//SavePreprocessedGLSL(outfile, output);
 		}
 		else
 		{
@@ -274,8 +260,15 @@ i32 main(i32 argc, char *argv[])
 				return -1;
 			}
 
-			SaveSPVInformation(outfile, resultingStructure);
+			// TODO - This is awful. With the refactor of the shader compiler, this needs to be better...
+			resultingStructure.compiledOutput.header.id.shaderNameHash = filenameHash;
+			
+			FileSerializer serializer(outfile);
+			Serialize(serializer, resultingStructure.compiledOutput.header);
+			Serialize(serializer, resultingStructure.compiledOutput.shaderCode);
 		}
+
+		DeinitializeCompiler();
 	}
 
 	return 0;

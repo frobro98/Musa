@@ -12,7 +12,6 @@ layout(location = 0) in vec4 position;
 layout(location = 1) in vec3 normal;
 layout(location = 2) in vec3 tangent;
 layout(location = 3) in vec2 uvCoords;
-//layout(location = 4) in vec3 color;
 
 layout(location = 0) out vec3 FragPosition;
 layout(location = 1) out vec3 Normal;
@@ -22,22 +21,22 @@ layout(location = 3) out vec3 Tangent;
 
 vec3 GetWorldPosition()
 {
-	return vec3(geometry.world * position);
+	return vec3(prim.world * position);
 }
 
 vec3 GetWorldNormal()
 {
-	return (transpose(inverse(geometry.world)) * vec4(normal, 0)).xyz;
+	return (transpose(inverse(prim.world)) * vec4(normal, 0)).xyz;
 }
 
 vec3 GetWorldTangent()
 {
-	return (transpose(inverse(geometry.world)) * vec4(tangent, 0)).xyz;
+	return (transpose(inverse(prim.world)) * vec4(tangent, 0)).xyz;
 }
 
 vec4 GetClipSpacePosition()
 {
-	vec4 clipPos = view.projection * view.worldToView * geometry.world * position;
+	vec4 clipPos = view.projection * view.worldToView * prim.world * position;
 	return VulkanProjectionModification(clipPos);
 }
 

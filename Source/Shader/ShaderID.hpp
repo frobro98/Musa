@@ -6,27 +6,25 @@
 
 struct ShaderID
 {
-	// This should be the path name, not just the file name
-	const tchar* shaderName;
+	u32 shaderNameHash;
 	u32 bytecodeHash;
 };
 
 forceinline bool operator==(const ShaderID& lhs, const ShaderID& rhs)
 {
 	return lhs.bytecodeHash == rhs.bytecodeHash &&
-		(Strcmp(lhs.shaderName, rhs.shaderName) == 0);
+		lhs.shaderNameHash == rhs.shaderNameHash;
 }
 
 forceinline bool operator!=(const ShaderID& lhs, const ShaderID& rhs)
 {
 	return lhs.bytecodeHash != rhs.bytecodeHash &&
-		(Strcmp(lhs.shaderName, rhs.shaderName) != 0);
+		lhs.shaderNameHash != rhs.shaderNameHash;
 }
 
 forceinline u32 GetHash(const ShaderID& id)
 {
 	u32 hash = id.bytecodeHash;
-	u32 nameHash = GetHash(id.shaderName);
-	HashCombine(hash, nameHash);
+	HashCombine(hash, id.shaderNameHash);
 	return hash;
 }
