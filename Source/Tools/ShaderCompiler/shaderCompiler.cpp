@@ -23,24 +23,6 @@ constexpr const char* helpString =
 "          -d def_name val  :: adds a preprocessor definition to be used when     \n"
 "                              compiling the shader                               \n";
 
-#define FILE_CHECK(x, errStr)						\
-		do {										\
-			if((!(x)))								\
-			{										\
-				printf(errStr);						\
-				exit(1);							\
-			}										\
-		} while (false)
-
-#define FILE_CHECK_VA(x, errStr, ...)					\
-		do {										\
-			if((!(x)))								\
-			{										\
-				printf(errStr, (__VA_ARGS__));		\
-				exit(1);							\
-			}										\
-		} while (false)
-
 static ShaderStage::Type DetermineStageBasedOnExtension(const String& ext)
 {
 	if (ext == "vert")
@@ -141,7 +123,6 @@ i32 main(/*i32 argc, char *argv[]*/)
 	//const char* inputFile = nullptr;
 	//const char* outputFile = nullptr;
 	bool printHelp = false;
-	bool preprocessOnly = false;
 	Map<String, String> preprocessorDefinitions;
 // 	for (i32 i = 1; i < argc; ++i)
 // 	{
@@ -206,18 +187,14 @@ i32 main(/*i32 argc, char *argv[]*/)
 	}
 	else
 	{
-// 		if (inputFile == nullptr)
-// 		{
-// 			printf("File to compile wasn't passed in!\n");
-// 			return -1;
-// 		}
-
-		//shaderPath = Path(inputFile);
-		shaderPath = "../../../Assets/Shaders/Provided/DeferredBlinn.frag";
+		shaderPath = "../../../Assets/Shaders/Provided/DeferredViewRender.vert";
 		String name = shaderPath.GetFileName();
 		String nameNoExt = shaderPath.GetFileNameWithoutExtension();
-		Path pathWithoutFile = shaderPath.GetDirectoryPath();
-		pathWithoutFile /= "../Generated/";
+		Path generatedShadersPath = shaderPath.GetDirectoryPath() / "../Generated/";
+		if (generatedShadersPath.DoesDirectoryExist())
+		{
+			FileSystem::MakeDirectory(generatedShadersPath);
+		}
 		// Getting information out of the file name
 		if (!shaderPath.DoesFileExist())
 		{
@@ -230,7 +207,7 @@ i32 main(/*i32 argc, char *argv[]*/)
 
 		String processedShaderFileName = nameNoExt + DetermineSPVExtensionFrom(stage);
 		u32 filenameHash = fnv32(*processedShaderFileName);
-		Path outfile = pathWithoutFile / processedShaderFileName;
+		Path outfile = generatedShadersPath / processedShaderFileName;
 
 		ShaderCompilerDefinitions settings;
 		settings.shaderStage = stage;
@@ -238,35 +215,20 @@ i32 main(/*i32 argc, char *argv[]*/)
 
 		InitializeCompiler();
 
-		if (preprocessOnly)
+		ShaderStructure resultingStructure;
+		bool compiledSuccessfully = Compile(shaderPath.GetString(), "main", settings, resultingStructure);
+		if (!compiledSuccessfully)
 		{
-			PreprocessedShaderOutput output;
-			bool couldPreprocess = Preprocess(shaderPath.GetString(), settings, output);
-			if (!couldPreprocess)
-			{
-				printf("Error preprocessing! : %s\n", *output.errors);
-				return -1;
-			}
-
-			//SavePreprocessedGLSL(outfile, output);
+			printf("File couldn't be compiled!\n");
+			return -1;
 		}
-		else
-		{
-			ShaderStructure resultingStructure;
-			bool compiledSuccessfully = Compile(shaderPath.GetString(), "main", settings, resultingStructure);
-			if (!compiledSuccessfully)
-			{
-				printf("File couldn't be compiled!\n");
-				return -1;
-			}
 
-			// TODO - This is awful. With the refactor of the shader compiler, this needs to be better...
-			resultingStructure.compiledOutput.header.id.shaderNameHash = filenameHash;
+		// TODO - This is awful. With the refactor of the shader compiler, this needs to be better...
+		resultingStructure.compiledOutput.header.id.shaderNameHash = filenameHash;
 			
-			FileSerializer serializer(outfile);
-			Serialize(serializer, resultingStructure.compiledOutput.header);
-			Serialize(serializer, resultingStructure.compiledOutput.shaderCode);
-		}
+		FileSerializer serializer(outfile);
+		Serialize(serializer, resultingStructure.compiledOutput.header);
+		Serialize(serializer, resultingStructure.compiledOutput.shaderCode);
 
 		DeinitializeCompiler();
 	}

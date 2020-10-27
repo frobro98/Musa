@@ -11,9 +11,11 @@ DEFINE_LOG_CHANNEL(ShaderResources);
 
 struct NativeUniformBuffer;
 struct NativeTexture;
+struct NativeSampler;
 
 struct ShaderBindInfo
 {
+	String name;
 	u16 bindIndex;
 	u16 size;
 };
@@ -25,14 +27,7 @@ struct ShaderConstantTable
 	DynamicArray<ShaderBindInfo> textureResourceInfo;
 };
 
-struct ShaderResourceTable
-{
-	DynamicArray<NativeUniformBuffer*> uniformBufferResourceInfo;
-	DynamicArray<NativeTexture*> textureResourceInfo;
-};
-
 ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap);
-ShaderResourceTable ConstructShaderResourceTable(const ShaderConstantTable& constTable);
 
 //////////////////////////////////////////////////////////////////////////
 //Serialization

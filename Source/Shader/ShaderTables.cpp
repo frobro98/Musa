@@ -17,6 +17,7 @@ ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap)
 			ShaderBindInfo tableInfo;
 			tableInfo.bindIndex = info.bindIndex;
 			tableInfo.size = info.size;
+			tableInfo.name = pair.first;
 			table.uniformBufferResourceInfo.Add(tableInfo);
 		}
 		else if (info.type == ShaderResourceType::TextureSampler)
@@ -26,7 +27,8 @@ ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap)
 
 			ShaderBindInfo tableInfo;
 			tableInfo.bindIndex = info.bindIndex;
-			tableInfo.size = info.size;
+			tableInfo.size = info.size; 
+			tableInfo.name = pair.first;
 			table.textureResourceInfo.Add(tableInfo);
 		}
 		else
@@ -34,15 +36,6 @@ ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap)
 			Assert(false);
 		}
 	}
-
-	return table;
-}
-
-ShaderResourceTable ConstructShaderResourceTable(const ShaderConstantTable& constTable)
-{
-	ShaderResourceTable table = {};
-	table.uniformBufferResourceInfo.Resize(constTable.uniformBufferResourceInfo.Size());
-	table.textureResourceInfo.Resize(constTable.textureResourceInfo.Size());
 
 	return table;
 }

@@ -32,3 +32,9 @@ ShaderResource* ShaderResourceManager::FindShaderResource(ShaderID id)
 	ShaderResource** res = resourceMap.Find(id);
 	return res != nullptr ? *res : nullptr;
 }
+
+ShaderResourceManager& GetShaderResourceManager()
+{
+	static ShaderResourceManager shaderManager;
+	return shaderManager;
+}

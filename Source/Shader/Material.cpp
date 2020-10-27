@@ -6,12 +6,13 @@
 #include "ShaderObjects/UnlitShading.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffers.h"
+#include "Shader/ShaderResourceManager.hpp"
 
 Material::Material()
 {
 	vertexShader = &GetShader<UnlitVert>()->GetNativeShader();
 	fragmentShader = &GetShader<UnlitFrag>()->GetNativeShader();
-	texture[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
+	textures[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
 	diffuseColor = Color32::Magenta();
 
 	ConfigureMaterialInfo();
@@ -26,11 +27,11 @@ Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragSha
 
 	if (textureName != nullptr)
 	{
-		texture[0] = GetTextureManager().FindTexture(textureName);
+		textures[0] = GetTextureManager().FindTexture(textureName);
 	}
 	else
 	{
-		texture[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
+		textures[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
 	}
 
     ConfigureMaterialInfo();
@@ -43,15 +44,25 @@ Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragSha
 {
 	REF_CHECK(vertShader, fragShader, color);
 
-	texture[0] = tex;
+	textures[0] = tex;
 
     ConfigureMaterialInfo();
+}
+
+Material::Material(ShaderID vertexID, ShaderID fragmentID)
+{
+	ShaderResource* vertShader = GetShaderResourceManager().FindShaderResource(vertexID);
+	Assert(vertShader != nullptr);
+	ShaderResource* fragShader = GetShaderResourceManager().FindShaderResource(fragmentID);
+	Assert(fragShader != nullptr);
+
+	shader.Initialize(*vertShader, *fragShader);
 }
 
 void Material::SetTexture(Texture& tex0)
 {
 	REF_CHECK(tex0);
-	texture[0] = &tex0;
+	textures[0] = &tex0;
 	ConfigureMaterialInfo();
 }
 
@@ -71,10 +82,9 @@ void Material::SetShadingModel(ShadingModel model)
 void Material::ConfigureMaterialInfo()
 {
 	materialRendering->baseColor = diffuseColor;
-	materialRendering->baseTexture = texture[0] ? texture[0]->gpuResource.Get() : nullptr;
+	materialRendering->baseTexture = textures[0] ? textures[0]->gpuResource.Get() : nullptr;
 	materialRendering->vertexShader = vertexShader;
 	materialRendering->fragmentShader = fragmentShader;
-	//materialRendering->normalMap = normalMap ? normalMap->gpuResource.Get() : nullptr;
 	materialRendering->shadingModel = shadingModel;
 	materialRendering->materialProperties = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 }

@@ -21,3 +21,5 @@ private:
 	Map<const tchar*, ShaderID> pathToIdMap;
 	Map<ShaderID, ShaderResource*> resourceMap;
 };
+
+ShaderResourceManager& GetShaderResourceManager();

@@ -8,6 +8,8 @@
 #include "Shader/MaterialRenderInfo.hpp"
 #include "Shader/ShaderAPI.hpp"
 #include "Shader/MaterialShader.hpp"
+#include "Shader/ShaderID.hpp"
+#include "Shader/MaterialResourceHandles.hpp"
 
 struct Texture;
 struct TextureCube;
@@ -42,18 +44,30 @@ public:
 	Material();
 	Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const char* textureName, const Color32& color);
 	Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const Texture* tex, const Color32& color);
+	Material(ShaderID vertexID, ShaderID fragmentID);
 
-// 	UniformBufferShaderConstant GetUniformBufferResource(const tchar* resName) const
-// 	{
-// 		// Find the table index from the ShaderConstantNameMap
-// 		// This should call into the MaterialShader
-// 	}
+	forceinline UniformBufferShaderConstant GetUniformBufferConstant(const tchar* resName) const
+	{
+		u16 index = shader.GetUniformBufferResourceIndex(resName);
+		return UniformBufferShaderConstant{ index };
+	}
 
-// 	void SetUniformBufferResource(UniformBufferShaderConstant res, NativeUniformBuffer* uniformBuffer)
-// 	{
-// 		// Use the resource table index to index into to data storage to store away the uniform buffer ptr
-// 		// This should call into the MaterialShader
-// 	}
+	forceinline TextureSamplerShaderConstant GetTextureSamplerConstant(const tchar* resName) const
+	{
+		u16 index = shader.GetTextureSamplerResourceIndex(resName);
+		return TextureSamplerShaderConstant{ index };
+	}
+
+	void SetUniformBufferResource(UniformBufferShaderConstant res, NativeUniformBuffer& uniformBuffer)
+	{
+		REF_CHECK(uniformBuffer);
+		shader.SetUniformBufferResource(res.resourceIndex, uniformBuffer);
+	}
+
+	void SetTextureSamplerResource(TextureSamplerShaderConstant res, NativeTexture& texture, NativeSampler& sampler)
+	{
+		shader.SetTextureSamplerResource(res.resourceIndex, texture, sampler);
+	}
 
 	void SetTexture(Texture& texture);
 	void SetColor(const Color32& color);
@@ -71,7 +85,7 @@ private:
 // 	float32 metallic = 0.f;
 
 	UniquePtr<MaterialRenderInfo> materialRendering = new MaterialRenderInfo;
-	const Texture* texture[MaxTexturesPerMaterial];
+	const Texture* textures[MaxTexturesPerMaterial];
 
 	MaterialShader shader;
 	NativeVertexShader* vertexShader;

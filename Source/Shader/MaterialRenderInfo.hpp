@@ -17,7 +17,6 @@ struct SHADER_API MaterialRenderInfo
 	UniquePtr<NativeUniformBuffer> materialProperties;
 	Color32 baseColor = Color32::White();
 	NativeTexture* baseTexture = nullptr;
-	//NativeTexture* normalMap = nullptr;
 	NativeVertexShader* vertexShader = nullptr;
 	NativeFragmentShader* fragmentShader = nullptr;
 	ShadingModel shadingModel = ShadingModel::Lit;

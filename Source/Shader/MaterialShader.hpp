@@ -5,7 +5,8 @@
 #include "Shader/ShaderTables.hpp"
 class ShaderResource;
 
-enum MaterialShaderMask
+// Describes where this resource is used
+enum MaterialResourceUsageMask
 {
 	VertexMask = 0x01,
 	FragmentMask = 0x02,
@@ -13,25 +14,45 @@ enum MaterialShaderMask
 	TessControlMask = 0x08,
 	TessEvalMask = 0x10
 };
+using MaterialResourceUsage = u8;
 
+struct MaterialResourceDesc
+{
+	// TODO - This should just be a fixed size character array/hashed string
+	String name;
+	ShaderResourceType type;
+	u16 resourceIndex = 0;
+	u16 bindIndex = 0;
+	u16 size = 0;
+	MaterialResourceUsage usage = 0;
+};
+
+// This is the data organized per material, not per shader
 struct MaterialResourceTable
 {
-	ShaderResourceTable resourceStores[ShaderStage::GfxStageCount];
+	// Array of all bindings, with index into specific resource array
+	DynamicArray<MaterialResourceDesc> resourceBindings;
+	DynamicArray<NativeUniformBuffer*> uniformBufferStorage;
+	DynamicArray<NativeTexture*> textureStorage;
+	DynamicArray<NativeSampler*> samplerStorage;
 };
+
 class MaterialShader
 {
 public:
 	MaterialShader() = default;
 	void Initialize(ShaderResource& vertexShader, ShaderResource& fragmentShader);
 
-	// This is where the data storage will be held for the shaders. We will have to send this information
-	// over to the render pipeline, so actually destroying the storage will be a little bit tricky, but it
-	// might not be that crazy to implement
+	u16 GetUniformBufferResourceIndex(const tchar* ubName) const;
+	u16 GetTextureSamplerResourceIndex(const tchar* texName) const;
+
+	void SetUniformBufferResource(u16 resourceIndex, NativeUniformBuffer& uniformBuffer);
+	void SetTextureSamplerResource(u16 resourceIndex, NativeTexture& texture, NativeSampler& sampler);
 
 private:
 	void ConstructResourceTable();
 
 private:
-	ShaderResource* shaderResources[ShaderStage::GfxStageCount];
 	MaterialResourceTable resourceTable;
+	ShaderResource* shaderResources[ShaderStage::GfxStageCount];
 };
