@@ -176,6 +176,7 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Texture\Texture2D\Texture.cpp" />
     <ClCompile Include="..\..\Source\Texture\Texture2D\TextureManager.cpp" />
+    <ClCompile Include="..\..\Source\Texture\Texture2D\TextureResource.cpp" />
     <ClCompile Include="..\..\Source\Texture\TextureAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +184,7 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     <ClInclude Include="..\..\Source\Texture\Texture2D\MipmapLevel.hpp" />
     <ClInclude Include="..\..\Source\Texture\Texture2D\Texture.h" />
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureManager.h" />
+    <ClInclude Include="..\..\Source\Texture\Texture2D\TextureResource.hpp" />
     <ClInclude Include="..\..\Source\Texture\Texture2D\TextureUtilities.hpp" />
     <ClInclude Include="..\..\Source\Texture\TextureChunk.h" />
     <ClInclude Include="..\..\Source\Texture\TextureAPI.hpp" />

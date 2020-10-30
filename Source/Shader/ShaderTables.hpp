@@ -35,12 +35,14 @@ ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap)
 
 inline void Serialize(SerializeBase& ser, const ShaderBindInfo& shaderInfo)
 {
+	Serialize(ser, shaderInfo.name);
 	Serialize(ser, shaderInfo.bindIndex);
 	Serialize(ser, shaderInfo.size);
 }
 
 inline void Deserialize(DeserializeBase& ser, ShaderBindInfo& shaderInfo)
 {
+	Deserialize(ser, shaderInfo.name);
 	Deserialize(ser, shaderInfo.bindIndex);
 	Deserialize(ser, shaderInfo.size);
 }

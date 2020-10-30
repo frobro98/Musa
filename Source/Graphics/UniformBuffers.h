@@ -44,6 +44,8 @@ struct BoneDeltasUniformBuffer
 struct MaterialProperties
 {
 	Color32 diffuse;
+// 	f32 roughness = 0.f;
+// 	f32 metallic = 0.f;
 };
 
 struct LightProperties

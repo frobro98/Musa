@@ -117,7 +117,7 @@ namespace Vk
 		samplerInfo.addressModeU = MusaAddressModeToVkAddressMode(params.addrModeU);
 		samplerInfo.addressModeV = MusaAddressModeToVkAddressMode(params.addrModeV);
 		samplerInfo.addressModeW = MusaAddressModeToVkAddressMode(params.addrModeU);
-		samplerInfo.anisotropyEnable = params.enabledAnisotropy;
+		samplerInfo.anisotropyEnable = !Math::IsZero(params.maxAnisotropy);
 		samplerInfo.maxAnisotropy = params.maxAnisotropy;
 		samplerInfo.borderColor = VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
 		samplerInfo.unnormalizedCoordinates = VK_FALSE;

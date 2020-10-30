@@ -101,7 +101,7 @@ EngineStatView statView;
 		quadDesc.color = Color32::Black();
 		collection.BatchQuad(quadDesc);
 
-		collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *viewBuffer, *(WhiteTexture()->gpuResource));
+		collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *viewBuffer, *(WhiteTexture()->GetResource().texResource));
 	}
 
 	BEGIN_TIMED_BLOCK(TextFormatting);
@@ -200,7 +200,8 @@ EngineStatView statView;
 		renderer.SetGraphicsPipeline(desc);
 
 		renderer.SetUniformBuffer(*viewBuffer, 0);
-		renderer.SetTexture(*font->fontTexture->gpuResource, *SamplerDesc(), 1);
+		renderer.SetTexture(
+			*font->fontTexture->GetResource().texResource, *SamplerDesc(), 1);
 
 		renderer.DrawRawIndexed(stringVerts, stringTris, 1);
 		END_TIMED_BLOCK(TextRenderSetupCommands);
@@ -280,7 +281,7 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 		renderContext.SetGraphicsPipeline(desc);
 
 		renderContext.SetUniformBuffer(*viewBuffer, 0);
-		renderContext.SetTexture(*WhiteTexture()->gpuResource, *SamplerDesc(), 1);
+		renderContext.SetTexture(*WhiteTexture()->GetResource().texResource, *SamplerDesc(), 1);
 
 		const auto& elementList = elems.GetBatchElementList();
 		for (const auto& element : elementList)

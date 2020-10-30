@@ -5,15 +5,16 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "BasicTypes/Color.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
-#include "Shader/MaterialRenderInfo.hpp"
+#include "Graphics/UniformBuffers.h"
+#include "Shader/MaterialRenderDescription.hpp"
 #include "Shader/ShaderAPI.hpp"
 #include "Shader/MaterialShader.hpp"
 #include "Shader/ShaderID.hpp"
 #include "Shader/MaterialResourceHandles.hpp"
 
-struct Texture;
+class Texture;
 struct TextureCube;
-struct MaterialRenderInfo;
+struct MaterialRenderDescription;
 class ShaderProgram;
 class Matrix4;
 
@@ -36,14 +37,10 @@ class Matrix4;
 //		   error as well.
 //		
 
-constexpr u32 MaxTexturesPerMaterial = 4;
-
 class SHADER_API Material
 {
 public:
-	Material();
-	Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const char* textureName, const Color32& color);
-	Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const Texture* tex, const Color32& color);
+	Material() = default;
 	Material(ShaderID vertexID, ShaderID fragmentID);
 
 	forceinline UniformBufferShaderConstant GetUniformBufferConstant(const tchar* resName) const
@@ -69,29 +66,54 @@ public:
 		shader.SetTextureSamplerResource(res.resourceIndex, texture, sampler);
 	}
 
-	void SetTexture(Texture& texture);
-	void SetColor(const Color32& color);
-	void SetShadingModel(ShadingModel model);
+	forceinline void SetColor(Color32 color)
+	{
+		materialProperties.diffuse = color;
+		renderDescDirty = true;
+	}
 
-	MaterialRenderInfo& GetMaterialRenderInfo() const { return *materialRendering; }
+	forceinline void SetShadingModel(ShadingModel model)
+	{
+		shadingModel = model;
+		renderDescDirty = true;
+	}
+
+	forceinline void SetBlendMode(BlendMode mode)
+	{
+		blendMode = mode;
+		renderDescDirty = true;
+	}
+
+	forceinline void SetFillMode(FillMode mode)
+	{
+		fillMode = mode;
+		renderDescDirty = true;
+	}
+
+	forceinline void SetCullingMode(CullingMode mode)
+	{
+		cullMode = mode;
+		renderDescDirty = true;
+	}
+
+	MaterialRenderDescription& GetRenderDescription();
 
 private:
-	// TODO - This creation method must be refactored to be a better way of creation!
-	void ConfigureMaterialInfo();
+
 
 private:
-	Color32 diffuseColor;
-// 	float32 roughness = 0.f;
-// 	float32 metallic = 0.f;
+	UniquePtr<MaterialRenderDescription> renderDescription;
 
-	UniquePtr<MaterialRenderInfo> materialRendering = new MaterialRenderInfo;
-	const Texture* textures[MaxTexturesPerMaterial];
+	// TODO - Keeping a uniform buffer in the material itself doesn't necessarily make sense
+	UniquePtr<NativeUniformBuffer> materialPropsBuffer;
+	MaterialProperties materialProperties;
+	UniformBufferShaderConstant materialPropsConstant;
 
+	// Pipeline properties
 	MaterialShader shader;
-	NativeVertexShader* vertexShader;
-	NativeFragmentShader* fragmentShader;
 	CullingMode cullMode = CullingMode::Back;
 	FillMode fillMode = FillMode::Full;
 	BlendMode blendMode = BlendMode::Opaque;
 	ShadingModel shadingModel = ShadingModel::Lit;
+	bool renderDescDirty = false;
 };

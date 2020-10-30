@@ -4,7 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 
-struct Texture;
+class Texture;
 
 enum class MipMapFilter
 {

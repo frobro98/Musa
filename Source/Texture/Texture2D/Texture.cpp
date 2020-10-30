@@ -2,20 +2,16 @@
 
 #include "Texture.h"
 #include "TextureUtilities.hpp"
-
+#include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
-namespace
-{
-
-ImageFormat DeserializeImageFormat(DeserializeBase& ser)
+static ImageFormat DeserializeImageFormat(DeserializeBase& ser)
 {
 	u32 formatInt;
 	Deserialize(ser, formatInt);
 	return static_cast<ImageFormat>(formatInt);
 }
 
-}
 
 Texture::Texture(u8 r, u8 g, u8 b, u8 a)
 {
@@ -28,76 +24,47 @@ Texture::Texture(u8 r, u8 g, u8 b, u8 a)
 
 	mipLevels.Add(std::move(m));
 	format = ImageFormat::BGRA_8norm;
+
+	UpdateNativeResources();
 }
 
-u32 Texture::GetWidth() const
+void Texture::UpdateNativeResources()
 {
-	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...
-	if (mipLevels.Size() > 0)
+	if (!gpuResource)
 	{
-		return mipLevels[0].width;
+		gpuResource = MakeUnique<TextureResource>();
 	}
-	else
-	{
-		return 0;
-	}
-	
+
+	gpuResource->UpdateTextureResource(*this);
 }
 
-u32 Texture::GetHeight() const
-{
-	// TODO - The width of the mip levels can be computed, so the texture dimensions should go into the texture object itself...
-	if (mipLevels.Size() > 0)
-	{
-		return mipLevels[0].height;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-u32 Texture::TotalSize() const
+size_t Texture::GetTotalBytes() const
 {
 	size_t totalSize = 0;
 	for (const auto& level : mipLevels)
 	{
 		totalSize += level.mipData.GetSize();
 	}
-	return (u32)totalSize;
+	return totalSize;
 }
 
-ResourceBlob ConstructBlobOfMipLevels(const DynamicArray<MipmapLevel>& levels)
+ResourceBlob Texture::ConstructBlobOfMipLevels() const
 {
 	size_t totalSize = 0;
-	for (const auto& level : levels)
+	for (const auto& level : mipLevels)
 	{
 		totalSize += level.mipData.GetSize();
 	}
 	
-	u8* data = new u8[totalSize];
+	u8* data = (u8*)Memory::Malloc(totalSize);
 	u8* iter = data;
-	for (const auto& level : levels)
+	for (const auto& level : mipLevels)
 	{
 		Memcpy(iter, level.mipData.GetSize(), level.mipData.GetData(), level.mipData.GetSize());
 		iter += level.mipData.GetSize();
 	}
 
 	return ResourceBlob(data, totalSize);
-}
-
-void Serialize(SerializeBase& ser, const MipmapLevel& level)
-{
-	Serialize(ser, level.mipData);
-	Serialize(ser, level.width);
-	Serialize(ser, level.height);
-}
-
-void Deserialize(DeserializeBase& ser, MipmapLevel& level)
-{
-	Deserialize(ser, level.mipData);
-	Deserialize(ser, level.width);
-	Deserialize(ser, level.height);
 }
 
 void Serialize(SerializeBase& ser, const Texture& tex)

@@ -57,9 +57,6 @@
     <ClCompile Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.cpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Shader\MaterialRenderInfo.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Shader\Shader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -91,6 +88,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Shader\ShaderResourceManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Shader\MaterialRenderDescription.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,9 +140,6 @@
     <ClInclude Include="..\..\Source\Shader\ShaderObjects\EnvironmentMapping.hpp">
       <Filter>Source\ShaderObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Shader\MaterialRenderInfo.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Shader\Shader.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -186,6 +183,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Shader\MaterialResourceHandles.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Shader\MaterialRenderDescription.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

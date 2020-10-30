@@ -8,47 +8,6 @@
 #include "Graphics/UniformBuffers.h"
 #include "Shader/ShaderResourceManager.hpp"
 
-Material::Material()
-{
-	vertexShader = &GetShader<UnlitVert>()->GetNativeShader();
-	fragmentShader = &GetShader<UnlitFrag>()->GetNativeShader();
-	textures[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
-	diffuseColor = Color32::Magenta();
-
-	ConfigureMaterialInfo();
-}
-
-Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const char* textureName, const Color32& color)
-	: diffuseColor(color),
-	vertexShader(&vertShader),
-	fragmentShader(&fragShader)
-{
-	REF_CHECK(vertShader, fragShader, color);
-
-	if (textureName != nullptr)
-	{
-		textures[0] = GetTextureManager().FindTexture(textureName);
-	}
-	else
-	{
-		textures[0] = GetTextureManager().FindTexture(TextureManager::DefaultTexture);
-	}
-
-    ConfigureMaterialInfo();
-}
-
-Material::Material(NativeVertexShader& vertShader, NativeFragmentShader& fragShader, const Texture* tex, const Color32& color)
-	: diffuseColor(color),
-	vertexShader(&vertShader),
-	fragmentShader(&fragShader)
-{
-	REF_CHECK(vertShader, fragShader, color);
-
-	textures[0] = tex;
-
-    ConfigureMaterialInfo();
-}
-
 Material::Material(ShaderID vertexID, ShaderID fragmentID)
 {
 	ShaderResource* vertShader = GetShaderResourceManager().FindShaderResource(vertexID);
@@ -57,34 +16,31 @@ Material::Material(ShaderID vertexID, ShaderID fragmentID)
 	Assert(fragShader != nullptr);
 
 	shader.Initialize(*vertShader, *fragShader);
+	materialProperties.diffuse = Color32::White();
+
+	renderDescription = MakeUnique<MaterialRenderDescription>();
+	renderDescription->shaders[ShaderStage::Vertex] = vertShader;
+	renderDescription->shaders[ShaderStage::Fragment] = fragShader;
+	renderDescription->resources = &shader.GetMaterialResourceTable();
+
+	materialPropsBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 }
 
-void Material::SetTexture(Texture& tex0)
+MaterialRenderDescription& Material::GetRenderDescription()
 {
-	REF_CHECK(tex0);
-	textures[0] = &tex0;
-	ConfigureMaterialInfo();
+	if (renderDescDirty)
+	{
+		renderDescDirty = false;
+
+		GetGraphicsInterface().PushBufferData(*materialPropsBuffer, &materialProperties);
+		SetUniformBufferResource(materialPropsConstant, *materialPropsBuffer);
+
+		renderDescription->blendMode = blendMode;
+		renderDescription->cullMode = cullMode;
+		renderDescription->fillMode = fillMode;
+		renderDescription->shadingModel = shadingModel;
+	}
+
+	return *renderDescription;
 }
 
-void Material::SetColor(const Color32& color)
-{
-	REF_CHECK(color);
-	diffuseColor = color;
-	ConfigureMaterialInfo();
-}
-
-void Material::SetShadingModel(ShadingModel model)
-{
-	shadingModel = model;
-	ConfigureMaterialInfo();
-}
-
-void Material::ConfigureMaterialInfo()
-{
-	materialRendering->baseColor = diffuseColor;
-	materialRendering->baseTexture = textures[0] ? textures[0]->gpuResource.Get() : nullptr;
-	materialRendering->vertexShader = vertexShader;
-	materialRendering->fragmentShader = fragmentShader;
-	materialRendering->shadingModel = shadingModel;
-	materialRendering->materialProperties = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
-}

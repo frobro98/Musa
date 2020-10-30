@@ -451,6 +451,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 				}
 				header.resourceTable = ConstructShaderConstantTable(header.resourceNames);
 				header.stage = inputs.shaderStage;
+				header.id.bytecodeHash = shaderHeader.bytecodeHash;
 			}
 
 			SpvReadBuf buf;

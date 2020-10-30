@@ -14,7 +14,10 @@ FileDeserializer::FileDeserializer(const Path& filePath)
 		// TODO - Logging
 		MUSA_ERR(DeserializationLog, "Failed to open file {}", *pathToFile.GetFileName());
 	}
-	CacheFile();
+	else
+	{
+		CacheFile();
+	}
 }
 
 FileDeserializer::~FileDeserializer()

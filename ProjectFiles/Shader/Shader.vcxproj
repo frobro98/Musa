@@ -16,7 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Shader\Material.cpp" />
-    <ClCompile Include="..\..\Source\Shader\MaterialRenderInfo.cpp" />
+    <ClCompile Include="..\..\Source\Shader\MaterialRenderDescription.cpp" />
     <ClCompile Include="..\..\Source\Shader\MaterialShader.cpp" />
     <ClCompile Include="..\..\Source\Shader\McppWrapper.cpp" />
     <ClCompile Include="..\..\Source\Shader\Shader.cpp" />
@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Shader\Material.hpp" />
-    <ClInclude Include="..\..\Source\Shader\MaterialRenderInfo.hpp" />
+    <ClInclude Include="..\..\Source\Shader\MaterialRenderDescription.hpp" />
     <ClInclude Include="..\..\Source\Shader\MaterialShader.hpp" />
     <ClInclude Include="..\..\Source\Shader\McppWrapper.hpp" />
     <ClInclude Include="..\..\Source\Shader\Shader.hpp" />

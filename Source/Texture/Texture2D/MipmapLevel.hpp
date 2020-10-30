@@ -12,3 +12,17 @@ struct MipmapLevel
 	u32 width = 0;
 	u32 height = 0;
 };
+
+forceinline void Serialize(SerializeBase& ser, const MipmapLevel& level)
+{
+	Serialize(ser, level.mipData);
+	Serialize(ser, level.width);
+	Serialize(ser, level.height);
+}
+
+forceinline void Deserialize(DeserializeBase& ser, MipmapLevel& level)
+{
+	Deserialize(ser, level.mipData);
+	Deserialize(ser, level.width);
+	Deserialize(ser, level.height);
+}

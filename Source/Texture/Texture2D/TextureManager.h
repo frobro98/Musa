@@ -10,7 +10,7 @@
 #include "Texture/ImageFormats.h"
 #include "Texture/TextureAPI.hpp"
 
-struct Texture;
+class Texture;
 class MemoryBuffer;
 
 class TEX_API TextureManager
@@ -36,7 +36,6 @@ public:
 
 private:
 	//Texture* Compress(const TextureChunk& chunk, uint8* textureData, ImageFormat format);
-	void ConfigureNativeTexture(Texture& texture);
 
 private:
 	DynamicArray<Texture*> texturesLoaded;

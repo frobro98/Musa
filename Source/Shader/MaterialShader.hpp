@@ -49,6 +49,8 @@ public:
 	void SetUniformBufferResource(u16 resourceIndex, NativeUniformBuffer& uniformBuffer);
 	void SetTextureSamplerResource(u16 resourceIndex, NativeTexture& texture, NativeSampler& sampler);
 
+	forceinline MaterialResourceTable& GetMaterialResourceTable() { return resourceTable; }
+
 private:
 	void ConstructResourceTable();
 

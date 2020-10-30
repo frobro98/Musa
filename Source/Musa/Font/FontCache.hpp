@@ -7,7 +7,7 @@
 #include "Containers/Map.h"
 #include "Math/Vector2.hpp"
 
-struct Texture;
+class Texture;
 
 // Font Definitions
 

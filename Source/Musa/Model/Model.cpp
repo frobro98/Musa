@@ -30,7 +30,7 @@ void Model::SetupMeshRenderInfo()
 	renderInfo->vertexBuffer = &mesh->GetVertexBuffer();
 	renderInfo->indexBuffer = &mesh->GetIndexBuffer();
 	renderInfo->transformBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(TransformationUniformBuffer));
-	renderInfo->meshMaterial = &material->GetMaterialRenderInfo();
+	renderInfo->meshMaterial = &material->GetRenderDescription();
 }
 
 void Model::SetWorld(const Matrix4& worldMat)

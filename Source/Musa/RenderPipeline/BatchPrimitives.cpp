@@ -54,5 +54,5 @@ void BatchWireCirclePrimitive(const BatchedCircleDescription & circleDesc)
 void RenderBatchedPrimitives(RenderContext& renderer, const View& view)
 {
 	collection.RenderBatches(renderer, 
-		GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *view.viewBuffer, *(WhiteTexture()->gpuResource));
+		GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *view.viewBuffer, *(WhiteTexture()->GetResource().texResource));
 }

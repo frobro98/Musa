@@ -8,3 +8,7 @@ layout(binding = MAT_PROPS_BINDING) uniform MaterialProperties
 {
 	vec4 diffuse;
 } materialProperties;
+
+#define MAIN_TEX_BINDING MAT_PROPS_BINDING + 1
+
+layout(binding = MAIN_TEX_BINDING) uniform sampler2D mainTexture;

@@ -433,8 +433,6 @@ void MusaEngine::LoadContent()
 
 	GetMeshManager().Initialize();
 
-	Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
-
 	Path bunnyPakPath(EngineAssetPath());
 	bunnyPakPath /= "Models/stanford-bunny.pak";
 	LoadPakFile(bunnyPakPath);
@@ -458,20 +456,30 @@ void MusaEngine::LoadContent()
 	NOT_USED Mesh* astro_boy = GetMeshManager().FindMesh("astro-boy");
 	NOT_USED Mesh* geth = GetMeshManager().FindMesh("geth-trooper");
 
-	NativeVertexShader& vertShader = GetShader<UnlitVert>()->GetNativeShader();
-	NativeFragmentShader& fragShader = GetShader<UnlitFrag>()->GetNativeShader();
+	ShaderID unlitVertID = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
+	ShaderID unlitFragID = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
 
-	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
-	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
-			{},
-			geth,
-			new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())
-		}
-	);
+// 	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
+// 	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
+// 			{},
+// 			geth,
+// 			new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())
+// 		}
+// 	);
 
+	Material* gethMat = new Material(unlitVertID, unlitFragID);
+	TextureSamplerShaderConstant texture = gethMat->GetTextureSamplerConstant("mainTexture");
+	gethMat->SetTextureSamplerResource();
 	GameObject* gethObject = world->CreateGameObject<GameObject>();
 	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())));
 
+	NOT_USED ShaderID transVert = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
+	NOT_USED ShaderID unlit = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
+	NOT_USED ShaderID lit = Shader::FindOrLoadShaderFile("StandardLit.mfs");
+	NOT_USED ShaderID view = Shader::FindOrLoadShaderFile("DeferredViewRender.mvs");
+	NOT_USED ShaderID blinn = Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
+
+	/*Material* mat = */new Material(transVert, unlit);
 	GameObject* go = world->CreateGameObject<OrbitOtherObject>(*gethObject, 5.5f, Vector4::RightAxis);
 	go->SetModel(ModelFactory::CreateModel(astro_boy, new Material(vertShader, fragShader, "astroboy_t0", Color32::White())));
 	go->SetPos(Vector4(-1.5f, 2.5f, 0));

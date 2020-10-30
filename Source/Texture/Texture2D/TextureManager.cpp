@@ -56,7 +56,7 @@ Texture* TextureManager::LoadTextureFromFile(const Path& textureFilePath, const 
 	FileDeserializer deserializer(textureFilePath);
 	Deserialize(deserializer, *texture);
 
-	ConfigureNativeTexture(*texture);
+	texture->UpdateNativeResources();
 
 	texturesLoaded.Add(texture);
 
@@ -70,7 +70,7 @@ Texture* TextureManager::LoadTexture(MemoryBuffer& textureData, const char* text
 	MemoryDeserializer deserializer(textureData);
 	Deserialize(deserializer, *texture);
 
-	ConfigureNativeTexture(*texture);
+	texture->UpdateNativeResources();
 
 	texturesLoaded.Add(texture);
 
@@ -105,7 +105,6 @@ Texture* TextureManager::LoadTexture(MemoryBuffer& textureData, const char* text
 
 void TextureManager::AddTexture(Texture& tex)
 {
-	ConfigureNativeTexture(tex);
 	texturesLoaded.Add(&tex);
 }
 
@@ -125,16 +124,6 @@ void TextureManager::AddTexture(Texture& tex)
 // 	*texture = std::move(compressed);
 // 	return texture;
 // }
-
-// TODO - Get this out of here and into the texture itself as part of initialization...
-void TextureManager::ConfigureNativeTexture(Texture& texture)
-{
-	ResourceBlob textureBlob = ConstructBlobOfMipLevels(texture.mipLevels);
-
-	u32 width = texture.GetWidth();
-	u32 height = texture.GetHeight();
-	texture.gpuResource = GetGraphicsInterface().CreateInitializedTexture2D(textureBlob, width, height, texture.format, texture.mipLevels.Size(), TextureUsage::SampledResource);
-}
 
 void TextureManager::UnloadTexture(const char* textureName)
 {

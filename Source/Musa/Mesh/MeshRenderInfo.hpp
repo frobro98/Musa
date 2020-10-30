@@ -7,13 +7,13 @@
 #include "Math/Matrix4.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
-struct MaterialRenderInfo;
+struct MaterialRenderDescription;
 
 // TODO - There needs to be different ones for this and for animated meshes!
 struct MeshRenderInfo 
 {
 	SphereBounds bounds;
-	MaterialRenderInfo* meshMaterial = nullptr;
+	MaterialRenderDescription* meshMaterial = nullptr;
 	NativeVertexBuffer* vertexBuffer = nullptr;
 	NativeIndexBuffer* indexBuffer = nullptr;
 	UniquePtr<NativeUniformBuffer> transformBuffer;

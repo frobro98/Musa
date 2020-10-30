@@ -12,7 +12,7 @@
 #include "Mesh/MeshRenderInfo.hpp"
 #include "Mesh/Mesh.h"
 #include "Shader/Material.hpp"
-#include "Shader/ShaderObjects/ScreenRendering.hpp"
+#include "Shader/ShaderResource.hpp"
 
 #include "Archiver/SkeletonHeader.h"
 
@@ -73,28 +73,6 @@ METRIC_STAT(TextDisplayRender, SceneRender);
 // 	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
 // }
 
-static void RenderNormally(RenderContext& renderer, const RenderObject& object, const View& view)
-{
-	//SCOPED_TIMED_BLOCK(RenderNormally);
-
-	MaterialRenderInfo* matInfo = object.gpuRenderInfo->meshMaterial;
-
-	// Set Transform Data
-	renderer.SetUniformBuffer(*object.gpuRenderInfo->transformBuffer, 0);
-
-	// Set View information
-	renderer.SetUniformBuffer(*view.viewBuffer, 1);
-
-	if (matInfo->baseTexture != nullptr)
-	{
-		// Set Texture Data
-		renderer.SetTexture(*matInfo->baseTexture, *SamplerDesc(), 2);
-	}
-
-	// Set Material Data
-	renderer.SetUniformBuffer(*matInfo->materialProperties, 3);
-}
-
 static void ConstructPipelineDescription(const RenderTargetDescription& targetDesc, GraphicsPipelineDescription& desc)
 {
 	desc.renderTargets = targetDesc;
@@ -145,23 +123,31 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 
 		for (auto& info : renderObjects)
 		{
-			MaterialRenderInfo* matInfo = info->gpuRenderInfo->meshMaterial;
+			MaterialRenderDescription* matInfo = info->gpuRenderInfo->meshMaterial;
 
 			GraphicsPipelineDescription pipelineDesc;
 			ConstructPipelineDescription(gbufferDesc, pipelineDesc);
-			pipelineDesc.vertexShader = matInfo->vertexShader;
-			pipelineDesc.fragmentShader = matInfo->fragmentShader;
+			pipelineDesc.vertexShader = matInfo->shaders[ShaderStage::Vertex]->GetVertexShader();
+			pipelineDesc.fragmentShader = matInfo->shaders[ShaderStage::Fragment]->GetFragmentShader();
 			context.SetGraphicsPipeline(pipelineDesc);
 
-// 			if (matInfo->normalMap != nullptr)
-// 			{
-// 				RenderWithNormalMap(context, *info, view);
-// 			}
-// 			else
-			{
-				RenderNormally(context, *info, view);
-			}
+			MaterialRenderDescription* matInfo = info->gpuRenderInfo->meshMaterial;
 
+			MaterialResourceTable* resourceTable = matInfo->resources;
+			for (const auto& binding : resourceTable->resourceBindings)
+			{
+				if (binding.type == ShaderResourceType::UniformBuffer)
+				{
+					NativeUniformBuffer* ub = resourceTable->uniformBufferStorage[binding.resourceIndex];
+					context.SetUniformBuffer(*ub, binding.bindIndex);
+				}
+				else if (binding.type == ShaderResourceType::TextureSampler)
+				{
+					NativeTexture* texture = resourceTable->textureStorage[binding.resourceIndex];
+					NativeSampler* sampler = resourceTable->samplerStorage[binding.resourceIndex];
+					context.SetTexture(*texture, *sampler, binding.bindIndex);
+				}
+			}
 			context.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
 			context.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
 		}

@@ -163,37 +163,14 @@ constexpr BlendingDescription BlendDesc()
 
 struct SamplerDescription
 {
-	SamplerDescription(
-		SamplerFilter filter_ = SamplerFilter::Linear,
-		SamplerAddressMode uAddrMode = SamplerAddressMode::Clamp,
-		SamplerAddressMode vAddrMode = SamplerAddressMode::Clamp,
-		SamplerMipmapMode mipMode_ = SamplerMipmapMode::Linear,
-		f32 anisotropy = 0,
-		f32 minLOD = 0,
-		f32 maxLOD = 1,
-		f32 mipLODBias = 0
-	)
-		: maxAnisotropy(anisotropy),
-		minLod(minLOD),
-		maxLod(maxLOD),
-		mipLodBias(mipLODBias),
-		filter(filter_),
-		addrModeU(uAddrMode),
-		addrModeV(vAddrMode),
-		mipMode(mipMode_),
-		enabledAnisotropy(!Math::IsZero(anisotropy))
-	{
-	}
-
-	f32 maxAnisotropy;
-	f32 minLod;
-	f32 maxLod;
-	f32 mipLodBias;
-	SamplerFilter filter;
-	SamplerAddressMode addrModeU;
-	SamplerAddressMode addrModeV;
-	SamplerMipmapMode mipMode;
-	bool enabledAnisotropy;
+	SamplerFilter filter = SamplerFilter::Linear;
+	SamplerAddressMode addrModeU = SamplerAddressMode::Clamp;
+	SamplerAddressMode addrModeV = SamplerAddressMode::Clamp;
+	SamplerMipmapMode mipMode = SamplerMipmapMode::Linear;
+	f32 maxAnisotropy = 0;
+	f32 minLod = 0;
+	f32 maxLod = 1;
+	f32 mipLodBias = 0;
 
 	friend bool operator==(const SamplerDescription& lhs, const SamplerDescription& rhs)
 	{
@@ -204,8 +181,7 @@ struct SamplerDescription
 			lhs.filter == rhs.filter &&
 			lhs.addrModeU == rhs.addrModeU &&
 			lhs.addrModeV == rhs.addrModeV &&
-			lhs.mipMode == rhs.mipMode &&
-			lhs.enabledAnisotropy == rhs.enabledAnisotropy;
+			lhs.mipMode == rhs.mipMode;
 	}
 
 	friend u32 GetHash(const SamplerDescription& params)

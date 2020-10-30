@@ -18,5 +18,4 @@ struct RenderObject
 
 private:
 	void PullInfoForMesh();
-	void PullInfoForMaterial();
 };
