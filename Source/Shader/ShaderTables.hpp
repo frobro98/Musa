@@ -6,6 +6,7 @@
 #include "Shader/ShaderConstantNameMap.hpp"
 #include "Logging/LogFunctions.hpp"
 #include "Debugging/Assertion.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 DEFINE_LOG_CHANNEL(ShaderResources);
 
@@ -27,7 +28,7 @@ struct ShaderConstantTable
 	DynamicArray<ShaderBindInfo> textureResourceInfo;
 };
 
-ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap);
+SHADER_API ShaderConstantTable ConstructShaderConstantTable(ShaderConstantNameMap& nameMap);
 
 //////////////////////////////////////////////////////////////////////////
 //Serialization

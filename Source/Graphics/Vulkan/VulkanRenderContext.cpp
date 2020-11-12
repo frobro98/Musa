@@ -99,12 +99,14 @@ void VulkanRenderContext::SetGlobalUniform(const void* uniformData, u32 dataSize
 
 void VulkanRenderContext::SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, u32 bufferIndex)
 {
+	REF_CHECK(uniformBuffer);
 	const VulkanUniformBuffer* ub = static_cast<const VulkanUniformBuffer*>(&uniformBuffer);
 	currentRenderState.SetUniformBuffer(ub->GetBuffer(), bufferIndex);
 }
 
 void VulkanRenderContext::SetTexture(const NativeTexture& texture, const NativeSampler& sampler, u32 textureIndex)
 {
+	REF_CHECK(texture, sampler);
 	const VulkanTexture* tex = static_cast<const VulkanTexture*>(&texture);
 	const VulkanSampler* samp = static_cast<const VulkanSampler*>(&sampler);
 	currentRenderState.SetTexture(*tex, *samp, textureIndex);

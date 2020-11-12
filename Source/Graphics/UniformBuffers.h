@@ -9,16 +9,27 @@
 
 constexpr u32 MaxBones = 120;
 
-struct TransformationUniformBuffer
+constexpr const tchar* PrimitiveParameterName = "prim";
+constexpr const tchar* ViewParameterName = "view";
+constexpr const tchar* MaterialPropertiesParameterName = "materialProperties";
+
+struct PrimUniformBuffer
 {
 	Matrix4 model;
 };
 
-struct ViewPropertiesBuffer
+struct ViewUniformBuffer
 {
 	Matrix4 viewTransform;
 	Matrix4 projectionTransform;
 	Vector4 viewPosition;
+};
+
+struct MaterialProperties
+{
+	Color32 diffuse;
+	// 	f32 roughness = 0.f;
+	// 	f32 metallic = 0.f;
 };
 
 struct PoseInverseUniformBuffer
@@ -39,13 +50,6 @@ struct BoneDeltasUniformBuffer
 	{
 		Memset(deltaTransforms, 0, sizeof(Matrix4) * MaxBones);
 	}
-};
-
-struct MaterialProperties
-{
-	Color32 diffuse;
-// 	f32 roughness = 0.f;
-// 	f32 metallic = 0.f;
 };
 
 struct LightProperties

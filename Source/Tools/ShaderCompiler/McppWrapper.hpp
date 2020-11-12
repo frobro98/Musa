@@ -3,14 +3,13 @@
 #pragma once
 
 #include "mcpp/mcpp.h"
-#include "ShaderStructure.hpp"
 #include "Containers/Map.h"
 #include "BasicTypes/Uncopyable.hpp"
-#include "Shader/ShaderAPI.hpp"
+#include "Shader/ShaderStages.hpp"
 
 class Path;
 
-class SHADER_API ShaderPreprocessor : private Uncopyable
+class ShaderPreprocessor : private Uncopyable
 {
 public:
 	ShaderPreprocessor(ShaderStage::Type stage, const Map<String, String>& definitions);

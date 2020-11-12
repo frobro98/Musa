@@ -91,6 +91,8 @@ public:
 	void Resize(u32 newSize);
 	void Clear();
 	bool IsEmpty() const;
+	void ShrinkToFit();
+
 	template <typename CompareType>
 	bool Contains(const CompareType& obj) const;
 
@@ -838,6 +840,13 @@ inline bool DynamicArray<Type>::IsEmpty() const
 }
 
 template<class Type>
+inline void DynamicArray<Type>::ShrinkToFit()
+{
+	data = reinterpret_cast<Type*>(Memory::Realloc(data, arraySize * sizeof(Type)));
+	arrayCapacity = arraySize;
+}
+
+template<class Type>
 template<class... Args>
 inline u32 DynamicArray<Type>::Emplace(Args&&... args)
 {
@@ -1032,7 +1041,7 @@ template<class Type>
 inline void DynamicArray<Type>::CreateAdjustedSpace()
 {
 	// This honestly should just be realloc...
-	data = (Type*)Memory::Realloc(data, sizeof(Type) * arrayCapacity);
+	data = reinterpret_cast<Type*>(Memory::Realloc(data, sizeof(Type) * arrayCapacity));
 }
 
 //////////////////////////////////////////////////////////////////////////

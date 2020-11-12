@@ -12,13 +12,13 @@ struct NativeUniformBuffer;
 struct NativeTexture;
 
 // Index into the resource table "header" for where the resource actually lives
-struct UniformBufferShaderConstant
+struct UniformBufferDescriptor
 {
 	u16 resourceIndex;
 };
 
 // Index into the resource table "header" for where the resource actually lives
-struct TextureSamplerShaderConstant
+struct TextureSamplerDescriptor
 {
 	u16 resourceIndex;
 };

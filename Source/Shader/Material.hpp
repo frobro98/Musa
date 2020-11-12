@@ -11,6 +11,7 @@
 #include "Shader/MaterialShader.hpp"
 #include "Shader/ShaderID.hpp"
 #include "Shader/MaterialResourceHandles.hpp"
+#include "Texture/Texture2D/TextureResource.hpp"
 
 class Texture;
 struct TextureCube;
@@ -43,27 +44,27 @@ public:
 	Material() = default;
 	Material(ShaderID vertexID, ShaderID fragmentID);
 
-	forceinline UniformBufferShaderConstant GetUniformBufferConstant(const tchar* resName) const
+	forceinline UniformBufferDescriptor GetUniformBufferConstant(const tchar* resName) const
 	{
 		u16 index = shader.GetUniformBufferResourceIndex(resName);
-		return UniformBufferShaderConstant{ index };
+		return UniformBufferDescriptor{ index };
 	}
 
-	forceinline TextureSamplerShaderConstant GetTextureSamplerConstant(const tchar* resName) const
+	forceinline TextureSamplerDescriptor GetTextureSamplerConstant(const tchar* resName) const
 	{
 		u16 index = shader.GetTextureSamplerResourceIndex(resName);
-		return TextureSamplerShaderConstant{ index };
+		return TextureSamplerDescriptor{ index };
 	}
 
-	forceinline void SetUniformBufferResource(UniformBufferShaderConstant res, NativeUniformBuffer& uniformBuffer)
+	forceinline void SetUniformBufferResource(UniformBufferDescriptor res, NativeUniformBuffer& uniformBuffer)
 	{
 		REF_CHECK(uniformBuffer);
 		shader.SetUniformBufferResource(res.resourceIndex, uniformBuffer);
 	}
 
-	forceinline void SetTextureSamplerResource(TextureSamplerShaderConstant res, NativeTexture& texture, NativeSampler& sampler)
+	forceinline void SetTextureSamplerResource(TextureSamplerDescriptor res, const TextureResource& textureRes)
 	{
-		shader.SetTextureSamplerResource(res.resourceIndex, texture, sampler);
+		shader.SetTextureSamplerResource(res.resourceIndex, *textureRes.texResource, *textureRes.samplerResource);
 	}
 
 	forceinline void SetColor(Color32 color)
@@ -107,7 +108,7 @@ private:
 	// TODO - Keeping a uniform buffer in the material itself doesn't necessarily make sense
 	UniquePtr<NativeUniformBuffer> materialPropsBuffer;
 	MaterialProperties materialProperties;
-	UniformBufferShaderConstant materialPropsConstant;
+	UniformBufferDescriptor materialPropsConstant;
 
 	// Pipeline properties
 	MaterialShader shader;
@@ -115,5 +116,5 @@ private:
 	FillMode fillMode = FillMode::Full;
 	BlendMode blendMode = BlendMode::Opaque;
 	ShadingModel shadingModel = ShadingModel::Lit;
-	bool renderDescDirty = false;
+	bool renderDescDirty = true;
 };

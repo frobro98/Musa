@@ -18,18 +18,18 @@ public:
 
 	forceinline NativeVertexShader* GetVertexShader()
 	{
-		Assert(stage == ShaderStage::Vertex);
+		Assert(header.stage == ShaderStage::Vertex);
 		return vertexShader.Get();
 	}
 
 	forceinline NativeFragmentShader* GetFragmentShader()
 	{
-		Assert(stage == ShaderStage::Fragment);
+		Assert(header.stage == ShaderStage::Fragment);
 		return fragmentShader.Get();
 	}
 
 	forceinline ShaderID GetShaderID() const { return header.id; }
-	forceinline ShaderStage::Type GetShaderStage() const { return stage; }
+	forceinline ShaderStage::Type GetShaderStage() const { return header.stage; }
 	forceinline const ShaderConstantTable& GetResourceTable() const { return header.resourceTable; }
 	forceinline const ShaderConstantNameMap& GetNameMap() const { return header.resourceNames; }
 
@@ -38,5 +38,4 @@ private:
 	ShaderHeader header;
 	UniquePtr<NativeVertexShader> vertexShader = nullptr;
 	UniquePtr<NativeFragmentShader> fragmentShader = nullptr;
-	ShaderStage::Type stage;
 };

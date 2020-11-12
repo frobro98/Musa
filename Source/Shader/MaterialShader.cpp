@@ -38,15 +38,15 @@ u16 MaterialShader::GetTextureSamplerResourceIndex(const tchar* texName) const
 	return 0xffff;
 }
 
-void MaterialShader::SetUniformBufferResource(u16 resourceIndex, NativeUniformBuffer& uniformBuffer)
+void MaterialShader::SetUniformBufferResource(u16 resourceIndex, const NativeUniformBuffer& uniformBuffer)
 {
-	Assert(resourceTable.uniformBufferStorage.Size() < resourceIndex);
+	Assert(resourceIndex  < resourceTable.uniformBufferStorage.Size());
 	resourceTable.uniformBufferStorage[resourceIndex] = &uniformBuffer;
 }
 
-void MaterialShader::SetTextureSamplerResource(u16 resourceIndex, NativeTexture& texture, NativeSampler& sampler)
+void MaterialShader::SetTextureSamplerResource(u16 resourceIndex, const NativeTexture& texture, const NativeSampler& sampler)
 {
-	Assert(resourceTable.textureStorage.Size() < resourceIndex);
+	Assert(resourceIndex < resourceTable.textureStorage.Size());
 	resourceTable.textureStorage[resourceIndex] = &texture;
 	resourceTable.samplerStorage[resourceIndex] = &sampler;
 }
@@ -107,6 +107,7 @@ void MaterialShader::ConstructResourceTable()
 		{
 			Assert(matDesc.type == ShaderResourceType::UniformBuffer);
 			matDesc.usage |= FragmentMask;
+			resourceTable.resourceBindings.RemoveLast();
 		}
 		else
 		{
@@ -130,6 +131,7 @@ void MaterialShader::ConstructResourceTable()
 		{
 			Assert(matDesc.type == ShaderResourceType::TextureSampler);
 			matDesc.usage |= FragmentMask;
+			resourceTable.resourceBindings.RemoveLast();
 		}
 		else
 		{
@@ -148,4 +150,7 @@ void MaterialShader::ConstructResourceTable()
 	}
 
 	Assert(resourceTable.textureStorage.Size() == resourceTable.samplerStorage.Size());
+	Assert(resourceTable.textureStorage.Size() + resourceTable.uniformBufferStorage.Size() == 
+		resourceTable.resourceBindings.Size());
+	resourceTable.resourceBindings.ShrinkToFit();
 }

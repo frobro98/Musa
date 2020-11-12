@@ -63,7 +63,7 @@ void GameWorld::PushToRenderState()
 {
 	Camera* mainCamera = GetCameraManager().GetActiveCamera();
 	screenView->AssociateCameraWithView(*mainCamera);
-	renderObjectManager->SequenciallyPull();
+	renderObjectManager->SequenciallyPull(*screenView);
 }
 
 void GameWorld::RegisterRenderInfo(const GameObject& go, MeshRenderInfo& renderInfo)

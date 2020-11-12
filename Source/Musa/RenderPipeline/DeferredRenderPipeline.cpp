@@ -11,7 +11,8 @@
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Debugging/MetricInterface.hpp"
-#include "Shader/ShaderObjects/ScreenRendering.hpp"
+#include "Shader/Shader.hpp"
+#include "Shader/ShaderResource.hpp"
 
 #include "BasicTypes/Color.hpp"
 
@@ -62,6 +63,11 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 	context.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
 	context.SetScissor(0, 0, viewWidth, viewHeight);
 
+	ShaderID screenVertID = Shader::FindOrLoadShaderFile("ScreenTransform.mvs");
+	ShaderID screenCompID = Shader::FindOrLoadShaderFile("ScreenComposition.mfs");
+	NOT_USED ShaderResource* vertexShader = Shader::FindAssociatedShaderResource(screenVertID);
+	NOT_USED ShaderResource* fragmentShader = Shader::FindAssociatedShaderResource(screenCompID);
+
 	GraphicsPipelineDescription desc = {};
 	context.InitializeWithRenderState(desc);
 	desc.vertexInputs = {};
@@ -69,8 +75,8 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 	desc.blendingDescs[0] = BlendDesc<ColorMask::RGBA, BlendOperation::Add, BlendFactor::One, BlendFactor::One, BlendOperation::Add, BlendFactor::One, BlendFactor::One>();
 	desc.depthStencilTestDesc = DepthTestDesc();
 	desc.topology = PrimitiveTopology::TriangleList;
-	desc.vertexShader = &GetShader<ScreenRenderVert>()->GetNativeShader();
-	desc.fragmentShader = &GetShader<ScreenRenderFrag>()->GetNativeShader();
+	desc.vertexShader = vertexShader->GetVertexShader();
+	desc.fragmentShader = fragmentShader->GetFragmentShader();
 	context.SetGraphicsPipeline(desc);
 
 	context.SetTexture(*sceneColor.nativeTarget, *SamplerDesc(), 0);

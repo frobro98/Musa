@@ -4,6 +4,7 @@
 
 #include "Containers/Map.h"
 #include "Shader/ShaderID.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 class ShaderResource;
 
@@ -23,3 +24,9 @@ private:
 };
 
 ShaderResourceManager& GetShaderResourceManager();
+
+namespace Shader
+{
+// TODO - This function exhibits private behavior that is public to the masses, i.e. Musa engine and games. REvisit this...
+SHADER_API ShaderResource* FindAssociatedShaderResource(ShaderID id);
+}

@@ -5,6 +5,7 @@
 #include "Containers/Map.h"
 #include "String/String.h"
 #include "Shader/ShaderStructure.hpp"
+#include "Shader/ShaderAPI.hpp"
 
 // Describing a resource and location in the table
 struct ShaderResourceInfo
@@ -33,7 +34,7 @@ inline void Deserialize(DeserializeBase& ser, ShaderResourceInfo& resInfo)
 	Deserialize(ser, resInfo.size);
 }
 
-struct ShaderConstantNameMap
+struct SHADER_API ShaderConstantNameMap
 {
 	void AddShaderResource(const tchar* resName, const ShaderResourceInfo& resInfo);
 	ShaderResourceInfo GetResourceDescription(const String& name) const;

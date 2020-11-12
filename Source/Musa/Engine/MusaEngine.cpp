@@ -20,10 +20,6 @@
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
 
-#include "Shader/ShaderDefinition.hpp"
-#include "Shader/ShaderObjects/UnlitShading.hpp"
-#include "Shader/ShaderObjects/BlinnShading.hpp"
-
 #include "Debugging/MetricInterface.hpp"
 #include "Debugging/ProfilerStatistics.hpp"
 
@@ -422,15 +418,8 @@ static void LoadPakFile(const Path& pakPath)
 #include "GameObject/DemoGameObjects/MoveBetweenObject.hpp"
 #include "GameObject/DemoGameObjects/ScaleChangingObject.hpp"
 
-#include "Platform/PlatformMemory.hpp"
-
 void MusaEngine::LoadContent()
 {
-	NOT_USED PlatformMemory::PlatformMemoryInfo info = PlatformMemory::GetPlatformMemoryInfo();
-	// TODO - This shouldn't be in the load content function as it stands. However, it will be in some sort of load defaults 
-	GetTextureManager().AddTexture(*WhiteTexture());
-	GetTextureManager().AddTexture(*BlackTexture());
-
 	GetMeshManager().Initialize();
 
 	Path bunnyPakPath(EngineAssetPath());
@@ -459,6 +448,8 @@ void MusaEngine::LoadContent()
 	ShaderID unlitVertID = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
 	ShaderID unlitFragID = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
 
+	// TODO - Be able to reuse a material (have some sort of material ID system potentially?)
+
 // 	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
 // 	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
 // 			{},
@@ -467,25 +458,45 @@ void MusaEngine::LoadContent()
 // 		}
 // 	);
 
+	Texture* gethTex = GetTextureManager().FindTexture("ME3_360_ENEMY_Geth_Trooper_Body_D_t0");
+	TextureResource& gethTexResource = gethTex->GetResource();
+
+	Texture* astroTex = GetTextureManager().FindTexture("astroboy_t0");
+	TextureResource& astroTexResource = astroTex->GetResource();
+
+	Texture* whiteTex = WhiteTexture();
+	TextureResource& whiteResource = whiteTex->GetResource();
+
 	Material* gethMat = new Material(unlitVertID, unlitFragID);
-	TextureSamplerShaderConstant texture = gethMat->GetTextureSamplerConstant("mainTexture");
-	gethMat->SetTextureSamplerResource();
+	TextureSamplerDescriptor texture = gethMat->GetTextureSamplerConstant("mainTexture");
+	gethMat->SetTextureSamplerResource(texture, gethTexResource);
+	
 	GameObject* gethObject = world->CreateGameObject<GameObject>();
-	gethObject->SetModel(ModelFactory::CreateModel(geth, new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())));
+	gethObject->SetModel(ModelFactory::CreateModel(geth, gethMat));
 
-	NOT_USED ShaderID transVert = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
-	NOT_USED ShaderID unlit = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
-	NOT_USED ShaderID lit = Shader::FindOrLoadShaderFile("StandardLit.mfs");
-	NOT_USED ShaderID view = Shader::FindOrLoadShaderFile("DeferredViewRender.mvs");
-	NOT_USED ShaderID blinn = Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
+ 
+// 	NOT_USED ShaderID transVert = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
+// 	NOT_USED ShaderID unlit = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
+// 	NOT_USED ShaderID lit = Shader::FindOrLoadShaderFile("StandardLit.mfs");
+// 	NOT_USED ShaderID view = Shader::FindOrLoadShaderFile("DeferredViewRender.mvs");
+// 	NOT_USED ShaderID blinn = Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
 
-	/*Material* mat = */new Material(transVert, unlit);
+	Material* astroMat = new Material(unlitVertID, unlitFragID);
+	texture = astroMat->GetTextureSamplerConstant("mainTexture");
+	astroMat->SetTextureSamplerResource(texture, astroTexResource);
+
 	GameObject* go = world->CreateGameObject<OrbitOtherObject>(*gethObject, 5.5f, Vector4::RightAxis);
-	go->SetModel(ModelFactory::CreateModel(astro_boy, new Material(vertShader, fragShader, "astroboy_t0", Color32::White())));
+	go->SetModel(ModelFactory::CreateModel(astro_boy, astroMat));
 	go->SetPos(Vector4(-1.5f, 2.5f, 0));
 	
+
+	Material* orbitMat = new Material(unlitVertID, unlitFragID);
+	texture = orbitMat->GetTextureSamplerConstant("mainTexture");
+	orbitMat->SetTextureSamplerResource(texture, whiteResource);
+	orbitMat->SetColor(Color32::Blue());
+
 	go = world->CreateGameObject<OrbitOtherObject>(*go, 2.f, Vector4::UpAxis);
-	go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), Color32::Blue())));
+	go->SetModel(ModelFactory::CreateModel(box, orbitMat));
 	go->SetPos(Vector4(5, 0, 0));
 
 // 	constexpr uint32 numDoubleObjects = 400;
@@ -610,7 +621,6 @@ void MusaEngine::RenderFrame()
 	context.BeginRenderFrame(viewport->GetNativeViewport());
 	END_TIMED_BLOCK(BeginRenderFrame);
 
-	//world->RenderWorld(engineTargets.gbuffer, engineTargets.sceneTargets, *engineTargets.userInterfaceTarget, *viewport);
 	DeferredRender::Render(engineTargets, world->GetScene(), renderManager, screenView.view);
 	DeferredRender::RenderUI(context, *uiContext, *engineTargets.userInterfaceTarget, screenView.view);
 

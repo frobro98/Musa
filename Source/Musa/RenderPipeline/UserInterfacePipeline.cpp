@@ -7,7 +7,8 @@
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/ResourceArray.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
-#include "Shader/ShaderObjects/SimplePrimitiveRendering.hpp"
+#include "Shader/Shader.hpp"
+#include "Shader/ShaderResource.hpp"
 #include "Scene/ScreenView.hpp"
 #include "BatchPrimitives.hpp"
 #include "Graphics/UniformBuffers.h"
@@ -22,9 +23,6 @@
 #include "Visualization/ScreenTextItem.hpp"
 #include "Graphics/RenderTarget.hpp"
 #include "Graphics/RenderContextUtilities.hpp"
-
-#include "Shader/ShaderObjects/ScreenRendering.hpp"
-
 
 #include "BasicTypes/UniquePtr.hpp"
 #include "UI/UIContext.hpp"
@@ -75,9 +73,9 @@ EngineStatView statView;
 {
 	if (viewBuffer == nullptr)
 	{
-		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
 		viewBuffer = buff.Release();
-		ViewPropertiesBuffer buffer = {};
+		ViewUniformBuffer buffer = {};
 		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
 		buffer.viewTransform = Matrix4(IDENTITY);
 		buffer.viewPosition = view.description.origin;
@@ -101,7 +99,12 @@ EngineStatView statView;
 		quadDesc.color = Color32::Black();
 		collection.BatchQuad(quadDesc);
 
-		collection.RenderBatches(renderer, GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *viewBuffer, *(WhiteTexture()->GetResource().texResource));
+		ShaderID primitiveVertID = Shader::FindOrLoadShaderFile("PrimitiveTransform.mvs");
+		ShaderID primitiveFragID = Shader::FindOrLoadShaderFile("PrimitiveRender.mfs");
+		ShaderResource* vertexShader = Shader::FindAssociatedShaderResource(primitiveVertID);
+		ShaderResource* fragmentShader = Shader::FindAssociatedShaderResource(primitiveFragID);
+
+		collection.RenderBatches(renderer, *vertexShader->GetVertexShader(), *fragmentShader->GetFragmentShader(), *viewBuffer, *(WhiteTexture()->GetResource().texResource));
 	}
 
 	BEGIN_TIMED_BLOCK(TextFormatting);
@@ -186,10 +189,15 @@ EngineStatView statView;
 
 		END_TIMED_BLOCK(TextSetup);
 
+		ShaderID primitiveVertID = Shader::FindOrLoadShaderFile("PrimitiveTransform.mvs");
+		ShaderID primitiveFragID = Shader::FindOrLoadShaderFile("PrimitiveRender.mfs");
+		ShaderResource* vertexShader = Shader::FindAssociatedShaderResource(primitiveVertID);
+		ShaderResource* fragmentShader = Shader::FindAssociatedShaderResource(primitiveFragID);
+
 		GraphicsPipelineDescription desc = {};
 		renderer.InitializeWithRenderState(desc);
-		desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
-		desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
+		desc.vertexShader = vertexShader->GetVertexShader();
+		desc.fragmentShader = fragmentShader->GetFragmentShader();
 		desc.rasterizerDesc = RasterDesc();
 		desc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::SrcAlpha, BlendFactor::OneMinusSrcAlpha>();
 		desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
@@ -229,9 +237,9 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 
 	if (viewBuffer == nullptr)
 	{
-		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
 		viewBuffer = buff.Release();
-		ViewPropertiesBuffer buffer = {};
+		ViewUniformBuffer buffer = {};
 		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
 		buffer.viewTransform = Matrix4(IDENTITY);
 		buffer.viewPosition = view.description.origin;
@@ -268,10 +276,15 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
  		RenderScreenText(renderContext, view);
  		END_TIMED_BLOCK(TextDisplayRender);
 
+		ShaderID primitiveVertID = Shader::FindOrLoadShaderFile("PrimitiveTransform.mvs");
+		ShaderID primitiveFragID = Shader::FindOrLoadShaderFile("PrimitiveRender.mfs");
+		ShaderResource* vertexShader = Shader::FindAssociatedShaderResource(primitiveVertID);
+		ShaderResource* fragmentShader = Shader::FindAssociatedShaderResource(primitiveFragID);
+
 		GraphicsPipelineDescription desc = {};
 		renderContext.InitializeWithRenderState(desc);
-		desc.vertexShader = &GetShader<SimplePrimitiveVert>()->GetNativeShader();
-		desc.fragmentShader = &GetShader<SimplePrimitiveFrag>()->GetNativeShader();
+		desc.vertexShader = vertexShader->GetVertexShader();
+		desc.fragmentShader = fragmentShader->GetFragmentShader();
 		desc.rasterizerDesc = RasterDesc();
 		desc.blendingDescs[0] = BlendDesc();
 		desc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();

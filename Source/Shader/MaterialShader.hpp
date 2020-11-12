@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Shader/ShaderTables.hpp"
+
 class ShaderResource;
 
 // Describes where this resource is used
@@ -32,9 +33,9 @@ struct MaterialResourceTable
 {
 	// Array of all bindings, with index into specific resource array
 	DynamicArray<MaterialResourceDesc> resourceBindings;
-	DynamicArray<NativeUniformBuffer*> uniformBufferStorage;
-	DynamicArray<NativeTexture*> textureStorage;
-	DynamicArray<NativeSampler*> samplerStorage;
+	DynamicArray<const NativeUniformBuffer*> uniformBufferStorage;
+	DynamicArray<const NativeTexture*> textureStorage;
+	DynamicArray<const NativeSampler*> samplerStorage;
 };
 
 class MaterialShader
@@ -46,8 +47,8 @@ public:
 	u16 GetUniformBufferResourceIndex(const tchar* ubName) const;
 	u16 GetTextureSamplerResourceIndex(const tchar* texName) const;
 
-	void SetUniformBufferResource(u16 resourceIndex, NativeUniformBuffer& uniformBuffer);
-	void SetTextureSamplerResource(u16 resourceIndex, NativeTexture& texture, NativeSampler& sampler);
+	void SetUniformBufferResource(u16 resourceIndex, const NativeUniformBuffer& uniformBuffer);
+	void SetTextureSamplerResource(u16 resourceIndex, const NativeTexture& texture, const NativeSampler& sampler);
 
 	forceinline MaterialResourceTable& GetMaterialResourceTable() { return resourceTable; }
 

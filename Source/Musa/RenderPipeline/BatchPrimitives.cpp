@@ -3,7 +3,6 @@
 #include "BatchPrimitives.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Shader/ShaderDefinition.hpp"
-#include "Shader/ShaderObjects/SimplePrimitiveRendering.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Texture/Texture2D/Texture.h"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
@@ -51,8 +50,9 @@ void BatchWireCirclePrimitive(const BatchedCircleDescription & circleDesc)
 	collection.BatchWireCircle(circleDesc);
 }
 
-void RenderBatchedPrimitives(RenderContext& renderer, const View& view)
+void RenderBatchedPrimitives(RenderContext& renderer, const View& view, 
+	const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader)
 {
 	collection.RenderBatches(renderer, 
-		GetShader<SimplePrimitiveVert>()->GetNativeShader(), GetShader<SimplePrimitiveFrag>()->GetNativeShader(), *view.viewBuffer, *(WhiteTexture()->GetResource().texResource));
+		vertShader, fragShader, *view.viewBuffer, *(WhiteTexture()->GetResource().texResource));
 }

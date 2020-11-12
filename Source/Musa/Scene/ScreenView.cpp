@@ -4,8 +4,6 @@
 #include "Debugging/Assertion.hpp"
 #include "Math/MatrixUtilities.hpp"
 #include "Camera/Camera.h"
-#include "Shader/ShaderDefinition.hpp"
-#include "Shader/ShaderObjects/ScreenRendering.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffers.h"
 
@@ -14,9 +12,6 @@ ScreenView::ScreenView(i32 screenWidth, i32 screenHeight)
 {
 	Assert(screenWidth > 0);
 	Assert(screenHeight > 0);
-
-	screenVertexShader = &GetShader<ScreenRenderVert>()->GetNativeShader();
-	screenFragmentShader = &GetShader<ScreenRenderFrag>()->GetNativeShader();
 }
 
 i32 ScreenView::GetScreenWidth() const
@@ -27,16 +22,6 @@ i32 ScreenView::GetScreenWidth() const
 i32 ScreenView::GetScreenHeight() const
 {
 	return height;
-}
-
-NativeVertexShader* ScreenView::GetScreenVertexShader() const
-{
-	return screenVertexShader;
-}
-
-NativeFragmentShader* ScreenView::GetScreenFragmentShader() const
-{
-	return screenFragmentShader;
 }
 
 void ScreenView::AssociateCameraWithView(const Camera& camera)
@@ -52,10 +37,10 @@ void ScreenView::AssociateCameraWithView(const Camera& camera)
 
 	if (!view.viewBuffer.IsValid())
 	{
-		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewPropertiesBuffer));
+		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
 	}
 
-	ViewPropertiesBuffer props;
+	ViewUniformBuffer props;
 	props.viewTransform = view.transforms.viewMatrix;
 	props.projectionTransform = view.transforms.projectionMatrix;
 	props.viewPosition = view.description.origin;

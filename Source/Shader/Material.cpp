@@ -3,7 +3,6 @@
 #include "Material.hpp"
 #include "Texture2D/TextureManager.h"
 #include "Texture2D/Texture.h"
-#include "ShaderObjects/UnlitShading.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffers.h"
 #include "Shader/ShaderResourceManager.hpp"
@@ -24,6 +23,7 @@ Material::Material(ShaderID vertexID, ShaderID fragmentID)
 	renderDescription->resources = &shader.GetMaterialResourceTable();
 
 	materialPropsBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
+	materialPropsConstant = GetUniformBufferConstant(MaterialPropertiesParameterName);
 }
 
 MaterialRenderDescription& Material::GetRenderDescription()

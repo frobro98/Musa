@@ -29,7 +29,7 @@ void Model::SetupMeshRenderInfo()
 	renderInfo = MakeUnique<MeshRenderInfo>();
 	renderInfo->vertexBuffer = &mesh->GetVertexBuffer();
 	renderInfo->indexBuffer = &mesh->GetIndexBuffer();
-	renderInfo->transformBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(TransformationUniformBuffer));
+	renderInfo->transformBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(PrimUniformBuffer));
 	renderInfo->meshMaterial = &material->GetRenderDescription();
 }
 

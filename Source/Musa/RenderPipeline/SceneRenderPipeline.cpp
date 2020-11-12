@@ -43,7 +43,6 @@
 
 DECLARE_METRIC_GROUP(SceneRender);
 METRIC_STAT(DeferredRender, SceneRender);
-//METRIC_STAT(RenderNormally, SceneRender);
 METRIC_STAT(NormalMapRender, SceneRender);
 METRIC_STAT(GBufferRenderPass, SceneRender);
 METRIC_STAT(RenderToScreen, SceneRender);
@@ -131,20 +130,18 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 			pipelineDesc.fragmentShader = matInfo->shaders[ShaderStage::Fragment]->GetFragmentShader();
 			context.SetGraphicsPipeline(pipelineDesc);
 
-			MaterialRenderDescription* matInfo = info->gpuRenderInfo->meshMaterial;
-
 			MaterialResourceTable* resourceTable = matInfo->resources;
 			for (const auto& binding : resourceTable->resourceBindings)
 			{
 				if (binding.type == ShaderResourceType::UniformBuffer)
 				{
-					NativeUniformBuffer* ub = resourceTable->uniformBufferStorage[binding.resourceIndex];
+					const NativeUniformBuffer* ub = resourceTable->uniformBufferStorage[binding.resourceIndex];
 					context.SetUniformBuffer(*ub, binding.bindIndex);
 				}
 				else if (binding.type == ShaderResourceType::TextureSampler)
 				{
-					NativeTexture* texture = resourceTable->textureStorage[binding.resourceIndex];
-					NativeSampler* sampler = resourceTable->samplerStorage[binding.resourceIndex];
+					const NativeTexture* texture = resourceTable->textureStorage[binding.resourceIndex];
+					const NativeSampler* sampler = resourceTable->samplerStorage[binding.resourceIndex];
 					context.SetTexture(*texture, *sampler, binding.bindIndex);
 				}
 			}

@@ -4,7 +4,10 @@
 
 #include "Graphics/BatchCollection.hpp"
 
+class RenderContext;
 struct View;
+struct NativeVertexShader;
+struct NativeFragmentShader;
 
 // Define functions to batch specific primitives, like lines, quads, circles, etc
 
@@ -21,5 +24,6 @@ void BatchWireCirclePrimitive(const BatchedCircleDescription& circleDesc);
 
 
 // Render current batch of primitives
-void RenderBatchedPrimitives(class RenderContext& renderer, const View& view);
+void RenderBatchedPrimitives(RenderContext& renderer, const View& view, 
+	const NativeVertexShader& vertShader, const NativeFragmentShader& fragShader);
 

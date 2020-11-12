@@ -91,14 +91,7 @@ void GameObject::ShowDebugVolume(bool show)
 	{
 		if (show && debugVolume == nullptr)
 		{
-// 			VulkanShader* vertShader = GetShaderManager().CreateShader("default.vs.spv", ShaderStage::Vertex);
-// 			vertShader->SetDescriptorInformation(*descriptorSetLayout);
-// 			VulkanShader* fragShader = GetShaderManager().CreateShader("default.fs.spv", ShaderStage::Vertex);
-// 			fragShader->SetDescriptorInformation(*descriptorSetLayout);
 
-// 			Material* mat = new Material(*vertShader, *fragShader, "defaultTex", Color32::White());
-// 			mat->EnableWireframe();
-			//debugVolume = ModelFactory::CreateModel(MeshManager::FindMesh(Mesh::SphereName), mat);
 		}
 		else if (show && debugVolume != nullptr)
 		{

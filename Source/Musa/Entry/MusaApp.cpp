@@ -6,7 +6,6 @@
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
 #include "Input/Internal/InputInternal.hpp"
-#include "Shader/ShaderDefinition.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Logging/LogFunctions.hpp"
 #include "Logging/Sinks/ConsoleWindowSink.hpp"
@@ -33,7 +32,6 @@ void MusaApp::LaunchApplication()
 
 	MUSA_INFO(AppLog, "Initializing Graphics Layer");
 	GetGraphicsInterface().InitializeGraphics();
-	InitializeShaders();
 
 	SetupGameEngine();
 

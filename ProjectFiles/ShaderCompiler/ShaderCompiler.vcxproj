@@ -10,6 +10,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\McppWrapper.cpp" />
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\ShaderCompiler.cpp" />
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\ShaderCompilerEntry.cpp" />
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\spirv_reflect\spirv_reflect.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\McppWrapper.hpp" />
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\ShaderCompiledOutput.hpp" />
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\ShaderCompiler.h" />
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\ShaderExternal.h" />
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\spirv_reflect\spirv_reflect.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Tools\ShaderCompiler\spirv_reflect\LICENSE" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{D779A5C1-C8CA-45C4-B70A-C1B0690BEE25}</ProjectGuid>
@@ -68,8 +84,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core_d.lib;Archiver_d.lib;Shader_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core_d.lib;Graphics_d.lib;Archiver_d.lib;Shader_d.lib;glslangd_64.lib;mcpp_64d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -100,8 +116,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core.lib;Archiver.lib;Shader.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdParty\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core.lib;Graphics.lib;Archiver.lib;Shader.lib;glslang_64.lib;mcpp_64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -114,9 +130,6 @@
       </Command>
     </CustomBuildStep>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\shaderCompiler.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

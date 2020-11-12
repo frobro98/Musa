@@ -9,6 +9,6 @@ void main()
 	
 	gbufferData.position = vec4(0, 0, 0, 1);
 	gbufferData.normal = vec4(0, 0, 0, 0);
-	gbufferData.diffuse = materialProperties.diffuse;
+	gbufferData.diffuse = texture(mainTexture, inputs.interpUV) * materialProperties.diffuse;
 	OutputToGBuffer(gbufferData);
 }

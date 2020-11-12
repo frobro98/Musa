@@ -7,7 +7,7 @@
 class GameObject;
 struct RenderObject;
 struct MeshRenderInfo;
-struct View;
+class ScreenView;
 
 class RenderObjectManager
 {
@@ -15,7 +15,7 @@ public:
 	void RegisterGameObject(const GameObject& obj, MeshRenderInfo& meshInfo);
 	void UnregisterGameObject(const GameObject& obj);
 
-	void SequenciallyPull();
+	void SequenciallyPull(const ScreenView& view);
 
 	inline const DynamicArray<RenderObject*>& GetRenderObjects() const { return renderObjects; }
 

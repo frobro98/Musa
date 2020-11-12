@@ -1,9 +1,9 @@
-// Copyright 2020, Nathan Blane
+ // Copyright 2020, Nathan Blane
 
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "ShaderStages.hpp"
+#include "Shader/ShaderStages.hpp"
 #include "Containers/MemoryBuffer.hpp"
 #include "Containers/Map.h"
 #include "String/String.h"

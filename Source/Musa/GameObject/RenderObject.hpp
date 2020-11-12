@@ -4,14 +4,14 @@
 
 class GameObject;
 struct MeshRenderInfo;
-struct View;
+class ScreenView;
 
 struct RenderObject
 {
 	void SetGameObject(const GameObject& obj, MeshRenderInfo& meshInfo);
 	void ResetGameObject(); 
 
-	void PullDataFromGameObject();
+	void PullDataFromGameObject(const ScreenView& view);
 
 	const GameObject* sceneObject = nullptr;
 	MeshRenderInfo* gpuRenderInfo = nullptr;

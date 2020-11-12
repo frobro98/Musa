@@ -4,10 +4,44 @@
     <Filter Include="Source">
       <UniqueIdentifier>{d983e7e4-b5ee-483a-a5e1-2bdfa2cee3ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\spirv_reflect">
+      <UniqueIdentifier>{f118d16c-2872-4896-bca6-a2f1f7902b58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\shaderCompiler.cpp">
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\McppWrapper.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\ShaderCompiler.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\spirv_reflect\spirv_reflect.c">
+      <Filter>Source\spirv_reflect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Tools\ShaderCompiler\ShaderCompilerEntry.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\ShaderExternal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\ShaderCompiledOutput.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\ShaderCompiler.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\McppWrapper.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Tools\ShaderCompiler\spirv_reflect\spirv_reflect.h">
+      <Filter>Source\spirv_reflect</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Tools\ShaderCompiler\spirv_reflect\LICENSE">
+      <Filter>Source\spirv_reflect</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -176,6 +176,8 @@ Font* ImportTTFont(const Path& path)
 	level.mipData = { bitmap.GetData(), bitmap.Size() };
 	t->mipLevels.Add(std::move(level));
 
+	t->UpdateNativeResources();
+
 	font->fontTexture = t;
 	font->newlineHeightOffset = maxCharHeight;
 

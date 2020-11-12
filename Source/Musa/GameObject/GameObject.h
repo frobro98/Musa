@@ -41,6 +41,7 @@ public:
 	void SetScale(float scaleX, float scaleY, float scaleZ);
 
 	inline Vector4 GetPosition() const { return position; }
+	forceinline Model& GetModel() const { return *model; }
 
 	virtual void InputSetup();
 	virtual void MoveForward(i32 mod);

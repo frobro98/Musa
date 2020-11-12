@@ -47,8 +47,6 @@ public:
 
 	i32 GetScreenWidth() const;
 	i32 GetScreenHeight() const;
-	NativeVertexShader* GetScreenVertexShader() const;
-	NativeFragmentShader* GetScreenFragmentShader() const;
 
 	void AssociateCameraWithView(const Camera& cam);
 

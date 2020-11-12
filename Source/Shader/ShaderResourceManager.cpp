@@ -50,3 +50,11 @@ ShaderResourceManager& GetShaderResourceManager()
 	static ShaderResourceManager shaderManager;
 	return shaderManager;
 }
+
+namespace Shader
+{
+ShaderResource* FindAssociatedShaderResource(ShaderID id)
+{
+	return GetShaderResourceManager().FindShaderResource(id);
+}
+}

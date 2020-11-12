@@ -5,7 +5,6 @@
 #include "VulkanDevice.h"
 #include "VulkanBufferAllocation.hpp"
 #include "VulkanStagingBufferManager.hpp"
-#include "Shader/ShaderStructure.hpp"
 
 VkAccessFlags GetAccessFlagsFor(VkImageLayout layout)
 {

@@ -7,17 +7,22 @@
 #include "Graphics/RenderTargetDescription.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Scene/ScreenView.hpp"
-#include "Shader/ShaderObjects/DeferredLightingShading.hpp"
 #include "Scene/Scene.hpp"
 #include "Lighting/Light.hpp"
 #include "Math/MatrixUtilities.hpp"
+#include "Shader/Shader.hpp"
+#include "Shader/ShaderResource.hpp"
 
 constexpr u32 ShadowMapWidth = 1024;
 constexpr u32 ShadowMapHeight = 1024;
 
 static void SetupLightRender(RenderContext& renderer, const GBuffer& gbuffer)
 {
-//	renderer.SetRenderTarget();
+	ShaderID deferredVertexID = Shader::FindOrLoadShaderFile("DeferredViewRender.mvs");
+	ShaderID deferredFragmentID = Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
+
+	ShaderResource* vertShader = Shader::FindAssociatedShaderResource(deferredVertexID);
+	ShaderResource* fragShader = Shader::FindAssociatedShaderResource(deferredFragmentID);
 
 	GraphicsPipelineDescription pipelineDesc = {};
 	renderer.InitializeWithRenderState(pipelineDesc);
@@ -26,10 +31,11 @@ static void SetupLightRender(RenderContext& renderer, const GBuffer& gbuffer)
 	pipelineDesc.blendingDescs[0] = BlendDesc<ColorMask::RGB, BlendOperation::Add, BlendFactor::One, BlendFactor::One, BlendOperation::Add, BlendFactor::One, BlendFactor::One>();
 	pipelineDesc.depthStencilTestDesc = DepthTestDesc<CompareOperation::LessThanOrEqual, false>();
 	pipelineDesc.topology = PrimitiveTopology::TriangleList;
-	pipelineDesc.vertexShader = &GetShader<DeferredLightingVert>()->GetNativeShader();
-	pipelineDesc.fragmentShader = &GetShader<DeferredLightingFrag>()->GetNativeShader();
+	pipelineDesc.vertexShader = vertShader->GetVertexShader();
+	pipelineDesc.fragmentShader = fragShader->GetFragmentShader();
 	renderer.SetGraphicsPipeline(pipelineDesc);
 
+	// TODO - Render Targets should also a sampler associated with them when setting them up potentially...
 	renderer.SetTexture(*gbuffer.positionTexture->nativeTarget, *SamplerDesc(), 0);
 	renderer.SetTexture(*gbuffer.normalTexture->nativeTarget, *SamplerDesc(), 1);
 	renderer.SetTexture(*gbuffer.diffuseTexture->nativeTarget, *SamplerDesc(), 2);

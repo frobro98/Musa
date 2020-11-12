@@ -27,11 +27,11 @@ void RenderObjectManager::UnregisterGameObject(const GameObject& obj)
 	}
 }
 
-void RenderObjectManager::SequenciallyPull()
+void RenderObjectManager::SequenciallyPull(const ScreenView& view)
 {
 	for (auto& renderObject : renderObjects)
 	{
-		renderObject->PullDataFromGameObject();
+		renderObject->PullDataFromGameObject(view);
 	}
 }
 
