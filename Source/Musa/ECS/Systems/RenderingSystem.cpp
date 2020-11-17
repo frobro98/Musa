@@ -2,6 +2,9 @@
 
 #include "RenderingSystem.hpp"
 #include "ECS/Components/MeshRenderComponent.hpp"
+#include "ECS/Components/WorldTransformComponent.hpp"
+#include "ECS/Components/CulledTag.hpp"
+#include "ECS/Components/RenderDataComponent.hpp"
 
 // RenderComponent contains mesh and material data. This data needs to be pushed to the
 // actual rendering system path. Currently, I can't do this, so I need to add some code
@@ -37,14 +40,43 @@
 
 void RenderingSystem::Initialize()
 {
-	// Need to get all entities that this system requires
-	renderQuery = &GetQueryFor<MeshRenderComponent>();
+	
+	noRenderDataQuery = &GetQueryFor(
+		DescribeQuery()
+		.Require<WorldTransformComponent, MeshRenderComponent>()
+		.None<CulledTag, RenderDataComponent>()
+	);
+
+	updateRenderDataQuery = &GetQueryFor(
+		DescribeQuery()
+		.Require<RenderDataComponent>()
+		.None<CulledTag>()
+	);
 }
 
 void RenderingSystem::Update()
 {
+	AddMissingRenderData();
+
+	UpdateRenderData();
+
+
+}
+
+void RenderingSystem::AddMissingRenderData()
+{
 	// Get chunks associated with the query and loop through them, processing them
-	auto queriedChunks = GetQueryChunks(*renderQuery);
+	auto noRenderDataChunks = GetQueryChunks(*noRenderDataQuery);
+	for (auto chunk : noRenderDataChunks)
+	{
+
+	}
+}
+
+void RenderingSystem::UpdateRenderData()
+{
+	// Get chunks associated with the query and loop through them, processing them
+	auto queriedChunks = GetQueryChunks(*updateRenderDataQuery);
 	for (auto chunk : queriedChunks)
 	{
 		// TODO - This body could essentially be a function in its own right. The user doesn't need to know about an array of chunks, potentially...

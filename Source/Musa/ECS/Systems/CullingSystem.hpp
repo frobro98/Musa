@@ -25,9 +25,7 @@
 // This would only work if all entities are tested, filtering by both tagged and untagged
 // component queries. 
 
-struct CulledTag : Musa::Component
-{
-};
+
 
 class CullingSystem : public Musa::System
 {

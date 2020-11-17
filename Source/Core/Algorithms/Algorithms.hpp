@@ -78,7 +78,7 @@ constexpr void InsertionSort(T* arr, size_t count)
 		}
 	}
 
-	Assert(IsSorted(arr, count, Less<T>{}));
+	Assert(IsSorted(arr, count, Less<T>()));
 }
 
 template <typename T, typename Pred>

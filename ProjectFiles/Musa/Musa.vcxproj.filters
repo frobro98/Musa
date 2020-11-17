@@ -288,6 +288,9 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\CullingSystem.cpp">
       <Filter>Source\ECS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -576,6 +579,18 @@
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MeshRenderComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\WorldTransformComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderDataComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\CulledTag.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>

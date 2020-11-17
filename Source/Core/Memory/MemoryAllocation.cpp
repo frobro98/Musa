@@ -104,13 +104,12 @@ void* Memory::Realloc(void* ptr, size_t size, size_t alignment)
 			// Need to check if the size can fit within this fixed block, or if it needs
 			// to find a new block
 			u8 tableIndex = fixedHeader->tableIndex;
-			u16 fixedSize = fixedHeader->blockSize;
 			// Checks to see if block needs to be actually realloced
 			if (size > fixedHeader->blockSize || alignment > AllocationDefaultAlignment || // Greater than this
 				(tableIndex != 0 && size <= TableIndexToFixedSize(tableIndex - 1))) // Check if the allocation can fit into the previous size element
 			{
 				void* ret = Malloc(size, alignment);
-				Memcpy(ret, ptr, fixedSize);
+				Memcpy(ret, ptr, size);
 				Free(ptr);
 				return ret;
 			}

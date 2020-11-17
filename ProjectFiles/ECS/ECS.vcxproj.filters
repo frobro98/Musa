@@ -95,5 +95,11 @@
     <ClInclude Include="..\..\Source\ECS\ECSAPI.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\SystemCreateProperties.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ECS\SystemGroup.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

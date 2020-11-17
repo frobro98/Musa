@@ -38,6 +38,7 @@ class Matrix4;
 //		   error as well.
 //		
 
+// TODO - Material instancing doesn't work. If meshes share a material, the shader resources get over written...this isn't correct
 class SHADER_API Material
 {
 public:

@@ -261,7 +261,7 @@ TEST(Matrix_SET_SCALE_Vect, matrix_tests)
 	CHECK_FLTEQ(A[m14], 15.0f);
 	CHECK_FLTEQ(A[m15], 16.0f);
 
-	Vector4 vScale(2.0f, 3.0f, 4.0f);
+	Vector3 vScale(2.0f, 3.0f, 4.0f);
 	A.Set(SCALE, vScale);
 
 	CHECK_FLTEQ(A[m0], 2.0f);

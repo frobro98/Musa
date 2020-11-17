@@ -126,6 +126,8 @@ public:
 	template <typename Comp>
 	void AddComponentTo(Entity entity);
 	template <typename Comp>
+	void AddComponentTo(Entity entity, Comp&& compData);
+	template <typename Comp>
 	void RemoveComponent(Entity entity);
 	template <typename Comp>
 	void SetComponentDataOn(Entity entity, Comp&& component);
@@ -232,6 +234,14 @@ inline void World::AddComponentTo(Entity entity)
 	static_assert(can_attach_to_entity_v<Comp>, "Invalid type trying to attach to Entity");
 	const ComponentType* type = GetComponentTypeFor<Comp>();
 	HookUpComponentType(*this, entity, type);
+}
+
+template<typename Comp>
+inline void World::AddComponentTo(Entity entity, Comp&& compData)
+{
+	static_assert(!std::is_reference_v<Comp>);
+	AddComponentTo<Comp>(entity);
+	SetComponentDataOn<Comp>(entity, std::move(compData));
 }
 
 template<typename Comp>

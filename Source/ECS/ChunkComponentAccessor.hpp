@@ -27,14 +27,15 @@ struct ECS_API ChunkComponentAccessor
 	template <typename CompType, typename = std::enable_if_t<is_valid_component_type_v<CompType>>>
 	NODISCARD ChunkArray<CompType> GetArrayOf();
 
-
 	ArchetypeChunk chunk;
 };
+
 template<typename CompType, typename>
 inline bool ChunkComponentAccessor::Contains() const
 {
 	return DoesChunkContain<CompType>(chunk);
 }
+
 template<typename CompType, typename>
 inline bool ChunkComponentAccessor::HasChanged(u32 checkVersion) const
 {
@@ -46,6 +47,7 @@ inline bool ChunkComponentAccessor::HasChanged(u32 checkVersion) const
 	}
 	return true;
 }
+
 template<typename CompType, typename>
 inline ChunkArray<CompType> ChunkComponentAccessor::GetArrayOf()
 {

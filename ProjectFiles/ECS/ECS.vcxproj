@@ -337,6 +337,8 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     <ClInclude Include="..\..\Source\ECS\QueryCache.hpp" />
     <ClInclude Include="..\..\Source\ECS\QueryDescription.hpp" />
     <ClInclude Include="..\..\Source\ECS\System.hpp" />
+    <ClInclude Include="..\..\Source\ECS\SystemCreateProperties.hpp" />
+    <ClInclude Include="..\..\Source\ECS\SystemGroup.hpp" />
     <ClInclude Include="..\..\Source\ECS\SystemType.hpp" />
     <ClInclude Include="..\..\Source\ECS\Types.hpp" />
     <ClInclude Include="..\..\Source\ECS\World.hpp" />

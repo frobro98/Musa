@@ -24,19 +24,25 @@ DynamicArray<ChunkComponentAccessor> System::GetQueryChunks(const Query& query)
 	u32 chunkCount = 0;
 	for (auto& archetype : query.queriedArchetypes)
 	{
-		chunkCount += archetype->chunks.Size();
+		if (archetype->totalEntityCount > 0)
+		{
+			chunkCount += archetype->chunks.Size();
+		}
 	}
 
 	DynamicArray<ChunkComponentAccessor> chunks;
-	chunks.Reserve(chunkCount);
-	for (auto& archetype : query.queriedArchetypes)
+	if (chunkCount > 0)
 	{
-		for (u32 i = 0; i < archetype->chunks.Size(); ++i)
+		chunks.Reserve(chunkCount);
+		for (auto& archetype : query.queriedArchetypes)
 		{
-			chunks.Add(ChunkComponentAccessor(archetype->chunks[i])); 
+			for (u32 i = 0; i < archetype->chunks.Size(); ++i)
+			{
+				chunks.Add(ChunkComponentAccessor(archetype->chunks[i]));
+			}
 		}
+		Assert(chunks.Capacity() == chunkCount);
 	}
-	Assert(chunks.Capacity() == chunkCount);
 
 	return chunks;
 }

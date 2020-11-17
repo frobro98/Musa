@@ -33,6 +33,7 @@
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\CullingSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp" />
@@ -105,14 +106,18 @@
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\CulledTag.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderDataComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\SpriteRenderComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\TranslationComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MeshRenderComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\RotationComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\ScaleComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\WorldTransformComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\CullingSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />

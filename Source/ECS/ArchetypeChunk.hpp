@@ -132,7 +132,7 @@ template <typename Comp>
 NODISCARD ECS_TEMPLATE forceinline u32 GetChunkComponentVersion(const ArchetypeChunk& chunk)
 {
 	i32 versionIndex = GetChunkTypeIndex<Comp>(chunk);
-	return chunk.header->versions[versionIndex];
+	return versionIndex >= 0 ? chunk.header->versions[versionIndex] : 0;
 }
 
 template <typename Comp>

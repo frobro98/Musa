@@ -1,6 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "CullingSystem.hpp"
+#include "ECS/Components/CulledTag.hpp"
 
 void CullingSystem::Initialize()
 {

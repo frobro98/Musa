@@ -43,6 +43,7 @@
 #include "ECS/Components/TranslationComponent.hpp"
 #include "ECS/Components/RotationComponent.hpp"
 #include "ECS/Components/InputComponent.hpp"
+#include "ECS/Systems/WorldTransformSystem.hpp"
 // -------------------------
 
 // NOTE - This is for deserializing PAK files.
@@ -448,16 +449,6 @@ void MusaEngine::LoadContent()
 	ShaderID unlitVertID = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
 	ShaderID unlitFragID = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
 
-	// TODO - Be able to reuse a material (have some sort of material ID system potentially?)
-
-// 	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
-// 	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
-// 			{},
-// 			geth,
-// 			new Material(vertShader, fragShader, "ME3_360_ENEMY_Geth_Trooper_Body_D_t0", Color32::White())
-// 		}
-// 	);
-
 	Texture* gethTex = GetTextureManager().FindTexture("ME3_360_ENEMY_Geth_Trooper_Body_D_t0");
 	TextureResource& gethTexResource = gethTex->GetResource();
 
@@ -474,12 +465,17 @@ void MusaEngine::LoadContent()
 	GameObject* gethObject = world->CreateGameObject<GameObject>();
 	gethObject->SetModel(ModelFactory::CreateModel(geth, gethMat));
 
- 
-// 	NOT_USED ShaderID transVert = Shader::FindOrLoadShaderFile("StandardTransform.mvs");
-// 	NOT_USED ShaderID unlit = Shader::FindOrLoadShaderFile("StandardUnlit.mfs");
-// 	NOT_USED ShaderID lit = Shader::FindOrLoadShaderFile("StandardLit.mfs");
-// 	NOT_USED ShaderID view = Shader::FindOrLoadShaderFile("DeferredViewRender.mvs");
-// 	NOT_USED ShaderID blinn = Shader::FindOrLoadShaderFile("DeferredBlinn.mfs");
+	// TODO - Be able to reuse a material (have some sort of material ID system potentially?)
+
+	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
+	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
+			{},
+			geth,
+			gethMat
+		}
+	);
+
+	ecsWorld.CreateSystem<WorldTransformSystem>();
 
 	Material* astroMat = new Material(unlitVertID, unlitFragID);
 	texture = astroMat->GetTextureSamplerConstant("mainTexture");
@@ -499,78 +495,109 @@ void MusaEngine::LoadContent()
 	go->SetModel(ModelFactory::CreateModel(box, orbitMat));
 	go->SetPos(Vector4(5, 0, 0));
 
-// 	constexpr uint32 numDoubleObjects = 400;
-// 
-// 	Vector4 pointA(-200.f, 2.f, -1.f);
-// 	Vector4 pointB(-200.f, 4.f, -1.f);
-// 
-// 	Vector4 scalePos(-400, 5, 7.f);
-// 	float dir = 1;
-// 	Color32 color = Color32::Blue();
-// 	for (uint32 i = 0; i < numDoubleObjects; ++i)
-// 	{
-// 		Vector4 tmp = pointA;
-// 		pointA = pointB;
-// 		pointB = tmp;
-// 
-// 		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
-// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-// 
-// 		pointA.x += 1.5f;
-// 		pointB.x += 1.5f;
-// 
-// 		constexpr float32 scaleDelta = 2.f;
-// 		if (dir < 0)
-// 		{
-// 			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
-// 			color = Color32::Blue();
-// 		}
-// 		else
-// 		{
-// 			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
-// 			color = Color32::Red();
-// 		}
-// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-// 		go->SetPos(scalePos);
-// 		
-// 		scalePos.y *= dir;
-// 		scalePos.x += 2.5f;
-// 		dir *= -1.f;
-// 	}
-// 
-// 	pointA.y -= 5.f;
-// 	pointB.y -= 5.f;
-// 	scalePos.y = -5;
-// 	for (uint32 i = 0; i < numDoubleObjects; ++i)
-// 	{
-// 		Vector4 tmp = pointA;
-// 		pointA = pointB;
-// 		pointB = tmp;
-// 
-// 		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
-// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-// 
-// 		pointA.x -= 1.5f;
-// 		pointB.x -= 1.5f;
-// 
-// 		constexpr float32 scaleDelta = 2.f;
-// 		if (dir < 0)
-// 		{
-// 			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
-// 			color = Color32::Blue();
-// 		}
-// 		else
-// 		{
-// 			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
-// 			color = Color32::Red();
-// 		}
-// 		go->SetModel(ModelFactory::CreateModel(box, new Material(vertShader, fragShader, WhiteTexture(), color)));
-// 		go->SetPos(scalePos);
-// 
-// 		scalePos.y *= dir;
-// 		scalePos.x -= 2.5f;
-// 		dir *= -1.f;
-// 	}
+	/*
+	constexpr u32 numDoubleObjects = 400;
+
+	Vector4 pointA(-200.f, 2.f, -1.f);
+	Vector4 pointB(-200.f, 4.f, -1.f);
+
+	Vector4 scalePos(-400, 5, 7.f);
+	float dir = 1;
+	Material* blueMat = new Material(unlitVertID, unlitFragID);
+	blueMat->SetColor(Color32::Blue());
+	texture = blueMat->GetTextureSamplerConstant("mainTexture");
+	blueMat->SetTextureSamplerResource(texture, whiteResource);
+
+
+
+	Color32 color = Color32::Blue();
+	for (u32 i = 0; i < numDoubleObjects; ++i)
+	{
+		Vector4 tmp = pointA;
+		pointA = pointB;
+		pointB = tmp;
+
+		Material* cubeMat = new Material(unlitVertID, unlitFragID);
+		cubeMat->SetColor(color);
+		texture = cubeMat->GetTextureSamplerConstant("mainTexture");
+		cubeMat->SetTextureSamplerResource(texture, whiteResource);
+
+		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
+		go->SetModel(ModelFactory::CreateModel(box, cubeMat));
+
+		pointA.x += 1.5f;
+		pointB.x += 1.5f;
+
+		constexpr f32 scaleDelta = 2.f;
+		if (dir < 0)
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
+			color = Color32::Blue();
+		}
+		else
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
+			color = Color32::Red();
+		}
+
+		cubeMat = new Material(unlitVertID, unlitFragID);
+		cubeMat->SetColor(color);
+		texture = cubeMat->GetTextureSamplerConstant("mainTexture");
+		cubeMat->SetTextureSamplerResource(texture, whiteResource);
+
+		go->SetModel(ModelFactory::CreateModel(box, cubeMat));
+		go->SetPos(scalePos);
+		
+		scalePos.y *= dir;
+		scalePos.x += 2.5f;
+		dir *= -1.f;
+	}
+
+	pointA.y -= 5.f;
+	pointB.y -= 5.f;
+	scalePos.y = -5;
+	for (u32 i = 0; i < numDoubleObjects; ++i)
+	{
+		Vector4 tmp = pointA;
+		pointA = pointB;
+		pointB = tmp;
+
+		Material* cubeMat = new Material(unlitVertID, unlitFragID);
+		cubeMat->SetColor(color);
+		texture = cubeMat->GetTextureSamplerConstant("mainTexture");
+		cubeMat->SetTextureSamplerResource(texture, whiteResource);
+
+		go = world->CreateGameObject<MoveBetweenObject>(pointA, pointB, 1.f);
+		go->SetModel(ModelFactory::CreateModel(box, cubeMat));
+
+		pointA.x -= 1.5f;
+		pointB.x -= 1.5f;
+
+		constexpr f32 scaleDelta = 2.f;
+		if (dir < 0)
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(1.f, 3.f, scaleDelta);
+			color = Color32::Blue();
+		}
+		else
+		{
+			go = world->CreateGameObject<ScaleChangingObject>(3.f, 1.f, scaleDelta);
+			color = Color32::Red();
+		}
+
+		cubeMat = new Material(unlitVertID, unlitFragID);
+		cubeMat->SetColor(color);
+		texture = cubeMat->GetTextureSamplerConstant("mainTexture");
+		cubeMat->SetTextureSamplerResource(texture, whiteResource);
+
+		go->SetModel(ModelFactory::CreateModel(box, cubeMat));
+		go->SetPos(scalePos);
+
+		scalePos.y *= dir;
+		scalePos.x -= 2.5f;
+		dir *= -1.f;
+	}
+	//*/
 
 
 	// TODO - LEAKING MEMEORY!!!
@@ -588,6 +615,7 @@ void MusaEngine::UpdateAndRender(f32 tick)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
 
+	ecsWorld.Update();
 	BEGIN_TIMED_BLOCK(Update);
 	world->TickWorld(tick);
 	uiContext->Update();
