@@ -43,7 +43,7 @@ public:
 		return QueryDescription{};
 	}
 
-	NODISCARD DynamicArray<ChunkComponentAccessor> GetQueryChunks(const Query& query);
+	NODISCARD DynamicArray<ChunkComponentAccessor> GetQueryChunks(const Query& query) const;
 
 	forceinline void SetVersion(u32 currentVersion)
 	{

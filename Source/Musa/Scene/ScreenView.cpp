@@ -2,7 +2,7 @@
 
 #include "ScreenView.hpp"
 #include "Debugging/Assertion.hpp"
-#include "Math/MatrixUtilities.hpp"
+#include "Math/MatrixFunctions.hpp"
 #include "Camera/Camera.h"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Graphics/UniformBuffers.h"

@@ -252,9 +252,9 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     <ClInclude Include="..\..\Source\Math\MathFunctions.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix4.hpp" />
     <ClInclude Include="..\..\Source\Math\Matrix2.hpp" />
-    <ClInclude Include="..\..\Source\Math\Matrix3.hpp" />
-    <ClInclude Include="..\..\Source\Math\MatrixUtilities.hpp" />
+    <ClInclude Include="..\..\Source\Math\MatrixFunctions.hpp" />
     <ClInclude Include="..\..\Source\Math\Plane.hpp" />
+    <ClInclude Include="..\..\Source\Math\PlaneFunctions.hpp" />
     <ClInclude Include="..\..\Source\Math\Quat.hpp" />
     <ClInclude Include="..\..\Source\Math\Quat2.hpp" />
     <ClInclude Include="..\..\Source\Math\QuatFunctions.hpp" />
@@ -272,7 +272,8 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
     <ClCompile Include="..\..\Source\Math\MathFunctions.cpp" />
     <ClCompile Include="..\..\Source\Math\Matrix2.cpp" />
     <ClCompile Include="..\..\Source\Math\Matrix4.cpp" />
-    <ClCompile Include="..\..\Source\Math\MatrixUtilities.cpp" />
+    <ClCompile Include="..\..\Source\Math\MatrixFunctions.cpp" />
+    <ClCompile Include="..\..\Source\Math\Plane.cpp" />
     <ClCompile Include="..\..\Source\Math\Quat.cpp" />
     <ClCompile Include="..\..\Source\Math\Quat2.cpp" />
     <ClCompile Include="..\..\Source\Math\Vector2.cpp" />

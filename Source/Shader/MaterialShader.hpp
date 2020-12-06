@@ -28,6 +28,7 @@ struct MaterialResourceDesc
 	MaterialResourceUsage usage = 0;
 };
 
+// NOTE - The first 2 bindings for a material will currently ALWAYS be Prim and View, in that order
 // This is the data organized per material, not per shader
 struct MaterialResourceTable
 {
@@ -38,7 +39,7 @@ struct MaterialResourceTable
 	DynamicArray<const NativeSampler*> samplerStorage;
 };
 
-class MaterialShader
+class SHADER_API MaterialShader
 {
 public:
 	MaterialShader() = default;

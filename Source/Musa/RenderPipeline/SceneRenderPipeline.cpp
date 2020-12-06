@@ -24,7 +24,7 @@
 #include "Containers/DynamicArray.hpp"
 #include "Containers/Map.h"
 #include "Lighting/Light.hpp"
-#include "Math/MatrixUtilities.hpp"
+#include "Math/MatrixFunctions.hpp"
 
 #include "Debugging/MetricInterface.hpp"
 
@@ -40,6 +40,9 @@
 #include "Graphics/RenderContextUtilities.hpp"
 
 #include "Debugging/MetricInterface.hpp"
+
+// Render Pipeline Additions
+#include "RenderPipeline/RenderPipelineConfig.hpp"
 
 DECLARE_METRIC_GROUP(SceneRender);
 METRIC_STAT(DeferredRender, SceneRender);
@@ -153,7 +156,7 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 	TransitionTargetsToRead(context, targets);
 }
 
-static void LightingRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, const Scene& scene, const View& view)
+/*static*/ void LightingRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, const Scene& scene, const View& view)
 {
 	// TODO - Should clear color be floating around or should it live with the render target?
 	DynamicArray<Color32> clearColors = { Color32(.7f, .7f, .8f) }; // TODO - SHould be using FixedArray here instead of DynamicArray
@@ -181,16 +184,9 @@ static void LightingRenderPass(RenderContext& context, const GBuffer& gbuffer, c
 
 namespace DeferredRender
 {
-void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuffer& gbuffer, const SceneRenderTargets& sceneTextures, const RenderObjectManager& renderManager, const View& view)
+void RenderSceneDeferred(RenderContext& renderContext, const GBuffer& gbuffer, const SceneRenderTargets& sceneTextures, const RenderObjectManager& renderManager, const View& view)
 {
 	SCOPED_TIMED_BLOCK(DeferredRender);
-
-	// TODO - Should clear color be floating around or should it live with the render target?
-	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
-	clearColors[0] = Color32(.7f, .7f, .8f);
-	clearColors[1] = Color32(0, 0, 0);
-	clearColors[2] = Color32(0, 0, 0);
-	clearColors[3] = Color32(.7f, .7f, .8f);
 
 	// Render to gbuffer
 	GBufferRenderPass(renderContext, gbuffer, sceneTextures, renderManager, view);
@@ -198,9 +194,90 @@ void RenderSceneDeferred(RenderContext& renderContext, Scene& scene, const GBuff
 	// Do any special rendering for the scene here as well
 
 	// Render lighting
-	LightingRenderPass(renderContext, gbuffer, sceneTextures, scene, view);
+	//LightingRenderPass(renderContext, gbuffer, sceneTextures, scene, view);
 
 	// Post Processing on Scene Color(?????)
+}
+
+void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<RenderView*>& views, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets)
+{
+	SCOPED_TIMED_BLOCK(DeferredRender);
+
+	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
+	clearColors[0] = Color32(.7f, .7f, .8f);
+	clearColors[1] = Color32(0, 0, 0);
+	clearColors[2] = Color32(0, 0, 0);
+	clearColors[3] = Color32(.7f, .7f, .8f);
+
+	// Begin GBuffer pass
+	RenderTargetList colorTargets;
+	colorTargets.Add(sceneTargets.sceneColorTexture.Get());
+	colorTargets.Add(gbuffer.positionTexture.Get());
+	colorTargets.Add(gbuffer.normalTexture.Get());
+	colorTargets.Add(gbuffer.diffuseTexture.Get());
+
+	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get(), RenderTargetAccess::Write);
+	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
+
+	// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
+	TransitionTargetsToWrite(renderContext, targets);
+
+	renderContext.SetRenderTarget(gbufferDesc, targets, clearColors);
+	{
+		SCOPED_TIMED_BLOCK(GBufferRenderPass);
+
+		for (const auto& view : views)
+		{
+			u32 viewWidth = (u32)view->scaledViewport.width;
+			u32 viewHeight = (u32)view->scaledViewport.height;
+			renderContext.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
+			renderContext.SetScissor(0, 0, viewWidth, viewHeight);
+
+			const DynamicArray<MaterialPrimitiveBatch>& primitiveBatches = view->opaqueMeshBatches.GetBatches();
+			// NOTE - Opaque objects
+			for(const auto& batch : primitiveBatches)
+			{
+				for (const auto& primitive : batch)
+				{
+					const PipelineConfiguration& pipelineConfig = primitive.pipelineConfig;
+
+					GraphicsPipelineDescription pipelineDesc;
+					ConstructPipelineDescription(gbufferDesc, pipelineDesc);
+					pipelineDesc.vertexShader = pipelineConfig.shaders[ShaderStage::Vertex]->GetVertexShader();
+					pipelineDesc.fragmentShader = pipelineConfig.shaders[ShaderStage::Fragment]->GetFragmentShader();
+					renderContext.SetGraphicsPipeline(pipelineDesc);
+
+
+					// TODO - This resource table consists of the "Prim" and "View" resources that aren't able to be set
+					// by the users of the Material interface. Remove these from the table!
+					renderContext.SetUniformBuffer(*primitive.primitiveBuffer, 0);
+					renderContext.SetUniformBuffer(*view->viewUniformBuffer, 1);
+					renderContext.SetUniformBuffer(*primitive.materialProperties, 2);
+					const MaterialResourceTable* resourceTable = primitive.materialResources;
+					for (u32 i = 3; i < resourceTable->resourceBindings.Size(); ++i)
+					{
+						MaterialResourceDesc resDesc = resourceTable->resourceBindings[i];
+						if (resDesc.type == ShaderResourceType::UniformBuffer)
+						{
+							const NativeUniformBuffer* ub = resourceTable->uniformBufferStorage[resDesc.resourceIndex];
+							renderContext.SetUniformBuffer(*ub, resDesc.bindIndex);
+						}
+						else if (resDesc.type == ShaderResourceType::TextureSampler)
+						{
+							const NativeTexture* texture = resourceTable->textureStorage[resDesc.resourceIndex];
+							const NativeSampler* sampler = resourceTable->samplerStorage[resDesc.resourceIndex];
+							renderContext.SetTexture(*texture, *sampler, resDesc.bindIndex);
+						}
+					}
+
+					renderContext.SetVertexBuffer(*primitive.vertexBuffer);
+					renderContext.DrawIndexed(*primitive.indexBuffer, 1);
+				}
+			}
+		}
+	}
+
+	TransitionTargetsToRead(renderContext, targets);
 }
 }
 

@@ -7,6 +7,7 @@
 #include "Utilities/MemoryUtilities.hpp"
 #include "Containers/StaticArray.hpp"
 #include "BasicTypes/UniquePtr.hpp"
+#include "ECS/Types.hpp"
 #include "ECS/ChunkArray.hpp"
 #include "ECS/ComponentType.hpp"
 #include "ECS/ECSAPI.hpp"
@@ -60,6 +61,9 @@ NODISCARD ECS_TEMPLATE forceinline ChunkArray<Comp> GetChunkArray(ArchetypeChunk
 	}
 	else
 	{
+		static_assert(is_valid_component_type_v<Comp>,
+			"Template type parameter doesn't meet the requirements of being a component!");
+
 		using sanitizedType = std::remove_reference_t<std::remove_const_t<Comp>>;
 		using nonRefType = std::remove_reference_t<Comp>;
 

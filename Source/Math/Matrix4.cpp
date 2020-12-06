@@ -1,10 +1,13 @@
 // Copyright 2020, Nathan Blane
 
 #include "Matrix4.hpp"
+#include "Vector3.hpp"
 #include "Vector4.hpp"
 #include "Quat.hpp"
 #include "MathFunctions.hpp"
 #include "Debugging/Assertion.hpp"
+
+const Matrix4 Matrix4::Identity = Matrix4(IDENTITY);
 
 Matrix4::Matrix4()
 	: v0(0.f, 0.f, 0.f, 0.f),
@@ -414,6 +417,7 @@ f32 Matrix4::Determinant() const
 void Matrix4::Inverse()
 {
 	// TODO - Optimize the math that happens here!
+	// TODO - This uses the adjoint matrix
 	f32 detScalar = Determinant();
 	if (Math::IsNonZero(detScalar))
 	{
@@ -915,324 +919,13 @@ Matrix4 Matrix4::operator-() const
 	);
 }
 
-f32& Matrix4::m0()
-{
-	return v0.x;
-}
 
-f32& Matrix4::m1()
-{
-	return v0.y;
-}
 
-f32& Matrix4::m2()
-{
-	return v0.z;
-}
-
-f32& Matrix4::m3()
-{
-	return v0.w;
-}
-
-f32& Matrix4::m4()
-{
-	return v1.x;
-}
-
-f32& Matrix4::m5()
-{
-	return v1.y;
-}
-
-f32& Matrix4::m6()
-{
-	return v1.z;
-}
-
-f32& Matrix4::m7()
-{
-	return v1.w;
-}
-
-f32& Matrix4::m8()
-{
-	return v2.x;
-}
-
-f32& Matrix4::m9()
-{
-	return v2.y;
-}
-
-f32& Matrix4::m10()
-{
-	return v2.z;
-}
-
-f32& Matrix4::m11()
-{
-	return v2.w;
-}
-
-f32& Matrix4::m12()
-{
-	return v3.x;
-}
-
-f32& Matrix4::m13()
-{
-	return v3.y;
-}
-
-f32& Matrix4::m14()
-{
-	return v3.z;
-}
-
-f32& Matrix4::m15()
-{
-	return v3.w;
-}
-
-const f32& Matrix4::m0() const
-{
-	return v0.x;
-}
-
-const f32& Matrix4::m1() const
-{
-	return v0.y;
-}
-
-const f32& Matrix4::m2() const
-{
-	return v0.z;
-}
-
-const f32& Matrix4::m3() const
-{
-	return v0.w;
-}
-
-const f32& Matrix4::m4() const
-{
-	return v1.x;
-}
-
-const f32& Matrix4::m5() const
-{
-	return v1.y;
-}
-
-const f32& Matrix4::m6() const
-{
-	return v1.z;
-}
-
-const f32& Matrix4::m7() const
-{
-	return v1.w;
-}
-
-const f32& Matrix4::m8() const
-{
-	return v2.x;
-}
-
-const f32& Matrix4::m9() const
-{
-	return v2.y;
-}
-
-const f32& Matrix4::m10() const
-{
-	return v2.z;
-}
-
-const f32& Matrix4::m11() const 
-{
-	return v2.w;
-}
-
-const f32& Matrix4::m12() const
-{
-	return v3.x;
-}
-
-const f32& Matrix4::m13() const 
-{
-	return v3.y;
-}
-
-const f32& Matrix4::m14() const 
-{
-	return v3.z;
-}
-
-const f32& Matrix4::m15() const 
-{
-	return v3.w;
-}
-f32& Matrix4::operator[](m0_enum)
-{
-	return v0.x;
-}
-
-f32& Matrix4::operator[](m1_enum)
-{
-	return v0.y;
-}
-
-f32& Matrix4::operator[](m2_enum)
-{
-	return v0.z;
-}
-
-f32& Matrix4::operator[](m3_enum)
-{
-	return v0.w;
-}
-
-f32& Matrix4::operator[](m4_enum)
-{
-	return v1.x;
-}
-
-f32& Matrix4::operator[](m5_enum)
-{
-	return v1.y;
-}
-
-f32& Matrix4::operator[](m6_enum)
-{
-	return v1.z;
-}
-
-f32& Matrix4::operator[](m7_enum)
-{
-	return v1.w;
-}
-
-f32& Matrix4::operator[](m8_enum)
-{
-	return v2.x;
-}
-
-f32& Matrix4::operator[](m9_enum)
-{
-	return v2.y;
-}
-
-f32& Matrix4::operator[](m10_enum)
-{
-	return v2.z;
-}
-
-f32& Matrix4::operator[](m11_enum)
-{
-	return v2.w;
-}
-
-f32& Matrix4::operator[](m12_enum)
-{
-	return v3.x;
-}
-
-f32& Matrix4::operator[](m13_enum)
-{
-	return v3.y;
-}
-
-f32& Matrix4::operator[](m14_enum)
-{
-	return v3.z;
-}
-
-f32& Matrix4::operator[](m15_enum)
-{
-	return v3.w;
-}
-
-const f32& Matrix4::operator[](m0_enum) const
-{
-	return v0.x;
-}
-
-const f32& Matrix4::operator[](m1_enum) const 
-{
-	return v0.y;
-}
-
-const f32& Matrix4::operator[](m2_enum) const
-{
-	return v0.z;
-}
-
-const f32& Matrix4::operator[](m3_enum) const
-{
-	return v0.w;
-}
-
-const f32& Matrix4::operator[](m4_enum) const
-{
-	return v1.x;
-}
-
-const f32& Matrix4::operator[](m5_enum) const
-{
-	return v1.y;
-}
-
-const f32& Matrix4::operator[](m6_enum) const
-{
-	return v1.z;
-}
-
-const f32& Matrix4::operator[](m7_enum) const
-{
-	return v1.w;
-}
-
-const f32& Matrix4::operator[](m8_enum) const
-{
-	return v2.x;
-}
-
-const f32& Matrix4::operator[](m9_enum) const
-{
-	return v2.y;
-}
-
-const f32& Matrix4::operator[](m10_enum) const 
-{
-	return v2.z;
-}
-
-const f32& Matrix4::operator[](m11_enum) const
-{
-	return v2.w;
-}
-
-const f32& Matrix4::operator[](m12_enum) const
-{
-	return v3.x;
-}
-
-const f32& Matrix4::operator[](m13_enum) const
-{
-	return v3.y;
-}
-
-const f32& Matrix4::operator[](m14_enum) const
-{
-	return v3.z;
-}
-
-const f32& Matrix4::operator[](m15_enum) const
-{
-	return v3.w;
-}
+// Vector3 operator*(const Vector3& v, const Matrix4& m)
+// {
+// 	Vector3 ret(v);
+// 	return ret *= m;
+// }
 
 Vector4 operator*(const Vector4& v, const Matrix4& m)
 {
@@ -1246,6 +939,8 @@ Matrix4 operator*(f32 s, const Matrix4& m)
 	return ret *= s;
 }
 
+
+// TODO - It doesn't make much sense to have these friended functions in the Matrix class. Find a way to move these
 Vector4& operator*=(Vector4& v, const Matrix4& m)
 {
 	v = Vector4(

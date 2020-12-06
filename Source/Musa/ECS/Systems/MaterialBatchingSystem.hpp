@@ -4,10 +4,12 @@
 
 #include "ECS/System.hpp"
 
+class MaterialPrimitiveBatches;
+
 // After Culling System...
 // Move mesh and material data from the MeshRenderComponent over to the RenderDataComponent.
-// This also 
-class RenderingSystem : public Musa::System
+
+class MaterialBatchingSystem : public Musa::System
 {
 public:
 	virtual void Initialize() override;
@@ -20,4 +22,5 @@ private:
 private:
 	Musa::Query* noRenderDataQuery = nullptr;
 	Musa::Query* updateRenderDataQuery = nullptr;
+	MaterialPrimitiveBatches* primitiveBatchs = nullptr;
 };

@@ -98,6 +98,31 @@ public:
 		renderDescDirty = true;
 	}
 
+	forceinline Color32 GetColor() const
+	{
+		return materialProperties.diffuse;
+	}
+
+	forceinline ShadingModel GetShadingModel() const
+	{
+		return shadingModel;
+	}
+
+	forceinline BlendMode GetBlendMode() const
+	{
+		return blendMode;
+	}
+
+	forceinline FillMode GetFillMode() const
+	{
+		return fillMode;
+	}
+
+	forceinline CullingMode GetCullingMode() const
+	{
+		return cullMode;
+	}
+
 	MaterialRenderDescription& GetRenderDescription();
 
 private:

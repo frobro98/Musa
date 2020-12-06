@@ -36,10 +36,9 @@ void WorldTransformSystem::UpdateEntitiesWithNoTransform()
 	for (auto& chunk : chunks)
 	{
 		ChunkArray<Entity> entities = chunk.GetArrayOf<Entity>();
-
-		for (u32 i = 0; i < entities.size; ++i)
+		for(const auto& entity : entities)
 		{
-			GetWorld().AddComponentTo<WorldTransformComponent>(entities[i]);
+			GetWorld().AddComponentTo<WorldTransformComponent>(entity);
 		}
 	}
 }
@@ -55,12 +54,12 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 
 		if (chunkChanged)
 		{
-			ChunkArray<Entity> entities = chunk.GetArrayOf<Entity>();
 			ChunkArray<const TranslationComponent> translations = chunk.GetArrayOf<const TranslationComponent>();
 			ChunkArray<const RotationComponent> rotations = chunk.GetArrayOf<const RotationComponent>();
 			ChunkArray<const ScaleComponent> scales = chunk.GetArrayOf<const ScaleComponent>();
 			ChunkArray<WorldTransformComponent> transforms = chunk.GetArrayOf<WorldTransformComponent>();
 
+			u32 entityCount = chunk.GetEntityCount();
 			bool transExists = translations.IsValid();
 			bool rotExists = rotations.IsValid();
 			bool scaleExists = scales.IsValid();
@@ -69,7 +68,7 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 			{
 				if (transExists && rotExists)
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(rotations[i].rotation) *
 							Matrix4(TRANS, Vector4(translations[i].translation));
@@ -77,14 +76,14 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 				}
 				else if (transExists && !rotExists)
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(TRANS, Vector4(translations[i].translation));
 					}
 				}
 				else if (!transExists && rotExists)
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(rotations[i].rotation);
 					}
@@ -94,7 +93,7 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 			{
 				if (transExists && rotExists)
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(SCALE, Vector4(scales[i].scale)) *
 							Matrix4(rotations[i].rotation) *
@@ -103,7 +102,7 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 				}
 				else if (transExists && !rotExists)
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(SCALE, Vector4(scales[i].scale)) *
 							Matrix4(TRANS, Vector4(translations[i].translation));
@@ -111,7 +110,7 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 				}
 				else if (!transExists && rotExists)
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(SCALE, Vector4(scales[i].scale)) *
 							Matrix4(rotations[i].rotation);
@@ -119,7 +118,7 @@ void WorldTransformSystem::UpdateEntitiesWithTransform()
 				}
 				else // Just scale
 				{
-					for (u32 i = 0; i < entities.size; ++i)
+					for (u32 i = 0; i < entityCount; ++i)
 					{
 						transforms[i].transform = Matrix4(SCALE, Vector4(scales[i].scale));
 					}

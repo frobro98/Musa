@@ -92,8 +92,8 @@ static bool DoesArchetypeMatchQueryTypes(const Archetype& archetype, const Query
 static bool DoesArchetypeMatchQuery(const Archetype& archetype, const Query& query)
 {
 	return ArchetypeContainsRequiredTypes(archetype, query.required, query.requiredMask) &&
-		ArchetypeWorksWithNoneTypes(archetype, query.oneOrMore, query.oneOrMoreMask) &&
-		ArchetypeWorksWithAnyTypes(archetype, query.none, query.noneMask);
+		ArchetypeWorksWithNoneTypes(archetype, query.none, query.noneMask) &&
+		ArchetypeWorksWithAnyTypes(archetype, query.oneOrMore, query.oneOrMoreMask);
 }
 
 static bool QueryEquals(const QueryDescription& desc, const Query& query)

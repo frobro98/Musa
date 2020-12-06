@@ -7,6 +7,8 @@
 #include "Input/Input.hpp"
 #include "Texture/Texture2D/TextureManager.h"
 
+#include "Math/MathFunctions.hpp"
+
 #include "Scene/GameWorld.hpp"
 #include "Scene/Scene.hpp"
 
@@ -31,10 +33,6 @@
 #include "MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
 
-// TODO - Probably should delete this
-#include "Graphics/RenderContextUtilities.hpp"
-#include "Graphics/RenderContext.hpp"
-
 #include "Shader/Shader.hpp"
 
 // ECS ---------------------
@@ -43,7 +41,11 @@
 #include "ECS/Components/TranslationComponent.hpp"
 #include "ECS/Components/RotationComponent.hpp"
 #include "ECS/Components/InputComponent.hpp"
+#include "ECS/Components/CameraComponent.hpp"
 #include "ECS/Systems/WorldTransformSystem.hpp"
+#include "ECS/Systems/CameraSystem.hpp"
+#include "ECS/Systems/MaterialBatchingSystem.hpp"
+#include "ECS/Systems/ViewCullingSystem.hpp"
 // -------------------------
 
 // NOTE - This is for deserializing PAK files.
@@ -63,7 +65,6 @@
 
 GLOBAL_OPERATOR_NEW_DELETE_OVERLOADS
 
-
 DECLARE_METRIC_GROUP(Engine);
 DECLARE_METRIC_GROUP(FrameRender);
 
@@ -71,88 +72,18 @@ METRIC_STAT(UpdateAndRender, Engine);
 METRIC_STAT(Update, Engine);
 METRIC_STAT(Render, Engine);
 
-METRIC_STAT(BeginRenderFrame, FrameRender)
-METRIC_STAT(EndRenderFrame, FrameRender)
 
-static void InitializeGBuffer(GBuffer& gbuffer, u32 width, u32 height)
+
+
+static Musa::RenderPipeline* pipeline = nullptr;
+
+Musa::RenderPipeline& Musa::GetRenderPipeline()
 {
-	if (!gbuffer.positionTexture)
-	{
-		gbuffer.positionTexture = CreateRenderTarget(
-			ImageFormat::RGBA_16f,
-			width, height,
-			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare,
-			TextureUsage::RenderTarget
-		);
-	}
-	if (!gbuffer.normalTexture)
-	{
-		gbuffer.normalTexture = CreateRenderTarget(
-			ImageFormat::RGBA_16f,
-			width, height,
-			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare,
-			TextureUsage::RenderTarget
-		);
-	}
-	if (!gbuffer.diffuseTexture)
-	{
-		gbuffer.diffuseTexture = CreateRenderTarget(
-			ImageFormat::RGBA_8norm,
-			width, height,
-			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare,
-			TextureUsage::RenderTarget
-		);
-	}
+	Assert(pipeline);
+	return *pipeline;
 }
 
-static void InitializeSceneTargets(SceneRenderTargets& sceneTargets, u32 width, u32 height)
-{
-	if (!sceneTargets.sceneColorTexture)
-	{
-		sceneTargets.sceneColorTexture = CreateRenderTarget(
-			ImageFormat::RGBA_8norm,
-			width, height,
-			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare,
-			TextureUsage::RenderTarget
-		);
-	}
-	if (!sceneTargets.depthTexture)
-	{
-		sceneTargets.depthTexture = CreateRenderTarget(
-			ImageFormat::DS_32f_8u,
-			width, height,
-			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare,
-			TextureUsage::DepthStencilTarget
-		);
-	}
-}
-
-static void InitializeUITarget(UniquePtr<RenderTarget>& uiTarget, u32 width, u32 height)
-{
-	if (!uiTarget)
-	{
-		uiTarget = CreateRenderTarget(
-			ImageFormat::RGBA_8norm,
-			width, height,
-			LoadOperation::Clear, StoreOperation::Store,
-			LoadOperation::DontCare, StoreOperation::DontCare,
-			TextureUsage::RenderTarget
-		);
-	}
-}
-
-static void InitializeFrameRenderTargets(FrameRenderTargets& renderTargets, const Viewport& viewport)
-{
-	u32 width = viewport.GetWidth(), height = viewport.GetHeight();
-	InitializeGBuffer(renderTargets.gbuffer, width, height);
-	InitializeSceneTargets(renderTargets.sceneTargets, width, height);
-	InitializeUITarget(renderTargets.userInterfaceTarget, width, height);
-}
+using namespace Musa;
 
 MusaEngine::MusaEngine(UI::Context& context)
 	: uiContext(&context)
@@ -177,6 +108,10 @@ void MusaEngine::SetupWindowContext(Window& window)
 {
 	world = MakeUnique<GameWorld>(window);
 	viewport = MakeUnique<Viewport>(window.GetWindowHandle(), window.GetWidth(), window.GetHeight());
+	renderPipeline = MakeUnique<RenderPipeline>(*viewport);
+	renderPipeline->Initialize();
+
+	pipeline = renderPipeline.Get();
 }
 
 void MusaEngine::InitializeSceneView()
@@ -360,7 +295,7 @@ static void LoadPakFile(const Path& pakPath)
 	
 	for (u32 i = 0; i < pakHeader.numChunks; ++i)
 	{
-		ChunkHeader chunkHeader;
+		::ChunkHeader chunkHeader;
 		Deserialize(pakFile, chunkHeader);
 
 		switch (chunkHeader.type)
@@ -455,45 +390,78 @@ void MusaEngine::LoadContent()
 	Texture* astroTex = GetTextureManager().FindTexture("astroboy_t0");
 	TextureResource& astroTexResource = astroTex->GetResource();
 
-	Texture* whiteTex = WhiteTexture();
-	TextureResource& whiteResource = whiteTex->GetResource();
+	// TODO - This is currently required because of how the UpdateTextureBlob function works.
+	// Fix this issue
+	NOT_USED Texture* whiteTex = WhiteTexture();
+	//TextureResource& whiteResource = whiteTex->GetResource();
 
 	Material* gethMat = new Material(unlitVertID, unlitFragID);
 	TextureSamplerDescriptor texture = gethMat->GetTextureSamplerConstant("mainTexture");
 	gethMat->SetTextureSamplerResource(texture, gethTexResource);
+
+	Material* astroMat = new Material(unlitVertID, unlitFragID);
+	texture = astroMat->GetTextureSamplerConstant("mainTexture");
+	astroMat->SetTextureSamplerResource(texture, astroTexResource);
 	
-	GameObject* gethObject = world->CreateGameObject<GameObject>();
-	gethObject->SetModel(ModelFactory::CreateModel(geth, gethMat));
+// 	GameObject* gethObject = world->CreateGameObject<GameObject>();
+// 	gethObject->SetModel(ModelFactory::CreateModel(geth, gethMat));
 
 	// TODO - Be able to reuse a material (have some sort of material ID system potentially?)
 
+	const i32 viewWidth = viewport->GetWidth();
+	const i32 viewHeight = viewport->GetHeight();
+	const f32 aspectRatio = (f32)viewWidth / (f32)viewHeight;
+
+	Musa::Entity camera = ecsWorld.CreateEntity<CameraComponent, TranslationComponent>();
+	ecsWorld.SetComponentDataOn(camera, CameraComponent{ {},
+		Rectf {0, 0, 1, 1},
+		UnnormalizeColor(Color32(.7f, .7f, .8f)),
+		.1f, 10000.f,
+		60.f, aspectRatio,
+		ProjectionType::Perspective
+	});
+	ecsWorld.SetComponentDataOn(camera, TranslationComponent{ {},
+		Vector3(0.f, 0.f, 10.f)
+	});
+
 	Musa::Entity gethEntity = ecsWorld.CreateEntity<TranslationComponent, MeshRenderComponent>();
-	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{
-			{},
+	ecsWorld.SetComponentDataOn(gethEntity, MeshRenderComponent{ {},
 			geth,
 			gethMat
 		}
 	);
 
+	Musa::Entity astroEntity = ecsWorld.CreateEntity<MeshRenderComponent, TranslationComponent, RotationComponent>();
+	ecsWorld.SetComponentDataOn(astroEntity, MeshRenderComponent{ {},
+		astro_boy,
+		astroMat
+	});
+	ecsWorld.SetComponentDataOn(astroEntity, TranslationComponent{ {},
+		Vector3(5.f, 5.f, 2.f)
+	});
+	ecsWorld.SetComponentDataOn(astroEntity, RotationComponent{ {},
+		Quat(ROT_Y, Math::DegreesToRadians(45.f))
+	});
+
+	ecsWorld.CreateSystem<CameraSystem>();
 	ecsWorld.CreateSystem<WorldTransformSystem>();
+	ecsWorld.CreateSystem<MaterialBatchingSystem>();
+	ecsWorld.CreateSystem<ViewCullingSystem>();
 
-	Material* astroMat = new Material(unlitVertID, unlitFragID);
-	texture = astroMat->GetTextureSamplerConstant("mainTexture");
-	astroMat->SetTextureSamplerResource(texture, astroTexResource);
-
-	GameObject* go = world->CreateGameObject<OrbitOtherObject>(*gethObject, 5.5f, Vector4::RightAxis);
-	go->SetModel(ModelFactory::CreateModel(astro_boy, astroMat));
-	go->SetPos(Vector4(-1.5f, 2.5f, 0));
-	
-
-	Material* orbitMat = new Material(unlitVertID, unlitFragID);
-	texture = orbitMat->GetTextureSamplerConstant("mainTexture");
-	orbitMat->SetTextureSamplerResource(texture, whiteResource);
-	orbitMat->SetColor(Color32::Blue());
-
-	go = world->CreateGameObject<OrbitOtherObject>(*go, 2.f, Vector4::UpAxis);
-	go->SetModel(ModelFactory::CreateModel(box, orbitMat));
-	go->SetPos(Vector4(5, 0, 0));
+// 
+// 	GameObject* go = world->CreateGameObject<OrbitOtherObject>(*gethObject, 5.5f, Vector4::RightAxis);
+// 	go->SetModel(ModelFactory::CreateModel(astro_boy, astroMat));
+// 	go->SetPos(Vector4(-1.5f, 2.5f, 0));
+// 	
+// 
+// 	Material* orbitMat = new Material(unlitVertID, unlitFragID);
+// 	texture = orbitMat->GetTextureSamplerConstant("mainTexture");
+// 	orbitMat->SetTextureSamplerResource(texture, whiteResource);
+// 	orbitMat->SetColor(Color32::Blue());
+// 
+// 	go = world->CreateGameObject<OrbitOtherObject>(*go, 2.f, Vector4::UpAxis);
+// 	go->SetModel(ModelFactory::CreateModel(box, orbitMat));
+// 	go->SetPos(Vector4(5, 0, 0));
 
 	/*
 	constexpr u32 numDoubleObjects = 400;
@@ -639,24 +607,9 @@ void MusaEngine::GatherFrameMetrics()
 
 void MusaEngine::RenderFrame()
 {
-	InitializeFrameRenderTargets(engineTargets, *viewport);
-
-	RenderContext& context = *GetGraphicsInterface().GetRenderContext();
 	ScreenView& screenView = world->GetView();
 	RenderObjectManager& renderManager = world->GetRenderManager();
 
-	BEGIN_TIMED_BLOCK(BeginRenderFrame);
-	context.BeginRenderFrame(viewport->GetNativeViewport());
-	END_TIMED_BLOCK(BeginRenderFrame);
-
-	DeferredRender::Render(engineTargets, world->GetScene(), renderManager, screenView.view);
-	DeferredRender::RenderUI(context, *uiContext, *engineTargets.userInterfaceTarget, screenView.view);
-
-	// Need a way to compose everything to the backbuffer
-	DeferredRender::ComposeBackbuffer(context, *engineTargets.sceneTargets.sceneColorTexture, *engineTargets.userInterfaceTarget, screenView.view);
-
-	BEGIN_TIMED_BLOCK(EndRenderFrame);
-	context.EndRenderFrame(viewport->GetNativeViewport());
-	END_TIMED_BLOCK(EndRenderFrame);
+	renderPipeline->Execute(screenView, renderManager, *uiContext);
 }
 

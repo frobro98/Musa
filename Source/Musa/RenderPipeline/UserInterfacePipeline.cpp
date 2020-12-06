@@ -12,7 +12,7 @@
 #include "Scene/ScreenView.hpp"
 #include "BatchPrimitives.hpp"
 #include "Graphics/UniformBuffers.h"
-#include "Math/MatrixUtilities.hpp"
+#include "Math/MatrixFunctions.hpp"
 #include "String/String.h"
 #include "Containers/Stack.hpp"
 

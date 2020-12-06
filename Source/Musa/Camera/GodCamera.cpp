@@ -120,12 +120,12 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 
 void GodCamera::MoveCameraForward()
 {
-	MoveCameraAlongAxis(camera->GetForward(), false);
+	MoveCameraAlongAxis(camera->GetForward(), true);
 }
 
 void GodCamera::MoveCameraBackward()
 {
-	MoveCameraAlongAxis(camera->GetForward(), true);
+	MoveCameraAlongAxis(camera->GetForward(), false);
 }
 
 void GodCamera::MoveCameraLeft()
@@ -166,7 +166,7 @@ void GodCamera::CameraLookAtAdjust(float changeX, float changeY)
 
 		Vector4 newLookAtDir = camera->GetForward() * quatX * quatY;
 		newLookAtDir.Normalize();
-		cameraLookAt = position - newLookAtDir;
+		cameraLookAt = position + newLookAtDir;
 		Vector4 up = camera->GetUp() * quatX * quatY;
 		cameraUp = up;
 	}

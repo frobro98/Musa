@@ -27,10 +27,10 @@ public:
 // 	inline DynamicArray<Vertex> GetVertices() const { return vertices; }
 // 	inline DynamicArray<VertexBoneWeights> GetSkinWeights() const { return skinWeights; }
 // 	inline DynamicArray<Face> GetFaces() const { return faces; }
-	inline SphereBounds GetCollitionInfo() const { return boundingSphere; }
+	inline SphereBounds GetBounds() const { return boundingSphere; }
 
-	inline NativeVertexBuffer& GetVertexBuffer() { return *vertexBuffer; }
-	inline NativeIndexBuffer& GetIndexBuffer() { return *indexBuffer; }
+	inline NativeVertexBuffer& GetVertexBuffer() const { return *vertexBuffer; }
+	inline NativeIndexBuffer& GetIndexBuffer() const { return *indexBuffer; }
 
 private:
 // 	DynamicArray<Vertex> vertices;

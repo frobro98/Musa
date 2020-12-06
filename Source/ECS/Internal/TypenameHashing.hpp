@@ -27,8 +27,8 @@ constexpr size_t afterTypeLen = Strlen(compilerTypename) - beforeTypeLen - stand
 template <typename Type>
 constexpr forceinline StringView TypeString()
 {
-	constexpr StringView funcName = TypenameString<Type>();
-	return StringView(funcName + beforeTypeLen, Strlen(funcName) - beforeTypeLen - afterTypeLen);
+	constexpr const char* funcName = TypenameString<Type>();
+	return StringView(funcName + beforeTypeLen, (u32)(Strlen(funcName) - beforeTypeLen - afterTypeLen));
 }
 
 template <typename Comp>

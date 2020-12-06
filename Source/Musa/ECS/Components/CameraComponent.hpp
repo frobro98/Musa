@@ -7,22 +7,21 @@
 #include "Math/Vector4.hpp"
 #include "ECS/Component.hpp"
 
-struct CameraComponent : public Musa::Component
+enum class ProjectionType : u32
 {
-	Vector4 right;
-	Vector4 up = Vector4(0, 1, 0);
-	Vector4 forward;
+	Perspective,
+	Orthographic
+};
 
-	Vector4 position = Vector4();
-	Vector4 lookAt = Vector4(0, 0, 1);
-	Recti viewport;
-
+struct CameraComponent : Musa::Component
+{
+	Rectf viewport;
 	Color clearColor = Color::Black();
 
-	float nearPlane;
-	float farPlane;
-	float fov;
-	float aspectRatio;
-	Rectf nearDimensions = {};
-	Rectf farDimensions = {};
+	f32 nearPlane;
+	f32 farPlane;
+	f32 fov;
+	f32 aspectRatio;
+
+	ProjectionType projection;
 };

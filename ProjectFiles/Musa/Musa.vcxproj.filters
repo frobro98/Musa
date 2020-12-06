@@ -282,14 +282,23 @@
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.cpp">
       <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CullingSystem.cpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.cpp">
       <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\MaterialPrimitiveBatches.cpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\MaterialBatchingSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CameraSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\ViewCullingSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\RenderPipeline.cpp">
+      <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,12 +578,6 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Components\TranslationComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CullingSystem.hpp">
-      <Filter>Source\ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\SpriteRenderComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
@@ -590,8 +593,29 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderDataComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\CulledTag.hpp">
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\DebugNameComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\MaterialPrimitiveBatches.hpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\MaterialBatchingSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\RenderPipelineConfig.hpp">
+      <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\ViewTransformComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CameraSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\ViewCullingSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\RenderPipeline.hpp">
+      <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

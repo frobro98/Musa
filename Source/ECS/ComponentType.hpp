@@ -32,6 +32,7 @@ struct ComponentType
 	ComponentCtor ctor = nullptr;
 	ComponentDtor dtor = nullptr;
 	ComponentTypeHash hash;
+	StringView typeName;
 	u16 size = 0;
 	u16 alignment = 0;
 	bool readOnly = false;
@@ -50,6 +51,8 @@ constexpr forceinline ComponentType MakeComponentTypeFor()
 		hash,
 		1ull << (hash % 63ull)
 	};
+
+	type.typeName = Musa::Internal::TypeString<Comp>();
 
 	if constexpr (std::is_empty_v<Comp>)
 	{

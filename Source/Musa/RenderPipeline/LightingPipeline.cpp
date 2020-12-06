@@ -9,7 +9,7 @@
 #include "Scene/ScreenView.hpp"
 #include "Scene/Scene.hpp"
 #include "Lighting/Light.hpp"
-#include "Math/MatrixUtilities.hpp"
+#include "Math/MatrixFunctions.hpp"
 #include "Shader/Shader.hpp"
 #include "Shader/ShaderResource.hpp"
 

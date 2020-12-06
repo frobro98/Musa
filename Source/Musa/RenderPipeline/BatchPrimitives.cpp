@@ -2,7 +2,6 @@
 
 #include "BatchPrimitives.hpp"
 #include "Graphics/RenderContext.hpp"
-#include "Shader/ShaderDefinition.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Texture/Texture2D/Texture.h"
 #include "Graphics/ResourceInitializationDescriptions.hpp"

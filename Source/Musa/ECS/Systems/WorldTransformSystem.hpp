@@ -4,11 +4,6 @@
 
 #include "ECS/System.hpp"
 
-namespace Musa
-{
-struct Query;
-}
-
 class WorldTransformSystem : public Musa::System
 {
 public:

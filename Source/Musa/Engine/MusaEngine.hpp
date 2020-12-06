@@ -6,16 +6,16 @@
 #include "Scene/GameWorld.hpp"
 #include "Math/IntVector2.hpp"
 #include "ECS/World.hpp"
-
-#include "Engine/FrameRenderTargets.hpp"
+#include "RenderPipeline/RenderPipeline.hpp"
 
 class Window;
 class ProfilerStatistics;
+class GameInput;
+
 namespace UI
 {
 class Context;
 }
-class GameInput;
 
 class MusaEngine final
 {
@@ -51,6 +51,7 @@ private:
 	UniquePtr<GameWorld> world;
 	UniquePtr<Viewport> viewport;
 	UniquePtr<GameInput> gameInput;
+	UniquePtr<Musa::RenderPipeline> renderPipeline;
 	UI::Context* uiContext = nullptr;
 	// TODO - This and the other "world" aren't really needed...
 	Musa::World ecsWorld;

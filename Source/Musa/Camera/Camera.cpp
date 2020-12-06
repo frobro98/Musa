@@ -24,13 +24,13 @@ void Camera::SetOrientationAndPosition(const Vector4& inLookAt, const Vector4& p
 	lookAt = inLookAt;
 	position = pos;
 
-	viewForward = position - lookAt;
+	viewForward = lookAt - position;
 	viewForward.Normalize();
 	
-	viewRight = up.Cross(viewForward);
+	viewRight = viewForward.Cross(up);
 	viewRight.Normalize();
 
-	viewUp = viewForward.Cross(viewRight);
+	viewUp = viewRight.Cross(viewForward);
 	viewUp.Normalize();
 }
 

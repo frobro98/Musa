@@ -31,6 +31,6 @@ vec2 GetUVCoordinates()
 vec4 GetClipSpacePosition()
 {
 	vec4 clipPos = view.viewProj * view.worldView * prim.localWorld * position;
-	return VulkanProjectionModification(clipPos);
+	return clipPos;//return VulkanProjectionModification(clipPos);
 }
 

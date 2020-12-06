@@ -9,7 +9,7 @@ namespace Musa
 template <typename CompType>
 struct ChunkArray
 {
-	ChunkArray() = default;
+	ChunkArray();
 	ChunkArray(CompType& compBegin, u32 count);
 
 	CompType& operator[](size_t index);
@@ -22,16 +22,24 @@ struct ChunkArray
 	friend CompType* end(ChunkArray& arr) { return arr.data + arr.size; }
 	friend const CompType* end(const ChunkArray& arr) { return arr.data + arr.size; }
 
-	CompType* data = nullptr;
-	u32 size = 0;
+	CompType* const data;
+	const u32 size;
 };
+
+
+template <typename CompType>
+ChunkArray<CompType>::ChunkArray()
+	: data(nullptr),
+	size(0)
+{
+}
 
 template <typename CompType>
 ChunkArray<CompType>::ChunkArray(CompType& compBegin, u32 count)
+	: data(&compBegin),
+	size(count)
 {
 	REF_CHECK(compBegin);
-	data = &compBegin;
-	size = count;
 }
 
 template <typename CompType>

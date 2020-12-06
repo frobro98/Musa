@@ -1,7 +1,8 @@
 // Copyright 2020, Nathan Blane
 
-#include "MatrixUtilities.hpp"
+#include "MatrixFunctions.hpp"
 #include "MathFunctions.hpp"
+#include "Quat.hpp"
 #include "Debugging/Assertion.hpp"
 
 namespace Math
@@ -21,61 +22,86 @@ Matrix4 ConstructViewMatrix(const Vector4& position, const Vector4& lookAt, cons
 }
 Matrix4 ConstructViewMatrix(const Vector4& position, const Vector4& forward, const Vector4& right, const Vector4& up)
 {
-	Matrix4 view;
-	view[m0] = right.x;
-	view[m1] = up.x;
-	view[m2] = forward.x;
-	view[m3] = 0.f;
+	Matrix4 view = Matrix4(
+		Vector4(right.x, up.x, -forward.x, 0.f),
+		Vector4(right.y, up.y, -forward.y, 0.f),
+		Vector4(right.z, up.z, -forward.z, 0.f),
+		Vector4(-(position.Dot(right)), -(position.Dot(up)), (position.Dot(forward)))
+	);
 
-	view[m4] = right.y;
-	view[m5] = up.y;
-	view[m6] = forward.y;
-	view[m7] = 0.f;
+	AssertFunc([&] 
+	{
+		Matrix4 viewRot = Matrix4(
+			right,
+			up,
+			-forward,
+			Vector4(0.f, 0.f, 0.f, 1.f)
+		);
 
-	view[m8] = right.z;
-	view[m9] = up.z;
-	view[m10] = forward.z;
-	view[m11] = 0.f;
-
-	view[m12] = -position.Dot(right);
-	view[m13] = -position.Dot(up);
-	view[m14] = -position.Dot(forward);
-	view[m15] = 1.f;
+		return (view * ConstructFastInverseViewMatrix(position, Quat(viewRot))).IsIdentity();
+	}, "View inverse isn't calculated correctly!");
 
 	return view;
+}
+
+// Found how to construct a view matrix from position and rotation from here:
+//	https://gamedev.stackexchange.com/questions/178643/the-view-matrix-finally-explained
+Matrix4 ConstructViewMatrix(const Vector4& position, const Quat& rotation)
+{
+	Matrix4 invRot = Matrix4(rotation).GetTranspose();
+	Matrix4 trans = Matrix4(TRANS, -position);
+	return trans * invRot;
 }
 
 Matrix4 ConstructPerspectiveMatrix(f32 fovDeg, f32 aspectRatio, f32 nearPlane, f32 farPlane)
 {
 	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
 
-	f32 nearHeight = 2.f * Math::Tan(Math::DegreesToRadians(fovDeg) * .5f) * nearPlane;
-	f32 nearWidth = nearHeight * aspectRatio;
-	f32 doubleNearPlane = 2.f * nearPlane;
-	f32 planeDifference = farPlane - nearPlane;
+	NOT_USED f32 tanHalfFOV = Math::Tan(Math::DegreesToRadians(fovDeg) * .5f);
+	NOT_USED f32 nearHeight = 2.f * Math::Tan(Math::DegreesToRadians(fovDeg) * .5f) * nearPlane;
+	NOT_USED f32 nearWidth = nearHeight * aspectRatio;
+	NOT_USED f32 doubleNearPlane = 2.f * nearPlane;
+	NOT_USED f32 planeDifference = farPlane - nearPlane;
 
 	Matrix4 projection;
-	projection[m0] = doubleNearPlane / nearWidth;//1.f / (aspect * tanHalfFOV);
+	projection[m0] = 1.f / (aspectRatio * tanHalfFOV);
 	projection[m1] = 0;
 	projection[m2] = 0;
 	projection[m3] = 0;
 
 	projection[m4] = 0;
-	projection[m5] = doubleNearPlane / nearHeight;// tanHalfFOV;
+	projection[m5] = 1.f / tanHalfFOV;
 	projection[m6] = 0;
 	projection[m7] = 0;
 
 	projection[m8] = 0;
 	projection[m9] = 0;
-	projection[m10] = -(farPlane + nearPlane) / planeDifference;
+	projection[m10] = -(farPlane + nearPlane) / (planeDifference);
 	projection[m11] = -1.f;
 
 	projection[m12] = 0;
 	projection[m13] = 0;
-	projection[m14] = -(2.f * farPlane * nearPlane) / planeDifference;
+	projection[m14] = -(farPlane * nearPlane) / planeDifference;
 	projection[m15] = 0;
 
-//	Assert((projection * ConstructInversePerspectiveMatrix(fovDeg, aspectRatio, nearPlane, farPlane)).IsEqual(Matrix(IDENTITY)));
+	// TODO - This is a vulkan adjustment. This should be something that gets adjusted for all graphics apis
+	NOT_USED Matrix4 clipAdjustGL = Matrix4(
+		Vector4(1.f, 0.f, 0.f, 0.f),
+		Vector4(0.f, -1.f, 0.f, 0.f),
+		Vector4(0.f, 0.f, .5f, 0),
+		Vector4(0.f, 0.f, .5f, 1)
+	);
+
+	NOT_USED Matrix4 clipAdjust = Matrix4(
+		Vector4(1.f, 0.f, 0.f, 0.f),
+		Vector4(0.f, -1.f, 0.f, 0.f),
+		Vector4(0.f, 0.f, 1.f, 0),
+		Vector4(0.f, 0.f, 0.f, 1)
+	);
+
+	projection = projection * clipAdjustGL;
+
+	Assert((projection * ConstructFastInversePerspectiveMatrix(projection)).IsIdentity());
 
 	return projection;
 }
@@ -147,38 +173,27 @@ Matrix4 ConstructScreenTransformMatrix(f32 screenWidth, f32 screenHeight, f32 wo
 	return projection;
 }
 
-// Matrix ConstructInversePerspectiveMatrix(float32 fovDeg, float32 aspectRatio, float32 nearPlane, float32 farPlane)
-// {
-// 	// NOTE: This is an OpenGL projection matrix. The adjustment happens in the shader currently
-// 
-// 	float32 nearHeight = 2.f * Math::Tan(Math::DegreesToRadians(fovDeg) * .5f) * nearPlane;
-// 	float32 nearWidth = nearHeight * aspectRatio;
-// 
-// 	float32 doubleNearPlane = 2.f * nearPlane;
-// 
-// // 	Matrix projection;
-// // 	projection[m0] = nearWidth / doubleNearPlane;
-// // 	projection[m1] = 0;
-// // 	projection[m2] = 0;
-// // 	projection[m3] = 0;
-// // 
-// // 	projection[m4] = 0;
-// // 	projection[m5] = nearHeight / doubleNearPlane;
-// // 	projection[m6] = 0;
-// // 	projection[m7] = 0;
-// // 
-// // 	projection[m8] = 0;
-// // 	projection[m9] = 0;
-// // 	projection[m10] = 0;
-// // 	projection[m11] = (nearPlane - farPlane) / (2.f * farPlane * nearPlane);
-// // 
-// // 	projection[m12] = 0;
-// // 	projection[m13] = 0;
-// // 	projection[m14] = -1.f;
-// // 	projection[m15] = (farPlane - nearPlane) / (2.f * farPlane * nearPlane);
-// 
-// 	return projection;
-// }
+Matrix4 ConstructFastInverseViewMatrix(const Vector4& position, const Quat& rotation)
+{
+	Matrix4 rot = Matrix4(rotation);
+	Matrix4 trans = Matrix4(TRANS, position);
+	return rot * trans;
+}
+
+Matrix4 ConstructFastInversePerspectiveMatrix(const Matrix4& perspective)
+{
+	f32 a = perspective[m0];
+	f32 b = perspective[m5];
+	f32 c = perspective[m10];
+	f32 d = perspective[m14];
+
+	return Matrix4(
+		Vector4(1.f / a, 0.f, 0.f, 0.f),
+		Vector4(0.f, 1.f / b, 0.f, 0.f),
+		Vector4(0.f, 0.f, 0.f, 1.f / d),
+		Vector4(0.f, 0.f, -1.f, c / d)
+	);
+}
 
 Matrix4 ConstructFastInverseOrthographicMatrix(f32 width, f32 height, f32 nearPlane, f32 farPlane)
 {
@@ -238,6 +253,37 @@ Matrix4 ConstructFastInverseScreenMatrix(f32 screenWidth, f32 screenHeight, f32 
 	projection[m15] = 1;
 
 	return projection;
+}
+
+MATH_API Matrix4 GetTransposeAdjointWithoutTranslation(const Matrix4& m)
+{
+	// Just constructing the cofactor matrix of a 3x3
+	// [ + - + ]
+	// [ - + - ]
+	// [ + - + ]
+	Matrix4 result;
+
+	result[m0] = m[m5] * m[m10] - m[m6] * m[m9];
+	result[m1] = m[m6] * m[m8] - m[m4] * m[m10];
+	result[m2] = m[m4] * m[m9] - m[m5] * m[m8];
+	result[m3] = 0.f;
+
+	result[m4] = m[m2] * m[m9] - m[m1] * m[m10];
+	result[m5] = m[m0] * m[m10] - m[m2] * m[m8];
+	result[m6] = m[m1] * m[m8] - m[m0] * m[m9];
+	result[m7] = 0.f;
+
+	result[m8] = m[m1] * m[m6] - m[m2] * m[m5];
+	result[m9] = m[m2] * m[m4] - m[m0] * m[m6];
+	result[m10] = m[m0] * m[m5] - m[m1] * m[m4];
+	result[m11] = 0.f;
+
+	result[m12] = 0.f;
+	result[m13] = 0.f;
+	result[m14] = 0.f;
+	result[m15] = 1.f;
+
+	return result;
 }
 
 }

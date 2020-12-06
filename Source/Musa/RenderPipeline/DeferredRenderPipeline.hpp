@@ -2,16 +2,17 @@
 
 #pragma once
 
+#include "Containers/DynamicArray.hpp"
+
 struct View;
+struct RenderView;
 struct FrameRenderTargets;
-class Scene;
-class RenderObjectManager;
 class RenderContext;
 struct RenderTarget;
 
 namespace DeferredRender
 {
-void Render(const FrameRenderTargets& frameTargets, Scene& scene, const RenderObjectManager& renderManager, const View& view);
+void Render(RenderContext& renderContext, const DynamicArray<RenderView*>& views, const FrameRenderTargets& frameTargets);
 void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, const RenderTarget& uiColor, const View& view);
 }
 

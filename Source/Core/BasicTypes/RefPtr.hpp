@@ -79,7 +79,7 @@ inline RefPtr<Type, Count>::~RefPtr()
 template<typename Type, class Count>
 template<typename ...Args>
 inline RefPtr<Type, Count>::RefPtr(Args&&... args)
-	:data(std::forward<Args>(args)...),
+	:data(new Type(std::forward<Args>(args)...)),
 	counter(new Count)
 {
 }
@@ -115,7 +115,7 @@ inline RefPtr<Type, Count>& RefPtr<Type, Count>::operator=(const RefPtr& other)
 }
 
 template<typename Type, class Count>
-inline RefPtr<Type, Count>& RefPtr<Type, Count>::operator=(RefPtr && other)
+inline RefPtr<Type, Count>& RefPtr<Type, Count>::operator=(RefPtr&& other)
 {
 	if (this != &other)
 	{
@@ -143,4 +143,10 @@ inline Type* RefPtr<Type, Count>::operator->()
 template<typename Type, class Count>
 inline void RefPtr<Type, Count>::Release()
 {
+	counter->Decrement();
+	if (counter->GetReferenceCount() == 0)
+	{
+		delete counter;
+		delete data;
+	}
 }

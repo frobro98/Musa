@@ -199,7 +199,7 @@ void GameObject::MoveUp(i32 /*mod*/)
 
 SphereBounds GameObject::GetCollisionInfo() const
 {
-	SphereBounds boundingSphere = model->GetMesh()->GetCollitionInfo();
+	SphereBounds boundingSphere = model->GetMesh()->GetBounds();
 	float radius = boundingSphere.radius;
 	//Matrix local = Matrix(SCALE, radius, radius, radius) * Matrix(TRANS, info.boundingSphere.cntr);
 	boundingSphere.position = boundingSphere.position * /*local **/ worldTransform;
@@ -226,7 +226,7 @@ Matrix4 GameObject::GetWorld() const
 
 void GameObject::TransformDebugVolume()
 {
-	SphereBounds boundingSphere = model->GetMesh()->GetCollitionInfo();
+	SphereBounds boundingSphere = model->GetMesh()->GetBounds();
 	float radius = boundingSphere.radius * 2;
 	Matrix4 local = Matrix4(SCALE, radius, radius, radius) * Matrix4(TRANS, boundingSphere.position);
 	debugVolume->SetWorld(local * worldTransform);

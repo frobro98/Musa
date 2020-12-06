@@ -31,8 +31,9 @@
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CullingSystem.cpp" />
-    <ClCompile Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\CameraSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\MaterialBatchingSystem.cpp" />
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\ViewCullingSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp" />
@@ -66,6 +67,8 @@
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.cpp" />
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\MaterialPrimitiveBatches.cpp" />
+    <ClCompile Include="..\..\Source\Musa\RenderPipeline\RenderPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.cpp" />
     <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp" />
@@ -106,7 +109,7 @@
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\CulledTag.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\DebugNameComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\RenderDataComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\SpriteRenderComponent.hpp" />
@@ -114,9 +117,11 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MeshRenderComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\RotationComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\ScaleComponent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\ViewTransformComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\WorldTransformComponent.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CullingSystem.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Systems\RenderingSystem.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\CameraSystem.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\MaterialBatchingSystem.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\ViewCullingSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\EngineFlags.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\FrameData.hpp" />
@@ -162,6 +167,9 @@
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\MaterialPrimitiveBatches.hpp" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\RenderPipeline.hpp" />
+    <ClInclude Include="..\..\Source\Musa\RenderPipeline\RenderPipelineConfig.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\SceneRenderPipeline.h" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\UserInterfacePipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp" />

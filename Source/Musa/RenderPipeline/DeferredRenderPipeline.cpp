@@ -3,6 +3,7 @@
 #include "DeferredRenderPipeline.hpp"
 #include "SceneRenderPipeline.h"
 #include "UserInterfacePipeline.hpp"
+#include "RenderPipelineConfig.hpp"
 
 #include "Engine/FrameRenderTargets.hpp"
 #include "Graphics/GraphicsInterface.hpp"
@@ -15,18 +16,19 @@
 #include "Shader/ShaderResource.hpp"
 
 #include "BasicTypes/Color.hpp"
+#include "RenderPipeline.hpp"
 
 DECLARE_METRIC_GROUP(DeferredRender);
 METRIC_STAT(ComposeTargets, DeferredRender);
 
+DynamicArray<RenderView*> renderViews;
 
 namespace DeferredRender
 {
-void Render(const FrameRenderTargets& frameTargets, Scene& scene, const RenderObjectManager& renderManager, const View& view)
+void Render(RenderContext& renderContext, const DynamicArray<RenderView*>& views, const FrameRenderTargets& frameTargets)
 {
-	RenderContext* renderContext = GetGraphicsInterface().GetRenderContext();
-	Assert(renderContext);
-	RenderSceneDeferred(*renderContext, scene, frameTargets.gbuffer, frameTargets.sceneTargets, renderManager, view);
+	REF_CHECK(renderContext);
+	RenderSceneDeferred(renderContext, views, frameTargets.gbuffer, frameTargets.sceneTargets);
 }
 
 void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, const RenderTarget& uiColor, const View& view)

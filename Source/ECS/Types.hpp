@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-#include "BasicTypes/Intrinsics.hpp"
+#include "ECS/Component.hpp"
 
 using EntityIndex = u32;
 using EntityVersion = u32;
@@ -13,17 +13,16 @@ using ArchetypeMask = u64;
 
 constexpr u32 MaxComponentsPerArchetype = 32;
 
-namespace Musa
-{
-struct Component;
-}
-
 template <typename CompType>
 struct is_valid_component_type
 {
 	static constexpr bool IsValidType()
 	{
-		return std::conjunction_v<std::is_trivially_copyable<CompType>, std::is_standard_layout<CompType>>;
+		return //std::conjunction_v<
+			std::is_base_of_v<Musa::Component, CompType>;
+			//, std::is_trivially_copyable<CompType>
+			//, std::is_standard_layout<CompType>
+		//>;
 	}
 
 	static constexpr bool value = IsValidType();

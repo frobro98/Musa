@@ -58,11 +58,11 @@ public:
 	float GetAngle() const;	
 
 	// Quaternion Functions
+	float Dot(const Quat& q) const;
 	Quat& Normalize();
 	Quat GetNormalized() const;
-	Quat GetInverse() const;
-	float Dot(const Quat& q) const;
 	void Inverse();
+	Quat GetInverse() const;
 	void Conjugate();
 	Quat GetConjugate() const;
 	void Transpose();
