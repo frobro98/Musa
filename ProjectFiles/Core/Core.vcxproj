@@ -61,7 +61,9 @@
     <ClCompile Include="..\..\Source\Core\Time\CyclePerformance.cpp" />
     <ClCompile Include="..\..\Source\Core\Time\EngineTick.cpp" />
     <ClCompile Include="..\..\Source\Core\Time\Time.cpp" />
-    <ClCompile Include="..\..\Source\Core\Utilities\HashFuncs.cpp" />
+    <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\city.cc" />
+    <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\farmhash.cc" />
+    <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\xxhash.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Algorithms\Algorithms.hpp" />
@@ -175,7 +177,13 @@
     <ClInclude Include="..\..\Source\Core\Utilities\MacroHelpers.hpp" />
     <ClInclude Include="..\..\Source\Core\Utilities\MemoryUtilities.hpp" />
     <ClInclude Include="..\..\Source\Core\Utilities\TemplateUtils.hpp" />
+    <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\city.h" />
+    <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\farmhash.h" />
+    <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\xxhash.h" />
     <ClInclude Include="..\..\Source\Core\Version.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\Utilities\ThirdParty\LICENSE" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

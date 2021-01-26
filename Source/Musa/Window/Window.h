@@ -5,7 +5,7 @@
 #include "Math/IntVector2.hpp"
 #include "BasicTypes/Uncopyable.hpp"
 
-class WindowInputHandler;
+class MusaApp;
 
 enum class WindowMode : u32
 {
@@ -17,7 +17,7 @@ enum class WindowMode : u32
 class Window : private Uncopyable
 {
 public:
-	Window(HINSTANCE instance, WindowInputHandler& inputHandler, u32 xPos, u32 yPos, u32 width, u32 height);
+	Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 width, u32 height);
 	~Window();
 
 	void SetWindowMode(WindowMode mode);
@@ -34,12 +34,11 @@ public:
 	inline IntVector2 GetPosition() const { return position; }
 	inline i32 GetWidth() const { return width; }
 	inline i32 GetHeight() const { return height; }
-	inline WindowInputHandler& GetInputHandler() const { return inputHandler; }
 
 private:
 	WINDOWPLACEMENT previousPlacement;
 	HWND window;
-	WindowInputHandler& inputHandler;
+	MusaApp& application;
 	IntVector2 position;
 	i32 width;
 	i32 height;

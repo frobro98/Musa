@@ -8,6 +8,8 @@
 #include "Window/Window.h"
 #include "UI/UIContext.hpp"
 #include "Time/EngineTick.h"
+#include "Input/ApplicationInputMap.hpp"
+#include "Input/ApplicationEventDispatcher.hpp"
 
 class MusaApp
 {
@@ -16,8 +18,15 @@ public:
 
 	void LaunchApplication();
 
-	inline UI::Context& GetUIContext() const { return *uiContext; }
-	inline MusaAppOS& GetOSApp() const { return *osApp; }
+	forceinline UI::Context& GetUIContext() const { return *uiContext; }
+	forceinline MusaAppOS& GetOSApp() const { return *osApp; }
+	forceinline ApplicationInputMap& GetInputMap() { return *inputMap; }
+	forceinline ApplicationEventDispatcher& GetInputDispatcher() { return *inputDispatcher; }
+
+	// Application events
+	void ResizeWindow(const IntVector2& newDimensions);
+	void CloseWindow();
+	void Activation(bool activated);
 
 	void LockCursor();
 	void UnlockCursor();
@@ -39,5 +48,7 @@ private:
 	UniquePtr<MusaEngine> gameEngine;
 	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
+	UniquePtr<ApplicationInputMap> inputMap;
+	UniquePtr<ApplicationEventDispatcher> inputDispatcher;
 	MusaAppOS* osApp;
 };

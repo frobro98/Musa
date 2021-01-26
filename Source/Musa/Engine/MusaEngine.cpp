@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Graphics/GraphicsInterface.hpp"
+#include "MusaEngine.hpp"
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
 #include "Mesh/MeshManager.h"
@@ -30,7 +30,6 @@
 
 #include "Font/FontCache.hpp"
 
-#include "MusaEngine.hpp"
 #include "Entry/MusaApp.hpp"
 
 #include "Shader/Shader.hpp"
@@ -40,8 +39,11 @@
 #include "ECS/Components/MeshRenderComponent.hpp"
 #include "ECS/Components/TranslationComponent.hpp"
 #include "ECS/Components/RotationComponent.hpp"
-#include "ECS/Components/InputComponent.hpp"
+#include "ECS/Components/InputContextComponent.hpp"
 #include "ECS/Components/CameraComponent.hpp"
+
+#include "ECS/Systems/OSInputSystem.hpp"
+#include "ECS/Systems/GameInputSystem.hpp"
 #include "ECS/Systems/WorldTransformSystem.hpp"
 #include "ECS/Systems/CameraSystem.hpp"
 #include "ECS/Systems/MaterialBatchingSystem.hpp"
@@ -71,8 +73,6 @@ DECLARE_METRIC_GROUP(FrameRender);
 METRIC_STAT(UpdateAndRender, Engine);
 METRIC_STAT(Update, Engine);
 METRIC_STAT(Render, Engine);
-
-
 
 
 static Musa::RenderPipeline* pipeline = nullptr;
@@ -145,17 +145,19 @@ void MusaEngine::StopRunningEngine()
 	running = false;
 }
 
+/*
 static void CreateInputContext(GameInput& gameInput)
 {
-	PlayerInputContext mainContext = MakeInputContext("Keyboard Context");
-	PlayerInputContext gamepadContext = MakeInputContext("Gamepad Context");
+	InputContext mainContext = MakeInputContext("Keyboard Context");
+	InputContext gamepadContext = MakeInputContext("Gamepad Context");
+
 	RangedInput mouseXInput;
 	mouseXInput.range = {
 		-10, 10, -1, 1
 	};
 	mouseXInput.input = {
 		"Mouse X",
-		Inputs::Mouse_XAxis
+		Input::Mouse_XAxis
 	};
 	mainContext.inputRanges.Add(mouseXInput);
 
@@ -165,49 +167,49 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	mouseYInput.input = {
 		"Mouse Y",
-		Inputs::Mouse_YAxis
+		Input::Mouse_YAxis
 	};
 	mainContext.inputRanges.Add(mouseYInput);
 
 	SingleInput input = {
 		"Move Left",
-		Inputs::Key_A
+		Input::Key_A
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
 		"Move Right",
-		Inputs::Key_D
+		Input::Key_D
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
 		"Move Forward",
-		Inputs::Key_W
+		Input::Key_W
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
 		"Move Backward",
-		Inputs::Key_S
+		Input::Key_S
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
 	"Move Up",
-	Inputs::Key_E
+	Input::Key_E
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
 		"Move Down",
-		Inputs::Key_Q
+		Input::Key_Q
 	};
 	mainContext.inputStates.Add(input);
 
 	input = {
 		"Space",
-		Inputs::Key_Space
+		Input::Key_Space
 	};
 	mainContext.inputActions.Add(input);
 
@@ -220,7 +222,7 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	leftXInput.input = {
 		"Leftstick X",
-		Inputs::Gamepad_LeftStick_XAxis
+		Input::Gamepad_LeftStick_XAxis
 	};
 	gamepadContext.inputRanges.Add(leftXInput);
 
@@ -230,7 +232,7 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	leftYInput.input = {
 		"Leftstick Y",
-		Inputs::Gamepad_LeftStick_YAxis
+		Input::Gamepad_LeftStick_YAxis
 	};
 	gamepadContext.inputRanges.Add(leftYInput);
 
@@ -240,7 +242,7 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	rightXInput.input = {
 		"Rightstick X",
-		Inputs::Gamepad_RightStick_XAxis
+		Input::Gamepad_RightStick_XAxis
 	};
 	gamepadContext.inputRanges.Add(rightXInput);
 
@@ -250,7 +252,7 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	rightYInput.input = {
 		"Rightstick Y",
-		Inputs::Gamepad_RightStick_YAxis
+		Input::Gamepad_RightStick_YAxis
 	};
 	gamepadContext.inputRanges.Add(rightYInput);
 
@@ -260,7 +262,7 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	leftTriggerInput.input = {
 		"Left Trigger",
-		Inputs::Gamepad_LeftTrigger
+		Input::Gamepad_LeftTrigger
 	};
 	gamepadContext.inputRanges.Add(leftTriggerInput);
 
@@ -270,13 +272,13 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	rightTriggerInput.input = {
 		"Right Trigger",
-		Inputs::Gamepad_RightTrigger
+		Input::Gamepad_RightTrigger
 	};
 	gamepadContext.inputRanges.Add(rightTriggerInput);
 
 	input = {
 	"Gamepad A",
-	Inputs::Gamepad_AButton
+	Input::Gamepad_AButton
 	};
 	gamepadContext.inputActions.Add(input);
 
@@ -285,6 +287,7 @@ static void CreateInputContext(GameInput& gameInput)
 	gameInput.PushInputContext("Keyboard Context");
 	gameInput.PushInputContext("Gamepad Context");
 }
+//*/
 
 // TODO - This SHOULD NOT exist in the engine file. It should exist in the file reading system probably...
 static void LoadPakFile(const Path& pakPath)
@@ -370,7 +373,7 @@ void MusaEngine::LoadContent()
 	gethPakPath /= "Models/geth-trooper.pak";
 	LoadPakFile(gethPakPath);
 
-	CreateInputContext(*gameInput);
+	//CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
 	gameInput->ShowCursor(false);
 
@@ -443,6 +446,7 @@ void MusaEngine::LoadContent()
 		Quat(ROT_Y, Math::DegreesToRadians(45.f))
 	});
 
+	ecsWorld.CreateSystem<OSInputSystem>(*inputMap);
 	ecsWorld.CreateSystem<CameraSystem>();
 	ecsWorld.CreateSystem<WorldTransformSystem>();
 	ecsWorld.CreateSystem<MaterialBatchingSystem>();
@@ -603,6 +607,11 @@ void MusaEngine::GatherFrameMetrics()
 		GetProfilingStatistics().CollectAllFrameMetrics();
 	}
 	GetProfilingStatistics().ProfileFrameIncrement();
+}
+
+void MusaEngine::SetInputHandler(ApplicationInputMap& handler)
+{
+	inputMap = &handler;
 }
 
 void MusaEngine::RenderFrame()

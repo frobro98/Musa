@@ -43,47 +43,47 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 	{
 		if (Math::IsNonZero(range.rangeValue))
 		{
-			if (range.input->type == Inputs::Mouse_XAxis ||
-				range.input->type == Inputs::Gamepad_RightStick_XAxis)
-			{
-				changeX += range.rangeValue;
-			}
-			if (range.input->type == Inputs::Mouse_YAxis ||
-				range.input->type == Inputs::Gamepad_RightStick_YAxis)
-			{
-				changeY += range.rangeValue;
-			}
-			if (range.input->type == Inputs::Gamepad_LeftStick_XAxis)
-			{
-				if (range.rangeValue > 0.f)
-				{
-					MoveCameraRight();
-				}
-				else if (range.rangeValue < 0.f)
-				{
-					MoveCameraLeft();
-				}
-			}
-			else if (range.input->type == Inputs::Gamepad_LeftStick_YAxis)
-			{
-				if (range.rangeValue > 0.f)
-				{
-					MoveCameraForward();
-				}
-				else if (range.rangeValue < 0.f)
-				{
-					MoveCameraBackward();
-				}
-			}
-
-			if (range.input->type == Inputs::Gamepad_LeftTrigger)
-			{
-				MoveCameraDown();
-			}
-			else if (range.input->type == Inputs::Gamepad_RightTrigger)
-			{
-				MoveCameraUp();
-			}
+// 			if (range.input->type == Input::Mouse_XAxis ||
+// 				range.input->type == Input::Gamepad_RightStick_XAxis)
+// 			{
+// 				changeX += range.rangeValue;
+// 			}
+// 			if (range.input->type == Input::Mouse_YAxis ||
+// 				range.input->type == Input::Gamepad_RightStick_YAxis)
+// 			{
+// 				changeY += range.rangeValue;
+// 			}
+// 			if (range.input->type == Input::Gamepad_LeftStick_XAxis)
+// 			{
+// 				if (range.rangeValue > 0.f)
+// 				{
+// 					MoveCameraRight();
+// 				}
+// 				else if (range.rangeValue < 0.f)
+// 				{
+// 					MoveCameraLeft();
+// 				}
+// 			}
+// 			else if (range.input->type == Input::Gamepad_LeftStick_YAxis)
+// 			{
+// 				if (range.rangeValue > 0.f)
+// 				{
+// 					MoveCameraForward();
+// 				}
+// 				else if (range.rangeValue < 0.f)
+// 				{
+// 					MoveCameraBackward();
+// 				}
+// 			}
+// 
+// 			if (range.input->type == Input::Gamepad_LeftTrigger)
+// 			{
+// 				MoveCameraDown();
+// 			}
+// 			else if (range.input->type == Input::Gamepad_RightTrigger)
+// 			{
+// 				MoveCameraUp();
+// 			}
 		}
 	}
 
@@ -91,27 +91,27 @@ void GodCamera::InputCallback(const FrameInputs& inputs)
 
 	for (const auto& state : inputs.states)
 	{
-		if (state->type == Inputs::Key_W)
+		if (state->type == Input::Key_W)
 		{
 			MoveCameraForward();
 		}
-		else if (state->type == Inputs::Key_S)
+		else if (state->type == Input::Key_S)
 		{
 			MoveCameraBackward();
 		}
-		else if (state->type == Inputs::Key_A)
+		else if (state->type == Input::Key_A)
 		{
 			MoveCameraLeft();
 		}
-		else if (state->type == Inputs::Key_D)
+		else if (state->type == Input::Key_D)
 		{
 			MoveCameraRight();
 		}
-		else if (state->type == Inputs::Key_E)
+		else if (state->type == Input::Key_E)
 		{
 			MoveCameraUp();
 		}
-		else if (state->type == Inputs::Key_Q)
+		else if (state->type == Input::Key_Q)
 		{
 			MoveCameraDown();
 		}

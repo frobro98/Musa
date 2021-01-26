@@ -81,7 +81,7 @@ EngineStatView statView;
 		buffer.viewPosition = view.description.origin;
 		GetGraphicsInterface().PushBufferData(*viewBuffer, &buffer);
 	}
-	if (Input::IsPressed(Inputs::Key_F1))
+	if (Input::IsPressed(Input::Key_F1))
 	{
 		statView.ToggleStats();
 	}

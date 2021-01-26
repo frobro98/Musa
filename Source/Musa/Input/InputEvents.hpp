@@ -5,6 +5,48 @@
 #include <optional>
 
 #include "Math/IntVector2.hpp"
+#include "Input/InputDefinitions.hpp"
+#include "Input/Input.hpp"
+
+struct ButtonEvent
+{
+	// Key and mouse, state
+	Input::Buttons button;
+	Input::ButtonState state;
+	bool isRepeated;
+};
+
+// TODO - MouseMoveEvent and AnalogChangeEvent could be put together
+struct MouseMoveEvent
+{
+	// current, previous, delta
+	IntVector2 currentPosition;
+	IntVector2 previousPosition;
+	IntVector2 deltaPosition;
+};
+
+struct AnalogChangeEvent
+{
+	Input::Buttons analogButton;
+	f32 normValue;
+};
+
+// Application Events
+struct WindowResizeEvent
+{
+	// Window handle?
+	IntVector2 newDimensions;
+};
+
+// struct WindowCloseEvent
+// {
+// };
+
+struct WindowActivationEvent
+{
+	bool activated;
+};
+
 
 enum HandledInput
 {
@@ -37,9 +79,6 @@ public:
 	std::optional<IntVector2> GetChangedMousePosition() const { return changedMousePositoin; }
 	std::optional<bool> GetLockCursor() const { return lockCursor; }
 	std::optional<bool> GetShowCursor() const { return showCursor; }
-
-	// No operator because there are multiple bools that this could represent...
-/*	operator bool() const { return handled; }*/
 
 private:
 	std::optional<IntVector2> changedMousePositoin;

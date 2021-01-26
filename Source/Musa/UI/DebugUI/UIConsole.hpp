@@ -20,7 +20,7 @@ public:
 	Console();
 	Console(Widget* parent);
 
-	virtual InputEvents OnKeyDown(Inputs::Type keyType, bool isRepeated) override;
+	virtual InputEvents OnKeyDown(Input::Buttons keyType, bool isRepeated) override;
 	virtual InputEvents OnChar(tchar c, bool isRepeated) override;
 
 	virtual void UpdateInternal() override;

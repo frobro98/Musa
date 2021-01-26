@@ -2,12 +2,12 @@
 
 #include "MusaAppOS.hpp"
 
-MusaAppOS::MusaAppOS(UniquePtr<WindowInputHandler>&& inputHandler_)
-	: inputHandler(std::move(inputHandler_))
+MusaAppOS::MusaAppOS(MusaApp& app)
+	: owningApplication(app)
 {
 }
 
-void MusaAppOS::PostProcessInputEvents()
-{
-	inputHandler->PostUpdateInput();
-}
+// void MusaAppOS::PostProcessInputEvents()
+// {
+// 	inputHandler->PostUpdateInput();
+// }

@@ -68,9 +68,9 @@ public:
 	void RemoveAll(const valueType& elem);
 
 	template<class Pred>
-	i32 FindFirstIndexUsing(Pred&& pred);
+	i32 FindFirstIndexUsing(Pred&& pred) const;
 	template<class Pred>
-	i32 FindLastIndexUsing(Pred&& pred);
+	i32 FindLastIndexUsing(Pred&& pred) const;
 	template<class Pred>
 	valueType* FindFirstUsing(Pred&& pred);
 	template<class Pred>
@@ -640,7 +640,7 @@ inline void DynamicArray<Type>::RemoveAll(const valueType& elem)
 
 template<class Type>
 template<class Pred>
-inline i32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred)
+inline i32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred) const
 {
 	i32 foundIndex = -1;
 	for (u32 i = 0; i < arraySize; ++i)
@@ -655,7 +655,7 @@ inline i32 DynamicArray<Type>::FindFirstIndexUsing(Pred&& pred)
 
 template<class Type>
 template<class Pred>
-inline i32 DynamicArray<Type>::FindLastIndexUsing(Pred&& pred)
+inline i32 DynamicArray<Type>::FindLastIndexUsing(Pred&& pred) const
 {
 	i32 foundIndex = -1;
 	for (i32 i = static_cast<i32>(arraySize - 1); i > 0; --i)

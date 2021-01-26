@@ -4,7 +4,7 @@
 #include "Input/Input.hpp"
 #include "UIWidget.hpp"
 #include "Window/Window.h"
-#include "Input/WindowInputHandler.hpp"
+#include "Input/ApplicationInputMap.hpp"
 
 namespace UI
 {
@@ -16,8 +16,8 @@ Context::Context(u32 screenDimensionX, u32 screenDimensionY)
 void Context::AddWidget(Widget& widget)
 {
 	widgets.AddUnique(&widget);
-	WindowInputHandler& inputHandler = window->GetInputHandler();
-	inputHandler.AddInput(widget);
+	//WindowInputHandler& inputHandler = window->GetInputHandler();
+	//inputHandler.AddInput(widget);
 }
 
 void Context::RemoveWidget(Widget & widget)

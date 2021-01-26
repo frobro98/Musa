@@ -48,6 +48,21 @@ void MusaApp::LaunchApplication()
 	GetGraphicsInterface().DeinitializeGraphics();
 }
 
+void MusaApp::ResizeWindow(const IntVector2& newDimensions)
+{
+	appWindow->Resize(newDimensions.x, newDimensions.y);
+}
+
+void MusaApp::CloseWindow()
+{
+	gameEngine->StopRunningEngine();
+	appWindow.Reset();
+}
+
+void MusaApp::Activation(bool /*activated*/)
+{
+}
+
 void MusaApp::LockCursor()
 {
 	IntVector2 position = appWindow->GetPosition();
@@ -98,10 +113,12 @@ void MusaApp::InitializeAppLogging()
 
 void MusaApp::InitializeOSInput()
 {
-	Input::InitializeInput(*this);
+	inputMap = MakeUnique<ApplicationInputMap>(*this);
+	inputDispatcher = MakeUnique<ApplicationEventDispatcher>(*this);
+	gameEngine->SetInputHandler(*inputMap);
+	Input::InitializeInput(*inputMap);
 
-	auto inputHandler = MakeUnique<WindowInputHandler>(*this, gameEngine->GetGameInput());
-	osApp = new MusaAppWindows(std::move(inputHandler));
+	osApp = new MusaAppWindows(*this);
 }
 
 void MusaApp::InitializeApplicationWindow()
@@ -112,7 +129,7 @@ void MusaApp::InitializeApplicationWindow()
 	Assert(appWindow.IsValid());
 
 	MUSA_DEBUG(AppLog, "Hooking up Input to Window");
-	osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
+	//osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
 	uiContext->SetWindow(*appWindow);
 }
 
@@ -122,7 +139,10 @@ void MusaApp::SetupGameEngine()
 
 	gameEngine->LoadContent();
 
-	osApp->GetInputHandler()->SetInputFocusToGame();
+	// HACK - This sort of behavior shouldn't be exposed at this level!
+	// TODO - This sort of was a quick hack just to test out application level events for switching application windows. 
+	// This needs to be revisited eventually
+	//osApp->GetInputHandler()->SetInputFocusToGame();
 
 	gameEngine->StartRunningEngine();
 
@@ -145,10 +165,8 @@ void MusaApp::ApplicationUpdate()
 	Frame::SetFrameStats({ tick });
 
 	// Process input
-	Internal::UpdateInputMap();
 	osApp->ProcessInputEvents();
 	osApp->ProcessNativeGamepad();
-	osApp->PostProcessInputEvents();
 
 	gameEngine->UpdateAndRender(tick);
 

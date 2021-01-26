@@ -3,9 +3,9 @@
 #pragma once
 
 
-struct Inputs
+namespace Input
 {
-	enum Type
+	enum Buttons
 	{
 		Key_A,
 		Key_B,
@@ -134,7 +134,7 @@ struct Inputs
 		Gamepad_BButton,
 		Gamepad_XButton,
 		Gamepad_YButton,
-		
+
 		Gamepad_StartButton,
 		Gamepad_SelectButton,
 
@@ -152,8 +152,9 @@ struct Inputs
 		Gamepad_LeftStick_YAxis,
 		Gamepad_RightStick_XAxis,
 		Gamepad_RightStick_YAxis,
-		
-		Max,
+
+		KM_Max = Mouse_Button8 + 1,
+		GP_Max = Gamepad_RightStick_YAxis - Gamepad_AButton + 1,
 
 		_INPUT_ENUM_MAX_ = 0x7FFFFFFF
 	};
@@ -162,9 +163,10 @@ struct Inputs
 	static_assert(Key_9 - Key_0 == 9, "Looping through the number keys won't work!");
 	static_assert(Key_Num9 - Key_Num0 == 9, "Looping through the numpad keys won't work!");
 	static_assert(Key_F12 - Key_F1 == 11, "Looping through the func keys won't work!");
-	static_assert(Max == Gamepad_RightStick_YAxis + 1);
+	static_assert(KM_Max == Mouse_Button8 + 1);
+	static_assert(GP_Max == Gamepad_RightStick_YAxis - Gamepad_AButton + 1);
 
-	enum State
+	enum ModifierFlags
 	{
 		Shift = 0x1,
 		Control = 0x2,

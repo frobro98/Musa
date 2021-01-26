@@ -5,10 +5,9 @@
 #include "BasicTypes/Function.hpp"
 #include "Input/IInputReceiver.hpp"
 #include "Input/InputSettings.hpp"
-#include "Input/PlayerInputContext.hpp"
+#include "Input/InputContext.hpp"
 
 class MusaEngine;
-class MusaApp;
 
 struct FrameInputs
 {
@@ -36,15 +35,15 @@ public:
 	inline InputSettings GetInputSettings() const { return inputSettings; }
 
 	virtual InputEvents OnChar(tchar c, bool isRepeated) override;
-	virtual InputEvents OnKeyUp(Inputs::Type input) override;
-	virtual InputEvents OnKeyDown(Inputs::Type input, bool isRepeated) override;
-	virtual InputEvents OnMouseUp(Inputs::Type input);
-	virtual InputEvents OnMouseDown(Inputs::Type input);
+	virtual InputEvents OnKeyUp(Input::Buttons input) override;
+	virtual InputEvents OnKeyDown(Input::Buttons input, bool isRepeated) override;
+	virtual InputEvents OnMouseUp(Input::Buttons input);
+	virtual InputEvents OnMouseDown(Input::Buttons input);
 	virtual InputEvents OnMouseMove(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 	virtual InputEvents OnMouseEnter(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 	virtual InputEvents OnMouseExit(const IntVector2& currentMousePos, const IntVector2& prevMousePos, const IntVector2& delta) override;
 
-	virtual InputEvents OnControllerAnalogChange(u32 controllerIndex, Inputs::Type analogInput, f32 analogValue) override;
+	//virtual InputEvents OnControllerAnalogChange(u32 controllerIndex, Input::Gamepad analogInput, f32 analogValue) override;
 	
 	// These focus callbacks will refresh settings or disable settings depending on what settings exist
 	virtual InputEvents OnFocusReceived() override;
@@ -64,7 +63,7 @@ public:
 	void ProcessGameInputs();
 
 	void RegisterInputCallback(InputCallback&& callback);
-	void AddInputContext(const PlayerInputContext& context);
+	void AddInputContext(const InputContext& context);
 	void RemoveInputContext(StringView contextName);
 	void PushInputContext(StringView contextName);
 	void PopInputContext(StringView contextName);
@@ -77,7 +76,7 @@ private:
 	FrameInputs contextInputs;
 
 	DynamicArray<InputCallback> callbacks;
-	DynamicArray<PlayerInputContext> contexts;
+	DynamicArray<InputContext> contexts;
 	DynamicArray<u32> activeContextIndices;
 
 	InputSettings inputSettings;

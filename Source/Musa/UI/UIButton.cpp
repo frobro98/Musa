@@ -4,7 +4,7 @@
 
 namespace UI
 {
-InputEvents Button::OnMouseDown(Inputs::Type /*input*/)
+InputEvents Button::OnMouseDown(Input::Buttons /*input*/)
 {
 	if (buttonClick)
 	{
@@ -12,7 +12,7 @@ InputEvents Button::OnMouseDown(Inputs::Type /*input*/)
 	}
 	return InputEvents();
 }
-InputEvents Button::OnMouseUp(Inputs::Type /*input*/)
+InputEvents Button::OnMouseUp(Input::Buttons /*input*/)
 {
 	return InputEvents();
 }

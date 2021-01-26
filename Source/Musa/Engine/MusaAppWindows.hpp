@@ -4,32 +4,12 @@
 
 #include "Engine/MusaAppOS.hpp"
 #include "Containers/StaticArray.hpp"
-
-// TODO - Move this into a more input centric place...
-constexpr u32 MaxSupportedControllers = 4;
-constexpr u32 MaxSupportedControllerButtons = 12;
-
-struct WindowsGamepadState
-{
-	// Store controller information unnormalized
-	IntVector2 leftStick;
-	IntVector2 rightStick;
-	u8 leftTrigger;
-	u8 rightTrigger;
-
-	StaticArray<bool, MaxSupportedControllerButtons> buttonStates;
-};
-
-struct WindowsGamepadCollection
-{
-	StaticArray<WindowsGamepadState, MaxSupportedControllers> controllerStates;
-	StaticArray<bool, MaxSupportedControllers> activeControllers;
-};
+#include "Input/Input.hpp"
 
 class MusaAppWindows final : public MusaAppOS
 {
 public:
-	MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler);
+	MusaAppWindows(MusaApp& app);
 
 	virtual Window* CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height) override;
 
@@ -49,6 +29,7 @@ private:
 	//void ProcessAnalogControllerInputs(const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state);
 
 private:
-	WindowsGamepadCollection controllers;
+	Input::GamepadStates controllers;
+	Input::ActiveGamepads activeControllers;
 	HINSTANCE instance;
 };

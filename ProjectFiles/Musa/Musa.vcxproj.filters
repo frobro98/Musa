@@ -177,9 +177,6 @@
     <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp">
       <Filter>Source\Entry</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Input\WindowInputHandler.cpp">
-      <Filter>Source\Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
@@ -187,9 +184,6 @@
       <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp">
-      <Filter>Source\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Input\PlayerInputContext.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\UI\UIContext.cpp">
@@ -300,6 +294,24 @@
     <ClCompile Include="..\..\Source\Musa\RenderPipeline\RenderPipeline.cpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\GameInputSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\OSInputSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\InputContext.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\InputContextManager.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\ApplicationInputMap.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -380,9 +392,6 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\InputComponent.hpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp">
       <Filter>Source\RenderPipeline</Filter>
     </ClInclude>
@@ -437,9 +446,6 @@
     <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp">
       <Filter>Source\Entry</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\WindowInputHandler.hpp">
-      <Filter>Source\Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\GameInput.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
@@ -447,9 +453,6 @@
       <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\InputEvents.hpp">
-      <Filter>Source\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\PlayerInputContext.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\InputDefinitions.hpp">
@@ -616,6 +619,48 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\RenderPipeline.hpp">
       <Filter>Source\RenderPipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\GameInputSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\OSInputsComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\OSInputSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputContextManager.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputContext.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\InputContextID.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\ApplicationInputMap.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\MouseMoveEventComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\AnalogChangeEvent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\ButtonEventComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\ContextCulledInputs.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\InputContextComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\GameInputComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

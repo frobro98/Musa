@@ -12,68 +12,41 @@ DECLARE_METRIC_GROUP(Input);
 METRIC_STAT(UpdateInputs, Input);
 METRIC_STAT(InputMapUpdate, Input);
 
-struct InputState
-{
-	bool endedDown = false;
-	bool previouslyDown = false;
-};
 
-static StaticArray<InputState, Inputs::Max> inputMap;
-static MusaApp* application;
+static ApplicationInputMap* inputHandler;
 
 namespace Internal
 {
-void KeyMessageDownReceived(Inputs::Type key, bool isPressed, bool isRepeated)
-{
-	if (!isRepeated)
-	{
-		Assert(isPressed == true);
-		inputMap[key].endedDown = isPressed;
-		//inputManager.KeyDownReceived(key);
-	}
-}
-void KeyMessageUpReceived(Inputs::Type key)
-{
-	inputMap[key].endedDown = false;
-	//inputManager.KeyUpReceived(key);
-}
 
-void UpdateInputMap()
-{
-	BEGIN_TIMED_BLOCK(InputMapUpdate);
-	for (u32 i = 0; i < inputMap.Size(); ++i)
-	{
-		inputMap[i].previouslyDown = inputMap[i].endedDown;
-	}
-	END_TIMED_BLOCK(InputMapUpdate);
-}
+// void UpdateInputMap()
+// {
+// 	BEGIN_TIMED_BLOCK(InputMapUpdate);
+// 	inputHandler->PrepInputForFrame();
+// 	END_TIMED_BLOCK(InputMapUpdate);
+// }
 }
 
 namespace Input
 {
-void InitializeInput(MusaApp& app)
+void InitializeInput(ApplicationInputMap& handler)
 {
-	application = &app;
-	Assert(application);
-
-	ZeroMem(inputMap.internalData, sizeof(InputState) * inputMap.Size());
+	inputHandler = &handler;
+	Assert(inputHandler);
 }
 
-bool IsPressed(Inputs::Type key)
+bool IsPressed(Input::Buttons key)
 {
-	const InputState& state = inputMap[key];
-	return state.endedDown && !state.previouslyDown;
+	return inputHandler->IsPressed(key);
 }
 
-bool IsDown(Inputs::Type key)
+bool IsDown(Input::Buttons key)
 {
-	const InputState& state = inputMap[key];
-	return state.endedDown;
+	return inputHandler->IsDown(key);
 }
 
 IntVector2 GetMousePosition()
 {
-	return application->GetMousePosition();
+	return inputHandler->GetMousePosition();
 }
 }
 

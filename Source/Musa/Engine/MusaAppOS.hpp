@@ -4,7 +4,6 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "BasicTypes/UniquePtr.hpp"
-#include "Input/WindowInputHandler.hpp"
 #include "Math/Rect.hpp"
 
 class MusaApp;
@@ -14,7 +13,7 @@ struct IntVector2;
 class MusaAppOS
 {
 public:
-	MusaAppOS(UniquePtr<WindowInputHandler>&& inputHandler);
+	MusaAppOS(MusaApp& app);
 	virtual ~MusaAppOS() = default;
 
 	virtual Window* CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height) = 0;
@@ -31,11 +30,9 @@ public:
 
 	virtual void ProcessInputEvents() = 0;
 
-	void PostProcessInputEvents();
-
-	inline WindowInputHandler* GetInputHandler() { Assert(inputHandler.IsValid()); return inputHandler.Get(); }
+	forceinline MusaApp& GetOwningApplication() { return owningApplication; }
 
 protected:
-	UniquePtr<WindowInputHandler> inputHandler;
+	MusaApp& owningApplication;
 
 };

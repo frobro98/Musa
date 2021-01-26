@@ -7,9 +7,9 @@
 #include "Input/Internal/InputInternal.hpp"
 
 
-Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler_, u32 xPos, u32 yPos, u32 w, u32 h)
+Window::Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 w, u32 h)
 	: window(nullptr),
-	inputHandler(inputHandler_),
+	application(app),
 	position(xPos, yPos),
 	width(w),
 	height(h),
@@ -32,7 +32,7 @@ Window::Window(HINSTANCE instance, WindowInputHandler& inputHandler_, u32 xPos, 
 		Assert(false);
 	}
 
-	SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&inputHandler));
+	SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&application));
 
 
 	RECT windowRect;

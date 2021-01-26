@@ -11,6 +11,7 @@
 class Window;
 class ProfilerStatistics;
 class GameInput;
+class ApplicationInputMap;
 
 namespace UI
 {
@@ -29,8 +30,8 @@ public:
 	void StopRunningEngine();
 
 
-	inline bool ShouldRun() const { return running; }
 	inline GameInput& GetGameInput() { return *gameInput; }
+	inline bool ShouldRun() const { return running; }
 	inline IntVector2 GetViewDimensions() const { return IntVector2(viewport->GetWidth(), viewport->GetHeight()); }
 
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene
@@ -39,6 +40,8 @@ public:
 	
 	void UpdateAndRender(f32 tick);
 	void GatherFrameMetrics();
+
+	void SetInputHandler(ApplicationInputMap& inputHandler);
 
 private:
 	void SetupWindowContext(Window& window);
@@ -53,6 +56,7 @@ private:
 	UniquePtr<GameInput> gameInput;
 	UniquePtr<Musa::RenderPipeline> renderPipeline;
 	UI::Context* uiContext = nullptr;
+	ApplicationInputMap* inputMap = nullptr;
 	// TODO - This and the other "world" aren't really needed...
 	Musa::World ecsWorld;
 

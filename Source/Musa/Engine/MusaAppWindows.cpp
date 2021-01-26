@@ -4,6 +4,7 @@
 #include <xinput.h>
 
 #include "MusaAppWindows.hpp"
+#include "Entry/MusaApp.hpp"
 #include "Window/Window.h"
 #include "Debugging/MetricInterface.hpp"
 #include "Input/Internal/InputInternal.hpp"
@@ -19,99 +20,99 @@ DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
 
 constexpr u32 WindowsKeyInputCount = 0x20c;
-static StaticArray<Inputs::Type, WindowsKeyInputCount> windowsInputs;
+static StaticArray<Input::Buttons, WindowsKeyInputCount> windowsInputs;
 
 static void InitializeWindowsInputArray()
 {
 	for (auto& input : windowsInputs)
 	{
-		input = Inputs::_INPUT_ENUM_MAX_;
+		input = Input::_INPUT_ENUM_MAX_;
 	}
 
 	// Store 0-9 keys
 	constexpr u32 key0 = 0x30;
 	for (u32 i = 0; i < 10; ++i)
 	{
-		windowsInputs[key0 + i] = (Inputs::Type)(Inputs::Key_0 + i);
+		windowsInputs[key0 + i] = (Input::Buttons)(Input::Key_0 + i);
 	}
 
 	// Store A-Z keys
 	constexpr u32 keyA = 0x41;
 	for (u32 i = 0; i < 26; ++i)
 	{
-		windowsInputs[keyA + i] = (Inputs::Type)(Inputs::Key_A + i);
+		windowsInputs[keyA + i] = (Input::Buttons)(Input::Key_A + i);
 	}
 
 	// Store Mouse Button inputs
-	windowsInputs[VK_LBUTTON] = Inputs::Mouse_LeftButton;
-	windowsInputs[VK_RBUTTON] = Inputs::Mouse_RightButton;
-	windowsInputs[VK_MBUTTON] = Inputs::Mouse_MiddleButton;
-	windowsInputs[VK_XBUTTON1] = Inputs::Mouse_Button4;
-	windowsInputs[VK_XBUTTON2] = Inputs::Mouse_Button5;
+	windowsInputs[VK_LBUTTON] = Input::Mouse_LeftButton;
+	windowsInputs[VK_RBUTTON] = Input::Mouse_RightButton;
+	windowsInputs[VK_MBUTTON] = Input::Mouse_MiddleButton;
+	windowsInputs[VK_XBUTTON1] = Input::Mouse_Button4;
+	windowsInputs[VK_XBUTTON2] = Input::Mouse_Button5;
 
 	// Store Alt, Shift, Control, Caps, Tab, Esc
-	windowsInputs[VK_LSHIFT] = Inputs::Key_LeftShift;
-	windowsInputs[VK_RSHIFT] = Inputs::Key_RightShift;
-	windowsInputs[VK_LCONTROL] = Inputs::Key_LeftControl;
-	windowsInputs[VK_RCONTROL] = Inputs::Key_RightControl;
-	windowsInputs[VK_LMENU] = Inputs::Key_LeftAlt;
-	windowsInputs[VK_RMENU] = Inputs::Key_RightAlt;
-	windowsInputs[VK_CAPITAL] = Inputs::Key_Capslock;
-	windowsInputs[VK_SPACE] = Inputs::Key_Space;
-	windowsInputs[VK_TAB] = Inputs::Key_Tab;
-	windowsInputs[VK_ESCAPE] = Inputs::Key_Escape;
+	windowsInputs[VK_LSHIFT] = Input::Key_LeftShift;
+	windowsInputs[VK_RSHIFT] = Input::Key_RightShift;
+	windowsInputs[VK_LCONTROL] = Input::Key_LeftControl;
+	windowsInputs[VK_RCONTROL] = Input::Key_RightControl;
+	windowsInputs[VK_LMENU] = Input::Key_LeftAlt;
+	windowsInputs[VK_RMENU] = Input::Key_RightAlt;
+	windowsInputs[VK_CAPITAL] = Input::Key_Capslock;
+	windowsInputs[VK_SPACE] = Input::Key_Space;
+	windowsInputs[VK_TAB] = Input::Key_Tab;
+	windowsInputs[VK_ESCAPE] = Input::Key_Escape;
 
 	// Store punctuation
-	windowsInputs[186] = Inputs::Key_Semicolon;
-	windowsInputs[187] = Inputs::Key_Equal;
-	windowsInputs[188] = Inputs::Key_Comma;
-	windowsInputs[189] = Inputs::Key_Minus;
-	windowsInputs[190] = Inputs::Key_Period;
-	windowsInputs[191] = Inputs::Key_ForwardSlash;
-	windowsInputs[192] = Inputs::Key_Tilde;
-	windowsInputs[219] = Inputs::Key_LeftBracket;
-	windowsInputs[220] = Inputs::Key_Backslash;
-	windowsInputs[221] = Inputs::Key_RightBracket;
-	windowsInputs[222] = Inputs::Key_Apostrophe;
+	windowsInputs[186] = Input::Key_Semicolon;
+	windowsInputs[187] = Input::Key_Equal;
+	windowsInputs[188] = Input::Key_Comma;
+	windowsInputs[189] = Input::Key_Minus;
+	windowsInputs[190] = Input::Key_Period;
+	windowsInputs[191] = Input::Key_ForwardSlash;
+	windowsInputs[192] = Input::Key_Tilde;
+	windowsInputs[219] = Input::Key_LeftBracket;
+	windowsInputs[220] = Input::Key_Backslash;
+	windowsInputs[221] = Input::Key_RightBracket;
+	windowsInputs[222] = Input::Key_Apostrophe;
 
 	// Store Function keys
 	for (u32 i = 0; i < 12; ++i)
 	{
-		windowsInputs[VK_F1 + i] = (Inputs::Type)(Inputs::Key_F1 + i);
+		windowsInputs[VK_F1 + i] = (Input::Buttons)(Input::Key_F1 + i);
 	}
 
 	// Store Arrow keys
-	windowsInputs[VK_LEFT] = Inputs::Key_ArrowLeft;
-	windowsInputs[VK_RIGHT] = Inputs::Key_ArrowRight;
-	windowsInputs[VK_UP] = Inputs::Key_ArrowUp;
-	windowsInputs[VK_DOWN] = Inputs::Key_ArrowDown;
+	windowsInputs[VK_LEFT] = Input::Key_ArrowLeft;
+	windowsInputs[VK_RIGHT] = Input::Key_ArrowRight;
+	windowsInputs[VK_UP] = Input::Key_ArrowUp;
+	windowsInputs[VK_DOWN] = Input::Key_ArrowDown;
 
 	// Store Input keys
-	windowsInputs[VK_RETURN] = Inputs::Key_Enter;
-	windowsInputs[VK_BACK] = Inputs::Key_Backspace;
-	windowsInputs[VK_PRIOR] = Inputs::Key_PageUp;
-	windowsInputs[VK_NEXT] = Inputs::Key_PageDown;
-	windowsInputs[VK_INSERT] = Inputs::Key_Insert;
-	windowsInputs[VK_DELETE] = Inputs::Key_Delete;
-	windowsInputs[VK_HOME] = Inputs::Key_Home;
-	windowsInputs[VK_END] = Inputs::Key_End;
+	windowsInputs[VK_RETURN] = Input::Key_Enter;
+	windowsInputs[VK_BACK] = Input::Key_Backspace;
+	windowsInputs[VK_PRIOR] = Input::Key_PageUp;
+	windowsInputs[VK_NEXT] = Input::Key_PageDown;
+	windowsInputs[VK_INSERT] = Input::Key_Insert;
+	windowsInputs[VK_DELETE] = Input::Key_Delete;
+	windowsInputs[VK_HOME] = Input::Key_Home;
+	windowsInputs[VK_END] = Input::Key_End;
 
 	// Store numpad keys
-	windowsInputs[VK_NUMLOCK] = Inputs::Key_NumLock;
+	windowsInputs[VK_NUMLOCK] = Input::Key_NumLock;
 	for (u32 i = 0; i < 10; ++i)
 	{
-		windowsInputs[VK_NUMPAD0 + i] = (Inputs::Type)(Inputs::Key_Num0 + i);
+		windowsInputs[VK_NUMPAD0 + i] = (Input::Buttons)(Input::Key_Num0 + i);
 	}
-	windowsInputs[VK_MULTIPLY] = Inputs::Key_NumMulti;
-	windowsInputs[VK_ADD] = Inputs::Key_NumPlus;
-	windowsInputs[VK_SUBTRACT] = Inputs::Key_NumMinus;
-	windowsInputs[VK_DECIMAL] = Inputs::Key_NumDecimal;
-	windowsInputs[VK_DIVIDE] = Inputs::Key_NumDivide;
+	windowsInputs[VK_MULTIPLY] = Input::Key_NumMulti;
+	windowsInputs[VK_ADD] = Input::Key_NumPlus;
+	windowsInputs[VK_SUBTRACT] = Input::Key_NumMinus;
+	windowsInputs[VK_DECIMAL] = Input::Key_NumDecimal;
+	windowsInputs[VK_DIVIDE] = Input::Key_NumDivide;
 
 	// Store Unique keys
-	windowsInputs[VK_SNAPSHOT] = Inputs::Key_PrintScreen;
-	windowsInputs[VK_SCROLL] = Inputs::Key_ScrollLock;
-	windowsInputs[VK_PAUSE] = Inputs::Key_Pause;
+	windowsInputs[VK_SNAPSHOT] = Input::Key_PrintScreen;
+	windowsInputs[VK_SCROLL] = Input::Key_ScrollLock;
+	windowsInputs[VK_PAUSE] = Input::Key_Pause;
 
 }
 
@@ -132,40 +133,43 @@ WPARAM MapWparamLeftRightKeys(WPARAM wparam, LPARAM lparam)
 	}
 }
 
-Inputs::Type ConvertWin32ToMusaInput(u32 vkCode)
+Input::Buttons ConvertWin32ToMusaInput(u32 vkCode)
 {
 	// TODO - this could be cached to be a static array of initialized vk codes
 	return windowsInputs[vkCode];
 }
 
-inline Inputs::Type GetMouseType(UINT message, WPARAM wParam)
+inline Input::Buttons GetMouseType(UINT message, WPARAM wParam)
 {
 	switch (message)
 	{
-	case WM_LBUTTONDOWN: return Inputs::Mouse_LeftButton;
-	case WM_RBUTTONDOWN: return Inputs::Mouse_RightButton;
-	case WM_MBUTTONDOWN: return Inputs::Mouse_MiddleButton;
-	case WM_LBUTTONUP: return Inputs::Mouse_LeftButton;
-	case WM_RBUTTONUP: return Inputs::Mouse_RightButton;
-	case WM_MBUTTONUP: return Inputs::Mouse_MiddleButton;
+	case WM_LBUTTONDOWN: return Input::Mouse_LeftButton;
+	case WM_RBUTTONDOWN: return Input::Mouse_RightButton;
+	case WM_MBUTTONDOWN: return Input::Mouse_MiddleButton;
+	case WM_LBUTTONUP: return Input::Mouse_LeftButton;
+	case WM_RBUTTONUP: return Input::Mouse_RightButton;
+	case WM_MBUTTONUP: return Input::Mouse_MiddleButton;
 
 	case WM_XBUTTONDOWN:
 	case WM_XBUTTONUP:
 	{
-		return (HIWORD(wParam) & XBUTTON1) ? Inputs::Mouse_Button4 : Inputs::Mouse_Button5;
+		return (HIWORD(wParam) & XBUTTON1) ? Input::Mouse_Button4 : Input::Mouse_Button5;
 	}
 
 	default:
-		return Inputs::_INPUT_ENUM_MAX_;
+		return Input::_INPUT_ENUM_MAX_;
 	}
 }
 
 // Basic Window callback
 LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	WindowInputHandler* inputHandler = (WindowInputHandler*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if(inputHandler != nullptr)
+	MusaApp* application = (MusaApp*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	if(application != nullptr)
 	{
+		ApplicationEventDispatcher& eventDispatcher = application->GetInputDispatcher();
+		ApplicationInputMap& inputMap = application->GetInputMap();
+
 		switch (message)
 		{
 			case WM_ACTIVATEAPP:
@@ -186,14 +190,14 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 					MUSA_DEBUG(Win32, "Windows App Deactivated");
 				}
 
-				inputHandler->HandleActivationChanged(activated);
+				eventDispatcher.HandleWindowActivationChanged(activated);
 			}break;
 
 			case  WM_CLOSE:
 			{
 				MUSA_DEBUG(Win32, "Window Close Event");
 
-				inputHandler->HandleWindowClose();
+				eventDispatcher.HandleWindowCloseEvent();
 			}break;
 
 			case WM_DESTROY:
@@ -207,7 +211,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 				u32 width = LOWORD(lParam);
 				u32 height = HIWORD(lParam);
-				inputHandler->HandleWindowResized(width, height);
+				eventDispatcher.HandleWindowResizeEvent(IntVector2(width, height));
 			}break;
 
 			case WM_SETCURSOR:
@@ -221,8 +225,9 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_MBUTTONDOWN:
 			case WM_XBUTTONDOWN:
 			{
-				Inputs::Type mouseButton = GetMouseType(message, wParam);
-				inputHandler->HandleMouseDown(mouseButton);
+				Input::Buttons mouseButton = GetMouseType(message, wParam);
+				Input::ButtonState buttonState = inputMap.MouseDown(mouseButton);
+				eventDispatcher.HandleMouseDown(mouseButton, buttonState);
 			}break;
 
 			case WM_LBUTTONUP:
@@ -230,8 +235,9 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_MBUTTONUP:
 			case WM_XBUTTONUP:
 			{
-				Inputs::Type mouseButton = GetMouseType(message, wParam);
-				inputHandler->HandleMouseUp(mouseButton);
+				Input::Buttons mouseButton = GetMouseType(message, wParam);
+				Input::ButtonState buttonState = inputMap.MouseUp(mouseButton);
+				eventDispatcher.HandleMouseUp(mouseButton, buttonState);
 			}break;
 
 			case WM_SYSKEYDOWN:
@@ -242,8 +248,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 				bool repeated = (lParam & 0x40000000) != 0;
 
-				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-				inputHandler->HandleKeyDown(input, repeated);
+				Input::Buttons input = ConvertWin32ToMusaInput(vkCode);
+				Assert(input != Input::_INPUT_ENUM_MAX_);
+
+				Input::ButtonState buttonState = inputMap.KeyDown(input);
+				eventDispatcher.HandleKeyDown(input, buttonState, repeated);
 
 			}break;
 
@@ -253,10 +262,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				wParam = MapWparamLeftRightKeys(wParam, lParam);
 				u32 vkCode = LOWORD(wParam);
 				
-				Inputs::Type input = ConvertWin32ToMusaInput(vkCode);
-				Assert(input != Inputs::_INPUT_ENUM_MAX_);
+				Input::Buttons input = ConvertWin32ToMusaInput(vkCode);
+				Assert(input != Input::_INPUT_ENUM_MAX_);
 
-				inputHandler->HandleKeyUp(input);
+				Input::ButtonState buttonState = inputMap.KeyUp(input);
+				eventDispatcher.HandleKeyUp(input, buttonState);
 			}break;
 
 			case WM_CHAR:
@@ -267,10 +277,10 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				// 30th bit containing the prev state of the character...
 				bool repeated = (lParam & 0x40000000) != 0;
 				
-				inputHandler->HandleKeyChar(c, repeated);
+				eventDispatcher.HandleKeyChar(c, repeated);
 			}break;
 
-			// According to multiple sources, this kind of mouse movement message when the mouse is hiddedn because:
+			// According to multiple sources, this kind of mouse movement message when the mouse is hidden because:
 			//   1) It has more resolution for mouse movement
 			//   2) It essentially only has delta information
 			// Because of these reasons, I will be using this every time the mouse is hidden on Windows
@@ -288,9 +298,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 					{
 						POINT cursorPos;
 						::GetCursorPos(&cursorPos);
-						const i32 deltaX = rawInput->data.mouse.lLastX;
-						const i32 deltaY = rawInput->data.mouse.lLastY;
-						inputHandler->HandleRawMouseMove(cursorPos.x, cursorPos.y, deltaX, deltaY);
+						IntVector2 currentPosition(cursorPos.x, cursorPos.y);
+						IntVector2 deltaPosition(rawInput->data.mouse.lLastX, rawInput->data.mouse.lLastY);
+
+						inputMap.MouseMove(currentPosition);
+						eventDispatcher.HandleRawMouseMove(currentPosition, deltaPosition);
 					}
 				}
 			}break;
@@ -299,7 +311,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			{
 				POINT cursor;
 				::GetCursorPos(&cursor);
-				inputHandler->HandleMouseMove(cursor.x, cursor.y);
+				
+				IntVector2 currentPosition(cursor.x, cursor.y);
+				inputMap.MouseMove(currentPosition);
+				eventDispatcher.HandleMouseMove(currentPosition);
+				
 			}break;
 
 			default:
@@ -313,72 +329,70 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 //////////////////////////////////////////////////////////////////////////
 
-static const Inputs::Type ControllerButtons[] = {
-	Inputs::Gamepad_DPadUp,
-	Inputs::Gamepad_DPadDown,
-	Inputs::Gamepad_DPadLeft,
-	Inputs::Gamepad_DPadRight,
-	Inputs::Gamepad_StartButton,
-	Inputs::Gamepad_SelectButton,
-	Inputs::Gamepad_LeftShoulder,
-	Inputs::Gamepad_RightShoulder,
-	Inputs::Gamepad_AButton,
-	Inputs::Gamepad_BButton,
-	Inputs::Gamepad_XButton,
-	Inputs::Gamepad_YButton,
+static const Input::Buttons ControllerButtons[] = {
+	Input::Gamepad_DPadUp,
+	Input::Gamepad_DPadDown,
+	Input::Gamepad_DPadLeft,
+	Input::Gamepad_DPadRight,
+	Input::Gamepad_StartButton,
+	Input::Gamepad_SelectButton,
+	Input::Gamepad_LeftShoulder,
+	Input::Gamepad_RightShoulder,
+	Input::Gamepad_LeftTrigger,
+	Input::Gamepad_RightTrigger,
+	Input::Gamepad_AButton,
+	Input::Gamepad_BButton,
+	Input::Gamepad_XButton,
+	Input::Gamepad_YButton,
 };
 
-void ProcessAnalogControllerInputs(WindowInputHandler& inputHandler, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
+void ProcessAnalogControllerInputs(ApplicationEventDispatcher& eventDispatcher, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, Input::GamepadState& state)
 {
 	// Deadzone checking
 	if (//state.leftStick.x != xinputGamepad.sThumbLX ||
 		Math::Abs(xinputGamepad.sThumbLX) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 	{
-		f32 normLX = NormalizeStickValue(xinputGamepad.sThumbLX);
-		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftStick_XAxis, normLX);
-		state.leftStick.x = xinputGamepad.sThumbLX;
+		state.leftStick.x = NormalizeStickValue(xinputGamepad.sThumbLX);
+		eventDispatcher.HandleControllerAnalogChange(controllerIndex, Input::Gamepad_LeftStick_XAxis, state.leftStick.x);
 	}
 
 	if (//state.leftStick.y != xinputGamepad.sThumbLY ||
 		Math::Abs(xinputGamepad.sThumbLY) > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE)
 	{
-		f32 normLY = NormalizeStickValue(xinputGamepad.sThumbLY);
-		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftStick_YAxis, normLY);
-		state.leftStick.y = xinputGamepad.sThumbLY;
+		state.leftStick.y = NormalizeStickValue(xinputGamepad.sThumbLY);
+		eventDispatcher.HandleControllerAnalogChange(controllerIndex, Input::Gamepad_LeftStick_YAxis, state.leftStick.y);
 	}
 
 	if (//state.rightStick.x != xinputGamepad.sThumbRX ||
 		Math::Abs(xinputGamepad.sThumbRX) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 	{
-		f32 normRX = NormalizeStickValue(xinputGamepad.sThumbRX);
-		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightStick_XAxis, normRX);
-		state.rightStick.x = xinputGamepad.sThumbRX;
+		state.rightStick.x = NormalizeStickValue(xinputGamepad.sThumbRX);
+		eventDispatcher.HandleControllerAnalogChange(controllerIndex, Input::Gamepad_RightStick_XAxis, state.rightStick.x);
 	}
 
 	if (//state.rightStick.y != xinputGamepad.sThumbRY ||
 		Math::Abs(xinputGamepad.sThumbRY) > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE)
 	{
-		f32 normRY = NormalizeStickValue(xinputGamepad.sThumbRY);
-		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightStick_YAxis, normRY);
-		state.rightStick.y = xinputGamepad.sThumbRY;
+		state.rightStick.y = NormalizeStickValue(xinputGamepad.sThumbRY);
+		eventDispatcher.HandleControllerAnalogChange(controllerIndex, Input::Gamepad_RightStick_YAxis, state.rightStick.y);
 	}
 
 	// Triggers for axis analog
 	if (Math::Abs(xinputGamepad.bLeftTrigger) > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 	{
-		f32 normLeftTrigger = NormalizeTriggerValue(xinputGamepad.bLeftTrigger);
-		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_LeftTrigger, normLeftTrigger);
+		state.leftTrigger = NormalizeTriggerValue(xinputGamepad.bLeftTrigger);
+		eventDispatcher.HandleControllerAnalogChange(controllerIndex, Input::Gamepad_LeftTrigger, state.leftTrigger);
 	}
 	if (Math::Abs(xinputGamepad.bRightTrigger) > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
 	{
-		f32 normRightTrigger = NormalizeTriggerValue(xinputGamepad.bRightTrigger);
-		inputHandler.HandleControllerAnalogChange(controllerIndex, Inputs::Gamepad_RightTrigger, normRightTrigger);
+		state.rightTrigger = NormalizeTriggerValue(xinputGamepad.bRightTrigger);
+		eventDispatcher.HandleControllerAnalogChange(controllerIndex, Input::Gamepad_RightTrigger, state.rightTrigger);
 	}
 }
 
-void ProcessControllerButtons(WindowInputHandler& inputHandler, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state)
+void ProcessControllerButtons(ApplicationEventDispatcher& eventDispatcher, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, Input::GamepadState& state)
 {
-	StaticArray<bool, MaxSupportedControllerButtons> currentButtonState;
+	StaticArray<bool, Input::GP_Max> currentButtonState;
 	currentButtonState[0] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0;
 	currentButtonState[1] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0;
 	currentButtonState[2] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0;
@@ -387,33 +401,31 @@ void ProcessControllerButtons(WindowInputHandler& inputHandler, u32 controllerIn
 	currentButtonState[5] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_BACK) != 0;
 	currentButtonState[6] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) != 0;
 	currentButtonState[7] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0;
-	currentButtonState[8] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_A) != 0;
-	currentButtonState[9] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_B) != 0;
-	currentButtonState[10] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
-	currentButtonState[11] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_Y) != 0;
+	currentButtonState[8] = (xinputGamepad.bLeftTrigger > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
+	currentButtonState[9] = (xinputGamepad.bRightTrigger > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	currentButtonState[10] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_A) != 0;
+	currentButtonState[11] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_B) != 0;
+	currentButtonState[12] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_X) != 0;
+	currentButtonState[13] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_Y) != 0;
 
-	for (u32 i = 0; i < MaxSupportedControllerButtons; ++i)
+	for (u32 i = 0; i < Input::GP_Max; ++i)
 	{
-		if (currentButtonState[i] != state.buttonStates[i])
+		state.buttonStates[i].endedDown = currentButtonState[i];
+		if (state.buttonStates[i].endedDown != state.buttonStates[i].previouslyDown)
 		{
-			if (currentButtonState[i])
+			if (state.buttonStates[i].endedDown)
 			{
-				inputHandler.HandleControllerButtonDown(controllerIndex, ControllerButtons[i]);
+				eventDispatcher.HandleControllerButtonDown(controllerIndex, ControllerButtons[i], state.buttonStates[i]);
 			}
 			else
 			{
-				inputHandler.HandleControllerButtonUp(controllerIndex, ControllerButtons[i]);
+				eventDispatcher.HandleControllerButtonUp(controllerIndex, ControllerButtons[i], state.buttonStates[i]);
 			}
 		}
-		else
+		else if(state.buttonStates[i].endedDown)
 		{
-			if (currentButtonState[i])
-			{
-				inputHandler.HandleControllerButtonDown(controllerIndex, ControllerButtons[i]);
-			}
+			eventDispatcher.HandleControllerButtonDown(controllerIndex, ControllerButtons[i], state.buttonStates[i]);
 		}
-
-		state.buttonStates[i] = currentButtonState[i];
 	}
 }
 
@@ -421,8 +433,8 @@ void ProcessControllerButtons(WindowInputHandler& inputHandler, u32 controllerIn
 // MusaAppWindows
 //////////////////////////////////////////////////////////////////////////
 
-MusaAppWindows::MusaAppWindows(UniquePtr<WindowInputHandler>&& inputHandler)
-	: MusaAppOS(std::move(inputHandler))
+MusaAppWindows::MusaAppWindows(MusaApp& app)
+	: MusaAppOS(app)
 {
 	MUSA_INFO(Win32, "Initializing Windows Application");
 
@@ -451,7 +463,7 @@ Window* MusaAppWindows::CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 heig
 	MUSA_DEBUG(Win32, "Create Win32 Window (x: {} y: {} w: {} h: {}",
 		xPos, yPos, width, height);
 
-	return new Window(instance, *inputHandler, xPos, yPos, width, height);
+	return new Window(instance, owningApplication, xPos, yPos, width, height);
 }
 
 void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
@@ -513,34 +525,36 @@ void MusaAppWindows::ProcessNativeGamepad()
 {
 	// NOTE - I could check if controllers are actually connected? Don't really know what that gets me though
 
-	// NOTE - This amount of controllers might not be supported on other platforms. Might need to know this info
-	constexpr u32 MaxControllersSupported = 1;//XUSER_MAX_COUNT;
-	for (u32 i = 0; i < MaxControllersSupported; ++i)
+	for (u32 i = 0; i < Input::MaxSupportedControllers; ++i)
 	{
+		XINPUT_STATE state = {};
+		activeControllers[i] = XInputGetState(i, &state) == ERROR_SUCCESS;
+	}
+
+	for (u32 i = 0; i < Input::MaxSupportedControllers; ++i)
+	{
+		// TODO - Probably slow because it's a system call multiple times (above and here...)
 		XINPUT_STATE state = {};
 		if (XInputGetState(i, &state) == ERROR_SUCCESS)
 		{
-			controllers.activeControllers[i] = true;
-
-			WindowsGamepadState& musaGamepad = controllers.controllerStates[i];
+			Input::GamepadState& musaGamepad = controllers[i];
 			const XINPUT_GAMEPAD& gamepad = state.Gamepad;
 
 			// Stick processing
-			ProcessAnalogControllerInputs(*inputHandler, i, gamepad, musaGamepad);
+			ProcessAnalogControllerInputs(owningApplication.GetInputDispatcher(), i, gamepad, musaGamepad);
 
 			// Button processing
-			ProcessControllerButtons(*inputHandler, i, gamepad, musaGamepad);
-		}
-		else
-		{
-			// Controller not connected...
-			controllers.activeControllers[i] = false;
+			ProcessControllerButtons(owningApplication.GetInputDispatcher(), i, gamepad, musaGamepad);
 		}
 	}
+
+	owningApplication.GetInputMap().SetGamepadInformation(controllers, activeControllers);
 }
 
 void MusaAppWindows::ProcessInputEvents()
 {
+	owningApplication.GetInputMap().PrepInputForFrame();
+
 	SCOPED_TIMED_BLOCK(PumpMessages);
 	MSG Message;
 	while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))

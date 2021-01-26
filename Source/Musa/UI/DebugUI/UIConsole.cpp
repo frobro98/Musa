@@ -25,11 +25,11 @@ Console::Console(Widget* parent)
 	InitializeFont();
 }
 
-InputEvents Console::OnKeyDown(Inputs::Type keyType, bool /*isRepeated*/)
+InputEvents Console::OnKeyDown(Input::Buttons keyType, bool /*isRepeated*/)
 {
 	// Handling delete/backspace/tab/arrow key movements
 
-	if (keyType == Inputs::Key_Tilde)
+	if (keyType == Input::Key_Tilde)
 	{
 
 	}

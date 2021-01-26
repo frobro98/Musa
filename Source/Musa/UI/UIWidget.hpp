@@ -27,14 +27,14 @@ public:
 
 
 	// UI must implement the IInputReceiver interface to receive all the different input
-	virtual InputEvents OnControllerAnalogChange(u32 /*controllerIndex*/, Inputs::Type /*analogInput*/, f32 /*analogValue*/) { return InputEvents{}; }
+	//virtual InputEvents OnControllerAnalogChange(u32 /*controllerIndex*/, Input::Buttons /*analogInput*/, f32 /*analogValue*/) { return InputEvents{}; }
 	virtual InputEvents OnMouseMove(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/) { return InputEvents{}; }
 	virtual InputEvents OnMouseEnter(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/) { return InputEvents{}; }
 	virtual InputEvents OnMouseExit(const IntVector2& /*currentMousePos*/, const IntVector2& /*prevMousePos*/, const IntVector2& /*delta*/) { return InputEvents{}; }
-	virtual InputEvents OnMouseDown(Inputs::Type /*input*/) { return InputEvents{}; }
-	virtual InputEvents OnMouseUp(Inputs::Type /*input*/) { return InputEvents{}; }
-	virtual InputEvents OnKeyDown(Inputs::Type /*input*/, bool /*isRepeated*/) { return InputEvents{}; }
-	virtual InputEvents OnKeyUp(Inputs::Type /*input*/) { return InputEvents{}; }
+	virtual InputEvents OnMouseDown(Input::Buttons /*input*/) { return InputEvents{}; }
+	virtual InputEvents OnMouseUp(Input::Buttons /*input*/) { return InputEvents{}; }
+	virtual InputEvents OnKeyDown(Input::Buttons /*input*/, bool /*isRepeated*/) { return InputEvents{}; }
+	virtual InputEvents OnKeyUp(Input::Buttons /*input*/) { return InputEvents{}; }
 	virtual InputEvents OnChar(tchar /*c*/, bool /*isRepeated*/) { return InputEvents{}; }
 	virtual InputEvents OnFocusReceived() { return InputEvents{}; }
 	virtual InputEvents OnFocusLost() { return InputEvents{}; }

@@ -70,6 +70,9 @@
     <Filter Include="Source\File\Windows">
       <UniqueIdentifier>{84a0cea5-5610-43dd-8374-675f0177504b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Utilities\ThirdParty">
+      <UniqueIdentifier>{15813402-36e4-47f7-bd47-0a370d394fef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Time\EngineTick.cpp">
@@ -128,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\BasicTypes\Color.cpp">
       <Filter>Source\BasicTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Utilities\HashFuncs.cpp">
-      <Filter>Source\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp">
       <Filter>Source\Platform\Windows</Filter>
@@ -200,6 +200,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\File\FileSystem.cpp">
       <Filter>Source\File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\farmhash.cc">
+      <Filter>Source\Utilities\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\xxhash.c">
+      <Filter>Source\Utilities\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\city.cc">
+      <Filter>Source\Utilities\ThirdParty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -539,5 +548,19 @@
     <ClInclude Include="..\..\Source\Core\File\FileSystem.hpp">
       <Filter>Source\File</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\farmhash.h">
+      <Filter>Source\Utilities\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\xxhash.h">
+      <Filter>Source\Utilities\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\city.h">
+      <Filter>Source\Utilities\ThirdParty</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\Utilities\ThirdParty\LICENSE">
+      <Filter>Source\Utilities\ThirdParty</Filter>
+    </None>
   </ItemGroup>
 </Project>
