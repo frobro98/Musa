@@ -20,7 +20,6 @@ constexpr i32 windowHeight = 720;
 MusaApp::MusaApp()
 {
 	uiContext = MakeUnique<UI::Context>(windowWidth, windowHeight);
-	gameEngine = MakeUnique<MusaEngine>(*uiContext);
 }
 
 void MusaApp::LaunchApplication()
@@ -115,7 +114,6 @@ void MusaApp::InitializeOSInput()
 {
 	inputMap = MakeUnique<ApplicationInputMap>(*this);
 	inputDispatcher = MakeUnique<ApplicationEventDispatcher>(*this);
-	gameEngine->SetInputHandler(*inputMap);
 	Input::InitializeInput(*inputMap);
 
 	osApp = new MusaAppWindows(*this);
@@ -135,6 +133,9 @@ void MusaApp::InitializeApplicationWindow()
 
 void MusaApp::SetupGameEngine()
 {
+	gameEngine = MakeUnique<MusaEngine>(*uiContext, *inputDispatcher);
+	gameEngine->SetInputHandler(*inputMap);
+
 	gameEngine->StartupEngine(*appWindow);
 
 	gameEngine->LoadContent();
@@ -165,10 +166,16 @@ void MusaApp::ApplicationUpdate()
 	Frame::SetFrameStats({ tick });
 
 	// Process input
-	osApp->ProcessInputEvents();
-	osApp->ProcessNativeGamepad();
+	ProcessApplicationInputs();
 
 	gameEngine->UpdateAndRender(tick);
 
 	gameEngine->GatherFrameMetrics();
+}
+
+void MusaApp::ProcessApplicationInputs()
+{
+	inputDispatcher->ClearCachedInputs();
+	osApp->ProcessInputEvents();
+	osApp->ProcessNativeGamepad();
 }

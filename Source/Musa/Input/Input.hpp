@@ -14,6 +14,13 @@ class ApplicationInputMap;
 
 namespace Input
 {
+enum class ButtonEventType
+{
+	Pressed,
+	Repeated,
+	Released
+};
+
 struct ButtonState
 {
 	u8 endedDown : 1;

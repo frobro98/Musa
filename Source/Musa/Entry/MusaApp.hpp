@@ -42,6 +42,7 @@ private:
 	void TearDownGameEngine();
 
 	void ApplicationUpdate();
+	void ProcessApplicationInputs();
 
 private:
 	EngineTick frameTick;

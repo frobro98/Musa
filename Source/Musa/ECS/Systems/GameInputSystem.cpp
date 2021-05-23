@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "GameInputSystem.hpp"
-#include "ECS/Components/AnalogChangeEvent.hpp"
+#include "ECS/Components/AnalogChangeEventComponent.hpp"
 #include "ECS/Components/MouseMoveEventComponent.hpp"
 #include "ECS/Components/ButtonEventComponent.hpp"
 #include "ECS/Components/InputContextComponent.hpp"
@@ -41,7 +41,7 @@ static void ProcessButtonEvents(GameInputComponent& gameInput, DynamicArray<Chun
 
 			Input::ButtonState state = buttonEvent.event.state;
 			bool isPressed = state.endedDown && !state.previouslyDown;
-			NOT_USED bool isReleased = !state.endedDown && state.previouslyDown;
+			bool isReleased = !state.endedDown && state.previouslyDown;
 			
 			// TODO - Need to officially make the input context a specific file, in doing so, 
 			// rework the data and how it's stored
@@ -50,7 +50,7 @@ static void ProcessButtonEvents(GameInputComponent& gameInput, DynamicArray<Chun
 			{
 				if (isPressed)
 				{
-					gameInput.inputActions.Add(InputAction{ button, InputEventType::Pressed });
+					gameInput.inputActions.Add(InputAction{ button, Input::ButtonEventType::Pressed });
 				}
 			}
 			if (ContainsInputAsState(button, *context.inputConext))
@@ -66,7 +66,8 @@ static void ProcessButtonEvents(GameInputComponent& gameInput, DynamicArray<Chun
 					Assert(isPressed);
 					inputStates.Add(InputState{ button, 1.f });
 				}
-				else
+				// Exists so we need to determine if it stays in or not
+				else if(isReleased)
 				{
 					inputStates.Remove((u32)stateIndex);
 				}
@@ -200,8 +201,22 @@ void GameInputSystem::Initialize()
 
 void GameInputSystem::Update()
 {
+	AddGameInputComponents();
 	ProcessInputEvents();
 	ClearInputEvents();
+}
+
+void GameInputSystem::AddGameInputComponents()
+{
+	auto noGameInputComps = GetQueryChunks(*gameInputInitQuery);
+	for (auto& noInputChunk : noGameInputComps)
+	{
+		auto entitys = noInputChunk.GetArrayOf<Entity>();
+		for (auto entity : entitys)
+		{
+			GetWorld().AddComponentTo<GameInputComponent>(entity);
+		}
+	}
 }
 
 void GameInputSystem::ProcessInputEvents() const
@@ -210,11 +225,11 @@ void GameInputSystem::ProcessInputEvents() const
 	for (auto& gameInputChunk : gameInputChunks)
 	{
 		auto buttonChunks = GetQueryChunks(*buttonEventQuery);
-		Assert(buttonChunks.Size() == 1);
+		Assert(buttonChunks.Size() <= 1);
 		auto mouseMoveChunks = GetQueryChunks(*mouseMoveEventQuery);
-		Assert(mouseMoveChunks.Size() == 1);
+		Assert(mouseMoveChunks.Size() <= 1);
 		auto analogEventChunks = GetQueryChunks(*analogEventQuery);
-		Assert(analogEventChunks.Size() == 1);
+		Assert(analogEventChunks.Size() <= 1);
 
 		// Par
 		ChunkArray<InputContextComponent> inputContexts = gameInputChunk.GetArrayOf<InputContextComponent>();
@@ -225,6 +240,7 @@ void GameInputSystem::ProcessInputEvents() const
 		{
 			InputContextComponent& inputContext = inputContexts[i];
 			GameInputComponent& gameInput = gameInputs[i];
+			gameInput.inputActions.Clear();
 
 			ProcessButtonEvents(gameInput, buttonChunks, inputContext);
 
@@ -238,26 +254,38 @@ void GameInputSystem::ProcessInputEvents() const
 void GameInputSystem::ClearInputEvents()
 {
 	{
-		auto buttonEntities = GetQueriedEntities(*buttonEventQuery);
-		for (const auto& entity : buttonEntities)
+		auto buttonChunks = GetQueryChunks(*buttonEventQuery);
+		for (auto& chunk : buttonChunks)
 		{
-			GetWorld().DestroyEntity(entity);
+			auto entities = chunk.GetArrayOf<Entity>();
+			for (auto& entity : entities)
+			{
+				GetWorld().DestroyEntity(entity);
+			}
 		}
 	}
 
 	{
-		auto mouseMoveEntities = GetQueriedEntities(*mouseMoveEventQuery);
-		for (const auto& entity : mouseMoveEntities)
+		auto mouseMoveChunks = GetQueryChunks(*mouseMoveEventQuery);
+		for (auto& chunk : mouseMoveChunks)
 		{
-			GetWorld().DestroyEntity(entity);
+			auto entities = chunk.GetArrayOf<Entity>();
+			for (auto& entity : entities)
+			{
+				GetWorld().DestroyEntity(entity);
+			}
 		}
 	}
 
 	{
-		auto analogEventEntities = GetQueriedEntities(*analogEventQuery);
-		for (const auto& entity : analogEventEntities)
+		auto analogEventChunks = GetQueryChunks(*analogEventQuery);
+		for (auto& chunk : analogEventChunks)
 		{
-			GetWorld().DestroyEntity(entity);
+			auto entities = chunk.GetArrayOf<Entity>();
+			for (auto& entity : entities)
+			{
+				GetWorld().DestroyEntity(entity);
+			}
 		}
 	}
 }

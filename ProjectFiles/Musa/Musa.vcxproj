@@ -112,7 +112,7 @@
     <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\ViewFrustum.hpp" />
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\AnalogChangeEvent.hpp" />
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\AnalogChangeEventComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\ButtonEventComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\CameraComponent.hpp" />
     <ClInclude Include="..\..\Source\Musa\ECS\Components\DebugNameComponent.hpp" />

@@ -41,6 +41,9 @@
 #include "ECS/Components/RotationComponent.hpp"
 #include "ECS/Components/InputContextComponent.hpp"
 #include "ECS/Components/CameraComponent.hpp"
+#include "ECS/Components/ButtonEventComponent.hpp"
+#include "ECS/Components/MouseMoveEventComponent.hpp"
+#include "ECS/Components/AnalogChangeEventComponent.hpp"
 
 #include "ECS/Systems/OSInputSystem.hpp"
 #include "ECS/Systems/GameInputSystem.hpp"
@@ -85,8 +88,9 @@ Musa::RenderPipeline& Musa::GetRenderPipeline()
 
 using namespace Musa;
 
-MusaEngine::MusaEngine(UI::Context& context)
-	: uiContext(&context)
+MusaEngine::MusaEngine(UI::Context& context, const ApplicationEventDispatcher& inputDispatcher_)
+	: inputDispatcher(inputDispatcher_),
+	uiContext(&context)
 {
 	gameInput = MakeUnique<GameInput>(*this);
 }
@@ -135,6 +139,36 @@ void MusaEngine::InitializeSceneView()
 	gameInput->RegisterInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
 }
 
+void MusaEngine::PushApplicationEventsToWorld()
+{
+	const DynamicArray<ButtonEvent>& buttonEvents = inputDispatcher.GetButtonEvents();
+	for (const auto& event : buttonEvents)
+	{
+		Entity e = ecsWorld.CreateEntity<ButtonEventComponent>();
+		ecsWorld.SetComponentDataOn(e, ButtonEventComponent{ {},
+			event
+		});
+	}
+
+	const DynamicArray<MouseMoveEvent>& mouseMoveEvents = inputDispatcher.GetMouseMoveEvents();
+	for (const auto& event : mouseMoveEvents)
+	{
+		Entity e = ecsWorld.CreateEntity<MouseMoveEventComponent>();
+		ecsWorld.SetComponentDataOn(e, MouseMoveEventComponent{ {},
+			event
+		});
+	}
+
+	const DynamicArray<AnalogChangeEvent>& analogChangeEvent = inputDispatcher.GetAnalogChangeEvents();
+	for (const auto& event : analogChangeEvent)
+	{
+		Entity e = ecsWorld.CreateEntity<AnalogChangeEventComponent>();
+		ecsWorld.SetComponentDataOn(e, AnalogChangeEventComponent{ {},
+			event
+		});
+	}
+}
+
 void MusaEngine::StartRunningEngine()
 {
 	running = true;
@@ -145,11 +179,11 @@ void MusaEngine::StopRunningEngine()
 	running = false;
 }
 
-/*
-static void CreateInputContext(GameInput& gameInput)
+//*
+static InputContext* CreateDefaultInputContext()
 {
-	InputContext mainContext = MakeInputContext("Keyboard Context");
-	InputContext gamepadContext = MakeInputContext("Gamepad Context");
+	InputContext& mainContext = MakeInputContext("Keyboard Context");
+	//InputContext gamepadContext = MakeInputContext("Gamepad Context");
 
 	RangedInput mouseXInput;
 	mouseXInput.range = {
@@ -213,9 +247,11 @@ static void CreateInputContext(GameInput& gameInput)
 	};
 	mainContext.inputActions.Add(input);
 
+	return &mainContext;
+
 
 	// Controller support
-
+	/*
 	RangedInput leftXInput;
 	leftXInput.range = {
 		-100, 100, -1, 1
@@ -281,11 +317,12 @@ static void CreateInputContext(GameInput& gameInput)
 	Input::Gamepad_AButton
 	};
 	gamepadContext.inputActions.Add(input);
+	//*/
 
-	gameInput.AddInputContext(mainContext);
-	gameInput.AddInputContext(gamepadContext);
-	gameInput.PushInputContext("Keyboard Context");
-	gameInput.PushInputContext("Gamepad Context");
+// 	gameInput.AddInputContext(mainContext);
+// 	gameInput.AddInputContext(gamepadContext);
+// 	gameInput.PushInputContext("Keyboard Context");
+// 	gameInput.PushInputContext("Gamepad Context");
 }
 //*/
 
@@ -373,7 +410,6 @@ void MusaEngine::LoadContent()
 	gethPakPath /= "Models/geth-trooper.pak";
 	LoadPakFile(gethPakPath);
 
-	//CreateInputContext(*gameInput);
 	gameInput->LockCusorToView(true);
 	gameInput->ShowCursor(false);
 
@@ -415,13 +451,16 @@ void MusaEngine::LoadContent()
 	const i32 viewHeight = viewport->GetHeight();
 	const f32 aspectRatio = (f32)viewWidth / (f32)viewHeight;
 
-	Musa::Entity camera = ecsWorld.CreateEntity<CameraComponent, TranslationComponent>();
+	Musa::Entity camera = ecsWorld.CreateEntity<CameraComponent, TranslationComponent, InputContextComponent>();
 	ecsWorld.SetComponentDataOn(camera, CameraComponent{ {},
 		Rectf {0, 0, 1, 1},
 		UnnormalizeColor(Color32(.7f, .7f, .8f)),
 		.1f, 10000.f,
 		60.f, aspectRatio,
 		ProjectionType::Perspective
+	});
+	ecsWorld.SetComponentDataOn(camera, InputContextComponent{ {},
+		CreateDefaultInputContext()
 	});
 	ecsWorld.SetComponentDataOn(camera, TranslationComponent{ {},
 		Vector3(0.f, 0.f, 10.f)
@@ -447,6 +486,7 @@ void MusaEngine::LoadContent()
 	});
 
 	ecsWorld.CreateSystem<OSInputSystem>(*inputMap);
+	ecsWorld.CreateSystem<GameInputSystem>();
 	ecsWorld.CreateSystem<CameraSystem>();
 	ecsWorld.CreateSystem<WorldTransformSystem>();
 	ecsWorld.CreateSystem<MaterialBatchingSystem>();
@@ -586,6 +626,8 @@ void MusaEngine::UnloadContent()
 void MusaEngine::UpdateAndRender(f32 tick)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
+
+	PushApplicationEventsToWorld();
 
 	ecsWorld.Update();
 	BEGIN_TIMED_BLOCK(Update);

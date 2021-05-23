@@ -4,13 +4,14 @@
 
 #include "ECS/System.hpp"
 
-class GameInputSystem : Musa::System
+class GameInputSystem : public Musa::System
 {
 public:
 	virtual void Initialize() override;
 	virtual void Update() override;
 
 private:
+	void AddGameInputComponents();
 	void ProcessInputEvents() const;
 	void ClearInputEvents();
 

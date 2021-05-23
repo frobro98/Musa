@@ -248,7 +248,8 @@ void RemoveEntityFromChunk(ArchetypeChunk& chunk, u32 chunkIndex)
 
 	bool fullBeforeRemove = chunk.header->entityCount == chunk.header->archetype->entityCapacity;
 
-	DestructEntityInChunk(chunk, chunkIndex);
+	// TODO - There needs to be some form of destruction for components that are on a destroyed entity
+	//DestructEntityInChunk(chunk, chunkIndex);
 	--chunk.header->entityCount;
 	--chunk.header->archetype->totalEntityCount;
 

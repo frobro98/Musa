@@ -44,6 +44,7 @@ struct Query : Uncopyable
 	ArchetypeMask noneMask;
 };
 
+// TODO - This causes issues when called with different queries and the entities getting destroyed
 ArrayView<Entity> ECS_API GetQueriedEntities(const Query& query);
 
 

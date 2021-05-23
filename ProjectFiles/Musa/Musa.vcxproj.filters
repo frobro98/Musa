@@ -647,9 +647,6 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MouseMoveEventComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\ECS\Components\AnalogChangeEvent.hpp">
-      <Filter>Source\ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\ButtonEventComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
@@ -660,6 +657,9 @@
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\GameInputComponent.hpp">
+      <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Components\AnalogChangeEventComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
   </ItemGroup>

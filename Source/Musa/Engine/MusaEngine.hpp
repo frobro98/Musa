@@ -12,6 +12,7 @@ class Window;
 class ProfilerStatistics;
 class GameInput;
 class ApplicationInputMap;
+class ApplicationEventDispatcher;
 
 namespace UI
 {
@@ -21,7 +22,7 @@ class Context;
 class MusaEngine final
 {
 public:
-	MusaEngine(UI::Context& context);
+	MusaEngine(UI::Context& context, const ApplicationEventDispatcher& inputDispatcher);
 
 	void StartupEngine(Window& window);
 	void ShutdownEngine();
@@ -46,6 +47,7 @@ public:
 private:
 	void SetupWindowContext(Window& window);
 	void InitializeSceneView();
+	void PushApplicationEventsToWorld();
 
 	void RenderFrame();
 
@@ -55,7 +57,9 @@ private:
 	UniquePtr<Viewport> viewport;
 	UniquePtr<GameInput> gameInput;
 	UniquePtr<Musa::RenderPipeline> renderPipeline;
+	const ApplicationEventDispatcher& inputDispatcher;
 	UI::Context* uiContext = nullptr;
+
 	ApplicationInputMap* inputMap = nullptr;
 	// TODO - This and the other "world" aren't really needed...
 	Musa::World ecsWorld;

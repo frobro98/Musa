@@ -12,6 +12,7 @@ struct ButtonEvent
 {
 	// Key and mouse, state
 	Input::Buttons button;
+	Input::ButtonEventType eventType;
 	Input::ButtonState state;
 	bool isRepeated;
 };
@@ -37,10 +38,6 @@ struct WindowResizeEvent
 	// Window handle?
 	IntVector2 newDimensions;
 };
-
-// struct WindowCloseEvent
-// {
-// };
 
 struct WindowActivationEvent
 {

@@ -3,18 +3,12 @@
 #pragma once
 
 #include "ECS/Component.hpp"
-
-enum class InputEventType
-{
-	Pressed,
-	Repeated,
-	Released
-};
+#include "Input/InputEvents.hpp"
 
 struct InputAction
 {
 	Input::Buttons input;
-	InputEventType type;
+	Input::ButtonEventType type;
 };
 
 struct InputState
@@ -25,6 +19,7 @@ struct InputState
 
 struct GameInputComponent : Musa::Component
 {
+	~GameInputComponent() = default;
 	// Actions
 	DynamicArray<InputAction> inputActions;
 	// States, with values within a specific range
