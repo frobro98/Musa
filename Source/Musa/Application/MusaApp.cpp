@@ -1,8 +1,8 @@
 // Copyright 2020, Nathan Blane
 
+#include "MusaAppWindows.hpp"
 #include "MusaApp.hpp"
 #include "File/DirectoryLocations.hpp"
-#include "Engine/MusaAppWindows.hpp"
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
 #include "Input/Internal/InputInternal.hpp"
@@ -17,9 +17,12 @@ DEFINE_LOG_CHANNEL(AppLog);
 constexpr i32 windowWidth = 1080;
 constexpr i32 windowHeight = 720;
 
+MusaApp* gApp = nullptr;
+
 MusaApp::MusaApp()
 {
 	uiContext = MakeUnique<UI::Context>(windowWidth, windowHeight);
+	gApp = this;
 }
 
 void MusaApp::LaunchApplication()

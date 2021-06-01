@@ -322,7 +322,7 @@ void FileSerializationTest()
 #include <cstdio>
 #include <cstdlib>
 
-#include "MusaApp.hpp"
+#include "Application/Musa.hpp"
 
 int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	HINSTANCE /*hPrevInstance*/,

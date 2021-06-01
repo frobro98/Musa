@@ -5,7 +5,7 @@
 #include "GameInput.hpp"
 #include "InputEvents.hpp"
 #include "Window/Window.h"
-#include "Entry/MusaApp.hpp"
+#include "Application/MusaApp.hpp"
 
 #include "Debugging/DebugOutput.hpp"
 

@@ -6,7 +6,7 @@
 #include "Window/Window.h"
 #include "Debugging/MetricInterface.hpp"
 
-#include "Entry/MusaApp.hpp"
+#include "Application/MusaApp.hpp"
 
 DECLARE_METRIC_GROUP(Input);
 METRIC_STAT(UpdateInputs, Input);

@@ -4,6 +4,7 @@
 
 #include "ECS/System.hpp"
 
+// TODO - Should probably be renamed to player input, if I'm being honest
 class GameInputSystem : public Musa::System
 {
 public:

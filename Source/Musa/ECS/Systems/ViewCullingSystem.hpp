@@ -7,6 +7,7 @@
 
 struct RenderView;
 
+// Culls and hands of meshes to be rendered
 class ViewCullingSystem : public Musa::System
 {
 public:

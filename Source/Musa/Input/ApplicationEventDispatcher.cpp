@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "ApplicationEventDispatcher.hpp"
-#include "Entry/MusaApp.hpp"
+#include "Application/MusaApp.hpp"
 #include "Input/InputEvents.hpp"
 
 DEFINE_LOG_CHANNEL(KeyLogging);

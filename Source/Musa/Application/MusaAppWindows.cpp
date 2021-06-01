@@ -4,7 +4,7 @@
 #include <xinput.h>
 
 #include "MusaAppWindows.hpp"
-#include "Entry/MusaApp.hpp"
+#include "Application/MusaApp.hpp"
 #include "Window/Window.h"
 #include "Debugging/MetricInterface.hpp"
 #include "Input/Internal/InputInternal.hpp"

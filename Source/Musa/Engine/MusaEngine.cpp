@@ -30,7 +30,7 @@
 
 #include "Font/FontCache.hpp"
 
-#include "Entry/MusaApp.hpp"
+#include "Application/Musa.hpp"
 
 #include "Shader/Shader.hpp"
 
@@ -51,6 +51,10 @@
 #include "ECS/Systems/CameraSystem.hpp"
 #include "ECS/Systems/MaterialBatchingSystem.hpp"
 #include "ECS/Systems/ViewCullingSystem.hpp"
+
+// BEGIN GAME SYSTEMS
+#include "ECS/Systems/GodCamSystem.hpp"
+// END GAME SYSTEMS
 // -------------------------
 
 // NOTE - This is for deserializing PAK files.
@@ -137,6 +141,9 @@ void MusaEngine::InitializeSceneView()
 
 	GodCamera* godCam = world->CreateGameObject<GodCamera>(*mainCamera);
 	gameInput->RegisterInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
+
+	gApp->LockCursor();
+	gApp->GetOSApp().SetRawMouseInput(true, *uiContext->GetWindow());
 }
 
 void MusaEngine::PushApplicationEventsToWorld()
@@ -485,10 +492,19 @@ void MusaEngine::LoadContent()
 		Quat(ROT_Y, Math::DegreesToRadians(45.f))
 	});
 
+	// Input
 	ecsWorld.CreateSystem<OSInputSystem>(*inputMap);
 	ecsWorld.CreateSystem<GameInputSystem>();
+
+	// BEGIN GAME SYSTEMS
+	ecsWorld.CreateSystem<GodCamSystem>();
+	// END GAME SYSTEMS
+
+	// End of Update Pushing of data
 	ecsWorld.CreateSystem<CameraSystem>();
 	ecsWorld.CreateSystem<WorldTransformSystem>();
+
+	// Prerender data management
 	ecsWorld.CreateSystem<MaterialBatchingSystem>();
 	ecsWorld.CreateSystem<ViewCullingSystem>();
 

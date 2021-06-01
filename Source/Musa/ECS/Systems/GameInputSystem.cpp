@@ -96,43 +96,78 @@ static void ProcessMouseMoveEvents(GameInputComponent& gameInput, DynamicArray<C
 		ChunkArray<const MouseMoveEventComponent> mouseMoveEvents = chunk.GetArrayOf<const MouseMoveEventComponent>();
 		Assert(mouseMoveEvents.IsValid());
 
-		for (const auto& mouseMoveEvent : mouseMoveEvents)
+		if (mouseMoveEvents.size == 0)
 		{
-			IntVector2 mouseDelta = mouseMoveEvent.event.deltaPosition;
-			
-			// Mouse X movement
-			if (RangedInput* rangedInput = GetInputRange(Input::Mouse_XAxis, *context.inputConext);
-				rangedInput != nullptr)
+			// Zero out mouse x movement
 			{
-				f32 mouseXValue = NormalizeValueToRange((f32)mouseDelta.x, rangedInput->range);
 				InputState* mouseXState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
 					return state.input == Input::Mouse_XAxis;
 					});
 				if (mouseXState != nullptr)
 				{
-					mouseXState->value += mouseXValue;
+					mouseXState->value = 0.f;
 				}
 				else
 				{
-					gameInput.inputStates.Add(InputState{ Input::Mouse_XAxis, mouseXValue });
+					gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, 0.f });
 				}
 			}
 
-			// Mouse Y movement
-			if (RangedInput* rangedInput = GetInputRange(Input::Mouse_YAxis, *context.inputConext);
-				rangedInput != nullptr)
+			// Zero out mouse y movement
 			{
-				f32 mouseYValue = NormalizeValueToRange((f32)mouseDelta.y, rangedInput->range);
 				InputState* mouseYState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
-					return state.input == Input::Mouse_YAxis;
+					return state.input == Input::Mouse_XAxis;
 					});
 				if (mouseYState != nullptr)
 				{
-					mouseYState->value += mouseYValue;
+					mouseYState->value = 0.f;
 				}
 				else
 				{
-					gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, mouseYValue });
+					gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, 0.f });
+				}
+			}
+		}
+		else
+		{
+			for (const auto& mouseMoveEvent : mouseMoveEvents)
+			{
+				IntVector2 mouseDelta = mouseMoveEvent.event.deltaPosition;
+
+				// Mouse X movement
+				if (RangedInput* rangedInput = GetInputRange(Input::Mouse_XAxis, *context.inputConext);
+					rangedInput != nullptr)
+				{
+					f32 mouseXValue = NormalizeValueToRange((f32)mouseDelta.x, rangedInput->range);
+					InputState* mouseXState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
+						return state.input == Input::Mouse_XAxis;
+						});
+					if (mouseXState != nullptr)
+					{
+						mouseXState->value += mouseXValue;
+					}
+					else
+					{
+						gameInput.inputStates.Add(InputState{ Input::Mouse_XAxis, mouseXValue });
+					}
+				}
+
+				// Mouse Y movement
+				if (RangedInput* rangedInput = GetInputRange(Input::Mouse_YAxis, *context.inputConext);
+					rangedInput != nullptr)
+				{
+					f32 mouseYValue = NormalizeValueToRange((f32)mouseDelta.y, rangedInput->range);
+					InputState* mouseYState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
+						return state.input == Input::Mouse_YAxis;
+						});
+					if (mouseYState != nullptr)
+					{
+						mouseYState->value += mouseYValue;
+					}
+					else
+					{
+						gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, mouseYValue });
+					}
 				}
 			}
 		}

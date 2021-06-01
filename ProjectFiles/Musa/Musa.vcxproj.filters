@@ -76,6 +76,9 @@
     <Filter Include="Source\GameObject\DemoObjects">
       <UniqueIdentifier>{bdc91728-8432-4d94-90bb-bd25d499e5a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Application">
+      <UniqueIdentifier>{a469a3ca-c1e1-42ce-8d4b-f1f2a34810cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp">
@@ -168,16 +171,7 @@
     <ClCompile Include="..\..\Source\Musa\Window\Window.cpp">
       <Filter>Source\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Engine\MusaAppWindows.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Engine\MusaEngine.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Entry\MusaApp.cpp">
-      <Filter>Source\Entry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Engine\MusaAppOS.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\GameInput.cpp">
@@ -312,6 +306,18 @@
     <ClCompile Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\ECS\Systems\GodCamSystem.cpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Application\MusaApp.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Application\MusaAppOS.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Application\MusaAppWindows.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -434,17 +440,8 @@
     <ClInclude Include="..\..\Source\Musa\Window\Window.h">
       <Filter>Source\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Engine\MusaAppWindows.hpp">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Engine\MusaAppOS.hpp">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Engine\MusaEngine.hpp">
       <Filter>Source\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Entry\MusaApp.hpp">
-      <Filter>Source\Entry</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\GameInput.hpp">
       <Filter>Source\Input</Filter>
@@ -661,6 +658,21 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\AnalogChangeEventComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\ECS\Systems\GodCamSystem.hpp">
+      <Filter>Source\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Application\MusaApp.hpp">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Application\MusaAppOS.hpp">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Application\MusaAppWindows.hpp">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Application\Musa.hpp">
+      <Filter>Source\Application</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

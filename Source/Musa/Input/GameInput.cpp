@@ -2,7 +2,7 @@
 
 #include "GameInput.hpp"
 #include "Engine/MusaEngine.hpp"
-#include "Entry/MusaApp.hpp"
+#include "Application/MusaApp.hpp"
 #include "Math/MathFunctions.hpp"
 
 #include "Debugging/DebugOutput.hpp"
