@@ -17,6 +17,8 @@ static void ClearEntityBridge(World& world, Entity entity)
 	--world.totalLivingEntities;
 }
 
+static u32 numDupEntites = 0;
+
 //////////////////////////////////////////////////////////////////////////
 
 Entity World::ConstructEntityInternals(World& world, const ComponentType** types, u32 typeCount)
@@ -27,7 +29,13 @@ Entity World::ConstructEntityInternals(World& world, const ComponentType** types
 
 	Internal::CheckForSameComponents(types, typeCount);
 
-	return CreateEntityWith(*archetype);
+	Entity e = CreateEntityWith(*archetype);
+	Assert(entityBridges[e.id].version == e.version);
+	if (e.id == 6)
+	{
+		++numDupEntites;
+	}
+	return e;
 }
 
 void World::HookUpComponentType(World& world, Entity entity, const ComponentType* type)

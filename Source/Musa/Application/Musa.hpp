@@ -5,3 +5,4 @@
 #include "Application/MusaApp.hpp"
 
 extern MusaApp* gApp;
+extern bool gIsRunning;

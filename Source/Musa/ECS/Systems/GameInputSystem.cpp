@@ -12,6 +12,8 @@
 #include "Input/InputContext.hpp"
 #include "Input/InputEvents.hpp"
 
+DEFINE_LOG_CHANNEL(GameInput);
+
 using namespace Musa;
 
 static forceinline f32 NormalizeValueToRange(f32 value, const InputRange& contextRange)
@@ -91,83 +93,77 @@ static void ProcessButtonEvents(GameInputComponent& gameInput, DynamicArray<Chun
 // TODO - Not const correct...
 static void ProcessMouseMoveEvents(GameInputComponent& gameInput, DynamicArray<ChunkComponentAccessor>& mouseMoveChunks, const InputContextComponent& context)
 {
+	{
+		InputState* mouseXState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
+			return state.input == Input::Mouse_XAxis;
+			});
+		if (mouseXState != nullptr)
+		{
+			mouseXState->value = 0.f;
+		}
+		else
+		{
+			gameInput.inputStates.Add(InputState{ Input::Mouse_XAxis, 0.f });
+		}
+	}
+
+	// Zero out mouse y movement
+	{
+		InputState* mouseYState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
+			return state.input == Input::Mouse_YAxis;
+			});
+		if (mouseYState != nullptr)
+		{
+			mouseYState->value = 0.f;
+		}
+		else
+		{
+			gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, 0.f });
+		}
+	}
+
 	for (auto& chunk : mouseMoveChunks)
 	{
 		ChunkArray<const MouseMoveEventComponent> mouseMoveEvents = chunk.GetArrayOf<const MouseMoveEventComponent>();
 		Assert(mouseMoveEvents.IsValid());
 
-		if (mouseMoveEvents.size == 0)
+		for (const auto& mouseMoveEvent : mouseMoveEvents)
 		{
-			// Zero out mouse x movement
+			IntVector2 mouseDelta = mouseMoveEvent.event.deltaPosition;
+
+			// Mouse X movement
+			if (RangedInput* rangedInput = GetInputRange(Input::Mouse_XAxis, *context.inputConext);
+				rangedInput != nullptr)
 			{
+				f32 mouseXValue = NormalizeValueToRange((f32)mouseDelta.x, rangedInput->range);
 				InputState* mouseXState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
 					return state.input == Input::Mouse_XAxis;
 					});
 				if (mouseXState != nullptr)
 				{
-					mouseXState->value = 0.f;
+					mouseXState->value += mouseXValue;
 				}
 				else
 				{
-					gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, 0.f });
+					gameInput.inputStates.Add(InputState{ Input::Mouse_XAxis, mouseXValue });
 				}
 			}
 
-			// Zero out mouse y movement
+			// Mouse Y movement
+			if (RangedInput* rangedInput = GetInputRange(Input::Mouse_YAxis, *context.inputConext);
+				rangedInput != nullptr)
 			{
+				f32 mouseYValue = NormalizeValueToRange((f32)mouseDelta.y, rangedInput->range);
 				InputState* mouseYState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
-					return state.input == Input::Mouse_XAxis;
+					return state.input == Input::Mouse_YAxis;
 					});
 				if (mouseYState != nullptr)
 				{
-					mouseYState->value = 0.f;
+					mouseYState->value += mouseYValue;
 				}
 				else
 				{
-					gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, 0.f });
-				}
-			}
-		}
-		else
-		{
-			for (const auto& mouseMoveEvent : mouseMoveEvents)
-			{
-				IntVector2 mouseDelta = mouseMoveEvent.event.deltaPosition;
-
-				// Mouse X movement
-				if (RangedInput* rangedInput = GetInputRange(Input::Mouse_XAxis, *context.inputConext);
-					rangedInput != nullptr)
-				{
-					f32 mouseXValue = NormalizeValueToRange((f32)mouseDelta.x, rangedInput->range);
-					InputState* mouseXState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
-						return state.input == Input::Mouse_XAxis;
-						});
-					if (mouseXState != nullptr)
-					{
-						mouseXState->value += mouseXValue;
-					}
-					else
-					{
-						gameInput.inputStates.Add(InputState{ Input::Mouse_XAxis, mouseXValue });
-					}
-				}
-
-				// Mouse Y movement
-				if (RangedInput* rangedInput = GetInputRange(Input::Mouse_YAxis, *context.inputConext);
-					rangedInput != nullptr)
-				{
-					f32 mouseYValue = NormalizeValueToRange((f32)mouseDelta.y, rangedInput->range);
-					InputState* mouseYState = gameInput.inputStates.FindFirstUsing([&](const InputState& state) {
-						return state.input == Input::Mouse_YAxis;
-						});
-					if (mouseYState != nullptr)
-					{
-						mouseYState->value += mouseYValue;
-					}
-					else
-					{
-						gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, mouseYValue });
-					}
+					gameInput.inputStates.Add(InputState{ Input::Mouse_YAxis, mouseYValue });
 				}
 			}
 		}
@@ -286,6 +282,18 @@ void GameInputSystem::ProcessInputEvents() const
 	}
 }
 
+static void ValidateEntities(const Musa::ChunkArray<Entity>& entities)
+{
+	Assert(entities.size > 0);
+	//MUSA_INFO(GameInput, "Validating Entity chunk")
+	for (u32 i = 0; i < entities.size - 1; ++i)
+	{
+		Entity e0 = entities[i];
+		Entity e1 = entities[i+1];
+		Assert(e0.id != e1.id);
+	}
+}
+
 void GameInputSystem::ClearInputEvents()
 {
 	{
@@ -293,6 +301,7 @@ void GameInputSystem::ClearInputEvents()
 		for (auto& chunk : buttonChunks)
 		{
 			auto entities = chunk.GetArrayOf<Entity>();
+			ValidateEntities(entities);
 			for (auto& entity : entities)
 			{
 				GetWorld().DestroyEntity(entity);
@@ -300,14 +309,25 @@ void GameInputSystem::ClearInputEvents()
 		}
 	}
 
+	/*
+
+	New problem: Destroying a group of entities can result in destroying an entity that isn't valid
+	
+	REASON: In the scenario, there's an array of entities that need to be destroyed. The entities get looped through and destroyed individually. If there are more than 2 entities in the chunk, the entities get moved. This becomes a problem because an entity at index 0 gets destroyed, index 1-n get moved over, overriding the index 0 entity. This doesn't become an issue immediately. It only becomes an issue at the "end" of the array, when the code attempts to destroy the same entity twice.
+	Solution: The solution would essentially be to support resetting a chunk of entities
+
+	*/
+
 	{
 		auto mouseMoveChunks = GetQueryChunks(*mouseMoveEventQuery);
 		for (auto& chunk : mouseMoveChunks)
 		{
 			auto entities = chunk.GetArrayOf<Entity>();
-			for (auto& entity : entities)
+			ValidateEntities(entities);
+			for (u32 i = 0; i < entities.size; ++i)
 			{
-				GetWorld().DestroyEntity(entity);
+				ValidateEntities(entities);
+				GetWorld().DestroyEntity(entities[i]);
 			}
 		}
 	}
@@ -317,6 +337,7 @@ void GameInputSystem::ClearInputEvents()
 		for (auto& chunk : analogEventChunks)
 		{
 			auto entities = chunk.GetArrayOf<Entity>();
+			ValidateEntities(entities);
 			for (auto& entity : entities)
 			{
 				GetWorld().DestroyEntity(entity);

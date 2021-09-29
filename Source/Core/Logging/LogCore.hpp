@@ -34,7 +34,7 @@ public:
 		if (ShouldLogAtLevel(level))
 		{
 			fmt::format_to(formatBuf, msg, args...);
-			PushLineToLog(logChannel, logLevel, formatBuf.data(), formatBuf.size());
+			PushLineToLog(logChannel, level, formatBuf.data(), formatBuf.size());
 			formatBuf.clear();
 		}
 	}

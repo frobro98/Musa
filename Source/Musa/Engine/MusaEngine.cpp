@@ -176,15 +176,6 @@ void MusaEngine::PushApplicationEventsToWorld()
 	}
 }
 
-void MusaEngine::StartRunningEngine()
-{
-	running = true;
-}
-
-void MusaEngine::StopRunningEngine()
-{
-	running = false;
-}
 
 //*
 static InputContext* CreateDefaultInputContext()

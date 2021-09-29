@@ -15,10 +15,10 @@ class MusaApp
 {
 public:
 	MusaApp();
+	virtual ~MusaApp() {}
 
 	void LaunchApplication();
 
-	forceinline UI::Context& GetUIContext() const { return *uiContext; }
 	forceinline MusaAppOS& GetOSApp() const { return *osApp; }
 	forceinline ApplicationInputMap& GetInputMap() { return *inputMap; }
 	forceinline ApplicationEventDispatcher& GetInputDispatcher() { return *inputDispatcher; }
@@ -34,15 +34,19 @@ public:
 	void SetMousePosition(const IntVector2& mousePos);
 	IntVector2 GetMousePosition() const;
 
+	virtual void AppInit() = 0;
+	virtual void AppLoop() = 0;
+	virtual void AppDeinit() = 0;
+
 private:
-	void InitializeAppLogging();
 	void InitializeOSInput();
 	void InitializeApplicationWindow();
 	void SetupGameEngine();
 	void TearDownGameEngine();
-
-	void ApplicationUpdate();
 	void ProcessApplicationInputs();
+
+protected:
+	void ApplicationUpdate();
 
 private:
 	EngineTick frameTick;
@@ -52,4 +56,5 @@ private:
 	UniquePtr<ApplicationInputMap> inputMap;
 	UniquePtr<ApplicationEventDispatcher> inputDispatcher;
 	MusaAppOS* osApp;
+	bool isRunning = false;
 };

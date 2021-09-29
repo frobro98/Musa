@@ -504,7 +504,7 @@ IntVector2 MusaAppWindows::GetMousePosition() const
 
 void MusaAppWindows::LockCursorToRect(const Recti& rect)
 {
-	MUSA_DEBUG(Win32, "Locked Cursor to Rect (x: {} y: {} w: {} h: {}",
+	MUSA_DEBUG(Win32, "Locked Cursor to Rect x: {} y: {} w: {} h: {}",
 		rect.x, rect.y, rect.width, rect.height);
 
 	RECT r = {};
@@ -512,7 +512,8 @@ void MusaAppWindows::LockCursorToRect(const Recti& rect)
 	r.top = rect.y;
 	r.right = rect.x + rect.width;
 	r.bottom = rect.y + rect.height;
-	::ClipCursor(&r);
+	BOOL clipped = ::ClipCursor(&r);
+	MUSA_INFO(Win32, "Locked cursor to rect? {}",  clipped ? "true" : "false");
 }
 
 void MusaAppWindows::UnlockCursorFromRect()

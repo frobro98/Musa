@@ -1,7 +1,8 @@
 // Copyright 2020, Nathan Blane
 
-#include "MusaAppWindows.hpp"
 #include "MusaApp.hpp"
+#include "Musa.hpp"
+#include "MusaAppWindows.hpp"
 #include "File/DirectoryLocations.hpp"
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
@@ -17,37 +18,26 @@ DEFINE_LOG_CHANNEL(AppLog);
 constexpr i32 windowWidth = 1080;
 constexpr i32 windowHeight = 720;
 
-MusaApp* gApp = nullptr;
-
 MusaApp::MusaApp()
 {
 	uiContext = MakeUnique<UI::Context>(windowWidth, windowHeight);
-	gApp = this;
 }
 
 void MusaApp::LaunchApplication()
 {
-	InitializeAppLogging();
-	MUSA_INFO(AppLog, "Initializing Application");
+	AppInit();
+
 	InitializeOSInput();
 	InitializeApplicationWindow();
 
-	MUSA_INFO(AppLog, "Initializing Graphics Layer");
-	GetGraphicsInterface().InitializeGraphics();
-
 	SetupGameEngine();
 
-	// TODO - Should have an engine level boolean, so as to not be dependent on the window's state
-	while (gameEngine->ShouldRun())
-	{
-		ApplicationUpdate();
-	}
+	AppLoop();
 
 	// TODO - Shutdown stuff for the application...
 	TearDownGameEngine();
 
-	// TODO - image views are trying to be destroyed when still in use by command buffer in flight...
-	GetGraphicsInterface().DeinitializeGraphics();
+	AppDeinit();
 }
 
 void MusaApp::ResizeWindow(const IntVector2& newDimensions)
@@ -57,7 +47,8 @@ void MusaApp::ResizeWindow(const IntVector2& newDimensions)
 
 void MusaApp::CloseWindow()
 {
-	gameEngine->StopRunningEngine();
+	//gameEngine->StopRunningEngine();
+	gIsRunning = false;
 	appWindow.Reset();
 }
 
@@ -96,23 +87,6 @@ IntVector2 MusaApp::GetMousePosition() const
 	return osApp->GetMousePosition();
 }
 
-void MusaApp::InitializeAppLogging()
-{
-	// TODO - This should be named whatever the game name is determined to be
-	Path logFilePath = Path(EngineLogPath()) / "musa.log";
-
-#if M_DEBUG
-	GetLogger().InitLogging(LogLevel::Debug);
-#else
-	GetLogger().InitLogging(LogLevel::Info);
-#endif
-
-	GetLogger().AddLogSink(new ConsoleWindowSink);
-	GetLogger().AddLogSink(new DebugOutputWindowSink);
-	GetLogger().AddLogSink(new LogFileSink(logFilePath));
-
-}
-
 void MusaApp::InitializeOSInput()
 {
 	inputMap = MakeUnique<ApplicationInputMap>(*this);
@@ -130,7 +104,6 @@ void MusaApp::InitializeApplicationWindow()
 	Assert(appWindow.IsValid());
 
 	MUSA_DEBUG(AppLog, "Hooking up Input to Window");
-	//osApp->GetInputHandler()->SetCurrentWindow(*appWindow);
 	uiContext->SetWindow(*appWindow);
 }
 
@@ -147,8 +120,6 @@ void MusaApp::SetupGameEngine()
 	// TODO - This sort of was a quick hack just to test out application level events for switching application windows. 
 	// This needs to be revisited eventually
 	//osApp->GetInputHandler()->SetInputFocusToGame();
-
-	gameEngine->StartRunningEngine();
 
 	frameTick.Start();
 }

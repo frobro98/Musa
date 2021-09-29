@@ -30,6 +30,7 @@
     <ClCompile Include="..\..\Source\Musa\Application\MusaApp.cpp" />
     <ClCompile Include="..\..\Source\Musa\Application\MusaAppOS.cpp" />
     <ClCompile Include="..\..\Source\Musa\Application\MusaAppWindows.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Application\MusaGameApp.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\Camera.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\CameraManager.cpp" />
     <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="..\..\Source\Musa\Application\MusaApp.hpp" />
     <ClInclude Include="..\..\Source\Musa\Application\MusaAppOS.hpp" />
     <ClInclude Include="..\..\Source\Musa\Application\MusaAppWindows.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Application\MusaGameApp.hpp" />
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\CameraManager.h" />
     <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp" />

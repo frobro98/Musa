@@ -33,7 +33,7 @@ InputEvents GameInput::OnKeyDown(Input::Buttons input, bool isRepeated)
 		input == Input::Gamepad_StartButton)
 	{
 		events = InputEvents(Handled);
-		musaEngine.StopRunningEngine();
+		//musaEngine.StopRunningEngine();
 		return events;
 	}
 	if (input == Input::Key_J)
@@ -207,7 +207,6 @@ InputEvents GameInput::OnActivationChanged(bool activated)
 
 void GameInput::OnWindowClose()
 {
-	musaEngine.StopRunningEngine();
 }
 
 void GameInput::LockCusorToView(bool shouldLock)

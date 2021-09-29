@@ -35,6 +35,20 @@ static forceinline void CheckIfWasFullChunk(ArchetypeChunk& chunk, bool wasFull)
 	}
 }
 
+static forceinline void ValidateChunk(ArchetypeChunk& chunk)
+{
+	Entity* entityArr = reinterpret_cast<Entity*>(chunk.data);
+	for (u32 i = 0; i < chunk.header->entityCount; ++i)
+	{
+		Entity e0 = entityArr[i];
+		for (u32 j = i + 1; j < chunk.header->entityCount; ++j)
+		{
+			Entity e1 = entityArr[j];
+			Assert(e0.id != e1.id);
+		}
+	}
+}
+
 // Fixes Entity indices into their owning chunk
 static void ReconcileEntityChunkChanges(World& world, ArchetypeChunk& changedChunk, u32 startChunkIndex)
 {
@@ -239,6 +253,7 @@ u32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity)
 	new(entityArray + entityIndex) Entity{ entity };
 
 	CheckIfFullChunk(chunk, archetypeCapacity);
+	ValidateChunk(chunk);
 
 	return entityIndex;
 }
@@ -257,6 +272,7 @@ void RemoveEntityFromChunk(ArchetypeChunk& chunk, u32 chunkIndex)
 	ReconcileEntityChunkChanges(*chunk.header->archetype->world, chunk, chunkIndex);
 
 	CheckIfWasFullChunk(chunk, fullBeforeRemove);
+	ValidateChunk(chunk);
 }
 }
 

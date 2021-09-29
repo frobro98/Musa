@@ -11,6 +11,10 @@
 #include "Engine/FrameData.hpp"
 #include "Math/MatrixFunctions.hpp"
 
+#include "Input/Input.hpp"
+
+DEFINE_LOG_CHANNEL(GodCam);
+
 using namespace Musa;
 
 void GodCamSystem::Initialize()
@@ -132,24 +136,31 @@ void GodCamSystem::ConvertInputToCameraMovement()
 				{
 					if (state.input == Input::Mouse_XAxis)
 					{
-						mouseX = state.value;
+						mouseX += state.value;
+						//MUSA_DEBUG(GodCam, "Mouse X Value: {}", mouseX);
 					}
 					else if (state.input == Input::Mouse_YAxis)
 					{
-						mouseY = state.value;
+						mouseY += state.value;
+						//MUSA_DEBUG(GodCam, "Mouse Y Value: {}", mouseY);
 					}
 					else if (state.input == Input::Key_W)
 					{
-						forwardDelta += state.value;
+						forwardDelta += state.value * .0001f;
 					}
 					else if (state.input == Input::Key_A)
 					{
-						rightDelta -= state.value;
+						rightDelta -= state.value * .0001f;
 					}
 					else if (state.input == Input::Key_E)
 					{
-						upDelta += state.value;
+						upDelta += state.value * .0001f;
 					}
+
+// 					if (Input::IsDown(Input::Key_W))
+// 					{
+// 						forwardDelta += .0001f;
+// 					}
 				}
 
 				const f32 tick = Frame::GetTickTimeSeconds();
@@ -157,7 +168,7 @@ void GodCamSystem::ConvertInputToCameraMovement()
 				// Rotation application
 				if(mouseX != 0.f || mouseY != 0.f)
 				{
-					constexpr f32 lookDelta = .005f;
+					constexpr f32 lookDelta = .05f;
 					const f32 lookSpeed = lookDelta * tick;
 
 					Quat quatX(ROT_AXIS_ANGLE, right, -mouseY * lookSpeed);

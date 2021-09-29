@@ -318,6 +318,9 @@
     <ClCompile Include="..\..\Source\Musa\Application\MusaAppWindows.cpp">
       <Filter>Source\Application</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Application\MusaGameApp.cpp">
+      <Filter>Source\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -672,6 +675,9 @@
       <Filter>Source\Application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Application\Musa.hpp">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Application\MusaGameApp.hpp">
       <Filter>Source\Application</Filter>
     </ClInclude>
   </ItemGroup>

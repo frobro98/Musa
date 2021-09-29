@@ -33,11 +33,7 @@ DEFINE_LOG_CHANNEL(VkValidation);
 
 // TODO - Eventually, VK_LAYER_KHRONOS_validation will exist and should be the preferred way of enabling validation...
 constexpr const tchar* validationLayers[] = {
-	"VK_LAYER_GOOGLE_threading",
-	"VK_LAYER_LUNARG_parameter_validation",
-	"VK_LAYER_LUNARG_object_tracker",
-	"VK_LAYER_LUNARG_core_validation",
-	"VK_LAYER_GOOGLE_unique_objects",
+	"VK_LAYER_KHRONOS_validation"
 };
 
 constexpr const tchar* instanceExtensions[] = {

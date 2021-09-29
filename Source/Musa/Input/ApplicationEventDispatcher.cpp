@@ -91,6 +91,7 @@ void ApplicationEventDispatcher::HandleMouseMove(const IntVector2& mousePosition
 
 		// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
 		mouseMoveEvents.Add(event);
+		MUSA_DEBUG(KeyLogging, "Mouse Event pushed");
 	}
 }
 

@@ -27,12 +27,7 @@ public:
 	void StartupEngine(Window& window);
 	void ShutdownEngine();
 
-	void StartRunningEngine();
-	void StopRunningEngine();
-
-
 	inline GameInput& GetGameInput() { return *gameInput; }
-	inline bool ShouldRun() const { return running; }
 	inline IntVector2 GetViewDimensions() const { return IntVector2(viewport->GetWidth(), viewport->GetHeight()); }
 
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene
