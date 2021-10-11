@@ -2,7 +2,6 @@
 
 #include "ApplicationInputMap.hpp"
 #include "Internal/InputInternal.hpp"
-#include "GameInput.hpp"
 #include "InputEvents.hpp"
 #include "Window/Window.h"
 #include "Application/MusaApp.hpp"
@@ -299,21 +298,21 @@ IntVector2 ApplicationInputMap::GetMousePosition() const
 	return application.GetMousePosition(); 
 }
 
-void ApplicationInputMap::HandleInputEvents(const InputEvents& events)
-{
-	if (events.ContainsEvents())
-	{
-		std::optional<IntVector2> mousePos = events.GetChangedMousePosition();
-		if (mousePos)
-		{
-			mousePosition = *mousePos;
+// void ApplicationInputMap::HandleInputEvents(const InputEvents& events)
+// {
+// 	if (events.ContainsEvents())
+// 	{
+// 		std::optional<IntVector2> mousePos = events.GetChangedMousePosition();
+// 		if (mousePos)
+// 		{
+// 			mousePosition = *mousePos;
 			//prevMousePos = mousePosition;
 			//application.SetMousePosition(mousePos.value());
-		}
-
-		std::optional<bool> lockCursor = events.GetLockCursor();
-		if (lockCursor)
-		{
+// 		}
+// 
+// 		std::optional<bool> lockCursor = events.GetLockCursor();
+// 		if (lockCursor)
+// 		{
 			// TODO - Having lock and unlock as 2 separate calls might not make sense
 // 			bool shouldLock = *lockCursor;
 // 			if (shouldLock)
@@ -324,14 +323,14 @@ void ApplicationInputMap::HandleInputEvents(const InputEvents& events)
 // 			{
 // 				application.UnlockCursor();
 // 			}
-		}
-
-		std::optional<bool> showCursor = events.GetShowCursor();
-		if (showCursor)
-		{
+// 		}
+// 
+// 		std::optional<bool> showCursor = events.GetShowCursor();
+// 		if (showCursor)
+// 		{
 			//rawInputTurnedOn = !showCursor.value();
 // 			application.ShowCursor(*showCursor);
 // 			application.GetOSApp().SetRawMouseInput(rawInputTurnedOn, *window);
-		}
-	}
-}
+// 		}
+// 	}
+// }

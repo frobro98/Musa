@@ -5,10 +5,8 @@
 #include "Camera/Camera.h"
 #include "Camera/CameraManager.h"
 #include "Camera/ViewFrustum.hpp"
-#include "GameObject/GameObject.h"
 #include "Thread/JobSystem/JobUtilities.hpp"
 #include "Graphics/GraphicsInterface.hpp"
-#include "GameObject/RenderObjectManager.hpp"
 #include "Scene/Viewport.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "RenderPipeline/SceneRenderPipeline.h"
@@ -43,57 +41,6 @@ METRIC_STAT(EndRenderFrame, SceneFrame);
 // 	depthDesc.sampleCount = 1;
 // }
 
-//////////////////////////////////////////////////////////////////////////
-// Scene Definition
-//////////////////////////////////////////////////////////////////////////
 
-Scene::~Scene()
-{
-	for (auto go : gameObjectsInScene)
-	{
-		delete go;
-	}
-}
 
-void Scene::AddGameObjectToScene(GameObject& object)
-{
-	activeGameObjects.Add(&object);
-	gameObjectsInScene.Add(&object);
-}
-
-void Scene::RemoveGameObjectFromScene(GameObject& object)
-{
-	activeGameObjects.RemoveAll(&object);
-	gameObjectsInScene.RemoveAll(&object);
-}
-
-void Scene::AddMeshInfoToScene(MeshRenderInfo& obj)
-{
-	renderingInfo.Add(&obj);
-}
-
-void Scene::RemoveMeshInfoFromScene(MeshRenderInfo& obj)
-{
-	renderingInfo.RemoveAll(&obj);
-}
-
-void Scene::AddLightToScene(Light& light)
-{
-	Assert(lights.HasRoom());
-	lights.Add(&light);
-}
-
-void Scene::RemoveLightFromScene(Light& light)
-{
-	Light* lightPtr = &light;
-	lights.Remove(lightPtr);
-}
-
-void Scene::Tick(float deltaTime)
-{
-	for (auto& go : activeGameObjects)
-	{
-		go->Update(deltaTime);
-	}
-}
 

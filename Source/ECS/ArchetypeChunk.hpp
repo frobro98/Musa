@@ -48,6 +48,7 @@ void DestructEntityInChunk(ArchetypeChunk& chunk, u32 entityIndex);
 
 NODISCARD u32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity);
 void RemoveEntityFromChunk(ArchetypeChunk& chunk, u32 chunkIndex);
+void RemoveEntitiesFromChunk(ArchetypeChunk& chunk, DynamicArray<u32> chunkindices);
 NODISCARD u32 MoveEntityToChunk(Entity& entity, ArchetypeChunk& oldChunk, u32 oldChunkIndex, ArchetypeChunk& newChunk);
 
 // TODO - Consider not having this function exist, now that there's the ChunkComponentAccessor. The one issue would be World::SetComponentDataOn

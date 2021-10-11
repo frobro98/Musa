@@ -8,7 +8,7 @@ class SpotLight : public Light
 {
 public:
 
-	SpotLight(GameWorld& world) : Light(world) {}
+	SpotLight() = default;
 
 	virtual LightDescription GetLightDescription() override;
 

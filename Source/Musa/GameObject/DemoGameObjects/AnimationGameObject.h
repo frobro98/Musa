@@ -1,21 +1,20 @@
 #pragma once
 
-#include "GameObject.h"
-
+#include "BasicTypes/Intrinsics.hpp"
 class Skeleton;
 class SkeletonInstance;
 
-class AnimationGameObject : public GameObject
+class AnimationGameObject// : public GameObject
 {
 public:
 	AnimationGameObject() = default;
 	~AnimationGameObject() = default;
 
-	virtual void SetupInputs() override;
+	virtual void SetupInputs() /*override*/;
 
 	void SetSkeleton(Skeleton& skeleton);
-	void SetCurrentClip(uint32 clipIndex);
-	virtual void Update(float tick) override;
+	void SetCurrentClip(u32 clipIndex);
+	virtual void Update(float tick) /*override*/;
 
 	void SetDebug(bool isDebug);
 

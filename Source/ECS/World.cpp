@@ -17,6 +17,14 @@ static void ClearEntityBridge(World& world, Entity entity)
 	--world.totalLivingEntities;
 }
 
+static void ClearEntityBridge(World& world, const DynamicArray<Entity>& entities)
+{
+	for (const auto& entity : entities)
+	{
+		ClearEntityBridge(world, entity);
+	}
+}
+
 static u32 numDupEntites = 0;
 
 //////////////////////////////////////////////////////////////////////////
@@ -122,6 +130,24 @@ void World::DestroyEntity(Entity entity)
 	RemoveEntityFromChunk(entityBridges[entity.id].chunk, entityBridges[entity.id].chunkIndex);
 	ClearEntityBridge(*this, entity);
 }
+
+void World::DestroyEntities(const DynamicArray<Entity>& entities)
+{
+	ArchetypeChunk& chunk = entityBridges[entities[0].id].chunk;
+	DynamicArray<u32> entityIndices;
+	entityIndices.Reserve(entities.Size());
+
+	for (const auto& entity : entities)
+	{
+		Assertf(IsEntityValid(entity), "The entity {} v{} isn't valid!", entity.id, entity.version);
+		Assert(!entityIndices.Contains(entity.id));
+		entityIndices.Add(entityBridges[entity.id].chunkIndex);
+	}
+
+	RemoveEntitiesFromChunk(chunk, entityIndices);
+	ClearEntityBridge(*this, entities);
+}
+
 bool World::IsEntityValid(Entity entity) const
 {
 	if (entityBridges.Size() > entity.id)
@@ -134,6 +160,7 @@ bool World::IsEntityValid(Entity entity) const
 
 	return false;
 }
+
 void World::Update()
 {
 	// Sort systems if necessary

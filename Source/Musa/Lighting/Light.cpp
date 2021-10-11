@@ -2,9 +2,9 @@
 
 #include "Light.hpp"
 #include "Graphics/GraphicsInterface.hpp"
+#include "Graphics/UniformBuffers.h"
 
-Light::Light(GameWorld& world)
-	: GameObject(world)
+Light::Light()
 {
 	lightInformationBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(LightProperties));
 }

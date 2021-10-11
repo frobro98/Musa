@@ -104,6 +104,8 @@ void GodCamSystem::AddMissingTransformComponents()
 void GodCamSystem::ConvertInputToCameraMovement()
 {
 	auto camsWithInputChunks = GetQueryChunks(*camsWithInputQuery);
+	const f32 tickSec = (f32)Frame::GetTickTimeSeconds();
+
 	for (auto& camChunk : camsWithInputChunks)
 	{
 		if (camChunk.HasChanged<GameInputComponent>(GetVersion()))
@@ -131,36 +133,51 @@ void GodCamSystem::ConvertInputToCameraMovement()
 				f32 upDelta = 0.f;
 				f32 mouseX = 0.f;
 				f32 mouseY = 0.f;
+				constexpr f32 speed = 1.f;
+				constexpr f32 lookSensitivity = 10.f;
 
 				for (const auto& state : input.inputStates)
 				{
 					if (state.input == Input::Mouse_XAxis)
 					{
-						mouseX += state.value;
+						mouseX += state.value * lookSensitivity;
 						//MUSA_DEBUG(GodCam, "Mouse X Value: {}", mouseX);
 					}
 					else if (state.input == Input::Mouse_YAxis)
 					{
-						mouseY += state.value;
+						mouseY += state.value * lookSensitivity;
 						//MUSA_DEBUG(GodCam, "Mouse Y Value: {}", mouseY);
 					}
-					else if (state.input == Input::Key_W)
+// 					else if (state.input == Input::Key_W)
+// 					{
+// 						forwardDelta += state.value * speed;
+// 					}
+// 					else if (state.input == Input::Key_A)
+// 					{
+// 						rightDelta -= state.value * speed;
+// 					}
+// 					else if (state.input == Input::Key_E)
+// 					{
+// 						upDelta += state.value * speed;
+// 					}
+
+					if (Input::IsDown(Input::Key_W))
 					{
-						forwardDelta += state.value * .0001f;
+						forwardDelta += speed * tickSec;
 					}
-					else if (state.input == Input::Key_A)
+					if (Input::IsDown(Input::Key_S))
 					{
-						rightDelta -= state.value * .0001f;
-					}
-					else if (state.input == Input::Key_E)
-					{
-						upDelta += state.value * .0001f;
+						forwardDelta -= speed * tickSec;
 					}
 
-// 					if (Input::IsDown(Input::Key_W))
-// 					{
-// 						forwardDelta += .0001f;
-// 					}
+					if (Input::IsDown(Input::Key_A))
+					{
+						rightDelta -= speed * tickSec;
+					}
+					if (Input::IsDown(Input::Key_E))
+					{
+						upDelta += speed * tickSec;
+					}
 				}
 
 				const f32 tick = Frame::GetTickTimeSeconds();

@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Math/Vector4.hpp"
-#include "GameObject/GameObject.h"
+//#include "GameObject/GameObject.h"
 
-class ScaleChangingObject : public GameObject
+class ScaleChangingObject //: public GameObject
 {
 public:
-	ScaleChangingObject(GameWorld& world, f32 scaleA, f32 scaleB, f32 delta);
+	ScaleChangingObject(f32 scaleA, f32 scaleB, f32 delta);
 
-	virtual void Update(f32 tick) override;
+	virtual void Update(f32 tick) /*override*/;
 
 private:
 	Vector4 A, B;

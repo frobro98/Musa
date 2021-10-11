@@ -3,14 +3,15 @@
 #pragma once
 
 #include "BasicTypes/UniquePtr.hpp"
-#include "Scene/GameWorld.hpp"
 #include "Math/IntVector2.hpp"
 #include "ECS/World.hpp"
+#include "Engine/FrameRenderTargets.hpp"
+#include "Scene/Viewport.hpp"
+#include "Scene/ScreenView.hpp"
 #include "RenderPipeline/RenderPipeline.hpp"
 
 class Window;
 class ProfilerStatistics;
-class GameInput;
 class ApplicationInputMap;
 class ApplicationEventDispatcher;
 
@@ -27,7 +28,6 @@ public:
 	void StartupEngine(Window& window);
 	void ShutdownEngine();
 
-	inline GameInput& GetGameInput() { return *gameInput; }
 	inline IntVector2 GetViewDimensions() const { return IntVector2(viewport->GetWidth(), viewport->GetHeight()); }
 
 	// TODO - This shouldn't really be a function. It should be part of either initialization of a default scene or when loading a scene
@@ -42,15 +42,13 @@ public:
 private:
 	void SetupWindowContext(Window& window);
 	void InitializeSceneView();
-	void PushApplicationEventsToWorld();
 
 	void RenderFrame();
 
 private:
 	FrameRenderTargets engineTargets;
-	UniquePtr<GameWorld> world;
 	UniquePtr<Viewport> viewport;
-	UniquePtr<GameInput> gameInput;
+	UniquePtr<ScreenView> screenView;
 	UniquePtr<Musa::RenderPipeline> renderPipeline;
 	const ApplicationEventDispatcher& inputDispatcher;
 	UI::Context* uiContext = nullptr;

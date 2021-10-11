@@ -68,18 +68,18 @@ public:
 	void RemoveAll(const valueType& elem);
 
 	template<class Pred>
-	i32 FindFirstIndexUsing(Pred&& pred) const;
+	NODISCARD i32 FindFirstIndexUsing(Pred&& pred) const;
 	template<class Pred>
-	i32 FindLastIndexUsing(Pred&& pred) const;
+	NODISCARD i32 FindLastIndexUsing(Pred&& pred) const;
 	template<class Pred>
-	valueType* FindFirstUsing(Pred&& pred);
+	NODISCARD valueType* FindFirstUsing(Pred&& pred);
 	template<class Pred>
-	valueType* FindLastUsing(Pred&& pred);
+	NODISCARD valueType* FindLastUsing(Pred&& pred);
 
-	i32 FindFirstIndex(const valueType& obj);
-	i32 FindLastIndex(const valueType& obj);
-	valueType* FindFirst(const valueType& obj);
-	valueType* FindLast(const valueType& obj);
+	NODISCARD i32 FindFirstIndex(const valueType& obj);
+	NODISCARD i32 FindLastIndex(const valueType& obj);
+	NODISCARD valueType* FindFirst(const valueType& obj);
+	NODISCARD valueType* FindLast(const valueType& obj);
 
 	bool TryFindFirstIndex(const valueType& obj, u32& foundIndex);
 	bool TryFindLastIndex(const valueType& obj, u32& foundIndex);
@@ -99,51 +99,51 @@ public:
 	template <typename Pred>
 	void Sort(const Pred& predicate);
 
-	inline Type* GetData()
+	inline NODISCARD Type* GetData()
 	{
 		return data;
 	}
 
-	inline const Type* GetData() const
+	inline NODISCARD const Type* GetData() const
 	{
 		return data;
 	}
 
-	inline u32 Size() const
+	inline NODISCARD u32 Size() const
 	{
 		return arraySize;
 	}
 
-	inline u32 SizeInBytes() const
+	inline NODISCARD u32 SizeInBytes() const
 	{
 		return arraySize * sizeof(valueType);
 	}
 
-	inline u32 Capacity() const
+	inline NODISCARD u32 Capacity() const
 	{
 		return arrayCapacity;
 	}
 
 	// Accessors
-	inline Type& operator[](u32 index)
+	inline NODISCARD Type& operator[](u32 index)
 	{
 		Assert(index < arraySize);
 		return GetData()[index];
 	}
 
-	inline const Type& operator[](u32 index) const
+	inline NODISCARD const Type& operator[](u32 index) const
 	{
 		Assert(index < arraySize);
 		return GetData()[index];
 	}
 
-	inline valueType& First() const
+	inline NODISCARD valueType& First() const
 	{
 		Assert(arraySize > 0);
 		return data[0];
 	}
 
-	inline valueType& Last() const
+	inline NODISCARD valueType& Last() const
 	{
 		Assert(arraySize > 0);
 		return data[arraySize - 1];
@@ -549,6 +549,7 @@ inline void DynamicArray<Type>::Sort(const Pred& pred)
 	}
 	else
 	{
+		Assert(false);
 		// Quicksort
 		// TODO - Implement Quicksort
 	}

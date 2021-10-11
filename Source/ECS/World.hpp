@@ -113,6 +113,7 @@ public:
 
 	Entity CreateEntity(Archetype& archetype);
 	void DestroyEntity(Entity entity);
+	void DestroyEntities(const DynamicArray<Entity>& entities);
 
 	bool IsEntityValid(Entity entity) const;
 

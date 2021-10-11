@@ -111,21 +111,6 @@
     <ClCompile Include="..\..\Source\Musa\Model\ModelFactory.cpp">
       <Filter>Source\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\GameObject\GameObjectManager.cpp">
-      <Filter>Source\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\GameObject\GameObject.cpp">
-      <Filter>Source\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\GameObject\RenderObject.cpp">
-      <Filter>Source\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\GameObject\RenderObjectManager.cpp">
-      <Filter>Source\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Scene\GameWorld.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Scene\Scene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -143,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp">
       <Filter>Source\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Camera\GodCamera.cpp">
-      <Filter>Source\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Scene\Viewport.cpp">
       <Filter>Source\Scene</Filter>
@@ -173,9 +155,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Engine\MusaEngine.cpp">
       <Filter>Source\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Input\GameInput.cpp">
-      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp">
       <Filter>Source\Input</Filter>
@@ -297,9 +276,6 @@
     <ClCompile Include="..\..\Source\Musa\Input\InputContext.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Input\InputContextManager.cpp">
-      <Filter>Source\Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\ApplicationInputMap.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
@@ -320,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Application\MusaGameApp.cpp">
       <Filter>Source\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.cpp">
+      <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -356,28 +335,7 @@
     <ClInclude Include="..\..\Source\Musa\Model\Model.h">
       <Filter>Source\Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\GameObject\GameObject.h">
-      <Filter>Source\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\GameObject\GameObjectManager.h">
-      <Filter>Source\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\GameObject\Transform.h">
-      <Filter>Source\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\GameObject\RenderObject.hpp">
-      <Filter>Source\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\GameObject\RenderObjectManager.hpp">
-      <Filter>Source\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Scene\GameWorld.hpp">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\Scene.hpp">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Scene\SceneGraph.hpp">
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\ScreenView.hpp">
@@ -391,9 +349,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Lighting\Light.hpp">
       <Filter>Source\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Camera\GodCamera.hpp">
-      <Filter>Source\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Scene\Viewport.hpp">
       <Filter>Source\Scene</Filter>
@@ -445,9 +400,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Engine\MusaEngine.hpp">
       <Filter>Source\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\GameInput.hpp">
-      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\InputSettings.hpp">
       <Filter>Source\Input</Filter>
@@ -629,9 +581,6 @@
     <ClInclude Include="..\..\Source\Musa\ECS\Systems\OSInputSystem.hpp">
       <Filter>Source\ECS\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\InputContextManager.hpp">
-      <Filter>Source\Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Input\InputContext.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
@@ -679,6 +628,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Application\MusaGameApp.hpp">
       <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.h">
+      <Filter>Source\GameObject\DemoObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

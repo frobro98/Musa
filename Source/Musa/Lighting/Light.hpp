@@ -2,12 +2,13 @@
 
 #pragma once
 
-#include "GameObject/GameObject.h"
+//#include "GameObject/GameObject.h"
+#include "BasicTypes/UniquePtr.hpp"
 #include "Math/Matrix4.hpp"
-#include "Graphics/UniformBuffers.h"
+#include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "BasicTypes/Color.hpp"
 
 class VulkanDevice;
-struct NativeUniformBuffer;
 
 struct LightDescription
 {
@@ -19,10 +20,11 @@ struct LightDescription
 	float radius = 0;
 };
 
-class Light : public GameObject
+class Light //: public GameObject
 {
 public:
-	Light(GameWorld& world);
+	Light();
+	virtual ~Light() {}
 
 	virtual LightDescription GetLightDescription() = 0;
 

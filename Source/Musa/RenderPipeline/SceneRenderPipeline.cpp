@@ -28,8 +28,6 @@
 
 #include "Debugging/MetricInterface.hpp"
 
-#include "GameObject/RenderObjectManager.hpp"
-#include "GameObject/RenderObject.hpp"
 #include "Scene/Scene.hpp"
 #include "Scene/Viewport.hpp"
 #include "Scene/ScreenView.hpp"
@@ -90,73 +88,73 @@ static void ConstructPipelineDescription(const RenderTargetDescription& targetDe
 
 using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 
-static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, const RenderObjectManager& renderManager, const View& view)
-{
-	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
-	clearColors[0] = Color32(.7f, .7f, .8f);
-	clearColors[1] = Color32(0, 0, 0);
-	clearColors[2] = Color32(0, 0, 0);
-	clearColors[3] = Color32(.7f, .7f, .8f);
+// static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, /*const RenderObjectManager& renderManager,*/ const View& view)
+// {
+// 	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
+// 	clearColors[0] = Color32(.7f, .7f, .8f);
+// 	clearColors[1] = Color32(0, 0, 0);
+// 	clearColors[2] = Color32(0, 0, 0);
+// 	clearColors[3] = Color32(.7f, .7f, .8f);
+// 
+// 	// Begin GBuffer pass
+// 	RenderTargetList colorTargets;
+// 	colorTargets.Add(sceneTargets.sceneColorTexture.Get());
+// 	colorTargets.Add(gbuffer.positionTexture.Get());
+// 	colorTargets.Add(gbuffer.normalTexture.Get());
+// 	colorTargets.Add(gbuffer.diffuseTexture.Get());
+// 
+// 	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get(), RenderTargetAccess::Write);
+// 	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
+// 
+// 	// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
+// 	TransitionTargetsToWrite(context, targets);
+// 
+// 	context.SetRenderTarget(gbufferDesc, targets, clearColors);
+// 	{
+// 		SCOPED_TIMED_BLOCK(GBufferRenderPass);
+// 
+// 		// TODO - This should be a pipeline helper function
+// 		u32 viewWidth = (u32)view.description.viewport.width;
+// 		u32 viewHeight = (u32)view.description.viewport.height;
+// 		context.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
+// 		context.SetScissor(0, 0, viewWidth, viewHeight);
+// 
+// 		const DynamicArray<RenderObject*>& renderObjects = renderManager.GetRenderObjects();
+// 
+// 		for (auto& info : renderObjects)
+// 		{
+// 			MaterialRenderDescription* matInfo = info->gpuRenderInfo->meshMaterial;
+// 
+// 			GraphicsPipelineDescription pipelineDesc;
+// 			ConstructPipelineDescription(gbufferDesc, pipelineDesc);
+// 			pipelineDesc.vertexShader = matInfo->shaders[ShaderStage::Vertex]->GetVertexShader();
+// 			pipelineDesc.fragmentShader = matInfo->shaders[ShaderStage::Fragment]->GetFragmentShader();
+// 			context.SetGraphicsPipeline(pipelineDesc);
+// 
+// 			MaterialResourceTable* resourceTable = matInfo->resources;
+// 			for (const auto& binding : resourceTable->resourceBindings)
+// 			{
+// 				if (binding.type == ShaderResourceType::UniformBuffer)
+// 				{
+// 					const NativeUniformBuffer* ub = resourceTable->uniformBufferStorage[binding.resourceIndex];
+// 					context.SetUniformBuffer(*ub, binding.bindIndex);
+// 				}
+// 				else if (binding.type == ShaderResourceType::TextureSampler)
+// 				{
+// 					const NativeTexture* texture = resourceTable->textureStorage[binding.resourceIndex];
+// 					const NativeSampler* sampler = resourceTable->samplerStorage[binding.resourceIndex];
+// 					context.SetTexture(*texture, *sampler, binding.bindIndex);
+// 				}
+// 			}
+// 			context.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
+// 			context.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
+// 		}
+// 	}
+// 
+// 	TransitionTargetsToRead(context, targets);
+// }
 
-	// Begin GBuffer pass
-	RenderTargetList colorTargets;
-	colorTargets.Add(sceneTargets.sceneColorTexture.Get());
-	colorTargets.Add(gbuffer.positionTexture.Get());
-	colorTargets.Add(gbuffer.normalTexture.Get());
-	colorTargets.Add(gbuffer.diffuseTexture.Get());
-
-	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get(), RenderTargetAccess::Write);
-	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
-
-	// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
-	TransitionTargetsToWrite(context, targets);
-
-	context.SetRenderTarget(gbufferDesc, targets, clearColors);
-	{
-		SCOPED_TIMED_BLOCK(GBufferRenderPass);
-
-		// TODO - This should be a pipeline helper function
-		u32 viewWidth = (u32)view.description.viewport.width;
-		u32 viewHeight = (u32)view.description.viewport.height;
-		context.SetViewport(0, 0, viewWidth, viewHeight, 0, 1);
-		context.SetScissor(0, 0, viewWidth, viewHeight);
-
-		const DynamicArray<RenderObject*>& renderObjects = renderManager.GetRenderObjects();
-
-		for (auto& info : renderObjects)
-		{
-			MaterialRenderDescription* matInfo = info->gpuRenderInfo->meshMaterial;
-
-			GraphicsPipelineDescription pipelineDesc;
-			ConstructPipelineDescription(gbufferDesc, pipelineDesc);
-			pipelineDesc.vertexShader = matInfo->shaders[ShaderStage::Vertex]->GetVertexShader();
-			pipelineDesc.fragmentShader = matInfo->shaders[ShaderStage::Fragment]->GetFragmentShader();
-			context.SetGraphicsPipeline(pipelineDesc);
-
-			MaterialResourceTable* resourceTable = matInfo->resources;
-			for (const auto& binding : resourceTable->resourceBindings)
-			{
-				if (binding.type == ShaderResourceType::UniformBuffer)
-				{
-					const NativeUniformBuffer* ub = resourceTable->uniformBufferStorage[binding.resourceIndex];
-					context.SetUniformBuffer(*ub, binding.bindIndex);
-				}
-				else if (binding.type == ShaderResourceType::TextureSampler)
-				{
-					const NativeTexture* texture = resourceTable->textureStorage[binding.resourceIndex];
-					const NativeSampler* sampler = resourceTable->samplerStorage[binding.resourceIndex];
-					context.SetTexture(*texture, *sampler, binding.bindIndex);
-				}
-			}
-			context.SetVertexBuffer(*info->gpuRenderInfo->vertexBuffer);
-			context.DrawIndexed(*info->gpuRenderInfo->indexBuffer, 1);
-		}
-	}
-
-	TransitionTargetsToRead(context, targets);
-}
-
-/*static*/ void LightingRenderPass(RenderContext& context, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets, const Scene& scene, const View& view)
+/*static*/ void LightingRenderPass(RenderContext& context, const GBuffer& /*gbuffer*/, const SceneRenderTargets& sceneTargets, const Scene& /*scene*/, const View& /*view*/)
 {
 	// TODO - Should clear color be floating around or should it live with the render target?
 	DynamicArray<Color32> clearColors = { Color32(.7f, .7f, .8f) }; // TODO - SHould be using FixedArray here instead of DynamicArray
@@ -177,27 +175,27 @@ static void GBufferRenderPass(RenderContext& context, const GBuffer& gbuffer, co
 
 	context.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
 
-	DeferredRender::RenderLights(context, scene, gbuffer, view);
+	//DeferredRender::RenderLights(context, scene, gbuffer, view);
 
 	TransitionTargetsToRead(context, sceneRenderTargets);
 }
 
 namespace DeferredRender
 {
-void RenderSceneDeferred(RenderContext& renderContext, const GBuffer& gbuffer, const SceneRenderTargets& sceneTextures, const RenderObjectManager& renderManager, const View& view)
-{
-	SCOPED_TIMED_BLOCK(DeferredRender);
-
-	// Render to gbuffer
-	GBufferRenderPass(renderContext, gbuffer, sceneTextures, renderManager, view);
-
-	// Do any special rendering for the scene here as well
-
-	// Render lighting
-	//LightingRenderPass(renderContext, gbuffer, sceneTextures, scene, view);
-
-	// Post Processing on Scene Color(?????)
-}
+// void RenderSceneDeferred(RenderContext& /*renderContext*/, const GBuffer& /*gbuffer*/, const SceneRenderTargets& /*sceneTextures*/, const View& /*view*/)
+// {
+// 	SCOPED_TIMED_BLOCK(DeferredRender);
+// 
+// 	// Render to gbuffer
+// 	GBufferRenderPass(renderContext, gbuffer, sceneTextures, renderManager, view);
+// 
+// 	// Do any special rendering for the scene here as well
+// 
+// 	// Render lighting
+// 	LightingRenderPass(renderContext, gbuffer, sceneTextures, scene, view);
+// 
+// 	// Post Processing on Scene Color(?????)
+// }
 
 void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<RenderView*>& views, const GBuffer& gbuffer, const SceneRenderTargets& sceneTargets)
 {

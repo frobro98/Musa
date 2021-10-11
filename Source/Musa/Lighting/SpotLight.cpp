@@ -9,7 +9,7 @@ constexpr f32 MaxOuterRad = MaxInnerRad + .001f;
 
 LightDescription SpotLight::GetLightDescription()
 {
-	worldLight = worldTransform.GetInverse();
+//	worldLight = worldTransform.GetInverse();
 
 	const f32 innerRad = Math::DegreesToRadians(innerAngleDegrees);
 	const f32 outerRad = Math::DegreesToRadians(outerAngleDegrees);
@@ -24,7 +24,7 @@ LightDescription SpotLight::GetLightDescription()
 	info.direction = -GetDirection();
 	info.cosOuterAngle = cosOuter;
 	info.inverseCosDiff = 1 / (cosInner - cosOuter);
-	info.position = position;
+	//info.position = position;
 	info.radius = attenuationRadius;
 
 	return info;

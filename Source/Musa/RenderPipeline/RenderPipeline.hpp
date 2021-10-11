@@ -22,7 +22,7 @@ public:
 	RenderPipeline(Viewport& vp);
 
 	void Initialize();
-	void Execute(ScreenView& screenView, RenderObjectManager& renderManager, UI::Context& uiContext);
+	void Execute(ScreenView& screenView, UI::Context& uiContext);
 
 	void HandOffRenderViews(DynamicArray<RenderView*>&& renderViews);
 

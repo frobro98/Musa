@@ -9,7 +9,6 @@
 #include "Graphics/RenderContext.hpp"
 #include "Debugging/MetricInterface.hpp"
 #include "Scene/Viewport.hpp"
-#include "GameObject/RenderObjectManager.hpp"
 #include "Scene/ScreenView.hpp"
 
 DECLARE_METRIC_GROUP(RenderPipeline)
@@ -28,7 +27,7 @@ void RenderPipeline::Initialize()
 }
 
 // NOTE - The ScreenView and the RenderObjectManager classes existing in here, and in general, is temporary
-void Musa::RenderPipeline::Execute(ScreenView& screenView, RenderObjectManager& /*renderManager*/, UI::Context& uiContext)
+void Musa::RenderPipeline::Execute(ScreenView& screenView, UI::Context& uiContext)
 {
 	RenderContext& context = *GetGraphicsInterface().GetRenderContext();
 

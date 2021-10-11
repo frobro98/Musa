@@ -1,9 +1,9 @@
 #pragma once
 
-#include "GameObject/GameObject.h"
+//#include "GameObject/GameObject.h"
 
-class SpinningObject : public GameObject
+class SpinningObject //: public GameObject
 {
 public:
-	virtual void Update(float tick) override;
+	virtual void Update(float tick) /*override*/;
 };

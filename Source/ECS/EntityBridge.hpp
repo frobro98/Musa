@@ -13,8 +13,11 @@ struct ArchetypeChunk;
 
 struct EntityBridge
 {
+	// Owning chunk
 	ArchetypeChunk chunk;
+	// Current version of entity that lives in the bridge
 	u32 version;
+	// Index into the owning chunk
 	u32 chunkIndex;
 };
 

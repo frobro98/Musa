@@ -3,7 +3,6 @@
 #pragma once
 
 #include "Input/Input.hpp"
-#include "Input/GameInput.hpp"
 #include "Containers/DynamicArray.hpp"
 
 class MusaApp;
@@ -47,7 +46,7 @@ private:
 // 		return events;
 // 	}
 
-	void HandleInputEvents(const InputEvents& events);
+//	void HandleInputEvents(const InputEvents& events);
 
 private:
 	Input::GamepadStates gamepads;

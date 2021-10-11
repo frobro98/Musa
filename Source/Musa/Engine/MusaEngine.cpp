@@ -8,16 +8,11 @@
 #include "Texture/Texture2D/TextureManager.h"
 
 #include "Math/MathFunctions.hpp"
-
-#include "Scene/GameWorld.hpp"
 #include "Scene/Scene.hpp"
 
-#include "GameObject/GameObjectManager.h"
-#include "GameObject/GameObject.h"
 #include "Lighting/SpotLight.hpp"
 #include "Shader/Material.hpp"
 #include "Model/ModelFactory.h"
-#include "Camera/GodCamera.hpp"
 
 #include "Engine/FrameData.hpp"
 #include "Engine/Internal/FrameDataInternal.hpp"
@@ -27,12 +22,12 @@
 
 #include "RenderPipeline/UserInterfacePipeline.hpp"
 #include "RenderPipeline/DeferredRenderPipeline.hpp"
-
 #include "Font/FontCache.hpp"
-
 #include "Application/Musa.hpp"
-
 #include "Shader/Shader.hpp"
+#include "Input/InputContext.hpp"
+
+#include "Mesh/Mesh.h"
 
 // ECS ---------------------
 #include "ECS/Components/CameraComponent.hpp"
@@ -96,7 +91,6 @@ MusaEngine::MusaEngine(UI::Context& context, const ApplicationEventDispatcher& i
 	: inputDispatcher(inputDispatcher_),
 	uiContext(&context)
 {
-	gameInput = MakeUnique<GameInput>(*this);
 }
 
 void MusaEngine::StartupEngine(Window& window)
@@ -107,14 +101,12 @@ void MusaEngine::StartupEngine(Window& window)
 
 void MusaEngine::ShutdownEngine()
 {
-	gameInput.Reset();
-	world.Reset();
 	viewport.Reset();
 }
 
 void MusaEngine::SetupWindowContext(Window& window)
 {
-	world = MakeUnique<GameWorld>(window);
+	screenView = MakeUnique<ScreenView>(window.GetWidth(), window.GetHeight());
 	viewport = MakeUnique<Viewport>(window.GetWindowHandle(), window.GetWidth(), window.GetHeight());
 	renderPipeline = MakeUnique<RenderPipeline>(*viewport);
 	renderPipeline->Initialize();
@@ -139,43 +131,9 @@ void MusaEngine::InitializeSceneView()
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
 
-	GodCamera* godCam = world->CreateGameObject<GodCamera>(*mainCamera);
-	gameInput->RegisterInputCallback(std::bind(&GodCamera::InputCallback, godCam, std::placeholders::_1));
-
 	gApp->LockCursor();
 	gApp->GetOSApp().SetRawMouseInput(true, *uiContext->GetWindow());
 }
-
-void MusaEngine::PushApplicationEventsToWorld()
-{
-	const DynamicArray<ButtonEvent>& buttonEvents = inputDispatcher.GetButtonEvents();
-	for (const auto& event : buttonEvents)
-	{
-		Entity e = ecsWorld.CreateEntity<ButtonEventComponent>();
-		ecsWorld.SetComponentDataOn(e, ButtonEventComponent{ {},
-			event
-		});
-	}
-
-	const DynamicArray<MouseMoveEvent>& mouseMoveEvents = inputDispatcher.GetMouseMoveEvents();
-	for (const auto& event : mouseMoveEvents)
-	{
-		Entity e = ecsWorld.CreateEntity<MouseMoveEventComponent>();
-		ecsWorld.SetComponentDataOn(e, MouseMoveEventComponent{ {},
-			event
-		});
-	}
-
-	const DynamicArray<AnalogChangeEvent>& analogChangeEvent = inputDispatcher.GetAnalogChangeEvents();
-	for (const auto& event : analogChangeEvent)
-	{
-		Entity e = ecsWorld.CreateEntity<AnalogChangeEventComponent>();
-		ecsWorld.SetComponentDataOn(e, AnalogChangeEventComponent{ {},
-			event
-		});
-	}
-}
-
 
 //*
 static InputContext* CreateDefaultInputContext()
@@ -408,9 +366,6 @@ void MusaEngine::LoadContent()
 	gethPakPath /= "Models/geth-trooper.pak";
 	LoadPakFile(gethPakPath);
 
-	gameInput->LockCusorToView(true);
-	gameInput->ShowCursor(false);
-
 	ImportTTFont(Path("C:\\Windows\\Fonts\\Arial.ttf"));
 
 	NOT_USED Mesh* box = GetMeshManager().FindMesh(Mesh::BoxName);
@@ -630,18 +585,13 @@ void MusaEngine::UnloadContent()
 	GetTextureManager().Deinitialize();
 }
 
-void MusaEngine::UpdateAndRender(f32 tick)
+void MusaEngine::UpdateAndRender(f32 /*tick*/)
 {
 	SCOPED_TIMED_BLOCK(UpdateAndRender);
 
-	PushApplicationEventsToWorld();
-
-	ecsWorld.Update();
 	BEGIN_TIMED_BLOCK(Update);
-	world->TickWorld(tick);
+	ecsWorld.Update();
 	uiContext->Update();
-
-	world->PushToRenderState();
 	END_TIMED_BLOCK(Update);
 
 	BEGIN_TIMED_BLOCK(Render);
@@ -665,9 +615,8 @@ void MusaEngine::SetInputHandler(ApplicationInputMap& handler)
 
 void MusaEngine::RenderFrame()
 {
-	ScreenView& screenView = world->GetView();
-	RenderObjectManager& renderManager = world->GetRenderManager();
-
-	renderPipeline->Execute(screenView, renderManager, *uiContext);
+	Camera* mainCamera = GetCameraManager().GetActiveCamera();
+	screenView->AssociateCameraWithView(*mainCamera);
+	renderPipeline->Execute(*screenView, *uiContext);
 }
 

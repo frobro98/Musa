@@ -8,12 +8,12 @@
 
 void AnimationGameObject::SetupInputs()
 {
-	GetInputManager().RegisterStateChange(KeyInput::Key_Q, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::SlowDownAnimation);
-	GetInputManager().RegisterStateChange(KeyInput::Key_E, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::SpeedUpAnimation);
-	GetInputManager().RegisterStateChange(KeyInput::Key_Space, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::TogglePause);
-
-	GetInputManager().RegisterStateChange(KeyInput::Key_F, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::SwapCurrentAnimation);
-	GetInputManager().RegisterStateChange(KeyInput::Key_B, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::Blend);
+// 	GetInputManager().RegisterStateChange(KeyInput::Key_Q, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::SlowDownAnimation);
+// 	GetInputManager().RegisterStateChange(KeyInput::Key_E, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::SpeedUpAnimation);
+// 	GetInputManager().RegisterStateChange(KeyInput::Key_Space, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::TogglePause);
+// 
+// 	GetInputManager().RegisterStateChange(KeyInput::Key_F, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::SwapCurrentAnimation);
+// 	GetInputManager().RegisterStateChange(KeyInput::Key_B, KeyStateFlags::KeyState_Pressed, this, &AnimationGameObject::Blend);
 }
 
 void AnimationGameObject::SetSkeleton(Skeleton& skel)
@@ -25,7 +25,7 @@ void AnimationGameObject::SetSkeleton(Skeleton& skel)
 	skeleton = new SkeletonInstance(skel);
 }
 
-void AnimationGameObject::SetCurrentClip(uint32 clipIndex)
+void AnimationGameObject::SetCurrentClip(u32 clipIndex)
 {
 	skeleton->SetCurrentAnimation(clipIndex);
 }
@@ -34,12 +34,12 @@ void AnimationGameObject::Update(float tick)
 {
 	Time deltaTime = tick * Time(Time::ONE_MILLISECOND);
 
-	skeleton->SetWorld(world);
+	//skeleton->SetWorld(world);
 	skeleton->Update(deltaTime);
 
-	model->SetWorld(world);
-	model->SetActiveSkeleton(*skeleton);
-	model->SetBonePose(skeleton->GetPose());
+	//model->SetWorld(world);
+	//model->SetActiveSkeleton(*skeleton);
+	//model->SetBonePose(skeleton->GetPose());
 }
 
 void AnimationGameObject::SetDebug(bool isDebug)

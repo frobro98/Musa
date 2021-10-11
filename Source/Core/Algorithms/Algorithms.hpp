@@ -14,6 +14,15 @@ struct Less
 	}
 };
 
+template<typename T = void>
+struct Greater
+{
+	constexpr bool operator()(const T& lhs, const T& rhs) const
+	{
+		return lhs > rhs;
+	}
+};
+
 
 template <typename Exch>
 void Swap(Exch& e0, Exch& e1)
@@ -40,9 +49,7 @@ void InsertionSort(DynamicArray<Elem>& arr)
 		}
 	}
 
-	Assert(IsSorted(arr.GetData(), arr.Size(), [](const Elem& lhs, const Elem& rhs) {
-		return lhs < rhs;
-	}));
+	Assert(IsSorted(arr.GetData(), arr.Size(), Less<Elem>{}));
 }
 
 template <typename T, size_t N>
@@ -78,7 +85,7 @@ constexpr void InsertionSort(T* arr, size_t count)
 		}
 	}
 
-	Assert(IsSorted(arr, count, Less<T>()));
+	Assert(IsSorted(arr, count, Less<T>{}));
 }
 
 template <typename T, typename Pred>

@@ -1,18 +1,17 @@
 #include "ScaleChangingObject.hpp"
 #include "Math/MathFunctions.hpp"
 
-ScaleChangingObject::ScaleChangingObject(GameWorld& world, f32 scaleA, f32 scaleB, f32 delta_)
-	: GameObject(world),
-	A(scaleA, scaleA, scaleA),
+ScaleChangingObject::ScaleChangingObject(f32 scaleA, f32 scaleB, f32 delta_)
+	: A(scaleA, scaleA, scaleA),
 	B(scaleB, scaleB, scaleB),
 	srcVec(&A),
 	dstVec(&B),
 	delta(delta_)
 {
-	scale = A;
+	//scale = A;
 }
 
-void ScaleChangingObject::Update(f32 tick)
+void ScaleChangingObject::Update(f32 /*tick*/)
 {
 	if (totalDelta >= 1.f)
 	{
@@ -21,9 +20,9 @@ void ScaleChangingObject::Update(f32 tick)
 		totalDelta = 0.f;
 	}
 
-	scale = Math::Lerp(*srcVec, *dstVec, totalDelta);
-
-	totalDelta += tick;
-
-	GameObject::Update(tick);
+// 	scale = Math::Lerp(*srcVec, *dstVec, totalDelta);
+// 
+// 	totalDelta += tick;
+// 
+// 	GameObject::Update(tick);
 }

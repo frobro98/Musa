@@ -1,15 +1,13 @@
 #pragma once
 
 #include "Math/Vector4.hpp"
-#include "GameObject/GameObject.h"
 
-
-class OrbitingObject : public GameObject
+class OrbitingObject// : public GameObject
 {
 public:
-	OrbitingObject(GameWorld& world, const Vector4& orbitAxis, const Vector4& orbitPos);
+	OrbitingObject(const Vector4& orbitAxis, const Vector4& orbitPos);
 
-	virtual void Update(float tick) override;
+	virtual void Update(float tick) /*override*/;
 
 private:
 	Vector4 axis;

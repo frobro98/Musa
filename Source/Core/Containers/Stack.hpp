@@ -19,11 +19,11 @@ public:
 
 	template<typename PushType>
 	void Push(PushType&& item);
-	Type Pop();
-	Type& Peek();
+	void Pop();
+	NODISCARD Type& Peek();
 
-	u32 Size() const;
-	bool IsEmpty() const;
+	NODISCARD u32 Size() const;
+	NODISCARD bool IsEmpty() const;
 
 private:
 	DynamicArray<ValueType> stackSpace;
@@ -43,11 +43,9 @@ inline void Stack<Type>::Push(PushType&& item)
 }
 
 template<typename Type>
-inline Type Stack<Type>::Pop()
+inline void Stack<Type>::Pop()
 {
-	ValueType popped = stackSpace.Last();
-	stackSpace.RemoveLastOf(popped);
-	return popped;
+	stackSpace.RemoveLast();
 }
 
 template<typename Type>

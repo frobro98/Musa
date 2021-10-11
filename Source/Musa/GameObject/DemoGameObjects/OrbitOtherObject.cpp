@@ -1,36 +1,35 @@
 #include "OrbitOtherObject.hpp"
 #include "Math/Quat.hpp"
 
-OrbitOtherObject::OrbitOtherObject(GameWorld& world, const GameObject& obj, float r, const Vector4& orbitAxis)
-	: GameObject(world),
-	axis(orbitAxis.GetNormalized()),
-	object(obj),
+OrbitOtherObject::OrbitOtherObject(/*const GameObject& obj, */float r, const Vector4& orbitAxis)
+	: axis(orbitAxis.GetNormalized()),
+	//object(obj),
 	radius(r)
 {
-	prevObjectPosition = object.GetPosition();
+	//prevObjectPosition = object.GetPosition();
 	InitializeStartPosition();
 }
 
-void OrbitOtherObject::Update(float tick)
+void OrbitOtherObject::Update(float /*tick*/)
 {
-	constexpr float angleOffsetDeg = Math::PiOver2;
-
-	Vector4 objectPos = object.GetPosition();
-	Vector4 dir = objectPos - prevObjectPosition;
-
-	Matrix4 trans(TRANS, objectPos);
-	Quat rot(ROT_AXIS_ANGLE, axis, angleOffsetDeg * tick);
-	Matrix4 negTrans(TRANS, -objectPos);
-
-	Matrix4 orbitTrans = negTrans * rot * trans;
-
-	orbitPosition += dir;
-	orbitPosition *= orbitTrans;
-
-	SetPos(orbitPosition);
-	GameObject::Update(tick);
-
-	prevObjectPosition = objectPos;
+// 	constexpr float angleOffsetDeg = Math::PiOver2;
+// 
+// 	Vector4 objectPos = object.GetPosition();
+// 	Vector4 dir = objectPos - prevObjectPosition;
+// 
+// 	Matrix4 trans(TRANS, objectPos);
+// 	Quat rot(ROT_AXIS_ANGLE, axis, angleOffsetDeg * tick);
+// 	Matrix4 negTrans(TRANS, -objectPos);
+// 
+// 	Matrix4 orbitTrans = negTrans * rot * trans;
+// 
+// 	orbitPosition += dir;
+// 	orbitPosition *= orbitTrans;
+// 
+// 	SetPos(orbitPosition);
+// 	GameObject::Update(tick);
+// 
+// 	prevObjectPosition = objectPos;
 }
 
 void OrbitOtherObject::InitializeStartPosition()

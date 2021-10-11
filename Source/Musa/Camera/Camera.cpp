@@ -1,7 +1,6 @@
 // Copyright 2020, Nathan Blane
 
 #include "Camera.h"
-#include "GameObject/GameObject.h"
 
 #undef near
 #undef far
@@ -116,16 +115,6 @@ void Camera::SetFarPlane(float far)
 {
 	farPlane = far;
 }
-
-// Extents2D Camera::GetNearExtents() const
-// {
-// 	return Extents2D{ nearWidth, nearHeight };
-// }
-// 
-// Extents2D Camera::GetFarExtents() const
-// {
-// 	return Extents2D{ farWidth, farHeight };
-// }
 
 Recti Camera::GetCameraViewport() const
 {

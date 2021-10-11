@@ -1,5 +1,6 @@
 // Copyright 2020, Nathan Blane
 
+#include "ArchetypeChunk.hpp"
 #include "Archetype.hpp"
 #include "Entity.hpp"
 #include "ComponentType.hpp"
@@ -257,6 +258,17 @@ u32 AddEntityToChunk(ArchetypeChunk& chunk, const Entity& entity)
 
 	return entityIndex;
 }
+
+void RemoveEntitiesFromChunk(ArchetypeChunk& chunk, DynamicArray<u32> chunkIndices)
+{
+	chunkIndices.Sort(Greater<u32>{});
+	for (u32 index : chunkIndices)
+	{
+		// TODO - This should work because you're going through it from the back of the chunk
+		RemoveEntityFromChunk(chunk, index);
+	}
+}
+
 void RemoveEntityFromChunk(ArchetypeChunk& chunk, u32 chunkIndex)
 {
 	Assert(chunk.header->entityCount > chunkIndex);
