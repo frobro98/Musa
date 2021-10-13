@@ -43,18 +43,15 @@ private:
 	void InitializeApplicationWindow();
 	void SetupGameEngine();
 	void TearDownGameEngine();
+
+protected:
 	void ProcessApplicationInputs();
 
 protected:
-	void ApplicationUpdate();
-
-private:
-	EngineTick frameTick;
 	UniquePtr<MusaEngine> gameEngine;
 	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
 	UniquePtr<ApplicationInputMap> inputMap;
 	UniquePtr<ApplicationEventDispatcher> inputDispatcher;
 	MusaAppOS* osApp;
-	bool isRunning = false;
 };

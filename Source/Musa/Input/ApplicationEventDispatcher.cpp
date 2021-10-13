@@ -11,13 +11,6 @@ ApplicationEventDispatcher::ApplicationEventDispatcher(MusaApp& app)
 {
 }
 
-void ApplicationEventDispatcher::ClearCachedInputs()
-{
-	buttonEvents.Clear();
-	mouseMoveEvents.Clear();
-	analogChangeEvents.Clear();
-}
-
 void ApplicationEventDispatcher::HandleKeyDown(Input::Buttons key, const Input::ButtonState& input, bool isRepeated)
 {
 	if (key == Input::Key_Escape)
@@ -30,9 +23,6 @@ void ApplicationEventDispatcher::HandleKeyDown(Input::Buttons key, const Input::
 	event.eventType = Input::ButtonEventType::Pressed;
 	event.state = input;
 	event.isRepeated = isRepeated;
-
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	buttonEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleKeyUp(Input::Buttons key, const Input::ButtonState& input)
@@ -42,9 +32,6 @@ void ApplicationEventDispatcher::HandleKeyUp(Input::Buttons key, const Input::Bu
 	event.eventType = Input::ButtonEventType::Released;
 	event.state = input;
 	event.isRepeated = false;
-
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	buttonEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleKeyChar(tchar c, bool isRepeated)
@@ -61,9 +48,6 @@ void ApplicationEventDispatcher::HandleMouseDown(Input::Buttons mouse, const Inp
 	event.eventType = Input::ButtonEventType::Pressed;
 	event.state = state;
 	event.isRepeated = false;
-
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	buttonEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleMouseUp(Input::Buttons mouse, const Input::ButtonState& state)
@@ -73,9 +57,6 @@ void ApplicationEventDispatcher::HandleMouseUp(Input::Buttons mouse, const Input
 	event.eventType = Input::ButtonEventType::Released;
 	event.state = state;
 	event.isRepeated = false;
-
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	buttonEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleMouseMove(const IntVector2& mousePosition)
@@ -88,10 +69,6 @@ void ApplicationEventDispatcher::HandleMouseMove(const IntVector2& mousePosition
 		event.deltaPosition = mousePosition - previousPosition;
 
 		previousPosition = mousePosition;
-
-		// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-		mouseMoveEvents.Add(event);
-		MUSA_DEBUG(KeyLogging, "Mouse Event pushed");
 	}
 }
 
@@ -105,9 +82,6 @@ void ApplicationEventDispatcher::HandleRawMouseMove(const IntVector2& mousePosit
 		event.deltaPosition = deltaPosition;
 
 		previousPosition = mousePosition;
-
-		// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-		mouseMoveEvents.Add(event);
 	}
 }
 
@@ -118,9 +92,6 @@ void ApplicationEventDispatcher::HandleControllerButtonDown(u32 /*controllerInde
 	event.state = state;
 	event.isRepeated = false;
 	event.eventType = Input::ButtonEventType::Pressed;
-	
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	buttonEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleControllerButtonUp(u32 /*controllerIndex*/, Input::Buttons gamepadInput, const Input::ButtonState& state)
@@ -130,9 +101,6 @@ void ApplicationEventDispatcher::HandleControllerButtonUp(u32 /*controllerIndex*
 	event.state = state;
 	event.isRepeated = false;
 	event.eventType = Input::ButtonEventType::Pressed;
-
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	buttonEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleControllerAnalogChange(u32 /*controllerIndex*/, Input::Buttons gamepadInput, f32 normValue)
@@ -140,9 +108,6 @@ void ApplicationEventDispatcher::HandleControllerAnalogChange(u32 /*controllerIn
 	AnalogChangeEvent event;
 	event.analogButton = gamepadInput;
 	event.normValue = normValue;
-
-	// Push this event to UI/Application and then if those don't use up the input, push it to ECS world
-	analogChangeEvents.Add(event);
 }
 
 void ApplicationEventDispatcher::HandleWindowResizeEvent(const IntVector2& newWindowdimensions)

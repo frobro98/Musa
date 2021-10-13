@@ -4,7 +4,7 @@
 
 #include "Application/MusaApp.hpp"
 
-class MusaGameApp : public MusaApp
+class MusaGameApp final : public MusaApp
 {
 public:
 	virtual void AppInit() override;
@@ -12,4 +12,6 @@ public:
 	virtual void AppDeinit() override;
 
 private:
+	EngineTick frameTick;
+
 };

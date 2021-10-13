@@ -115,13 +115,6 @@ void MusaApp::SetupGameEngine()
 	gameEngine->StartupEngine(*appWindow);
 
 	gameEngine->LoadContent();
-
-	// HACK - This sort of behavior shouldn't be exposed at this level!
-	// TODO - This sort of was a quick hack just to test out application level events for switching application windows. 
-	// This needs to be revisited eventually
-	//osApp->GetInputHandler()->SetInputFocusToGame();
-
-	frameTick.Start();
 }
 
 void MusaApp::TearDownGameEngine()
@@ -131,25 +124,8 @@ void MusaApp::TearDownGameEngine()
 	gameEngine.Reset();
 }
 
-void MusaApp::ApplicationUpdate()
-{
-	frameTick.Lap();
-	const f32 tick = (f32)frameTick.GetSeconds();
-	frameTick.Start();
-
-	Frame::SetFrameStats({ tick });
-
-	// Process input
-	ProcessApplicationInputs();
-
-	gameEngine->UpdateAndRender(tick);
-
-	gameEngine->GatherFrameMetrics();
-}
-
 void MusaApp::ProcessApplicationInputs()
 {
-	inputDispatcher->ClearCachedInputs();
 	osApp->ProcessInputEvents();
 	osApp->ProcessNativeGamepad();
 }

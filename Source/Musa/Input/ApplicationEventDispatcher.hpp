@@ -20,8 +20,6 @@ class ApplicationEventDispatcher
 public:
 	ApplicationEventDispatcher(MusaApp& app);
 
-	void ClearCachedInputs();
-
 	// Handle Application Events that then get dispatched if needed to the game
 	void HandleKeyDown(Input::Buttons key, const Input::ButtonState& input, bool isRepeated);
 	void HandleKeyUp(Input::Buttons key, const Input::ButtonState& input);
@@ -40,17 +38,7 @@ public:
 	void HandleWindowCloseEvent();
 	void HandleWindowActivationChanged(bool activated);
 
-	forceinline const DynamicArray<ButtonEvent>& GetButtonEvents() const { return buttonEvents; }
-	forceinline const DynamicArray<MouseMoveEvent>& GetMouseMoveEvents() const { return mouseMoveEvents; }
-	forceinline const DynamicArray<AnalogChangeEvent>& GetAnalogChangeEvents() const { return analogChangeEvents; }
-
 private:
-	void HandleInputEvents();
-
-private:
-	DynamicArray<ButtonEvent> buttonEvents;
-	DynamicArray<MouseMoveEvent> mouseMoveEvents;
-	DynamicArray<AnalogChangeEvent> analogChangeEvents;
 	MusaApp& application;
 	IntVector2 previousPosition;
 };

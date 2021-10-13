@@ -48,6 +48,7 @@ void MusaGameApp::AppInit()
 	MUSA_INFO(GameAppLog, "Initializing Graphics Layer");
 	GetGraphicsInterface().InitializeGraphics();
 
+	frameTick.Start();
 	gIsRunning = true;
 }
 
@@ -55,7 +56,18 @@ void MusaGameApp::AppLoop()
 {
 	while (gIsRunning)
 	{
-		ApplicationUpdate();
+		frameTick.Lap();
+		const f32 tick = (f32)frameTick.GetSeconds();
+		frameTick.Start();
+
+		Frame::SetFrameStats({ tick });
+
+		// Process input
+		ProcessApplicationInputs();
+
+		gameEngine->UpdateAndRender(tick);
+
+		gameEngine->GatherFrameMetrics();
 	}
 }
 

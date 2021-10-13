@@ -300,6 +300,9 @@
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.cpp">
       <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\InputMap.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Musa\Camera\Camera.h">
@@ -598,9 +601,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\ButtonEventComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\ContextCulledInputs.hpp">
-      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\InputContextComponent.hpp">
       <Filter>Source\ECS\Components</Filter>

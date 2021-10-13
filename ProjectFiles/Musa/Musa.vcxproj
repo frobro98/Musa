@@ -56,6 +56,7 @@
     <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\InputContext.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\ApplicationInputMap.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\InputMap.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\Light.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\PointLight.cpp" />
     <ClCompile Include="..\..\Source\Musa\Lighting\SpotLight.cpp" />
@@ -148,7 +149,6 @@
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.hpp" />
-    <ClInclude Include="..\..\Source\Musa\Input\ContextCulledInputs.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\IInputReceiver.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\InputContextID.hpp" />
