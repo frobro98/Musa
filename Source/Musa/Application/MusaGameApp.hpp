@@ -4,7 +4,7 @@
 
 #include "Application/MusaApp.hpp"
 
-class MusaGameApp final : public MusaApp
+class MUSA_API MusaGameApp final : public MusaApp
 {
 public:
 	virtual void AppInit() override;

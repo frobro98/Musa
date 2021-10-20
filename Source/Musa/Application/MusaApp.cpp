@@ -15,6 +15,9 @@
 
 DEFINE_LOG_CHANNEL(AppLog);
 
+MusaApp* gApp = nullptr;
+bool gIsRunning = false;
+
 constexpr i32 windowWidth = 1080;
 constexpr i32 windowHeight = 720;
 

@@ -151,7 +151,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>Intermediate\libs\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Intermediate\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
@@ -186,12 +186,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Binaries;$(SolutionDir)\ThirdParty\lib</AdditionalLibraryDirectories>
     </Lib>
     <PostBuildEvent>
-      <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
-
-mkdir %targetDir% &gt; nul
-copy "$(OutputPath)\*.dll" %targetDir%
-copy "$(OutputPath)\*.lib" %targetDir%
-copy "$(OutputPath)\*.pdb" %targetDir%</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Link>
       <AdditionalDependencies>Core_d.lib;Graphics_d.lib;Archiver_d.lib;Texture_d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>

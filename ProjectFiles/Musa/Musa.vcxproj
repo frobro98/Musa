@@ -43,7 +43,6 @@
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\WorldTransformSystem.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\FrameData.cpp" />
     <ClCompile Include="..\..\Source\Musa\Engine\MusaEngine.cpp" />
-    <ClCompile Include="..\..\Source\Musa\Entry\main.cpp" />
     <ClCompile Include="..\..\Source\Musa\Font\FontCache.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\MoveBetweenObject.cpp" />
@@ -140,6 +139,7 @@
     <ClInclude Include="..\..\Source\Musa\Engine\FrameRenderTargets.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\Internal\FrameDataInternal.hpp" />
     <ClInclude Include="..\..\Source\Musa\Engine\MusaEngine.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Entry\MusaEntry.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\DistanceFieldGeneration.hpp" />
     <ClInclude Include="..\..\Source\Musa\Font\FontCache.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.h" />
@@ -170,6 +170,7 @@
     <ClInclude Include="..\..\Source\Musa\Model\Model.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFactory.h" />
     <ClInclude Include="..\..\Source\Musa\Model\ModelFileHeader.h" />
+    <ClInclude Include="..\..\Source\Musa\MusaAPI.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\BatchPrimitives.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\DeferredRenderPipeline.hpp" />
     <ClInclude Include="..\..\Source\Musa\RenderPipeline\LightingPipeline.hpp" />
@@ -209,20 +210,20 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Development|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -274,6 +275,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>MUSA_EXPORT;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>freetyped.lib;Core_d.lib;ECS_d.lib;Graphics_d.lib;Texture_d.lib;Shader_d.lib;Archiver_d.lib;Math_d.lib;xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -310,6 +312,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>MUSA_EXPORT;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -349,6 +352,7 @@
       <SupportJustMyCode>false</SupportJustMyCode>
       <FavorSizeOrSpeed>
       </FavorSizeOrSpeed>
+      <PreprocessorDefinitions>MUSA_EXPORT;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

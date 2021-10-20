@@ -10,8 +10,9 @@
 #include "Time/EngineTick.h"
 #include "Input/ApplicationInputMap.hpp"
 #include "Input/ApplicationEventDispatcher.hpp"
+#include "MusaAPI.hpp"
 
-class MusaApp
+class MUSA_API MusaApp
 {
 public:
 	MusaApp();

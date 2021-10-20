@@ -306,28 +306,6 @@ void GameInputSystem::ClearInputEvents()
 		}
 	}
 
-	/*
-
-	New problem: Destroying a group of entities can result in destroying an entity that isn't valid
-	
-	REASON: In the scenario, there's an array of entities that need to be destroyed. The entities get looped through and destroyed individually. 
-	If there are more than 2 entities in the chunk, the entities get moved. This becomes a problem because an entity at index 0 gets destroyed, index 1-n get moved over,
-	overriding the index 0 entity. This doesn't become an issue immediately. It only becomes an issue at the "end" of the array, when the code attempts to destroy the same entity twice.
-
-	Solution: The solution would essentially be to support resetting a chunk of entities
-
-	Implementation Ideas:
-		1. DestroyEntities(): Call Destroy on all entities passed in, keeping track of indices of the destroyed entities
-			- This is really the only way to do it, seeing as a list of entities most likely won't be in the same place in the chunk, 
-			if they are even in the same chunk in the first place...
-			- The mechanism for moving a group of entities already exists, all it needs to do is be deferred until the full destroy is 
-			complete
-			- Push indices that are being destroyed, sort indices in descending order, then adjust the chunk from each index
-			- ASSERT IF THEY ARE NOT PART OF THE SAME CHUNK FOR NOW
-		2. I don't think there is another way right now....
-
-	*/
-
 	{
 		auto mouseMoveChunks = GetQueryChunks(*mouseMoveEventQuery);
 		for (auto& chunk : mouseMoveChunks)

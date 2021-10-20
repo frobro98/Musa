@@ -1,11 +1,10 @@
 // Copyright 2020, Nathan Blane
 
+#pragma once
+
 #include "Application/Musa.hpp"
 
 extern MusaApp* CreateMusaApplication(char* cmdlineArgs);
-
-MusaApp* gApp = nullptr;
-bool gIsRunning = false;
 
 int WINAPI WinMain(HINSTANCE /*hInstance*/,
 	HINSTANCE /*hPrevInstance*/,

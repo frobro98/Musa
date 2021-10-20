@@ -90,9 +90,6 @@
     <ClCompile Include="..\..\Source\Musa\Camera\ViewFrustum.cpp">
       <Filter>Source\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Entry\main.cpp">
-      <Filter>Source\Entry</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
@@ -631,6 +628,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.h">
       <Filter>Source\GameObject\DemoObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Entry\MusaEntry.hpp">
+      <Filter>Source\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\MusaAPI.hpp">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

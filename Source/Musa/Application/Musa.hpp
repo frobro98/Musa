@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Application/MusaApp.hpp"
+#include "MusaAPI.hpp"
 
-extern MusaApp* gApp;
-extern bool gIsRunning;
+extern MUSA_API MusaApp* gApp;
+extern MUSA_API bool gIsRunning;
