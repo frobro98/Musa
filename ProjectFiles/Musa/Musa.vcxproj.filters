@@ -291,9 +291,6 @@
     <ClCompile Include="..\..\Source\Musa\Application\MusaAppWindows.cpp">
       <Filter>Source\Application</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Application\MusaGameApp.cpp">
-      <Filter>Source\Application</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.cpp">
       <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
@@ -621,9 +618,6 @@
       <Filter>Source\Application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\Application\Musa.hpp">
-      <Filter>Source\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Application\MusaGameApp.hpp">
       <Filter>Source\Application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\AnimationGameObject.h">

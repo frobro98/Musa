@@ -30,12 +30,25 @@ void MusaApp::LaunchApplication()
 {
 	AppInit();
 
+	// TODO - Should be some sort of function...?
+	frameTick.Start();
+	gIsRunning = true;
+
 	InitializeOSInput();
 	InitializeApplicationWindow();
 
 	SetupGameEngine();
 
-	AppLoop();
+	while (gIsRunning)
+	{
+		frameTick.Lap();
+		const f32 tick = (f32)frameTick.GetSeconds();
+		frameTick.Start();
+
+		Frame::SetFrameStats({ tick });
+
+		AppLoop(tick);
+	}
 
 	// TODO - Shutdown stuff for the application...
 	TearDownGameEngine();

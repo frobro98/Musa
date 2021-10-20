@@ -36,7 +36,7 @@ public:
 	IntVector2 GetMousePosition() const;
 
 	virtual void AppInit() = 0;
-	virtual void AppLoop() = 0;
+	virtual void AppLoop(f32 tick) = 0;
 	virtual void AppDeinit() = 0;
 
 private:
@@ -55,4 +55,7 @@ protected:
 	UniquePtr<ApplicationInputMap> inputMap;
 	UniquePtr<ApplicationEventDispatcher> inputDispatcher;
 	MusaAppOS* osApp;
+
+private:
+	EngineTick frameTick;
 };

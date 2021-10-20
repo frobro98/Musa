@@ -9,6 +9,7 @@
 #include "Scene/Viewport.hpp"
 #include "Scene/ScreenView.hpp"
 #include "RenderPipeline/RenderPipeline.hpp"
+#include "MusaAPI.hpp"
 
 class Window;
 class ProfilerStatistics;
@@ -34,8 +35,8 @@ public:
 	void LoadContent();
 	void UnloadContent();
 	
-	void UpdateAndRender(f32 tick);
-	void GatherFrameMetrics();
+	void MUSA_API UpdateAndRender(f32 tick);
+	void MUSA_API GatherFrameMetrics();
 
 	void SetInputHandler(ApplicationInputMap& inputHandler);
 

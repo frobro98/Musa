@@ -11,7 +11,7 @@ void MusaEditorApp::AppInit()
 {
 }
 
-void MusaEditorApp::AppLoop()
+void MusaEditorApp::AppLoop(f32 /*tick*/)
 {
 }
 

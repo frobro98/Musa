@@ -3,15 +3,13 @@
 #pragma once
 
 #include "Application/MusaApp.hpp"
+#include "Game/GameAPI.hpp"
 
-class MUSA_API MusaGameApp final : public MusaApp
+class GAME_API MusaGameApp final : public MusaApp
 {
 public:
 	virtual void AppInit() override;
-	virtual void AppLoop() override;
+	virtual void AppLoop(f32 tick) override;
 	virtual void AppDeinit() override;
-
-private:
-	EngineTick frameTick;
 
 };

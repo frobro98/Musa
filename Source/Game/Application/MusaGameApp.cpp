@@ -3,8 +3,6 @@
 #include "Application/Musa.hpp"
 #include "MusaGameApp.hpp"
 #include "Engine/FrameData.hpp"
-#include "Engine/Internal/FrameDataInternal.hpp"
-#include "Input/Internal/InputInternal.hpp"
 #include "File/DirectoryLocations.hpp"
 #include "Graphics/GraphicsInterface.hpp"
 #include "Logging/LogFunctions.hpp"
@@ -47,28 +45,17 @@ void MusaGameApp::AppInit()
 
 	MUSA_INFO(GameAppLog, "Initializing Graphics Layer");
 	GetGraphicsInterface().InitializeGraphics();
-
-	frameTick.Start();
-	gIsRunning = true;
 }
 
-void MusaGameApp::AppLoop()
+void MusaGameApp::AppLoop(f32 tick)
 {
-	while (gIsRunning)
-	{
-		frameTick.Lap();
-		const f32 tick = (f32)frameTick.GetSeconds();
-		frameTick.Start();
+	// TODO - Should be passed in here, no processing of input here
+	// Process input
+	ProcessApplicationInputs();
 
-		Frame::SetFrameStats({ tick });
+	gameEngine->UpdateAndRender(tick);
 
-		// Process input
-		ProcessApplicationInputs();
-
-		gameEngine->UpdateAndRender(tick);
-
-		gameEngine->GatherFrameMetrics();
-	}
+	gameEngine->GatherFrameMetrics();
 }
 
 void MusaGameApp::AppDeinit()
