@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\Editor\Application\EditorEntry.cpp">
-      <Filter>Source\Application</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Editor\Application\MusaEditorApp.cpp">
       <Filter>Source\Application</Filter>
     </ClCompile>

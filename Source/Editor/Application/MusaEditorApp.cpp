@@ -1,4 +1,5 @@
 
+#include "Entry/MusaEntry.hpp"
 #include "MusaEditorApp.hpp"
 
 MusaApp* CreateMusaApplication(char* /*cmdlineArgs*/)
