@@ -8,7 +8,7 @@
 struct InputAction
 {
 	Input::Buttons input;
-	Input::ButtonEventType type;
+	Input::ButtonState state;
 };
 
 struct InputState

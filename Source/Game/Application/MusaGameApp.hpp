@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Application/MusaApp.hpp"
+#include "Engine/MusaEngine.hpp"
 #include "Game/GameAPI.hpp"
 
 class GAME_API MusaGameApp final : public MusaApp
@@ -12,4 +13,6 @@ public:
 	virtual void AppLoop(f32 tick) override;
 	virtual void AppDeinit() override;
 
+private:
+	UniquePtr<MusaEngine> gameEngine;
 };

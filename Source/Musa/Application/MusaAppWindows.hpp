@@ -9,7 +9,7 @@
 class MusaAppWindows final : public MusaAppOS
 {
 public:
-	MusaAppWindows(MusaApp& app);
+	MusaAppWindows();
 
 	virtual Window* CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height) override;
 
@@ -21,12 +21,9 @@ public:
 	virtual void LockCursorToRect(const Recti& rect) override;
 	virtual void UnlockCursorFromRect() override;
 
-	virtual void ProcessNativeGamepad() override;
+	virtual void ProcessNativeGamepad(ApplicationInputMap& inputMap, ApplicationEventRouter& inputDispatcher) override;
 
-	virtual void ProcessInputEvents() override;
-
-private:
-	//void ProcessAnalogControllerInputs(const XINPUT_GAMEPAD& xinputGamepad, WindowsGamepadState& state);
+	virtual void ProcessInputEvents(ApplicationInputMap& inputMap) override;
 
 private:
 	Input::GamepadStates controllers;

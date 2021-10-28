@@ -87,7 +87,7 @@ Musa::RenderPipeline& Musa::GetRenderPipeline()
 
 using namespace Musa;
 
-MusaEngine::MusaEngine(UI::Context& context, const ApplicationEventDispatcher& inputDispatcher_)
+MusaEngine::MusaEngine(UI::Context& context, const ApplicationEventRouter& inputDispatcher_)
 	: inputDispatcher(inputDispatcher_),
 	uiContext(&context)
 {
@@ -131,8 +131,7 @@ void MusaEngine::InitializeSceneView()
 	GetCameraManager().AddCamera(mainCamera, "Main Camera");
 	GetCameraManager().SetActiveCamera("Main Camera");
 
-	gApp->LockCursor();
-	gApp->GetOSApp().SetRawMouseInput(true, *uiContext->GetWindow());
+	gApp->SetRawMouseInput(true);
 }
 
 //*

@@ -8,4 +8,4 @@
 #define GAME_API __declspec(dllimport)
 #endif
 
-#define ECS_TEMPLATE
+#define GAME_TEMPLATE

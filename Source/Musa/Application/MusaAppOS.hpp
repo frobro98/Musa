@@ -6,14 +6,16 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Math/Rect.hpp"
 
-class MusaApp;
+class ApplicationInputMap;
+class ApplicationEventRouter;
 class Window;
 struct IntVector2;
 
+// TODO - Consider making this just an interface
 class MusaAppOS
 {
 public:
-	MusaAppOS(MusaApp& app);
+	MusaAppOS() = default;
 	virtual ~MusaAppOS() = default;
 
 	virtual Window* CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height) = 0;
@@ -26,13 +28,7 @@ public:
 	virtual void LockCursorToRect(const Recti& rect) = 0;
 	virtual void UnlockCursorFromRect() = 0;
 
-	virtual void ProcessNativeGamepad() = 0;
+	virtual void ProcessNativeGamepad(ApplicationInputMap& inputMap, ApplicationEventRouter& inputDispatcher) = 0;
 
-	virtual void ProcessInputEvents() = 0;
-
-	forceinline MusaApp& GetOwningApplication() { return owningApplication; }
-
-protected:
-	MusaApp& owningApplication;
-
+	virtual void ProcessInputEvents(ApplicationInputMap& inputMap) = 0;
 };

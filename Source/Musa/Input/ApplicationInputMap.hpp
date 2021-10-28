@@ -14,10 +14,10 @@ class ApplicationInputMap final
 public:
 	ApplicationInputMap(MusaApp& app);
 
-	NODISCARD Input::ButtonState KeyUp(Input::Buttons input);
-	NODISCARD Input::ButtonState KeyDown(Input::Buttons input);
-	NODISCARD Input::ButtonState MouseDown(Input::Buttons mouseButton);
-	NODISCARD Input::ButtonState MouseUp(Input::Buttons mouseButton);
+	NODISCARD Input::DownState KeyUp(Input::Buttons input);
+	NODISCARD Input::DownState KeyDown(Input::Buttons input);
+	NODISCARD Input::DownState MouseDown(Input::Buttons mouseButton);
+	NODISCARD Input::DownState MouseUp(Input::Buttons mouseButton);
 	void MouseMove(const IntVector2& mousePosition);
 	void SetGamepadInformation(const Input::GamepadStates& states, const Input::ActiveGamepads& activeGamepads);
 

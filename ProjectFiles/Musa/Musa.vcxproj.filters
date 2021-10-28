@@ -276,9 +276,6 @@
     <ClCompile Include="..\..\Source\Musa\Input\ApplicationInputMap.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.cpp">
-      <Filter>Source\Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Musa\ECS\Systems\GodCamSystem.cpp">
       <Filter>Source\ECS\Systems</Filter>
     </ClCompile>
@@ -295,6 +292,9 @@
       <Filter>Source\GameObject\DemoObjects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Musa\Input\InputMap.cpp">
+      <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Musa\Input\ApplicationEventRouter.cpp">
       <Filter>Source\Input</Filter>
     </ClCompile>
   </ItemGroup>
@@ -587,9 +587,6 @@
     <ClInclude Include="..\..\Source\Musa\Input\ApplicationInputMap.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.hpp">
-      <Filter>Source\Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Musa\ECS\Components\MouseMoveEventComponent.hpp">
       <Filter>Source\ECS\Components</Filter>
     </ClInclude>
@@ -628,6 +625,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Musa\MusaAPI.hpp">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventRouter.hpp">
+      <Filter>Source\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

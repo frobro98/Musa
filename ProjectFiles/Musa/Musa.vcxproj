@@ -49,7 +49,7 @@
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.cpp" />
     <ClCompile Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.cpp" />
-    <ClCompile Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.cpp" />
+    <ClCompile Include="..\..\Source\Musa\Input\ApplicationEventRouter.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\Input.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\InputEvents.cpp" />
     <ClCompile Include="..\..\Source\Musa\Input\InputContext.cpp" />
@@ -146,7 +146,7 @@
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\OrbitOtherObject.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\ScaleChangingObject.hpp" />
     <ClInclude Include="..\..\Source\Musa\GameObject\DemoGameObjects\SpinningObject.hpp" />
-    <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventDispatcher.hpp" />
+    <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventRouter.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\IInputReceiver.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\Input.hpp" />
     <ClInclude Include="..\..\Source\Musa\Input\InputContextID.hpp" />

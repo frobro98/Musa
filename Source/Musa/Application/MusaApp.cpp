@@ -22,22 +22,18 @@ constexpr i32 windowWidth = 1080;
 constexpr i32 windowHeight = 720;
 
 MusaApp::MusaApp()
+	: inputMap(*this)
 {
 	uiContext = MakeUnique<UI::Context>(windowWidth, windowHeight);
 }
 
 void MusaApp::LaunchApplication()
 {
-	AppInit();
-
 	// TODO - Should be some sort of function...?
 	frameTick.Start();
 	gIsRunning = true;
 
-	InitializeOSInput();
-	InitializeApplicationWindow();
-
-	SetupGameEngine();
+	AppInit();
 
 	while (gIsRunning)
 	{
@@ -47,11 +43,11 @@ void MusaApp::LaunchApplication()
 
 		Frame::SetFrameStats({ tick });
 
+		// TODO - Should pass this along to the game itself
+		ProcessApplicationInputs();
+
 		AppLoop(tick);
 	}
-
-	// TODO - Shutdown stuff for the application...
-	TearDownGameEngine();
 
 	AppDeinit();
 }
@@ -70,6 +66,11 @@ void MusaApp::CloseWindow()
 
 void MusaApp::Activation(bool /*activated*/)
 {
+}
+
+void MusaApp::SetRawMouseInput(bool shouldEnable)
+{
+	osApp->SetRawMouseInput(shouldEnable, *appWindow);
 }
 
 void MusaApp::LockCursor()
@@ -105,11 +106,10 @@ IntVector2 MusaApp::GetMousePosition() const
 
 void MusaApp::InitializeOSInput()
 {
-	inputMap = MakeUnique<ApplicationInputMap>(*this);
-	inputDispatcher = MakeUnique<ApplicationEventDispatcher>(*this);
-	Input::InitializeInput(*inputMap);
+	inputDispatcher = MakeUnique<ApplicationEventRouter>();
+	Input::InitializeInput(inputMap);
 
-	osApp = new MusaAppWindows(*this);
+	osApp = MakeUnique<MusaAppWindows>();
 }
 
 void MusaApp::InitializeApplicationWindow()
@@ -123,25 +123,8 @@ void MusaApp::InitializeApplicationWindow()
 	uiContext->SetWindow(*appWindow);
 }
 
-void MusaApp::SetupGameEngine()
-{
-	gameEngine = MakeUnique<MusaEngine>(*uiContext, *inputDispatcher);
-	gameEngine->SetInputHandler(*inputMap);
-
-	gameEngine->StartupEngine(*appWindow);
-
-	gameEngine->LoadContent();
-}
-
-void MusaApp::TearDownGameEngine()
-{
-	gameEngine->UnloadContent();
-	gameEngine->ShutdownEngine();
-	gameEngine.Reset();
-}
-
 void MusaApp::ProcessApplicationInputs()
 {
-	osApp->ProcessInputEvents();
-	osApp->ProcessNativeGamepad();
+	osApp->ProcessInputEvents(inputMap);
+	osApp->ProcessNativeGamepad(inputMap, *inputDispatcher);
 }

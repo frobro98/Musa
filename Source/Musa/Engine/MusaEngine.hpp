@@ -14,17 +14,17 @@
 class Window;
 class ProfilerStatistics;
 class ApplicationInputMap;
-class ApplicationEventDispatcher;
+class ApplicationEventRouter;
 
 namespace UI
 {
 class Context;
 }
 
-class MusaEngine final
+class MUSA_API MusaEngine final
 {
 public:
-	MusaEngine(UI::Context& context, const ApplicationEventDispatcher& inputDispatcher);
+	MusaEngine(UI::Context& context, const ApplicationEventRouter& inputDispatcher);
 
 	void StartupEngine(Window& window);
 	void ShutdownEngine();
@@ -35,8 +35,8 @@ public:
 	void LoadContent();
 	void UnloadContent();
 	
-	void MUSA_API UpdateAndRender(f32 tick);
-	void MUSA_API GatherFrameMetrics();
+	void UpdateAndRender(f32 tick);
+	void GatherFrameMetrics();
 
 	void SetInputHandler(ApplicationInputMap& inputHandler);
 
@@ -51,7 +51,7 @@ private:
 	UniquePtr<Viewport> viewport;
 	UniquePtr<ScreenView> screenView;
 	UniquePtr<Musa::RenderPipeline> renderPipeline;
-	const ApplicationEventDispatcher& inputDispatcher;
+	const ApplicationEventRouter& inputDispatcher;
 	UI::Context* uiContext = nullptr;
 
 	ApplicationInputMap* inputMap = nullptr;

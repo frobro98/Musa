@@ -27,6 +27,7 @@ public:
 	UniquePtr& operator=(UniquePtr<Type>&& other) noexcept
 	{
 		Reset(other.Release());
+		return *this;
 	}
 
 	UniquePtr(const UniquePtr&) = delete;

@@ -12,26 +12,24 @@ class MusaApp;
 
 namespace Input
 {
-struct ButtonState;
+struct DownState;
 }
 
-class ApplicationEventDispatcher
+class ApplicationEventRouter
 {
 public:
-	ApplicationEventDispatcher(MusaApp& app);
-
 	// Handle Application Events that then get dispatched if needed to the game
-	void HandleKeyDown(Input::Buttons key, const Input::ButtonState& input, bool isRepeated);
-	void HandleKeyUp(Input::Buttons key, const Input::ButtonState& input);
+	void HandleKeyDown(Input::Buttons key, const Input::DownState& input, bool isRepeated);
+	void HandleKeyUp(Input::Buttons key, const Input::DownState& input);
 	void HandleKeyChar(tchar c, bool isRepeated);
 
-	void HandleMouseDown(Input::Buttons mouse, const Input::ButtonState& inputState);
-	void HandleMouseUp(Input::Buttons mouse, const Input::ButtonState& inputState);
+	void HandleMouseDown(Input::Buttons mouse, const Input::DownState& inputState);
+	void HandleMouseUp(Input::Buttons mouse, const Input::DownState& inputState);
 	void HandleMouseMove(const IntVector2& mousePosition);
 	void HandleRawMouseMove(const IntVector2& mousePosition, const IntVector2& deltaPosition);
 
-	void HandleControllerButtonDown(u32 controllerIndex, Input::Buttons gamepadInput, const Input::ButtonState& state);
-	void HandleControllerButtonUp(u32 controllerIndex, Input::Buttons gamepadInput, const Input::ButtonState& state);
+	void HandleControllerButtonDown(u32 controllerIndex, Input::Buttons gamepadInput, const Input::DownState& state);
+	void HandleControllerButtonUp(u32 controllerIndex, Input::Buttons gamepadInput, const Input::DownState& state);
 	void HandleControllerAnalogChange(u32 controllerIndex, Input::Buttons gamepadInput, f32 normValue);
 
 	void HandleWindowResizeEvent(const IntVector2& newWindowdimensions);
@@ -39,6 +37,5 @@ public:
 	void HandleWindowActivationChanged(bool activated);
 
 private:
-	MusaApp& application;
 	IntVector2 previousPosition;
 };

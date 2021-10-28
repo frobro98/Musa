@@ -8,30 +8,6 @@
 #include "Input/InputDefinitions.hpp"
 #include "Input/Input.hpp"
 
-struct ButtonEvent
-{
-	// Key and mouse, state
-	Input::Buttons button;
-	Input::ButtonEventType eventType;
-	Input::ButtonState state;
-	bool isRepeated;
-};
-
-// TODO - MouseMoveEvent and AnalogChangeEvent could be put together
-struct MouseMoveEvent
-{
-	// current, previous, delta
-	IntVector2 currentPosition;
-	IntVector2 previousPosition;
-	IntVector2 deltaPosition;
-};
-
-struct AnalogChangeEvent
-{
-	Input::Buttons analogButton;
-	f32 normValue;
-};
-
 // Application Events
 struct WindowResizeEvent
 {

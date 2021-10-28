@@ -14,17 +14,57 @@ class ApplicationInputMap;
 
 namespace Input
 {
-enum class ButtonEventType
+enum class ButtonState : u8
 {
 	Pressed,
 	Repeated,
 	Released
 };
 
-struct ButtonState
+enum class EventType
+{
+	Button,
+	Mouse,
+	Analog
+};
+
+struct DownState
 {
 	u8 endedDown : 1;
 	u8 previouslyDown : 1;
+};
+static_assert(sizeof(DownState) == sizeof(u8));
+
+struct ButtonEvent
+{
+	Buttons button;
+	ButtonState buttonState;
+	DownState downState;
+	bool isRepeated;
+};
+
+struct AnalogEvent
+{
+	Buttons analogButton;
+	f32 normValue;
+};
+
+struct MouseEvent
+{
+	IntVector2 currentPosition;
+	IntVector2 previousPosition;
+	IntVector2 deltaPosition;
+};
+
+struct Event
+{
+	union
+	{
+		ButtonEvent buttonEvent;
+		AnalogEvent analogEvent;
+		MouseEvent mouseEvent;
+	};
+	EventType type;
 };
 
 constexpr u32 MaxSupportedControllers = 4;
@@ -38,11 +78,11 @@ struct GamepadState
 	f32 rightTrigger;
 
 	// Button frame state
-	StaticArray<ButtonState, Input::GP_Max> buttonStates;
+	StaticArray<DownState, Input::GP_Max> buttonStates;
 	bool active;
 };
 
-using StateMap = StaticArray<Input::ButtonState, Input::KM_Max>;
+using StateMap = StaticArray<Input::DownState, Input::KM_Max>;
 using GamepadStates = StaticArray<Input::GamepadState, Input::MaxSupportedControllers>;
 using ActiveGamepads = StaticArray<bool, Input::MaxSupportedControllers>;
 

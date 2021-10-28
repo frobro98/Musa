@@ -3,9 +3,9 @@
 #pragma once
 
 #include "ECS/Component.hpp"
-#include "Input/InputEvents.hpp"
+#include "Input/Input.hpp"
 
 struct ButtonEventComponent : Musa::Component
 {
-	ButtonEvent event;
+	Input::ButtonEvent event;
 };

@@ -3,10 +3,10 @@
 #pragma once
 
 #include "ECS/Component.hpp"
-#include "Input/InputEvents.hpp"
+#include "Input/Input.hpp"
 
 struct AnalogChangeEventComponent : Musa::Component
 {
-	AnalogChangeEvent event;
+	Input::AnalogEvent event;
 };
 

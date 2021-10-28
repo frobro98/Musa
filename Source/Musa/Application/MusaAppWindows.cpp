@@ -3,6 +3,7 @@
 #include "Platform/Platform.hpp"
 #include <xinput.h>
 
+#include "Musa.hpp"
 #include "MusaAppWindows.hpp"
 #include "Application/MusaApp.hpp"
 #include "Window/Window.h"
@@ -167,7 +168,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 	MusaApp* application = (MusaApp*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if(application != nullptr)
 	{
-		ApplicationEventDispatcher& eventDispatcher = application->GetInputDispatcher();
+		ApplicationEventRouter& eventRouter = application->GetInputRouter();
 		ApplicationInputMap& inputMap = application->GetInputMap();
 
 		switch (message)
@@ -190,14 +191,14 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 					MUSA_DEBUG(Win32, "Windows App Deactivated");
 				}
 
-				eventDispatcher.HandleWindowActivationChanged(activated);
+				eventRouter.HandleWindowActivationChanged(activated);
 			}break;
 
 			case  WM_CLOSE:
 			{
 				MUSA_DEBUG(Win32, "Window Close Event");
 
-				eventDispatcher.HandleWindowCloseEvent();
+				eventRouter.HandleWindowCloseEvent();
 			}break;
 
 			case WM_DESTROY:
@@ -211,7 +212,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 				u32 width = LOWORD(lParam);
 				u32 height = HIWORD(lParam);
-				eventDispatcher.HandleWindowResizeEvent(IntVector2(width, height));
+				eventRouter.HandleWindowResizeEvent(IntVector2(width, height));
 			}break;
 
 			case WM_SETCURSOR:
@@ -226,8 +227,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_XBUTTONDOWN:
 			{
 				Input::Buttons mouseButton = GetMouseType(message, wParam);
-				Input::ButtonState buttonState = inputMap.MouseDown(mouseButton);
-				eventDispatcher.HandleMouseDown(mouseButton, buttonState);
+				Input::DownState buttonState = inputMap.MouseDown(mouseButton);
+				eventRouter.HandleMouseDown(mouseButton, buttonState);
 			}break;
 
 			case WM_LBUTTONUP:
@@ -236,8 +237,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			case WM_XBUTTONUP:
 			{
 				Input::Buttons mouseButton = GetMouseType(message, wParam);
-				Input::ButtonState buttonState = inputMap.MouseUp(mouseButton);
-				eventDispatcher.HandleMouseUp(mouseButton, buttonState);
+				Input::DownState buttonState = inputMap.MouseUp(mouseButton);
+				eventRouter.HandleMouseUp(mouseButton, buttonState);
 			}break;
 
 			case WM_SYSKEYDOWN:
@@ -251,8 +252,13 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				Input::Buttons input = ConvertWin32ToMusaInput(vkCode);
 				Assert(input != Input::_INPUT_ENUM_MAX_);
 
-				Input::ButtonState buttonState = inputMap.KeyDown(input);
-				eventDispatcher.HandleKeyDown(input, buttonState, repeated);
+				if (input == Input::Key_Escape)
+				{
+					application->CloseWindow();
+				}
+
+				Input::DownState buttonState = inputMap.KeyDown(input);
+				eventRouter.HandleKeyDown(input, buttonState, repeated);
 
 			}break;
 
@@ -265,8 +271,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				Input::Buttons input = ConvertWin32ToMusaInput(vkCode);
 				Assert(input != Input::_INPUT_ENUM_MAX_);
 
-				Input::ButtonState buttonState = inputMap.KeyUp(input);
-				eventDispatcher.HandleKeyUp(input, buttonState);
+				Input::DownState buttonState = inputMap.KeyUp(input);
+				eventRouter.HandleKeyUp(input, buttonState);
 			}break;
 
 			case WM_CHAR:
@@ -277,7 +283,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				// 30th bit containing the prev state of the character...
 				bool repeated = (lParam & 0x40000000) != 0;
 				
-				eventDispatcher.HandleKeyChar(c, repeated);
+				eventRouter.HandleKeyChar(c, repeated);
 			}break;
 
 			// According to multiple sources, this kind of mouse movement message when the mouse is hidden because:
@@ -302,7 +308,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 						IntVector2 deltaPosition(rawInput->data.mouse.lLastX, rawInput->data.mouse.lLastY);
 
 						inputMap.MouseMove(currentPosition);
-						eventDispatcher.HandleRawMouseMove(currentPosition, deltaPosition);
+						eventRouter.HandleRawMouseMove(currentPosition, deltaPosition);
 					}
 				}
 			}break;
@@ -314,7 +320,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				
 				IntVector2 currentPosition(cursor.x, cursor.y);
 				inputMap.MouseMove(currentPosition);
-				eventDispatcher.HandleMouseMove(currentPosition);
+				eventRouter.HandleMouseMove(currentPosition);
 				
 			}break;
 
@@ -346,7 +352,7 @@ static const Input::Buttons ControllerButtons[] = {
 	Input::Gamepad_YButton,
 };
 
-void ProcessAnalogControllerInputs(ApplicationEventDispatcher& eventDispatcher, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, Input::GamepadState& state)
+void ProcessAnalogControllerInputs(ApplicationEventRouter& eventDispatcher, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, Input::GamepadState& state)
 {
 	// Deadzone checking
 	if (//state.leftStick.x != xinputGamepad.sThumbLX ||
@@ -390,7 +396,7 @@ void ProcessAnalogControllerInputs(ApplicationEventDispatcher& eventDispatcher, 
 	}
 }
 
-void ProcessControllerButtons(ApplicationEventDispatcher& eventDispatcher, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, Input::GamepadState& state)
+void ProcessControllerButtons(ApplicationEventRouter& eventDispatcher, u32 controllerIndex, const XINPUT_GAMEPAD& xinputGamepad, Input::GamepadState& state)
 {
 	StaticArray<bool, Input::GP_Max> currentButtonState;
 	currentButtonState[0] = (xinputGamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0;
@@ -433,8 +439,7 @@ void ProcessControllerButtons(ApplicationEventDispatcher& eventDispatcher, u32 c
 // MusaAppWindows
 //////////////////////////////////////////////////////////////////////////
 
-MusaAppWindows::MusaAppWindows(MusaApp& app)
-	: MusaAppOS(app)
+MusaAppWindows::MusaAppWindows()
 {
 	MUSA_INFO(Win32, "Initializing Windows Application");
 
@@ -463,7 +468,8 @@ Window* MusaAppWindows::CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 heig
 	MUSA_DEBUG(Win32, "Create Win32 Window (x: {} y: {} w: {} h: {}",
 		xPos, yPos, width, height);
 
-	return new Window(instance, owningApplication, xPos, yPos, width, height);
+	Assert(gApp);
+	return new Window(instance, *gApp, xPos, yPos, width, height);
 }
 
 void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
@@ -522,7 +528,7 @@ void MusaAppWindows::UnlockCursorFromRect()
 	::ClipCursor(nullptr);
 }
 
-void MusaAppWindows::ProcessNativeGamepad()
+void MusaAppWindows::ProcessNativeGamepad(ApplicationInputMap& inputMap, ApplicationEventRouter& inputDispatcher)
 {
 	// NOTE - I could check if controllers are actually connected? Don't really know what that gets me though
 
@@ -542,19 +548,19 @@ void MusaAppWindows::ProcessNativeGamepad()
 			const XINPUT_GAMEPAD& gamepad = state.Gamepad;
 
 			// Stick processing
-			ProcessAnalogControllerInputs(owningApplication.GetInputDispatcher(), i, gamepad, musaGamepad);
+			ProcessAnalogControllerInputs(inputDispatcher, i, gamepad, musaGamepad);
 
 			// Button processing
-			ProcessControllerButtons(owningApplication.GetInputDispatcher(), i, gamepad, musaGamepad);
+			ProcessControllerButtons(inputDispatcher, i, gamepad, musaGamepad);
 		}
 	}
 
-	owningApplication.GetInputMap().SetGamepadInformation(controllers, activeControllers);
+	inputMap.SetGamepadInformation(controllers, activeControllers);
 }
 
-void MusaAppWindows::ProcessInputEvents()
+void MusaAppWindows::ProcessInputEvents(ApplicationInputMap& inputMap)
 {
-	owningApplication.GetInputMap().PrepInputForFrame();
+	inputMap.PrepInputForFrame();
 
 	SCOPED_TIMED_BLOCK(PumpMessages);
 	MSG Message;

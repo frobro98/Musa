@@ -3,13 +3,12 @@
 #pragma once
 
 #include "BasicTypes/UniquePtr.hpp"
-#include "Engine/MusaEngine.hpp"
 #include "Application/MusaAppOS.hpp"
 #include "Window/Window.h"
 #include "UI/UIContext.hpp"
 #include "Time/EngineTick.h"
 #include "Input/ApplicationInputMap.hpp"
-#include "Input/ApplicationEventDispatcher.hpp"
+#include "Input/ApplicationEventRouter.hpp"
 #include "MusaAPI.hpp"
 
 class MUSA_API MusaApp
@@ -20,41 +19,36 @@ public:
 
 	void LaunchApplication();
 
-	forceinline MusaAppOS& GetOSApp() const { return *osApp; }
-	forceinline ApplicationInputMap& GetInputMap() { return *inputMap; }
-	forceinline ApplicationEventDispatcher& GetInputDispatcher() { return *inputDispatcher; }
+	virtual void AppInit() = 0;
+	virtual void AppLoop(f32 tick) = 0;
+	virtual void AppDeinit() = 0;
+
+	forceinline ApplicationInputMap& GetInputMap() { return inputMap; }
+	forceinline ApplicationEventRouter& GetInputRouter() { return *inputDispatcher; }
 
 	// Application events
 	void ResizeWindow(const IntVector2& newDimensions);
 	void CloseWindow();
 	void Activation(bool activated);
 
+	void SetRawMouseInput(bool shouldEnable);
 	void LockCursor();
 	void UnlockCursor();
 	void ShowCursor(bool showCursor);
 	void SetMousePosition(const IntVector2& mousePos);
 	IntVector2 GetMousePosition() const;
 
-	virtual void AppInit() = 0;
-	virtual void AppLoop(f32 tick) = 0;
-	virtual void AppDeinit() = 0;
-
-private:
+protected:
 	void InitializeOSInput();
 	void InitializeApplicationWindow();
-	void SetupGameEngine();
-	void TearDownGameEngine();
-
-protected:
 	void ProcessApplicationInputs();
 
 protected:
-	UniquePtr<MusaEngine> gameEngine;
+	ApplicationInputMap inputMap;
 	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
-	UniquePtr<ApplicationInputMap> inputMap;
-	UniquePtr<ApplicationEventDispatcher> inputDispatcher;
-	MusaAppOS* osApp;
+	UniquePtr<ApplicationEventRouter> inputDispatcher;
+	UniquePtr<MusaAppOS> osApp;
 
 private:
 	EngineTick frameTick;

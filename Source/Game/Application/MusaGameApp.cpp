@@ -45,14 +45,20 @@ void MusaGameApp::AppInit()
 
 	MUSA_INFO(GameAppLog, "Initializing Graphics Layer");
 	GetGraphicsInterface().InitializeGraphics();
+
+	InitializeOSInput();
+	InitializeApplicationWindow();
+
+	gameEngine = MakeUnique<MusaEngine>(*uiContext, *inputDispatcher);
+	gameEngine->SetInputHandler(inputMap);
+
+	gameEngine->StartupEngine(*appWindow);
+
+	gameEngine->LoadContent();
 }
 
 void MusaGameApp::AppLoop(f32 tick)
 {
-	// TODO - Should be passed in here, no processing of input here
-	// Process input
-	ProcessApplicationInputs();
-
 	gameEngine->UpdateAndRender(tick);
 
 	gameEngine->GatherFrameMetrics();
@@ -60,6 +66,10 @@ void MusaGameApp::AppLoop(f32 tick)
 
 void MusaGameApp::AppDeinit()
 {
+	gameEngine->UnloadContent();
+	gameEngine->ShutdownEngine();
+	gameEngine.Reset();
+
 	// TODO - image views are trying to be destroyed when still in use by command buffer in flight...
 	GetGraphicsInterface().DeinitializeGraphics();
 }

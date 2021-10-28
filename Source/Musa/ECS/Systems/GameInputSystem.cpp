@@ -41,7 +41,7 @@ static void ProcessButtonEvents(GameInputComponent& gameInput, DynamicArray<Chun
 			Input::Buttons button = buttonEvent.event.button;
 			Assert(button < Input::Buttons::KM_Max);
 
-			Input::ButtonState state = buttonEvent.event.state;
+			Input::DownState state = buttonEvent.event.downState;
 			bool isPressed = state.endedDown && !state.previouslyDown;
 			bool isReleased = !state.endedDown && state.previouslyDown;
 			
@@ -52,7 +52,7 @@ static void ProcessButtonEvents(GameInputComponent& gameInput, DynamicArray<Chun
 			{
 				if (isPressed)
 				{
-					gameInput.inputActions.Add(InputAction{ button, Input::ButtonEventType::Pressed });
+					gameInput.inputActions.Add(InputAction{ button, Input::ButtonState::Pressed });
 				}
 			}
 			if (ContainsInputAsState(button, *context.inputConext))

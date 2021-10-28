@@ -11,10 +11,10 @@
 ApplicationInputMap::ApplicationInputMap(MusaApp& app)
 	: application(app)
 {
-	ZeroMem(inputMap.internalData, sizeof(Input::ButtonState) * inputMap.Size());
+	ZeroMem(inputMap.internalData, sizeof(Input::DownState) * inputMap.Size());
 }
 
-Input::ButtonState ApplicationInputMap::KeyUp(Input::Buttons input)
+Input::DownState ApplicationInputMap::KeyUp(Input::Buttons input)
 {
 	inputMap[input].endedDown = false;
 	return inputMap[input];
@@ -32,7 +32,7 @@ Input::ButtonState ApplicationInputMap::KeyUp(Input::Buttons input)
 // 	}
 }
 
-Input::ButtonState ApplicationInputMap::KeyDown(Input::Buttons input)
+Input::DownState ApplicationInputMap::KeyDown(Input::Buttons input)
 {
 	inputMap[input].endedDown = true;
 	return inputMap[input];
@@ -50,7 +50,7 @@ Input::ButtonState ApplicationInputMap::KeyDown(Input::Buttons input)
 // 	}
 }
 
-Input::ButtonState ApplicationInputMap::MouseDown(Input::Buttons mouseButton)
+Input::DownState ApplicationInputMap::MouseDown(Input::Buttons mouseButton)
 {
 	inputMap[mouseButton].endedDown = true;
 	return inputMap[mouseButton];
@@ -68,7 +68,7 @@ Input::ButtonState ApplicationInputMap::MouseDown(Input::Buttons mouseButton)
 // 	}
 }
 
-Input::ButtonState ApplicationInputMap::MouseUp(Input::Buttons mouseButton)
+Input::DownState ApplicationInputMap::MouseUp(Input::Buttons mouseButton)
 {
 	inputMap[mouseButton].endedDown = false;
 	return inputMap[mouseButton];
@@ -283,13 +283,13 @@ void ApplicationInputMap::PrepInputForFrame()
 
 bool ApplicationInputMap::IsPressed(Input::Buttons key)
 {
-	const Input::ButtonState state = inputMap[key];
+	const Input::DownState state = inputMap[key];
 	return state.endedDown && !state.previouslyDown;
 }
 
 bool ApplicationInputMap::IsDown(Input::Buttons key)
 {
-	const Input::ButtonState state = inputMap[key];
+	const Input::DownState state = inputMap[key];
 	return state.endedDown;
 }
 
