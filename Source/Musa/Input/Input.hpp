@@ -10,6 +10,8 @@
 #include "Math/Vector2.hpp"
 #include "Math/IntVector2.hpp"
 
+#include "MusaAPI.hpp"
+
 class ApplicationInputMap;
 
 namespace Input
@@ -88,7 +90,7 @@ using ActiveGamepads = StaticArray<bool, Input::MaxSupportedControllers>;
 
 void InitializeInput(ApplicationInputMap& inputHandler);
 
-bool IsPressed(Input::Buttons key);
-bool IsDown(Input::Buttons key);
-IntVector2 GetMousePosition();
+bool MUSA_API IsPressed(Input::Buttons key);
+bool MUSA_API IsDown(Input::Buttons key);
+IntVector2 MUSA_API GetMousePosition();
 }

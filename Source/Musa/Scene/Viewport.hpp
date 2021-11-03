@@ -6,8 +6,9 @@
 #include "BasicTypes/UniquePtr.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Engine/FrameRenderTargets.hpp"
+#include "MusaAPI.hpp"
 
-class Viewport final
+class MUSA_API Viewport final
 {
 public:
 	Viewport(void* windowHandle, u32 width, u32 height);

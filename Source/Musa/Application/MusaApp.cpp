@@ -46,7 +46,7 @@ void MusaApp::LaunchApplication()
 		// TODO - Should pass this along to the game itself
 		ProcessApplicationInputs();
 
-		AppLoop(tick);
+		AppLoop(tick, DynamicArray<Input::Event>{});
 	}
 
 	AppDeinit();
@@ -106,7 +106,7 @@ IntVector2 MusaApp::GetMousePosition() const
 
 void MusaApp::InitializeOSInput()
 {
-	inputDispatcher = MakeUnique<ApplicationEventRouter>();
+	inputRouter = MakeUnique<ApplicationEventRouter>();
 	Input::InitializeInput(inputMap);
 
 	osApp = MakeUnique<MusaAppWindows>();
@@ -126,5 +126,5 @@ void MusaApp::InitializeApplicationWindow()
 void MusaApp::ProcessApplicationInputs()
 {
 	osApp->ProcessInputEvents(inputMap);
-	osApp->ProcessNativeGamepad(inputMap, *inputDispatcher);
+	osApp->ProcessNativeGamepad(inputMap, *inputRouter);
 }

@@ -4,6 +4,7 @@
 
 #include "Math/IntVector2.hpp"
 #include "BasicTypes/Uncopyable.hpp"
+#include "MusaAPI.hpp"
 
 class MusaApp;
 
@@ -14,7 +15,7 @@ enum class WindowMode : u32
 	Undefined = 2
 };
 
-class Window : private Uncopyable
+class MUSA_API Window : private Uncopyable
 {
 public:
 	Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 width, u32 height);

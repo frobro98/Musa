@@ -7,6 +7,6 @@ class MusaEditorApp final : public MusaApp
 {
 public:
 	virtual void AppInit() override;
-	virtual void AppLoop(f32 tick) override;
+	virtual void AppLoop(f32 tick, const DynamicArray<Input::Event>& frameInputs) override;
 	virtual void AppDeinit() override;
 };

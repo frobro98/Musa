@@ -143,9 +143,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Editor\Application\MusaEditorApp.cpp" />
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui.cpp" />
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_demo.cpp" />
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_tables.cpp" />
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Editor\Application\MusaEditorApp.hpp" />
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imconfig.h" />
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imgui.h" />
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imgui_internal.h" />
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imstb_rectpack.h" />
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imstb_textedit.h" />
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imstb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

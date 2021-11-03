@@ -7,15 +7,51 @@
     <Filter Include="Source\Application">
       <UniqueIdentifier>{7236e061-fad0-4958-955c-f0dd16cb844e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\ImGUI">
+      <UniqueIdentifier>{e4d6f31b-b26d-4c99-8801-22df9e585413}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Editor\Application\MusaEditorApp.cpp">
       <Filter>Source\Application</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_draw.cpp">
+      <Filter>Source\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_tables.cpp">
+      <Filter>Source\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_widgets.cpp">
+      <Filter>Source\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui.cpp">
+      <Filter>Source\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Editor\ImGUI\imgui_demo.cpp">
+      <Filter>Source\ImGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Editor\Application\MusaEditorApp.hpp">
       <Filter>Source\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imgui_internal.h">
+      <Filter>Source\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imconfig.h">
+      <Filter>Source\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imgui.h">
+      <Filter>Source\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imstb_textedit.h">
+      <Filter>Source\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imstb_truetype.h">
+      <Filter>Source\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Editor\ImGUI\imstb_rectpack.h">
+      <Filter>Source\ImGUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

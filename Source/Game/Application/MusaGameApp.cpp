@@ -49,7 +49,7 @@ void MusaGameApp::AppInit()
 	InitializeOSInput();
 	InitializeApplicationWindow();
 
-	gameEngine = MakeUnique<MusaEngine>(*uiContext, *inputDispatcher);
+	gameEngine = MakeUnique<MusaEngine>(*uiContext, *inputRouter);
 	gameEngine->SetInputHandler(inputMap);
 
 	gameEngine->StartupEngine(*appWindow);
@@ -57,8 +57,11 @@ void MusaGameApp::AppInit()
 	gameEngine->LoadContent();
 }
 
-void MusaGameApp::AppLoop(f32 tick)
+void MusaGameApp::AppLoop(f32 tick, const DynamicArray<Input::Event>& /*frameInputs*/)
 {
+	// Process Inputs that happened this frame
+
+
 	gameEngine->UpdateAndRender(tick);
 
 	gameEngine->GatherFrameMetrics();

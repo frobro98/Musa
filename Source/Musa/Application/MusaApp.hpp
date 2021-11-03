@@ -20,11 +20,11 @@ public:
 	void LaunchApplication();
 
 	virtual void AppInit() = 0;
-	virtual void AppLoop(f32 tick) = 0;
+	virtual void AppLoop(f32 tick, const DynamicArray<Input::Event>& frameInputs) = 0;
 	virtual void AppDeinit() = 0;
 
 	forceinline ApplicationInputMap& GetInputMap() { return inputMap; }
-	forceinline ApplicationEventRouter& GetInputRouter() { return *inputDispatcher; }
+	forceinline ApplicationEventRouter& GetInputRouter() { return *inputRouter; }
 
 	// Application events
 	void ResizeWindow(const IntVector2& newDimensions);
@@ -47,7 +47,7 @@ protected:
 	ApplicationInputMap inputMap;
 	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
-	UniquePtr<ApplicationEventRouter> inputDispatcher;
+	UniquePtr<ApplicationEventRouter> inputRouter;
 	UniquePtr<MusaAppOS> osApp;
 
 private:
