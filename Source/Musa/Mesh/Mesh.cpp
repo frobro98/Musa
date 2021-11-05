@@ -28,3 +28,9 @@ Mesh::Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceL
 	boundingSphere(colInfo)
 {
 }
+
+Mesh::~Mesh()
+{
+	GetGraphicsInterface().DestroyVertexBuffer(vertexBuffer);
+	GetGraphicsInterface().DestroyIndexBuffer(indexBuffer);
+}

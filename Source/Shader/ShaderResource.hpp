@@ -15,17 +15,18 @@ class ShaderResource
 {
 public:
 	ShaderResource(const ShaderHeader& header, const MemoryBuffer& codeBuffer);
+	~ShaderResource();
 
 	forceinline NativeVertexShader* GetVertexShader()
 	{
 		Assert(header.stage == ShaderStage::Vertex);
-		return vertexShader.Get();
+		return vertexShader;
 	}
 
 	forceinline NativeFragmentShader* GetFragmentShader()
 	{
 		Assert(header.stage == ShaderStage::Fragment);
-		return fragmentShader.Get();
+		return fragmentShader;
 	}
 
 	forceinline ShaderID GetShaderID() const { return header.id; }
@@ -36,6 +37,6 @@ public:
 private:
 	MemoryBuffer code;
 	ShaderHeader header;
-	UniquePtr<NativeVertexShader> vertexShader = nullptr;
-	UniquePtr<NativeFragmentShader> fragmentShader = nullptr;
+	NativeVertexShader* vertexShader = nullptr;
+	NativeFragmentShader* fragmentShader = nullptr;
 };

@@ -14,27 +14,42 @@ public:
 	virtual void InitializeGraphics() override;
 	virtual void DeinitializeGraphics() override;
 
-	virtual UniquePtr<NativeVertexShader> CreateVertexShader(const MemoryBuffer& vertexCode) override;
-	virtual UniquePtr<NativeFragmentShader> CreateFragmentShader(const MemoryBuffer& fragmentCode) override;
-	virtual UniquePtr<NativeGeometryShader> CreateGeometryShader(const MemoryBuffer& geometryCode) override;
-	virtual UniquePtr<NativeTessEvaluationShader> CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode) override;
-	virtual UniquePtr<NativeTessControlShader> CreateTessControlShader(const MemoryBuffer& tessCtrlCode) override;
-	virtual UniquePtr<NativeComputeShader> CreateComputeShader(const MemoryBuffer& computeCode) override;
+	virtual NativeVertexShader* CreateVertexShader(const MemoryBuffer& vertexCode) override;
+	virtual NativeFragmentShader* CreateFragmentShader(const MemoryBuffer& fragmentCode) override;
+	virtual NativeGeometryShader* CreateGeometryShader(const MemoryBuffer& geometryCode) override;
+	virtual NativeTessEvaluationShader* CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode) override;
+	virtual NativeTessControlShader* CreateTessControlShader(const MemoryBuffer& tessCtrlCode) override;
+	virtual NativeComputeShader* CreateComputeShader(const MemoryBuffer& computeCode) override;
 
-	virtual UniquePtr<NativeViewport> CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight) override;
+	virtual void DestroyVertexShader(const NativeVertexShader* vs) override;
+	virtual void DestroyFragmentShader(const NativeFragmentShader* fs) override;
+	virtual void DestroyGeometryShader(const NativeGeometryShader* gs) override;
+	virtual void DestroyTessEvaluationShader(const NativeTessEvaluationShader* te) override;
+	virtual void DestroyTessControlShader(const NativeTessControlShader* tc) override;
+	virtual void DestroyComputeShader(const NativeComputeShader* cs) override;
 
-	virtual UniquePtr<NativeVertexBuffer> CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const override;
-	virtual UniquePtr<NativeIndexBuffer> CreateIndexBuffer(const DynamicArray<Face>& faces) const override;
-	virtual UniquePtr<NativeUniformBuffer> CreateUniformBuffer(u32 bufferSize) const override;
-	virtual void PushBufferData(NativeUniformBuffer& buffer, const void* data) const override;
+	virtual NativeViewport* CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight) override;
+	virtual void DestroyViewport(const NativeViewport* viewport) override;
 
-	virtual UniquePtr<NativeTexture> CreateEmptyTexture2D(u32 width, u32 height, ImageFormat textureFormat, u32 mipLevels, TextureUsage::Type usage) override;
-	virtual UniquePtr<NativeTexture> CreateInitializedTexture2D(const ResourceBlob& textureBlob, u32 width, u32 height, ImageFormat textureFormat, u32 mipLevels, TextureUsage::Type usage) override;
+	virtual NativeVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const override;
+	virtual NativeIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces) const override;
+	virtual NativeUniformBuffer* CreateUniformBuffer(u32 bufferSize) const override;
+
+	virtual void DestroyVertexBuffer(const NativeVertexBuffer* vb) const override;
+	virtual void DestroyIndexBuffer(const NativeIndexBuffer* ib) const override;
+	virtual void DestroyUniformBuffer(const NativeUniformBuffer* ub) const override;
+
+	virtual NativeTexture* CreateEmptyTexture2D(u32 width, u32 height, ImageFormat textureFormat, u32 mipLevels, TextureUsage::Type usage) override;
+	virtual NativeTexture* CreateInitializedTexture2D(const ResourceBlob& textureBlob, u32 width, u32 height, ImageFormat textureFormat, u32 mipLevels, TextureUsage::Type usage) override;
 	virtual NativeSampler* CreateTextureSampler(const SamplerDescription& params) override;
-	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) override;
+
+	virtual void DestroyTexture(const NativeTexture* tex) override;
 
 	virtual void* GetGraphicsDevice() override;
 	virtual RenderContext* GetRenderContext() override;
+
+	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) override;
+	virtual void PushBufferData(NativeUniformBuffer& buffer, const void* data) const override;
 
 private:
 	void CreateInstance();

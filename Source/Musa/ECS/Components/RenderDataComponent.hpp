@@ -12,7 +12,7 @@ struct RenderDataComponent : Musa::Component
 {
 	// TODO - These buffers don't live here because otherwise, this wouldn't be a component.
 	// There needs to be a clean way to implement this, or consider that this component isn't needed
-	UniquePtr<NativeUniformBuffer> primUniformBuffer;
-	UniquePtr<NativeUniformBuffer> materialPropsUniformBuffer;
+	NativeUniformBuffer* primUniformBuffer = nullptr;
+	NativeUniformBuffer* materialPropsUniformBuffer = nullptr;
 };
 

@@ -8,7 +8,7 @@
 
 class ShaderResource;
 
-class ShaderResourceManager
+class SHADER_API ShaderResourceManager
 {
 public:
 	ShaderResourceManager() = default;
@@ -23,7 +23,7 @@ private:
 	Map<ShaderID, ShaderResource*> resourceMap;
 };
 
-ShaderResourceManager& GetShaderResourceManager();
+SHADER_API ShaderResourceManager& GetShaderResourceManager();
 
 namespace Shader
 {

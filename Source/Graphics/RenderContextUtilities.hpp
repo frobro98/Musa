@@ -15,11 +15,13 @@ struct NativeRenderTargets;
 GRAPHICS_API void TransitionTargetsToRead(RenderContext& renderer, NativeRenderTargets& targets);
 GRAPHICS_API void TransitionTargetsToWrite(RenderContext& renderer, NativeRenderTargets& targets);
 
-GRAPHICS_API UniquePtr<RenderTarget> CreateRenderTarget(
+GRAPHICS_API RenderTarget* CreateRenderTarget(
 	ImageFormat format, 
 	u32 width, u32 height,
 	LoadOperation loadOp, StoreOperation storeOp,
 	LoadOperation stencilLoadOp, StoreOperation stencilStoreOp,
 	TextureUsage::Type usage
 );
+
+GRAPHICS_API void DestroyRenderTarget(RenderTarget* rt);
 

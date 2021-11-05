@@ -348,6 +348,8 @@ VkFormat MusaInputsToVk(VertexInputType type)
 			return VK_FORMAT_R32G32B32_SFLOAT;
 		case VertexInputType::F32_4:
 			return VK_FORMAT_R32G32B32A32_SFLOAT;
+		case VertexInputType::U32:
+			return VK_FORMAT_R8G8B8A8_UNORM;
 		default:
 			return VK_FORMAT_UNDEFINED;
 	}

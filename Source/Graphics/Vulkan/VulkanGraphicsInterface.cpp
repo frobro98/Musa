@@ -153,7 +153,7 @@ void VulkanGraphicsInterface::DeinitializeGraphics()
 	vkDestroyInstance(instance, nullptr);
 }
 
-UniquePtr<NativeVertexShader> VulkanGraphicsInterface::CreateVertexShader(const MemoryBuffer& vertexCode)
+NativeVertexShader* VulkanGraphicsInterface::CreateVertexShader(const MemoryBuffer& vertexCode)
 {
 	MUSA_DEBUG(VulkanLog, "Creating Vertex Shader");
 	MemoryDeserializer memoryBuffer(vertexCode);
@@ -165,10 +165,10 @@ UniquePtr<NativeVertexShader> VulkanGraphicsInterface::CreateVertexShader(const 
 	Assert(header.shaderStage == VK_SHADER_STAGE_VERTEX_BIT);
 	Deserialize(memoryBuffer, byteCode);
 
-	return MakeUnique<VulkanVertexShader>(*logicalDevice, header, byteCode);
+	return new VulkanVertexShader(*logicalDevice, header, byteCode);
 }
 
-UniquePtr<NativeFragmentShader> VulkanGraphicsInterface::CreateFragmentShader(const MemoryBuffer& fragmentCode)
+NativeFragmentShader* VulkanGraphicsInterface::CreateFragmentShader(const MemoryBuffer& fragmentCode)
 {
 	MUSA_DEBUG(VulkanLog, "Creating Fragment Shader");
 
@@ -181,10 +181,10 @@ UniquePtr<NativeFragmentShader> VulkanGraphicsInterface::CreateFragmentShader(co
 	Assert(header.shaderStage == VK_SHADER_STAGE_FRAGMENT_BIT);
 	Deserialize(memoryBuffer, byteCode);
 
-	return MakeUnique<VulkanFragmentShader>(*logicalDevice, header, byteCode);
+	return new VulkanFragmentShader(*logicalDevice, header, byteCode);
 }
 
-UniquePtr<NativeGeometryShader> VulkanGraphicsInterface::CreateGeometryShader(const MemoryBuffer& geometryCode)
+NativeGeometryShader* VulkanGraphicsInterface::CreateGeometryShader(const MemoryBuffer& geometryCode)
 {
 	MUSA_DEBUG(VulkanLog, "Creating Geometry Shader");
 
@@ -197,10 +197,10 @@ UniquePtr<NativeGeometryShader> VulkanGraphicsInterface::CreateGeometryShader(co
 	Assert(header.shaderStage == VK_SHADER_STAGE_GEOMETRY_BIT);
 	Deserialize(memoryBuffer, byteCode);
 
-	return MakeUnique<VulkanGeometryShader>(*logicalDevice, header, byteCode);
+	return new VulkanGeometryShader(*logicalDevice, header, byteCode);
 }
 
-UniquePtr<NativeTessEvaluationShader> VulkanGraphicsInterface::CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode)
+NativeTessEvaluationShader* VulkanGraphicsInterface::CreateTessEvaluationShader(const MemoryBuffer& tessEvalCode)
 {
 	MUSA_DEBUG(VulkanLog, "Creating Tessellation Evaluation Shader");
 
@@ -213,10 +213,10 @@ UniquePtr<NativeTessEvaluationShader> VulkanGraphicsInterface::CreateTessEvaluat
 	Assert(header.shaderStage == VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT);
 	Deserialize(memoryBuffer, byteCode);
 
-	return MakeUnique<VulkanTessEvaluationShader>(*logicalDevice, header, byteCode);
+	return new VulkanTessEvaluationShader(*logicalDevice, header, byteCode);
 }
 
-UniquePtr<NativeTessControlShader> VulkanGraphicsInterface::CreateTessControlShader(const MemoryBuffer& tessCtrlCode)
+NativeTessControlShader* VulkanGraphicsInterface::CreateTessControlShader(const MemoryBuffer& tessCtrlCode)
 {
 	MUSA_DEBUG(VulkanLog, "Creating Tessellation Control Shader");
 
@@ -229,10 +229,10 @@ UniquePtr<NativeTessControlShader> VulkanGraphicsInterface::CreateTessControlSha
 	Assert(header.shaderStage == VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT);
 	Deserialize(memoryBuffer, byteCode);
 
-	return MakeUnique<VulkanTessControlShader>(*logicalDevice, header, byteCode);
+	return new VulkanTessControlShader(*logicalDevice, header, byteCode);
 }
 
-UniquePtr<NativeComputeShader> VulkanGraphicsInterface::CreateComputeShader(const MemoryBuffer& computeCode)
+NativeComputeShader* VulkanGraphicsInterface::CreateComputeShader(const MemoryBuffer& computeCode)
 {
 	MUSA_DEBUG(VulkanLog, "Creating Compute Shader");
 
@@ -245,10 +245,47 @@ UniquePtr<NativeComputeShader> VulkanGraphicsInterface::CreateComputeShader(cons
 	Assert(header.shaderStage == VK_SHADER_STAGE_COMPUTE_BIT);
 	Deserialize(memoryBuffer, byteCode);
 
-	return MakeUnique<VulkanComputeShader>(*logicalDevice, header, byteCode);
+	return new VulkanComputeShader(*logicalDevice, header, byteCode);
 }
 
-UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(
+// TODO - This is fine for now, but it's not terribly great.....
+void VulkanGraphicsInterface::DestroyVertexShader(const NativeVertexShader* vs)
+{
+	const VulkanVertexShader* vkvs = reinterpret_cast<const VulkanVertexShader*>(vs);
+	delete vkvs;
+}
+
+void VulkanGraphicsInterface::DestroyFragmentShader(const NativeFragmentShader * fs)
+{
+	const VulkanFragmentShader* vkfs = reinterpret_cast<const VulkanFragmentShader*>(fs);
+	delete vkfs;
+}
+
+void VulkanGraphicsInterface::DestroyGeometryShader(const NativeGeometryShader * gs)
+{
+	const VulkanGeometryShader* vkgs = reinterpret_cast<const VulkanGeometryShader*>(gs);
+	delete vkgs;
+}
+
+void VulkanGraphicsInterface::DestroyTessEvaluationShader(const NativeTessEvaluationShader * te)
+{
+	const VulkanTessEvaluationShader* vktes = reinterpret_cast<const VulkanTessEvaluationShader*>(te);
+	delete vktes;
+}
+
+void VulkanGraphicsInterface::DestroyTessControlShader(const NativeTessControlShader * tc)
+{
+	const VulkanTessControlShader* vktcs = reinterpret_cast<const VulkanTessControlShader*>(tc);
+	delete vktcs;
+}
+
+void VulkanGraphicsInterface::DestroyComputeShader(const NativeComputeShader * cs)
+{
+	const VulkanComputeShader* vkcs = reinterpret_cast<const VulkanComputeShader*>(cs);
+	delete vkcs;
+}
+
+NativeTexture* VulkanGraphicsInterface::CreateEmptyTexture2D(
 	u32 width, 
 	u32 height, 
 	ImageFormat textureFormat, 
@@ -283,7 +320,7 @@ UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateEmptyTexture2D(
 	return new VulkanTexture(*logicalDevice, *image);
 }
 
-UniquePtr<NativeTexture> VulkanGraphicsInterface::CreateInitializedTexture2D(
+NativeTexture* VulkanGraphicsInterface::CreateInitializedTexture2D(
 	const ResourceBlob& textureBlob, 
 	u32 width, u32 height, 
 	ImageFormat textureFormat, 
@@ -334,24 +371,54 @@ NativeSampler* VulkanGraphicsInterface::CreateTextureSampler(const SamplerDescri
 	return new VulkanSampler(*logicalDevice, params);
 }
 
-UniquePtr<NativeViewport> VulkanGraphicsInterface::CreateViewport(void * windowHandle, u32 viewWidth, u32 viewHeight)
+void VulkanGraphicsInterface::DestroyTexture(const NativeTexture * tex)
+{
+	const VulkanTexture* vktex = reinterpret_cast<const VulkanTexture*>(tex);
+	delete vktex;
+}
+
+NativeViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, u32 viewWidth, u32 viewHeight)
 {
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
-UniquePtr<NativeVertexBuffer> VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
+void VulkanGraphicsInterface::DestroyViewport(const NativeViewport * viewport)
+{
+	const VulkanViewport* vkvp = reinterpret_cast<const VulkanViewport*>(viewport);
+	delete vkvp;
+}
+
+NativeVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
 {
 	return new VulkanVertexBuffer(*logicalDevice, vertices);
 }
 
-UniquePtr<NativeIndexBuffer> VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
+NativeIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
 {
 	return new VulkanIndexBuffer(*logicalDevice, faces);
 }
 
-UniquePtr<NativeUniformBuffer> VulkanGraphicsInterface::CreateUniformBuffer(u32 bufferSize) const
+NativeUniformBuffer* VulkanGraphicsInterface::CreateUniformBuffer(u32 bufferSize) const
 {
 	return new VulkanUniformBuffer(*logicalDevice, bufferSize);
+}
+
+void VulkanGraphicsInterface::DestroyVertexBuffer(const NativeVertexBuffer * vb) const
+{
+	const VulkanVertexBuffer* vkvb = reinterpret_cast<const VulkanVertexBuffer*>(vb);
+	delete vkvb;
+}
+
+void VulkanGraphicsInterface::DestroyIndexBuffer(const NativeIndexBuffer * ib) const
+{
+	const VulkanIndexBuffer* vkib = reinterpret_cast<const VulkanIndexBuffer*>(ib);
+	delete vkib;
+}
+
+void VulkanGraphicsInterface::DestroyUniformBuffer(const NativeUniformBuffer * ub) const
+{
+	const VulkanUniformBuffer* vkub = reinterpret_cast<const VulkanUniformBuffer*>(ub);
+	delete vkub;
 }
 
 void VulkanGraphicsInterface::PushBufferData(NativeUniformBuffer& buffer, const void* data) const

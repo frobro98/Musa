@@ -24,7 +24,7 @@ class Light //: public GameObject
 {
 public:
 	Light();
-	virtual ~Light() {}
+	virtual ~Light();
 
 	virtual LightDescription GetLightDescription() = 0;
 
@@ -43,5 +43,5 @@ public:
 
 protected:
 	Matrix4 worldLight;
-	UniquePtr<NativeUniformBuffer> lightInformationBuffer;
+	NativeUniformBuffer* lightInformationBuffer = nullptr;
 };

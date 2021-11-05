@@ -160,9 +160,9 @@ using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 	DynamicArray<Color32> clearColors = { Color32(.7f, .7f, .8f) }; // TODO - SHould be using FixedArray here instead of DynamicArray
 
 	RenderTargetList sceneColorTarget;
-	sceneColorTarget.Add(sceneTargets.sceneColorTexture.Get());
-	RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTargets.depthTexture.Get(), RenderTargetAccess::Read);
-	NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTargets.depthTexture.Get());
+	sceneColorTarget.Add(sceneTargets.sceneColorTexture);
+	RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTargets.depthTexture, RenderTargetAccess::Read);
+	NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTargets.depthTexture);
 
 	// TODO - Fix whatever this is...
 	targetDescription.colorAttachments[0].load = LoadOperation::Load;
@@ -209,13 +209,13 @@ void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<Render
 
 	// Begin GBuffer pass
 	RenderTargetList colorTargets;
-	colorTargets.Add(sceneTargets.sceneColorTexture.Get());
-	colorTargets.Add(gbuffer.positionTexture.Get());
-	colorTargets.Add(gbuffer.normalTexture.Get());
-	colorTargets.Add(gbuffer.diffuseTexture.Get());
+	colorTargets.Add(sceneTargets.sceneColorTexture);
+	colorTargets.Add(gbuffer.positionTexture);
+	colorTargets.Add(gbuffer.normalTexture);
+	colorTargets.Add(gbuffer.diffuseTexture);
 
-	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture.Get(), RenderTargetAccess::Write);
-	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture.Get());
+	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture, RenderTargetAccess::Write);
+	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture);
 
 	// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
 	TransitionTargetsToWrite(renderContext, targets);

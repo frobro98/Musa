@@ -97,8 +97,8 @@ void MaterialBatchingSystem::AddMissingRenderData()
 		const ChunkArray<Entity> entities = chunk.GetArrayOf<Entity>();
 		for (const auto& entity : entities)
 		{
-			UniquePtr<NativeUniformBuffer> primBuff = GetGraphicsInterface().CreateUniformBuffer(sizeof(PrimUniformBuffer));
-			UniquePtr<NativeUniformBuffer> matPropsBuff = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
+			NativeUniformBuffer* primBuff = GetGraphicsInterface().CreateUniformBuffer(sizeof(PrimUniformBuffer));
+			NativeUniformBuffer* matPropsBuff = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 
 			GetWorld().AddComponentTo<RenderDataComponent>(entity, RenderDataComponent{ {},
 				std::move(primBuff),

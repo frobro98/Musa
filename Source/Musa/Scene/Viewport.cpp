@@ -13,6 +13,22 @@ Viewport::Viewport(void* windowHandle, u32 width, u32 height)
 	InitializeRenderTargets();
 }
 
+Viewport::~Viewport()
+{
+	GBuffer& gbuffer = renderTargets.gbuffer;
+	DestroyRenderTarget(gbuffer.positionTexture);
+	DestroyRenderTarget(gbuffer.normalTexture);
+	DestroyRenderTarget(gbuffer.diffuseTexture);
+	
+	SceneRenderTargets& sceneTargets = renderTargets.sceneTargets;
+	DestroyRenderTarget(sceneTargets.sceneColorTexture);
+	DestroyRenderTarget(sceneTargets.depthTexture);
+
+	DestroyRenderTarget(renderTargets.userInterfaceTarget);
+
+	GetGraphicsInterface().DestroyViewport(graphicsViewport);
+}
+
 void Viewport::InitializeRenderTargets()
 {
 	GBuffer& gbuffer = renderTargets.gbuffer;

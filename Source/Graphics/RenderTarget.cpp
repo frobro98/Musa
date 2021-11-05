@@ -75,12 +75,12 @@ NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarge
 	targets.colorTargets.Resize(numColorTargets);
 	for (u32 i = 0; i < numColorTargets; ++i)
 	{
-		targets.colorTargets[i] = colorTargets[i]->nativeTarget.Get();
+		targets.colorTargets[i] = colorTargets[i]->nativeTarget;
 	}
 
 	if (depthTarget != nullptr)
 	{
-		targets.depthTarget = depthTarget->nativeTarget.Get();
+		targets.depthTarget = depthTarget->nativeTarget;
 	}
 
 	return targets;

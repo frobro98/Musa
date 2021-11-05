@@ -11,5 +11,5 @@ struct FrameRenderTargets
 {
 	GBuffer gbuffer;
 	SceneRenderTargets sceneTargets;
-	UniquePtr<RenderTarget> userInterfaceTarget;
+	RenderTarget* userInterfaceTarget = nullptr;
 };

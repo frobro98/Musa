@@ -7,9 +7,9 @@
 
 struct GBuffer
 {
-	UniquePtr<RenderTarget> positionTexture;
-	UniquePtr<RenderTarget> normalTexture;
-	UniquePtr<RenderTarget> diffuseTexture;
+	RenderTarget* positionTexture = nullptr;
+	RenderTarget* normalTexture = nullptr;
+	RenderTarget* diffuseTexture = nullptr;
 };
 
 

@@ -11,8 +11,10 @@ class Texture;
 // the sampler at all. 
 struct TextureResource
 {
+	~TextureResource();
+
 	void UpdateTextureResource(const Texture& tex);
 
-	UniquePtr<NativeTexture> texResource;
-	UniquePtr<NativeSampler> samplerResource;
+	NativeTexture* texResource = nullptr;
+	NativeSampler* samplerResource = nullptr;
 };

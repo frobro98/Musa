@@ -392,6 +392,7 @@ bool Compile(const tchar* pathToFile, const char* entryPoint, const ShaderCompil
 				for (const auto& binding : shaderDescriptors)
 				{
 					ShaderConstant constant = {};
+					// TODO - If a uniform is unnamed, it currently isn't supported...
 					constant.name = binding->name;
 					constant.bindingType = GetShaderConstantType(binding->descriptor_type);
 					constant.binding = binding->binding;

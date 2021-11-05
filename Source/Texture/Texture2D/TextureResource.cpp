@@ -19,6 +19,11 @@ static SamplerAddressMode GetSamplerAddressMode(TextureAddress mode)
 	return static_cast<SamplerAddressMode>(-1);
 }
 
+TextureResource::~TextureResource()
+{
+	GetGraphicsInterface().DestroyTexture(texResource);
+}
+
 void TextureResource::UpdateTextureResource(const Texture& tex)
 {
 	ResourceBlob blob = tex.ConstructBlobOfMipLevels();

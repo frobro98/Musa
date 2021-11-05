@@ -13,7 +13,7 @@
 
 struct RenderTarget
 {
-	UniquePtr<NativeTexture> nativeTarget;
+	NativeTexture* nativeTarget = nullptr;
 	u32 width;
 	u32 height;
 	u32 sampleCount;

@@ -7,7 +7,7 @@
 
 struct SceneRenderTargets
 {
-	UniquePtr<RenderTarget> sceneColorTexture;
-	UniquePtr<RenderTarget> depthTexture;
+	RenderTarget* sceneColorTexture;
+	RenderTarget* depthTexture;
 };
 

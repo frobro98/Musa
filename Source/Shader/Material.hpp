@@ -132,7 +132,7 @@ private:
 	UniquePtr<MaterialRenderDescription> renderDescription;
 
 	// TODO - Keeping a uniform buffer in the material itself doesn't necessarily make sense
-	UniquePtr<NativeUniformBuffer> materialPropsBuffer;
+	NativeUniformBuffer* materialPropsBuffer = nullptr;
 	MaterialProperties materialProperties;
 	UniformBufferDescriptor materialPropsConstant;
 

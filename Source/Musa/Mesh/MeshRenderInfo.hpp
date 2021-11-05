@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "BasicTypes/UniquePtr.hpp"
 #include "Math/BoundsVolumes.hpp"
 #include "Math/Matrix4.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
@@ -16,5 +15,5 @@ struct MeshRenderInfo
 	MaterialRenderDescription* meshMaterial = nullptr;
 	NativeVertexBuffer* vertexBuffer = nullptr;
 	NativeIndexBuffer* indexBuffer = nullptr;
-	UniquePtr<NativeUniformBuffer> transformBuffer;
+	NativeUniformBuffer* transformBuffer = nullptr;
 };

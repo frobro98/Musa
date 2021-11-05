@@ -63,7 +63,7 @@ void Console::PrepareForRenderInternal(WidgetBatchElements& widgetElements)
 
 	Texture& fontTex = *consoleFont->fontTexture;
 	TextureResource& res = fontTex.GetResource();
-	BatchElement& batchElement = widgetElements.GetBatchElement(res.texResource.Get());
+	BatchElement& batchElement = widgetElements.GetBatchElement(res.texResource);
 
 	u32 textSize = textOnScreen.Length();
 	Vector2 currentTextPosition;

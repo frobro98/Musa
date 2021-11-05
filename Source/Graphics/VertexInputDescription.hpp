@@ -14,7 +14,8 @@ enum class VertexInputType : u16
 	F32_1,
 	F32_2,
 	F32_3,
-	F32_4
+	F32_4,
+	U32
 };
 
 struct VertexInputDescription

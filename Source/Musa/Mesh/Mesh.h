@@ -24,6 +24,8 @@ public:
 	Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList, const SphereBounds& colInfo);
 	Mesh(const DynamicArray<Vertex>& vertList, const DynamicArray<Face>& faceList, const DynamicArray<VertexBoneWeights>& skinningWeights, const SphereBounds& colInfo);
 
+	~Mesh();
+
 // 	inline DynamicArray<Vertex> GetVertices() const { return vertices; }
 // 	inline DynamicArray<VertexBoneWeights> GetSkinWeights() const { return skinWeights; }
 // 	inline DynamicArray<Face> GetFaces() const { return faces; }
@@ -37,8 +39,8 @@ private:
 // 	DynamicArray<Face> faces;
 // 	DynamicArray<VertexBoneWeights> skinWeights;
 
-	UniquePtr<NativeVertexBuffer> vertexBuffer;
-	UniquePtr<NativeIndexBuffer> indexBuffer;
+	NativeVertexBuffer* vertexBuffer = nullptr;
+	NativeIndexBuffer* indexBuffer = nullptr;
 
 	SphereBounds boundingSphere;
 };

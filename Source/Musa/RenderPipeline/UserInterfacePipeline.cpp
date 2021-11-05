@@ -73,8 +73,7 @@ EngineStatView statView;
 {
 	if (viewBuffer == nullptr)
 	{
-		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
-		viewBuffer = buff.Release();
+		viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
 		ViewUniformBuffer buffer = {};
 		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
 		buffer.viewTransform = Matrix4(IDENTITY);
@@ -237,8 +236,7 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 
 	if (viewBuffer == nullptr)
 	{
-		auto buff = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
-		viewBuffer = buff.Release();
+		viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
 		ViewUniformBuffer buffer = {};
 		buffer.projectionTransform = Math::ConstructOrthographicMatrix(view.description.viewport.width, view.description.viewport.height, 1.f, 10000.f);
 		buffer.viewTransform = Matrix4(IDENTITY);

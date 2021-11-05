@@ -8,3 +8,8 @@ Light::Light()
 {
 	lightInformationBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(LightProperties));
 }
+
+Light::~Light()
+{
+	GetGraphicsInterface().DestroyUniformBuffer(lightInformationBuffer);
+}

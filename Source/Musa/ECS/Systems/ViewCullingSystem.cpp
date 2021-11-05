@@ -145,8 +145,8 @@ void ViewCullingSystem::CullPrimitivesPerView(DynamicArray<RenderView*>& views) 
 				MaterialPrimitive primitive = {};
 				primitive.vertexBuffer = &mesh.mesh->GetVertexBuffer();
 				primitive.indexBuffer = &mesh.mesh->GetIndexBuffer();
-				primitive.primitiveBuffer = renderData.primUniformBuffer.Get();
-				primitive.materialProperties = renderData.materialPropsUniformBuffer.Get();
+				primitive.primitiveBuffer = renderData.primUniformBuffer;
+				primitive.materialProperties = renderData.materialPropsUniformBuffer;
 				primitive.materialResources = renderDesc.resources;
 
 				PipelineConfiguration& pipelineConfig = primitive.pipelineConfig;

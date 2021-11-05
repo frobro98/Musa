@@ -29,7 +29,7 @@ struct RenderView
 	ViewTransformations transforms;
 	Vector4 position;
 	Vector4 direction;
-	UniquePtr<NativeUniformBuffer> viewUniformBuffer;
+	NativeUniformBuffer* viewUniformBuffer = nullptr;
 	
 
 	Recti scaledViewport;

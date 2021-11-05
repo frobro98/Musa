@@ -12,6 +12,7 @@ class MUSA_API Viewport final
 {
 public:
 	Viewport(void* windowHandle, u32 width, u32 height);
+	~Viewport();
 
 	forceinline FrameRenderTargets& GetRenderTargets() { return renderTargets; }
 	forceinline NativeViewport& GetNativeViewport() const { return *graphicsViewport; }
@@ -23,7 +24,7 @@ private:
 
 private:
 	FrameRenderTargets renderTargets;
-	UniquePtr<NativeViewport> graphicsViewport;
+	NativeViewport* graphicsViewport = nullptr;
 	i32 viewWidth;
 	i32 viewHeight;
 };
