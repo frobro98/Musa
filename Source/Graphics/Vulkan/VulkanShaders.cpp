@@ -36,7 +36,7 @@ MemoryBuffer LoadSPVShader(const tchar* shaderFile)
 //////////////////////////////////////////////////////////////////////////
 // Vulkan Shader Base
 //////////////////////////////////////////////////////////////////////////
-VulkanShader::VulkanShader(const VulkanDevice& device, VulkanShaderHeader& header, const DynamicArray<u32>& shaderCode)
+ShaderData::ShaderData(const VulkanDevice& device, VulkanShaderHeader& header, const DynamicArray<u32>& shaderCode)
 	: shaderHeader(header),
 	logicalDevice(device),
 	shaderStage(header.shaderStage)
@@ -45,21 +45,21 @@ VulkanShader::VulkanShader(const VulkanDevice& device, VulkanShaderHeader& heade
 	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 	createInfo.codeSize = shaderCode.SizeInBytes();
 	createInfo.pCode = shaderCode.GetData();
-	NOT_USED VkResult result = vkCreateShaderModule(logicalDevice.GetNativeHandle(), &createInfo, nullptr, &shaderModule);
+	NOT_USED VkResult result = vkCreateShaderModule(logicalDevice.GetNativeHandle(), &createInfo, nullptr, &module);
 	CHECK_VK(result);
 }
 
-VulkanShader::~VulkanShader()
+ShaderData::~ShaderData()
 {
-	Assert(shaderModule != VK_NULL_HANDLE);
-	vkDestroyShaderModule(logicalDevice.GetNativeHandle(), shaderModule, nullptr);
+	Assert(module != VK_NULL_HANDLE);
+	vkDestroyShaderModule(logicalDevice.GetNativeHandle(), module, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Vulkan Vertex Shader
 //////////////////////////////////////////////////////////////////////////
 VulkanVertexShader::VulkanVertexShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode)
-	: VulkanShader(device, shaderHeader, shaderCode)
+	: shaderData(device, shaderHeader, shaderCode)
 {
 	Assert(shaderHeader.shaderStage == VK_SHADER_STAGE_VERTEX_BIT);
 }
@@ -68,7 +68,7 @@ VulkanVertexShader::VulkanVertexShader(const VulkanDevice& device, VulkanShaderH
 // Vulkan Fragment Shader
 //////////////////////////////////////////////////////////////////////////
 VulkanFragmentShader::VulkanFragmentShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode)
-	: VulkanShader(device, shaderHeader, shaderCode)
+	: shaderData(device, shaderHeader, shaderCode)
 {
 	Assert(shaderHeader.shaderStage == VK_SHADER_STAGE_FRAGMENT_BIT);
 }
@@ -77,7 +77,7 @@ VulkanFragmentShader::VulkanFragmentShader(const VulkanDevice& device, VulkanSha
 // Vulkan Geometry Shader
 //////////////////////////////////////////////////////////////////////////
 VulkanGeometryShader::VulkanGeometryShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode)
-	: VulkanShader(device, shaderHeader, shaderCode)
+	: shaderData(device, shaderHeader, shaderCode)
 {
 	Assert(shaderHeader.shaderStage == VK_SHADER_STAGE_GEOMETRY_BIT);
 }
@@ -86,7 +86,7 @@ VulkanGeometryShader::VulkanGeometryShader(const VulkanDevice& device, VulkanSha
 // Vulkan Tessellation Evaluation Shader
 //////////////////////////////////////////////////////////////////////////
 VulkanTessEvaluationShader::VulkanTessEvaluationShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode)
-	: VulkanShader(device, shaderHeader, shaderCode)
+	: shaderData(device, shaderHeader, shaderCode)
 {
 	Assert(shaderHeader.shaderStage == VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT);
 }
@@ -95,7 +95,7 @@ VulkanTessEvaluationShader::VulkanTessEvaluationShader(const VulkanDevice& devic
 // Vulkan Tessellation Control Shader
 //////////////////////////////////////////////////////////////////////////
 VulkanTessControlShader::VulkanTessControlShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode)
-	: VulkanShader(device, shaderHeader, shaderCode)
+	: shaderData(device, shaderHeader, shaderCode)
 {
 	Assert(shaderHeader.shaderStage == VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT);
 }
@@ -104,7 +104,7 @@ VulkanTessControlShader::VulkanTessControlShader(const VulkanDevice& device, Vul
 // Vulkan Compute Shader
 //////////////////////////////////////////////////////////////////////////
 VulkanComputeShader::VulkanComputeShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode)
-	: VulkanShader(device, shaderHeader, shaderCode)
+	: shaderData(device, shaderHeader, shaderCode)
 {
 	Assert(shaderHeader.shaderStage == VK_SHADER_STAGE_COMPUTE_BIT);
 }

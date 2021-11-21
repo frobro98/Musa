@@ -141,8 +141,8 @@ VulkanPipelineLayout* VulkanRenderingCloset::ConfigurePipelineLayout(const Graph
 
 	{
 		const VulkanVertexShader* vertShader = reinterpret_cast<const VulkanVertexShader*>(desc.vertexShader);
-		const DynamicArray<SpirvBuffer>& buffers = vertShader->GetShaderHeader().buffers;
-		const DynamicArray<SpirvSampler>& samplers = vertShader->GetShaderHeader().samplers;
+		const DynamicArray<SpirvBuffer>& buffers = vertShader->shaderData.shaderHeader.buffers;
+		const DynamicArray<SpirvSampler>& samplers = vertShader->shaderData.shaderHeader.samplers;
 
 		for (const auto& buffer : buffers)
 		{
@@ -158,8 +158,8 @@ VulkanPipelineLayout* VulkanRenderingCloset::ConfigurePipelineLayout(const Graph
 	if (desc.fragmentShader)
 	{
 		const VulkanFragmentShader* fragShader = reinterpret_cast<const VulkanFragmentShader*>(desc.fragmentShader);
-		const DynamicArray<SpirvBuffer>& buffers = fragShader->GetShaderHeader().buffers;
-		const DynamicArray<SpirvSampler>& samplers = fragShader->GetShaderHeader().samplers;
+		const DynamicArray<SpirvBuffer>& buffers = fragShader->shaderData.shaderHeader.buffers;
+		const DynamicArray<SpirvSampler>& samplers = fragShader->shaderData.shaderHeader.samplers;
 
 		for (const auto& buffer : buffers)
 		{

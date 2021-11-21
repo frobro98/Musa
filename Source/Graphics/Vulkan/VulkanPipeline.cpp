@@ -100,13 +100,13 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 
 	DynamicArray<VkPipelineShaderStageCreateInfo> shaderStages;
 
-	const VulkanVertexShader& vertexShader = *reinterpret_cast<const VulkanVertexShader*>(init.vertexShader);
-	const VulkanFragmentShader& fragmentShader = *reinterpret_cast<const VulkanFragmentShader*>(init.fragmentShader);
+	const VulkanVertexShader& vertexShader = *reinterpret_cast<const VulkanVertexShader*>(initInfo.vertexShader);
+	const VulkanFragmentShader& fragmentShader = *reinterpret_cast<const VulkanFragmentShader*>(initInfo.fragmentShader);
 
 	VkPipelineShaderStageCreateInfo vkShaderStage = {};
 	vkShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	vkShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vkShaderStage.module = vertexShader.GetModule();
+	vkShaderStage.module = vertexShader.shaderData.module;
 	vkShaderStage.pName = "main";
 	vkShaderStage.pSpecializationInfo;
 	shaderStages.Add(vkShaderStage);
@@ -116,7 +116,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 		vkShaderStage = {};
 		vkShaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		vkShaderStage.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-		vkShaderStage.module = fragmentShader.GetModule();
+		vkShaderStage.module = fragmentShader.shaderData.module;
 		vkShaderStage.pName = "main";
 		vkShaderStage.pSpecializationInfo;
 		shaderStages.Add(vkShaderStage);

@@ -23,7 +23,7 @@ void VulkanComputePipeline::Initialize(const VulkanPipelineLayout* layout, Vulka
 
 	VkPipelineShaderStageCreateInfo stage = {};
 	stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	stage.module = shader->GetModule();
+	stage.module = shader->shaderData.module;
 	stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
 	stage.pName = "main";
 

@@ -140,7 +140,7 @@ void ViewCullingSystem::CullPrimitivesPerView(DynamicArray<RenderView*>& views) 
 			{
 				const MeshRenderComponent& mesh = meshRenderComps[i];
 				const RenderDataComponent& renderData = renderDataComps[i];
-				MaterialRenderDescription& renderDesc = mesh.material->GetRenderDescription();
+				const MaterialRenderDescription& renderDesc = mesh.material->GetRenderDescription();
 
 				MaterialPrimitive primitive = {};
 				primitive.vertexBuffer = &mesh.mesh->GetVertexBuffer();

@@ -34,7 +34,7 @@ struct View
 {
 	ViewDescription description;
 	ViewTransforms transforms;
-	UniquePtr<NativeUniformBuffer> viewBuffer;
+	NativeUniformBuffer* viewBuffer;
 };
 
 // TODO - Determine if this and the Viewport class are similar and try and consolidate if they are
@@ -44,6 +44,7 @@ class ScreenView
 {
 public:
 	ScreenView(i32 screenWidth, i32 screenHeight);
+	~ScreenView();
 
 	i32 GetScreenWidth() const;
 	i32 GetScreenHeight() const;

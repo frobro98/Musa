@@ -14,6 +14,11 @@ ScreenView::ScreenView(i32 screenWidth, i32 screenHeight)
 	Assert(screenHeight > 0);
 }
 
+ScreenView::~ScreenView()
+{
+	GetGraphicsInterface().DestroyUniformBuffer(view.viewBuffer);
+}
+
 i32 ScreenView::GetScreenWidth() const
 {
 	return width;
@@ -35,7 +40,7 @@ void ScreenView::AssociateCameraWithView(const Camera& camera)
 	view.description.fieldOfView = camera.GetFov();
 	view.description.aspectRatio = camera.GetAspectRatio();
 
-	if (!view.viewBuffer.IsValid())
+	if (view.viewBuffer == nullptr)
 	{
 		view.viewBuffer = GetGraphicsInterface().CreateUniformBuffer(sizeof(ViewUniformBuffer));
 	}

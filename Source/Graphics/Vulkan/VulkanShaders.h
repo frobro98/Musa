@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "BasicTypes/Uncopyable.hpp"
 #include "Containers/MemoryBuffer.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Vulkan/VulkanDefinitions.h"
@@ -13,49 +12,49 @@ MemoryBuffer LoadSPVShader(const tchar* shaderFile);
 
 class VulkanDevice;
 
-class VulkanShader : Uncopyable
+struct ShaderData
 {
-public:
-	VulkanShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
-	~VulkanShader();
+	ShaderData(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	~ShaderData();
 
-	forceinline VkShaderModule GetModule() const { return shaderModule; }
-	forceinline VkShaderStageFlags GetStage() const { return shaderStage; }
-	forceinline const VulkanShaderHeader& GetShaderHeader() const { return shaderHeader; }
-
-private:
 	VulkanShaderHeader shaderHeader;
 	const VulkanDevice& logicalDevice;
-	VkShaderModule shaderModule;
+	VkShaderModule module;
 	VkShaderStageFlags shaderStage;
 };
 
-struct VulkanVertexShader : VulkanShader, NativeVertexShader
+struct VulkanVertexShader : NativeVertexShader
 {
 	VulkanVertexShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	const ShaderData shaderData;
 };
 
-struct VulkanFragmentShader : VulkanShader, NativeFragmentShader
+struct VulkanFragmentShader : NativeFragmentShader
 {
 	VulkanFragmentShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	const ShaderData shaderData;
 };
 
-struct VulkanGeometryShader : VulkanShader, NativeGeometryShader
+struct VulkanGeometryShader : NativeGeometryShader
 {
 	VulkanGeometryShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	const ShaderData shaderData;
 };
 
-struct VulkanTessEvaluationShader : VulkanShader, NativeTessEvaluationShader
+struct VulkanTessEvaluationShader : NativeTessEvaluationShader
 {
 	VulkanTessEvaluationShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	const ShaderData shaderData;
 };
 
-struct VulkanTessControlShader : VulkanShader, NativeTessControlShader
+struct VulkanTessControlShader : NativeTessControlShader
 {
 	VulkanTessControlShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	const ShaderData shaderData;
 };
 
-struct VulkanComputeShader : VulkanShader, NativeComputeShader
+struct VulkanComputeShader : NativeComputeShader
 {
 	VulkanComputeShader(const VulkanDevice& device, VulkanShaderHeader& shaderHeader, const DynamicArray<u32>& shaderCode);
+	const ShaderData shaderData;
 };
