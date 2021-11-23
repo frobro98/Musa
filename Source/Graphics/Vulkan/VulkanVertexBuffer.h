@@ -14,10 +14,8 @@ class ResourceBlob;
 class VulkanVertexBuffer : public NativeVertexBuffer
 {
 public:
-	VulkanVertexBuffer(VulkanDevice& device, const DynamicArray<Vertex>& vertices);
+	VulkanVertexBuffer(VulkanDevice& device, u64 sizeInBytes);
 	~VulkanVertexBuffer();
-
-	VulkanVertexBuffer(const VulkanVertexBuffer&);
 
 	inline VulkanBuffer& GetBuffer() const { return *vertexBuffer; }
 

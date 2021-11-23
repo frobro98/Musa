@@ -210,7 +210,7 @@ EngineStatView statView;
 		renderer.SetTexture(
 			*font->fontTexture->GetResource().texResource, *SamplerDesc(), 1);
 
-		renderer.DrawRawIndexed(stringVerts, stringTris, 1);
+		renderer.DrawRawIndexed(stringVerts, stringTris, 4, 1);
 		END_TIMED_BLOCK(TextRenderSetupCommands);
 
 		screenTextItems.Clear();
@@ -297,7 +297,7 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 		const auto& elementList = elems.GetBatchElementList();
 		for (const auto& element : elementList)
 		{
-			renderContext.DrawRawIndexed({ element.batchedVertices }, { element.batchedIndices }, 1);
+			renderContext.DrawRawIndexed({ element.batchedVertices }, { element.batchedIndices }, 4, 1);
 		}
 		
 

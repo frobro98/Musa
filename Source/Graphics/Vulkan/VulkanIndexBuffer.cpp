@@ -8,24 +8,15 @@
 #include "VulkanBufferAllocation.hpp"
 
 // TODO - The magic number "3" must be defined somewhere...
-VulkanIndexBuffer::VulkanIndexBuffer(VulkanDevice& device, const DynamicArray<Face>& indices)
+VulkanIndexBuffer::VulkanIndexBuffer(VulkanDevice& device, u64 sizeInBytes, u32 indexSize)
 	: logicalDevice(device),
-	numIndicies(indices.Size() * 3)
+	indexStride(indexSize)
 {
-	u32 indexBufferSize = sizeof(Face) * indices.Size();
-
-	// TODO - Get staging buffers working. Need to cache them until they're used
 	indexBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(
-		indexBufferSize,
-		VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+		sizeInBytes,
+		VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
 	);
-
-	{
-		indexBuffer->memory->LockForWrite();
-		Memcpy(indexBuffer->memory->GetMappedPtr(), indexBufferSize, indices.GetData(), indexBufferSize);
-		indexBuffer->memory->Unlock();
-	}
 }
 
 VulkanIndexBuffer::~VulkanIndexBuffer()

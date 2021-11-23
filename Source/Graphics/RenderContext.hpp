@@ -35,7 +35,7 @@ public:
 	virtual void Draw(u32 vertexCount, u32 instanceCount) = 0;
 	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, u32 instanceCount) = 0;
 	virtual void DrawRaw(const ResourceArray& rawVerts, u32 instanceCount) = 0;
-	virtual void DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, u32 instanceCount) = 0;
+	virtual void DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, u32 indexStride, u32 instanceCount) = 0;
 
 	virtual NativeTexture* GetBackBuffer() const = 0;
 

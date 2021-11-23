@@ -31,6 +31,13 @@
 DEFINE_LOG_CHANNEL(VulkanLog);
 DEFINE_LOG_CHANNEL(VkValidation);
 
+struct LockedBufferInfo
+{
+	VulkanStagingBuffer* stagingBuffer;
+	u32 offset;
+};
+static Map<VulkanBuffer*, LockedBufferInfo> lockedBuffers;
+
 // TODO - Eventually, VK_LAYER_KHRONOS_validation will exist and should be the preferred way of enabling validation...
 constexpr const tchar* validationLayers[] = {
 	"VK_LAYER_KHRONOS_validation",
@@ -388,14 +395,17 @@ void VulkanGraphicsInterface::DestroyViewport(const NativeViewport * viewport)
 	delete vkvp;
 }
 
-NativeVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const
+NativeVertexBuffer* VulkanGraphicsInterface::CreateVertexBuffer(u64 sizeInBytes, const ResourceBlob* blob) const
 {
-	return new VulkanVertexBuffer(*logicalDevice, vertices);
+	Assert(blob == nullptr);
+	return new VulkanVertexBuffer(*logicalDevice, sizeInBytes);
 }
 
-NativeIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(const DynamicArray<Face>& faces) const
+NativeIndexBuffer* VulkanGraphicsInterface::CreateIndexBuffer(u64 sizeInBytes, u32 indexSize, const ResourceBlob* blob) const
 {
-	return new VulkanIndexBuffer(*logicalDevice, faces);
+	Assert(blob == nullptr);
+	Assert(indexSize == 2 || indexSize == 4);
+	return new VulkanIndexBuffer(*logicalDevice, sizeInBytes, indexSize);
 }
 
 NativeUniformBuffer* VulkanGraphicsInterface::CreateUniformBuffer(u32 bufferSize) const
@@ -425,6 +435,76 @@ void VulkanGraphicsInterface::PushBufferData(NativeUniformBuffer& buffer, const 
 {
 	VulkanUniformBuffer* uniformBuffer = static_cast<VulkanUniformBuffer*>(&buffer);
 	uniformBuffer->UpdateUniforms(data);
+}
+
+void* VulkanGraphicsInterface::LockVertexBuffer(NativeVertexBuffer* vb, u64 size, u32 lockOffset)
+{
+	VulkanVertexBuffer* vkVB = reinterpret_cast<VulkanVertexBuffer*>(vb);
+	if (lockedBuffers.Find(&vkVB->GetBuffer()) == nullptr)
+	{
+		LockedBufferInfo buffInfo{};
+		VulkanStagingBuffer* stagingBuffer = logicalDevice->GetStagingBufferManager().AllocateStagingBuffer(size);
+		buffInfo.stagingBuffer = stagingBuffer;
+		buffInfo.offset = lockOffset;
+		lockedBuffers.Add(&vkVB->GetBuffer(), buffInfo);
+
+		return stagingBuffer->mappedData;
+	}
+
+	return nullptr;
+}
+
+void VulkanGraphicsInterface::UnlockVertexBuffer(NativeVertexBuffer* vb)
+{
+	VulkanVertexBuffer* vkVB = reinterpret_cast<VulkanVertexBuffer*>(vb);
+	LockedBufferInfo* buffInfo = lockedBuffers.Find(&vkVB->GetBuffer());
+	Assert(buffInfo != nullptr);
+
+	VulkanStagingBuffer* stagingBuffer = buffInfo->stagingBuffer;
+	VulkanCommandBuffer* cb = logicalDevice->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	VulkanBuffer* buffer = &vkVB->GetBuffer();
+
+	VkBufferCopy copyRegion{};
+	copyRegion.size = stagingBuffer->stagingSize;
+	copyRegion.dstOffset = buffInfo->offset + buffer->memory->alignedOffset;
+	cb->CopyBuffer(stagingBuffer->stagingHandle, buffer->handle, 1, &copyRegion);
+
+	lockedBuffers.Remove(&vkVB->GetBuffer());
+}
+
+void* VulkanGraphicsInterface::LockIndexBuffer(NativeIndexBuffer* ib, u64 size, u32 lockOffset)
+{
+	VulkanIndexBuffer* vkVB = reinterpret_cast<VulkanIndexBuffer*>(ib);
+	if (lockedBuffers.Find(&vkVB->GetBuffer()) == nullptr)
+	{
+		LockedBufferInfo buffInfo{};
+		VulkanStagingBuffer* stagingBuffer = logicalDevice->GetStagingBufferManager().AllocateStagingBuffer(size);
+		buffInfo.stagingBuffer = stagingBuffer;
+		buffInfo.offset = lockOffset;
+		lockedBuffers.Add(&vkVB->GetBuffer(), buffInfo);
+
+		return stagingBuffer->mappedData;
+	}
+
+	return nullptr;
+}
+
+void VulkanGraphicsInterface::UnlockIndexBuffer(NativeIndexBuffer* ib)
+{
+	VulkanIndexBuffer* vkVB = reinterpret_cast<VulkanIndexBuffer*>(ib);
+	LockedBufferInfo* buffInfo = lockedBuffers.Find(&vkVB->GetBuffer());
+	Assert(buffInfo != nullptr);
+
+	VulkanStagingBuffer* stagingBuffer = buffInfo->stagingBuffer;
+	VulkanCommandBuffer* cb = logicalDevice->GetCmdBufferManager().GetActiveGraphicsBuffer();
+	VulkanBuffer* buffer = &vkVB->GetBuffer();
+
+	VkBufferCopy copyRegion{};
+	copyRegion.size = stagingBuffer->stagingSize;
+	copyRegion.dstOffset = buffInfo->offset + buffer->memory->alignedOffset;
+	cb->CopyBuffer(stagingBuffer->stagingHandle, buffer->handle, 1, &copyRegion);
+
+	lockedBuffers.Remove(&vkVB->GetBuffer());
 }
 
 void* VulkanGraphicsInterface::GetGraphicsDevice()

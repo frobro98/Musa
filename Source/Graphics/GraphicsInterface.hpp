@@ -45,8 +45,8 @@ public:
 	NODISCARD virtual NativeViewport* CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight) = 0;
 	virtual void DestroyViewport(const NativeViewport* viewport) = 0;
 
-	NODISCARD virtual NativeVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const = 0;
-	NODISCARD virtual NativeIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces) const = 0;
+	NODISCARD virtual NativeVertexBuffer* CreateVertexBuffer(u64 sizeInBytes, const ResourceBlob* blob = nullptr) const = 0;
+	NODISCARD virtual NativeIndexBuffer* CreateIndexBuffer(u64 sizeInBytes, u32 indexSize, const ResourceBlob* blob = nullptr) const = 0;
 	NODISCARD virtual NativeUniformBuffer* CreateUniformBuffer(u32 bufferSize) const = 0;
 
 	virtual void DestroyVertexBuffer(const NativeVertexBuffer* vb) const = 0;
@@ -62,9 +62,16 @@ public:
 	NODISCARD virtual void* GetGraphicsDevice() = 0;
 	NODISCARD virtual RenderContext* GetRenderContext() = 0;
 	
+	// TODO - Consider locking/unlocking, similar to how VBs and IBs are treated
 	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) = 0;
-	// TODO - Consider the model where the mapped ptr is returned and then the user does with it what they wish
+	// TODO - Consider locking/unlocking, similar to how VBs and IBs are treated
 	virtual void PushBufferData(NativeUniformBuffer& buffer, const void* data) const = 0;
+
+	NODISCARD virtual void* LockVertexBuffer(NativeVertexBuffer* vb, u64 size, u32 lockOffset) = 0;
+	virtual void UnlockVertexBuffer(NativeVertexBuffer* vb) = 0;
+
+	NODISCARD virtual void* LockIndexBuffer(NativeIndexBuffer* vb, u64 size, u32 lockOffset) = 0;
+	virtual void UnlockIndexBuffer(NativeIndexBuffer* vb) = 0;
 };
 
 GRAPHICS_API GraphicsInterface& GetGraphicsInterface();

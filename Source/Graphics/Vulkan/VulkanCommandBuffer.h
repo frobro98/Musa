@@ -131,7 +131,8 @@ public:
 
 	void BindIndexBuffer(
 		VkBuffer indexBuffer,
-		u32 bufferOffset
+		u32 bufferOffset,
+		VkIndexType indexType
 	);
 
 	void DrawIndexed(

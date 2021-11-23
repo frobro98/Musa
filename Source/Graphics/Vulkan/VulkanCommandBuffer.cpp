@@ -287,11 +287,11 @@ void VulkanCommandBuffer::BindIndexBuffer(const VulkanIndexBuffer& indexBuffer)
 		commandBuffer,
 		indexBuffer.GetBuffer().handle,
 		indexBuffer.GetBuffer().memory->alignedOffset,
-		VK_INDEX_TYPE_UINT32
+		indexBuffer.GetIndexStride() == 4 ? VK_INDEX_TYPE_UINT32 : VK_INDEX_TYPE_UINT16
 	);
 }
 
-void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, u32 bufferOffset)
+void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, u32 bufferOffset, VkIndexType indexType)
 {
 	if (bufferLevel == VK_COMMAND_BUFFER_LEVEL_PRIMARY)
 	{
@@ -301,7 +301,7 @@ void VulkanCommandBuffer::BindIndexBuffer(VkBuffer indexBuffer, u32 bufferOffset
 		commandBuffer,
 		indexBuffer,
 		bufferOffset,
-		VK_INDEX_TYPE_UINT32
+		indexType
 	);
 }
 

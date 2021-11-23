@@ -7,34 +7,20 @@
 #include "VulkanMemoryManager.hpp"
 #include "VulkanBufferAllocation.hpp"
 
-VulkanVertexBuffer::VulkanVertexBuffer(VulkanDevice& device, const DynamicArray<Vertex>& vertices)
+VulkanVertexBuffer::VulkanVertexBuffer(VulkanDevice& device, u64 sizeInBytes)
 	: logicalDevice(device)
 {
-	u32 vertexBufferSize = sizeof(Vertex) * vertices.Size();
-
 	// TODO - Get staging buffers working. Need to cache them until they're used
 	vertexBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(
-		vertexBufferSize,
-		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+		sizeInBytes,
+		VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
 	);
-
-	{
-		vertexBuffer->memory->LockForWrite();
-		Memcpy(vertexBuffer->memory->GetMappedPtr(), vertexBufferSize, vertices.GetData(), vertexBufferSize);
-		vertexBuffer->memory->Unlock();
-	}
 }
 
 VulkanVertexBuffer::~VulkanVertexBuffer()
 {
 	logicalDevice.GetMemoryManager().DeallocateBuffer(*vertexBuffer);
-}
-
-VulkanVertexBuffer::VulkanVertexBuffer(const VulkanVertexBuffer& other)
-	: logicalDevice(other.logicalDevice),
-	vertexBuffer(other.vertexBuffer)
-{
 }
 
 // VulkanWeightsBuffer::VulkanWeightsBuffer(VulkanDevice& device, const DynamicArray<VertexBoneWeights>& weights)

@@ -155,7 +155,8 @@ void VulkanRenderContext::DrawIndexed(const NativeIndexBuffer& indexBuffer, u32 
 		vertexBuffersAndOffsets.vertexBuffers.Clear();
 		vertexBuffersAndOffsets.vertexBufferOffsets.Clear();
 	}
-	u32 indexCount = ib->GetNumberOfIndicies();
+	
+	u32 indexCount = (u32)(ib->GetSize() / ib->GetIndexStride());
 	cmdBuffer.BindIndexBuffer(*ib);
 
 	currentRenderState.BindState(cmdBuffer);
@@ -183,8 +184,10 @@ void VulkanRenderContext::DrawRaw(const ResourceArray& rawVerts, u32 instanceCou
 	cmdBuffer.Draw(rawVerts.elementCount, instanceCount, 0, 0);
 }
 
-void VulkanRenderContext::DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, u32 instanceCount)
+void VulkanRenderContext::DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, u32 indexStride, u32 instanceCount)
 {
+	Assert(indexStride == 2 || indexStride == 4);
+
 	constexpr u32 bufferAlignment = 4;
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	{
@@ -196,7 +199,11 @@ void VulkanRenderContext::DrawRawIndexed(const ResourceArray& rawVerts, const Re
 		TempAlloc indicesAlloc = currentFrameTempAlloc->AllocateTempMemory(rawIndices.totalByteSize, bufferAlignment);
 		Assert(indicesAlloc.buffer != VK_NULL_HANDLE);
 		Memcpy(indicesAlloc.allocData, indicesAlloc.allocSize, rawIndices.byteArrayData, rawIndices.totalByteSize);
-		cmdBuffer.BindIndexBuffer(indicesAlloc.buffer, indicesAlloc.offset);
+
+		cmdBuffer.BindIndexBuffer(
+			indicesAlloc.buffer, indicesAlloc.offset, 
+			indexStride == 4 ? VK_INDEX_TYPE_UINT32 : VK_INDEX_TYPE_UINT16
+		);
 	}
 
 	if (updateViewState)

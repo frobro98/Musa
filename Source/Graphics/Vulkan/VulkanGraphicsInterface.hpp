@@ -31,8 +31,8 @@ public:
 	virtual NativeViewport* CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight) override;
 	virtual void DestroyViewport(const NativeViewport* viewport) override;
 
-	virtual NativeVertexBuffer* CreateVertexBuffer(const DynamicArray<Vertex>& vertices) const override;
-	virtual NativeIndexBuffer* CreateIndexBuffer(const DynamicArray<Face>& faces) const override;
+	virtual NativeVertexBuffer* CreateVertexBuffer(u64 sizeInBytes, const ResourceBlob* blob) const override;
+	virtual NativeIndexBuffer* CreateIndexBuffer(u64 sizeInBytes, u32 indexSize, const ResourceBlob* blob = nullptr) const override;
 	virtual NativeUniformBuffer* CreateUniformBuffer(u32 bufferSize) const override;
 
 	virtual void DestroyVertexBuffer(const NativeVertexBuffer* vb) const override;
@@ -50,6 +50,12 @@ public:
 
 	virtual void PushTextureData(NativeTexture& texture, const ResourceBlob& textureBlob) override;
 	virtual void PushBufferData(NativeUniformBuffer& buffer, const void* data) const override;
+
+	virtual void* LockVertexBuffer(NativeVertexBuffer* vb, u64 size, u32 lockOffset) override;
+	virtual void UnlockVertexBuffer(NativeVertexBuffer* vb) override;
+
+	virtual void* LockIndexBuffer(NativeIndexBuffer* vb, u64 size, u32 lockOffset) override;
+	virtual void UnlockIndexBuffer(NativeIndexBuffer* vb) override;
 
 private:
 	void CreateInstance();

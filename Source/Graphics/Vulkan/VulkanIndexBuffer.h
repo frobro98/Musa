@@ -6,6 +6,7 @@
 #include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
+#include "VulkanBufferAllocation.hpp"
 
 struct Face;
 class VulkanDevice;
@@ -13,14 +14,15 @@ class VulkanDevice;
 class VulkanIndexBuffer : public NativeIndexBuffer, private Uncopyable
 {
 public:
-	VulkanIndexBuffer(VulkanDevice& device, const DynamicArray<Face>& indices);
+	VulkanIndexBuffer(VulkanDevice& device, u64 sizeInBytes, u32 indexSize);
 	~VulkanIndexBuffer();
 
 	inline VulkanBuffer& GetBuffer() const { return *indexBuffer; }
-	inline u32 GetNumberOfIndicies() const { return numIndicies; }
+	inline u64 GetSize() const { return indexBuffer->memory->size; }
+	inline u32 GetIndexStride() const { return indexStride; }
 
 private:
 	VulkanDevice& logicalDevice;
 	VulkanBuffer* indexBuffer;
-	u32 numIndicies;
+	u32 indexStride;
 };
