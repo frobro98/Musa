@@ -508,6 +508,14 @@ IntVector2 MusaAppWindows::GetMousePosition() const
 	return IntVector2(cursorPos.x, cursorPos.y);
 }
 
+IntVector2 MusaAppWindows::TransformPositionToWindow(const Window& window, const IntVector2& pos) const
+{
+	POINT cursorPos{ pos.x, pos.y };
+	::ScreenToClient((HWND)window.GetWindowHandle(), &cursorPos);
+	
+	return IntVector2(cursorPos.x, cursorPos.y);
+}
+
 void MusaAppWindows::LockCursorToRect(const Recti& rect)
 {
 	MUSA_DEBUG(Win32, "Locked Cursor to Rect x: {} y: {} w: {} h: {}",

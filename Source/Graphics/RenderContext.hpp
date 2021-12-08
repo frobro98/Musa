@@ -32,8 +32,8 @@ public:
 	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, u32 bufferIndex) = 0;
 	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, u32 textureIndex) = 0;
 	
-	virtual void Draw(u32 vertexCount, u32 instanceCount) = 0;
-	virtual void DrawIndexed(const NativeIndexBuffer& indexBuffer, u32 instanceCount) = 0;
+	virtual void DrawPrimitive(u32 numPrimitives, u32 instanceCount) = 0;
+	virtual void DrawPrimitiveIndexed(const NativeIndexBuffer& indexBuffer, u32 numPrimitives, u32 instanceCount, u32 firstIndex, i32 vertexOffset, u32 firstInstance) = 0;
 	virtual void DrawRaw(const ResourceArray& rawVerts, u32 instanceCount) = 0;
 	virtual void DrawRawIndexed(const ResourceArray& rawVerts, const ResourceArray& rawIndices, u32 indexStride, u32 instanceCount) = 0;
 

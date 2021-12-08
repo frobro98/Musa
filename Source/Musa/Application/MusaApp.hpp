@@ -36,6 +36,7 @@ public:
 	void UnlockCursor();
 	void ShowCursor(bool showCursor);
 	void SetMousePosition(const IntVector2& mousePos);
+	// Gets the position of the cursor in the application window itself
 	IntVector2 GetMousePosition() const;
 
 protected:

@@ -10,6 +10,9 @@
 VulkanVertexBuffer::VulkanVertexBuffer(VulkanDevice& device, u64 sizeInBytes)
 	: logicalDevice(device)
 {
+	// TODO - Need to figure out where this goes
+	size = sizeInBytes;
+
 	// TODO - Get staging buffers working. Need to cache them until they're used
 	vertexBuffer = logicalDevice.GetMemoryManager().AllocateBuffer(
 		sizeInBytes,

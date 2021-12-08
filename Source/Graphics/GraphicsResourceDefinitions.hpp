@@ -6,82 +6,60 @@
 
 // Textures
 struct NativeTexture
-{ 
-protected:
-	~NativeTexture() {}
+{
 };
 struct NativeSampler
 {
-protected:
-	~NativeSampler() {}
 };
 
 // Buffers
 struct NativeUniformBuffer
 {
-protected:
-	~NativeUniformBuffer() {}
+	u64 size;
 };
 
 struct NativeStorageBuffer
 {
-protected:
-	~NativeStorageBuffer() {}
+	u64 size;
 };
 
 struct NativeVertexBuffer
 {
-protected:
-	~NativeVertexBuffer() {}
+	u64 size;
 };
 
 struct NativeIndexBuffer
-{ 
-protected:
-	~NativeIndexBuffer() {}
+{
+	u64 size;
 };
 
 // Viewport
 struct NativeViewport
 {
-protected:
-	~NativeViewport() {}
 };
 
 // Shaders
 struct NativeVertexShader
 {
-protected:
-	~NativeVertexShader() {}
 };
 
 struct NativeGeometryShader
 {
-protected:
-	~NativeGeometryShader() {}
 };
 
 struct NativeTessEvaluationShader 
 {
-protected:
-	~NativeTessEvaluationShader() {}
 };
 
 struct NativeTessControlShader 
 {
-protected:
-	~NativeTessControlShader() {}
 };
 
 struct NativeFragmentShader 
 {
-protected:
-	~NativeFragmentShader() {}
 };
 
 struct NativeComputeShader 
 {
-protected:
-	~NativeComputeShader() {}
 };
 

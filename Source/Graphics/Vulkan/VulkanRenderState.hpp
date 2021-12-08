@@ -26,6 +26,8 @@ struct VulkanSampler;
 
 // Describes what is currently processing within a render pass in Vulkan
 // When a new render target is set, the current render pass ends and a new one begins
+
+// TODO - Refactor the fuck outta this...
 class VulkanRenderState
 {
 public:
@@ -41,6 +43,8 @@ public:
 	void SetTexture(const VulkanTexture& texture, const VulkanSampler& sampler, u32 bindIndex);
 
 	bool IsTextureInRender(const VulkanTexture& texture);
+
+	VulkanPipeline* GetCurrentPipeline() const { return currentPipeline; }
 
 private:
 	VulkanDevice& logicalDevice;

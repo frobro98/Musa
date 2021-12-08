@@ -112,7 +112,7 @@ void VulkanRenderContext::SetTexture(const NativeTexture& texture, const NativeS
 	currentRenderState.SetTexture(*tex, *samp, textureIndex);
 }
 
-void VulkanRenderContext::Draw(u32 vertexCount, u32 instanceCount)
+void VulkanRenderContext::DrawPrimitive(u32 numPrimitives, u32 instanceCount)
 {
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
 	if(updateViewState)
@@ -133,10 +133,12 @@ void VulkanRenderContext::Draw(u32 vertexCount, u32 instanceCount)
 
 	currentRenderState.BindState(cmdBuffer);
 
+	Assert(this->currentRenderState.GetCurrentPipeline()->GetDescription().topology == PrimitiveTopology::TriangleList);
+	u32 vertexCount = numPrimitives * 3;
 	cmdBuffer.Draw(vertexCount, instanceCount, 0, 0);
 }
 
-void VulkanRenderContext::DrawIndexed(const NativeIndexBuffer& indexBuffer, u32 instanceCount)
+void VulkanRenderContext::DrawPrimitiveIndexed(const NativeIndexBuffer& indexBuffer, u32 numPrimitives, u32 instanceCount, u32 firstIndex, i32 vertexOffset, u32 firstInstance)
 {
 	const VulkanIndexBuffer* ib = static_cast<const VulkanIndexBuffer*>(&indexBuffer);
 	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
@@ -156,12 +158,13 @@ void VulkanRenderContext::DrawIndexed(const NativeIndexBuffer& indexBuffer, u32 
 		vertexBuffersAndOffsets.vertexBufferOffsets.Clear();
 	}
 	
-	u32 indexCount = (u32)(ib->GetSize() / ib->GetIndexStride());
 	cmdBuffer.BindIndexBuffer(*ib);
 
 	currentRenderState.BindState(cmdBuffer);
 
-	cmdBuffer.DrawIndexed(indexCount, instanceCount, 0, 0, 0);
+	Assert(this->currentRenderState.GetCurrentPipeline()->GetDescription().topology == PrimitiveTopology::TriangleList);
+	u32 indexCount = numPrimitives * 3;
+	cmdBuffer.DrawIndexed(indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
 }
 
 void VulkanRenderContext::DrawRaw(const ResourceArray& rawVerts, u32 instanceCount)

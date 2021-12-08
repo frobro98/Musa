@@ -101,7 +101,7 @@ void MusaApp::SetMousePosition(const IntVector2& mousePos)
 
 IntVector2 MusaApp::GetMousePosition() const
 {
-	return osApp->GetMousePosition();
+	return osApp->TransformPositionToWindow(*appWindow, osApp->GetMousePosition());
 }
 
 void MusaApp::InitializeOSInput()

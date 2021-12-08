@@ -96,7 +96,7 @@ void SetupInputs(GraphicsPipelineDescription& initInfo, DynamicArray<VkVertexInp
 void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const GraphicsPipelineDescription& initInfo, VulkanRenderPass* renderPass)
 {
 	pipelineLayout = layout;
-	init = initInfo;
+	desc = initInfo;
 
 	DynamicArray<VkPipelineShaderStageCreateInfo> shaderStages;
 
@@ -124,7 +124,7 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 
 	DynamicArray<VkVertexInputBindingDescription> inputBindings;
 	DynamicArray<VkVertexInputAttributeDescription> inputAttribs;
-	SetupInputs(init, inputBindings, inputAttribs);
+	SetupInputs(desc, inputBindings, inputAttribs);
 
 	// Input information
 	VkPipelineVertexInputStateCreateInfo vertInputInfo = {};
@@ -137,17 +137,17 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	// Input Assembly info
 	VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo = {};
 	inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-	inputAssemblyInfo.topology = MusaTopologyToVk(init.topology);
+	inputAssemblyInfo.topology = MusaTopologyToVk(desc.topology);
 	inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
 
 	// Rasterizer info
 	VkPipelineRasterizationStateCreateInfo rasterizerInfo = {};
 	rasterizerInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-	rasterizerInfo.polygonMode = MusaPolyToVk(init.rasterizerDesc.fillMode);
-	rasterizerInfo.cullMode = MusaCullToVk(init.rasterizerDesc.cullMode);
-	rasterizerInfo.depthBiasEnable = init.rasterizerDesc.depthBiasConstant > 0;
-	rasterizerInfo.depthBiasConstantFactor = init.rasterizerDesc.depthBiasConstant;
-	rasterizerInfo.depthBiasSlopeFactor = init.rasterizerDesc.depthBiasSlope;
+	rasterizerInfo.polygonMode = MusaPolyToVk(desc.rasterizerDesc.fillMode);
+	rasterizerInfo.cullMode = MusaCullToVk(desc.rasterizerDesc.cullMode);
+	rasterizerInfo.depthBiasEnable = desc.rasterizerDesc.depthBiasConstant > 0;
+	rasterizerInfo.depthBiasConstantFactor = desc.rasterizerDesc.depthBiasConstant;
+	rasterizerInfo.depthBiasSlopeFactor = desc.rasterizerDesc.depthBiasSlope;
 	rasterizerInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 	rasterizerInfo.lineWidth = 1.f;
 
@@ -165,27 +165,27 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	// Depth-stencil info
 	VkPipelineDepthStencilStateCreateInfo depthStencilInfo = {};
 	depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-	depthStencilInfo.depthTestEnable = init.depthStencilTestDesc.depthCompareOp != CompareOperation::None;
+	depthStencilInfo.depthTestEnable = desc.depthStencilTestDesc.depthCompareOp != CompareOperation::None;
 	// TODO - This isn't the greatest. Might be better to check if the depth texture is readonly and if not, and depthtest enabled, set to true!
-	depthStencilInfo.depthWriteEnable = init.depthStencilTestDesc.depthWriteEnabled;
-	depthStencilInfo.stencilTestEnable = init.depthStencilTestDesc.frontStencilTestEnabled || init.depthStencilTestDesc.backStencilTestEnabled;
-	depthStencilInfo.depthCompareOp = MusaCompareOpToVk(init.depthStencilTestDesc.depthCompareOp);
+	depthStencilInfo.depthWriteEnable = desc.depthStencilTestDesc.depthWriteEnabled;
+	depthStencilInfo.stencilTestEnable = desc.depthStencilTestDesc.frontStencilTestEnabled || desc.depthStencilTestDesc.backStencilTestEnabled;
+	depthStencilInfo.depthCompareOp = MusaCompareOpToVk(desc.depthStencilTestDesc.depthCompareOp);
 
 	// Blending states
-	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(init.renderTargets.colorAttachments.Size());
+	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(desc.renderTargets.colorAttachments.Size());
 	for (u32 i = 0; i < colorBlendAttachments.Size(); ++i)
 	{
-		BlendingDescription& desc = init.blendingDescs[i];
+		BlendingDescription& blendDesc = desc.blendingDescs[i];
 		VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
-		colorBlendAttachment.blendEnable = desc.colorBlendOperation != BlendOperation::None ||
-											desc.alphaBlendOperation != BlendOperation::None;
-		colorBlendAttachment.colorBlendOp = MusaBlendOpToVk(desc.colorBlendOperation);
-		colorBlendAttachment.alphaBlendOp = MusaBlendOpToVk(desc.alphaBlendOperation);
-		colorBlendAttachment.colorWriteMask = (VkColorComponentFlags)desc.colorMask;
-		colorBlendAttachment.srcColorBlendFactor = MusaBlendFactorToVk(desc.srcBlend);
-		colorBlendAttachment.dstColorBlendFactor = MusaBlendFactorToVk(desc.dstBlend);
-		colorBlendAttachment.srcAlphaBlendFactor = MusaBlendFactorToVk(desc.srcAlphaBlend);
-		colorBlendAttachment.dstAlphaBlendFactor = MusaBlendFactorToVk(desc.dstAlphaBlend);
+		colorBlendAttachment.blendEnable = blendDesc.colorBlendOperation != BlendOperation::None ||
+											blendDesc.alphaBlendOperation != BlendOperation::None;
+		colorBlendAttachment.colorBlendOp = MusaBlendOpToVk(blendDesc.colorBlendOperation);
+		colorBlendAttachment.alphaBlendOp = MusaBlendOpToVk(blendDesc.alphaBlendOperation);
+		colorBlendAttachment.colorWriteMask = (VkColorComponentFlags)blendDesc.colorMask;
+		colorBlendAttachment.srcColorBlendFactor = MusaBlendFactorToVk(blendDesc.srcBlend);
+		colorBlendAttachment.dstColorBlendFactor = MusaBlendFactorToVk(blendDesc.dstBlend);
+		colorBlendAttachment.srcAlphaBlendFactor = MusaBlendFactorToVk(blendDesc.srcAlphaBlend);
+		colorBlendAttachment.dstAlphaBlendFactor = MusaBlendFactorToVk(blendDesc.dstAlphaBlend);
 
 		colorBlendAttachments[i] = colorBlendAttachment;
 	}

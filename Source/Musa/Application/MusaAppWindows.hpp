@@ -18,6 +18,7 @@ public:
 	virtual void ShowCursor(bool showCursor) override;
 	virtual void SetMousePosition(const IntVector2& mousePos) override;
 	virtual IntVector2 GetMousePosition() const override;
+	virtual IntVector2 TransformPositionToWindow(const Window& window, const IntVector2& pos) const override;
 	virtual void LockCursorToRect(const Recti& rect) override;
 	virtual void UnlockCursorFromRect() override;
 

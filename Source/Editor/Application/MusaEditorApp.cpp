@@ -7,6 +7,7 @@
 #include "Graphics/ResourceBlob.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Scene/Viewport.hpp"
+#include "Graphics/ResourceArray.hpp"
 
 #include "Shader/Shader.hpp"
 #include "Shader/ShaderResourceManager.hpp"
@@ -28,6 +29,13 @@ struct ImGuiTransform
 {
 	Vector2 scale;
 	Vector2 translate;
+};
+
+struct ImGuiVertex
+{
+	Vector3 position;
+	Vector2 uv;
+	Color32 color;
 };
 
 // TODO - Vertex specific for ImGui
@@ -61,20 +69,22 @@ inline const VertexInputDescriptionList GetVertexInput<ImDrawVert>()
 				0,							// Binding
 				2							// Location
 			}
-		}}
+		}},
+		// Count
+		3
 	};
 }
 
 static Viewport* viewport = nullptr;
-static NativeTexture* nativeFontTex;
-static NativeVertexBuffer* imguiVertBuffer;
-static NativeIndexBuffer* imguiIdxBuffer;
+static NativeVertexBuffer* imguiVertBuffer = nullptr;
+static NativeIndexBuffer* imguiIndexBuffer = nullptr;
 static NativeUniformBuffer* imguiTransform;
+static NativeTexture* nativeFontTex = nullptr;
 static NativeSampler* fontSampler = nullptr;
 static ShaderID vertShader;
 static ShaderID fragShader;
 static GraphicsPipelineDescription imguiPipeline;
-
+static bool showDemoWindow = true;
 
 void MusaEditorApp::AppInit()
 {
@@ -133,7 +143,7 @@ void MusaEditorApp::AppInit()
 	samplerDesc.addrModeV = SamplerAddressMode::Repeat;
 	samplerDesc.minLod = -1000;
 	samplerDesc.maxLod = 1000;
-	samplerDesc.maxAnisotropy = 1.f;
+	//samplerDesc.maxAnisotropy = 1.f;
 	fontSampler = GetGraphicsInterface().CreateTextureSampler(samplerDesc);
 
 	imguiPipeline.vertexInputs = GetVertexInput<ImDrawVert>();
@@ -170,7 +180,7 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& /*fr
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
 		ResourceBlob blob(pixels, width * height * 4);
-		nativeFontTex = GetGraphicsInterface().CreateInitializedTexture2D(blob, width, height, ImageFormat::RGBA_8u, 1, TextureUsage::SampledResource);
+		nativeFontTex = GetGraphicsInterface().CreateInitializedTexture2D(blob, width, height, ImageFormat::RGBA_8norm, 1, TextureUsage::SampledResource);
 	}
 
 	io.DisplaySize = ImVec2((f32)appWindow->GetWidth(), (f32)appWindow->GetHeight());
@@ -179,9 +189,52 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& /*fr
 
 	ImGui::NewFrame();
 
-	ImGui::ShowDemoWindow();
+	if(showDemoWindow)
+		ImGui::ShowDemoWindow(&showDemoWindow);
 
 	ImGui::Render();
+
+	// Actually render to GPU
+	NOT_USED ImDrawData* drawData = ImGui::GetDrawData();
+
+	if (drawData->TotalVtxCount > 0)
+	{
+		size_t vertexSize = drawData->TotalVtxCount * sizeof(ImDrawVert);
+		size_t indexSize = drawData->TotalIdxCount * sizeof(ImDrawIdx);
+		if (imguiVertBuffer == nullptr || imguiVertBuffer->size < vertexSize)
+		{
+			GetGraphicsInterface().DestroyVertexBuffer(imguiVertBuffer);
+			imguiVertBuffer = GetGraphicsInterface().CreateVertexBuffer(vertexSize);
+		}
+		if (imguiIndexBuffer == nullptr || imguiIndexBuffer->size < indexSize)
+		{
+			GetGraphicsInterface().DestroyIndexBuffer(imguiIndexBuffer);
+			imguiIndexBuffer = GetGraphicsInterface().CreateIndexBuffer(indexSize, sizeof(ImDrawIdx));
+		}
+
+		ImDrawVert* vertData = reinterpret_cast<ImDrawVert*>(GetGraphicsInterface().LockVertexBuffer(imguiVertBuffer, imguiVertBuffer->size, 0));
+		ImDrawIdx* idxData = reinterpret_cast<ImDrawIdx*>(GetGraphicsInterface().LockIndexBuffer(imguiIndexBuffer, imguiIndexBuffer->size, 0));
+
+		// Loop through cmd list from imgui
+		for (int i = 0; i < drawData->CmdListsCount; ++i)
+		{
+			const ImDrawList* cmdList = drawData->CmdLists[i];
+			Memcpy(vertData, cmdList->VtxBuffer.Data, cmdList->VtxBuffer.Size * sizeof(ImDrawVert));
+			Memcpy(idxData, cmdList->IdxBuffer.Data, cmdList->IdxBuffer.Size * sizeof(ImDrawIdx));
+			vertData += cmdList->VtxBuffer.Size;
+			idxData += cmdList->IdxBuffer.Size;
+		}
+
+		GetGraphicsInterface().UnlockVertexBuffer(imguiVertBuffer);
+		GetGraphicsInterface().UnlockIndexBuffer(imguiIndexBuffer);
+	}
+
+	ImGuiTransform transform = {};
+	transform.scale.x = 2.f / drawData->DisplaySize.x;
+	transform.scale.y = 2.f / drawData->DisplaySize.y;
+	transform.translate.x = -1.f - drawData->DisplayPos.x * transform.scale.x;
+	transform.translate.y = -1.f - drawData->DisplayPos.y * transform.scale.y;
+	GetGraphicsInterface().PushBufferData(*imguiTransform, &transform);
 
 	RenderContext& context = *GetGraphicsInterface().GetRenderContext();
 
@@ -192,7 +245,7 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& /*fr
 	NativeRenderTargets backBufferTarget = {};
 	backBufferTarget.colorTargets.Add(backBuffer);
 	
-	DynamicArray<Color32> clearColors = { Color32(.5f, .5f, .5f) };
+	DynamicArray<Color32> clearColors = { Color32(1.f, .5f, .5f) };
 
 	RenderTargetDescription targetDescription = {};
 	targetDescription.colorAttachments.Resize(1);
@@ -211,13 +264,53 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& /*fr
 
 	imguiPipeline.renderTargets = targetDescription;
 
-	context.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
-	context.SetViewport(0, 0, viewport->GetWidth(), viewport->GetHeight(), 0, 1);
-	context.SetScissor(0, 0, viewport->GetWidth(), viewport->GetHeight());
-	context.SetGraphicsPipeline(imguiPipeline);
+	i32 drawWidth = (i32)(drawData->DisplaySize.x * drawData->FramebufferScale.x);
+	i32 drawHeight = (i32)(drawData->DisplaySize.y * drawData->FramebufferScale.y);
 
-	// Actually render to GPU
-	NOT_USED ImDrawData* drawData = ImGui::GetDrawData();
+	context.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+	context.SetViewport(0, 0, drawWidth, drawHeight, 0, 1);
+	context.SetGraphicsPipeline(imguiPipeline);
+	context.SetVertexBuffer(*imguiVertBuffer);
+	context.SetUniformBuffer(*imguiTransform, 0);
+	context.SetTexture(*nativeFontTex, *fontSampler, 1);
+
+	ImVec2 clipOffset = drawData->DisplayPos;
+	ImVec2 clipScale = drawData->FramebufferScale;
+	u32 globalVertOffset = 0;
+	u32 globalIdxOffset = 0;
+	for (i32 idx = 0; idx < drawData->CmdListsCount; ++idx)
+	{
+		const ImDrawList* cmdList = drawData->CmdLists[idx];
+		for (i32 l = 0; l < cmdList->CmdBuffer.Size; ++l)
+		{
+			const ImDrawCmd* cmd = &cmdList->CmdBuffer[l];
+
+			ImVec4 clipRect;
+			clipRect.x = (cmd->ClipRect.x - clipOffset.x) * clipScale.x;
+			clipRect.y = (cmd->ClipRect.y - clipOffset.y) * clipScale.y;
+			clipRect.z = (cmd->ClipRect.z - clipOffset.x) * clipScale.x;
+			clipRect.w = (cmd->ClipRect.w - clipOffset.y) * clipScale.y;
+
+			if (clipRect.x < drawWidth && clipRect.y < drawHeight && clipRect.z >= 0.f && clipRect.w >= 0.f)
+			{
+				// Ensure clipRect isn't below 0
+				clipRect.x = Math::Max(clipRect.x, 0.f);
+				clipRect.y = Math::Max(clipRect.y, 0.f);
+
+				context.SetScissor(
+					(u32)(clipRect.x), (u32)(clipRect.y),
+					(u32)(clipRect.z - clipRect.x),
+					(u32)(clipRect.w - clipRect.y)
+				);
+
+				u32 numPrimitives = cmd->ElemCount / sizeof(ImDrawIdx);
+				context.DrawPrimitiveIndexed(*imguiIndexBuffer, numPrimitives, 1, cmd->IdxOffset + globalIdxOffset, cmd->VtxOffset + globalVertOffset, 0);
+			}
+
+		}
+		globalVertOffset += cmdList->VtxBuffer.Size;
+		globalIdxOffset += cmdList->IdxBuffer.Size;
+	}
 
 	context.EndRenderFrame(viewport->GetNativeViewport());
 }

@@ -84,7 +84,7 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 	context.SetTexture(*sceneColor.nativeTarget, *SamplerDesc(), 0);
 	context.SetTexture(*uiColor.nativeTarget, *SamplerDesc(), 1);
 
-	context.Draw(3, 1);
+	context.DrawPrimitive(1, 1);
 
 	//TransitionTargetsToRead(context, backBufferTarget);
 }

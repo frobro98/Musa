@@ -43,11 +43,11 @@ public:
 	VulkanDescriptorSet* GetUnusedDescriptorSet(VulkanCommandBuffer& cmdBuffer);
 
 	inline WriteDescriptorSet& GetWriteDescriptorSet() { return writeDescriptorSet; }
-
+	inline GraphicsPipelineDescription& GetDescription() { return desc; }
 private:
 	std::mutex descriptorMut;
 	VkPipeline pipeline = VK_NULL_HANDLE;
-	GraphicsPipelineDescription init;
+	GraphicsPipelineDescription desc;
 	WriteDescriptorSet writeDescriptorSet;
 	const VulkanPipelineLayout* pipelineLayout;
 	const VulkanDevice* logicalDevice;

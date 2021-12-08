@@ -269,7 +269,8 @@ void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<Render
 					}
 
 					renderContext.SetVertexBuffer(*primitive.vertexBuffer);
-					renderContext.DrawIndexed(*primitive.indexBuffer, 1);
+					u32 numApiPrimitives = (u32)primitive.indexBuffer->size / sizeof(u32);
+					renderContext.DrawPrimitiveIndexed(*primitive.indexBuffer, numApiPrimitives, 1, 0, 0, 0);
 				}
 			}
 		}

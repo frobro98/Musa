@@ -25,6 +25,7 @@ public:
 	virtual void ShowCursor(bool showCursor) = 0;
 	virtual void SetMousePosition(const IntVector2& mousePos) = 0;
 	virtual IntVector2 GetMousePosition() const = 0;
+	virtual IntVector2 TransformPositionToWindow(const Window& window, const IntVector2& pos) const = 0;
 	virtual void LockCursorToRect(const Recti& rect) = 0;
 	virtual void UnlockCursorFromRect() = 0;
 
