@@ -162,17 +162,38 @@ void MusaEditorApp::AppInit()
 	imguiPipeline.fragmentShader = GetShaderResourceManager().FindShaderResource(fragShader)->GetFragmentShader();
 
 	imguiTransform = GetGraphicsInterface().CreateUniformBuffer(sizeof(ImGuiTransform));
+	imguiVertBuffer = GetGraphicsInterface().CreateVertexBuffer(sizeof(ImDrawVert));
+	imguiIndexBuffer = GetGraphicsInterface().CreateIndexBuffer(sizeof(ImDrawIdx), sizeof(ImDrawIdx));
 }
 
-void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& /*frameInputs*/)
+void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& frameInputs)
 {
-	// Push input to imgui
-// 	for (const auto& event : frameInputs)
-// 	{
-// 
-// 	}
-
 	ImGuiIO& io = ImGui::GetIO();
+
+	// Push input to imgui
+	for (const auto& event : frameInputs)
+	{
+		switch (event.type)
+		{
+			case Input::EventType::Mouse:
+				//Input::MouseEvent mouseEvent = event.mouseEvent;
+				//mouseEvent.
+				break;
+			case Input::EventType::Button:
+				Input::ButtonEvent button = event.buttonEvent;
+				if (Input::IsMouseButtonEvent(button.button))
+				{
+					io.MouseDown[button.button - Input::Mouse_LeftButton] = button.downState.endedDown;
+				}
+				break;
+			case Input::EventType::Analog:
+				break;
+			default:
+				Assert(false);
+				break;
+		}
+	}
+
 	if (nativeFontTex == nullptr)
 	{
 		u8* pixels;

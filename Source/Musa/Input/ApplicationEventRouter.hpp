@@ -15,6 +15,7 @@ namespace Input
 struct DownState;
 }
 
+// TODO - Rename. Router isn't actually what it does
 class ApplicationEventRouter
 {
 public:
@@ -36,6 +37,9 @@ public:
 	void HandleWindowCloseEvent();
 	void HandleWindowActivationChanged(bool activated);
 
+	DynamicArray<Input::Event> MoveFrameInputs();
+
 private:
+	DynamicArray<Input::Event> inputEvents;
 	IntVector2 previousPosition;
 };

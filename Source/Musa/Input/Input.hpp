@@ -60,6 +60,8 @@ struct MouseEvent
 
 struct Event
 {
+	Event() {}
+
 	union
 	{
 		ButtonEvent buttonEvent;

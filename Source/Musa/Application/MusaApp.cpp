@@ -46,7 +46,8 @@ void MusaApp::LaunchApplication()
 		// TODO - Should pass this along to the game itself
 		ProcessApplicationInputs();
 
-		AppLoop(tick, DynamicArray<Input::Event>{});
+		auto inputEvents = inputRouter->MoveFrameInputs();
+		AppLoop(tick, inputEvents);
 	}
 
 	AppDeinit();

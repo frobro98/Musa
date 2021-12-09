@@ -13,6 +13,11 @@ void ApplicationEventRouter::HandleKeyDown(Input::Buttons key, const Input::Down
 	event.buttonState = Input::ButtonState::Pressed;
 	event.downState = input;
 	event.isRepeated = isRepeated;
+	
+	Input::Event inputEvent = {};
+	inputEvent.buttonEvent = event;
+	inputEvent.type = Input::EventType::Button;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleKeyUp(Input::Buttons key, const Input::DownState& input)
@@ -22,6 +27,11 @@ void ApplicationEventRouter::HandleKeyUp(Input::Buttons key, const Input::DownSt
 	event.buttonState = Input::ButtonState::Released;
 	event.downState = input;
 	event.isRepeated = false;
+	
+	Input::Event inputEvent = {};
+	inputEvent.buttonEvent = event;
+	inputEvent.type = Input::EventType::Button;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleKeyChar(tchar c, bool isRepeated)
@@ -36,6 +46,11 @@ void ApplicationEventRouter::HandleMouseDown(Input::Buttons mouse, const Input::
 	event.buttonState = Input::ButtonState::Pressed;
 	event.downState = state;
 	event.isRepeated = false;
+	
+	Input::Event inputEvent = {};
+	inputEvent.buttonEvent = event;
+	inputEvent.type = Input::EventType::Button;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleMouseUp(Input::Buttons mouse, const Input::DownState& state)
@@ -45,6 +60,11 @@ void ApplicationEventRouter::HandleMouseUp(Input::Buttons mouse, const Input::Do
 	event.buttonState = Input::ButtonState::Released;
 	event.downState = state;
 	event.isRepeated = false;
+	
+	Input::Event inputEvent = {};
+	inputEvent.buttonEvent = event;
+	inputEvent.type = Input::EventType::Button;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleMouseMove(const IntVector2& mousePosition)
@@ -57,6 +77,11 @@ void ApplicationEventRouter::HandleMouseMove(const IntVector2& mousePosition)
 		event.deltaPosition = mousePosition - previousPosition;
 
 		previousPosition = mousePosition;
+
+		Input::Event inputEvent = {};
+		inputEvent.mouseEvent = event;
+		inputEvent.type = Input::EventType::Mouse;
+		inputEvents.Add(inputEvent);
 	}
 }
 
@@ -70,6 +95,11 @@ void ApplicationEventRouter::HandleRawMouseMove(const IntVector2& mousePosition,
 		event.deltaPosition = deltaPosition;
 
 		previousPosition = mousePosition;
+		
+		Input::Event inputEvent = {};
+		inputEvent.mouseEvent = event;
+		inputEvent.type = Input::EventType::Mouse;
+		inputEvents.Add(inputEvent);
 	}
 }
 
@@ -80,6 +110,11 @@ void ApplicationEventRouter::HandleControllerButtonDown(u32 /*controllerIndex*/,
 	event.downState = state;
 	event.isRepeated = false;
 	event.buttonState = Input::ButtonState::Pressed;
+	
+	Input::Event inputEvent = {};
+	inputEvent.buttonEvent = event;
+	inputEvent.type = Input::EventType::Button;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleControllerButtonUp(u32 /*controllerIndex*/, Input::Buttons gamepadInput, const Input::DownState& state)
@@ -89,6 +124,11 @@ void ApplicationEventRouter::HandleControllerButtonUp(u32 /*controllerIndex*/, I
 	event.downState = state;
 	event.isRepeated = false;
 	event.buttonState = Input::ButtonState::Pressed;
+
+	Input::Event inputEvent = {};
+	inputEvent.buttonEvent = event;
+	inputEvent.type = Input::EventType::Button;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleControllerAnalogChange(u32 /*controllerIndex*/, Input::Buttons gamepadInput, f32 normValue)
@@ -96,6 +136,11 @@ void ApplicationEventRouter::HandleControllerAnalogChange(u32 /*controllerIndex*
 	Input::AnalogEvent event;
 	event.analogButton = gamepadInput;
 	event.normValue = normValue;
+
+	Input::Event inputEvent = {};
+	inputEvent.analogEvent = event;
+	inputEvent.type = Input::EventType::Analog;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleWindowResizeEvent(const IntVector2& /*newWindowdimensions*/)
@@ -112,4 +157,12 @@ void ApplicationEventRouter::HandleWindowCloseEvent()
 void ApplicationEventRouter::HandleWindowActivationChanged(bool /*activated*/)
 {
 	//application.Activation(activated);
+}
+
+DynamicArray<Input::Event> ApplicationEventRouter::MoveFrameInputs()
+{
+	DynamicArray<Input::Event> events = inputEvents;
+	inputEvents.Clear();
+
+	return events;
 }

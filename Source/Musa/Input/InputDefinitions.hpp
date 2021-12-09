@@ -175,5 +175,8 @@ namespace Input
 
 		_INPUT_STATE_MAX_ = 0xFF
 	};
+
+
+	inline bool IsMouseButtonEvent(Buttons button) { return button <= Mouse_Button8 && button >= Mouse_LeftButton; }
 };
 
