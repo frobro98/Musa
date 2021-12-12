@@ -24,7 +24,7 @@ VulkanViewport::~VulkanViewport()
 void VulkanViewport::AcquireBackBuffer()
 {
 	NOT_USED VkResult result = swapchain->GetNextImage();
-	Assert(result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR);
+	Assert(result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR || result == VK_NOT_READY);
 	backBufferTexture = &swapchain->GetSwapchainTarget();
 	Assert(backBufferTexture);
 }

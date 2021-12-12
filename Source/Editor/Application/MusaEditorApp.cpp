@@ -218,6 +218,7 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 	// Actually render to GPU
 	NOT_USED ImDrawData* drawData = ImGui::GetDrawData();
 
+	// Update vb/ib with new data
 	if (drawData->TotalVtxCount > 0)
 	{
 		size_t vertexSize = drawData->TotalVtxCount * sizeof(ImDrawVert);
@@ -287,53 +288,59 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 
 	i32 drawWidth = (i32)(drawData->DisplaySize.x * drawData->FramebufferScale.x);
 	i32 drawHeight = (i32)(drawData->DisplaySize.y * drawData->FramebufferScale.y);
+	if (drawWidth <= 0 || drawHeight <= 0)
+		return;
 
-	context.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
-	context.SetViewport(0, 0, drawWidth, drawHeight, 0, 1);
-	context.SetGraphicsPipeline(imguiPipeline);
-	context.SetVertexBuffer(*imguiVertBuffer);
-	context.SetUniformBuffer(*imguiTransform, 0);
-	context.SetTexture(*nativeFontTex, *fontSampler, 1);
-
-	ImVec2 clipOffset = drawData->DisplayPos;
-	ImVec2 clipScale = drawData->FramebufferScale;
-	u32 globalVertOffset = 0;
-	u32 globalIdxOffset = 0;
-	for (i32 idx = 0; idx < drawData->CmdListsCount; ++idx)
+	if (drawData->TotalVtxCount > 0)
 	{
-		const ImDrawList* cmdList = drawData->CmdLists[idx];
-		for (i32 l = 0; l < cmdList->CmdBuffer.Size; ++l)
+		context.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+		context.SetViewport(0, 0, drawWidth, drawHeight, 0, 1);
+		context.SetGraphicsPipeline(imguiPipeline);
+		context.SetVertexBuffer(*imguiVertBuffer);
+		context.SetUniformBuffer(*imguiTransform, 0);
+		context.SetTexture(*nativeFontTex, *fontSampler, 1);
+
+		ImVec2 clipOffset = drawData->DisplayPos;
+		ImVec2 clipScale = drawData->FramebufferScale;
+		u32 globalVertOffset = 0;
+		u32 globalIdxOffset = 0;
+		for (i32 idx = 0; idx < drawData->CmdListsCount; ++idx)
 		{
-			const ImDrawCmd* cmd = &cmdList->CmdBuffer[l];
-
-			ImVec4 clipRect;
-			clipRect.x = (cmd->ClipRect.x - clipOffset.x) * clipScale.x;
-			clipRect.y = (cmd->ClipRect.y - clipOffset.y) * clipScale.y;
-			clipRect.z = (cmd->ClipRect.z - clipOffset.x) * clipScale.x;
-			clipRect.w = (cmd->ClipRect.w - clipOffset.y) * clipScale.y;
-
-			if (clipRect.x < drawWidth && clipRect.y < drawHeight && clipRect.z >= 0.f && clipRect.w >= 0.f)
+			const ImDrawList* cmdList = drawData->CmdLists[idx];
+			for (i32 l = 0; l < cmdList->CmdBuffer.Size; ++l)
 			{
-				// Ensure clipRect isn't below 0
-				clipRect.x = Math::Max(clipRect.x, 0.f);
-				clipRect.y = Math::Max(clipRect.y, 0.f);
+				const ImDrawCmd* cmd = &cmdList->CmdBuffer[l];
 
-				context.SetScissor(
-					(u32)(clipRect.x), (u32)(clipRect.y),
-					(u32)(clipRect.z - clipRect.x),
-					(u32)(clipRect.w - clipRect.y)
-				);
+				ImVec4 clipRect;
+				clipRect.x = (cmd->ClipRect.x - clipOffset.x) * clipScale.x;
+				clipRect.y = (cmd->ClipRect.y - clipOffset.y) * clipScale.y;
+				clipRect.z = (cmd->ClipRect.z - clipOffset.x) * clipScale.x;
+				clipRect.w = (cmd->ClipRect.w - clipOffset.y) * clipScale.y;
 
-				u32 numPrimitives = cmd->ElemCount / sizeof(ImDrawIdx);
-				context.DrawPrimitiveIndexed(*imguiIndexBuffer, numPrimitives, 1, cmd->IdxOffset + globalIdxOffset, cmd->VtxOffset + globalVertOffset, 0);
+				if (clipRect.x < drawWidth && clipRect.y < drawHeight && clipRect.z >= 0.f && clipRect.w >= 0.f)
+				{
+					// Ensure clipRect isn't below 0
+					clipRect.x = Math::Max(clipRect.x, 0.f);
+					clipRect.y = Math::Max(clipRect.y, 0.f);
+
+					context.SetScissor(
+						(u32)(clipRect.x), (u32)(clipRect.y),
+						(u32)(clipRect.z - clipRect.x),
+						(u32)(clipRect.w - clipRect.y)
+					);
+
+					constexpr u32 indicesPerPrimitive = 3;
+					u32 numPrimitives = cmd->ElemCount / indicesPerPrimitive;
+					context.DrawPrimitiveIndexed(*imguiIndexBuffer, numPrimitives, 1, cmd->IdxOffset + globalIdxOffset, cmd->VtxOffset + globalVertOffset, 0);
+				}
+
 			}
-
+			globalVertOffset += cmdList->VtxBuffer.Size;
+			globalIdxOffset += cmdList->IdxBuffer.Size;
 		}
-		globalVertOffset += cmdList->VtxBuffer.Size;
-		globalIdxOffset += cmdList->IdxBuffer.Size;
-	}
 
-	context.EndRenderFrame(viewport->GetNativeViewport());
+		context.EndRenderFrame(viewport->GetNativeViewport());
+	}
 }
 
 void MusaEditorApp::AppDeinit()
