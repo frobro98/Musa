@@ -2,56 +2,34 @@
 
 #include "RenderTarget.hpp"
 
-RenderTargetDescription CreateRenderTargetDescription(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget, RenderTargetAccess depthAccess)
+GRAPHICS_API FixedArray<ColorDescription, MaxColorTargetCount> CreateColorTargetDescriptions(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, RenderTargetAccess access)
 {
-	// TODO - Check can be made in a more compile time way
-	AssertFunc([&] {
-		u32 width = colorTargets[0]->width;
-		u32 height = colorTargets[0]->height;
-		for (u32 i = 1; i < colorTargets.Size(); ++i)
-		{
-			const RenderTarget* rt = colorTargets[i];
-			if (width != rt->width || 
-				height != rt->height)
-				return false;
-		}
-		return true;
-	}, "Dimensions aren't the same for each target!");
-
-	RenderTargetDescription desc = {};
-	u32 numColorTargets = colorTargets.Size();
-	desc.colorAttachments.Resize(numColorTargets);
-	desc.targetExtents = { (f32)colorTargets[0]->width,(f32)colorTargets[0]->height };
-	for (u32 i = 0; i < numColorTargets; ++i)
+	FixedArray<ColorDescription, MaxColorTargetCount> colorDescs(colorTargets.Size());
+	for (u32 i = 0; i < colorDescs.Size(); ++i)
 	{
-		const RenderTarget* colorTarget = colorTargets[i];
-		RenderTargetAttachment& attachment = desc.colorAttachments[i];
-		attachment.format = colorTarget->format;
-		attachment.load = colorTarget->load;
-		attachment.store = colorTarget->store;
-		attachment.stencilLoad = colorTarget->stencilLoad;
-		attachment.stencilStore = colorTarget->stencilStore;
-		attachment.sampleCount = colorTarget->sampleCount;
+		const RenderTarget* target = colorTargets[i];
+		ColorDescription& desc = colorDescs[i];
+		desc.access = access;
+		desc.format = target->format;
+		desc.op = CreateColorTargetOperations(target->load, target->store);
+		desc.sampleCount = target->sampleCount;
 	}
 
-	if (depthTarget != nullptr)
-	{
-		desc.hasDepth = true;
-		desc.depthAttachment.format = depthTarget->format;
-		desc.depthAttachment.load = depthTarget->load;
-		desc.depthAttachment.store = depthTarget->store;
-		desc.depthAttachment.stencilLoad = depthTarget->stencilLoad;
-		desc.depthAttachment.stencilStore = depthTarget->stencilStore;
-		desc.depthAttachment.sampleCount = depthTarget->sampleCount;
-		desc.depthAttachment.access = depthAccess;
-	}
-	else
-	{
-		desc.hasDepth = false;
-	}
-	
+	return colorDescs;
+}
 
-	return desc;
+GRAPHICS_API DepthStencilDescription CreateDepthTargetDescription(const RenderTarget* depthTarget, RenderTargetAccess access)
+{
+	DepthStencilDescription depthDesc = {};
+	depthDesc.access = access;
+	depthDesc.format = depthTarget->format;
+	depthDesc.op = CreateDepthStencilOperations(
+		CreateColorTargetOperations(depthTarget->load, depthTarget->store),
+		CreateColorTargetOperations(depthTarget->stencilLoad, depthTarget->stencilStore)
+		);
+	depthDesc.sampleCount = depthTarget->sampleCount;
+
+	return depthDesc;
 }
 
 NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget * depthTarget)
@@ -82,6 +60,8 @@ NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarge
 	{
 		targets.depthTarget = depthTarget->nativeTarget;
 	}
+
+	targets.extents = { (f32)colorTargets[0]->width, (f32)colorTargets[0]->height };
 
 	return targets;
 }

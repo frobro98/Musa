@@ -5,7 +5,7 @@
 #include "GraphicsResourceFlags.hpp"
 #include "BasicTypes/UniquePtr.hpp"
 #include "Texture/ImageFormats.h"
-#include "RenderTargetDescription.hpp"
+#include "RenderPassAttachments.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "Containers/MemoryBuffer.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"

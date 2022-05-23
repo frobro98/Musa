@@ -20,19 +20,57 @@ VulkanRenderState::VulkanRenderState(VulkanDevice& device)
 {
 }
 
-void VulkanRenderState::SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents)
+void VulkanRenderState::BeginRenderPass(VulkanCommandBuffer& cmdBuffer, const BeginRenderPassInfo& beginInfo)
 {
-	if (cmdBuffer.IsInRenderPass())
+	Assert(!InRenderPass());
+	
+	// Convert clear colors and clear DS to VkClearValues
+	DynamicArray<VkClearValue> vkClearColors;
+	u32 numColorAttachments = beginInfo.colorAttachments.Size();
+	vkClearColors.Resize(beginInfo.targets.depthTarget ? numColorAttachments + 1 : numColorAttachments);
+	for (u32 i = 0; i < numColorAttachments; ++i)
 	{
-		cmdBuffer.EndRenderPass();
-		framebufferContext = nullptr;
+		vkClearColors[i].color = {
+			beginInfo.clearColors[i].r,
+			beginInfo.clearColors[i].g,
+			beginInfo.clearColors[i].b,
+			beginInfo.clearColors[i].a
+		};
 	}
 
-	VulkanFramebuffer* newTargetFB = logicalDevice.GetRenderingStorage()->FindOrCreateFramebuffer(targetDescription, renderTextures);
+	if (beginInfo.targets.depthTarget != nullptr)
+	{
+		vkClearColors[vkClearColors.Size() - 1].depthStencil = { beginInfo.clearDS.clearDepth, beginInfo.clearDS.clearStencil };
+	}
 
-	cmdBuffer.BeginRenderpass(newTargetFB, clearColors, inlinedContents);
+	// Get Framebuffer
+	const VulkanRenderingLayout renderLayout(beginInfo.colorAttachments, beginInfo.depthAttachment);
+	const NativeRenderTargets nativeTextures = [&beginInfo]
+	{
+		NativeRenderTargets textures;
+		textures.colorTargets = beginInfo.targets.colorTargets;
+		textures.depthTarget = beginInfo.targets.depthTarget;
+		textures.extents = beginInfo.targets.extents;
+		return textures;
+	}();
 
-	framebufferContext = newTargetFB;
+	VulkanFramebuffer* newTargetFramebuffer = logicalDevice.GetRenderingStorage()->FindOrCreateFramebuffer(renderLayout, nativeTextures);
+
+	cmdBuffer.BeginRenderpass(newTargetFramebuffer, vkClearColors);
+
+	framebufferContext = newTargetFramebuffer;
+	inRenderPass = true;
+}
+
+void VulkanRenderState::EndRenderPass(VulkanCommandBuffer& cmdBuffer)
+{
+	Assert(InRenderPass());
+	Assert(cmdBuffer.IsInRenderPass());
+
+	cmdBuffer.EndRenderPass();
+
+	framebufferContext = nullptr;
+	inRenderPass = false;
 }
 
 void VulkanRenderState::SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDescription)

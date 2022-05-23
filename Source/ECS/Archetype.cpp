@@ -186,6 +186,11 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 	return archetype;
 }
 
+NODISCARD ECS_API u32 GetArchetypeSystemVersion(const Archetype& archetype)
+{
+	return archetype.world->GetSystemVersion();
+}
+
 ArchetypeChunk GetOrCreateFreeArchetypeChunk(Archetype& archetype)
 {
 	ArchetypeChunk chunk;

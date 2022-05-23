@@ -13,7 +13,6 @@
 #include "VulkanDescriptorLayoutManager.h"
 #include "VulkanShaderHeader.hpp"
 
-
 VulkanRenderingCloset::VulkanRenderingCloset(const VulkanDevice& device)
 	: logicalDevice(device)
 {
@@ -52,7 +51,7 @@ VulkanPipeline* VulkanRenderingCloset::FindOrCreatePipeline(const GraphicsPipeli
 	return pipeline;
 }
 
-VulkanRenderPass* VulkanRenderingCloset::FindOrCreateRenderPass(const RenderTargetDescription& desc)
+VulkanRenderPass* VulkanRenderingCloset::FindOrCreateRenderPass(const VulkanRenderingLayout& desc)
 {
 	VulkanRenderPass* renderPass = nullptr;
 	if (!renderPassStore.TryFind(desc, renderPass))
@@ -62,7 +61,7 @@ VulkanRenderPass* VulkanRenderingCloset::FindOrCreateRenderPass(const RenderTarg
 	return renderPass;
 }
 
-VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs)
+VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const VulkanRenderingLayout& desc, const NativeRenderTargets& correspondingRTs)
 {
 	SimilarFramebuffers* frameBuffers = framebufferStore.Find(desc);
 	VulkanFramebuffer* framebuffer = nullptr;
@@ -110,7 +109,10 @@ VkSampler VulkanRenderingCloset::FindOrCreateSampler(const SamplerDescription& p
 
 VulkanPipeline* VulkanRenderingCloset::CreatePipeline(const GraphicsPipelineDescription& desc)
 {
-	VulkanRenderPass* renderPass = FindOrCreateRenderPass(desc.renderTargets);
+	// Create render layout structure
+	VulkanRenderingLayout renderLayout(desc.colorAttachments, desc.depthAttachment);
+
+	VulkanRenderPass* renderPass = FindOrCreateRenderPass(renderLayout);
 	VulkanPipelineLayout* layout = ConfigurePipelineLayout(desc);
 	
 	VulkanPipeline* pipeline = new VulkanPipeline(logicalDevice);
@@ -120,14 +122,14 @@ VulkanPipeline* VulkanRenderingCloset::CreatePipeline(const GraphicsPipelineDesc
 	return pipeline;
 }
 
-VulkanRenderPass* VulkanRenderingCloset::CreateRenderPass(const RenderTargetDescription& desc)
+VulkanRenderPass* VulkanRenderingCloset::CreateRenderPass(const VulkanRenderingLayout& desc)
 {
 	VulkanRenderPass* renderPass = new VulkanRenderPass(logicalDevice, desc);
 	renderPassStore.Add(desc, renderPass);
 	return renderPass;
 }
 
-VulkanFramebuffer* VulkanRenderingCloset::CreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs)
+VulkanFramebuffer* VulkanRenderingCloset::CreateFramebuffer(const VulkanRenderingLayout& desc, const NativeRenderTargets& correspondingRTs)
 {
 	VulkanRenderPass* renderPass = FindOrCreateRenderPass(desc);
 	VulkanFramebuffer* framebuffer = new VulkanFramebuffer(logicalDevice);

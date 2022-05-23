@@ -25,6 +25,42 @@ class VulkanRenderPass;
 class VulkanFramebuffer;
 class VulkanPipelineLayout;
 
+struct VulkanRenderingLayout
+{
+	VulkanRenderingLayout(const FixedArray<ColorDescription, MaxColorTargetCount>& colorDescs_, const DepthStencilDescription& depthDesc_)
+	{
+		numColorDescs = colorDescs_.Size();
+		Memcpy(colorDescs, colorDescs_.GetData(), sizeof(ColorDescription) * numColorDescs);
+		depthDesc = depthDesc_;
+		hasDepthDesc = depthDesc.format != ImageFormat::Invalid;
+	}
+
+	ColorDescription colorDescs[MaxColorTargetCount] = {};
+	DepthStencilDescription depthDesc = {};
+	u32 numColorDescs = 0;
+	bool hasDepthDesc = false;
+};
+
+inline bool operator==(const VulkanRenderingLayout& lhs, const VulkanRenderingLayout& rhs)
+{
+	return lhs.numColorDescs == rhs.numColorDescs && lhs.hasDepthDesc == rhs.hasDepthDesc &&
+		Memcmp(lhs.colorDescs, rhs.colorDescs, sizeof(lhs.colorDescs)) == 0 && lhs.depthDesc == rhs.depthDesc;
+}
+
+inline u32 GetHash(const VulkanRenderingLayout& desc)
+{
+	struct HashableTargetDescription
+	{
+		FixedArray<ColorDescription, MaxColorTargetCount> colorDescs;
+		DepthStencilDescription depthDesc;
+	} hashDesc;
+	hashDesc.colorDescs.Resize(desc.numColorDescs);
+	Memcpy(hashDesc.colorDescs.GetData(), sizeof(hashDesc.colorDescs), desc.colorDescs, sizeof(desc.colorDescs));
+	Memcpy(&hashDesc.depthDesc, sizeof(hashDesc.depthDesc), &desc.depthDesc, sizeof(desc.depthDesc));
+
+	return fnv32(&hashDesc, sizeof(HashableTargetDescription));
+}
+
 class VulkanRenderingCloset
 {
 public:
@@ -33,22 +69,22 @@ public:
 
 
 	NODISCARD VulkanPipeline* FindOrCreatePipeline(const GraphicsPipelineDescription& desc);
-	NODISCARD VulkanRenderPass* FindOrCreateRenderPass(const RenderTargetDescription& desc);
+	NODISCARD VulkanRenderPass* FindOrCreateRenderPass(const VulkanRenderingLayout& desc);
 	// TODO - This isn't entirely correct, because a framebuffer could have the same attachment information, but not have the same render textures
-	NODISCARD VulkanFramebuffer* FindOrCreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs);
+	NODISCARD VulkanFramebuffer* FindOrCreateFramebuffer(const VulkanRenderingLayout& desc, const NativeRenderTargets& correspondingRTs);
 
 	NODISCARD VkSampler FindOrCreateSampler(const SamplerDescription& params);
 private:
 	VulkanPipeline* CreatePipeline(const GraphicsPipelineDescription& desc);
-	VulkanRenderPass* CreateRenderPass(const RenderTargetDescription& desc);
-	VulkanFramebuffer* CreateFramebuffer(const RenderTargetDescription& desc, const NativeRenderTargets& correspondingRTs);
+	VulkanRenderPass* CreateRenderPass(const VulkanRenderingLayout& desc);
+	VulkanFramebuffer* CreateFramebuffer(const VulkanRenderingLayout& desc, const NativeRenderTargets& correspondingRTs);
 	VulkanPipelineLayout* ConfigurePipelineLayout(const GraphicsPipelineDescription& desc);
 private:
 	using SimilarFramebuffers = DynamicArray<VulkanFramebuffer*>;
 
 	Map<GraphicsPipelineDescription, VulkanPipeline*> pipelineStore;
-	Map<RenderTargetDescription, VulkanRenderPass*> renderPassStore;
-	Map<RenderTargetDescription, SimilarFramebuffers> framebufferStore;
+	Map<VulkanRenderingLayout, VulkanRenderPass*> renderPassStore;
+	Map<VulkanRenderingLayout, SimilarFramebuffers> framebufferStore;
 	Map<SamplerDescription, VkSampler> samplerStore;
 
 	const VulkanDevice& logicalDevice;

@@ -7,7 +7,7 @@
 #include "Math/Vector4.hpp"
 #include "Math/Matrix4.hpp"
 #include "Math/Rect.hpp"
-#include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 
 class Camera;

@@ -6,7 +6,7 @@
 
 #include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
-#include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 
 class VulkanDevice;
 class VulkanSurface;
@@ -30,7 +30,6 @@ public:
 	void SubmitFrame();
 	void Present();
 
-	RenderTargetDescription GetSwapchainImageDescription() const;
 	VulkanTexture& GetSwapchainTarget() const;
 
 	inline VkFormat GetSwapchainFormat() const { return swapchainFormat; }
@@ -40,7 +39,6 @@ public:
 private:
 	void CreateSwapchain();
 	void CacheSwapchainImages();
-	void InitializeRenderTargets();
 	void InitializeSwapchainSyncronization();
 
 private:
@@ -48,7 +46,6 @@ private:
 	VkSwapchainKHR swapchainHandle = VK_NULL_HANDLE;
 	VkSemaphore imageAvailable = VK_NULL_HANDLE;
 	VkSemaphore renderingFinished = VK_NULL_HANDLE;
-	RenderTargetDescription targetDescription = {};
 
 	VkFormat swapchainFormat = {};
 	DynamicArray<VkImage> swapchainImages;

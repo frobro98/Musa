@@ -259,13 +259,16 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 		// Set framebuffer to be the one that is used for UI
 		RenderTargetList uiColorTarget;
 		uiColorTarget.Add(&uiTarget);
-		RenderTargetDescription targetDescription = CreateRenderTargetDescription(uiColorTarget, nullptr, RenderTargetAccess::None);
+		FixedArray<ColorDescription, MaxColorTargetCount> colorAttachment = CreateColorTargetDescriptions(uiColorTarget, RenderTargetAccess::Write);
 		NativeRenderTargets uiRenderTarget = CreateNativeRenderTargets(uiColorTarget, nullptr);
 
 		TransitionTargetsToWrite(renderContext, uiRenderTarget);
 
-		clearColors = { Color32(0, 0, 0, 0) };
-		renderContext.SetRenderTarget(targetDescription, uiRenderTarget, clearColors);
+		BeginRenderPassInfo beginInfo = {};
+		beginInfo.colorAttachments = colorAttachment;
+		beginInfo.targets = uiRenderTarget;
+		beginInfo.clearColors.Add(Color32(0, 0, 0, 0));
+		renderContext.BeginRenderPass(beginInfo);
 
 		// Render to that framebuffer
 
@@ -300,6 +303,7 @@ void RenderUI(RenderContext& renderContext, UI::Context& ui, const RenderTarget&
 			renderContext.DrawRawIndexed({ element.batchedVertices }, { element.batchedIndices }, 4, 1);
 		}
 		
+		renderContext.EndRenderPass();
 
 		TransitionTargetsToRead(renderContext, uiRenderTarget);
 	}

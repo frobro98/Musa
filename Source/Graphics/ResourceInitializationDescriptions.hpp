@@ -5,7 +5,7 @@
 #include "BasicTypes/Intrinsics.hpp"
 #include "VertexInputDescription.hpp"
 #include "Utilities/HashFuncs.hpp"
-#include "RenderTargetDescription.hpp"
+#include "RenderPassAttachments.hpp"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Math/MathFunctions.hpp"
 #include "Graphics/GraphicsInterface.hpp"
@@ -218,21 +218,24 @@ inline NativeSampler* SamplerDesc()
 
 struct GraphicsPipelineDescription
 {
-	RenderTargetDescription renderTargets;
+	// Renderpass Information --> Corresponds to the Render Pass object model
+	FixedArray<ColorDescription, MaxColorTargetCount> colorAttachments;
+	DepthStencilDescription depthAttachment = {};
 	// Pipeline Information --> API implementation dependent apparently
-	RasterizerDescription rasterizerDesc;
-	BlendingDescription blendingDescs[MaxColorTargetCount];
-	DepthStencilTestingDescription depthStencilTestDesc;
-	VertexInputDescriptionList vertexInputs{};
+	RasterizerDescription rasterizerDesc = {};
+	BlendingDescription blendingDescs[MaxColorTargetCount] = {};
+	DepthStencilTestingDescription depthStencilTestDesc = {};
+	VertexInputDescriptionList vertexInputs = {};
 	const NativeVertexShader* vertexShader = nullptr;
 	const NativeFragmentShader* fragmentShader = nullptr;
-	PrimitiveTopology topology;
+	PrimitiveTopology topology = PrimitiveTopology::TriangleList;
 
 	friend bool operator==(const GraphicsPipelineDescription& lhs, const GraphicsPipelineDescription& rhs)
 	{
-		if (lhs.renderTargets == rhs.renderTargets)
+		// TODO - This isn't terribly great, needs to have a better resource for comparing this data
+		if (Memcmp(lhs.colorAttachments.GetData(), rhs.colorAttachments.GetData(), sizeof(ColorDescription)*lhs.colorAttachments.Size()) == 0)
 		{
-			u32 targetCount = lhs.renderTargets.colorAttachments.Size();
+			u32 targetCount = lhs.colorAttachments.Size();
 			bool result = true;
 			for (u32 i = 0; i < targetCount; ++i)
 			{

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Containers/ArrayView.hpp"
-#include "ECS/ArchetypeChunk.hpp"
+#include "ECS/Archetype.hpp"
 #include "ECS/Types.hpp"
 #include "ECS/ECSAPI.hpp"
 

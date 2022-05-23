@@ -51,7 +51,23 @@ void VulkanRenderContext::EndRenderFrame(NativeViewport& renderViewport)
 
 void VulkanRenderContext::InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const
 {
-	pipelineDesc.renderTargets = currentTarget;
+	pipelineDesc.colorAttachments = currentColorTargets;
+	pipelineDesc.depthAttachment = currentDepthTarget;
+}
+
+void VulkanRenderContext::BeginRenderPass(const BeginRenderPassInfo& beginInfo)
+{
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
+	currentRenderState.BeginRenderPass(cmdBuffer, beginInfo);
+
+	currentColorTargets = beginInfo.colorAttachments;
+	currentDepthTarget = beginInfo.depthAttachment;
+}
+
+void VulkanRenderContext::EndRenderPass()
+{
+	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
+	currentRenderState.EndRenderPass(cmdBuffer);
 }
 
 void VulkanRenderContext::SetViewport(u32 x, u32 y, u32 width, u32 height, float minDepth, float maxDepth)
@@ -71,13 +87,6 @@ void VulkanRenderContext::SetScissor(u32 offsetX, u32 offsetY, u32 width, u32 he
 	scissorRect.offset = { (i32)offsetX, (i32)offsetY };
 	scissorRect.extent = { width, height };
 	updateViewState = true;
-}
-
-void VulkanRenderContext::SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors)
-{
-	VulkanCommandBuffer& cmdBuffer = *logicalDevice.GetCmdBufferManager().GetActiveGraphicsBuffer();
-	currentTarget = targetDescription;
-	currentRenderState.SetFramebufferTarget(cmdBuffer, targetDescription, renderTextures, clearColors);
 }
 
 void VulkanRenderContext::SetVertexBuffer(const NativeVertexBuffer& vertexBuffer)

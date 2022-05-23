@@ -5,28 +5,27 @@
 #include "VulkanDevice.h"
 #include "VulkanCreateInfos.h"
 #include "VulkanUtilities.h"
+#include "VulkanRenderingCloset.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 
-VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTargetDescription& targets)
+VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const VulkanRenderingLayout& targets)
 // TODO - There isn't necessarily a depth attachment. Assuming there is, but needs to change later...
-	: attachments(targets.hasDepth ? targets.colorAttachments.Size() + 1 : targets.colorAttachments.Size()),
+	: attachments(targets.hasDepthDesc ? targets.numColorDescs + 1 : targets.numColorDescs),
 	logicalDevice(&device)
 {
 
-	DynamicArray<VkAttachmentReference> attachmentRefs(targets.colorAttachments.Size());
+	DynamicArray<VkAttachmentReference> attachmentRefs(targets.numColorDescs);
 	for (u32 i = 0; i < attachmentRefs.Size(); ++i)
 	{
-		const RenderTargetAttachment& colorDescription = targets.colorAttachments[i];
 		VkAttachmentDescription colorAttachment = {};
 		colorAttachment.initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		colorAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
+		const ColorDescription& colorDescription = targets.colorDescs[i];
 		colorAttachment.format = MusaFormatToVkFormat(colorDescription.format);
 		colorAttachment.samples = static_cast<VkSampleCountFlagBits>(colorDescription.sampleCount);
-		colorAttachment.loadOp = MusaLoadToVk(colorDescription.load);
-		colorAttachment.storeOp = MusaStoreToVk(colorDescription.store);
-		colorAttachment.stencilLoadOp = MusaLoadToVk(colorDescription.stencilLoad);
-		colorAttachment.stencilStoreOp = MusaStoreToVk(colorDescription.stencilStore);
+		colorAttachment.loadOp = MusaLoadToVk(GetLoadOperation(colorDescription.op));
+		colorAttachment.storeOp = MusaStoreToVk(GetStoreOperation(colorDescription.op));
 
 		attachments[i] = colorAttachment;
 
@@ -37,9 +36,9 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	}
 
 	VkAttachmentReference depthAttachmentRef = {};
-	if(targets.hasDepth)
+	if(targets.hasDepthDesc)
 	{
-		const RenderTargetAttachment& depthDescription = targets.depthAttachment;
+		const DepthStencilDescription& depthDescription = targets.depthDesc;
 		VkAttachmentDescription depthAttachment = {};
 		VkImageLayout depthLayout = depthDescription.access == RenderTargetAccess::Read ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL : VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 		depthAttachment.initialLayout = depthLayout;
@@ -47,10 +46,12 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 
 		depthAttachment.format = MusaFormatToVkFormat(depthDescription.format);
 		depthAttachment.samples = static_cast<VkSampleCountFlagBits>(depthDescription.sampleCount);
-		depthAttachment.loadOp = MusaLoadToVk(depthDescription.load);
-		depthAttachment.storeOp = MusaStoreToVk(depthDescription.store);
-		depthAttachment.stencilLoadOp = MusaLoadToVk(depthDescription.stencilLoad);
-		depthAttachment.stencilStoreOp = MusaStoreToVk(depthDescription.stencilStore);
+		ColorTargetOperations depthOp = GetDepthOperation(depthDescription.op);
+		ColorTargetOperations stencilOp = GetStencilOperation(depthDescription.op);
+		depthAttachment.loadOp = MusaLoadToVk(GetLoadOperation(depthOp));
+		depthAttachment.storeOp = MusaStoreToVk(GetStoreOperation(depthOp));
+		depthAttachment.stencilLoadOp = MusaLoadToVk(GetLoadOperation(stencilOp));
+		depthAttachment.stencilStoreOp = MusaStoreToVk(GetStoreOperation(stencilOp));
 
 		Assert(logicalDevice->IsFormatSupported(depthAttachment.format, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT));
 		attachments[attachments.Size() - 1] = depthAttachment;
@@ -63,7 +64,7 @@ VulkanRenderPass::VulkanRenderPass(const VulkanDevice& device, const RenderTarge
 	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 	subpass.colorAttachmentCount = attachmentRefs.Size();
 	subpass.pColorAttachments = attachmentRefs.GetData();
-	subpass.pDepthStencilAttachment = targets.hasDepth ? &depthAttachmentRef : nullptr;
+	subpass.pDepthStencilAttachment = targets.hasDepthDesc ? &depthAttachmentRef : nullptr;
 
 	// TODO - Find out what a subpass dependency means for the pipeline
 	VkSubpassDependency dependencies[2];

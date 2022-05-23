@@ -73,7 +73,15 @@ void VulkanCommandBuffer::Begin(VkCommandBufferUsageFlags cbUsageFlags, const Vk
 	state = CommandBufferState::Began;
 }
 
-void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const DynamicArray<Color32>& clearColors, bool inlinedContents)
+void VulkanCommandBuffer::End()
+{
+	Assert(state == CommandBufferState::Began);
+	NOT_USED VkResult result = vkEndCommandBuffer(commandBuffer);
+	CHECK_VK(result);
+	state = CommandBufferState::PendingSubmit;
+}
+
+void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const DynamicArray<VkClearValue>& clearColors)
 {
 	if (state == CommandBufferState::Submitted ||
 		state == CommandBufferState::Initialized)
@@ -82,23 +90,6 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const 
 	}
 	Assert(state == CommandBufferState::Began);
 
-	DynamicArray<VkClearValue> vkClearColors(frameBuffer->GetAttachmentCount());
-	u32 numColorAttachments = frameBuffer->HasDepthAttachment() ? vkClearColors.Size() - 1 : vkClearColors.Size();
-	for (u32 i = 0; i < numColorAttachments; ++i)
-	{
-		vkClearColors[i].color = { 
-			clearColors[i].r,
-			clearColors[i].g,
-			clearColors[i].b,
-			clearColors[i].a
-		};
-	}
-
-	if (frameBuffer->HasDepthAttachment())
-	{
-		vkClearColors[vkClearColors.Size() - 1].depthStencil = { 1.f, 0 };
-	}
-
 	VkRenderPassBeginInfo renderPassBeginInfo = {};
 	renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 	renderPassBeginInfo.renderPass = frameBuffer->GetRenderPass()->GetNativeHandle();
@@ -106,10 +97,10 @@ void VulkanCommandBuffer::BeginRenderpass(VulkanFramebuffer* frameBuffer, const 
 	renderPassBeginInfo.renderArea.offset = { 0,0 };
 	renderPassBeginInfo.renderArea.extent.width = frameBuffer->GetWidth();
 	renderPassBeginInfo.renderArea.extent.height = frameBuffer->GetHeight();
-	renderPassBeginInfo.clearValueCount = vkClearColors.Size();
-	renderPassBeginInfo.pClearValues = vkClearColors.GetData();
+	renderPassBeginInfo.clearValueCount = clearColors.Size();
+	renderPassBeginInfo.pClearValues = clearColors.GetData();
 
-	vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, inlinedContents ? VK_SUBPASS_CONTENTS_INLINE : VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS);
+	vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 	state = CommandBufferState::InRenderPass;
 }
@@ -121,14 +112,6 @@ void VulkanCommandBuffer::EndRenderPass()
 		vkCmdEndRenderPass(commandBuffer);
 		state = CommandBufferState::Began;
 	}
-}
-
-void VulkanCommandBuffer::End()
-{
-	Assert(state == CommandBufferState::Began);
-	NOT_USED VkResult result = vkEndCommandBuffer(commandBuffer);
-	CHECK_VK(result);
-	state = CommandBufferState::PendingSubmit;
 }
 
 void VulkanCommandBuffer::ImageMemoryBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags, u32 imageMemoryBarrierCount, const VkImageMemoryBarrier * pImageMemoryBarriers)

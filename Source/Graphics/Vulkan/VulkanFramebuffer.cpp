@@ -3,9 +3,10 @@
 #include "VulkanFramebuffer.h"
 #include "VulkanDevice.h"
 #include "VulkanRenderPass.h"
-#include "RenderTargetDescription.hpp"
+#include "RenderPassAttachments.hpp"
 #include "VulkanTexture.h"
 #include "Math/MathFunctions.hpp"
+#include "VulkanRenderingCloset.hpp"
 
 VulkanFramebuffer::VulkanFramebuffer(const VulkanDevice& device)
 	: logicalDevice(&device)
@@ -21,13 +22,13 @@ VulkanFramebuffer::~VulkanFramebuffer()
 	vkDestroyFramebuffer(logicalDevice->GetNativeHandle(), frameBuffer, nullptr);
 }
 
-void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_)
+void VulkanFramebuffer::Initialize(const VulkanRenderingLayout& renderLayout, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_)
 {
-	Assert(targetDesc.colorAttachments.Size() == renderTextures.colorTargets.Size());
+	Assert(renderLayout.numColorDescs == renderTextures.colorTargets.Size());
 	nativeTargets = renderTextures;
 
-	u32 totalTargetCount = targetDesc.hasDepth ? nativeTargets.colorTargets.Size() + 1 : nativeTargets.colorTargets.Size();
-	extents = { (u32)targetDesc.targetExtents.width, (u32)targetDesc.targetExtents.height };
+	u32 totalTargetCount = renderLayout.hasDepthDesc ? nativeTargets.colorTargets.Size() + 1 : nativeTargets.colorTargets.Size();
+	extents = { (u32)renderTextures.extents.width, (u32)renderTextures.extents.height };
 
 	viewAttachments.Resize(totalTargetCount);
 	for (u32 i = 0; i < nativeTargets.colorTargets.Size(); ++i)
@@ -39,7 +40,7 @@ void VulkanFramebuffer::Initialize(const RenderTargetDescription& targetDesc, co
 		extents.height = Math::Min(extents.height, colorTex->image->height);
 	}
 
-	if (targetDesc.hasDepth)
+	if (renderLayout.hasDepthDesc)
 	{
 		const VulkanTexture* depthTex = static_cast<const VulkanTexture*>(renderTextures.depthTarget);
 		viewAttachments[renderTextures.colorTargets.Size()] = depthTex->image->CreateView();

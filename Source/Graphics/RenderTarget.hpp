@@ -8,7 +8,7 @@
 #include "Texture/ImageFormats.h"
 #include "Graphics/GraphicsAPIDefinitions.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
-#include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 #include "Graphics/GraphicsAPI.hpp"
 
 struct RenderTarget
@@ -24,5 +24,6 @@ struct RenderTarget
 	StoreOperation stencilStore;
 };
 
-GRAPHICS_API RenderTargetDescription CreateRenderTargetDescription(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget, RenderTargetAccess depthAccess);
+GRAPHICS_API FixedArray<ColorDescription, MaxColorTargetCount> CreateColorTargetDescriptions(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, RenderTargetAccess access);
+GRAPHICS_API DepthStencilDescription CreateDepthTargetDescription(const RenderTarget* depthTarget, RenderTargetAccess access);
 GRAPHICS_API NativeRenderTargets CreateNativeRenderTargets(const FixedArray<const RenderTarget*, MaxColorTargetCount>& colorTargets, const RenderTarget* depthTarget);

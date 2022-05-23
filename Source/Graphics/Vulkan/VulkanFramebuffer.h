@@ -6,12 +6,12 @@
 #include "BasicTypes/Uncopyable.hpp"
 #include "Containers/DynamicArray.hpp"
 #include "BasicTypes/Extents.hpp"
-#include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 
 class VulkanDevice;
+struct VulkanRenderingLayout;
 class VulkanRenderPass;
 struct VulkanTexture;
-struct RenderTargetDescription;
 struct NativeRenderTargets;
 struct VulkanTexture;
 
@@ -21,7 +21,7 @@ public:
 	VulkanFramebuffer(const VulkanDevice& device);
 	~VulkanFramebuffer();
 
-	void Initialize(const RenderTargetDescription& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_);
+	void Initialize(const VulkanRenderingLayout& targetDesc, const NativeRenderTargets& renderTextures, VulkanRenderPass* renderPass_);
 
 	bool ContainsRT(const VulkanTexture& texture);
 	bool ContainsRTs(const NativeRenderTargets& renderTextures);

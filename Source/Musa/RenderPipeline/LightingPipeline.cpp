@@ -4,7 +4,7 @@
 #include "Scene/GBufferTargets.hpp"
 #include "Scene/SceneRenderTargets.hpp"
 #include "Graphics/RenderContext.hpp"
-#include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 #include "Graphics/ResourceInitializationDescriptions.hpp"
 #include "Scene/ScreenView.hpp"
 #include "Scene/Scene.hpp"

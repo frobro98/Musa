@@ -35,28 +35,26 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 {
 	SCOPED_TIMED_BLOCK(ComposeTargets);
 
-	DynamicArray<Color32> clearColors = { Color32(0, 0, 0) };
 	NativeTexture* backBuffer = context.GetBackBuffer();
 	NativeRenderTargets backBufferTarget = {};
 	backBufferTarget.colorTargets.Add(backBuffer);
-
-	RenderTargetDescription targetDescription = {};
-	targetDescription.colorAttachments.Resize(1);
-	targetDescription.targetExtents = { (f32)view.description.viewport.width, (f32)view.description.viewport.height };
-	targetDescription.hasDepth = false;
-
-	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-	colorDesc.format = ImageFormat::BGRA_8norm;
-	colorDesc.load = LoadOperation::Clear;
-	colorDesc.store = StoreOperation::Store;
-	colorDesc.stencilLoad = LoadOperation::DontCare;
-	colorDesc.stencilStore = StoreOperation::DontCare;
-	colorDesc.sampleCount = 1;
+	backBufferTarget.extents = { (f32)view.description.viewport.width, (f32)view.description.viewport.height };
 
 	TransitionTargetsToWrite(context, backBufferTarget);
 
+	BeginRenderPassInfo beginInfo = {};
+	beginInfo.colorAttachments.Resize(1);
+	beginInfo.clearColors.Add(Color32(0, 0, 0));
+	beginInfo.targets = backBufferTarget;
+
+	ColorDescription& colorDesc = beginInfo.colorAttachments[0];
+	colorDesc.format = ImageFormat::BGRA_8norm;
+	colorDesc.access = RenderTargetAccess::Write;
+	colorDesc.op = ColorTargetOperations::Clear_Store;
+	colorDesc.sampleCount = 1;
+
 	// Set target to back buffer
-	context.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+	context.BeginRenderPass(beginInfo);
 
 	// Render sceneColor and UI to back buffer
 
@@ -86,6 +84,7 @@ void ComposeBackbuffer(RenderContext& context, const RenderTarget& sceneColor, c
 
 	context.DrawPrimitive(1, 1);
 
+	context.EndRenderPass();
 	//TransitionTargetsToRead(context, backBufferTarget);
 }
 }

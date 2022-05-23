@@ -73,12 +73,13 @@ METRIC_STAT(TextDisplayRender, SceneRender);
 // 	renderer.SetTexture(*matInfo->normalMap, *SamplerDesc(), 4);
 // }
 
-static void ConstructPipelineDescription(const RenderTargetDescription& targetDesc, GraphicsPipelineDescription& desc)
+static void ConstructPipelineDescription(const FixedArray<ColorDescription, MaxColorTargetCount>& colorDescs, const DepthStencilDescription& depthDesc, GraphicsPipelineDescription& desc)
 {
-	desc.renderTargets = targetDesc;
+	desc.colorAttachments = colorDescs;
+	desc.depthAttachment = depthDesc;
 	desc.vertexInputs = GetVertexInput<Vertex>();
 	desc.rasterizerDesc = RasterDesc();
-	for (u32 i = 0; i < desc.renderTargets.colorAttachments.Size(); ++i)
+	for (u32 i = 0; i < desc.colorAttachments.Size(); ++i)
 	{
 		desc.blendingDescs[i] = BlendDesc();
 	}
@@ -161,11 +162,13 @@ using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 
 	RenderTargetList sceneColorTarget;
 	sceneColorTarget.Add(sceneTargets.sceneColorTexture);
-	RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTargets.depthTexture, RenderTargetAccess::Read);
+	/*const */FixedArray<ColorDescription, MaxColorTargetCount> colorAttachments = CreateColorTargetDescriptions(sceneColorTarget, RenderTargetAccess::Read);
+	const DepthStencilDescription depthAttachment = CreateDepthTargetDescription(sceneTargets.depthTexture, RenderTargetAccess::Read);
+	//RenderTargetDescription targetDescription = CreateRenderTargetDescription(sceneColorTarget, sceneTargets.depthTexture, RenderTargetAccess::Read);
 	NativeRenderTargets sceneRenderTargets = CreateNativeRenderTargets(sceneColorTarget, sceneTargets.depthTexture);
 
 	// TODO - Fix whatever this is...
-	targetDescription.colorAttachments[0].load = LoadOperation::Load;
+	colorAttachments[0].op = ColorTargetOperations::Load_Store;
 	const NativeTexture* depth = sceneRenderTargets.depthTarget;
 	sceneRenderTargets.depthTarget = nullptr;
 
@@ -173,9 +176,17 @@ using RenderTargetList = FixedArray<const RenderTarget*, MaxColorTargetCount>;
 
 	sceneRenderTargets.depthTarget = depth;
 
-	context.SetRenderTarget(targetDescription, sceneRenderTargets, clearColors);
+	BeginRenderPassInfo beginInfo = {};
+	beginInfo.colorAttachments = colorAttachments;
+	beginInfo.depthAttachment = depthAttachment;
+	beginInfo.clearColors.Add(Color32(.7f, .7f, .8f));
+	beginInfo.targets = sceneRenderTargets;
+
+	context.BeginRenderPass(beginInfo);
 
 	//DeferredRender::RenderLights(context, scene, gbuffer, view);
+
+	context.EndRenderPass();
 
 	TransitionTargetsToRead(context, sceneRenderTargets);
 }
@@ -201,7 +212,7 @@ void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<Render
 {
 	SCOPED_TIMED_BLOCK(DeferredRender);
 
-	DynamicArray<Color32> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
+	FixedArray<Color32, MaxColorTargetCount> clearColors(4); // TODO - SHould be using FixedArray here instead of DynamicArray
 	clearColors[0] = Color32(.7f, .7f, .8f);
 	clearColors[1] = Color32(0, 0, 0);
 	clearColors[2] = Color32(0, 0, 0);
@@ -214,13 +225,22 @@ void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<Render
 	colorTargets.Add(gbuffer.normalTexture);
 	colorTargets.Add(gbuffer.diffuseTexture);
 
-	RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture, RenderTargetAccess::Write);
+	//RenderTargetDescription gbufferDesc = CreateRenderTargetDescription(colorTargets, sceneTargets.depthTexture, RenderTargetAccess::Write);
+	const FixedArray<ColorDescription, MaxColorTargetCount> colorAttachments = CreateColorTargetDescriptions(colorTargets, RenderTargetAccess::Write);
+	const DepthStencilDescription depthAttachment = CreateDepthTargetDescription(sceneTargets.depthTexture, RenderTargetAccess::Write);
 	NativeRenderTargets targets = CreateNativeRenderTargets(colorTargets, sceneTargets.depthTexture);
 
 	// TODO - This call happens right before every render target getting set, so it should be lumped into that behavior...
 	TransitionTargetsToWrite(renderContext, targets);
 
-	renderContext.SetRenderTarget(gbufferDesc, targets, clearColors);
+	BeginRenderPassInfo beginInfo = {};
+	beginInfo.colorAttachments = colorAttachments;
+	// TODO - Make sure that this is after some sort of depth prepass
+	beginInfo.depthAttachment = depthAttachment;
+	beginInfo.clearColors = clearColors;
+	beginInfo.targets = targets;
+
+	renderContext.BeginRenderPass(beginInfo);
 	{
 		SCOPED_TIMED_BLOCK(GBufferRenderPass);
 
@@ -240,7 +260,7 @@ void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<Render
 					const PipelineConfiguration& pipelineConfig = primitive.pipelineConfig;
 
 					GraphicsPipelineDescription pipelineDesc;
-					ConstructPipelineDescription(gbufferDesc, pipelineDesc);
+					ConstructPipelineDescription(colorAttachments, depthAttachment, pipelineDesc);
 					pipelineDesc.vertexShader = pipelineConfig.shaders[ShaderStage::Vertex]->GetVertexShader();
 					pipelineDesc.fragmentShader = pipelineConfig.shaders[ShaderStage::Fragment]->GetFragmentShader();
 					renderContext.SetGraphicsPipeline(pipelineDesc);
@@ -275,6 +295,7 @@ void RenderSceneDeferred(RenderContext& renderContext, const DynamicArray<Render
 			}
 		}
 	}
+	renderContext.EndRenderPass();
 
 	TransitionTargetsToRead(renderContext, targets);
 }

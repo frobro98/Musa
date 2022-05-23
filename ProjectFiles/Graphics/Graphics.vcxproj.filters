@@ -117,9 +117,6 @@
     <ClInclude Include="..\..\Source\Graphics\VertexInputDescription.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\RenderTargetDescription.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\GraphicsResourceDefinitions.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -175,6 +172,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\GraphicsAPI.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Graphics\RenderPassAttachments.hpp">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

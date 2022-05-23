@@ -40,7 +40,6 @@ VulkanSwapchain::~VulkanSwapchain()
 void VulkanSwapchain::Initialize()
 {
 	CreateSwapchain();
-	InitializeRenderTargets();
 	InitializeSwapchainSyncronization();
 	CacheSwapchainImages();
 }
@@ -53,7 +52,6 @@ void VulkanSwapchain::Recreate()
 {
 	CreateSwapchain();
 	CacheSwapchainImages();
-	InitializeRenderTargets();
 }
 
 VkResult VulkanSwapchain::GetNextImage()
@@ -122,11 +120,6 @@ void VulkanSwapchain::Present()
 	}
 
 	END_TIMED_BLOCK(Present);
-}
-
-RenderTargetDescription VulkanSwapchain::GetSwapchainImageDescription() const
-{
-	return targetDescription;
 }
 
 VulkanTexture& VulkanSwapchain::GetSwapchainTarget() const
@@ -268,30 +261,6 @@ void VulkanSwapchain::CacheSwapchainImages()
 		img->aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT;
 		swapchainImageTargets[i] = new VulkanTexture(logicalDevice, *img);
 	}
-}
-
-void VulkanSwapchain::InitializeRenderTargets()
-{
-	targetDescription.colorAttachments.Resize(1);
-	targetDescription.targetExtents = { (f32)swapchainExtent.width, (f32)swapchainExtent.height };
-
-	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-	colorDesc.format = ImageFormat::RGBA_8norm;
-	colorDesc.load = LoadOperation::Clear;
-	colorDesc.store = StoreOperation::Store;
-	colorDesc.stencilLoad = LoadOperation::DontCare;
-	colorDesc.stencilStore = StoreOperation::DontCare;
-	colorDesc.sampleCount = 1;
-
-	targetDescription.hasDepth = false;
-
-// 	DepthStencilDescription& depthDesc = targetDescription.depthDesc;
-// 	depthDesc.format = ImageFormat::DS_32f_8u;
-// 	depthDesc.load = LoadOperation::Clear;
-// 	depthDesc.store = StoreOperation::Store;
-// 	depthDesc.stencilLoad = LoadOperation::DontCare;
-// 	depthDesc.stencilStore = StoreOperation::DontCare;
-// 	depthDesc.sampleCount = 1;
 }
 
 void VulkanSwapchain::InitializeSwapchainSyncronization()

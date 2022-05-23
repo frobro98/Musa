@@ -19,15 +19,17 @@ public:
 
 	virtual void InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const override;
 
+	virtual void BeginRenderPass(const BeginRenderPassInfo& beginInfo) override;
+	virtual void EndRenderPass() override;
+
 	virtual void SetViewport(u32 x, u32 y, u32 width, u32 height, float minDepth, float maxDepth) override;
 	virtual void SetScissor(u32 offsetX, u32 offsetY, u32 width, u32 height) override;
-	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors) override;
 	virtual void SetVertexBuffer(const NativeVertexBuffer& vertexBuffer) override;
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) override;
 	virtual void SetGlobalUniform(const void* uniformData, u32 dataSize) override;
 	virtual void SetUniformBuffer(const NativeUniformBuffer& uniformBuffer, u32 bufferIndex) override;
 	virtual void SetTexture(const NativeTexture& texture, const NativeSampler& sampler, u32 textureIndex) override;
-//	virtual void SetStorageBuffer() override;
+
 	virtual void DrawPrimitive(u32 vertexCount, u32 instanceCount) override;
 	virtual void DrawPrimitiveIndexed(const NativeIndexBuffer& indexBuffer, u32 numPrimitives, u32 instanceCount, u32 firstIndex, i32 vertexOffset, u32 firstInstance) override;
 	virtual void DrawRaw(const ResourceArray& rawVerts, u32 instanceCount) override;
@@ -58,7 +60,8 @@ private:
 
 	VulkanDevice& logicalDevice;
 
-	RenderTargetDescription currentTarget;
+	FixedArray<ColorDescription, MaxColorTargetCount> currentColorTargets;
+	DepthStencilDescription currentDepthTarget;
 	VulkanRenderState currentRenderState;
 	VkViewport viewport;
 	// TODO - Isn't always used or enabled...

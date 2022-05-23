@@ -5,14 +5,15 @@
 #include "VulkanDefinitions.h"
 
 #include "Containers/DynamicArray.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 
 class VulkanDevice;
-struct RenderTargetDescription;
+struct VulkanRenderingLayout;
 
 class VulkanRenderPass
 {
 public:
-	VulkanRenderPass(const VulkanDevice& device, const RenderTargetDescription& targets);
+	VulkanRenderPass(const VulkanDevice& device, const VulkanRenderingLayout& targets);
 	~VulkanRenderPass();
 
 	inline VkRenderPass GetNativeHandle() const { return renderPass; }

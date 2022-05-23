@@ -166,13 +166,13 @@ void VulkanPipeline::Initialize(const VulkanPipelineLayout* layout, const Graphi
 	VkPipelineDepthStencilStateCreateInfo depthStencilInfo = {};
 	depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
 	depthStencilInfo.depthTestEnable = desc.depthStencilTestDesc.depthCompareOp != CompareOperation::None;
-	// TODO - This isn't the greatest. Might be better to check if the depth texture is readonly and if not, and depthtest enabled, set to true!
+	// TODO - This isn't the greatest. Might be better to check if the depth texture is readonly and if not, and depth test enabled, set to true!
 	depthStencilInfo.depthWriteEnable = desc.depthStencilTestDesc.depthWriteEnabled;
 	depthStencilInfo.stencilTestEnable = desc.depthStencilTestDesc.frontStencilTestEnabled || desc.depthStencilTestDesc.backStencilTestEnabled;
 	depthStencilInfo.depthCompareOp = MusaCompareOpToVk(desc.depthStencilTestDesc.depthCompareOp);
 
 	// Blending states
-	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(desc.renderTargets.colorAttachments.Size());
+	DynamicArray<VkPipelineColorBlendAttachmentState> colorBlendAttachments(desc.colorAttachments.Size());
 	for (u32 i = 0; i < colorBlendAttachments.Size(); ++i)
 	{
 		BlendingDescription& blendDesc = desc.blendingDescs[i];

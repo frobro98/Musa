@@ -7,8 +7,8 @@
 #include "Containers/DynamicArray.hpp"
 #include "Graphics/GraphicsResourceDefinitions.hpp"
 #include "Graphics/GraphicsAPI.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 
-struct RenderTargetDescription;
 struct NativeRenderTargets;
 struct GraphicsPipelineDescription;
 struct ResourceArray;
@@ -23,11 +23,11 @@ public:
 
 	virtual void InitializeWithRenderState(GraphicsPipelineDescription& pipelineDesc) const = 0;
 
+	virtual void BeginRenderPass(const BeginRenderPassInfo& beginInfo) = 0;
+	virtual void EndRenderPass() = 0;
+
 	virtual void SetViewport(u32 x, u32 y, u32 width, u32 height, float minDepth, float maxDepth) = 0;
 	virtual void SetScissor(u32 offsetX, u32 offsetY, u32 width, u32 height) = 0;
-// 	virtual void BeginRenderPass() = 0;
-// 	virtual void EndRenderPass() = 0;
-	virtual void SetRenderTarget(const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors) = 0;
 	virtual void SetVertexBuffer(const NativeVertexBuffer& vertexBuffer) = 0;
 	virtual void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDesc) = 0;
 	virtual void SetGlobalUniform(const void* uniformData, u32 dataSize) = 0;

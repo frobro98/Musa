@@ -1,6 +1,6 @@
 #pragma once
 
-struct LogLevel
+namespace LogLevel
 {
 	enum Type
 	{

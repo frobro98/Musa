@@ -3,7 +3,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Graphics/RenderTargetDescription.hpp"
+#include "Graphics/RenderPassAttachments.hpp"
 
 #include "Graphics/Vulkan/VulkanIndexBuffer.h"
 #include "Graphics/Vulkan/VulkanVertexBuffer.h"
@@ -34,7 +34,8 @@ public:
 	VulkanRenderState(VulkanDevice& device);
 
 	// Changes the framebuffer being rendered to, while ending and beginning a new renderpass
-	void SetFramebufferTarget(VulkanCommandBuffer& cmdBuffer, const RenderTargetDescription& targetDescription, const NativeRenderTargets& renderTextures, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
+	void BeginRenderPass(VulkanCommandBuffer& cmdBuffer, const BeginRenderPassInfo& beginInfo);
+	void EndRenderPass(VulkanCommandBuffer& cmdBuffer);
 	void SetGraphicsPipeline(const GraphicsPipelineDescription& pipelineDescription);
 	void BindState(VulkanCommandBuffer& cmdBuffer);
 
@@ -45,10 +46,12 @@ public:
 	bool IsTextureInRender(const VulkanTexture& texture);
 
 	VulkanPipeline* GetCurrentPipeline() const { return currentPipeline; }
+	bool InRenderPass() const { return inRenderPass; }
 
 private:
 	VulkanDevice& logicalDevice;
-	WriteDescriptorSet* writeDescriptorSet;
-	VulkanFramebuffer* framebufferContext;
+	WriteDescriptorSet* writeDescriptorSet = nullptr;
+	VulkanFramebuffer* framebufferContext = nullptr;
 	VulkanPipeline* currentPipeline = nullptr;
+	bool inRenderPass = false;
 };

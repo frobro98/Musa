@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include "Memory/MemoryCore.hpp"
+#include "Math/MathFunctions.hpp"
 #include "VulkanDefinitions.h"
 #include "Containers/DynamicArray.hpp"
 #include "BasicTypes/Ranges.hpp"

@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "RenderContextUtilities.hpp"
-#include "RenderTargetDescription.hpp"
+#include "RenderPassAttachments.hpp"
 #include "RenderContext.hpp"
 #include "GraphicsInterface.hpp"
 

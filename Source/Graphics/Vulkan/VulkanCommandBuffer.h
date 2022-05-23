@@ -35,9 +35,9 @@ public:
 	void DeInitialize(VkCommandPool cmdPool);
 
 	void Begin(VkCommandBufferUsageFlags cbUsageFlags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT, const VkCommandBufferInheritanceInfo* pInheritanceInfo = nullptr);
-	void BeginRenderpass(VulkanFramebuffer* frameBuffer, const DynamicArray<Color32>& clearColors, bool inlinedContents = true);
-	void EndRenderPass();
 	void End();
+	void BeginRenderpass(VulkanFramebuffer* frameBuffer, const DynamicArray<VkClearValue>& clearColors);
+	void EndRenderPass();
 	void Submit(const VulkanQueue& queue, 
 		VkSemaphore waitSemaphore = VK_NULL_HANDLE,
 		VkPipelineStageFlags waitMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,

@@ -266,34 +266,31 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 	NativeTexture* backBuffer = context.GetBackBuffer();
 	NativeRenderTargets backBufferTarget = {};
 	backBufferTarget.colorTargets.Add(backBuffer);
-	
-	DynamicArray<Color32> clearColors = { Color32(1.f, .5f, .5f) };
-
-	RenderTargetDescription targetDescription = {};
-	targetDescription.colorAttachments.Resize(1);
-	targetDescription.targetExtents = { (f32)viewport->GetWidth(), (f32)viewport->GetHeight() };
-	targetDescription.hasDepth = false;
-
-	RenderTargetAttachment& colorDesc = targetDescription.colorAttachments[0];
-	colorDesc.format = ImageFormat::BGRA_8norm;
-	colorDesc.load = LoadOperation::Clear;
-	colorDesc.store = StoreOperation::Store;
-	colorDesc.stencilLoad = LoadOperation::DontCare;
-	colorDesc.stencilStore = StoreOperation::DontCare;
-	colorDesc.sampleCount = 1;
+	backBufferTarget.extents = { (f32)viewport->GetWidth(), (f32)viewport->GetHeight() };
 
 	TransitionTargetsToWrite(context, backBufferTarget);
-
-	imguiPipeline.renderTargets = targetDescription;
 
 	i32 drawWidth = (i32)(drawData->DisplaySize.x * drawData->FramebufferScale.x);
 	i32 drawHeight = (i32)(drawData->DisplaySize.y * drawData->FramebufferScale.y);
 	if (drawWidth <= 0 || drawHeight <= 0)
 		return;
 
+	BeginRenderPassInfo beginInfo = {};
+	beginInfo.colorAttachments.Resize(1);
+	beginInfo.clearColors.Add(Color32(1.f, .5f, .5f));
+	beginInfo.targets = backBufferTarget;
+
+	ColorDescription& colorDesc = beginInfo.colorAttachments[0];
+	colorDesc.format = ImageFormat::BGRA_8norm;
+	colorDesc.access = RenderTargetAccess::Write;
+	colorDesc.op = ColorTargetOperations::Clear_Store;
+	colorDesc.sampleCount = 1;
+
+	imguiPipeline.colorAttachments = beginInfo.colorAttachments;
+
 	if (drawData->TotalVtxCount > 0)
 	{
-		context.SetRenderTarget(targetDescription, backBufferTarget, clearColors);
+		context.BeginRenderPass(beginInfo);
 		context.SetViewport(0, 0, drawWidth, drawHeight, 0, 1);
 		context.SetGraphicsPipeline(imguiPipeline);
 		context.SetVertexBuffer(*imguiVertBuffer);
