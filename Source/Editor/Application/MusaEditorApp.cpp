@@ -336,6 +336,7 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 			globalIdxOffset += cmdList->IdxBuffer.Size;
 		}
 
+		context.EndRenderPass();
 		context.EndRenderFrame(viewport->GetNativeViewport());
 	}
 }
