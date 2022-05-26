@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Platform/Platform.hpp"
+// TODO - Remove this somehow
+#include "Platform/PlatformDefinitions.h"
 #include "Threading/ISyncEvent.hpp"
 
 class Win32SyncEvent : public ISyncEvent

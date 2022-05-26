@@ -1,6 +1,6 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform/Platform.hpp"
+#include "Platform/PlatformDefinitions.h"
 #include "FileSystem.hpp"
 #include "Debugging/Assertion.hpp"
 

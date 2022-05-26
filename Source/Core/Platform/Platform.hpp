@@ -2,5 +2,9 @@
 
 #pragma once
 
+#include "CoreAPI.hpp"
 
-#include "PlatformDefinitions.h"
+namespace Platform
+{
+CORE_API void DebugBreak();
+}

@@ -1,3 +1,6 @@
+// Copyright 2022, Nathan Blane
+
+#include "Debugging/DebugOutput.hpp"
 #include "DebugOutputWindowSink.hpp"
 #include "Logging/LogLineEntry.hpp"
 
@@ -14,7 +17,7 @@ void DebugOutputWindowSink::OutputFormattedString(const LogLineEntry& entry)
 	size_t len = logLineEntryBuffer.size() >= outputLen ? outputLen - 1 : logLineEntryBuffer.size();
 	Memory::Memcpy(outputStr, logLineEntryBuffer.data(), len);
 
-	OutputDebugString(outputStr);
+	Debug::Print(outputStr);
 
 	logLineEntryBuffer.clear();
 }

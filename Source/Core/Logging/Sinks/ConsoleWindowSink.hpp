@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform/Platform.hpp"
+#include "Platform/PlatformDefinitions.h"
 #include "Logging/LogSink.hpp"
 #include "Logging/LogLevel.hpp"
 

@@ -58,7 +58,7 @@
 //#define MEM_TRACKER_ENABLED
 
 // General includes
-#include "EngineCore/Platform.h"
+//#include "EngineCore/Platform.h"
 
 // Placement new - Macro Trick
 template<typename T, typename... Ts>

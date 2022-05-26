@@ -12,7 +12,9 @@
 
 #include "Debugging/Assertion.hpp"
 
+WALL_WRN_PUSH
 #include "fmt/format.h"
+WALL_WRN_POP
 
 
 VulkanCommandBuffer::VulkanCommandBuffer(const VulkanDevice& device, VulkanCommandBufferManager& manager)

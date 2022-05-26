@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Platform/Platform.hpp"
 #include "Utilities/HashFuncs.hpp"
 #include "String/CStringUtilities.hpp"
 #include "GUID/Guid.hpp"

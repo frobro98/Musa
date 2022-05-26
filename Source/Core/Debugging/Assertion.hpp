@@ -31,7 +31,7 @@ namespace Debug
 		fmt::format_to(buffer, desc, args...);
 
 		MUSA_LOG(AssertionLog, LogLevel::Fatal, "{} failed! File {}, Line {}. {}", expr, file, line, buffer.data());
-		DebugBreak();
+		Platform::DebugBreak();
 	}
 
 	template <typename Ref>

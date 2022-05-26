@@ -1,3 +1,6 @@
+// Copyright 2022, Nathan Blane
+
+#include "Platform/PlatformDefinitions.h"
 #include "LogFileSink.hpp"
 #include "Logging/LogLineEntry.hpp"
 

@@ -1,5 +1,6 @@
 // Copyright 2020, Nathan Blane
 
+#include "Platform/PlatformDefinitions.h"
 #include "File/DirectoryLocations.hpp"
 #include "String/CStringUtilities.hpp"
 #include "Utilities/Array.hpp"

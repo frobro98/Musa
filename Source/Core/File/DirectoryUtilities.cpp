@@ -1,7 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "DirectoryUtilities.hpp"
-#include "Platform/Platform.hpp"
+#include "Platform/PlatformDefinitions.h"
 
 u32 NumberOfFilesInDirectory(const char* directory)
 {

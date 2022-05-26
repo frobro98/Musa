@@ -5,7 +5,9 @@
 #include "Containers/DynamicArray.hpp"
 #include "CoreAPI.hpp"
 
+WALL_WRN_PUSH
 #include "fmt/format.h"
+WALL_WRN_POP
 
 class SerializeBase;
 class DeserializeBase;

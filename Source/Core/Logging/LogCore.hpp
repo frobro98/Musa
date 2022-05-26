@@ -10,7 +10,9 @@
 // open file for writing, in-game console, etc.
 
 #include "BasicTypes/Intrinsics.hpp"
+WALL_WRN_PUSH
 #include "fmt/format.h"
+WALL_WRN_POP
 #include "CoreAPI.hpp"
 #include "String/CStringUtilities.hpp"
 #include "Logging/LogChannel.hpp"

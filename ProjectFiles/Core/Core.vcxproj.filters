@@ -210,6 +210,9 @@
     <ClCompile Include="..\..\Source\Core\Utilities\ThirdParty\city.cc">
       <Filter>Source\Utilities\ThirdParty</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Platform\Platform.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Version.hpp">

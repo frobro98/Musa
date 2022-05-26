@@ -1,5 +1,8 @@
 // Copyright 2020, Nathan Blane
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <mutex>
 
 #include "Utilities/Array.hpp"

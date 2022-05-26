@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Platform/Platform.hpp"
+// TODO - Remove this somehow
+#include "Platform/PlatformDefinitions.h"
 #include "BasicTypes/Uncopyable.hpp"
 
 // TODO - SRWLock is more optimal than CRITICAL_SECTION. Change this to use that

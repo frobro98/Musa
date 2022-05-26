@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Platform/Platform.hpp"
 #include "Debugging/Assertion.hpp"
 #include "Debugging/DebugOutput.hpp"
 #include "BasicTypes/Uncopyable.hpp"

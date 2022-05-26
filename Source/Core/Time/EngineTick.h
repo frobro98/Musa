@@ -5,7 +5,8 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
-#include "Platform/Platform.hpp"
+// TODO - Remove this somehow
+#include "Platform/PlatformDefinitions.h"
 #include "CoreAPI.hpp"
 
 // TODO: Decouple OS specific methods from interface

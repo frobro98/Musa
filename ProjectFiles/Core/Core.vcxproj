@@ -43,6 +43,7 @@
     <ClCompile Include="..\..\Source\Core\Memory\MemoryAllocation.cpp" />
     <ClCompile Include="..\..\Source\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="..\..\Source\Core\Path\Path.cpp" />
+    <ClCompile Include="..\..\Source\Core\Platform\Platform.cpp" />
     <ClCompile Include="..\..\Source\Core\Platform\Windows\Win32Memory.cpp" />
     <ClCompile Include="..\..\Source\Core\Serialization\DeserializeBase.cpp" />
     <ClCompile Include="..\..\Source\Core\Serialization\MemoryDeserializer.cpp" />

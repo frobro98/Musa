@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Platform/Platform.hpp"
 #include "Path/Path.hpp"
 #include "CoreAPI.hpp"
 

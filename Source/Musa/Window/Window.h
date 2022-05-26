@@ -18,7 +18,7 @@ enum class WindowMode : u32
 class MUSA_API Window : private Uncopyable
 {
 public:
-	Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 width, u32 height);
+	Window(void* instance, MusaApp& app, u32 xPos, u32 yPos, u32 width, u32 height);
 	~Window();
 
 	void SetWindowMode(WindowMode mode);
@@ -37,8 +37,9 @@ public:
 	inline i32 GetHeight() const { return height; }
 
 private:
-	WINDOWPLACEMENT previousPlacement;
-	HWND window;
+	// TODO - This shouldn't be in the header
+	//WINDOWPLACEMENT previousPlacement;
+	void* hwnd;
 	MusaApp& application;
 	IntVector2 position;
 	i32 width;

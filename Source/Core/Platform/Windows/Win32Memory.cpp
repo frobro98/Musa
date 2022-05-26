@@ -1,5 +1,5 @@
 
-#include "Platform/Platform.hpp"
+#include "Platform/PlatformDefinitions.h"
 #include "Platform/PlatformMemory.hpp"
 
 namespace PlatformMemory

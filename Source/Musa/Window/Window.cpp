@@ -1,14 +1,14 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform/Platform.hpp"
+#include "Platform/PlatformDefinitions.h"
 #include "Debugging/Assertion.hpp"
 #include "Window.h"
 #include "Input/InputDefinitions.hpp"
 #include "Input/Internal/InputInternal.hpp"
 
 
-Window::Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 w, u32 h)
-	: window(nullptr),
+Window::Window(void* instance, MusaApp& app, u32 xPos, u32 yPos, u32 w, u32 h)
+	: hwnd(nullptr),
 	application(app),
 	position(xPos, yPos),
 	width(w),
@@ -19,24 +19,24 @@ Window::Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 w, u32 
 
 	DWORD style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 	DWORD exStyle = 0;
-	window = CreateWindowEx(exStyle,
+	hwnd = CreateWindowEx(exStyle,
 		// TODO - Make the window class name some shared variable that the WindowsApp controls and everything else knows about or something...
 		TEXT("MusaEngine"), TEXT("Musa Engine Window"),
 		style,
 		xPos, yPos,
 		width, height,
-		nullptr, nullptr, instance, nullptr);
+		nullptr, nullptr, (HINSTANCE)instance, nullptr);
 
-	if (!window)
+	if (!hwnd)
 	{
 		Assert(false);
 	}
 
-	SetWindowLongPtr(window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&application));
+	SetWindowLongPtr((HWND)hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&application));
 
 
 	RECT windowRect;
-	GetWindowRect(window, &windowRect);
+	GetWindowRect((HWND)hwnd, &windowRect);
 
 	Show();
 //	ShowCursor(FALSE);
@@ -68,8 +68,8 @@ Window::Window(HINSTANCE instance, MusaApp& app, u32 xPos, u32 yPos, u32 w, u32 
 
 Window::~Window()
 {
-	Assert(window != nullptr);
-	DestroyWindow(window);
+	Assert(hwnd != nullptr);
+	DestroyWindow((HWND)hwnd);
 }
 
 void Window::Close()
@@ -89,7 +89,7 @@ void Window::Show()
 {
 	if (!isShown)
 	{
-		ShowWindow(window, SWP_SHOWWINDOW);
+		ShowWindow((HWND)hwnd, SWP_SHOWWINDOW);
 		isShown = true;
 	}
 }
@@ -98,7 +98,7 @@ void Window::Hide()
 {
 	if (isShown)
 	{
-		ShowWindow(window, SW_HIDE);
+		ShowWindow((HWND)hwnd, SW_HIDE);
 		isShown = false;
 	}
 }
@@ -109,7 +109,7 @@ void Window::SetWindowMode(WindowMode newWindowMode)
 	{
 		windowMode = newWindowMode;
 
-		LONG currentStyle = GetWindowLong(window, GWL_STYLE);
+		LONG currentStyle = GetWindowLong((HWND)hwnd, GWL_STYLE);
 		DWORD windowedStyle = WS_OVERLAPPEDWINDOW;
 		DWORD fullScreenStyle = WS_POPUP;
 
@@ -118,14 +118,14 @@ void Window::SetWindowMode(WindowMode newWindowMode)
 			currentStyle &= ~windowedStyle;
 			currentStyle |= fullScreenStyle;
 
-			GetWindowPlacement(window, &previousPlacement);
+			//GetWindowPlacement((HWND)hwnd, &previousPlacement);
 
-			SetWindowLong(window, GWL_STYLE, currentStyle);
+			SetWindowLong((HWND)hwnd, GWL_STYLE, currentStyle);
 			//UINT flags = SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOCOPYBITS;
 
-			SetWindowPos(window, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+			SetWindowPos((HWND)hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
-			HMONITOR monitor = MonitorFromWindow(window, MONITOR_DEFAULTTOPRIMARY /*MONITOR_DEFAULTTONDEAREST (BorderedFullscreen)*/);
+			HMONITOR monitor = MonitorFromWindow((HWND)hwnd, MONITOR_DEFAULTTOPRIMARY /*MONITOR_DEFAULTTONDEAREST (BorderedFullscreen)*/);
 			MONITORINFO monInfo = {};
 			monInfo.cbSize = sizeof(MONITORINFO);
 			GetMonitorInfo(monitor, &monInfo);
@@ -135,7 +135,7 @@ void Window::SetWindowMode(WindowMode newWindowMode)
 			LONG x = monInfo.rcMonitor.left;
 			LONG y = monInfo.rcMonitor.top;
 
-			SetWindowPos(window, nullptr, x, y, width, height, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
+			SetWindowPos((HWND)hwnd, nullptr, x, y, width, height, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
 
 			//ShowWindow(hWnd, SW_RESTORE);
 		}
@@ -143,9 +143,9 @@ void Window::SetWindowMode(WindowMode newWindowMode)
 		{
 			currentStyle &= ~fullScreenStyle;
 			currentStyle |= windowedStyle;
-			SetWindowLong(window, GWL_STYLE, currentStyle);
-			SetWindowPos(window, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-			SetWindowPlacement(window, &previousPlacement);
+			SetWindowLong((HWND)hwnd, GWL_STYLE, currentStyle);
+			SetWindowPos((HWND)hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+			//SetWindowPlacement((HWND)hwnd, &previousPlacement);
 		}
 	}
 }
@@ -161,5 +161,5 @@ bool Window::IsActive() const
 
 void* Window::GetWindowHandle() const
 {
-	return window;
+	return hwnd;
 }

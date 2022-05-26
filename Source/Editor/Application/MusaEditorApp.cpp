@@ -288,9 +288,10 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 
 	imguiPipeline.colorAttachments = beginInfo.colorAttachments;
 
+	context.BeginRenderPass(beginInfo);
+	
 	if (drawData->TotalVtxCount > 0)
 	{
-		context.BeginRenderPass(beginInfo);
 		context.SetViewport(0, 0, drawWidth, drawHeight, 0, 1);
 		context.SetGraphicsPipeline(imguiPipeline);
 		context.SetVertexBuffer(*imguiVertBuffer);
@@ -336,9 +337,10 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 			globalIdxOffset += cmdList->IdxBuffer.Size;
 		}
 
-		context.EndRenderPass();
-		context.EndRenderFrame(viewport->GetNativeViewport());
 	}
+	
+	context.EndRenderPass();
+	context.EndRenderFrame(viewport->GetNativeViewport());
 }
 
 void MusaEditorApp::AppDeinit()
