@@ -125,6 +125,7 @@ namespace Input
 		Mouse_Button6,
 		Mouse_Button7,
 		Mouse_Button8,
+		Mouse_ScrollWheel,
 
 		Mouse_XAxis,
 		Mouse_YAxis,

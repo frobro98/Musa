@@ -53,9 +53,12 @@ struct AnalogEvent
 
 struct MouseEvent
 {
-	IntVector2 currentPosition;
-	IntVector2 previousPosition;
+	IntVector2 currentScreenSpacePosition;
+	IntVector2 currentClientPosition;
+	IntVector2 previousScreenSpacePosition;
+	IntVector2 previousClientPosition;
 	IntVector2 deltaPosition;
+	f32 scrollDelta{ 0 };
 };
 
 struct Event

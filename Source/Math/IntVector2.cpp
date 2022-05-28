@@ -3,6 +3,9 @@
 #include "IntVector2.hpp"
 #include "Vector2.hpp"
 
+const IntVector2 IntVector2::Zero(0, 0);
+const IntVector2 IntVector2::One(1, 1);
+
 IntVector2::IntVector2(i32 x_, i32 y_)
 	: x(x_),
 	y(y_)

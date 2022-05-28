@@ -130,6 +130,8 @@ void MusaEditorApp::AppInit()
 
 	InitializeOSInput();
 	InitializeApplicationWindow();
+	
+	io.ImeWindowHandle = appWindow->GetWindowHandle();
 
 	// init graphics related objects
 	viewport = new Viewport(appWindow->GetWindowHandle(), appWindow->GetWidth(), appWindow->GetHeight());
@@ -176,16 +178,39 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 		switch (event.type)
 		{
 			case Input::EventType::Mouse:
-				//Input::MouseEvent mouseEvent = event.mouseEvent;
-				//mouseEvent.
-				break;
+			{
+				Input::MouseEvent mouseEvent = event.mouseEvent;
+				
+				io.MousePos = ImVec2((f32)mouseEvent.currentClientPosition.x, (f32)mouseEvent.currentClientPosition.y);
+				io.MouseWheel += mouseEvent.scrollDelta;
+			}break;
 			case Input::EventType::Button:
+			{
 				Input::ButtonEvent button = event.buttonEvent;
 				if (Input::IsMouseButtonEvent(button.button))
 				{
 					io.MouseDown[button.button - Input::Mouse_LeftButton] = button.downState.endedDown;
 				}
-				break;
+				else
+				{
+					io.KeysDown[button.button] = button.downState.endedDown;
+					if (button.button == Input::Key_LeftControl ||
+						button.button == Input::Key_RightControl)
+					{
+						io.KeyCtrl = button.downState.endedDown;
+					}
+					else if (button.button == Input::Key_LeftShift ||
+						button.button == Input::Key_RightShift)
+					{
+						io.KeyShift = button.downState.endedDown;
+					}
+					else if (button.button == Input::Key_LeftAlt ||
+						button.button == Input::Key_RightAlt)
+					{
+						io.KeyAlt = button.downState.endedDown;
+					}
+				}
+			}break;
 			case Input::EventType::Analog:
 				break;
 			default:
@@ -205,8 +230,6 @@ void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& fram
 	}
 
 	io.DisplaySize = ImVec2((f32)appWindow->GetWidth(), (f32)appWindow->GetHeight());
-	IntVector2 mousePos = Input::GetMousePosition();
-	io.MousePos = ImVec2((f32)mousePos.x, (f32)mousePos.y);
 
 	ImGui::NewFrame();
 

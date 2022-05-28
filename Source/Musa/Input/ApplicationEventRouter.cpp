@@ -67,16 +67,19 @@ void ApplicationEventRouter::HandleMouseUp(Input::Buttons mouse, const Input::Do
 	inputEvents.Add(inputEvent);
 }
 
-void ApplicationEventRouter::HandleMouseMove(const IntVector2& mousePosition)
+void ApplicationEventRouter::HandleMouseMove(const IntVector2& screenSpaceMousePos, const IntVector2& clientMousePos)
 {
-	if (mousePosition != previousPosition)
+	if (screenSpaceMousePos != previousScreenSpacePosition)
 	{
 		Input::MouseEvent event;
-		event.currentPosition = mousePosition;
-		event.previousPosition = previousPosition;
-		event.deltaPosition = mousePosition - previousPosition;
+		event.currentScreenSpacePosition = screenSpaceMousePos;
+		event.currentClientPosition = clientMousePos;
+		event.previousScreenSpacePosition = previousScreenSpacePosition;
+		event.previousClientPosition = previousClientPosition;
+		event.deltaPosition = screenSpaceMousePos - previousScreenSpacePosition;
 
-		previousPosition = mousePosition;
+		previousScreenSpacePosition = screenSpaceMousePos;
+		previousClientPosition = clientMousePos;
 
 		Input::Event inputEvent = {};
 		inputEvent.mouseEvent = event;
@@ -85,22 +88,41 @@ void ApplicationEventRouter::HandleMouseMove(const IntVector2& mousePosition)
 	}
 }
 
-void ApplicationEventRouter::HandleRawMouseMove(const IntVector2& mousePosition, const IntVector2& deltaPosition)
+void ApplicationEventRouter::HandleRawMouseMove(const IntVector2& screenSpaceMousePos, const IntVector2& clientMousePos, const IntVector2& deltaPosition)
 {
-	if (mousePosition != previousPosition)
+	if (screenSpaceMousePos != previousScreenSpacePosition)
 	{
 		Input::MouseEvent event;
-		event.currentPosition = mousePosition;
-		event.previousPosition = previousPosition;
+		event.currentScreenSpacePosition = screenSpaceMousePos;
+		event.currentClientPosition = clientMousePos;
+		event.previousScreenSpacePosition = previousScreenSpacePosition;
+		event.previousClientPosition = previousClientPosition;
 		event.deltaPosition = deltaPosition;
 
-		previousPosition = mousePosition;
+		previousScreenSpacePosition = screenSpaceMousePos;
+		previousClientPosition = clientMousePos;
 		
 		Input::Event inputEvent = {};
 		inputEvent.mouseEvent = event;
 		inputEvent.type = Input::EventType::Mouse;
 		inputEvents.Add(inputEvent);
 	}
+}
+
+void ApplicationEventRouter::HandleMouseScrollWheel(const IntVector2& screenSpaceMousePos, f32 wheelDelta)
+{
+	Input::MouseEvent event;
+	event.currentScreenSpacePosition = screenSpaceMousePos;
+	event.currentClientPosition = screenSpaceMousePos;
+	event.previousScreenSpacePosition = screenSpaceMousePos;
+	event.previousClientPosition = screenSpaceMousePos;
+	event.deltaPosition = IntVector2::Zero;
+	event.scrollDelta = wheelDelta;
+
+	Input::Event inputEvent = {};
+	inputEvent.mouseEvent = event;
+	inputEvent.type = Input::EventType::Mouse;
+	inputEvents.Add(inputEvent);
 }
 
 void ApplicationEventRouter::HandleControllerButtonDown(u32 /*controllerIndex*/, Input::Buttons gamepadInput, const Input::DownState& state)

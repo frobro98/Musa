@@ -9,6 +9,10 @@ struct Vector2;
 
 struct MATH_API IntVector2
 {
+	static const IntVector2 Zero;
+	static const IntVector2 One;
+
+public:
 	i32 x = 0;
 	i32 y = 0;
 

@@ -1,7 +1,10 @@
 // Copyright 2020, Nathan Blane
 
 #include "Platform/PlatformDefinitions.h"
+WALL_WRN_PUSH
 #include <xinput.h>
+#include <windowsx.h>
+WALL_WRN_POP
 
 #include "Musa.hpp"
 #include "MusaAppWindows.hpp"
@@ -150,6 +153,7 @@ inline Input::Buttons GetMouseType(UINT message, WPARAM wParam)
 	case WM_LBUTTONUP: return Input::Mouse_LeftButton;
 	case WM_RBUTTONUP: return Input::Mouse_RightButton;
 	case WM_MBUTTONUP: return Input::Mouse_MiddleButton;
+	case WM_MOUSEWHEEL: return Input::Mouse_ScrollWheel;
 
 	case WM_XBUTTONDOWN:
 	case WM_XBUTTONUP:
@@ -220,6 +224,14 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				// If the DefWindowProc processes this, it doesn't update the cursor for some reason
 				return true;
 			}
+
+			case WM_MOUSEWHEEL:
+			{
+				const SHORT scrollDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+
+				const IntVector2 mousePos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+				eventRouter.HandleMouseScrollWheel(mousePos, (f32)(scrollDelta) / WHEEL_DELTA);
+			}break;
 
 			case WM_LBUTTONDOWN:
 			case WM_RBUTTONDOWN:
@@ -302,25 +314,35 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 					if (rawInput->header.dwType == RIM_TYPEMOUSE)
 					{
-						POINT cursorPos;
-						::GetCursorPos(&cursorPos);
-						IntVector2 currentPosition(cursorPos.x, cursorPos.y);
+						POINT screenSpaceCursor;
+						::GetCursorPos(&screenSpaceCursor);
+						// TODO - Make this a function on the Win32 side of things
+						POINT transformedPos = screenSpaceCursor;
+						::ScreenToClient(hwnd, &transformedPos);
+
+						IntVector2 currentScreenSpacePosition(screenSpaceCursor.x, screenSpaceCursor.y);
+						IntVector2 currentClientPosition(transformedPos.x, transformedPos.y);
 						IntVector2 deltaPosition(rawInput->data.mouse.lLastX, rawInput->data.mouse.lLastY);
 
-						inputMap.MouseMove(currentPosition);
-						eventRouter.HandleRawMouseMove(currentPosition, deltaPosition);
+						inputMap.MouseMove(currentScreenSpacePosition, currentClientPosition);
+						eventRouter.HandleRawMouseMove(currentScreenSpacePosition, currentClientPosition, deltaPosition);
 					}
 				}
 			}break;
 
 			case WM_MOUSEMOVE:
 			{
-				POINT cursor;
-				::GetCursorPos(&cursor);
-				
-				IntVector2 currentPosition(cursor.x, cursor.y);
-				inputMap.MouseMove(currentPosition);
-				eventRouter.HandleMouseMove(currentPosition);
+				POINT screenSpaceCursor;
+				::GetCursorPos(&screenSpaceCursor);
+				// TODO - Make this a function on the Win32 side of things
+				POINT transformedPos = screenSpaceCursor;
+				::ScreenToClient(hwnd, &transformedPos);
+
+				IntVector2 currentScreenSpacePosition(screenSpaceCursor.x, screenSpaceCursor.y);
+				IntVector2 currentClientPosition(transformedPos.x, transformedPos.y);
+
+				inputMap.MouseMove(currentScreenSpacePosition, currentClientPosition);
+				eventRouter.HandleMouseMove(currentScreenSpacePosition, currentClientPosition);
 				
 			}break;
 
@@ -510,6 +532,7 @@ IntVector2 MusaAppWindows::GetMousePosition() const
 
 IntVector2 MusaAppWindows::TransformPositionToWindow(const Window& window, const IntVector2& pos) const
 {
+	// TODO - Make this a function on the Win32 side of things
 	POINT cursorPos{ pos.x, pos.y };
 	::ScreenToClient((HWND)window.GetWindowHandle(), &cursorPos);
 	

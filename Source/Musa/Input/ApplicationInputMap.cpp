@@ -86,7 +86,7 @@ Input::DownState ApplicationInputMap::MouseUp(Input::Buttons mouseButton)
 // 	}
 }
 
-void ApplicationInputMap::MouseMove(const IntVector2& mousePosition_)
+void ApplicationInputMap::MouseMove(const IntVector2& mousePosition_, const IntVector2& /*clientMousePos_*/)
 {
 	mousePosition = mousePosition_;
 

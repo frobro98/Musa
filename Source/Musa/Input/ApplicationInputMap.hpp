@@ -18,7 +18,7 @@ public:
 	NODISCARD Input::DownState KeyDown(Input::Buttons input);
 	NODISCARD Input::DownState MouseDown(Input::Buttons mouseButton);
 	NODISCARD Input::DownState MouseUp(Input::Buttons mouseButton);
-	void MouseMove(const IntVector2& mousePosition);
+	void MouseMove(const IntVector2& screenSpaceMousePos, const IntVector2& clientMousePos);
 	void SetGamepadInformation(const Input::GamepadStates& states, const Input::ActiveGamepads& activeGamepads);
 
 	void CopyKeyboardMouseInput(Input::StateMap& inputMap) const;

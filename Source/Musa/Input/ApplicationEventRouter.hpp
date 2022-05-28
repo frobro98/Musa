@@ -26,8 +26,9 @@ public:
 
 	void HandleMouseDown(Input::Buttons mouse, const Input::DownState& inputState);
 	void HandleMouseUp(Input::Buttons mouse, const Input::DownState& inputState);
-	void HandleMouseMove(const IntVector2& mousePosition);
-	void HandleRawMouseMove(const IntVector2& mousePosition, const IntVector2& deltaPosition);
+	void HandleMouseMove(const IntVector2& screenSpaceMousePos, const IntVector2& clientMousePos);
+	void HandleRawMouseMove(const IntVector2& mousePosition, const IntVector2& clientMousePos, const IntVector2& deltaPosition);
+	void HandleMouseScrollWheel(const IntVector2& mousePosition, f32 wheelDelta);
 
 	void HandleControllerButtonDown(u32 controllerIndex, Input::Buttons gamepadInput, const Input::DownState& state);
 	void HandleControllerButtonUp(u32 controllerIndex, Input::Buttons gamepadInput, const Input::DownState& state);
@@ -41,5 +42,6 @@ public:
 
 private:
 	DynamicArray<Input::Event> inputEvents;
-	IntVector2 previousPosition;
+	IntVector2 previousScreenSpacePosition;
+	IntVector2 previousClientPosition;
 };
