@@ -168,9 +168,10 @@ void MusaEditorApp::AppInit()
 	imguiIndexBuffer = GetGraphicsInterface().CreateIndexBuffer(sizeof(ImDrawIdx), sizeof(ImDrawIdx));
 }
 
-void MusaEditorApp::AppLoop(f32 /*tick*/, const DynamicArray<Input::Event>& frameInputs)
+void MusaEditorApp::AppLoop(f32 tick, const DynamicArray<Input::Event>& frameInputs)
 {
 	ImGuiIO& io = ImGui::GetIO();
+	io.DeltaTime = tick;
 
 	// Push input to imgui
 	for (const auto& event : frameInputs)
