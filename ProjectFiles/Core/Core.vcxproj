@@ -105,18 +105,19 @@
     <ClInclude Include="..\..\Source\Core\File\FileSystem.hpp" />
     <ClInclude Include="..\..\Source\Core\File\FileUtilities.hpp" />
     <ClInclude Include="..\..\Source\Core\File\md5.h" />
+    <ClInclude Include="..\..\Source\Core\fmt\args.h" />
     <ClInclude Include="..\..\Source\Core\fmt\chrono.h" />
     <ClInclude Include="..\..\Source\Core\fmt\color.h" />
     <ClInclude Include="..\..\Source\Core\fmt\compile.h" />
     <ClInclude Include="..\..\Source\Core\fmt\core.h" />
     <ClInclude Include="..\..\Source\Core\fmt\format-inl.h" />
     <ClInclude Include="..\..\Source\Core\fmt\format.h" />
-    <ClInclude Include="..\..\Source\Core\fmt\locale.h" />
     <ClInclude Include="..\..\Source\Core\fmt\os.h" />
     <ClInclude Include="..\..\Source\Core\fmt\ostream.h" />
-    <ClInclude Include="..\..\Source\Core\fmt\posix.h" />
     <ClInclude Include="..\..\Source\Core\fmt\printf.h" />
     <ClInclude Include="..\..\Source\Core\fmt\ranges.h" />
+    <ClInclude Include="..\..\Source\Core\fmt\std.h" />
+    <ClInclude Include="..\..\Source\Core\fmt\xchar.h" />
     <ClInclude Include="..\..\Source\Core\GUID\Guid.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\CoreLogChannels.hpp" />
     <ClInclude Include="..\..\Source\Core\Logging\LogCore.hpp" />
@@ -268,7 +269,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>CORE_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_EXPORT;FMT_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>
@@ -299,7 +300,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>CORE_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_EXPORT;FMT_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>set targetDir="$(SolutionDir)\Binaries\$(Platform)\$(Configuration)\"
@@ -335,7 +336,7 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>CORE_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_EXPORT;FMT_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -372,7 +373,7 @@ copy "$(OutputPath)\*.pdb" %targetDir%</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions>/w14242 /w14254 /w14263 /w14265 /w14287 /we4289 /w14296 /w14311 /w14545 /w14546 /w14547 /w14549 /w14555 /w14619 /w14640 /w14826 /w14905 /w14906 /w14928 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>CORE_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_EXPORT;FMT_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

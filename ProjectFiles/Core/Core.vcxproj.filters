@@ -105,12 +105,6 @@
     <ClCompile Include="..\..\Source\Core\GUID\Guid.cpp">
       <Filter>Source\GUID</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\fmt\os.cc">
-      <Filter>Source\fmt</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\fmt\format.cc">
-      <Filter>Source\fmt</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Debugging\MetricInterface.cpp">
       <Filter>Source\Debugging</Filter>
     </ClCompile>
@@ -213,6 +207,12 @@
     <ClCompile Include="..\..\Source\Core\Platform\Platform.cpp">
       <Filter>Source\Platform</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\fmt\format.cc">
+      <Filter>Source\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\fmt\os.cc">
+      <Filter>Source\fmt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Version.hpp">
@@ -283,42 +283,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\GUID\Guid.hpp">
       <Filter>Source\GUID</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\format.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\format-inl.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\locale.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\os.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\ostream.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\posix.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\printf.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\ranges.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\chrono.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\color.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\compile.h">
-      <Filter>Source\fmt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Core\fmt\core.h">
-      <Filter>Source\fmt</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Debugging\MetricInterface.hpp">
       <Filter>Source\Debugging</Filter>
@@ -559,6 +523,45 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Core\Utilities\ThirdParty\city.h">
       <Filter>Source\Utilities\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\format.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\format-inl.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\os.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\ostream.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\printf.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\ranges.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\std.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\xchar.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\args.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\chrono.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\color.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\compile.h">
+      <Filter>Source\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\fmt\core.h">
+      <Filter>Source\fmt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

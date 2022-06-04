@@ -14,7 +14,7 @@ static void FormatDateAndTime(fmt::memory_buffer& buff)
 	// GetSystemTime gets the time with the time zone NOT applied (UTC)
 	::GetLocalTime(&systemTime);
 
-	fmt::format_to(buff, "Musa log opened at {:02d}:{:02d}:{:02d}.{:03d} on {:02d}/{:02d}/{:04d}\n",
+	fmt::format_to(buff.begin(), "Musa log opened at {:02d}:{:02d}:{:02d}.{:03d} on {:02d}/{:02d}/{:04d}\n",
 		systemTime.wHour, systemTime.wMinute, systemTime.wSecond, systemTime.wMilliseconds,
 		systemTime.wMonth, systemTime.wDay, systemTime.wYear);
 }
@@ -46,7 +46,7 @@ void LogFileSink::OutputFormattedString(const LogLineEntry& entry)
 {
 	// TODO - Get time difference from the start of the program execution
 		// Format goes: Time since start up, log level, log channel, log msg
-	fmt::format_to(logLineEntryBuffer, "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
+	fmt::format_to(logLineEntryBuffer.begin(), "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
 		ToString(entry.level), entry.logSlot, Strlen(entry.logSlot), *entry.logMsg);
 
 	NOT_USED bool result = FileSystem::WriteFile(logFileHandle, logLineEntryBuffer.data(), (u32)logLineEntryBuffer.size());

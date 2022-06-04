@@ -11,7 +11,7 @@ void DebugOutputWindowSink::OutputFormattedString(const LogLineEntry& entry)
 	constexpr size_t outputLen = 512;
 	tchar outputStr[outputLen] = {};
 
-	fmt::format_to(logLineEntryBuffer, "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
+	fmt::format_to(logLineEntryBuffer.begin(), "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
 		ToString(entry.level), entry.logSlot, Strlen(entry.logSlot), *entry.logMsg);
 
 	size_t len = logLineEntryBuffer.size() >= outputLen ? outputLen - 1 : logLineEntryBuffer.size();

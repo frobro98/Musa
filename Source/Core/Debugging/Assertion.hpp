@@ -28,7 +28,7 @@ namespace Debug
 	forceinline void AssertionFailed(const tchar* expr, const tchar* file, i32 line, const tchar* desc, NOT_USED Args... args)
 	{
 		fmt::memory_buffer buffer;
-		fmt::format_to(buffer, desc, args...);
+		fmt::format_to(buffer.begin(), desc, args...);
 
 		MUSA_LOG(AssertionLog, LogLevel::Fatal, "{} failed! File {}, Line {}. {}", expr, file, line, buffer.data());
 		Platform::DebugBreak();

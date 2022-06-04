@@ -35,7 +35,7 @@ public:
 	{
 		if (ShouldLogAtLevel(level))
 		{
-			fmt::format_to(formatBuf, msg, args...);
+			fmt::format_to(formatBuf.begin(), msg, args...);
 			PushLineToLog(logChannel, level, formatBuf.data(), formatBuf.size());
 			formatBuf.clear();
 		}
@@ -76,9 +76,9 @@ private:
 
 private:
 	// Threading!
-	LoggingThread* loggingThread = nullptr;
-	fmt::memory_buffer formatBuf;
-	LogLevel::Type logLevel;
+	LoggingThread* loggingThread{ nullptr };
+	fmt::memory_buffer formatBuf{};
+	LogLevel::Type logLevel{ LogLevel::Info };
 };
 
 CORE_API Logger& GetLogger();

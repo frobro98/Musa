@@ -40,7 +40,7 @@ void ConsoleWindowSink::OutputFormattedString(const LogLineEntry& entry)
 
 	SetConsoleTextAttribute(consoleOutHandle, levelColors[entry.level]);
 
-	fmt::format_to(logLineEntryBuffer, "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
+	fmt::format_to(logLineEntryBuffer.begin(), "[TODO - TimeSinceBegin][{:s}]({:.{}}):{:s}\n",
 		ToString(entry.level), entry.logSlot, Strlen(entry.logSlot), *entry.logMsg);
 
 	u32 charsWritten;

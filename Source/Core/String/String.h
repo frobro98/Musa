@@ -72,7 +72,7 @@ public:
 	static String Format(const tchar* formatStr, StrArgs... args)
 	{
 		fmt::memory_buffer buf;
-		fmt::format_to(buf, formatStr, args...);
+		fmt::format_to(buf.begin(), formatStr, args...);
 		return String(buf.data(), (u32)buf.size());
 	}
 
