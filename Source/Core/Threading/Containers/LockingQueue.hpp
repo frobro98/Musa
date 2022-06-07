@@ -26,7 +26,7 @@ template<typename PushType>
 inline void LockingQueue<Elem>::Push(PushType && elem)
 {
 	ScopedWriteLock lock(mut);
-	queue.Push(std::forward<PushType>(elem));
+	queue.Push(FORWARD(PushType, elem));
 }
 
 template<class Elem>

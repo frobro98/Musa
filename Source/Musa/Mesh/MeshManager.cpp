@@ -158,7 +158,7 @@ Mesh* MeshManager::LoadFrustumForCamera(NOT_USED Camera* cam)
 	DynamicArray<Vertex> verts(vertices);
 	GenerateMeshTangents(verts, faces);
 
-	Mesh* mesh = new Mesh(std::move(verts), faces);
+	Mesh* mesh = new Mesh(MOVE(verts), faces);
 	MeshNode* node = new MeshNode;
 	node->meshName = "Frustum";
 	node->mesh = mesh;
@@ -181,7 +181,7 @@ Mesh* MeshManager::LoadMeshFromPak(u8* modelData, const char * modelName)
 	Memcpy(vertices.GetData(), vertices.Size() * sizeof(Vertex), vertPtr, header->numVerts * sizeof(Vertex));
 	Memcpy(faces.GetData(), faces.Size() * sizeof(Face), facePtr, header->numFaces * sizeof(Face));
 
-	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces), boundingSphere);
+	Mesh* mesh = new Mesh(MOVE(vertices), MOVE(faces), boundingSphere);
 	MeshNode* node = new MeshNode;
 	node->meshName = modelName;
 	node->mesh = mesh;
@@ -214,7 +214,7 @@ Mesh* MeshManager::LoadMeshFromPak(u8 * modelData, u8* skinningData, const char 
 	Memcpy(skinningWeights.GetData(), skinningWeightBytes, skinningData, skinningWeightBytes);
 	Memcpy(faces.GetData(), facesBytes, facePtr, facesBytes);
 
-	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces), std::move(skinningWeights), boundingSphere);
+	Mesh* mesh = new Mesh(MOVE(vertices), MOVE(faces), MOVE(skinningWeights), boundingSphere);
 	MeshNode* node = new MeshNode;
 	node->meshName = modelName;
 	node->mesh = mesh;
@@ -312,7 +312,7 @@ Mesh* MeshManager::LoadSpherePrimitive()
 
 	GenerateMeshTangents(vertices, faces);
 
-	Mesh* mesh = new Mesh(std::move(vertices), std::move(faces));
+	Mesh* mesh = new Mesh(MOVE(vertices), MOVE(faces));
 	MeshNode* node = new MeshNode;
 	node->meshName = Mesh::SphereName;
 	node->mesh = mesh;
@@ -395,7 +395,7 @@ Mesh* MeshManager::LoadBoxPrimitive()
 	DynamicArray<Vertex> verts(vertices);
 	GenerateMeshTangents(verts, faces);
 
-	Mesh* mesh = new Mesh(std::move(verts), faces);
+	Mesh* mesh = new Mesh(MOVE(verts), faces);
 	MeshNode* node = new MeshNode;
 	node->meshName = Mesh::BoxName;
 	node->mesh = mesh;
@@ -425,7 +425,7 @@ Mesh* MeshManager::LoadPlanePrimitive()
 	DynamicArray<Vertex> vertices(verts);
 	GenerateMeshTangents(vertices, faces);
 
-	Mesh* mesh = new Mesh(std::move(vertices), faces);
+	Mesh* mesh = new Mesh(MOVE(vertices), faces);
 	MeshNode* node = new MeshNode;
 	node->meshName = Mesh::PlaneName;
 	node->mesh = mesh;
@@ -486,7 +486,7 @@ Mesh* MeshManager::LoadPyramidPrimitive()
 	DynamicArray<Vertex> vertices(verts);
 	GenerateMeshTangents(vertices, faces);
 
-	Mesh* mesh = new Mesh(std::move(vertices), faces);
+	Mesh* mesh = new Mesh(MOVE(vertices), faces);
 	MeshNode* node = new MeshNode;
 	node->meshName = Mesh::PyramidName;
 	node->mesh = mesh;

@@ -75,7 +75,7 @@ Skeleton* SkeletonManager::CreateSkeleton(u8* skeletonData, u32 hash)
 			Memcpy(poses, poseCountBytes, poseData, poseCountBytes);
 		}
 
-		skel = new Skeleton(bones, poses, table, boneCount, hash/*, std::move(boneHierarchy)*/);
+		skel = new Skeleton(bones, poses, table, boneCount, hash/*, MOVE(boneHierarchy)*/);
 
 		Instance().AddSkeleton(skel);
 

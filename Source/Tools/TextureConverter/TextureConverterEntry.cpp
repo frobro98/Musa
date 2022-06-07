@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
 		textureFileName = outputFilePath.GetString();
 	}
 
-	Path textureFile(std::move(textureFileName));
+	Path textureFile(MOVE(textureFileName));
 	// TODO - Add some sort of formatting functionality into my string utilities
 	{
 

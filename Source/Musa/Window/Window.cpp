@@ -82,7 +82,8 @@ void Window::Close()
 
 void Window::Resize(u32 w, u32 h)
 {
-	UNUSED(w, h);
+	width = w;
+	height = h;
 }
 
 void Window::Show()

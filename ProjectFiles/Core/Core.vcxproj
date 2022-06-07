@@ -81,6 +81,7 @@
     <ClInclude Include="..\..\Source\Core\BasicTypes\Uncopyable.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\UniquePtr.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Unmoveable.hpp" />
+    <ClInclude Include="..\..\Source\Core\BasicTypes\Utility.hpp" />
     <ClInclude Include="..\..\Source\Core\Containers\ArrayView.hpp" />
     <ClInclude Include="..\..\Source\Core\Containers\DynamicArray.hpp" />
     <ClInclude Include="..\..\Source\Core\Containers\FixedArray.hpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="..\..\Source\Core\Serialization\SerializeBase.hpp" />
     <ClInclude Include="..\..\Source\Core\String\CStringUtilities.hpp" />
     <ClInclude Include="..\..\Source\Core\String\String.h" />
+    <ClInclude Include="..\..\Source\Core\String\StringUtils.hpp" />
     <ClInclude Include="..\..\Source\Core\String\StringView.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\Containers\ConcurrentQueue.hpp" />
     <ClInclude Include="..\..\Source\Core\Threading\Containers\LockingQueue.hpp" />

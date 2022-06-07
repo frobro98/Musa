@@ -44,7 +44,7 @@ public:
 	}
 
 	Map(Map&& other)
-		: buckets(std::move(other.buckets)),
+		: buckets(MOVE(other.buckets)),
 		size(other.size),
 		maxBucketSize(other.maxBucketSize)
 	{
@@ -67,7 +67,7 @@ public:
 	{
 		if (this != &other)
 		{
-			buckets = std::move(other.buckets);
+			buckets = MOVE(other.buckets);
 			size = other.size;
 			maxBucketSize = other.maxBucketSize;
 
@@ -194,7 +194,7 @@ private:
 
 		if (!storage)
 		{
-			Pair<KeyType, ValueType> pair = { std::forward<EmplaceType>(key), ValueType() };
+			Pair<KeyType, ValueType> pair = { FORWARD(EmplaceType, key), ValueType() };
 			u32 index = bucket.Add(pair);
 			storage = &bucket[index];
 		}
@@ -210,7 +210,7 @@ public:
 
 	ValueType& operator[](KeyType&& key)
 	{
-		return FindOrDefault(std::move(key));
+		return FindOrDefault(MOVE(key));
 	}
 
 public:

@@ -4,6 +4,7 @@
 #include "Debugging/ProfilerStatistics.hpp"
 #include "Visualization/ScreenTextItem.hpp"
 #include "Engine/FrameData.hpp"
+#include "String/StringUtils.hpp"
 
 static void MoveMetricPositionDown(Vector2& currentScreenPos)
 {
@@ -14,7 +15,7 @@ static void FormatAndAddTextItem(DynamicArray<ScreenTextItem>& textItems, Vector
 {
 	constexpr u32 digitsPrecision = 3;
 	textItems.Add(ScreenTextItem{ 
-		String::Format("{}: {:.3f}ms", metricName, msTime/*, digitsPrecision*/), 
+		Format("{}: {:.3f}ms", metricName, msTime/*, digitsPrecision*/), 
 		Color32::White(), 
 		currentScreenPos, 
 		.15f 

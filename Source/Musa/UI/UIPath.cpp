@@ -3,7 +3,7 @@
 #include "UIPath.hpp"
 
 UI::Path::Path(DynamicArray<Widget*>&& widgetPath)
-	: path(std::move(widgetPath))
+	: path(MOVE(widgetPath))
 {
 }
 

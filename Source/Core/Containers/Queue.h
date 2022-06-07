@@ -98,7 +98,7 @@ forceinline void Queue<T>::Push(PushType&& elem)
 		ExpandBlocks();
 	}
 
-	new(GetQueueElement(index)) T(std::forward<PushType>(elem));
+	new(GetQueueElement(index)) T(FORWARD(PushType, elem));
 	++size;
 }
 

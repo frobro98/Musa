@@ -39,7 +39,7 @@ template<typename Type>
 template<typename PushType>
 inline void Stack<Type>::Push(PushType&& item)
 {
-	stackSpace.Add(std::forward<PushType>(item));
+	stackSpace.Add(FORWARD(PushType, item));
 }
 
 template<typename Type>

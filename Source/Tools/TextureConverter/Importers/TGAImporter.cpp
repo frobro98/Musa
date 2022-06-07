@@ -13,7 +13,7 @@ TGAImporter::TGAImporter()
 void TGAImporter::SetImportData(MemoryBuffer&& data)
 {
 	ProcessHeader(data);
-	importData = std::move(data);
+	importData = MOVE(data);
 }
 
 void TGAImporter::ProcessHeader(const MemoryBuffer& data)

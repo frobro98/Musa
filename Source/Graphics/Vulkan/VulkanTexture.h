@@ -3,6 +3,7 @@
 #pragma once
 
 #include "BasicTypes/UniquePtr.hpp"
+#include "BasicTypes/Utility.hpp"
 #include "Vulkan/VulkanAbstractions.h"
 
 struct VulkanTexture : public NativeTexture
@@ -21,7 +22,7 @@ struct VulkanTexture : public NativeTexture
 
 	VulkanTexture(VulkanTexture&& other) noexcept
 		: imageView(other.imageView),
-		image(std::move(other.image)),
+		image(MOVE(other.image)),
 		logicalDevice(other.logicalDevice)
 	{
 		other.imageView = VK_NULL_HANDLE;
@@ -31,7 +32,7 @@ struct VulkanTexture : public NativeTexture
 	{
 		if (&other != this && other.image->Initialized())
 		{
-			image = std::move(other.image);
+			image = MOVE(other.image);
 			imageView = other.imageView;
 
 			other.imageView = VK_NULL_HANDLE;

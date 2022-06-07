@@ -9,7 +9,7 @@
 Skeleton::Skeleton(SkeletonBone* boneList, BonePoseData* poseList, BoneHierarchyTable& table, u32 count, u32 hash/*, PCSTree<SkeletonBone>&& hierarchy*/)
 	: hierarchyTable(table),
 	poseMatrices(poseList, count),
-	//boneHierarchy(std::move(hierarchy)),
+	//boneHierarchy(MOVE(hierarchy)),
 	bones(boneList),
 	skeletonWorld(new Matrix4(IDENTITY)),
 	boneCount(count),

@@ -563,6 +563,12 @@
     <ClInclude Include="..\..\Source\Core\fmt\core.h">
       <Filter>Source\fmt</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\String\StringUtils.hpp">
+      <Filter>Source\String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\BasicTypes\Utility.hpp">
+      <Filter>Source\BasicTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\Core\Utilities\ThirdParty\LICENSE">

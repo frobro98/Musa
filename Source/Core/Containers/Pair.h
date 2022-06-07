@@ -40,8 +40,8 @@ struct CORE_TEMPLATE Pair
 			std::is_constructible<SecondType, U2>
 		>, int> = 0>
 	constexpr Pair(U1&& val0, U2&& val1)
-		: first(std::forward<U1>(val0)),
-		second(std::forward<U2>(val1))
+		: first(FORWARD(U1, val0)),
+		second(FORWARD(U2, val1))
 	{
 	}
 
@@ -51,8 +51,8 @@ struct CORE_TEMPLATE Pair
 		std::is_constructible<SecondType, U2>
 	>, int> = 0>
 	constexpr Pair(Pair<U1, U2>&& pair)
-		: first(std::forward<U1>(pair.first)),
-		second(std::forward<U2>(pair.second))
+		: first(FORWARD(U1, pair.first)),
+		second(FORWARD(U2, pair.second))
 	{
 	}
 
@@ -87,8 +87,8 @@ struct CORE_TEMPLATE Pair
 	{
 		if (this != &pair)
 		{
-			first = std::forward<FirstType>(pair.first);
-			second = std::forward<SecondType>(pair.second);
+			first = FORWARD(FirstType, pair.first);
+			second = FORWARD(SecondType, pair.second);
 		}
 		return *this;
 	}

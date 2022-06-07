@@ -22,14 +22,14 @@ public:
 		callback = [](void* p, Args... args)
 		{
 			return (*reinterpret_cast<Func*>(p))(
-				std::forward<Args>(args)...);
+				FORWARD(Args, args)...);
 		};
 	}
 
 	Ret operator()(Args... args) const
-		noexcept(noexcept(callback(ptr, std::forward<Args>(args)...)))
+		noexcept(noexcept(callback(ptr, FORWARD(Args, args)...)))
 	{
-		return callback(ptr, std::forward<Args>(args)...);
+		return callback(ptr, FORWARD(Args, args)...);
 	}
 
 private:

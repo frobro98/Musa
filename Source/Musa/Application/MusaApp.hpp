@@ -14,6 +14,10 @@
 class MUSA_API MusaApp
 {
 public:
+	using ApplicationEventCallback = std::function<void(const Musa::ApplicationEvent&)>;
+	using InputEventCallback = std::function<void(const Input::Event&)>;
+
+public:
 	MusaApp();
 	virtual ~MusaApp() {}
 
@@ -25,6 +29,7 @@ public:
 
 	forceinline ApplicationInputMap& GetInputMap() { return inputMap; }
 	forceinline ApplicationEventRouter& GetInputRouter() { return *inputRouter; }
+	forceinline const DynamicArray<Musa::ApplicationEvent>& GetApplicationEvents() const { return applicationEvents; }
 
 	// Application events
 	void ResizeWindow(const IntVector2& newDimensions);
@@ -46,10 +51,16 @@ protected:
 
 protected:
 	ApplicationInputMap inputMap;
+	DynamicArray<Musa::ApplicationEvent> applicationEvents;
 	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
 	UniquePtr<ApplicationEventRouter> inputRouter;
 	UniquePtr<MusaAppOS> osApp;
+
+private:
+	void StartFrame();
+	void EndFrame();
+	void ProcessApplicationEvents();
 
 private:
 	EngineTick frameTick;

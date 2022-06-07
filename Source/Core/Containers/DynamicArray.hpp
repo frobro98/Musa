@@ -3,6 +3,7 @@
 #pragma once
 
 #include "BasicTypes/Intrinsics.hpp"
+#include "BasicTypes/Utility.hpp"
 #include "Debugging/Assertion.hpp"
 #include "Utilities/MemoryUtilities.hpp"
 #include "Serialization/SerializeBase.hpp"
@@ -453,7 +454,7 @@ inline u32 DynamicArray<Type>::Add(AddType&& newElement)
 		AdjustSizeGeom(newSize);
 	}
 
-	return Emplace(std::forward<AddType>(newElement));
+	return Emplace(FORWARD(AddType, newElement));
 }
 
 template<class Type>
@@ -463,7 +464,7 @@ inline u32 DynamicArray<Type>::AddUnique(AddType&& newElement)
 	i32 index = FindFirstIndex(newElement);
 	if (index < 0)
 	{
-		index = Add(std::forward<AddType>(newElement));
+		index = Add(FORWARD(AddType, newElement));
 	}
 	return (u32)index;
 }
@@ -519,7 +520,7 @@ inline void DynamicArray<Type>::Insert(InsertType&& elem, u32 index)
 	}
 
 	MoveForward(index);
-	new(GetData() + index) valueType(std::forward<InsertType>(elem));
+	new(GetData() + index) valueType(FORWARD(InsertType, elem));
 	arraySize = newSize;
 }
 
@@ -674,7 +675,7 @@ template<class Pred>
 inline Type* DynamicArray<Type>::FindFirstUsing(Pred&& pred)
 {
 	valueType* found = nullptr;
-	i32 foundIndex = FindFirstIndexUsing(std::move(pred));
+	i32 foundIndex = FindFirstIndexUsing(MOVE(pred));
 	if (foundIndex >= 0)
 	{
 		found = &data[(u32)foundIndex];
@@ -688,7 +689,7 @@ template<class Pred>
 inline Type* DynamicArray<Type>::FindLastUsing(Pred&& pred)
 {
 	valueType* found = nullptr;
-	i32 foundIndex = FindLastIndex(std::move(pred));
+	i32 foundIndex = FindLastIndex(MOVE(pred));
 	if (foundIndex >= 0)
 	{
 		found = &data[(u32)foundIndex];
@@ -852,7 +853,7 @@ template<class... Args>
 inline u32 DynamicArray<Type>::Emplace(Args&&... args)
 {
 	u32 index = AddEmpty();
-	new(GetData() + index) Type(std::forward<Args>(args)...);
+	new(GetData() + index) Type(FORWARD(Args, args)...);
 	return index;
 }
 

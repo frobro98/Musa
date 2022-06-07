@@ -191,7 +191,7 @@ template<typename AddType>
 inline void FixedArray<ElemType, capacity>::Add(AddType&& elem)
 {
 	Assert(size != capacity);
-	data[size] = std::forward<AddType>(elem);
+	data[size] = FORWARD(AddType, elem);
 	++size;
 }
 
@@ -201,7 +201,7 @@ inline bool FixedArray<ElemType, capacity>::TryAdd(AddType&& elem)
 {
 	if (size < capacity)
 	{
-		Add(std::forward<AddType>(elem));
+		Add(FORWARD(AddType, elem));
 		return true;
 	}
 	return false;

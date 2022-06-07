@@ -629,5 +629,8 @@
     <ClInclude Include="..\..\Source\Musa\Input\ApplicationEventRouter.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Musa\Application\ApplicationEvent.hpp">
+      <Filter>Source\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

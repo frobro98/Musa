@@ -747,10 +747,10 @@ int main(int argc, char** argv)
 								bone.scale.x, bone.scale.y, bone.scale.z
 							);
 						}
-						frame.bonesPerFrame.push_back(std::move(bone));
+						frame.bonesPerFrame.push_back(MOVE(bone));
 					}
 
-					clip.frames.push_back(std::move(frame));
+					clip.frames.push_back(MOVE(frame));
 				}
 
 				clips.push_back(clip);
@@ -902,7 +902,7 @@ void ProcessAnimation(FbxScene* scene, std::vector<AnimationDescription>& animat
 
 		if (!description.bones.empty())
 		{
-			animations.push_back(std::move(description));
+			animations.push_back(MOVE(description));
 		}
 	}
 }
@@ -996,7 +996,7 @@ AnimationDescription ProcessAnimationLayer(FbxNode* rootNode, FbxAnimLayer* laye
 
 	// Create animation description
 	AnimationDescription description;
-	description.bones = std::move(boneData);
+	description.bones = MOVE(boneData);
 
 	return description;
 

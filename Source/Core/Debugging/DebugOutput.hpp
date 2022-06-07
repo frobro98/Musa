@@ -17,7 +17,7 @@ template <typename... Args>
 CORE_TEMPLATE void Printf(const tchar* strFormat, Args... args)
 {
 	fmt::memory_buffer buf;
-	fmt::format_to(buf.begin(), strFormat, args...);
+	fmt::format_to(std::back_inserter(buf), strFormat, args...);
 	Print(buf);
 }
 }

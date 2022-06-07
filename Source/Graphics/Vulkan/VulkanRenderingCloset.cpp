@@ -87,7 +87,7 @@ VulkanFramebuffer* VulkanRenderingCloset::FindOrCreateFramebuffer(const VulkanRe
 		framebuffer = CreateFramebuffer(desc, correspondingRTs);
 		SimilarFramebuffers similarFBs(1);
 		similarFBs[0] = framebuffer;
-		framebufferStore.Add(desc, std::move(similarFBs));
+		framebufferStore.Add(desc, MOVE(similarFBs));
 	}
 	return framebuffer;
 }

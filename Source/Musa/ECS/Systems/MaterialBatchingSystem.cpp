@@ -101,8 +101,8 @@ void MaterialBatchingSystem::AddMissingRenderData()
 			NativeUniformBuffer* matPropsBuff = GetGraphicsInterface().CreateUniformBuffer(sizeof(MaterialProperties));
 
 			GetWorld().AddComponentTo<RenderDataComponent>(entity, RenderDataComponent{ {},
-				std::move(primBuff),
-				std::move(matPropsBuff)
+				MOVE(primBuff),
+				MOVE(matPropsBuff)
 				});
 		}
 	}

@@ -174,7 +174,7 @@ Font* ImportTTFont(const Path& path)
 	level.width = bitmapWidth;
 	level.height = bitmapHeight;
 	level.mipData = { bitmap.GetData(), bitmap.Size() };
-	t->mipLevels.Add(std::move(level));
+	t->mipLevels.Add(MOVE(level));
 
 	t->UpdateNativeResources();
 

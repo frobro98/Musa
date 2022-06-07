@@ -7,6 +7,7 @@
 #include "Input/InputDefinitions.hpp"
 #include "UI/UIContext.hpp"
 #include "Input/InputEvents.hpp"
+#include "Application/ApplicationEvent.hpp"
 
 class MusaApp;
 
@@ -38,9 +39,11 @@ public:
 	void HandleWindowCloseEvent();
 	void HandleWindowActivationChanged(bool activated);
 
+	DynamicArray<Musa::ApplicationEvent> MoveApplicationEvents();
 	DynamicArray<Input::Event> MoveFrameInputs();
 
 private:
+	DynamicArray<Musa::ApplicationEvent> applicationEvents;
 	DynamicArray<Input::Event> inputEvents;
 	IntVector2 previousScreenSpacePosition;
 	IntVector2 previousClientPosition;

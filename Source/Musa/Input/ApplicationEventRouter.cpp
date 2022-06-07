@@ -165,20 +165,37 @@ void ApplicationEventRouter::HandleControllerAnalogChange(u32 /*controllerIndex*
 	inputEvents.Add(inputEvent);
 }
 
-void ApplicationEventRouter::HandleWindowResizeEvent(const IntVector2& /*newWindowdimensions*/)
+void ApplicationEventRouter::HandleWindowResizeEvent(const IntVector2& newWindowdimensions)
 {
-	//application.ResizeWindow(newWindowdimensions);
+	Musa::ApplicationEvent event;
+	event.type = Musa::ApplicationEventType::Resize;
+	event.resizeData = { newWindowdimensions.x, newWindowdimensions.y };
 
+	applicationEvents.Add(event);
 }
 
 void ApplicationEventRouter::HandleWindowCloseEvent()
 {
-	//application.CloseWindow();
+	Musa::ApplicationEvent event;
+	event.type = Musa::ApplicationEventType::Close;
+
+	applicationEvents.Add(event);
 }
 
-void ApplicationEventRouter::HandleWindowActivationChanged(bool /*activated*/)
+void ApplicationEventRouter::HandleWindowActivationChanged(bool activated)
 {
-	//application.Activation(activated);
+	Musa::ApplicationEvent event;
+	event.type = activated ? Musa::ApplicationEventType::Activated : Musa::ApplicationEventType::Deactivated;
+
+	applicationEvents.Add(event);
+}
+
+DynamicArray<Musa::ApplicationEvent> ApplicationEventRouter::MoveApplicationEvents()
+{
+	DynamicArray<Musa::ApplicationEvent> events = applicationEvents;
+	applicationEvents.Clear();
+
+	return events;
 }
 
 DynamicArray<Input::Event> ApplicationEventRouter::MoveFrameInputs()

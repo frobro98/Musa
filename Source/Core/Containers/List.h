@@ -30,7 +30,7 @@ public:
 	template <class Elem>
 	void Add(Elem&& val)
 	{
-		AddNode(std::forward<Elem>(val));
+		AddNode(FORWARD(Elem, val));
 		++listSize;
 	}
 
@@ -64,7 +64,7 @@ private:
 	void AddNode(Elem&& val)
 	{
 		ListNode* node = new ListNode;
-		node->item = std::forward<Elem>(val);
+		node->item = FORWARD(Elem, val);
 
 		// Seeding the list
 		if (listHead == nullptr)

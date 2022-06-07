@@ -53,7 +53,7 @@ DirectoryDescription GetAllFilesInDirectory(const char* directory)
 	DynamicArray<String> files(filesInDir);
 	GetRequestedNumFiles(directory, files, filesInDir);
 
-	return DirectoryDescription{ std::move(files), filesInDir };
+	return DirectoryDescription{ MOVE(files), filesInDir };
 }
 
 u32 NumberOfFileTypesInCurrentDirectory(const char* fileExt)
@@ -109,5 +109,5 @@ DirectoryDescription GetAllFileTypesInCurrentDirectory(const char* fileType)
 	DynamicArray<String> files(filesInDir);
 	GetRequestedNumFileTypes(fileType, files, filesInDir);
 
-	return DirectoryDescription{ std::move(files), filesInDir };
+	return DirectoryDescription{ MOVE(files), filesInDir };
 }

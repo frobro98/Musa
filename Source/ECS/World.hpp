@@ -94,7 +94,7 @@ namespace Musa
 // void Foreach(Func&& f)
 // {
 // 	using params = decltype(args(&Func::operator()));
-// 	ForeachInternal(params{}, std::forward<Func>(f));
+// 	ForeachInternal(params{}, FORWARD(Func, f));
 // }
 
 struct Component;
@@ -206,7 +206,7 @@ inline Sys& World::CreateSystem(Args&&... args)
 {
 	static_assert(std::is_base_of_v<System, Sys>, "Type passed in as a template parameter must be derived from Musa::System");
 	const SystemType* type = GetSystemTypeFor<Sys>();
-	Sys* system = new Sys(std::forward<Args>(args)...);
+	Sys* system = new Sys(FORWARD(Args, args)...);
 	system->InitializeInternals(*this);
 	system->Initialize();
 
@@ -242,7 +242,7 @@ inline void World::AddComponentTo(Entity entity, Comp&& compData)
 {
 	static_assert(!std::is_reference_v<Comp>);
 	AddComponentTo<Comp>(entity);
-	SetComponentDataOn<Comp>(entity, std::move(compData));
+	SetComponentDataOn<Comp>(entity, MOVE(compData));
 }
 
 template<typename Comp>
@@ -263,7 +263,7 @@ inline void World::SetComponentDataOn(Entity entity, Comp&& component)
 	Assert(Memcmp(&bridge, &EmptyChunk, sizeof(ArchetypeChunk)) != 0);
 
 	ChunkArray<Comp> chunkArr = GetChunkArray<Comp>(bridge.chunk);
-	chunkArr[bridge.chunkIndex] = std::forward<Comp>(component);
+	chunkArr[bridge.chunkIndex] = FORWARD(Comp, component);
 }
 
 template<typename Comp>

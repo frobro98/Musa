@@ -55,6 +55,7 @@ void LoggingThread::ThreadBody()
 		Assert(!entriesToProcess.IsEmpty());
 		entry = entriesToProcess.Pop();
 
+		Assert(!entry.logMsg.IsEmpty());
 		{
 			ScopedLock sinkLock(sinksCriticalSection);
 			for (auto& logSink : logOutputSinks)

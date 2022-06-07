@@ -15,7 +15,7 @@
 
 
 VulkanPipelineLayout::VulkanPipelineLayout(const VulkanDevice& device, DynamicArray<VulkanDescriptorSetLayout*>&& layouts)
-	: descriptorSetLayouts(std::move(layouts)),
+	: descriptorSetLayouts(MOVE(layouts)),
 	logicalDevice(&device)
 {
 	DynamicArray<VkDescriptorSetLayout> layoutHandles;

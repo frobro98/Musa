@@ -39,7 +39,7 @@ Texture ConstructTexture(TextureImporter& importer)
 	u8* data = new u8[pixels.Size()];
 	Memcpy(data, pixels.Size(), pixels.GetData(), pixels.Size());
 	baseLevel.mipData = ResourceBlob(data, pixels.Size());
-	tex.mipLevels.Add(std::move(baseLevel));
+	tex.mipLevels.Add(MOVE(baseLevel));
 	tex.format = importer.GetFormat();
 	return tex;
 }
@@ -71,7 +71,7 @@ Texture ProcessImageFile(const Path& filePath, CompressionFormat format)
 	String extension = filePath.GetFileExtension();
 	
 	TextureImporter* importer = importerMap[*extension];
-	importer->SetImportData(std::move(textureData));
+	importer->SetImportData(MOVE(textureData));
 	if (importer->IsValid())
 	{
 		importer->Import();
@@ -83,10 +83,10 @@ Texture ProcessImageFile(const Path& filePath, CompressionFormat format)
 	if (format != CompressionFormat::Invalid)
 	{
 		Compression::CompressForGPU(originalTexture, compressedTexture, format);
-		compressedTexture.name = std::move(textureName);
+		compressedTexture.name = MOVE(textureName);
 		return compressedTexture;
 	}
 
-	originalTexture.name = std::move(textureName);
+	originalTexture.name = MOVE(textureName);
 	return originalTexture;
 }

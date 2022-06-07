@@ -5,10 +5,6 @@
 #include "Containers/DynamicArray.hpp"
 #include "CoreAPI.hpp"
 
-WALL_WRN_PUSH
-#include "fmt/format.h"
-WALL_WRN_POP
-
 class SerializeBase;
 class DeserializeBase;
 
@@ -65,16 +61,6 @@ public:
 	i32 Compare(const tchar* str) const;
 	i32 Compare(const String& str, u32 numToCompare) const;
 	i32 Compare(const tchar* str, u32 numToCompare) const;
-
-public:
-	// TODO - Determine whether this makes sense to have in the class or have it as a function somewhere else
-	template<typename... StrArgs>
-	static String Format(const tchar* formatStr, StrArgs... args)
-	{
-		fmt::memory_buffer buf;
-		fmt::format_to(buf.begin(), formatStr, args...);
-		return String(buf.data(), (u32)buf.size());
-	}
 
 public:
 	tchar operator[](u32 index) const;

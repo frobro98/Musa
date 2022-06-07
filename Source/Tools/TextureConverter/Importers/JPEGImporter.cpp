@@ -13,7 +13,7 @@ JPEGImporter::JPEGImporter()
 
 void JPEGImporter::SetImportData(MemoryBuffer&& data)
 {
-	importData = std::move(data);
+	importData = MOVE(data);
 	jpgd::jpeg_decoder_mem_stream jpegMemory(importData.GetData(), (u32)importData.Size());
 	jpgd::jpeg_decoder decoder(&jpegMemory);
 

@@ -94,7 +94,7 @@ VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence
 		descriptorSetWriter.dstSet = descriptorSet;
 		descriptorSetWriter.descriptorCount = binding.descriptorCount;
 		descriptorSetWriter.dstBinding = binding.binding;
-		descriptorWrites.Add(std::move(descriptorSetWriter));	
+		descriptorWrites.Add(MOVE(descriptorSetWriter));
 	}
 
 	bufferInfos.Reserve(uniformDescriptors + storageDescriptors);
@@ -115,7 +115,7 @@ VulkanDescriptorSet::VulkanDescriptorSet(const VulkanDevice& device, VulkanFence
 // 				bufferInfo.buffer = uniformBuffer.handle;
 // 				bufferInfo.offset = uniformBuffer.memory->alignedOffset;
 // 				bufferInfo.range = uniformBuffer.memory->size;
-// 				bufferInfos.Add(std::move(bufferInfo));
+// 				bufferInfos.Add(MOVE(bufferInfo));
 // 				writer.pBufferInfo = &bufferInfos.Last();
 // 				break;
 // 			}

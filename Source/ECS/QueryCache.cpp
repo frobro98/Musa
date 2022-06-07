@@ -210,7 +210,7 @@ Query& QueryCache::GetOrCreateEntityQuery(const QueryDescription& desc)
 	{
 		query = CreateNewQuery(*world, desc);
 		DynamicArray<Query*> arr = { query };
-		matchingHashQueries.Add(queryHash, std::move(arr));
+		matchingHashQueries.Add(queryHash, MOVE(arr));
 		queries.Add(query);
 	}
 

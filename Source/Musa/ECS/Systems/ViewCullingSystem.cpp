@@ -38,7 +38,7 @@ void ViewCullingSystem::Update()
 
 	// TODO - Now all of the views have been populated. Now they need to be accessible by the pipeline itself.
 	// Put them in a common place so that they can be passed into the pipeline render
-	Musa::GetRenderPipeline().HandOffRenderViews(std::move(views));
+	Musa::GetRenderPipeline().HandOffRenderViews(MOVE(views));
 }
 
 void ViewCullingSystem::CollectAllViewsIntoWorld(DynamicArray<RenderView*>& views) const

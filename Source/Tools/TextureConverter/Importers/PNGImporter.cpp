@@ -40,7 +40,7 @@ void PNGImporter::PNGReadFunc(png_structp png_ptr, png_bytep data, png_size_t si
 
 void PNGImporter::SetImportData(MemoryBuffer&& data)
 {
-	importData = std::move(data);
+	importData = MOVE(data);
 	ProcessPNGHeader();
 }
 

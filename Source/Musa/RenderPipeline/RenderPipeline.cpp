@@ -56,7 +56,7 @@ void Musa::RenderPipeline::Execute(ScreenView& screenView, UI::Context& uiContex
 }
 void RenderPipeline::HandOffRenderViews(DynamicArray<RenderView *>&& renderViews_)
 {
-	renderViews = std::move(renderViews_);
+	renderViews = MOVE(renderViews_);
 
 	ScaleViewportForViews();
 }

@@ -42,7 +42,7 @@ private:
 template<class Elem, u32 size>
 inline void ConcurrentQueue<Elem, size>::WaitPush(Elem&& item)
 {
-	while(!TryPush(std::forward<Elem>(item))) {}
+	while(!TryPush(FORWARD(Elem, item))) {}
 }
 
 template<class Elem, u32 size>
@@ -75,7 +75,7 @@ inline bool ConcurrentQueue<Elem, size>::TryPush(Elem&& item)
 		{
 			// Can write
 			u32 index = pushLoc % size;
-			data[index] = std::forward<Elem>(item);
+			data[index] = FORWARD(Elem, item);
 
 			// Needs to spin to cover edge case of incomplete write, full write, full read
 			//uint32 expected
@@ -102,7 +102,7 @@ inline bool ConcurrentQueue<Elem, size>::TryPop(Elem& item)
 		{
 			// Can read
 			u32 index = (popLoc - 1) % size;
-			item = std::move(data[index]);
+			item = MOVE(data[index]);
 
 			// Needs to spin to cover edge case of incomplete write, full write, full read
 			u32 expected = popLoc + PopOffset;
@@ -128,7 +128,7 @@ inline bool ConcurrentQueue<Elem, size>::TryPushWithCallback(Elem&& item, PushCa
 		{
 			// Can write
 			u32 index = pushLoc % size;
-			cb(data[index], std::move(item));
+			cb(data[index], MOVE(item));
 
 			// Needs to spin to cover edge case of incomplete write, full write, full read
 			//uint32 expected
@@ -155,7 +155,7 @@ inline bool ConcurrentQueue<Elem, size>::TryPopWithCallback(Elem& item, PopCallb
 		{
 			// Can read
 			u32 index = (popLoc - 1) % size;
-			cb(std::move(data[index]), item);
+			cb(MOVE(data[index]), item);
 
 			// Needs to spin to cover edge case of incomplete write, full write, full read
 			u32 expected = popLoc + PopOffset;

@@ -79,7 +79,7 @@ inline RefPtr<Type, Count>::~RefPtr()
 template<typename Type, class Count>
 template<typename ...Args>
 inline RefPtr<Type, Count>::RefPtr(Args&&... args)
-	:data(new Type(std::forward<Args>(args)...)),
+	:data(new Type(FORWARD(Args, args)...)),
 	counter(new Count)
 {
 }

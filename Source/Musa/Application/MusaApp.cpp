@@ -37,16 +37,14 @@ void MusaApp::LaunchApplication()
 
 	while (gIsRunning)
 	{
-		frameTick.Lap();
-		const f32 tick = (f32)frameTick.GetSeconds();
-		frameTick.Start();
-
-		Frame::SetFrameStats({ tick });
+		StartFrame();
 
 		// TODO - Should pass this along to the game itself
 		ProcessApplicationInputs();
+		ProcessApplicationEvents();
 
-		auto inputEvents = inputRouter->MoveFrameInputs();
+		const auto inputEvents = inputRouter->MoveFrameInputs();
+		const f32 tick = Frame::GetTickTimeSeconds();
 		AppLoop(tick, inputEvents);
 	}
 
@@ -128,4 +126,57 @@ void MusaApp::ProcessApplicationInputs()
 {
 	osApp->ProcessInputEvents(inputMap);
 	osApp->ProcessNativeGamepad(inputMap, *inputRouter);
+}
+
+void MusaApp::StartFrame()
+{
+	frameTick.Lap();
+	const f32 tick = (f32)frameTick.GetSeconds();
+	frameTick.Start();
+
+	Frame::SetFrameStats({ tick });
+}
+
+void MusaApp::EndFrame()
+{
+	applicationEvents.Clear();
+}
+
+void MusaApp::ProcessApplicationEvents()
+{
+	using namespace Musa;
+
+	applicationEvents = inputRouter->MoveApplicationEvents();
+
+	for (const auto& event : applicationEvents)
+	{
+		switch (event.type)
+		{
+			case ApplicationEventType::Resize:
+			{
+				ResizeWindow(IntVector2{ event.resizeData.width, event.resizeData.height });
+			}break;
+
+			case ApplicationEventType::Close:
+			{
+				CloseWindow();
+			}break;
+
+			case ApplicationEventType::Activated:
+			{
+				Activation(true);
+			}break;
+
+			case ApplicationEventType::Deactivated:
+			{
+				Activation(false);
+			}break;
+
+			case ApplicationEventType::Invalid:
+			default:
+			{
+				Assert(false);
+			}
+		}
+	}
 }

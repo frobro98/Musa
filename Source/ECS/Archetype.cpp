@@ -179,7 +179,7 @@ Archetype* GetOrCreateArchetypeFrom(World& world, const ComponentType** compType
 
 		world.archetypeHashIDs.Add(upArchetype->archetypeMask);
 		world.archetypesByHash[hashId].Add(upArchetype.Get());
-		world.archetypes.Add(std::move(upArchetype));
+		world.archetypes.Add(MOVE(upArchetype));
 		world.queryCache->AddNewArchetypeToQueries(&archetype, 1);
 	}
 

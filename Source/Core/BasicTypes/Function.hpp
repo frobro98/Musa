@@ -40,7 +40,7 @@ struct Callable : CallableBase<Ret, Params...>
 	using Base = CallableBase<Ret, Params...>;
 	template <typename Func>
 	Callable(Func&& f)
-		: call(std::forward<Func>(f))
+		: call(FORWARD(Func, f))
 	{
 	}
 
@@ -84,13 +84,13 @@ public:
 		if constexpr (sizeof(CallType) <= sizeof(storage))
 		{
 			callable = new(std::addressof(storage)) CallType(
-				std::forward<Func>(f)
+				FORWARD(Func, f)
 			);
 		}
 		else
 		{
 			callable = new CallType(
-				std::forward<Func>(f)
+				FORWARD(Func, f)
 			);
 		}
 	}

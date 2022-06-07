@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include "CoreFlags.hpp"
+#include "BasicTypes/Utility.hpp"
 
 template <typename OwnedType>
 class UniquePtr
@@ -61,7 +62,7 @@ inline void Swap(UniquePtr<Type>& lhs, UniquePtr<Type>& rhs)
 template<typename OwnedType, typename... Args>
 inline UniquePtr<OwnedType> MakeUnique(Args&&... args)
 {
-	return UniquePtr<OwnedType>(new OwnedType(std::forward<Args>(args)...));
+	return UniquePtr<OwnedType>(new OwnedType(FORWARD(Args, args)...));
 }
 
 template<typename OwnedType>

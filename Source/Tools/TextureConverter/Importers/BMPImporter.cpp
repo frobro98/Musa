@@ -58,7 +58,7 @@ bool BMPFileValid(u16 fileCode)
 
 void BMPImporter::SetImportData(MemoryBuffer&& dataForImport)
 {
-	importData = std::move(dataForImport);
+	importData = MOVE(dataForImport);
 	ProcessBMPHeader();
 }
 

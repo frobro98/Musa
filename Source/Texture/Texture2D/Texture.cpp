@@ -18,11 +18,11 @@ Texture::Texture(u8 r, u8 g, u8 b, u8 a)
 	u8* pixel = new u8[4]{ b, g, r, a };
 	ResourceBlob blob(pixel, 4);
 	MipmapLevel m;
-	m.mipData = std::move(blob);
+	m.mipData = MOVE(blob);
 	m.width = 1;
 	m.height = 1;
 
-	mipLevels.Add(std::move(m));
+	mipLevels.Add(MOVE(m));
 	format = ImageFormat::BGRA_8norm;
 
 	UpdateNativeResources();

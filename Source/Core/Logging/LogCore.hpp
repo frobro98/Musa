@@ -35,7 +35,7 @@ public:
 	{
 		if (ShouldLogAtLevel(level))
 		{
-			fmt::format_to(formatBuf.begin(), msg, args...);
+			fmt::format_to(std::back_inserter(formatBuf), msg, args...);
 			PushLineToLog(logChannel, level, formatBuf.data(), formatBuf.size());
 			formatBuf.clear();
 		}
