@@ -73,6 +73,7 @@
     <ClInclude Include="..\..\Source\Core\BasicTypes\Extents.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Function.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\FunctionRef.hpp" />
+    <ClInclude Include="..\..\Source\Core\BasicTypes\FunctionTraits.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Intrinsics.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Limits.hpp" />
     <ClInclude Include="..\..\Source\Core\BasicTypes\Optional.h" />

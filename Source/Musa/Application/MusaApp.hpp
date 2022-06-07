@@ -3,6 +3,7 @@
 #pragma once
 
 #include "BasicTypes/UniquePtr.hpp"
+#include "BasicTypes/Function.hpp"
 #include "Application/MusaAppOS.hpp"
 #include "Window/Window.h"
 #include "UI/UIContext.hpp"
