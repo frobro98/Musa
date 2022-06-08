@@ -2,9 +2,7 @@
 
 #include "CoreFlags.hpp"
 #include "BasicTypes/Utility.hpp"
-#include <type_traits>
-
-#define EMPTY_ARGUMENT
+#include "Utilities/MacroHelpers.hpp"
 
 #define EMIT_CDECL(func, param0, param1, param2) \
 	func(__cdecl, param0, param1, param2)
@@ -147,6 +145,8 @@ CLASS_DEFINE_CV(REMOVE_POINTER_)
 template<typename T>
 using remove_pointer_t = typename remove_pointer<T>::type;
 
+namespace Internal
+{
 template <typename... T>
 struct ArgTypes_
 {
@@ -164,8 +164,11 @@ struct ArgTypes_<T0, T1>
 	using first_argument_type = T0;
 	using second_argument_type = T1;
 };
+} // namespace
 
 /**** is_function definitions ****/
+namespace Internal
+{
 template<typename T>
 struct IsFunction_
 {
@@ -175,7 +178,7 @@ struct IsFunction_
 #define IS_FUNCTION_(call_opt, cv_opt, ref_opt, noexcept_opt) \
 	template<typename Ret, typename... Args> \
 	struct IsFunction_<Ret call_opt (Args...) cv_opt ref_opt noexcept_opt> \
-		: ArgTypes_<Args...> \
+		: Internal::ArgTypes_<Args...> \
 	{ \
 		using BoolType_ = true_type; \
 		using result_type = Ret; \
@@ -194,9 +197,11 @@ CLASS_DEFINE_CV_REF_NOEXCEPT(IS_FUNCTION_ELLIPSIS_)
 
 #undef IS_FUNCTION_
 #undef IS_FUNCTION_ELLIPSIS_
+}
 
 template<typename T>
-struct is_function : IsFunction_<T>::BoolType
+struct is_function 
+	: Internal::IsFunction_<T>::BoolType
 {
 };
 
@@ -206,6 +211,8 @@ inline constexpr bool is_function_v = is_function<T>::value;
 /**** End is_function definitions ****/
 
 /**** is_member_function_pointer definitions ****/
+namespace Internal
+{
 template<typename T>
 struct IsMemfuncPtr
 {
@@ -215,7 +222,7 @@ struct IsMemfuncPtr
 #define IS_MEMFUNCPTR_(call_opt, cv_opt, ref_opt, noexcept_opt) \
 	template<typename Ret, class This, typename... Args> \
 	struct IsMemfuncPtr<Ret (call_opt This::*)(Args...) cv_opt ref_opt noexcept_opt> \
-		: ArgTypes_<cv_opt This*, Args...> \
+		: Internal::ArgTypes_<cv_opt This*, Args...> \
 	{ \
 		using BoolType = true_type; \
 		using result_type = Ret; \
@@ -248,10 +255,11 @@ template<typename T0, typename T1>
 struct IsMemObjPtr<T0 T1::*, false> : true_type
 {
 };
+} // namespace Internal
 
 template<typename T>
 struct is_member_object_pointer
-	: IsMemObjPtr<remove_cv_t<T>>::type
+	: Internal::IsMemObjPtr<remove_cv_t<T>>::type
 {
 };
 
@@ -260,7 +268,7 @@ inline constexpr bool is_member_object_pointer_v = is_member_object_pointer<T>::
 
 template<typename T>
 struct is_member_function_pointer
-	: IsMemfuncPtr<remove_cv_t<T>>::BoolType
+	: Internal::IsMemfuncPtr<remove_cv_t<T>>::BoolType
 {
 };
 
@@ -271,14 +279,15 @@ inline constexpr bool is_member_function_pointer_v = is_member_function_pointer<
 
 
 /**** mem_fn definition ****/
-
+namespace Internal
+{
 template<typename T, typename = void>
 struct WeakResultType
 {
 };
 
 template<typename T>
-struct WeakResultType<T, 
+struct WeakResultType<T,
 	void_t<typename T::result_type>>
 {
 	using result_type = typename T::result_type;
@@ -291,7 +300,7 @@ struct WeakArgType
 };
 
 template<typename T>
-struct WeakArgType<T, 
+struct WeakArgType<T,
 	void_t<typename T::argument_type>>
 	: WeakResultType<T>
 {
@@ -322,9 +331,12 @@ struct WeakTypes_
 		conditional_t<IsPmf::value, IsPmf,
 		WeakBinaryArgs<T>>>;
 };
+} // namespace Internal
 
+// Return object that 
 template<typename T>
-class MemFnStore : public WeakTypes_<T>::type
+class MemFnStore 
+	: public Internal::WeakTypes_<T>::type
 {
 private:
 	T memPtr;
@@ -349,4 +361,23 @@ NODISCARD inline MemFnStore<Ret T::*> mem_fn(Ret T::* memPtr) noexcept
 {
 	return MemFnStore<Ret T::*>(memPtr);
 }
+
+/**** End mem_fn definition ****/
+
+#undef EMIT_CDECL
+#undef EMIT_CLRCALL
+#undef EMIT_FASTCALL
+#undef EMIT_STDCALL
+#undef EMIT_THISCALL
+#undef EMIT_VECTORCALL
+#undef NON_MEMBER_FUNC
+#undef NON_MEMBER_FUNC_CV
+#undef NON_MEMBER_FUNC_CV_REF
+#undef NON_MEMBER_FUNC_CV_REF_NOEXCEPT
+#undef MEMBER_FUNC
+#undef MEMBER_FUNC_CV
+#undef MEMBER_FUNC_CV_REF
+#undef MEMBER_FUNC_CV_REF_NOEXCEPT
+#undef CLASS_DEFINE_CV
+#undef CLASS_DEFINE_CV_REF_NOEXCEPT
 

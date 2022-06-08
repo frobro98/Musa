@@ -15,8 +15,8 @@
 class MUSA_API MusaApp
 {
 public:
-	using ApplicationEventCallback = std::function<void(const Musa::ApplicationEvent&)>;
-	using InputEventCallback = std::function<void(const Input::Event&)>;
+	using ApplicationEventCallback = Function<void(const Musa::ApplicationEvent&)>;
+	using InputEventCallback = Function<void(const Input::Event&)>;
 
 public:
 	MusaApp();
@@ -30,7 +30,6 @@ public:
 
 	forceinline ApplicationInputMap& GetInputMap() { return inputMap; }
 	forceinline ApplicationEventRouter& GetInputRouter() { return *inputRouter; }
-	forceinline const DynamicArray<Musa::ApplicationEvent>& GetApplicationEvents() const { return applicationEvents; }
 
 	// Application events
 	void ResizeWindow(const IntVector2& newDimensions);
@@ -45,6 +44,9 @@ public:
 	// Gets the position of the cursor in the application window itself
 	IntVector2 GetMousePosition() const;
 
+	void SetApplicationEventCallback(ApplicationEventCallback&& callback);
+	void SetInputEventCallback(InputEventCallback&& callback);
+
 protected:
 	void InitializeOSInput();
 	void InitializeApplicationWindow();
@@ -52,7 +54,6 @@ protected:
 
 protected:
 	ApplicationInputMap inputMap;
-	DynamicArray<Musa::ApplicationEvent> applicationEvents;
 	UniquePtr<UI::Context> uiContext;
 	UniquePtr<Window> appWindow;
 	UniquePtr<ApplicationEventRouter> inputRouter;
@@ -65,4 +66,7 @@ private:
 
 private:
 	EngineTick frameTick;
+	DynamicArray<Musa::ApplicationEvent> applicationEvents;
+	ApplicationEventCallback appEventCallback;
+	InputEventCallback inputEventCallback;
 };

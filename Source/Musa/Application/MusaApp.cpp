@@ -103,6 +103,16 @@ IntVector2 MusaApp::GetMousePosition() const
 	return osApp->TransformPositionToWindow(*appWindow, osApp->GetMousePosition());
 }
 
+void MusaApp::SetApplicationEventCallback(ApplicationEventCallback&& callback)
+{
+	appEventCallback = MOVE(callback);
+}
+
+void MusaApp::SetInputEventCallback(InputEventCallback&& callback)
+{
+	inputEventCallback = MOVE(callback);
+}
+
 void MusaApp::InitializeOSInput()
 {
 	inputRouter = MakeUnique<ApplicationEventRouter>();
