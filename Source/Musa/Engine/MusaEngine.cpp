@@ -607,9 +607,9 @@ void MusaEngine::GatherFrameMetrics()
 	GetProfilingStatistics().ProfileFrameIncrement();
 }
 
-void MusaEngine::SetInputHandler(ApplicationInputMap& handler)
+void MusaEngine::Resize(u32 newWidth, u32 newHeight)
 {
-	inputMap = &handler;
+	viewport->Resize(newWidth, newHeight);
 }
 
 void MusaEngine::RenderFrame()

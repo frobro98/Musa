@@ -1,3 +1,8 @@
+
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include "Win32NativeThread.hpp"
 #include "Threading/IThreadExecution.hpp"
 #include "Threading/ISyncEvent.hpp"

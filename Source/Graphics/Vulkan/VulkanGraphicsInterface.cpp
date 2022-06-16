@@ -384,12 +384,18 @@ void VulkanGraphicsInterface::DestroyTexture(const NativeTexture * tex)
 	delete vktex;
 }
 
-NativeViewport* VulkanGraphicsInterface::CreateViewport(void * windowHandle, u32 viewWidth, u32 viewHeight)
+NativeViewport* VulkanGraphicsInterface::CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight)
 {
 	return new VulkanViewport(*logicalDevice, instance, windowHandle, viewWidth, viewHeight);
 }
 
-void VulkanGraphicsInterface::DestroyViewport(const NativeViewport * viewport)
+void VulkanGraphicsInterface::ResizeViewport(NativeViewport& viewport, u32 newViewWidth, u32 newViewHeight)
+{
+	VulkanViewport* vkViewport = reinterpret_cast<VulkanViewport*>(&viewport);
+	vkViewport->Resize(newViewWidth, newViewHeight);
+}
+
+void VulkanGraphicsInterface::DestroyViewport(const NativeViewport* viewport)
 {
 	const VulkanViewport* vkvp = reinterpret_cast<const VulkanViewport*>(viewport);
 	delete vkvp;

@@ -5,6 +5,10 @@
 #include "String/CStringUtilities.hpp"
 #include "File/DirectoryLocations.hpp"
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 namespace
 {
 constexpr const tchar* BackSlash = "\\";

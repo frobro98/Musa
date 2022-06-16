@@ -1,6 +1,7 @@
 // Copyright 2020, Nathan Blane
 
 #include "Memory/MemoryCore.hpp"
+#include "Containers/ArrayView.hpp"
 #include "VulkanSwapchain.h"
 #include "VulkanDevice.h"
 #include "VulkanFramebuffer.h"
@@ -20,21 +21,20 @@ DECLARE_METRIC_GROUP(WindowGraphics);
 METRIC_STAT(SubmitFrame, WindowGraphics);
 METRIC_STAT(Present, WindowGraphics);
 
+namespace
+{
+static void DestroySwapchainImageViews(VkDevice vkDevice, const ArrayView<VulkanTexture*> imageViews)
+{
+	for (const auto view : imageViews)
+	{
+		vkDestroyImageView(vkDevice, view->imageView, nullptr);
+	}
+}
+}
+
 VulkanSwapchain::VulkanSwapchain(VulkanDevice& device, VulkanSurface* renderSurface)
 	:logicalDevice(device), surface(renderSurface)
 {
-}
-
-VulkanSwapchain::~VulkanSwapchain()
-{
-	for (auto tex : swapchainImageTargets)
-	{
-		vkDestroyImageView(logicalDevice.GetNativeHandle(), tex->imageView, nullptr);
-	}
-	vkDestroySemaphore(logicalDevice.GetNativeHandle(), imageAvailable, nullptr);
-	vkDestroySemaphore(logicalDevice.GetNativeHandle(), renderingFinished, nullptr);
-	Assert(swapchainHandle != VK_NULL_HANDLE);
-	vkDestroySwapchainKHR(logicalDevice.GetNativeHandle(), swapchainHandle, nullptr);
 }
 
 void VulkanSwapchain::Initialize()
@@ -44,14 +44,32 @@ void VulkanSwapchain::Initialize()
 	CacheSwapchainImages();
 }
 
-void VulkanSwapchain::Terminate()
+void VulkanSwapchain::Deinitialize()
 {
+	DestroySwapchainImageViews(logicalDevice.GetNativeHandle(), swapchainImageTargets);
+
+	vkDestroySemaphore(logicalDevice.GetNativeHandle(), imageAvailable, nullptr);
+	vkDestroySemaphore(logicalDevice.GetNativeHandle(), renderingFinished, nullptr);
+	Assert(swapchainHandle != VK_NULL_HANDLE);
+	vkDestroySwapchainKHR(logicalDevice.GetNativeHandle(), swapchainHandle, nullptr);
 }
 
-void VulkanSwapchain::Recreate()
+void VulkanSwapchain::Recreate(u32 newWidth, u32 newHeight)
 {
+	// TODO - Seems not ideal, find different way
+	vkDeviceWaitIdle(logicalDevice.GetNativeHandle());
+
+	DestroySwapchainImageViews(logicalDevice.GetNativeHandle(), swapchainImageTargets);
+	Assert(swapchainHandle != VK_NULL_HANDLE);
+	//vkDestroySwapchainKHR(logicalDevice.GetNativeHandle(), swapchainHandle, nullptr);
+	//surface->Deinitialize();
+
+	surface->Initialize(newWidth, newHeight);
 	CreateSwapchain();
 	CacheSwapchainImages();
+
+	// TODO - Seems not ideal, find different way
+	vkDeviceWaitIdle(logicalDevice.GetNativeHandle());
 }
 
 VkResult VulkanSwapchain::GetNextImage()
@@ -169,16 +187,8 @@ void VulkanSwapchain::CreateSwapchain()
 	swapchainFormat = surfaceFormat.format;
 
 	// Set up swapchain extents
-	swapchainExtent = { static_cast<u32>(surface->GetSurfaceWidth()), static_cast<u32>(surface->GetSurfaceHeight()) };
-	if (surfaceCapabilites.currentExtent.width != std::numeric_limits<u32>::max())
-	{
-		swapchainExtent = surfaceCapabilites.currentExtent;
-	}
-	else
-	{
-		swapchainExtent.width = std::max(surfaceCapabilites.minImageExtent.width, std::min(surfaceCapabilites.maxImageExtent.width, swapchainExtent.width));
-		swapchainExtent.height = std::max(surfaceCapabilites.minImageExtent.height, std::min(surfaceCapabilites.maxImageExtent.height, swapchainExtent.height));
-	}
+	swapchainExtent.width = surfaceCapabilites.currentExtent.width == 0xffffffff ? surface->GetSurfaceWidth() : surfaceCapabilites.currentExtent.width;
+	swapchainExtent.height = surfaceCapabilites.currentExtent.height == 0xffffffff ? surface->GetSurfaceHeight() : surfaceCapabilites.currentExtent.height;
 
 	// Set up swapchain usage
 	VkImageUsageFlags usageFlags;

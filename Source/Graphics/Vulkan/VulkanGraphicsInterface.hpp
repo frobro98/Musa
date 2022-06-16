@@ -29,6 +29,7 @@ public:
 	virtual void DestroyComputeShader(const NativeComputeShader* cs) override;
 
 	virtual NativeViewport* CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight) override;
+	virtual void ResizeViewport(NativeViewport& viewport, u32 newViewWidth, u32 newViewHeight) override;
 	virtual void DestroyViewport(const NativeViewport* viewport) override;
 
 	virtual NativeVertexBuffer* CreateVertexBuffer(u64 sizeInBytes, const ResourceBlob* blob) const override;

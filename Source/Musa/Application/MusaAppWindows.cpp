@@ -1,11 +1,16 @@
 // Copyright 2020, Nathan Blane
 
-#include "Platform/PlatformDefinitions.h"
+#include "CoreFlags.hpp"
+
 WALL_WRN_PUSH
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <xinput.h>
 #include <windowsx.h>
 WALL_WRN_POP
 
+#include "Platform/PlatformDefinitions.h"
 #include "Musa.hpp"
 #include "MusaAppWindows.hpp"
 #include "Application/MusaApp.hpp"
@@ -18,7 +23,7 @@ WALL_WRN_POP
 #include "Containers/MemoryBuffer.hpp"
 #include "Logging/LogFunctions.hpp"
 
-DEFINE_LOG_CHANNEL(Win32);
+DEFINE_LOG_CHANNEL(Windows);
 
 DECLARE_METRIC_GROUP(WindowsInput);
 METRIC_STAT(PumpMessages, WindowsInput);
@@ -188,11 +193,11 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				bool activated = wParam;
 				if (activated)
 				{
-					MUSA_DEBUG(Win32, "Windows App Activated");
+					MUSA_DEBUG(Windows, "Windows App Activated");
 				}
 				else
 				{
-					MUSA_DEBUG(Win32, "Windows App Deactivated");
+					MUSA_DEBUG(Windows, "Windows App Deactivated");
 				}
 
 				eventRouter.HandleWindowActivationChanged(activated);
@@ -200,29 +205,33 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 			case  WM_CLOSE:
 			{
-				MUSA_DEBUG(Win32, "Window Close Event");
+				MUSA_DEBUG(Windows, "Window Close Event");
 
 				eventRouter.HandleWindowCloseEvent();
+				return 0;
 			}break;
 
 			case WM_DESTROY:
 			{
-				MUSA_DEBUG(Win32, "Window Destroy Event");
+				MUSA_DEBUG(Windows, "Window Destroy Event");
+				return 0;
 			}break;
 
 			case WM_SIZE:
 			{
-				MUSA_DEBUG(Win32, "Window Resize Event");
+				MUSA_DEBUG(Windows, "Window Resize Event");
 
 				u32 width = LOWORD(lParam);
 				u32 height = HIWORD(lParam);
 				eventRouter.HandleWindowResizeEvent(IntVector2(width, height));
+
+				return 0;
 			}break;
 
 			case WM_SETCURSOR:
 			{
 				// If the DefWindowProc processes this, it doesn't update the cursor for some reason
-				return true;
+				return 1;
 			}
 
 			case WM_MOUSEWHEEL:
@@ -231,6 +240,7 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 				const IntVector2 mousePos(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 				eventRouter.HandleMouseScrollWheel(mousePos, (f32)(scrollDelta) / WHEEL_DELTA);
+				return 1;
 			}break;
 
 			case WM_LBUTTONDOWN:
@@ -241,6 +251,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				Input::Buttons mouseButton = GetMouseType(message, wParam);
 				Input::DownState buttonState = inputMap.MouseDown(mouseButton);
 				eventRouter.HandleMouseDown(mouseButton, buttonState);
+
+				return 0;
 			}break;
 
 			case WM_LBUTTONUP:
@@ -251,6 +263,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				Input::Buttons mouseButton = GetMouseType(message, wParam);
 				Input::DownState buttonState = inputMap.MouseUp(mouseButton);
 				eventRouter.HandleMouseUp(mouseButton, buttonState);
+
+				return 0;
 			}break;
 
 			case WM_SYSKEYDOWN:
@@ -272,6 +286,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				Input::DownState buttonState = inputMap.KeyDown(input);
 				eventRouter.HandleKeyDown(input, buttonState, repeated);
 
+				// NOTE - This is commented to allow processing of things like alt+f4
+				//return 0;
 			}break;
 
 			case WM_SYSKEYUP:
@@ -285,6 +301,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 				Input::DownState buttonState = inputMap.KeyUp(input);
 				eventRouter.HandleKeyUp(input, buttonState);
+
+				return 0;
 			}break;
 
 			case WM_CHAR:
@@ -296,6 +314,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 				bool repeated = (lParam & 0x40000000) != 0;
 				
 				eventRouter.HandleKeyChar(c, repeated);
+
+				return 0;
 			}break;
 
 			// According to multiple sources, this kind of mouse movement message when the mouse is hidden because:
@@ -328,6 +348,8 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 						eventRouter.HandleRawMouseMove(currentScreenSpacePosition, currentClientPosition, deltaPosition);
 					}
 				}
+
+				return 1;
 			}break;
 
 			case WM_MOUSEMOVE:
@@ -343,11 +365,14 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 				inputMap.MouseMove(currentScreenSpacePosition, currentClientPosition);
 				eventRouter.HandleMouseMove(currentScreenSpacePosition, currentClientPosition);
+
+				return 0;
 				
 			}break;
 
 			default:
 			{
+				MUSA_DEBUG(Windows, "Event {}", message);
 			} break;
 		}
 	}
@@ -463,7 +488,7 @@ void ProcessControllerButtons(ApplicationEventRouter& eventDispatcher, u32 contr
 
 MusaAppWindows::MusaAppWindows()
 {
-	MUSA_INFO(Win32, "Initializing Windows Application");
+	MUSA_INFO(Windows, "Initializing Windows Application");
 
 	instance = (HINSTANCE)GetModuleHandle(nullptr);
 
@@ -487,7 +512,7 @@ MusaAppWindows::MusaAppWindows()
 
 Window* MusaAppWindows::CreateGameWindow(u32 xPos, u32 yPos, u32 width, u32 height)
 {
-	MUSA_DEBUG(Win32, "Create Win32 Window (x: {} y: {} w: {} h: {}",
+	MUSA_DEBUG(Windows, "Create Win32 Window (x: {} y: {} w: {} h: {}",
 		xPos, yPos, width, height);
 
 	Assert(gApp);
@@ -512,7 +537,7 @@ void MusaAppWindows::SetRawMouseInput(bool enabled, const Window& window)
 
 void MusaAppWindows::ShowCursor(bool showCursor)
 {
-	MUSA_DEBUG(Win32, "ShowCursor: {}", showCursor);
+	MUSA_DEBUG(Windows, "ShowCursor: {}", showCursor);
 
 	::ShowCursor(showCursor);
 }
@@ -541,7 +566,7 @@ IntVector2 MusaAppWindows::TransformPositionToWindow(const Window& window, const
 
 void MusaAppWindows::LockCursorToRect(const Recti& rect)
 {
-	MUSA_DEBUG(Win32, "Locked Cursor to Rect x: {} y: {} w: {} h: {}",
+	MUSA_DEBUG(Windows, "Locked Cursor to Rect x: {} y: {} w: {} h: {}",
 		rect.x, rect.y, rect.width, rect.height);
 
 	RECT r = {};
@@ -550,12 +575,12 @@ void MusaAppWindows::LockCursorToRect(const Recti& rect)
 	r.right = rect.x + rect.width;
 	r.bottom = rect.y + rect.height;
 	BOOL clipped = ::ClipCursor(&r);
-	MUSA_INFO(Win32, "Locked cursor to rect? {}",  clipped ? "true" : "false");
+	MUSA_INFO(Windows, "Locked cursor to rect? {}",  clipped ? "true" : "false");
 }
 
 void MusaAppWindows::UnlockCursorFromRect()
 {
-	MUSA_DEBUG(Win32, "Unlocked Cursor");
+	MUSA_DEBUG(Windows, "Unlocked Cursor");
 	::ClipCursor(nullptr);
 }
 

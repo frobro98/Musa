@@ -18,6 +18,6 @@ public:
 	virtual bool IsValid() const override;
 
 private:
-	HANDLE eventHandle = nullptr;
+	Win32::HANDLE eventHandle;
 	bool isManualReset = false;
 };

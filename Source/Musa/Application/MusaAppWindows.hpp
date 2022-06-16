@@ -29,5 +29,5 @@ public:
 private:
 	Input::GamepadStates controllers;
 	Input::ActiveGamepads activeControllers;
-	HINSTANCE instance;
+	Win32::HINSTANCE instance;
 };

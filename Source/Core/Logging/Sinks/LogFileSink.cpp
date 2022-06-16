@@ -4,6 +4,10 @@
 #include "LogFileSink.hpp"
 #include "Logging/LogLineEntry.hpp"
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 // TODO - Initial time stamp of file open, down to the millisecond
 // Then after the time stamp, it uses the offset from that in milliseconds
 static void FormatDateAndTime(fmt::memory_buffer& buff)

@@ -43,9 +43,10 @@ void MusaApp::LaunchApplication()
 		ProcessApplicationInputs();
 		ProcessApplicationEvents();
 
-		const auto inputEvents = inputRouter->MoveFrameInputs();
 		const f32 tick = Frame::GetTickTimeSeconds();
-		AppLoop(tick, inputEvents);
+		AppLoop(tick);
+
+		EndFrame();
 	}
 
 	AppDeinit();
@@ -136,20 +137,13 @@ void MusaApp::ProcessApplicationInputs()
 {
 	osApp->ProcessInputEvents(inputMap);
 	osApp->ProcessNativeGamepad(inputMap, *inputRouter);
-}
 
-void MusaApp::StartFrame()
-{
-	frameTick.Lap();
-	const f32 tick = (f32)frameTick.GetSeconds();
-	frameTick.Start();
-
-	Frame::SetFrameStats({ tick });
-}
-
-void MusaApp::EndFrame()
-{
-	applicationEvents.Clear();
+	const auto inputEvents = inputRouter->MoveFrameInputs();
+	for (const auto& inputEvent : inputEvents)
+	{
+		Assert(inputEventCallback);
+		inputEventCallback(inputEvent);
+	}
 }
 
 void MusaApp::ProcessApplicationEvents()
@@ -188,5 +182,23 @@ void MusaApp::ProcessApplicationEvents()
 				Assert(false);
 			}
 		}
+
+		// Push event to application
+		Assert(appEventCallback);
+		appEventCallback(event);
 	}
+}
+
+void MusaApp::StartFrame()
+{
+	frameTick.Lap();
+	const f32 tick = (f32)frameTick.GetSeconds();
+	frameTick.Start();
+
+	Frame::SetFrameStats({ tick });
+}
+
+void MusaApp::EndFrame()
+{
+	applicationEvents.Clear();
 }

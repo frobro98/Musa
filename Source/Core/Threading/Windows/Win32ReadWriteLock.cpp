@@ -1,27 +1,31 @@
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include "Threading/ReadWriteLock.hpp"
 
 ReadWriteLock::ReadWriteLock()
 {
-	::InitializeSRWLock(&rwLock);
+	::InitializeSRWLock((::PSRWLOCK)&rwLock);
 }
 
 void ReadWriteLock::LockRead()
 {
-	::AcquireSRWLockShared(&rwLock);
+	::AcquireSRWLockShared((::PSRWLOCK)&rwLock);
 }
 
 void ReadWriteLock::LockWrite()
 {
-	::AcquireSRWLockExclusive(&rwLock);
+	::AcquireSRWLockExclusive((::PSRWLOCK)&rwLock);
 }
 
 void ReadWriteLock::UnlockRead()
 {
-	::ReleaseSRWLockShared(&rwLock);
+	::ReleaseSRWLockShared((::PSRWLOCK)&rwLock);
 }
 
 void ReadWriteLock::UnlockWrite()
 {
-	::ReleaseSRWLockExclusive(&rwLock);
+	::ReleaseSRWLockExclusive((::PSRWLOCK)&rwLock);
 }

@@ -132,9 +132,14 @@ void MusaEditorApp::AppInit()
 	InitializeApplicationWindow();
 	
 	io.ImeWindowHandle = appWindow->GetWindowHandle();
+	viewSize =
+	{
+		(u32)appWindow->GetWidth(), (u32)appWindow->GetHeight(),
+		(u32)appWindow->GetWidth(), (u32)appWindow->GetHeight()
+	};
 
 	// init graphics related objects
-	viewport = new Viewport(appWindow->GetWindowHandle(), appWindow->GetWidth(), appWindow->GetHeight());
+	viewport = new Viewport(appWindow->GetWindowHandle(), viewSize.width, viewSize.height);
 	vertShader = Shader::FindOrLoadShaderFile("ImGuiTransform.mvs");
 	fragShader = Shader::FindOrLoadShaderFile("ImGuiRender.mfs");
 
@@ -166,59 +171,6 @@ void MusaEditorApp::AppInit()
 	imguiTransform = GetGraphicsInterface().CreateUniformBuffer(sizeof(ImGuiTransform));
 	imguiVertBuffer = GetGraphicsInterface().CreateVertexBuffer(sizeof(ImDrawVert));
 	imguiIndexBuffer = GetGraphicsInterface().CreateIndexBuffer(sizeof(ImDrawIdx), sizeof(ImDrawIdx));
-}
-
-void MusaEditorApp::AppLoop(f32 tick, const DynamicArray<Input::Event>& frameInputs)
-{
-	ImGuiIO& io = ImGui::GetIO();
-	io.DeltaTime = tick;
-
-	// Push input to imgui
-	for (const auto& event : frameInputs)
-	{
-		switch (event.type)
-		{
-			case Input::EventType::Mouse:
-			{
-				Input::MouseEvent mouseEvent = event.mouseEvent;
-				
-				io.MousePos = ImVec2((f32)mouseEvent.currentClientPosition.x, (f32)mouseEvent.currentClientPosition.y);
-				io.MouseWheel += mouseEvent.scrollDelta;
-			}break;
-			case Input::EventType::Button:
-			{
-				Input::ButtonEvent button = event.buttonEvent;
-				if (Input::IsMouseButtonEvent(button.button))
-				{
-					io.MouseDown[button.button - Input::Mouse_LeftButton] = button.downState.endedDown;
-				}
-				else
-				{
-					io.KeysDown[button.button] = button.downState.endedDown;
-					if (button.button == Input::Key_LeftControl ||
-						button.button == Input::Key_RightControl)
-					{
-						io.KeyCtrl = button.downState.endedDown;
-					}
-					else if (button.button == Input::Key_LeftShift ||
-						button.button == Input::Key_RightShift)
-					{
-						io.KeyShift = button.downState.endedDown;
-					}
-					else if (button.button == Input::Key_LeftAlt ||
-						button.button == Input::Key_RightAlt)
-					{
-						io.KeyAlt = button.downState.endedDown;
-					}
-				}
-			}break;
-			case Input::EventType::Analog:
-				break;
-			default:
-				Assert(false);
-				break;
-		}
-	}
 
 	if (nativeFontTex == nullptr)
 	{
@@ -226,11 +178,83 @@ void MusaEditorApp::AppLoop(f32 tick, const DynamicArray<Input::Event>& frameInp
 		i32 width, height;
 		io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
-		ResourceBlob blob(pixels, width * height * 4);
+		ResourceBlob blob(pixels, (u32)width * (u32)height * 4);
 		nativeFontTex = GetGraphicsInterface().CreateInitializedTexture2D(blob, width, height, ImageFormat::RGBA_8norm, 1, TextureUsage::SampledResource);
 	}
 
-	io.DisplaySize = ImVec2((f32)appWindow->GetWidth(), (f32)appWindow->GetHeight());
+	SetInputEventCallback([&io](const Input::Event& event)
+		{
+			switch (event.type)
+			{
+				case Input::EventType::Mouse:
+				{
+					Input::MouseEvent mouseEvent = event.mouseEvent;
+
+					io.MousePos = ImVec2((f32)mouseEvent.currentClientPosition.x, (f32)mouseEvent.currentClientPosition.y);
+					io.MouseWheel += mouseEvent.scrollDelta;
+				}break;
+				case Input::EventType::Button:
+				{
+					Input::ButtonEvent button = event.buttonEvent;
+					if (Input::IsMouseButtonEvent(button.button))
+					{
+						io.MouseDown[button.button - Input::Mouse_LeftButton] = button.downState.endedDown;
+					}
+					else
+					{
+						io.KeysDown[button.button] = button.downState.endedDown;
+						if (button.button == Input::Key_LeftControl ||
+							button.button == Input::Key_RightControl)
+						{
+							io.KeyCtrl = button.downState.endedDown;
+						}
+						else if (button.button == Input::Key_LeftShift ||
+							button.button == Input::Key_RightShift)
+						{
+							io.KeyShift = button.downState.endedDown;
+						}
+						else if (button.button == Input::Key_LeftAlt ||
+							button.button == Input::Key_RightAlt)
+						{
+							io.KeyAlt = button.downState.endedDown;
+						}
+					}
+				}break;
+				case Input::EventType::Analog:
+					break;
+				default:
+					Assert(false);
+					break;
+			}
+		});
+
+	SetApplicationEventCallback([this](const Musa::ApplicationEvent& event)
+		{
+			if (event.type == Musa::ApplicationEventType::Resize)
+			{
+				viewSize.requestedWidth = event.resizeData.width;
+				viewSize.requestedHeight = event.resizeData.height;
+			}
+		});
+}
+
+void MusaEditorApp::AppLoop(f32 tick)
+{
+	// TODO - This is because like 30 resize events get queued up. This either is the solution or should trigger a redraw of the entire application during the resize itself
+	if (viewSize.requestedWidth != viewSize.width
+		|| viewSize.requestedHeight != viewSize.height
+		)
+	{
+		viewport->Resize(viewSize.requestedWidth, viewSize.requestedHeight);
+		viewSize.width = viewSize.requestedWidth;
+		viewSize.height = viewSize.requestedHeight;
+	}
+
+	// Get IO
+	ImGuiIO& io = ImGui::GetIO();
+	io.DeltaTime = tick;
+
+	io.DisplaySize = ImVec2((f32)viewSize.width, (f32)viewSize.height);
 
 	ImGui::NewFrame();
 

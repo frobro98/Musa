@@ -10,15 +10,21 @@ VulkanViewport::VulkanViewport(VulkanDevice& device, VkInstance instance, void* 
 {
 	REF_CHECK(device);
 
-	viewSurface = new VulkanSurface(instance, &logicalDevice, windowHandle, viewWidth, viewHeight);
+	viewSurface = new VulkanSurface(instance, &logicalDevice, windowHandle);
+	viewSurface->Initialize(viewWidth, viewHeight);
 	swapchain = new VulkanSwapchain(logicalDevice, viewSurface);
 	swapchain->Initialize();
 }
 
 VulkanViewport::~VulkanViewport()
 {
-	delete swapchain;
-	delete viewSurface;
+	swapchain->Deinitialize();
+	viewSurface->Deinitialize();
+}
+
+void VulkanViewport::Resize(u32 newViewWidth, u32 newViewHeight)
+{
+	swapchain->Recreate(newViewWidth, newViewHeight);
 }
 
 void VulkanViewport::AcquireBackBuffer()

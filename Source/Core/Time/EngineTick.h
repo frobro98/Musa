@@ -27,7 +27,6 @@ public:
 private:
 	static float CountsPerSec;
 
-	LARGE_INTEGER StartTime{};
-	LARGE_INTEGER TickTime{};
-	LARGE_INTEGER DeltaTime{};
+	u64 startTime{};
+	u64 deltaTime{};
 };

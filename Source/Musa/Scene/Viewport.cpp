@@ -29,6 +29,13 @@ Viewport::~Viewport()
 	GetGraphicsInterface().DestroyViewport(graphicsViewport);
 }
 
+void Viewport::Resize(u32 newWidth, u32 newHeight)
+{
+	GetGraphicsInterface().ResizeViewport(*graphicsViewport, newWidth, newHeight);
+	viewWidth = newWidth;
+	viewHeight = newHeight;
+}
+
 void Viewport::InitializeRenderTargets()
 {
 	GBuffer& gbuffer = renderTargets.gbuffer;

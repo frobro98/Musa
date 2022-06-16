@@ -20,12 +20,12 @@ public:
 	virtual void SuspendThread() override;
 
 private:
-	static DWORD ThreadProc(LPVOID parameter);
+	static Win32::DWORD ThreadProc(Win32::LPVOID parameter);
 	u32 StartRun();
 
 private:
 	String threadName;
-	HANDLE threadHandle = nullptr;
+	Win32::HANDLE threadHandle = nullptr;
 	ISyncEvent* syncEvent = nullptr;
 	bool running = false;
 };

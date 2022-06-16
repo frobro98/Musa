@@ -6,7 +6,6 @@
 
 WALL_WRN_PUSH
 #include <algorithm>
-#include <functional>
 WALL_WRN_POP
 
 #ifdef _WIN32

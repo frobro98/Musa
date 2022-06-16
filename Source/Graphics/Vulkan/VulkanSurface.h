@@ -13,8 +13,12 @@ class VulkanSwapchain;
 class VulkanSurface
 {
 public:
-	VulkanSurface(VkInstance instance, VulkanDevice* device, void* windowHandle, u32 width, u32 height);
-	~VulkanSurface();
+	VulkanSurface(VkInstance instance, VulkanDevice* device, void* windowHandle);
+
+	void Initialize(u32 width, u32 height);
+	void Deinitialize();
+
+	void Recreate(u32 newWidth, u32 newHeight);
 
 	inline VkSurfaceKHR GetNativeHandle() const { return surfaceHandle; }
 

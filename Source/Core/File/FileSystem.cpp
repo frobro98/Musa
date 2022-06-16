@@ -1,5 +1,9 @@
 // Copyright 2020, Nathan Blane
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include "Platform/PlatformDefinitions.h"
 #include "FileSystem.hpp"
 #include "Debugging/Assertion.hpp"

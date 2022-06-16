@@ -1,3 +1,8 @@
+
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include "ConsoleWindowSink.hpp"
 #include "Logging/LogLineEntry.hpp"
 
@@ -5,6 +10,7 @@
 static fmt::memory_buffer logLineEntryBuffer;
 
 ConsoleWindowSink::ConsoleWindowSink()
+	: consoleOutHandle(INVALID_HANDLE_VALUE)
 {
 	// TODO - Remove this stuff because after allocation, we write directly to the console...
 	FILE* stdOut = nullptr;

@@ -5,6 +5,9 @@
 #include "String/CStringUtilities.hpp"
 #include "Utilities/Array.hpp"
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 const tchar* EngineExeFullPath()
 {

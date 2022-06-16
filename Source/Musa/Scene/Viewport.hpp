@@ -14,6 +14,8 @@ public:
 	Viewport(void* windowHandle, u32 width, u32 height);
 	~Viewport();
 
+	void Resize(u32 newWidth, u32 newHeight);
+
 	forceinline FrameRenderTargets& GetRenderTargets() { return renderTargets; }
 	forceinline NativeViewport& GetNativeViewport() const { return *graphicsViewport; }
 	forceinline u32 GetWidth() const { return viewWidth; }

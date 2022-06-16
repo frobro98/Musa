@@ -22,9 +22,9 @@ public:
 	~VulkanSwapchain();
 
 	void Initialize();
-	void Terminate();
+	void Deinitialize();
 
-	void Recreate();
+	void Recreate(u32 newWidth, u32 newHeight);
 
 	VkResult GetNextImage();
 	void SubmitFrame();

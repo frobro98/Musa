@@ -25,7 +25,7 @@ public:
 	void LaunchApplication();
 
 	virtual void AppInit() = 0;
-	virtual void AppLoop(f32 tick, const DynamicArray<Input::Event>& frameInputs) = 0;
+	virtual void AppLoop(f32 tick) = 0;
 	virtual void AppDeinit() = 0;
 
 	forceinline ApplicationInputMap& GetInputMap() { return inputMap; }
@@ -50,7 +50,6 @@ public:
 protected:
 	void InitializeOSInput();
 	void InitializeApplicationWindow();
-	void ProcessApplicationInputs();
 
 protected:
 	ApplicationInputMap inputMap;
@@ -62,6 +61,7 @@ protected:
 private:
 	void StartFrame();
 	void EndFrame();
+	void ProcessApplicationInputs();
 	void ProcessApplicationEvents();
 
 private:

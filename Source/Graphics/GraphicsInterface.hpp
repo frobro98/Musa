@@ -43,6 +43,7 @@ public:
 	virtual void DestroyComputeShader(const NativeComputeShader* cs) = 0;
 
 	NODISCARD virtual NativeViewport* CreateViewport(void* windowHandle, u32 viewWidth, u32 viewHeight) = 0;
+	virtual void ResizeViewport(NativeViewport& viewport, u32 newViewWidth, u32 newViewHeight) = 0;
 	virtual void DestroyViewport(const NativeViewport* viewport) = 0;
 
 	NODISCARD virtual NativeVertexBuffer* CreateVertexBuffer(u64 sizeInBytes, const ResourceBlob* blob = nullptr) const = 0;

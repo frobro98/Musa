@@ -14,5 +14,5 @@ public:
 	void UnlockWrite();
 
 private:
-	SRWLOCK rwLock;
+	Win32::SRWLOCK rwLock;
 };

@@ -2,6 +2,10 @@
 #include "Platform/PlatformDefinitions.h"
 #include "Platform/PlatformMemory.hpp"
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 namespace PlatformMemory
 {
 void* PlatformAlloc(size_t size)

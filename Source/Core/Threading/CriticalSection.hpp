@@ -16,5 +16,5 @@ public:
 	void Unlock();
 
 private:
-	CRITICAL_SECTION critSection;
+	Win32::LPCRITICAL_SECTION critSection;
 };

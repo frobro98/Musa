@@ -25,6 +25,8 @@ public:
 	VulkanViewport(VulkanDevice& device, VkInstance instance, void* windowHandle, u32 viewWidth, u32 viewHeight);
 	~VulkanViewport();
 
+	void Resize(u32 newViewWidth, u32 newViewHeight);
+
 	void AcquireBackBuffer();
 	void SubmitFrame();
 	void PresentFrame();

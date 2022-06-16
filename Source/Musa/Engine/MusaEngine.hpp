@@ -38,7 +38,7 @@ public:
 	void UpdateAndRender(f32 tick);
 	void GatherFrameMetrics();
 
-	void SetInputHandler(ApplicationInputMap& inputHandler);
+	void Resize(u32 newWidth, u32 newHeight);
 
 private:
 	void SetupWindowContext(Window& window);

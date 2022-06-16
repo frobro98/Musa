@@ -14,6 +14,6 @@ public:
 	virtual void OutputFormattedString(const LogLineEntry& entry) override;
 
 private:
-	HANDLE consoleOutHandle = INVALID_HANDLE_VALUE;
+	Win32::HANDLE consoleOutHandle;
 	u16 levelColors[LogLevel::Max];
 };

@@ -3,6 +3,10 @@
 #include "DirectoryUtilities.hpp"
 #include "Platform/PlatformDefinitions.h"
 
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 u32 NumberOfFilesInDirectory(const char* directory)
 {
 	HANDLE findHandle;

@@ -49,15 +49,26 @@ void MusaGameApp::AppInit()
 	InitializeOSInput();
 	InitializeApplicationWindow();
 
+	SetInputEventCallback([&](const Input::Event& event)
+		{
+			UNUSED(event);
+		});
+
+	SetApplicationEventCallback([&](const Musa::ApplicationEvent& event)
+		{
+			if (event.type == Musa::ApplicationEventType::Resize)
+			{
+				gameEngine->Resize(event.resizeData.width, event.resizeData.height);
+			}
+		});
+
+
 	gameEngine = MakeUnique<MusaEngine>(*uiContext, *inputRouter);
-	gameEngine->SetInputHandler(inputMap);
-
 	gameEngine->StartupEngine(*appWindow);
-
 	gameEngine->LoadContent();
 }
 
-void MusaGameApp::AppLoop(f32 tick, const DynamicArray<Input::Event>& /*frameInputs*/)
+void MusaGameApp::AppLoop(f32 tick)
 {
 	// Process Inputs that happened this frame
 

@@ -1,7 +1,10 @@
 // Copyright 2020, Nathan Blane
 
 #include "Debugging/DebugOutput.hpp"
-#include "Platform/PlatformDefinitions.h"
+
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 constexpr u32 DebugBufferSize = 256;
 

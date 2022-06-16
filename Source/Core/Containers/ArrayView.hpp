@@ -4,6 +4,7 @@
 
 #include "BasicTypes/Intrinsics.hpp"
 #include "Debugging/Assertion.hpp"
+#include "Containers/DynamicArray.hpp"
 #include "CoreAPI.hpp"
 
 // TODO - Need to support size_t instead of uint32 
@@ -20,6 +21,8 @@ public:
 	constexpr ArrayView(ViewType* dataToView, u32 dataSize);
 	template <u32 N>
 	constexpr ArrayView(pointer_type (&arr)[N]);
+	ArrayView(DynamicArray<value_type>& arr);
+
 	template <typename OtherType>
 	constexpr ArrayView(const ArrayView<OtherType>& other) noexcept;
 	constexpr ArrayView(const ArrayView&) noexcept = default;
@@ -51,6 +54,12 @@ private:
 template<typename ViewType>
 inline constexpr ArrayView<ViewType>::ArrayView(ViewType* dataToView, u32 dataSize)
 	: viewData(dataToView), viewSize(dataSize)
+{
+}
+
+template<typename ViewType>
+inline ArrayView<ViewType>::ArrayView(DynamicArray<value_type>& arr)
+	: viewData(arr.GetData()), viewSize(arr.Size())
 {
 }
 

@@ -6,20 +6,34 @@
 #include "VulkanCreateInfos.h"
 
 
-VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle, u32 w, u32 h) 
-	: logicalDevice(device), windowHandle(handle),
-	width(w), height(h)
+VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle)
+	: instance(inst),
+	logicalDevice(device),
+	windowHandle(handle)
 {
-	instance = inst;
-	// TODO - REmove Windows specific calls and casts
-	HINSTANCE hInstance = reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr));
-	HWND hWnd = reinterpret_cast<HWND>(handle);
-	VkWin32SurfaceCreateInfoKHR surfaceInfo = Vk::SurfaceInfo(hInstance, hWnd);
+}
+
+void VulkanSurface::Initialize(u32 w, u32 h)
+{
+	width = w;
+	height = h;
+
+	VkResult result = VK_SUCCESS;
+
+	// TODO - Fix this hack with something that knows that the surface and swapchain are being resized
+	if (surfaceHandle == VK_NULL_HANDLE)
+	{
+		// TODO - Remove Windows specific calls and casts
+		HINSTANCE hInstance = reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr));
+		HWND hWnd = reinterpret_cast<HWND>(windowHandle);
+		VkWin32SurfaceCreateInfoKHR surfaceInfo = Vk::SurfaceInfo(hInstance, hWnd);
+
+		result = vkCreateWin32SurfaceKHR(instance, &surfaceInfo, nullptr, &surfaceHandle);
+		CHECK_VK(result);
+
+	}
 
 	VkPhysicalDevice gpu = logicalDevice->GetPhysicalDevice();
-
-	VkResult result = vkCreateWin32SurfaceKHR(instance, &surfaceInfo, nullptr, &surfaceHandle);
-	CHECK_VK(result);
 
 	VkBool32 presentationSupported = VK_FALSE;
 	vkGetPhysicalDeviceSurfaceSupportKHR(gpu, logicalDevice->GetGraphicsQueue()->GetFamilyIndex(), surfaceHandle, &presentationSupported);
@@ -37,17 +51,22 @@ VulkanSurface::VulkanSurface(VkInstance inst, VulkanDevice* device, void* handle
 	u32 formatCount = 0;
 	result = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, nullptr);
 	CHECK_VK(result);
- 	surfaceFormats.Resize(formatCount);
+	surfaceFormats.Resize(formatCount);
 	result = vkGetPhysicalDeviceSurfaceFormatsKHR(gpu, surfaceHandle, &formatCount, surfaceFormats.GetData());
- 	CHECK_VK(result);
+	CHECK_VK(result);
 
 	result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(gpu, surfaceHandle, &surfaceCapabilities);
 	CHECK_VK(result);
 }
 
-VulkanSurface::~VulkanSurface()
+void VulkanSurface::Deinitialize()
 {
 	vkDestroySurfaceKHR(instance, surfaceHandle, nullptr);
+	surfaceHandle = VK_NULL_HANDLE;
+	width = 0;
+	height = 0;
+	presentModes.Clear();
+	surfaceFormats.Clear();
 }
 
 DynamicArray<VkPresentModeKHR> VulkanSurface::GetPresentModes() const
